@@ -10,6 +10,13 @@ The governance baseline is documented in:
 - [policies/retention-and-deletion.md](policies/retention-and-deletion.md)
 - [policies/publication-review.md](policies/publication-review.md)
 
-The remaining product and research documents will be written before biomedical
-data is downloaded: `product-charter.md`, `research-workflow.md`,
-`first-study.md`, and `threat-model.md`.
+The research-program operating model is documented in:
+
+- [oncology-program.md](oncology-program.md)
+- [topic-selection.md](topic-selection.md)
+- [research-engine-plan.md](research-engine-plan.md)
+- [templates/literature-review-protocol.md](templates/literature-review-protocol.md)
+
+The remaining security and product-specific documents will be written before
+their corresponding data or deployment boundary is activated. Controlled data
+and PHI remain prohibited.

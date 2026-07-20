@@ -37,25 +37,45 @@ Definition of done:
 2. Implement the deterministic TCGA-BRCA cohort and analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
    tables, figures, effect sizes, and uncertainty.
-3. Implement persisted evidence claims, citations, provenance, contradictory
+3. Use the governed research-question intake and selection rubric to compare
+   decision-led breast-oncology candidates, approve one first discovery
+   question, and mark it ready for a formal literature-review protocol.
+4. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-4. Add permitted literature metadata and passage ingestion with hybrid keyword
-   and semantic retrieval.
-5. Add the replaceable model gateway with structured outputs, minimum-necessary
+5. Register approved bibliographic sources, execute the selected question's
+   literature-review protocol, and add permitted metadata and passage ingestion
+   with hybrid keyword and semantic retrieval.
+6. Add the replaceable model gateway with structured outputs, minimum-necessary
    context, citations, uncertainty, abstention, and governance enforcement.
-6. Build evaluation suites for retrieval, citation validity, numerical
+7. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-7. Generate an immutable research release containing the protocol, dataset
+8. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-8. Generate a reviewable white-paper draft whose substantive claims trace to
+9. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-9. Build the internal workbench for projects, protocols, datasets, runs,
+10. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-10. Complete repeated internal oncology pilots before selecting the first
+11. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-20 — Decision-led oncology program and pre-literature gates
+
+Established the machine-readable NaS Oncology Research Program, separated
+platform qualification from discovery and product claims, and documented stage
+gates through external validation, translation, and deployment. Added a typed
+research-question intake covering the intended user, decision, scientific
+question, evidence needs, data feasibility, analysis family, validation path,
+system output, and scientific, decision, and product success criteria. Added a
+40-point selection rubric, review approval gate, literature-readiness gate,
+checked-in schemas, CLI validation, topic-selection guidance, and a reproducible
+literature-review template. No articles were collected and no product wedge was
+assumed.
+
+Validation: oncology program and question-template validation passed; Ruff
+passed, strict MyPy passed, and 48 tests passed.
 
 ### 2026-07-20 — Governed GDC ingestion and immutable dataset snapshots
 
@@ -100,20 +120,15 @@ restrictions, an open GDC source registration, policy documents, and tests.
 
 Validation: Ruff passed, strict MyPy passed, and 26 tests passed.
 
-### 2026-07-20 — Initial infrastructure scaffold
-
-Implemented the Python package, FastAPI health endpoints, configuration,
-PostgreSQL readiness, S3-compatible object storage, Docker Compose, CI,
-documentation boundaries, and baseline tests.
-
-Validation: Ruff passed, strict MyPy passed, and 4 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
 - An independent scientific reviewer has not yet been assigned to approve and
   lock `NAS-BRCA-001`; ingestion of outcome-bearing pilot data waits on this.
+- The first decision-led oncology discovery question and product surface remain
+  intentionally unselected; formal article collection waits on an approved
+  research-question intake.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
 
@@ -126,6 +141,11 @@ Validation: Ruff passed, strict MyPy passed, and 4 tests passed.
 - Numerical research results come from deterministic executed code.
 - The first pilot is a reproduction of the association between pathologic
   stage and overall survival in TCGA-BRCA, not a clinical validation study.
+- NaS research begins with an intended user and decision. Datasets, articles,
+  models, and interesting patterns do not define a research program by
+  themselves.
+- The oncology program separates platform qualification, discovery, external
+  validation, translation, and deployment claims.
 - Study plans must be typed, governance-validated, independently reviewed, and
   locked before outcome-bearing data ingestion.
 - GDC ingestion is fail-closed unless the plan is `preregistered`; every

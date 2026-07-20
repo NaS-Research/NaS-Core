@@ -1,0 +1,78 @@
+schema_version: 1.0.0
+program_id: NAS-ONC-001
+charter_version: 1.0.0
+title: NaS Oncology Precision-Medicine Research Program
+status: active
+created_at: 2026-07-20T15:00:00-05:00
+mission: >-
+  Generate and translate reproducible multimodal evidence into systems that
+  improve oncology research, therapeutic development, patient stratification,
+  and eventually clinical decision-making and patient outcomes.
+therapeutic_area: Oncology
+initial_learning_domain: Breast oncology
+current_stage: platform_qualification
+intended_research_users:
+  - NaS translational researchers
+  - Biostatisticians and computational scientists
+  - Future life-science research partners
+  - Future clinical collaborators
+candidate_decision_domains:
+  - Biomarker and patient-stratification intelligence
+  - Treatment-response and resistance intelligence
+  - Clinical-trial population and eligibility intelligence
+  - Pharmaceutical real-world evidence generation
+product_wedge_status: >-
+  Not selected. Repeated qualification and discovery studies plus partner
+  interviews must determine the first deployable product.
+operating_principles:
+  - Begin every research program with an intended decision and user, not a dataset or model.
+  - Separate platform qualification, discovery, validation, translation, and deployment claims.
+  - Use deterministic code for numerical evidence and AI for bounded reasoning and interface tasks.
+  - Distinguish prognostic association from predictive treatment-effect evidence.
+  - Require independent data before representing a discovery as externally validated.
+  - Treat patient benefit and decision utility as later validation requirements, not assumptions.
+  - Preserve null, contradictory, uncertain, and negative findings.
+stage_gates:
+  - from_stage: platform_qualification
+    to_stage: discovery
+    requirements:
+      - Reproduce a known oncology result from a frozen dataset snapshot.
+      - Demonstrate end-to-end protocol, analysis, evidence, and release lineage.
+      - Pass numerical, provenance, citation, and reproducibility evaluations.
+  - from_stage: discovery
+    to_stage: external_validation
+    requirements:
+      - Lock a decision-led research question before outcome inspection.
+      - Establish biological plausibility and a fit-for-purpose discovery dataset.
+      - Report all prespecified and null analyses.
+  - from_stage: external_validation
+    to_stage: translation
+    requirements:
+      - Reproduce the finding in independent data and relevant populations.
+      - Assess calibration, subgroup performance, bias, and clinical relevance.
+      - Define the proposed workflow action and intended user.
+  - from_stage: translation
+    to_stage: deployment
+    requirements:
+      - Complete prospective or fit-for-purpose clinical-utility evaluation.
+      - Establish security, quality, regulatory, monitoring, and change-control plans.
+      - Demonstrate measurable decision or patient-outcome benefit.
+studies:
+  - study_id: NAS-BRCA-001
+    role: qualification
+    title: Association of pathologic stage with overall survival in TCGA-BRCA
+    status: pending_review
+    purpose: >-
+      Validate the NaS research pipeline by reproducing an established
+      prognostic association; this study is not a precision-medicine product claim.
+governance_boundaries:
+  - Cortex v0 permits public/open and explicitly approved licensed data only.
+  - Controlled data and PHI remain prohibited.
+  - TCGA is public research data and must not be represented as longitudinal real-world care data.
+  - No model output becomes verified evidence without traceable support and human review.
+  - No research result becomes a clinical recommendation without appropriate validation and governance.
+program_success_criteria:
+  - NaS can reproduce known results with complete lineage on a clean environment.
+  - NaS selects a decision-led oncology question using the approved intake rubric.
+  - NaS validates at least one discovery in independent data.
+  - NaS identifies a product surface with a credible user, workflow, data path, and validation plan.

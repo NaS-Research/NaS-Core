@@ -38,6 +38,22 @@ curl http://localhost:8000/health/ready
 make check
 ```
 
+## Oncology program and topic selection
+
+The authoritative program charter is
+[`workflows/oncology/program_charter.yaml`](workflows/oncology/program_charter.yaml).
+It identifies breast oncology as the initial learning domain and explicitly
+leaves the first product wedge unselected.
+
+Before collecting articles for a new discovery topic, copy and complete
+[`workflows/templates/research_question_intake.yaml`](workflows/templates/research_question_intake.yaml),
+score it, obtain review approval, and mark it literature-ready. See
+[`docs/topic-selection.md`](docs/topic-selection.md).
+
+```bash
+make research-foundation-check
+```
+
 ## First study protocol
 
 The first pilot plan is

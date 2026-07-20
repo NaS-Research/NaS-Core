@@ -1,0 +1,72 @@
+schema_version: 1.0.0
+question_id: NAS-RQ-TEMPLATE
+version: 1.0.0
+program_id: NAS-ONC-001
+title: Replace with a decision-led oncology research question
+status: proposed
+study_role: discovery
+created_at: 2026-07-20T15:00:00-05:00
+decision_context:
+  intended_user: Name the researcher, pharmaceutical team, clinician, or health-system user.
+  decision_to_support: State the specific decision this evidence may eventually support.
+  current_workflow: Describe how the decision is currently made.
+  unmet_need: Explain the measurable problem in the current workflow or evidence base.
+  desired_action_change: State what a validated NaS system would cause the user to do differently.
+  meaningful_outcome: Name the research, operational, therapeutic, or patient outcome that matters.
+scientific_question:
+  population: Define the disease, stage, setting, eligibility, and relevant patient characteristics.
+  exposure_or_intervention: Define the biomarker, treatment, risk factor, or intervention.
+  comparator: Define the reference exposure, treatment, subgroup, or standard of care.
+  outcomes:
+    - Define the primary outcome and how it will be measured.
+  time_horizon: Define the biologically and clinically relevant observation period.
+  estimand: Define the association, risk, treatment effect, or prediction target to estimate.
+precision_medicine_rationale:
+  - Explain the expected biological or clinical heterogeneity.
+  - Explain why subgroup-level evidence could improve the stated decision.
+evidence_needed:
+  - List the clinical, molecular, treatment, outcome, and literature evidence required.
+data_feasibility:
+  required_modalities:
+    - List each required data modality.
+  available_sources: []
+  missing_sources:
+    - Identify data that NaS does not currently possess.
+  requires_real_world_data: true
+  public_data_role: State whether public data can support qualification, discovery, or validation.
+  known_data_limitations:
+    - Record foreseeable selection, measurement, missingness, and generalizability limitations.
+analysis_families:
+  - Name the likely statistical, causal, machine-learning, or mechanistic analysis family.
+validation_path:
+  internal_validation: Define resampling, temporal, site, or holdout validation.
+  external_validation: Name the type of independent dataset and population required.
+  biological_or_clinical_validation: Define laboratory, expert, trial, or prospective validation.
+  deployment_evaluation: Define how decision utility and outcome impact would be measured.
+proposed_system_output: >-
+  Describe the potential biomarker, score, evidence report, trial tool, research
+  application, or workflow integration if the evidence validates.
+scientific_success_criteria:
+  - Define effect, uncertainty, calibration, robustness, and reproducibility requirements.
+decision_success_criteria:
+  - Define how the output would improve the intended decision.
+product_success_criteria:
+  - Define user adoption, workflow, partnership, or commercial feasibility requirements.
+selection_scores:
+  decision_impact: 0
+  unmet_need: 0
+  scientific_testability: 0
+  data_feasibility: 0
+  validation_feasibility: 0
+  differentiation: 0
+  translation_path: 0
+  governance_feasibility: 0
+literature_status: not_ready
+reviews:
+  - reviewer: To be assigned
+    role: Scientific and product reviewer
+    decision: pending
+    reviewed_at: null
+    rationale: >-
+      Score and review this intake before changing its status to selected or
+      beginning the formal literature review.

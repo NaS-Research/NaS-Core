@@ -1,0 +1,476 @@
+{
+  "$defs": {
+    "DataFeasibility": {
+      "additionalProperties": false,
+      "properties": {
+        "available_sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Available Sources",
+          "type": "array"
+        },
+        "known_data_limitations": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Known Data Limitations",
+          "type": "array"
+        },
+        "missing_sources": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Sources",
+          "type": "array"
+        },
+        "public_data_role": {
+          "minLength": 1,
+          "title": "Public Data Role",
+          "type": "string"
+        },
+        "required_modalities": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Modalities",
+          "type": "array"
+        },
+        "requires_real_world_data": {
+          "title": "Requires Real World Data",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "required_modalities",
+        "requires_real_world_data",
+        "public_data_role",
+        "known_data_limitations"
+      ],
+      "title": "DataFeasibility",
+      "type": "object"
+    },
+    "DecisionContext": {
+      "additionalProperties": false,
+      "properties": {
+        "current_workflow": {
+          "minLength": 1,
+          "title": "Current Workflow",
+          "type": "string"
+        },
+        "decision_to_support": {
+          "minLength": 1,
+          "title": "Decision To Support",
+          "type": "string"
+        },
+        "desired_action_change": {
+          "minLength": 1,
+          "title": "Desired Action Change",
+          "type": "string"
+        },
+        "intended_user": {
+          "minLength": 1,
+          "title": "Intended User",
+          "type": "string"
+        },
+        "meaningful_outcome": {
+          "minLength": 1,
+          "title": "Meaningful Outcome",
+          "type": "string"
+        },
+        "unmet_need": {
+          "minLength": 1,
+          "title": "Unmet Need",
+          "type": "string"
+        }
+      },
+      "required": [
+        "intended_user",
+        "decision_to_support",
+        "current_workflow",
+        "unmet_need",
+        "desired_action_change",
+        "meaningful_outcome"
+      ],
+      "title": "DecisionContext",
+      "type": "object"
+    },
+    "LiteratureStatus": {
+      "enum": [
+        "not_ready",
+        "ready",
+        "in_progress",
+        "complete"
+      ],
+      "title": "LiteratureStatus",
+      "type": "string"
+    },
+    "QuestionReview": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/ReviewDecision"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer",
+        "role",
+        "decision",
+        "rationale"
+      ],
+      "title": "QuestionReview",
+      "type": "object"
+    },
+    "QuestionStatus": {
+      "enum": [
+        "proposed",
+        "screened",
+        "selected",
+        "on_hold",
+        "rejected"
+      ],
+      "title": "QuestionStatus",
+      "type": "string"
+    },
+    "ReviewDecision": {
+      "enum": [
+        "pending",
+        "approved",
+        "changes_requested",
+        "rejected"
+      ],
+      "title": "ReviewDecision",
+      "type": "string"
+    },
+    "ScientificQuestion": {
+      "additionalProperties": false,
+      "properties": {
+        "comparator": {
+          "minLength": 1,
+          "title": "Comparator",
+          "type": "string"
+        },
+        "estimand": {
+          "minLength": 1,
+          "title": "Estimand",
+          "type": "string"
+        },
+        "exposure_or_intervention": {
+          "minLength": 1,
+          "title": "Exposure Or Intervention",
+          "type": "string"
+        },
+        "outcomes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Outcomes",
+          "type": "array"
+        },
+        "population": {
+          "minLength": 1,
+          "title": "Population",
+          "type": "string"
+        },
+        "time_horizon": {
+          "minLength": 1,
+          "title": "Time Horizon",
+          "type": "string"
+        }
+      },
+      "required": [
+        "population",
+        "exposure_or_intervention",
+        "comparator",
+        "outcomes",
+        "time_horizon",
+        "estimand"
+      ],
+      "title": "ScientificQuestion",
+      "type": "object"
+    },
+    "SelectionScores": {
+      "additionalProperties": false,
+      "properties": {
+        "data_feasibility": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Data Feasibility",
+          "type": "integer"
+        },
+        "decision_impact": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Decision Impact",
+          "type": "integer"
+        },
+        "differentiation": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Differentiation",
+          "type": "integer"
+        },
+        "governance_feasibility": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Governance Feasibility",
+          "type": "integer"
+        },
+        "scientific_testability": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Scientific Testability",
+          "type": "integer"
+        },
+        "translation_path": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Translation Path",
+          "type": "integer"
+        },
+        "unmet_need": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Unmet Need",
+          "type": "integer"
+        },
+        "validation_feasibility": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Validation Feasibility",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "decision_impact",
+        "unmet_need",
+        "scientific_testability",
+        "data_feasibility",
+        "validation_feasibility",
+        "differentiation",
+        "translation_path",
+        "governance_feasibility"
+      ],
+      "title": "SelectionScores",
+      "type": "object"
+    },
+    "StudyRole": {
+      "enum": [
+        "qualification",
+        "discovery",
+        "validation",
+        "translation"
+      ],
+      "title": "StudyRole",
+      "type": "string"
+    },
+    "ValidationPath": {
+      "additionalProperties": false,
+      "properties": {
+        "biological_or_clinical_validation": {
+          "minLength": 1,
+          "title": "Biological Or Clinical Validation",
+          "type": "string"
+        },
+        "deployment_evaluation": {
+          "minLength": 1,
+          "title": "Deployment Evaluation",
+          "type": "string"
+        },
+        "external_validation": {
+          "minLength": 1,
+          "title": "External Validation",
+          "type": "string"
+        },
+        "internal_validation": {
+          "minLength": 1,
+          "title": "Internal Validation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "internal_validation",
+        "external_validation",
+        "biological_or_clinical_validation",
+        "deployment_evaluation"
+      ],
+      "title": "ValidationPath",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "analysis_families": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Analysis Families",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "data_feasibility": {
+      "$ref": "#/$defs/DataFeasibility"
+    },
+    "decision_context": {
+      "$ref": "#/$defs/DecisionContext"
+    },
+    "decision_success_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Decision Success Criteria",
+      "type": "array"
+    },
+    "evidence_needed": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Evidence Needed",
+      "type": "array"
+    },
+    "literature_status": {
+      "$ref": "#/$defs/LiteratureStatus"
+    },
+    "precision_medicine_rationale": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Precision Medicine Rationale",
+      "type": "array"
+    },
+    "product_success_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Product Success Criteria",
+      "type": "array"
+    },
+    "program_id": {
+      "pattern": "^NAS-ONC-[0-9]{3}$",
+      "title": "Program Id",
+      "type": "string"
+    },
+    "proposed_system_output": {
+      "minLength": 1,
+      "title": "Proposed System Output",
+      "type": "string"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "reviews": {
+      "items": {
+        "$ref": "#/$defs/QuestionReview"
+      },
+      "minItems": 1,
+      "title": "Reviews",
+      "type": "array"
+    },
+    "schema_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_question": {
+      "$ref": "#/$defs/ScientificQuestion"
+    },
+    "scientific_success_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Scientific Success Criteria",
+      "type": "array"
+    },
+    "selection_scores": {
+      "$ref": "#/$defs/SelectionScores"
+    },
+    "status": {
+      "$ref": "#/$defs/QuestionStatus"
+    },
+    "study_role": {
+      "$ref": "#/$defs/StudyRole"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "validation_path": {
+      "$ref": "#/$defs/ValidationPath"
+    },
+    "version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "question_id",
+    "version",
+    "program_id",
+    "title",
+    "status",
+    "study_role",
+    "created_at",
+    "decision_context",
+    "scientific_question",
+    "precision_medicine_rationale",
+    "evidence_needed",
+    "data_feasibility",
+    "analysis_families",
+    "validation_path",
+    "proposed_system_output",
+    "scientific_success_criteria",
+    "decision_success_criteria",
+    "product_success_criteria",
+    "selection_scores",
+    "literature_status",
+    "reviews"
+  ],
+  "title": "ResearchQuestionIntake",
+  "type": "object"
+}

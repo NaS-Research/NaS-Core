@@ -16,7 +16,9 @@ the project state or next step.
 2. Add or update tests for behavioral changes.
 3. Run `make check` before committing or opening a pull request.
 4. For study-protocol changes, also run `make plan-validate`.
-5. Use professional, outcome-oriented commit messages and include the status
+5. For oncology charter or research-question changes, also run
+   `make research-foundation-check`.
+6. Use professional, outcome-oriented commit messages and include the status
    update with its implementation.
-6. Do not include real patient or controlled-access data in issues, commits,
+7. Do not include real patient or controlled-access data in issues, commits,
    logs, screenshots, tests, or pull requests.

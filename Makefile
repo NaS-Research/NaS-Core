@@ -1,4 +1,4 @@
-.PHONY: install dev test lint format typecheck check gdc-plan-dry-run plan-validate storage-init storage-check services-up services-down
+.PHONY: install dev test lint format typecheck check gdc-plan-dry-run plan-validate program-validate question-template-validate research-foundation-check storage-init storage-check services-up services-down
 
 install:
 	uv sync
@@ -25,6 +25,14 @@ plan-validate:
 
 gdc-plan-dry-run:
 	uv run nas-core ingest gdc-plan workflows/tcga_brca_stage_survival/analysis_plan.yaml
+
+program-validate:
+	uv run nas-core program validate workflows/oncology/program_charter.yaml
+
+question-template-validate:
+	uv run nas-core question validate workflows/templates/research_question_intake.yaml
+
+research-foundation-check: program-validate question-template-validate
 
 storage-init:
 	uv run nas-core storage init

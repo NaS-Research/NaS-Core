@@ -4,12 +4,18 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from nas_core.config import get_settings
+from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.storage.layout import DataLayout
 from nas_core.storage.object_store import S3ObjectStore
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
+from nas_core.workflows.program import (
+    load_program_charter,
+    load_research_question,
+    write_model_schema,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -54,6 +60,24 @@ def build_parser() -> argparse.ArgumentParser:
         "schema", help="Write the canonical dataset-snapshot JSON Schema"
     )
     snapshot_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+
+    program = commands.add_parser("program", help="Manage research program charters")
+    program_commands = program.add_subparsers(dest="program_command", required=True)
+    program_validate = program_commands.add_parser("validate", help="Validate a program charter")
+    program_validate.add_argument("path", type=Path, help="Path to program_charter.yaml")
+    program_schema = program_commands.add_parser("schema", help="Write the program JSON Schema")
+    program_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+
+    question = commands.add_parser("question", help="Manage decision-led research questions")
+    question_commands = question.add_subparsers(dest="question_command", required=True)
+    question_validate = question_commands.add_parser(
+        "validate", help="Validate a research-question intake"
+    )
+    question_validate.add_argument("path", type=Path, help="Path to research_question.yaml")
+    question_schema = question_commands.add_parser(
+        "schema", help="Write the research-question JSON Schema"
+    )
+    question_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
     return parser
 
 
@@ -105,6 +129,32 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "ingest" and args.ingest_command == "schema":
         write_dataset_snapshot_schema(args.path)
         print(f"Wrote dataset-snapshot schema: {args.path}")
+        return 0
+
+    if args.command == "program" and args.program_command == "validate":
+        program = load_program_charter(args.path)
+        print(
+            f"Program charter is valid: {program.program_id} "
+            f"v{program.charter_version} ({program.current_stage.value})"
+        )
+        return 0
+
+    if args.command == "program" and args.program_command == "schema":
+        write_model_schema(args.path, OncologyProgramCharter)
+        print(f"Wrote program-charter schema: {args.path}")
+        return 0
+
+    if args.command == "question" and args.question_command == "validate":
+        question = load_research_question(args.path)
+        print(
+            f"Research question is valid: {question.question_id} "
+            f"({question.status.value}; score {question.selection_scores.total}/40)"
+        )
+        return 0
+
+    if args.command == "question" and args.question_command == "schema":
+        write_model_schema(args.path, ResearchQuestionIntake)
+        print(f"Wrote research-question schema: {args.path}")
         return 0
 
     raise AssertionError("Unreachable command")

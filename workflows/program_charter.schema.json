@@ -1,0 +1,230 @@
+{
+  "$defs": {
+    "ProgramStage": {
+      "enum": [
+        "platform_qualification",
+        "discovery",
+        "external_validation",
+        "translation",
+        "deployment"
+      ],
+      "title": "ProgramStage",
+      "type": "string"
+    },
+    "ProgramStatus": {
+      "enum": [
+        "planning",
+        "active",
+        "paused",
+        "retired"
+      ],
+      "title": "ProgramStatus",
+      "type": "string"
+    },
+    "ProgramStudy": {
+      "additionalProperties": false,
+      "properties": {
+        "purpose": {
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/$defs/StudyRole"
+        },
+        "status": {
+          "minLength": 1,
+          "title": "Status",
+          "type": "string"
+        },
+        "study_id": {
+          "minLength": 1,
+          "title": "Study Id",
+          "type": "string"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "study_id",
+        "role",
+        "title",
+        "status",
+        "purpose"
+      ],
+      "title": "ProgramStudy",
+      "type": "object"
+    },
+    "StageGate": {
+      "additionalProperties": false,
+      "properties": {
+        "from_stage": {
+          "$ref": "#/$defs/ProgramStage"
+        },
+        "requirements": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Requirements",
+          "type": "array"
+        },
+        "to_stage": {
+          "$ref": "#/$defs/ProgramStage"
+        }
+      },
+      "required": [
+        "from_stage",
+        "to_stage",
+        "requirements"
+      ],
+      "title": "StageGate",
+      "type": "object"
+    },
+    "StudyRole": {
+      "enum": [
+        "qualification",
+        "discovery",
+        "validation",
+        "translation"
+      ],
+      "title": "StudyRole",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_decision_domains": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Candidate Decision Domains",
+      "type": "array"
+    },
+    "charter_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Charter Version",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "current_stage": {
+      "$ref": "#/$defs/ProgramStage"
+    },
+    "governance_boundaries": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Governance Boundaries",
+      "type": "array"
+    },
+    "initial_learning_domain": {
+      "minLength": 1,
+      "title": "Initial Learning Domain",
+      "type": "string"
+    },
+    "intended_research_users": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Intended Research Users",
+      "type": "array"
+    },
+    "mission": {
+      "minLength": 1,
+      "title": "Mission",
+      "type": "string"
+    },
+    "operating_principles": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Operating Principles",
+      "type": "array"
+    },
+    "product_wedge_status": {
+      "minLength": 1,
+      "title": "Product Wedge Status",
+      "type": "string"
+    },
+    "program_id": {
+      "pattern": "^NAS-ONC-[0-9]{3}$",
+      "title": "Program Id",
+      "type": "string"
+    },
+    "program_success_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Program Success Criteria",
+      "type": "array"
+    },
+    "schema_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "stage_gates": {
+      "items": {
+        "$ref": "#/$defs/StageGate"
+      },
+      "minItems": 1,
+      "title": "Stage Gates",
+      "type": "array"
+    },
+    "status": {
+      "$ref": "#/$defs/ProgramStatus"
+    },
+    "studies": {
+      "items": {
+        "$ref": "#/$defs/ProgramStudy"
+      },
+      "minItems": 1,
+      "title": "Studies",
+      "type": "array"
+    },
+    "therapeutic_area": {
+      "minLength": 1,
+      "title": "Therapeutic Area",
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "program_id",
+    "charter_version",
+    "title",
+    "status",
+    "created_at",
+    "mission",
+    "therapeutic_area",
+    "initial_learning_domain",
+    "current_stage",
+    "intended_research_users",
+    "candidate_decision_domains",
+    "product_wedge_status",
+    "operating_principles",
+    "stage_gates",
+    "studies",
+    "governance_boundaries",
+    "program_success_criteria"
+  ],
+  "title": "OncologyProgramCharter",
+  "type": "object"
+}
