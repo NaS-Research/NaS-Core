@@ -61,6 +61,20 @@ Definition of done:
 
 ## Recently completed
 
+### 2026-07-20 — Standardized study workspaces and lifecycle pipeline
+
+Implemented typed study and pipeline manifests, canonical JSON Schemas, a
+collision-safe CLI scaffold, manifest validation, ordered stage gates, stable
+artifact namespaces, and a documented boundary between versioned Git content
+and external research artifacts. Migrated `NAS-BRCA-001` into the canonical
+question, literature, protocol, ingestion, analysis, evidence, release, tests,
+and reviews layout without changing its pending scientific-review gate. No
+biomedical data was downloaded or generated.
+
+Validation: the migrated study and analysis plan passed governance validation;
+the GDC dry run performed no network or storage activity; Ruff passed, strict
+MyPy passed, and 53 tests passed.
+
 ### 2026-07-20 — Biomedical data-source landscape
 
 Documented the major candidate sources for cancer multi-omics, population
@@ -116,16 +130,6 @@ it cannot be represented as preregistered without a recorded approval.
 Validation: plan governance validation passed; Ruff passed, strict MyPy passed,
 and 37 tests passed.
 
-### 2026-07-20 — External-drive storage foundation and engine plan
-
-Defined the phased research-engine plan, added a configurable `NAS_DATA_ROOT`,
-implemented safe storage initialization and validation commands, wired MinIO to
-external object storage, and added automated layout tests. The Seagate data root
-is `/Volumes/AGNDJ 6TB/NaS-Core-Data`.
-
-Validation: the physical data root initialized and validated successfully;
-Ruff, strict MyPy, and 32 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -150,6 +154,13 @@ Ruff, strict MyPy, and 32 tests passed.
 - NaS research begins with an intended user and decision. Datasets, articles,
   models, and interesting patterns do not define a research program by
   themselves.
+- Every approved research question receives a permanent study ID and canonical
+  workspace. Multiple prespecified hypotheses may share one study; a material
+  change in decision, population, principal exposure, primary outcome, or
+  validation claim requires a new study.
+- Study manifests define stable external artifact namespaces. Git contains
+  definitions, deterministic code, synthetic tests, and review records; data
+  snapshots, run artifacts, and frozen releases remain in external storage.
 - The oncology program separates platform qualification, discovery, external
   validation, translation, and deployment claims.
 - Study plans must be typed, governance-validated, independently reviewed, and

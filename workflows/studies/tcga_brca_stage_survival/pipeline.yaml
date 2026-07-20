@@ -1,0 +1,42 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-001
+pipeline_version: 1.0.0
+current_stage: protocol
+stages:
+  - stage: question
+    status: complete
+    required_artifacts:
+      - question/qualification_question.yaml
+    completion_gate: Qualification objective is approved in the oncology program charter.
+  - stage: literature
+    status: complete
+    required_artifacts:
+      - literature/protocol.md
+    completion_gate: Established association and pilot rationale are documented.
+  - stage: protocol
+    status: in_progress
+    required_artifacts:
+      - protocol/analysis_plan.yaml
+    completion_gate: Analysis plan is independently approved, preregistered, and Git-tagged.
+  - stage: ingestion
+    status: not_started
+    required_artifacts:
+      - ingestion/README.md
+    completion_gate: Governed immutable GDC snapshot is independently verified.
+  - stage: analysis
+    status: not_started
+    required_artifacts:
+      - analysis/README.md
+      - tests/README.md
+    completion_gate: Deterministic pipeline and synthetic tests pass; run artifacts are frozen.
+  - stage: evidence
+    status: not_started
+    required_artifacts:
+      - evidence/README.md
+      - reviews/README.md
+    completion_gate: Claims trace to reviewed results or evidence, including null findings.
+  - stage: release
+    status: not_started
+    required_artifacts:
+      - release/README.md
+    completion_gate: Immutable research release is independently approved.

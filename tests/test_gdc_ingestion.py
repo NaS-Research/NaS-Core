@@ -21,7 +21,9 @@ from nas_core.ingestion.gdc import (
 from nas_core.storage.object_store import InMemoryObjectStore
 
 ROOT = Path(__file__).parents[1]
-PLAN_PATH = ROOT / "workflows" / "tcga_brca_stage_survival" / "analysis_plan.yaml"
+PLAN_PATH = (
+    ROOT / "workflows" / "studies" / "tcga_brca_stage_survival" / "protocol" / "analysis_plan.yaml"
+)
 SCHEMA_PATH = ROOT / "workflows" / "dataset_snapshot.schema.json"
 NOW = datetime(2026, 7, 20, 18, 0, tzinfo=UTC)
 

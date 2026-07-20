@@ -1,0 +1,97 @@
+{
+  "$defs": {
+    "PipelineStage": {
+      "enum": [
+        "question",
+        "literature",
+        "protocol",
+        "ingestion",
+        "analysis",
+        "evidence",
+        "release"
+      ],
+      "title": "PipelineStage",
+      "type": "string"
+    },
+    "StageRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "completion_gate": {
+          "minLength": 1,
+          "title": "Completion Gate",
+          "type": "string"
+        },
+        "required_artifacts": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Artifacts",
+          "type": "array"
+        },
+        "stage": {
+          "$ref": "#/$defs/PipelineStage"
+        },
+        "status": {
+          "$ref": "#/$defs/StageStatus"
+        }
+      },
+      "required": [
+        "stage",
+        "status",
+        "required_artifacts",
+        "completion_gate"
+      ],
+      "title": "StageRecord",
+      "type": "object"
+    },
+    "StageStatus": {
+      "enum": [
+        "not_started",
+        "in_progress",
+        "blocked",
+        "complete"
+      ],
+      "title": "StageStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "current_stage": {
+      "$ref": "#/$defs/PipelineStage"
+    },
+    "pipeline_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Pipeline Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "stages": {
+      "items": {
+        "$ref": "#/$defs/StageRecord"
+      },
+      "minItems": 1,
+      "title": "Stages",
+      "type": "array"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "study_id",
+    "pipeline_version",
+    "current_stage",
+    "stages"
+  ],
+  "title": "PipelineManifest",
+  "type": "object"
+}

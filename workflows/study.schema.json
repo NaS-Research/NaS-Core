@@ -1,0 +1,94 @@
+{
+  "$defs": {
+    "StudyRole": {
+      "enum": [
+        "qualification",
+        "discovery",
+        "validation",
+        "translation"
+      ],
+      "title": "StudyRole",
+      "type": "string"
+    },
+    "StudyStatus": {
+      "enum": [
+        "proposed",
+        "active",
+        "paused",
+        "completed",
+        "retired"
+      ],
+      "title": "StudyStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifact_namespace": {
+      "pattern": "^studies/NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Artifact Namespace",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "objective": {
+      "minLength": 1,
+      "title": "Objective",
+      "type": "string"
+    },
+    "owner": {
+      "minLength": 1,
+      "title": "Owner",
+      "type": "string"
+    },
+    "program_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Program Id",
+      "type": "string"
+    },
+    "role": {
+      "$ref": "#/$defs/StudyRole"
+    },
+    "schema_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "slug": {
+      "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+      "title": "Slug",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/StudyStatus"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "study_id",
+    "slug",
+    "title",
+    "program_id",
+    "role",
+    "status",
+    "created_at",
+    "owner",
+    "objective",
+    "artifact_namespace"
+  ],
+  "title": "StudyManifest",
+  "type": "object"
+}

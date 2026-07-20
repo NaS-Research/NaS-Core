@@ -1,0 +1,13 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-001
+slug: tcga_brca_stage_survival
+title: Association of pathologic stage with overall survival in TCGA-BRCA
+program_id: NAS-ONC-001
+role: qualification
+status: active
+created_at: '2026-07-20T12:00:00-05:00'
+owner: NaS Research
+objective: >-
+  Reproduce an established result while qualifying the first governed,
+  deterministic, and reproducible NaS research workflow.
+artifact_namespace: studies/NAS-BRCA-001

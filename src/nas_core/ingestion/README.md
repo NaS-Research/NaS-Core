@@ -17,7 +17,7 @@ and configured object storage must be available:
 
 ```bash
 uv run nas-core ingest gdc-plan \
-  workflows/tcga_brca_stage_survival/analysis_plan.yaml \
+  workflows/studies/tcga_brca_stage_survival/protocol/analysis_plan.yaml \
   --data-release 45.0 \
   --execute
 ```

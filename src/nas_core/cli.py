@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from nas_core.config import get_settings
-from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake
+from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
@@ -15,6 +15,11 @@ from nas_core.workflows.program import (
     load_program_charter,
     load_research_question,
     write_model_schema,
+)
+from nas_core.workflows.study_scaffold import (
+    initialize_study,
+    load_study_manifests,
+    write_study_schemas,
 )
 
 
@@ -78,6 +83,31 @@ def build_parser() -> argparse.ArgumentParser:
         "schema", help="Write the research-question JSON Schema"
     )
     question_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+
+    study = commands.add_parser("study", help="Create and validate standardized study workspaces")
+    study_commands = study.add_subparsers(dest="study_command", required=True)
+    study_init = study_commands.add_parser("init", help="Create a new study scaffold")
+    study_init.add_argument("study_id", help="Permanent study ID, for example NAS-BRCA-002")
+    study_init.add_argument("--slug", required=True, help="Lowercase underscore directory slug")
+    study_init.add_argument("--title", required=True, help="Human-readable study title")
+    study_init.add_argument("--program-id", required=True, help="Owning program ID")
+    study_init.add_argument(
+        "--role",
+        required=True,
+        choices=[role.value for role in StudyRole],
+        help="Study's role in the research program",
+    )
+    study_init.add_argument(
+        "--root",
+        type=Path,
+        default=Path("workflows/studies"),
+        help="Directory that contains standardized study workspaces",
+    )
+    study_validate = study_commands.add_parser("validate", help="Validate a study workspace")
+    study_validate.add_argument("path", type=Path, help="Path to a study workspace")
+    study_schema = study_commands.add_parser("schema", help="Write canonical study schemas")
+    study_schema.add_argument("study_path", type=Path, help="Output path for study schema")
+    study_schema.add_argument("pipeline_path", type=Path, help="Output path for pipeline schema")
     return parser
 
 
@@ -155,6 +185,31 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "question" and args.question_command == "schema":
         write_model_schema(args.path, ResearchQuestionIntake)
         print(f"Wrote research-question schema: {args.path}")
+        return 0
+
+    if args.command == "study" and args.study_command == "init":
+        path = initialize_study(
+            args.root,
+            study_id=args.study_id,
+            slug=args.slug,
+            title=args.title,
+            program_id=args.program_id,
+            role=StudyRole(args.role),
+        )
+        print(f"Created standardized study workspace: {path}")
+        return 0
+
+    if args.command == "study" and args.study_command == "validate":
+        study, pipeline = load_study_manifests(args.path)
+        print(
+            f"Study workspace is valid: {study.study_id} "
+            f"({study.status.value}; stage {pipeline.current_stage.value})"
+        )
+        return 0
+
+    if args.command == "study" and args.study_command == "schema":
+        write_study_schemas(args.study_path, args.pipeline_path)
+        print(f"Wrote study schemas: {args.study_path}, {args.pipeline_path}")
         return 0
 
     raise AssertionError("Unreachable command")

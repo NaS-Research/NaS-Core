@@ -1,0 +1,12 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-001
+program_id: NAS-ONC-001
+role: qualification
+question: >-
+  Can NaS reproducibly recover the established association between advanced
+  pathologic stage and poorer overall survival using governed public TCGA-BRCA
+  clinical data?
+decision: >-
+  Determine whether the Cortex research foundation is ready to progress from
+  platform qualification toward decision-led discovery studies.
+authorization: workflows/oncology/program_charter.yaml

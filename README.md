@@ -54,6 +54,14 @@ score it, obtain review approval, and mark it literature-ready. See
 make research-foundation-check
 ```
 
+## Standardized research pipelines
+
+Each approved topic becomes a uniquely identified study workspace with the same
+question, literature, protocol, ingestion, analysis, evidence, release, test,
+and review stages. Create and validate new workspaces through the CLI; do not
+assemble study directories by hand. See [`workflows/README.md`](workflows/README.md)
+for the structure, lifecycle gates, and Git-versus-external-storage boundary.
+
 ## Where NaS gets data
 
 NaS maintains a broad landscape of possible biomedical sources, but every
@@ -105,11 +113,12 @@ approved research question
 ## First study protocol
 
 The first pilot plan is
-[`workflows/tcga_brca_stage_survival/analysis_plan.yaml`](workflows/tcga_brca_stage_survival/analysis_plan.yaml).
+[`workflows/studies/tcga_brca_stage_survival/protocol/analysis_plan.yaml`](workflows/studies/tcga_brca_stage_survival/protocol/analysis_plan.yaml).
 It remains pending scientific review. Validate its structure and data-governance
 permissions without downloading study data:
 
 ```bash
+make study-validate
 make plan-validate
 ```
 

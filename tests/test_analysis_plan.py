@@ -12,7 +12,9 @@ from nas_core.governance.registry import SourceRegistry
 from nas_core.workflows.analysis_plan import load_analysis_plan
 
 ROOT = Path(__file__).parents[1]
-PLAN_PATH = ROOT / "workflows" / "tcga_brca_stage_survival" / "analysis_plan.yaml"
+PLAN_PATH = (
+    ROOT / "workflows" / "studies" / "tcga_brca_stage_survival" / "protocol" / "analysis_plan.yaml"
+)
 REGISTRY_PATH = ROOT / "data" / "source-registry.yaml"
 SCHEMA_PATH = ROOT / "workflows" / "analysis_plan.schema.json"
 
