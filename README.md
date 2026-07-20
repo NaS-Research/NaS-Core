@@ -54,6 +54,54 @@ score it, obtain review approval, and mark it literature-ready. See
 make research-foundation-check
 ```
 
+## Where NaS gets data
+
+NaS maintains a broad landscape of possible biomedical sources, but every
+project uses only the minimum sources required by its approved research
+question. A source appearing below does **not** mean NaS is authorized to use or
+store it.
+
+| Source family | Major candidates | What they can support |
+| --- | --- | --- |
+| Cancer genomics | NCI GDC/TCGA/TARGET, ICGC ARGO, AACR GENIE, cBioPortal, METABRIC | Molecular subtypes, biomarkers, survival, external validation |
+| Proteomics and functional biology | NCI PDC/CPTAC, DepMap, CCLE, PRISM, GDSC, LINCS | Protein biomarkers, target discovery, dependencies, drug sensitivity |
+| Population oncology | SEER, NCCR, NPCR, NCDB, SEER-linked datasets | Incidence, survival, treatment patterns, disparities |
+| Biobanks and longitudinal cohorts | All of Us, UK Biobank, FinnGen, dbGaP, eMERGE, BioVU | Genotype-phenotype, EHR, biomarkers, imaging, longitudinal outcomes |
+| Real-world clinical data | Health-system EHRs, registries, claims, labs, pharmacy, pathology, radiology, molecular diagnostics | Treatment response, resistance, toxicity, utilization, patient journeys |
+| Imaging and pathology | TCIA, NCI Imaging Data Commons, HTAN, TCGA/CPTAC slides | Radiomics, pathomics, response assessment, multimodal modeling |
+| Variants and molecular knowledge | ClinVar, ClinGen, gnomAD, GWAS Catalog, GTEx, COSMIC, CIViC, OncoKB, PharmGKB | Variant annotation, population frequency, gene regulation, clinical evidence |
+| Drugs and targets | ChEMBL, PubChem, BindingDB, Open Targets, DrugCentral, DrugBank, Drugs@FDA | Drug-target evidence, bioactivity, pharmacology, approved products |
+| Trials and safety | ClinicalTrials.gov, AACT, WHO ICTRP, openFDA, FAERS, FDA/EMA documents | Trial intelligence, eligibility, regulatory evidence, safety signals |
+| Literature | PubMed/MEDLINE, PubMed Central, Europe PMC, Crossref, OpenAlex, Cochrane, Embase | Evidence discovery, citation retrieval, review and synthesis |
+| Single-cell and spatial | CELLxGENE, Human Cell Atlas, Single Cell Portal, HTAN, HuBMAP | Tumor microenvironment, cell states, spatial biomarkers |
+| Proteins and structures | UniProt, RCSB PDB, AlphaFold DB, ESM Atlas, InterPro, STRING, Reactome | Protein function, interactions, structural and mechanistic hypotheses |
+
+The detailed catalog, access tiers, limitations, project-to-source mappings,
+and official links are maintained in
+[`docs/data-source-landscape.md`](docs/data-source-landscape.md).
+
+The distinction is important:
+
+- `docs/data-source-landscape.md` lists sources NaS may evaluate.
+- [`data/source-registry.yaml`](data/source-registry.yaml) contains sources
+  actually assessed and approved for defined purposes.
+- Controlled data and PHI remain prohibited in Cortex v0.
+- Open availability never replaces license, attribution, provenance, and
+  project-specific governance review.
+
+Every source follows:
+
+```text
+approved research question
+  -> required modality
+  -> source assessment
+  -> access and license review
+  -> source registration
+  -> immutable snapshot
+  -> quality assessment
+  -> analysis and independent validation
+```
+
 ## First study protocol
 
 The first pilot plan is

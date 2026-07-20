@@ -61,6 +61,20 @@ Definition of done:
 
 ## Recently completed
 
+### 2026-07-20 — Biomedical data-source landscape
+
+Documented the major candidate sources for cancer multi-omics, population
+oncology, longitudinal biobanks, real-world clinical data, functional genomics,
+variants, single-cell and spatial biology, imaging and pathology, drugs and
+targets, trials and safety, literature, and protein structure. Added access
+classes, important limitations, project-to-source examples, and the governed
+workflow for promoting a candidate into the approved source registry. This was
+a documentation change only: no data was downloaded and no new source was
+approved.
+
+Validation: documentation links and formatting passed; Ruff passed, strict
+MyPy passed, and 48 tests passed.
+
 ### 2026-07-20 — Decision-led oncology program and pre-literature gates
 
 Established the machine-readable NaS Oncology Research Program, separated
@@ -112,14 +126,6 @@ is `/Volumes/AGNDJ 6TB/NaS-Core-Data`.
 Validation: the physical data root initialized and validated successfully;
 Ruff, strict MyPy, and 32 tests passed.
 
-### 2026-07-20 — Cortex v0 data governance
-
-Implemented source classifications, approval lifecycle, deny-by-default policy
-enforcement, purpose and role authorization, review dates, AI and export
-restrictions, an open GDC source registration, policy documents, and tests.
-
-Validation: Ruff passed, strict MyPy passed, and 26 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -153,6 +159,13 @@ Validation: Ruff passed, strict MyPy passed, and 26 tests passed.
   release, raw response checksums, and immutable object locations.
 - Public/open and explicitly approved licensed data are the only v0 data
   classes; controlled data and PHI remain prohibited.
+- The data-source landscape is an informational candidate catalog, not an
+  authorization list. A project selects the minimum necessary sources for its
+  approved question, and only entries approved in `data/source-registry.yaml`
+  may be ingested.
+- Data confined to a provider's secure workspace must remain there unless its
+  agreement explicitly permits export; it cannot automatically be copied to
+  the Seagate data root.
 - Raw datasets, credentials, embeddings, and generated research artifacts do
   not belong in Git.
 - Public/open v0 data and research artifacts use the configurable external

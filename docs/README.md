@@ -12,6 +12,7 @@ The governance baseline is documented in:
 
 The research-program operating model is documented in:
 
+- [data-source-landscape.md](data-source-landscape.md)
 - [oncology-program.md](oncology-program.md)
 - [topic-selection.md](topic-selection.md)
 - [research-engine-plan.md](research-engine-plan.md)
