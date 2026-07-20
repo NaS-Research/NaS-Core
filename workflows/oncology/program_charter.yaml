@@ -1,6 +1,6 @@
 schema_version: 1.0.0
 program_id: NAS-ONC-001
-charter_version: 1.0.0
+charter_version: 1.1.0
 title: NaS Oncology Precision-Medicine Research Program
 status: active
 created_at: 2026-07-20T15:00:00-05:00
@@ -65,6 +65,15 @@ studies:
     purpose: >-
       Validate the NaS research pipeline by reproducing an established
       prognostic association; this study is not a precision-medicine product claim.
+  - study_id: NAS-BRCA-002
+    role: discovery
+    title: Clinical-molecular subtype discordance in primary breast cancer
+    status: proposed
+    purpose: >-
+      Evaluate whether disagreement between prespecified clinical receptor-based
+      categories and molecular intrinsic subtypes identifies a reproducible
+      translational research question. The proposal is not yet selected and
+      makes no patient-level testing or treatment claim.
 governance_boundaries:
   - Cortex v0 permits public/open and explicitly approved licensed data only.
   - Controlled data and PHI remain prohibited.

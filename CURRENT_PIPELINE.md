@@ -140,6 +140,13 @@ assign an independent scientific reviewer, resolve review findings, and lock
 and tag the approved analysis plan. Outcome-bearing ingestion remains blocked
 until that gate is complete.
 
-After the qualification release, NaS will select a separate, decision-led breast
-oncology discovery question. That study—not `NAS-BRCA-001`—will begin the work
-toward a validated precision-medicine decision-support output.
+NaS has registered `NAS-BRCA-002`, clinical-molecular subtype discordance in
+breast cancer, as the proposed first discovery study. Its detailed
+[project-to-publication plan](workflows/studies/breast_clinical_molecular_discordance/PROJECT_PLAN.md)
+covers selection through external validation, frozen release, paper review, and
+publication on `nasresearch.bio`.
+
+`NAS-BRCA-002` is not yet selected. Planning and independent question review may
+proceed while qualification is completed, but literature retrieval and data
+analysis remain gated. That study—not `NAS-BRCA-001`—would begin the work toward
+a validated precision-medicine decision-support output.

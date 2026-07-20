@@ -1,0 +1,127 @@
+schema_version: 1.0.0
+question_id: NAS-RQ-BRCA002
+version: 0.1.0
+program_id: NAS-ONC-001
+title: Clinical-molecular subtype discordance in primary breast cancer
+status: proposed
+study_role: discovery
+created_at: 2026-07-20T19:00:00-05:00
+decision_context:
+  intended_user: >-
+    Translational breast-cancer researchers and molecular tumor boards evaluating
+    where additional molecular characterization deserves formal study.
+  decision_to_support: >-
+    Prioritize clinicopathologic breast-cancer groups for independent research on
+    the incremental value of transcriptomic subtyping beyond routine receptor labels.
+  current_workflow: >-
+    ER, PR, and HER2 measurements define clinically important categories, while
+    transcriptomic intrinsic subtypes are often analyzed separately in research.
+  unmet_need: >-
+    The frequency, patterns, correlates, and outcome associations of disagreement
+    between these classification systems are not consistently presented with
+    reproducible definitions, uncertainty, and cross-cohort validation.
+  desired_action_change: >-
+    Use validated discordance patterns to choose focused molecular-testing and
+    translational-validation questions rather than treating broad clinical labels
+    as biologically uniform.
+  meaningful_outcome: >-
+    Reproducible evidence identifying whether a clearly defined subgroup merits
+    additional molecular characterization and independent clinical-utility study.
+scientific_question:
+  population: >-
+    Primary invasive breast cancers with interpretable ER, PR, HER2, transcriptomic,
+    and required clinicopathologic data in an approved discovery cohort.
+  exposure_or_intervention: >-
+    Discordance between prespecified clinical receptor-based categories and
+    RNA-expression intrinsic subtype under an explicitly documented mapping.
+  comparator: Tumors classified as concordant under the same prespecified mapping.
+  outcomes:
+    - Prevalence and direction of classification discordance with uncertainty.
+    - Clinicopathologic, genomic, pathway, immune, and proteomic correlates where available.
+    - Overall-survival association as a secondary exploratory outcome, not a treatment effect.
+  time_horizon: Classification at the index primary tumor and available longitudinal follow-up.
+  estimand: >-
+    The cohort-specific discordance proportion and prespecified adjusted associations
+    between discordance, biological features, and exploratory outcomes.
+precision_medicine_rationale:
+  - Clinically similar tumors can contain heterogeneous molecular programs.
+  - A reproducible mismatch may identify where additional characterization warrants study.
+  - Neither clinical receptor categories nor intrinsic subtypes are treated as a universal gold standard.
+evidence_needed:
+  - Definitions and intended uses of receptor-based and intrinsic subtype systems.
+  - Prior discordance estimates, mappings, populations, assay methods, and outcomes.
+  - Clinical receptor, RNA-expression, mutation, copy-number, and outcome data.
+  - Independent cohort data capable of reproducing the primary classification analysis.
+data_feasibility:
+  required_modalities:
+    - Clinical receptor and clinicopathologic variables.
+    - Gene-expression measurements or validated intrinsic-subtype assignments.
+    - Somatic alteration data for exploratory characterization.
+    - Survival and follow-up data for secondary exploratory analysis.
+  available_sources:
+    - Public/open TCGA-BRCA data through the NCI Genomic Data Commons, pending exact field assessment.
+  missing_sources:
+    - An independently approved external validation cohort with compatible subtype and clinical variables.
+    - Fit-for-purpose treatment and recurrence data for any later clinical-utility claim.
+  requires_real_world_data: false
+  public_data_role: >-
+    Public data can support discovery and methodological validation, but not a
+    patient-level treatment recommendation or clinical-utility claim.
+  known_data_limitations:
+    - TCGA is a retrospective research cohort with incomplete treatment and follow-up context.
+    - Clinical assay methods, thresholds, and missingness can vary across contributing sites.
+    - Intrinsic subtype assignment depends on preprocessing, centering, and classifier implementation.
+    - Apparent outcome differences may reflect stage, age, treatment, sampling, or other confounding.
+analysis_families:
+  - Descriptive classification agreement and transition analysis.
+  - Multivariable association modeling with prespecified confounders.
+  - Transcriptomic pathway and immune-signature characterization.
+  - Somatic mutation and copy-number enrichment analysis with multiplicity control.
+  - Exploratory survival analysis with diagnostics and explicit noncausal interpretation.
+validation_path:
+  internal_validation: >-
+    Lock preprocessing and mapping rules, quantify bootstrap uncertainty, test
+    alternative defensible mappings, and reproduce the pipeline from a clean environment.
+  external_validation: >-
+    Repeat the primary discordance estimand and prespecified correlates in an
+    independent breast-cancer cohort after source and license approval.
+  biological_or_clinical_validation: >-
+    Seek breast-pathology, molecular-oncology, and biostatistical review; any
+    proposed biological mechanism requires independent experimental or clinical evidence.
+  deployment_evaluation: >-
+    A later project must test whether presenting validated discordance evidence
+    improves molecular-review decisions without causing inappropriate testing or treatment.
+proposed_system_output: >-
+  A versioned clinical-molecular discordance atlas and evidence report showing
+  classification transitions, associated biology, uncertainty, applicability,
+  limitations, and abstention conditions. It is a research output, not a patient tool.
+scientific_success_criteria:
+  - The primary mapping and estimand are preregistered before outcome inspection.
+  - Discordance estimates include uncertainty and remain interpretable under sensitivity mappings.
+  - All molecular analyses control multiplicity and preserve null and contradictory findings.
+  - At least the primary discordance pattern is tested in an independent cohort.
+decision_success_criteria:
+  - Results identify a specific subgroup and follow-up research decision, or support abstention.
+  - Reviewers can distinguish descriptive, prognostic, predictive, and clinical-utility claims.
+product_success_criteria:
+  - The frozen release can power a traceable public atlas and paper without manual result transcription.
+  - The work reveals whether a credible partner, data, and validation path exists for translation.
+selection_scores:
+  decision_impact: 3
+  unmet_need: 3
+  scientific_testability: 5
+  data_feasibility: 4
+  validation_feasibility: 3
+  differentiation: 3
+  translation_path: 3
+  governance_feasibility: 5
+literature_status: not_ready
+reviews:
+  - reviewer: To be assigned
+    role: Scientific and product reviewer
+    decision: pending
+    reviewed_at: null
+    rationale: >-
+      Provisional score is 29 of 40. Review the classification mapping, intended
+      decision, external-validation path, and risk of overstating clinical relevance
+      before selection or literature retrieval.

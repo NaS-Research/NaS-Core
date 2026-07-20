@@ -1,0 +1,45 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+pipeline_version: 1.0.0
+current_stage: question
+stages:
+- stage: question
+  status: in_progress
+  required_artifacts:
+  - question/research_question.yaml
+  completion_gate: Question is selected, approved, and marked literature-ready.
+- stage: literature
+  status: not_started
+  required_artifacts:
+  - literature/protocol.md
+  - literature/search_strategy.yaml
+  completion_gate: Search protocol is locked before evidence retrieval.
+- stage: protocol
+  status: not_started
+  required_artifacts:
+  - protocol/analysis_plan.yaml
+  completion_gate: Analysis plan is independently approved, preregistered, and Git-tagged.
+- stage: ingestion
+  status: not_started
+  required_artifacts:
+  - ingestion/README.md
+  completion_gate: Governed immutable dataset snapshot is verified.
+- stage: analysis
+  status: not_started
+  required_artifacts:
+  - analysis/README.md
+  - tests/README.md
+  completion_gate: Deterministic pipeline and synthetic tests pass; run artifacts
+    are frozen.
+- stage: evidence
+  status: not_started
+  required_artifacts:
+  - evidence/README.md
+  - reviews/README.md
+  completion_gate: Claims trace to reviewed results or external evidence, including
+    null findings.
+- stage: release
+  status: not_started
+  required_artifacts:
+  - release/README.md
+  completion_gate: Immutable research release is independently approved.

@@ -16,6 +16,14 @@ from nas_core.workflows.program import load_program_charter, load_research_quest
 ROOT = Path(__file__).parents[1]
 CHARTER_PATH = ROOT / "workflows" / "oncology" / "program_charter.yaml"
 QUESTION_PATH = ROOT / "workflows" / "templates" / "research_question_intake.yaml"
+DISCOVERY_QUESTION_PATH = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "breast_clinical_molecular_discordance"
+    / "question"
+    / "research_question.yaml"
+)
 CHARTER_SCHEMA_PATH = ROOT / "workflows" / "program_charter.schema.json"
 QUESTION_SCHEMA_PATH = ROOT / "workflows" / "research_question.schema.json"
 
@@ -39,6 +47,15 @@ def test_research_question_template_is_valid_but_not_literature_ready() -> None:
     assert question.status.value == "proposed"
     assert question.literature_status.value == "not_ready"
     assert question.selection_scores.total == 0
+
+
+def test_proposed_discovery_question_is_valid_but_not_literature_ready() -> None:
+    question = load_research_question(DISCOVERY_QUESTION_PATH)
+
+    assert question.question_id == "NAS-RQ-BRCA002"
+    assert question.status.value == "proposed"
+    assert question.literature_status.value == "not_ready"
+    assert question.selection_scores.total == 29
 
 
 def test_selected_question_requires_approval() -> None:

@@ -37,9 +37,10 @@ Definition of done:
 2. Implement the deterministic TCGA-BRCA cohort and analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
    tables, figures, effect sizes, and uncertainty.
-3. Use the governed research-question intake and selection rubric to compare
-   decision-led breast-oncology candidates, approve one first discovery
-   question, and mark it ready for a formal literature-review protocol.
+3. Independently review proposed `NAS-BRCA-002`, resolve its classification
+   mapping, intended decision, claim boundaries, and external-validation path,
+   then select, revise, hold, or reject it. Only an approved selection may be
+   marked ready for a formal literature-review protocol.
 4. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
 5. Register approved bibliographic sources, execute the selected question's
@@ -60,6 +61,20 @@ Definition of done:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-20 — NAS-BRCA-002 proposal-to-publication operating plan
+
+Registered clinical-molecular subtype discordance in primary breast cancer as
+the proposed first discovery study. Added its standardized study workspace,
+decision-led intake, provisional 29/40 selection score, explicit nonclinical
+claim boundary, independent-validation requirement, and gated plan from question
+review through literature, feasibility, preregistration, ingestion, analysis,
+validation, evidence release, scientific paper, website production, publication,
+and correction handling. Added the proposal to oncology charter v1.1.0. It
+remains unselected; no literature or biomedical data was retrieved.
+
+Validation: the study, question, and oncology program manifests passed; Ruff
+passed, strict MyPy passed, and 54 tests passed.
 
 ### 2026-07-20 — Current pipeline and decision-support translation map
 
@@ -118,28 +133,18 @@ assumed.
 Validation: oncology program and question-template validation passed; Ruff
 passed, strict MyPy passed, and 48 tests passed.
 
-### 2026-07-20 — Governed GDC ingestion and immutable dataset snapshots
-
-Implemented deterministic, project-scoped GDC case queries; paginated retrieval;
-API and operator-confirmed data-release provenance; raw-response preservation;
-SHA-256 checksums; duplicate and count-integrity checks; content-addressed object
-keys; immutable writes; typed manifests; and a checked-in JSON Schema. Added a
-safe CLI dry run and a fail-closed execution gate that prevents all network and
-storage activity until the study plan is approved and `preregistered`. No
-TCGA-BRCA study data was downloaded during this implementation.
-
-Validation: GDC dry run made no external request; plan governance validation
-passed; Ruff passed, strict MyPy passed, and 42 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
 - An independent scientific reviewer has not yet been assigned to approve and
   lock `NAS-BRCA-001`; ingestion of outcome-bearing pilot data waits on this.
-- The first decision-led oncology discovery question and product surface remain
-  intentionally unselected; formal article collection waits on an approved
-  research-question intake.
+- `NAS-BRCA-002` is the proposed first decision-led discovery question but
+  remains unselected pending scientific/product, molecular/pathology, and
+  statistical review; formal literature retrieval waits on approval.
+- The independent external validation source for `NAS-BRCA-002` has not been
+  selected or approved. Its license, compatible variables, cohort overlap, and
+  export terms must be established before preregistration.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
 
@@ -170,6 +175,14 @@ passed; Ruff passed, strict MyPy passed, and 42 tests passed.
 - A decision-support study must define the user, choice, patient context,
   alternatives, outcome, evidence, uncertainty, validation path, abstention
   conditions, and real-world impact evaluation before translation.
+- `NAS-BRCA-002` is a proposed discovery and external-validation study of
+  prespecified classification disagreement. Neither receptor categories nor
+  intrinsic subtypes are assumed to be a universal gold standard, and the work
+  cannot support patient-level testing or treatment claims.
+- Public website publication must derive from an approved frozen research
+  release. The version-of-record PDF, web edition, tables, figures, citations,
+  and displayed numbers must agree and follow visible versioning and correction
+  procedures.
 - Study plans must be typed, governance-validated, independently reviewed, and
   locked before outcome-bearing data ingestion.
 - GDC ingestion is fail-closed unless the plan is `preregistered`; every
