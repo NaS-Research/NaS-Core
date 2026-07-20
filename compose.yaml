@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: nas_core
+      POSTGRES_USER: nas_core
+      POSTGRES_PASSWORD: nas_core
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nas_core -d nas_core"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  minio:
+    image: quay.io/minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+  minio-init:
+    image: quay.io/minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until mc alias set local http://minio:9000 minioadmin minioadmin; do sleep 1; done;
+      mc mb --ignore-existing local/nas-core-local;
+      "
+
+  api:
+    build: .
+    environment:
+      NAS_ENVIRONMENT: development
+      NAS_DATABASE_URL: postgresql+psycopg://nas_core:nas_core@postgres:5432/nas_core
+      NAS_OBJECT_STORE_ENDPOINT_URL: http://minio:9000
+      NAS_OBJECT_STORE_BUCKET: nas-core-local
+      NAS_OBJECT_STORE_ACCESS_KEY: minioadmin
+      NAS_OBJECT_STORE_SECRET_KEY: minioadmin
+      NAS_OBJECT_STORE_SECURE: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+
+volumes:
+  postgres_data:
+  minio_data:
