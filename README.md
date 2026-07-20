@@ -44,3 +44,9 @@ embeddings, generated artifacts, database dumps, PHI, and controlled-access
 data never belong in Git.
 
 See [docs/architecture.md](docs/architecture.md) for the initial system shape.
+
+## Project direction
+
+The continuously updated implementation status and next-step queue live in
+[PROJECT_STATUS.md](PROJECT_STATUS.md). Read it before beginning material work
+and update it whenever an implementation is completed.

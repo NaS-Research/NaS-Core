@@ -10,6 +10,17 @@ every implementation decision.
 
 Run `make check` before handing off code changes.
 
+## Living project status
+
+- Read `PROJECT_STATUS.md` before starting material implementation work.
+- Update `PROJECT_STATUS.md` as part of every completed implementation.
+- When the current focus is finished, move it to **Recently completed**, promote
+  the next ordered item to **Current focus**, and add or refine future steps.
+- Keep only the five most recent completed items; Git history preserves older
+  detail.
+- Do not mark work complete until its stated validation passes.
+- Record blockers and consequential architecture or governance decisions.
+
 ## Data safety
 
 - Never commit credentials, PHI, PII, controlled-access data, raw biomedical
