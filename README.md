@@ -19,7 +19,8 @@ or controlled-access data until the relevant governance controls are approved.
 ```bash
 cp .env.example .env
 uv sync
-docker compose up -d postgres minio
+uv run nas-core storage init
+docker compose up -d postgres minio-init
 uv run uvicorn nas_core.api.main:app --reload
 ```
 
@@ -50,3 +51,6 @@ See [docs/architecture.md](docs/architecture.md) for the initial system shape.
 The continuously updated implementation status and next-step queue live in
 [PROJECT_STATUS.md](PROJECT_STATUS.md). Read it before beginning material work
 and update it whenever an implementation is completed.
+
+The complete phased build plan lives in
+[docs/research-engine-plan.md](docs/research-engine-plan.md).

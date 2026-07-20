@@ -1,4 +1,4 @@
-.PHONY: install dev test lint format typecheck check services-up services-down
+.PHONY: install dev test lint format typecheck check storage-init storage-check services-up services-down
 
 install:
 	uv sync
@@ -20,8 +20,14 @@ typecheck:
 
 check: lint typecheck test
 
+storage-init:
+	uv run nas-core storage init
+
+storage-check:
+	uv run nas-core storage check
+
 services-up:
-	docker compose up -d postgres minio
+	docker compose up -d postgres minio-init
 
 services-down:
 	docker compose down

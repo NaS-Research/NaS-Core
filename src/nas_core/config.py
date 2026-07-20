@@ -1,4 +1,5 @@
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from pydantic import Field
@@ -19,6 +20,7 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     api_host: str = "0.0.0.0"
     api_port: int = 8000
+    data_root: Path = Path(".local/nas-core-data")
 
     database_url: str = "postgresql+psycopg://nas_core:nas_core@localhost:5432/nas_core"
 

@@ -25,7 +25,9 @@ services:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - minio_data:/data
+      - type: bind
+        source: ${NAS_DATA_ROOT:-./.local/nas-core-data}/object-store
+        target: /data
 
   minio-init:
     image: quay.io/minio/mc:latest
@@ -57,4 +59,3 @@ services:
 
 volumes:
   postgres_data:
-  minio_data:

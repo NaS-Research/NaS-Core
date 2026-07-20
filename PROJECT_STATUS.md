@@ -55,6 +55,16 @@ Definition of done:
 
 ## Recently completed
 
+### 2026-07-20 — External-drive storage foundation and engine plan
+
+Defined the phased research-engine plan, added a configurable `NAS_DATA_ROOT`,
+implemented safe storage initialization and validation commands, wired MinIO to
+external object storage, and added automated layout tests. The Seagate data root
+is `/Volumes/AGNDJ 6TB/NaS-Core-Data`.
+
+Validation: the physical data root initialized and validated successfully;
+Ruff, strict MyPy, and 32 tests passed.
+
 ### 2026-07-20 — Cortex v0 data governance
 
 Implemented source classifications, approval lifecycle, deny-by-default policy
@@ -77,6 +87,8 @@ Validation: Ruff passed, strict MyPy passed, and 4 tests passed.
   Compose services have been syntax-validated but not started locally.
 - The precise TCGA-BRCA pilot question and scientific reviewer have not yet
   been selected.
+- The Seagate volume currently reports approximately 4.2 TiB available. It is
+  primary local storage, not an independent backup.
 
 ## Durable decisions and boundaries
 
@@ -89,6 +101,8 @@ Validation: Ruff passed, strict MyPy passed, and 4 tests passed.
   classes; controlled data and PHI remain prohibited.
 - Raw datasets, credentials, embeddings, and generated research artifacts do
   not belong in Git.
+- Public/open v0 data and research artifacts use the configurable external
+  `NAS_DATA_ROOT`; storage layout integrity is marker-validated before use.
 
 ## Update procedure
 

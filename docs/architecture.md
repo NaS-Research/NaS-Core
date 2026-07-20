@@ -22,3 +22,6 @@ publication, security, audit, and storage.
 5. Service extraction requires a demonstrated operational or security need.
 
 See [decisions/0001-modular-monolith.md](decisions/0001-modular-monolith.md).
+
+The phased implementation and research lineage are defined in
+[research-engine-plan.md](research-engine-plan.md).
