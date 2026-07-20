@@ -1,0 +1,56 @@
+version: 1
+sources:
+  - source_id: gdc-tcga-open
+    name: NCI Genomic Data Commons TCGA Open Data
+    owner: National Cancer Institute
+    authoritative_url: https://portal.gdc.cancer.gov/
+    classification: public_open
+    status: active
+    version: current-release-at-snapshot
+    access_method: GDC API and GDC Data Transfer Tool
+    approved_purposes:
+      - oncology-research
+      - evidence-synthesis
+      - research-publication
+    intended_uses:
+      - Reproducible oncology research using open-access TCGA data
+      - Statistical analysis and evidence synthesis
+      - Publication of permitted aggregate findings with attribution
+    prohibited_uses:
+      - Attempting to identify or contact research participants
+      - Accessing controlled files under this open-data registration
+      - Redistributing source files through Git or unapproved systems
+      - Using source data to train a generative model
+    license_or_terms: NIH Genomic Data Sharing Policy and NCI GDC policies
+    terms_url: https://gdc.cancer.gov/about-gdc/gdc-policies
+    attribution: >-
+      Acknowledge the applicable TCGA dataset or accession and the NCI Genomic
+      Data Commons in presentations, disclosures, and publications.
+    authorized_roles:
+      - data_steward
+      - researcher
+      - principal_investigator
+      - scientific_reviewer
+      - publication_approver
+    storage_restrictions:
+      - Raw files must remain outside Git in approved object storage.
+      - Dataset snapshots must record the GDC release, query, file IDs, and checksums.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-07-20
+    ai_processing_allowed: true
+    embeddings_allowed: true
+    model_training_allowed: false
+    export_allowed: true
+    publication_allowed: true
+    approvals:
+      - approver: NaS Founder
+        role: data_steward
+        decision: approve
+        decided_at: 2026-07-20T12:00:00-05:00
+        rationale: >-
+          Approved for Cortex v0 public/open research use subject to NIH and GDC
+          terms, non-reidentification, provenance, and attribution requirements.
+    notes:
+      - This registration covers open-access data only.
+      - Controlled GDC files require a separate future registration and remain prohibited in v0.
