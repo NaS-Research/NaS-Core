@@ -4,6 +4,10 @@ NaS Core is the private research and evidence platform behind the NaS Cortex.
 It is being built to turn approved biomedical data and literature into
 reproducible analyses, structured evidence, and traceable research releases.
 
+For the active research flow, its deliverables, and the path from analysis to
+patient-relevant decision support, see
+[`CURRENT_PIPELINE.md`](CURRENT_PIPELINE.md).
+
 The project has its infrastructure and governance foundations and is now
 preparing its first governed TCGA-BRCA reproduction study. It does not provide
 clinical advice and must not be used with protected health information or

@@ -61,6 +61,19 @@ Definition of done:
 
 ## Recently completed
 
+### 2026-07-20 — Current pipeline and decision-support translation map
+
+Documented the complete research flow from decision-led question through
+evidence, independent validation, frozen release, and impact evaluation.
+Separated the current TCGA-BRCA platform-qualification outputs from patient-level
+decision support and defined the user, choice, patient context, alternatives,
+outcome, evidence, uncertainty, validation, and impact requirements that a
+future translational study must satisfy. No clinical claim or product status was
+assigned.
+
+Validation: documentation formatting passed; Ruff passed, strict MyPy passed,
+and 53 tests passed.
+
 ### 2026-07-20 — Standardized study workspaces and lifecycle pipeline
 
 Implemented typed study and pipeline manifests, canonical JSON Schemas, a
@@ -118,18 +131,6 @@ TCGA-BRCA study data was downloaded during this implementation.
 Validation: GDC dry run made no external request; plan governance validation
 passed; Ruff passed, strict MyPy passed, and 42 tests passed.
 
-### 2026-07-20 — First governed TCGA-BRCA pilot protocol
-
-Selected the first reproduction study, defined its falsifiable hypothesis,
-cohort, exposure, endpoint, covariate, primary Cox model, sensitivity analyses,
-missing-data and multiplicity rules, required outputs, and limitations. Added a
-strict typed protocol model, generated JSON Schema, governance-aware loader,
-CLI validation commands, and tests. The protocol remains `pending_review`, so
-it cannot be represented as preregistered without a recorded approval.
-
-Validation: plan governance validation passed; Ruff passed, strict MyPy passed,
-and 37 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -163,6 +164,12 @@ and 37 tests passed.
   snapshots, run artifacts, and frozen releases remain in external storage.
 - The oncology program separates platform qualification, discovery, external
   validation, translation, and deployment claims.
+- The qualification study ends in a pass, conditional pass, or fail judgment
+  about Cortex; its hazard ratios and figures are not patient-level decision
+  support or evidence of clinical utility.
+- A decision-support study must define the user, choice, patient context,
+  alternatives, outcome, evidence, uncertainty, validation path, abstention
+  conditions, and real-world impact evaluation before translation.
 - Study plans must be typed, governance-validated, independently reviewed, and
   locked before outcome-bearing data ingestion.
 - GDC ingestion is fail-closed unless the plan is `preregistered`; every
