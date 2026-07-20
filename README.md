@@ -4,9 +4,10 @@ NaS Core is the private research and evidence platform behind the NaS Cortex.
 It is being built to turn approved biomedical data and literature into
 reproducible analyses, structured evidence, and traceable research releases.
 
-The project is currently at its infrastructure-foundation stage. It does not
-provide clinical advice and must not be used with protected health information
-or controlled-access data until the relevant governance controls are approved.
+The project has its infrastructure and governance foundations and is now
+preparing its first governed TCGA-BRCA reproduction study. It does not provide
+clinical advice and must not be used with protected health information or
+controlled-access data until the relevant governance controls are approved.
 
 ## Local requirements
 
@@ -35,6 +36,17 @@ curl http://localhost:8000/health/ready
 
 ```bash
 make check
+```
+
+## First study protocol
+
+The first pilot plan is
+[`workflows/tcga_brca_stage_survival/analysis_plan.yaml`](workflows/tcga_brca_stage_survival/analysis_plan.yaml).
+It remains pending scientific review. Validate its structure and data-governance
+permissions without downloading study data:
+
+```bash
+make plan-validate
 ```
 
 ## Repository boundaries

@@ -1,0 +1,620 @@
+{
+  "$defs": {
+    "AnalysisMode": {
+      "enum": [
+        "confirmatory",
+        "exploratory"
+      ],
+      "title": "AnalysisMode",
+      "type": "string"
+    },
+    "CohortDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "exclusion_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Exclusion Criteria",
+          "type": "array"
+        },
+        "inclusion_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Inclusion Criteria",
+          "type": "array"
+        },
+        "population": {
+          "minLength": 1,
+          "title": "Population",
+          "type": "string"
+        },
+        "record_selection": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Record Selection",
+          "type": "array"
+        },
+        "unit_of_analysis": {
+          "minLength": 1,
+          "title": "Unit Of Analysis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit_of_analysis",
+        "population",
+        "inclusion_criteria",
+        "exclusion_criteria",
+        "record_selection"
+      ],
+      "title": "CohortDefinition",
+      "type": "object"
+    },
+    "DataClassification": {
+      "enum": [
+        "public_open",
+        "licensed",
+        "controlled",
+        "phi"
+      ],
+      "title": "DataClassification",
+      "type": "string"
+    },
+    "DataRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "minLength": 1,
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "fields": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Fields",
+          "type": "array"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "project_id": {
+          "minLength": 1,
+          "title": "Project Id",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "project_id",
+        "endpoint",
+        "fields"
+      ],
+      "title": "DataRequirement",
+      "type": "object"
+    },
+    "EndpointDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "censoring": {
+          "minLength": 1,
+          "title": "Censoring",
+          "type": "string"
+        },
+        "event": {
+          "minLength": 1,
+          "title": "Event",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "time_calculation": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Time Calculation",
+          "type": "array"
+        },
+        "time_origin": {
+          "minLength": 1,
+          "title": "Time Origin",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "event",
+        "time_origin",
+        "time_calculation",
+        "censoring"
+      ],
+      "title": "EndpointDefinition",
+      "type": "object"
+    },
+    "GovernanceBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "actor_role": {
+          "minLength": 1,
+          "title": "Actor Role",
+          "type": "string"
+        },
+        "classification": {
+          "$ref": "#/$defs/DataClassification"
+        },
+        "purpose": {
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "purpose",
+        "actor_role",
+        "classification"
+      ],
+      "title": "GovernanceBinding",
+      "type": "object"
+    },
+    "Hypothesis": {
+      "additionalProperties": false,
+      "properties": {
+        "alternative_hypothesis": {
+          "minLength": 1,
+          "title": "Alternative Hypothesis",
+          "type": "string"
+        },
+        "hypothesis_id": {
+          "pattern": "^H[0-9]+$",
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "mode": {
+          "$ref": "#/$defs/AnalysisMode"
+        },
+        "null_hypothesis": {
+          "minLength": 1,
+          "title": "Null Hypothesis",
+          "type": "string"
+        },
+        "primary": {
+          "default": false,
+          "title": "Primary",
+          "type": "boolean"
+        },
+        "statement": {
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        }
+      },
+      "required": [
+        "hypothesis_id",
+        "mode",
+        "statement",
+        "null_hypothesis",
+        "alternative_hypothesis"
+      ],
+      "title": "Hypothesis",
+      "type": "object"
+    },
+    "MissingDataPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "primary_strategy": {
+          "minLength": 1,
+          "title": "Primary Strategy",
+          "type": "string"
+        },
+        "reporting": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Reporting",
+          "type": "array"
+        },
+        "sensitivity_strategy": {
+          "minLength": 1,
+          "title": "Sensitivity Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "primary_strategy",
+        "reporting",
+        "sensitivity_strategy"
+      ],
+      "title": "MissingDataPlan",
+      "type": "object"
+    },
+    "MultiplicityPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "primary_adjustment": {
+          "minLength": 1,
+          "title": "Primary Adjustment",
+          "type": "string"
+        },
+        "primary_family": {
+          "minLength": 1,
+          "title": "Primary Family",
+          "type": "string"
+        },
+        "secondary_adjustment": {
+          "minLength": 1,
+          "title": "Secondary Adjustment",
+          "type": "string"
+        }
+      },
+      "required": [
+        "primary_family",
+        "primary_adjustment",
+        "secondary_adjustment"
+      ],
+      "title": "MultiplicityPlan",
+      "type": "object"
+    },
+    "PlanStatus": {
+      "enum": [
+        "draft",
+        "pending_review",
+        "preregistered",
+        "amended",
+        "retired"
+      ],
+      "title": "PlanStatus",
+      "type": "string"
+    },
+    "ReviewDecision": {
+      "enum": [
+        "pending",
+        "approved",
+        "changes_requested",
+        "rejected"
+      ],
+      "title": "ReviewDecision",
+      "type": "string"
+    },
+    "ReviewRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/ReviewDecision"
+        },
+        "notes": {
+          "minLength": 1,
+          "title": "Notes",
+          "type": "string"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer",
+        "role",
+        "decision",
+        "notes"
+      ],
+      "title": "ReviewRecord",
+      "type": "object"
+    },
+    "SensitivityAnalysis": {
+      "additionalProperties": false,
+      "properties": {
+        "analysis_id": {
+          "pattern": "^S[0-9]+$",
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "description",
+        "rationale"
+      ],
+      "title": "SensitivityAnalysis",
+      "type": "object"
+    },
+    "StatisticalModel": {
+      "additionalProperties": false,
+      "properties": {
+        "alpha": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Alpha",
+          "type": "number"
+        },
+        "covariates": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Covariates",
+          "type": "array"
+        },
+        "diagnostics": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Diagnostics",
+          "type": "array"
+        },
+        "estimand": {
+          "minLength": 1,
+          "title": "Estimand",
+          "type": "string"
+        },
+        "exposure": {
+          "minLength": 1,
+          "title": "Exposure",
+          "type": "string"
+        },
+        "method": {
+          "minLength": 1,
+          "title": "Method",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "outcome": {
+          "minLength": 1,
+          "title": "Outcome",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "method",
+        "outcome",
+        "exposure",
+        "estimand",
+        "alpha",
+        "diagnostics"
+      ],
+      "title": "StatisticalModel",
+      "type": "object"
+    },
+    "VariableDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "coding": {
+          "minLength": 1,
+          "title": "Coding",
+          "type": "string"
+        },
+        "definition": {
+          "minLength": 1,
+          "title": "Definition",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "role",
+        "definition",
+        "coding"
+      ],
+      "title": "VariableDefinition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Pre-specified study protocol with validation invariants.",
+  "properties": {
+    "cohort": {
+      "$ref": "#/$defs/CohortDefinition"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "data_requirements": {
+      "items": {
+        "$ref": "#/$defs/DataRequirement"
+      },
+      "minItems": 1,
+      "title": "Data Requirements",
+      "type": "array"
+    },
+    "design": {
+      "minLength": 1,
+      "title": "Design",
+      "type": "string"
+    },
+    "endpoint": {
+      "$ref": "#/$defs/EndpointDefinition"
+    },
+    "governance": {
+      "$ref": "#/$defs/GovernanceBinding"
+    },
+    "hypotheses": {
+      "items": {
+        "$ref": "#/$defs/Hypothesis"
+      },
+      "minItems": 1,
+      "title": "Hypotheses",
+      "type": "array"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "missing_data": {
+      "$ref": "#/$defs/MissingDataPlan"
+    },
+    "multiplicity": {
+      "$ref": "#/$defs/MultiplicityPlan"
+    },
+    "objective": {
+      "minLength": 1,
+      "title": "Objective",
+      "type": "string"
+    },
+    "primary_model": {
+      "$ref": "#/$defs/StatisticalModel"
+    },
+    "protocol_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "required_outputs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Outputs",
+      "type": "array"
+    },
+    "reviews": {
+      "items": {
+        "$ref": "#/$defs/ReviewRecord"
+      },
+      "minItems": 1,
+      "title": "Reviews",
+      "type": "array"
+    },
+    "schema_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "secondary_analyses": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Secondary Analyses",
+      "type": "array"
+    },
+    "sensitivity_analyses": {
+      "items": {
+        "$ref": "#/$defs/SensitivityAnalysis"
+      },
+      "minItems": 1,
+      "title": "Sensitivity Analyses",
+      "type": "array"
+    },
+    "status": {
+      "$ref": "#/$defs/PlanStatus"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "title": {
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "variables": {
+      "items": {
+        "$ref": "#/$defs/VariableDefinition"
+      },
+      "minItems": 1,
+      "title": "Variables",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "study_id",
+    "protocol_version",
+    "title",
+    "status",
+    "created_at",
+    "objective",
+    "design",
+    "governance",
+    "data_requirements",
+    "hypotheses",
+    "cohort",
+    "endpoint",
+    "variables",
+    "primary_model",
+    "sensitivity_analyses",
+    "missing_data",
+    "multiplicity",
+    "required_outputs",
+    "limitations",
+    "reviews"
+  ],
+  "title": "AnalysisPlan",
+  "type": "object"
+}

@@ -8,25 +8,26 @@ and what comes next?
 
 ## Current focus
 
-### Define the first TCGA-BRCA pilot and preregister its analysis plan
+### Scientifically review and lock the first TCGA-BRCA analysis plan
 
-Select one established, reproducible breast-cancer result that can be tested
-using public/open TCGA-BRCA data. Write the protocol before inspecting final
-study results.
+Review `NAS-BRCA-001`, which tests the established association between advanced
+pathologic stage and poorer overall survival using public/open TCGA-BRCA
+clinical data. Resolve review comments and lock the protocol before downloading
+the study dataset or inspecting final outcomes.
 
 Definition of done:
 
-- The research question and falsifiable hypothesis are explicit.
-- The cohort, inclusion criteria, exclusions, exposure or biomarker, endpoint,
-  and relevant subgroups are defined.
-- Covariates and the primary statistical model are specified.
-- Sensitivity analyses and missing-data handling are specified.
-- Multiple-testing and significance rules are specified.
-- Exploratory and confirmatory analyses are clearly separated.
-- The required GDC data types are confirmed as public/open and covered by the
-  active source registration.
-- `workflows/tcga_brca_pilot/analysis_plan.yaml` passes schema validation.
-- Scientific and governance limitations are recorded.
+- An independent scientific reviewer is named in the plan.
+- The reviewer evaluates the question, cohort rules, diagnosis-record
+  precedence, endpoint derivation, covariates, statistical model, missing-data
+  plan, multiplicity rules, sensitivity analyses, and limitations.
+- Every requested change is resolved in Git with a traceable protocol-version
+  update when required.
+- The reviewer records an approval decision and timestamp.
+- The plan status changes from `pending_review` to `preregistered` and continues
+  to pass `make plan-validate` and `make check`.
+- The approved protocol commit is tagged before any outcome-bearing data is
+  ingested.
 
 ## Next implementation queue
 
@@ -54,6 +55,18 @@ Definition of done:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-20 — First governed TCGA-BRCA pilot protocol
+
+Selected the first reproduction study, defined its falsifiable hypothesis,
+cohort, exposure, endpoint, covariate, primary Cox model, sensitivity analyses,
+missing-data and multiplicity rules, required outputs, and limitations. Added a
+strict typed protocol model, generated JSON Schema, governance-aware loader,
+CLI validation commands, and tests. The protocol remains `pending_review`, so
+it cannot be represented as preregistered without a recorded approval.
+
+Validation: plan governance validation passed; Ruff passed, strict MyPy passed,
+and 36 tests passed.
 
 ### 2026-07-20 — External-drive storage foundation and engine plan
 
@@ -85,8 +98,8 @@ Validation: Ruff passed, strict MyPy passed, and 4 tests passed.
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
-- The precise TCGA-BRCA pilot question and scientific reviewer have not yet
-  been selected.
+- An independent scientific reviewer has not yet been assigned to approve and
+  lock `NAS-BRCA-001`; ingestion of outcome-bearing pilot data waits on this.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
 
@@ -97,6 +110,10 @@ Validation: Ruff passed, strict MyPy passed, and 4 tests passed.
 - OpenAI is a replaceable reasoning provider, not the NaS product or knowledge
   store.
 - Numerical research results come from deterministic executed code.
+- The first pilot is a reproduction of the association between pathologic
+  stage and overall survival in TCGA-BRCA, not a clinical validation study.
+- Study plans must be typed, governance-validated, independently reviewed, and
+  locked before outcome-bearing data ingestion.
 - Public/open and explicitly approved licensed data are the only v0 data
   classes; controlled data and PHI remain prohibited.
 - Raw datasets, credentials, embeddings, and generated research artifacts do

@@ -1,4 +1,4 @@
-.PHONY: install dev test lint format typecheck check storage-init storage-check services-up services-down
+.PHONY: install dev test lint format typecheck check plan-validate storage-init storage-check services-up services-down
 
 install:
 	uv sync
@@ -19,6 +19,9 @@ typecheck:
 	uv run mypy
 
 check: lint typecheck test
+
+plan-validate:
+	uv run nas-core plan validate workflows/tcga_brca_stage_survival/analysis_plan.yaml
 
 storage-init:
 	uv run nas-core storage init
