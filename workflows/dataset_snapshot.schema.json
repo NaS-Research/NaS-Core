@@ -1,0 +1,240 @@
+{
+  "$defs": {
+    "DataClassification": {
+      "enum": [
+        "public_open",
+        "licensed",
+        "controlled",
+        "phi"
+      ],
+      "title": "DataClassification",
+      "type": "string"
+    },
+    "ReleaseRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "api_commit": {
+          "minLength": 1,
+          "title": "Api Commit",
+          "type": "string"
+        },
+        "api_status": {
+          "minLength": 1,
+          "title": "Api Status",
+          "type": "string"
+        },
+        "api_tag": {
+          "minLength": 1,
+          "title": "Api Tag",
+          "type": "string"
+        },
+        "api_version": {
+          "minLength": 1,
+          "title": "Api Version",
+          "type": "string"
+        },
+        "data_release": {
+          "minLength": 1,
+          "title": "Data Release",
+          "type": "string"
+        },
+        "status_response_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Status Response Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "data_release",
+        "api_status",
+        "api_tag",
+        "api_version",
+        "api_commit",
+        "status_response_sha256"
+      ],
+      "title": "ReleaseRecord",
+      "type": "object"
+    },
+    "RequestRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "additionalProperties": true,
+          "title": "Body",
+          "type": "object"
+        },
+        "method": {
+          "pattern": "^(GET|POST)$",
+          "title": "Method",
+          "type": "string"
+        },
+        "url": {
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "method",
+        "url",
+        "body"
+      ],
+      "title": "RequestRecord",
+      "type": "object"
+    },
+    "StoredObject": {
+      "additionalProperties": false,
+      "properties": {
+        "file_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "File Ids",
+          "type": "array"
+        },
+        "media_type": {
+          "minLength": 1,
+          "title": "Media Type",
+          "type": "string"
+        },
+        "object_key": {
+          "minLength": 1,
+          "title": "Object Key",
+          "type": "string"
+        },
+        "record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Record Ids",
+          "type": "array"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_key",
+        "media_type",
+        "size_bytes",
+        "sha256"
+      ],
+      "title": "StoredObject",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "classification": {
+      "$ref": "#/$defs/DataClassification"
+    },
+    "manifest_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Manifest Sha256"
+    },
+    "objects": {
+      "items": {
+        "$ref": "#/$defs/StoredObject"
+      },
+      "minItems": 1,
+      "title": "Objects",
+      "type": "array"
+    },
+    "project_id": {
+      "minLength": 1,
+      "title": "Project Id",
+      "type": "string"
+    },
+    "protocol_version": {
+      "minLength": 1,
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "purpose": {
+      "minLength": 1,
+      "title": "Purpose",
+      "type": "string"
+    },
+    "record_count": {
+      "minimum": 0,
+      "title": "Record Count",
+      "type": "integer"
+    },
+    "release": {
+      "$ref": "#/$defs/ReleaseRecord"
+    },
+    "requests": {
+      "items": {
+        "$ref": "#/$defs/RequestRecord"
+      },
+      "minItems": 1,
+      "title": "Requests",
+      "type": "array"
+    },
+    "retrieved_at": {
+      "format": "date-time",
+      "title": "Retrieved At",
+      "type": "string"
+    },
+    "schema_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "source_id": {
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "study_id": {
+      "minLength": 1,
+      "title": "Study Id",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "snapshot_id",
+    "study_id",
+    "protocol_version",
+    "source_id",
+    "project_id",
+    "classification",
+    "purpose",
+    "retrieved_at",
+    "release",
+    "requests",
+    "objects",
+    "record_count"
+  ],
+  "title": "DatasetSnapshot",
+  "type": "object"
+}

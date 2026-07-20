@@ -49,6 +49,20 @@ permissions without downloading study data:
 make plan-validate
 ```
 
+## GDC ingestion
+
+Preview the exact governed request without contacting GDC or writing data:
+
+```bash
+make gdc-plan-dry-run
+```
+
+The execution path writes content-addressed raw responses and an immutable
+dataset manifest to configured object storage. It refuses to run until the
+analysis plan is independently approved and marked `preregistered`. See
+[`src/nas_core/ingestion/README.md`](src/nas_core/ingestion/README.md) for the
+operational command and safeguards.
+
 ## Repository boundaries
 
 Git contains source code, schemas, workflow definitions, prompts, tests, small

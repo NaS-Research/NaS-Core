@@ -1,10 +1,14 @@
 import argparse
+import json
 from collections.abc import Sequence
 from pathlib import Path
 
 from nas_core.config import get_settings
+from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.governance.registry import SourceRegistry
+from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.storage.layout import DataLayout
+from nas_core.storage.object_store import S3ObjectStore
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
 
 
@@ -29,6 +33,27 @@ def build_parser() -> argparse.ArgumentParser:
     )
     schema = plan_commands.add_parser("schema", help="Write the canonical plan JSON Schema")
     schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+
+    ingest = commands.add_parser("ingest", help="Create governed dataset snapshots")
+    ingest_commands = ingest.add_subparsers(dest="ingest_command", required=True)
+    gdc = ingest_commands.add_parser("gdc-plan", help="Prepare or execute a GDC plan")
+    gdc.add_argument("path", type=Path, help="Path to analysis_plan.yaml")
+    gdc.add_argument(
+        "--registry",
+        type=Path,
+        default=Path("data/source-registry.yaml"),
+        help="Path to the governed source registry",
+    )
+    gdc.add_argument("--data-release", help="Exact GDC data release, for example 45.0")
+    gdc.add_argument(
+        "--execute",
+        action="store_true",
+        help="Fetch and persist data; requires a preregistered plan",
+    )
+    snapshot_schema = ingest_commands.add_parser(
+        "schema", help="Write the canonical dataset-snapshot JSON Schema"
+    )
+    snapshot_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
     return parser
 
 
@@ -58,6 +83,28 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "plan" and args.plan_command == "schema":
         write_analysis_plan_schema(args.path)
         print(f"Wrote analysis-plan schema: {args.path}")
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "gdc-plan":
+        plan = load_analysis_plan(args.path, registry=SourceRegistry.from_yaml(args.registry))
+        if not args.execute:
+            print(json.dumps(build_case_query(plan, page_size=500), indent=2))
+            print("Dry run only; no data was requested or stored.")
+            return 0
+        if not args.data_release:
+            raise SystemExit("--data-release is required with --execute")
+        snapshot = GDCSnapshotService(store=S3ObjectStore()).capture_cases(
+            plan, data_release=args.data_release
+        )
+        print(
+            f"Created immutable snapshot {snapshot.snapshot_id} "
+            f"with {snapshot.record_count} records"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "schema":
+        write_dataset_snapshot_schema(args.path)
+        print(f"Wrote dataset-snapshot schema: {args.path}")
         return 0
 
     raise AssertionError("Unreachable command")

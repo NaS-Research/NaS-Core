@@ -31,8 +31,9 @@ Definition of done:
 
 ## Next implementation queue
 
-1. Implement dataset snapshots and GDC ingestion that record the exact query,
-   GDC release, manifest, file IDs, timestamps, classifications, and checksums.
+1. After protocol approval, tag the locked plan and execute the first GDC Data
+   Release snapshot; independently verify its manifest, object checksums,
+   record count, warnings, and external-drive location.
 2. Implement the deterministic TCGA-BRCA cohort and analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
    tables, figures, effect sizes, and uncertainty.
@@ -56,6 +57,19 @@ Definition of done:
 
 ## Recently completed
 
+### 2026-07-20 — Governed GDC ingestion and immutable dataset snapshots
+
+Implemented deterministic, project-scoped GDC case queries; paginated retrieval;
+API and operator-confirmed data-release provenance; raw-response preservation;
+SHA-256 checksums; duplicate and count-integrity checks; content-addressed object
+keys; immutable writes; typed manifests; and a checked-in JSON Schema. Added a
+safe CLI dry run and a fail-closed execution gate that prevents all network and
+storage activity until the study plan is approved and `preregistered`. No
+TCGA-BRCA study data was downloaded during this implementation.
+
+Validation: GDC dry run made no external request; plan governance validation
+passed; Ruff passed, strict MyPy passed, and 42 tests passed.
+
 ### 2026-07-20 — First governed TCGA-BRCA pilot protocol
 
 Selected the first reproduction study, defined its falsifiable hypothesis,
@@ -66,7 +80,7 @@ CLI validation commands, and tests. The protocol remains `pending_review`, so
 it cannot be represented as preregistered without a recorded approval.
 
 Validation: plan governance validation passed; Ruff passed, strict MyPy passed,
-and 36 tests passed.
+and 37 tests passed.
 
 ### 2026-07-20 — External-drive storage foundation and engine plan
 
@@ -114,6 +128,9 @@ Validation: Ruff passed, strict MyPy passed, and 4 tests passed.
   stage and overall survival in TCGA-BRCA, not a clinical validation study.
 - Study plans must be typed, governance-validated, independently reviewed, and
   locked before outcome-bearing data ingestion.
+- GDC ingestion is fail-closed unless the plan is `preregistered`; every
+  snapshot records the exact request, API provenance, explicitly supplied data
+  release, raw response checksums, and immutable object locations.
 - Public/open and explicitly approved licensed data are the only v0 data
   classes; controlled data and PHI remain prohibited.
 - Raw datasets, credentials, embeddings, and generated research artifacts do
