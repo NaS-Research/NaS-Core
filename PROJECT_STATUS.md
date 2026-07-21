@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-20
+Last updated: 2026-07-21
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -32,6 +32,13 @@ Definition of done:
   to pass `make plan-validate` and `make check`.
 - The approved protocol commit is tagged before any outcome-bearing data is
   ingested.
+
+Current gate state:
+
+- AI-assisted protocol review: complete for protocol `1.0.0`; findings resolved
+  into `1.1.0` and recorded in the study review directory.
+- Founder self-review: pending for protocol `1.1.0`.
+- Protocol authorization: blocked until the founder records a decision.
 
 ## Next implementation queue
 
@@ -66,6 +73,20 @@ Definition of done:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-21 — NAS-BRCA-001 adversarial protocol review
+
+Completed the non-authoritative AI-assisted review without retrieving GDC case
+data or inspecting outcomes. Revised the pending protocol to version `1.1.0` to
+use GDC's primary-disease diagnosis flag, deterministic diagnosis identifiers,
+a verified diagnosis time-origin rule, positive survival durations, AJCC edition
+provenance, explicit model-failure thresholds, nonlinear-age and stage-edition
+sensitivities, and prespecified scientific-reproduction and Cortex qualification
+outcomes. Added the full finding-resolution record and a founder review
+checklist. The protocol remains unapproved and ingestion remains blocked.
+
+Validation: protocol `1.1.0` and the study workspace passed governed validation;
+Ruff passed, strict MyPy passed, and 61 tests passed.
 
 ### 2026-07-20 — Founder-led research review and publication governance
 
@@ -138,27 +159,13 @@ Validation: the migrated study and analysis plan passed governance validation;
 the GDC dry run performed no network or storage activity; Ruff passed, strict
 MyPy passed, and 53 tests passed.
 
-### 2026-07-20 — Biomedical data-source landscape
-
-Documented the major candidate sources for cancer multi-omics, population
-oncology, longitudinal biobanks, real-world clinical data, functional genomics,
-variants, single-cell and spatial biology, imaging and pathology, drugs and
-targets, trials and safety, literature, and protein structure. Added access
-classes, important limitations, project-to-source examples, and the governed
-workflow for promoting a candidate into the approved source registry. This was
-a documentation change only: no data was downloaded and no new source was
-approved.
-
-Validation: documentation links and formatting passed; Ruff passed, strict
-MyPy passed, and 48 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
-- The structured founder protocol review and AI-assisted adversarial review for
-  `NAS-BRCA-001` are not complete; ingestion of outcome-bearing pilot data waits
-  on founder approval.
+- The AI-assisted review for `NAS-BRCA-001` is complete, but the structured
+  founder review of protocol `1.1.0` is pending. Outcome-bearing ingestion waits
+  on the founder's recorded decision.
 - `NAS-BRCA-002` is the proposed first decision-led discovery question but
   remains unselected pending founder scientific/product, molecular/pathology,
   and statistical self-review plus AI-assisted critique; formal literature

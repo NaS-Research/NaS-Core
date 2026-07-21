@@ -91,6 +91,9 @@ def test_case_query_is_deterministic_and_project_scoped() -> None:
         "content": {"field": "project.project_id", "value": ["TCGA-BRCA"]},
     }
     assert "demographic.vital_status" in str(query["fields"])
+    assert "index_date" in str(query["fields"])
+    assert "diagnoses.diagnosis_is_primary_disease" in str(query["fields"])
+    assert "diagnoses.diagnosis_id" in str(query["fields"])
 
 
 def test_checked_in_snapshot_schema_matches_runtime_model() -> None:

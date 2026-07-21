@@ -1,6 +1,6 @@
 schema_version: 1.0.0
 study_id: NAS-BRCA-001
-protocol_version: 1.0.0
+protocol_version: 1.1.0
 title: Association of pathologic stage with overall survival in TCGA-BRCA
 status: pending_review
 created_at: 2026-07-20T12:00:00-05:00
@@ -23,18 +23,25 @@ data_requirements:
     fields:
       - case_id
       - submitter_id
+      - index_date
       - demographic.vital_status
       - demographic.days_to_death
+      - diagnoses.diagnosis_id
+      - diagnoses.diagnosis_is_primary_disease
       - diagnoses.ajcc_pathologic_stage
+      - diagnoses.ajcc_staging_system_edition
       - diagnoses.age_at_diagnosis
       - diagnoses.classification_of_tumor
       - diagnoses.days_to_diagnosis
       - diagnoses.days_to_last_follow_up
+      - follow_ups.follow_up_id
       - follow_ups.days_to_follow_up
     notes:
       - Request only open clinical fields; do not request controlled genomic files.
       - Persist the exact request, response metadata, retrieval time, and checksums.
       - Do not hard-code an expected case count because the GDC release can change.
+      - Record the declared GDC Data Release and an archived official release-note
+        reference; do not imply that the API status endpoint verifies the Data Release.
 
 hypotheses:
   - hypothesis_id: H1
@@ -54,28 +61,37 @@ cohort:
   population: Adults in the GDC TCGA-BRCA project with open clinical data.
   inclusion_criteria:
     - GDC project_id equals TCGA-BRCA.
+    - Case index_date equals Diagnosis so demographic and clinical day offsets share
+      the prespecified origin.
     - Age at diagnosis is at least 18 years and can be converted to years.
     - Vital status is Alive or Dead.
     - AJCC pathologic stage can be normalized to stage I, II, III, or IV.
-    - A nonnegative overall-survival time can be derived using the endpoint rules.
+    - A positive overall-survival time can be derived using the endpoint rules.
   exclusion_criteria:
     - Missing, unknown, or non-normalizable pathologic stage.
     - Missing or non-binary vital status after normalization.
-    - Missing, negative, or internally inconsistent survival time.
+    - Missing, zero, negative, or internally inconsistent survival time.
     - Missing age at diagnosis for the adjusted primary model.
   record_selection:
     - Collapse substages such as IIIA, IIIB, and IIIC to their parent Roman-numeral stage.
-    - When multiple diagnosis records exist, prefer a primary-tumor diagnosis with usable pathologic stage.
-    - Resolve remaining ties deterministically by earliest nonmissing days_to_diagnosis, then stable source order.
+    - Retain only diagnosis records where diagnosis_is_primary_disease is true; exclude
+      a case if no such record has a usable pathologic stage and age at diagnosis.
+    - If multiple eligible primary-disease diagnoses remain, prefer records with a
+      nonmissing days_to_diagnosis, choose the smallest absolute value, and then
+      use the lexicographically smallest diagnosis_id for any remaining tie or when
+      every value is missing. Never use API array order as a tie-breaker.
+    - Preserve the chosen diagnosis_id, original stage value, and AJCC staging-system edition.
     - Retain a record-level exclusion log and report each exclusion count.
 
 endpoint:
   name: overall_survival
   event: Death from any cause; event equals 1 only when normalized vital_status is Dead.
-  time_origin: Date of initial pathologic diagnosis, represented by GDC day offsets.
+  time_origin: GDC case index date, restricted to cases where index_date is Diagnosis.
   time_calculation:
-    - For deceased participants, use nonnegative demographic.days_to_death.
-    - For living participants, use the maximum nonnegative value across follow_ups.days_to_follow_up and diagnoses.days_to_last_follow_up.
+    - For deceased participants, use positive demographic.days_to_death.
+    - For living participants, use the maximum positive value across all case-level
+      follow_ups.days_to_follow_up records and the selected primary diagnosis's
+      diagnoses.days_to_last_follow_up.
     - Express the final duration in days and preserve the source fields used for derivation.
   censoring: Living participants are right-censored at their last documented follow-up.
 
@@ -104,13 +120,18 @@ primary_model:
   alpha: 0.05
   diagnostics:
     - Test proportional-hazards assumptions using scaled Schoenfeld residuals.
+    - Inspect the linear functional form for age; report a restricted-cubic-spline
+      sensitivity model if the linear specification is materially inadequate.
     - Examine influential observations and report convergence warnings.
     - Report events and participants per exposure group before interpreting the model.
+    - Do not interpret the primary hazard ratio if either exposure group has fewer
+      than 10 deaths, the model fails to converge, or the coefficient is not estimable.
 
 secondary_analyses:
   - Plot Kaplan-Meier estimates by early versus advanced stage with numbers at risk.
   - Report an unadjusted log-rank test and unadjusted Cox model as descriptive secondary analyses.
   - Estimate stage I, II, III, and IV as categorical levels with stage I as the reference when event counts permit.
+  - Report the distribution of AJCC staging-system editions overall and by stage group.
 
 sensitivity_analyses:
   - analysis_id: S1
@@ -120,8 +141,20 @@ sensitivity_analyses:
     description: Administratively censor follow-up at five years.
     rationale: Reduce sensitivity to sparse late follow-up and changing hazards over long observation periods.
   - analysis_id: S3
-    description: If proportional hazards fail for the exposure, fit a prespecified stage-by-log-time interaction.
+    description: >-
+      If proportional hazards fail for the exposure, fit a prespecified interaction
+      between advanced stage and log(maximum of duration_days and 1 day).
     rationale: Quantify time-varying association rather than suppressing a failed model diagnostic.
+  - analysis_id: S4
+    description: >-
+      Refit the primary model with age represented by a restricted cubic spline
+      using four knots at the 5th, 35th, 65th, and 95th age percentiles.
+    rationale: Evaluate sensitivity to the primary model's linear age assumption.
+  - analysis_id: S5
+    description: >-
+      Refit the primary model among cases using the most common reported AJCC
+      staging-system edition if both stage groups retain at least 10 deaths.
+    rationale: Evaluate sensitivity to heterogeneity in AJCC staging editions.
 
 missing_data:
   primary_strategy: Complete-case analysis for stage, age, vital status, and derived survival time; no imputation.
@@ -147,6 +180,20 @@ required_outputs:
   - Kaplan-Meier figure with numbers at risk.
   - Primary-model coefficient table with hazard ratio, confidence interval, and p-value.
   - Model diagnostics, warnings, and all sensitivity-analysis results, including null findings.
+  - A pass, conditional-pass, or fail qualification decision with explicit reasons.
+  - >-
+    Classify scientific reproduction as supported when the adjusted hazard ratio
+    is greater than 1 and its 95% confidence-interval lower bound is greater than
+    1; directionally consistent when the estimate is greater than 1 but the
+    interval includes 1; and not reproduced when the estimate is at most 1 or is
+    not estimable.
+  - >-
+    Classify Cortex qualification as pass only when governance and reproducibility
+    checks pass, the scientific result is supported, and no material diagnostic
+    failure remains; conditional pass when governance and reproducibility pass but
+    the result is only directionally consistent or has a disclosed remediable
+    diagnostic limitation; and fail when provenance or reproducibility fails, the
+    result is not reproduced, or a critical issue remains unresolved.
   - Machine-readable run manifest containing code revision, environment, parameters, and random seeds.
 
 limitations:
@@ -155,6 +202,9 @@ limitations:
   - Clinical-field completeness and harmonization can differ across GDC releases.
   - Overall survival does not distinguish breast-cancer death from other causes.
   - The binary stage contrast sacrifices detail and can mask non-monotonic effects.
+  - AJCC staging editions may differ across participants and may not be fully reported.
+  - Excluding zero-day survival records avoids undefined or unstable survival ordering
+    but can omit genuine same-day events and must be reported.
 
 reviews:
   - reviewer: Dalron J. Robertson
@@ -171,8 +221,11 @@ reviews:
     role: AI-assisted adversarial and consistency reviewer
     review_type: ai_assisted_internal_review
     required_for_gate: false
-    decision: pending
-    reviewed_at: null
+    decision: advisory_complete
+    reviewed_at: 2026-07-21T07:26:50-05:00
     notes: >-
-      Identify inconsistencies, unsupported assumptions, missing diagnostics, and
-      reproducibility risks. This advisory review cannot approve preregistration.
+      Completed the non-authoritative adversarial review documented in
+      reviews/AI_PROTOCOL_REVIEW_v1.0.0.md. Protocol version 1.1.0 resolves the
+      identified primary-diagnosis, time-origin, deterministic tie-breaking,
+      staging-edition, model-diagnostic, and abstention issues. This advisory
+      review does not approve preregistration.
