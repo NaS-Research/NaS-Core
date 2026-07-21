@@ -196,14 +196,16 @@ class ResearchQuestionIntake(ProgramModel):
 
     @model_validator(mode="after")
     def validate_selection_and_literature_gates(self) -> ResearchQuestionIntake:
-        approved = any(review.decision is ReviewDecision.APPROVED for review in self.reviews)
-        if self.status is QuestionStatus.SELECTED and not approved:
-            raise ValueError("a selected research question requires an approved review")
+        all_approved = all(
+            review.decision is ReviewDecision.APPROVED for review in self.reviews
+        )
+        if self.status is QuestionStatus.SELECTED and not all_approved:
+            raise ValueError("a selected research question requires all recorded reviews approved")
         if self.literature_status is not LiteratureStatus.NOT_READY and (
-            self.status is not QuestionStatus.SELECTED or not approved
+            self.status is not QuestionStatus.SELECTED or not all_approved
         ):
             raise ValueError(
-                "literature work requires a selected, review-approved research question"
+                "literature work requires a selected research question with all reviews approved"
             )
         if self.study_role is StudyRole.VALIDATION and not self.data_feasibility.available_sources:
             raise ValueError("a validation question requires an available data source")

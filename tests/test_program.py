@@ -62,7 +62,7 @@ def test_selected_question_requires_approval() -> None:
     payload = _question_payload()
     payload["status"] = "selected"
 
-    with pytest.raises(ValidationError, match="requires an approved review"):
+    with pytest.raises(ValidationError, match="requires all recorded reviews approved"):
         ResearchQuestionIntake.model_validate(payload)
 
 
@@ -90,6 +90,30 @@ def test_approved_selected_question_can_become_literature_ready() -> None:
 
     assert question.status.value == "selected"
     assert question.literature_status.value == "ready"
+
+
+def test_selected_question_requires_every_recorded_review_approved() -> None:
+    payload = deepcopy(_question_payload())
+    payload["status"] = "selected"
+    payload["reviews"][0] = {
+        "reviewer": "Synthetic Scientific Reviewer",
+        "role": "Scientific reviewer",
+        "decision": "approved",
+        "reviewed_at": "2026-07-20T16:00:00Z",
+        "rationale": "Synthetic approval used only by automated tests.",
+    }
+    payload["reviews"].append(
+        {
+            "reviewer": "Synthetic Statistical Reviewer",
+            "role": "Biostatistical reviewer",
+            "decision": "pending",
+            "reviewed_at": None,
+            "rationale": "Synthetic pending review used only by automated tests.",
+        }
+    )
+
+    with pytest.raises(ValidationError, match="requires all recorded reviews approved"):
+        ResearchQuestionIntake.model_validate(payload)
 
 
 def test_checked_in_program_schemas_match_runtime_models() -> None:

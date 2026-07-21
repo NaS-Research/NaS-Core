@@ -55,6 +55,148 @@ gate was satisfied.
 4. Confirm a credible external-validation path.
 5. Record a selection decision and update both this table and `pipeline.yaml`.
 
+## Phase 1 execution board — Question review and selection
+
+Phase objective: decide whether `NAS-RQ-BRCA002` is sufficiently useful,
+testable, differentiated, feasible, governable, and externally validatable to
+authorize a formal literature review.
+
+- Phase owner: **To be confirmed**
+- Current question version: `0.2.0`
+- Current decision: `pending`
+- Current gate state: `in_progress`
+
+| ID | Task | Owner | Status | Required evidence |
+| --- | --- | --- | --- | --- |
+| P1.1 | Register permanent study and question IDs | NaS Research | Complete | `study.yaml` and `research_question.yaml` |
+| P1.2 | Narrow the question to robust versus unstable PAM50 assignment | NaS Research | Complete | Question version `0.2.0` |
+| P1.3 | Prepare the multidisciplinary review packet | NaS Research | Complete | `reviews/QUESTION_REVIEW_PACKET.md` |
+| P1.4 | Confirm the accountable study lead | Founder/NaS | Not started | Name and role recorded in the study manifest |
+| P1.5 | Assign scientific/product review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
+| P1.6 | Assign molecular pathology/oncology review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
+| P1.7 | Assign biostatistical review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
+| P1.8 | Complete independent reviews | Assigned reviewers | Not started | Checklist responses, comments, rationale, and individual decisions |
+| P1.9 | Resolve every requested change | Study lead + reviewers | Not started | Comment-resolution log and versioned question changes |
+| P1.10 | Re-score the final candidate | Review group | Not started | Evidence-backed scores and written rationale for all eight dimensions |
+| P1.11 | Record final selection decision | Independent human reviewer | Not started | Approved, changes requested, on hold, or rejected with timestamp |
+| P1.12 | Update lifecycle records | NaS Core maintainer | Not started | Intake, study, pipeline, charter, and tracker agree |
+| P1.13 | Validate and freeze the selected question | NaS Core maintainer | Not started | Validation output, clean tests, commit, and question-version Git tag |
+
+### What is already implemented for Phase 1
+
+- permanent study and question identity;
+- typed question validation and lifecycle enforcement;
+- a proposed decision context, scientific question, data path, validation path,
+  output, success criteria, limitations, and provisional 30/40 score;
+- a structured multidisciplinary reviewer packet;
+- explicit nonclinical, nonpredictive, and no-gold-standard boundaries;
+- a live human tracker and machine-readable `pipeline.yaml`;
+- automated tests preventing an unapproved question from becoming selected or
+  literature-ready; and
+- a defined handoff into the governed literature-review stage.
+
+### What is deliberately not implemented yet
+
+- automated literature retrieval or full-text processing;
+- the final list of PAM50 implementations and preprocessing configurations;
+- consensus, confidence, centroid-margin, instability, or abstention thresholds;
+- TCGA field extraction or biomedical-data snapshots;
+- cohort construction, molecular analyses, survival models, or figures;
+- an external validation dataset integration; and
+- paper or website content based on study results.
+
+Those choices depend on completed Phase 1 review, then the Phase 2 literature
+review and Phase 3 data-feasibility assessment. Implementing them now would risk
+encoding unreviewed assumptions or tuning the question to available results.
+
+### Required human input
+
+The study lead may coordinate work and respond to comments, but an AI assistant
+cannot provide independent scientific approval. Before selection, the review
+record must contain the following perspectives:
+
+1. scientific/product usefulness and differentiation;
+2. breast molecular pathology or oncology validity; and
+3. biostatistical design and external-validation feasibility.
+
+One qualified human may cover more than one perspective when qualifications and
+conflicts are disclosed. At least one approval must be independent of the study
+author. Reviewers do not need repository access; they can review an exported
+packet and return written comments that are transcribed with attribution.
+
+### Review meeting agenda
+
+1. Restate the intended user and research decision in one sentence.
+2. Decide whether classification stability is useful beyond publication.
+3. Challenge the restriction to HR-positive/HER2-negative primary disease.
+4. Examine whether candidate PAM50 implementations would be meaningfully distinct.
+5. Decide whether stability, uncertainty, and abstention can be prespecified.
+6. Examine TCGA discovery fitness and the independent-validation path.
+7. Identify the minimum claim that remains valuable if results are null.
+8. Re-score the eight selection dimensions.
+9. Record one formal decision and every required change.
+
+### Decision paths
+
+**Approved**
+
+- change question status to `selected`;
+- change literature status to `ready`;
+- update the question version to `1.0.0`;
+- record reviewer identity, rationale, decision, and time;
+- mark the question stage complete and literature stage in progress;
+- create a signed-off Git commit and question-version tag; and
+- begin Phase 2 by locking the literature-review protocol.
+
+**Changes requested**
+
+- retain `proposed` and `not_ready` states;
+- assign every comment an owner;
+- revise the question with a new `0.x.0` version;
+- document resolutions; and
+- return the full revision to reviewers.
+
+**On hold**
+
+- record the specific missing expertise, evidence, data source, or validation path;
+- prohibit literature automation and biomedical-data ingestion; and
+- define the condition required to resume.
+
+**Rejected**
+
+- preserve the decision and rationale;
+- retire the proposal without outcome-bearing analysis; and
+- decide whether to revise the concept under a new question version or create a
+  genuinely different study ID.
+
+### Phase 1 validation commands
+
+Run from the NaS Core repository root:
+
+```bash
+uv run nas-core question validate \
+  workflows/studies/breast_clinical_molecular_discordance/question/research_question.yaml
+uv run nas-core study validate \
+  workflows/studies/breast_clinical_molecular_discordance
+uv run nas-core program validate workflows/oncology/program_charter.yaml
+make check
+```
+
+### Phase 1 definition of done
+
+- an accountable study lead is recorded;
+- all required review perspectives and conflicts are documented;
+- every review comment is resolved or explicitly accepted as a limitation;
+- final selection scores have evidence-backed rationales;
+- an independent human records a decision and timestamp;
+- an approved question is version `1.0.0`, `selected`, and `literature-ready`;
+- `study.yaml`, `pipeline.yaml`, the oncology charter, and this tracker agree;
+- all validators and tests pass; and
+- the approved question commit is tagged before Phase 2 retrieval begins.
+
+Until those conditions are satisfied, Phase 1 remains in progress and no
+automated literature or biomedical-data ingestion is authorized.
+
 ## 1. Purpose and claim boundary
 
 The project will examine clinically HR-positive/HER2-negative breast cancers,

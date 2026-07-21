@@ -78,10 +78,15 @@ remains unselected; no literature or biomedical data was retrieved.
 Phase 1 preparation: narrowed question version 0.2.0 to distinguish robust
 non-luminal biology from unstable classification and added a structured reviewer
 packet covering scientific/product, molecular/pathology, statistical, governance,
-and publication gates. Named human review and a selection decision remain pending.
+and publication gates. Added a task-level Phase 1 execution board, decision
+paths, review agenda, implemented-versus-deferred boundary, validation commands,
+and objective definition of done. Tightened lifecycle enforcement so every
+recorded required review must be approved before selection or literature work,
+and registered the three pending review perspectives. Named human review and a
+selection decision remain pending.
 
 Validation: the study, question, and oncology program manifests passed; Ruff
-passed, strict MyPy passed, and 54 tests passed.
+passed, strict MyPy passed, and 55 tests passed.
 
 ### 2026-07-20 — Current pipeline and decision-support translation map
 
@@ -192,6 +197,9 @@ passed, strict MyPy passed, and 48 tests passed.
   procedures.
 - Study plans must be typed, governance-validated, independently reviewed, and
   locked before outcome-bearing data ingestion.
+- A research question cannot become selected or literature-ready until every
+  recorded required review is approved; one approval cannot override another
+  pending, rejected, or changes-requested review.
 - GDC ingestion is fail-closed unless the plan is `preregistered`; every
   snapshot records the exact request, API provenance, explicitly supplied data
   release, raw response checksums, and immutable object locations.
