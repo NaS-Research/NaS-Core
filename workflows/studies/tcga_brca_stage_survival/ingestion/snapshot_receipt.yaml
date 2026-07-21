@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-001
+protocol_version: 1.1.0
+protocol_tag: NAS-BRCA-001-protocol-v1.1.0
+ingestion_code_revision: 3db1296
+source_id: gdc-tcga-open
+project_id: TCGA-BRCA
+classification: public_open
+data_release: '45.0'
+api_tag: 8.5.0
+snapshot_id: ec9cac7c70a1f3286c0ae6ad490ec6883e5beb488f6cab3987cb62f68cbef435
+retrieved_at: '2026-07-21T19:24:08.402809Z'
+record_count: 1098
+page_count: 3
+warning_count: 0
+manifest_object_key: >-
+  raw/gdc-tcga-open/NAS-BRCA-001/ec9cac7c70a1f3286c0ae6ad490ec6883e5beb488f6cab3987cb62f68cbef435/manifest.json
+manifest_sha256: 0ea0d00be96a1d4a35ebcae75f4292501aa9fe4959c284be773f8210a7a864b7
+release_notes_url: https://docs.gdc.cancer.gov/Data/Release_Notes/Data_Release_Notes/
+release_notes_sha256: 5182dd954957ea5bc1549a97f36475ce0e3fcb87af9b9e82599af12136166d10
+verification:
+  verified_at: '2026-07-21T14:24:55-05:00'
+  manifest_payload_checksum: passed
+  stored_object_checksums: passed
+  verified_object_count: 5
+  duplicate_case_check: passed
+  pagination_count_check: passed
+  outcome_analysis_performed: false

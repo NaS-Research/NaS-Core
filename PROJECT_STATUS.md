@@ -8,39 +8,34 @@ and what comes next?
 
 ## Current focus
 
-### Implement release provenance and capture the first governed snapshot
+### Implement the deterministic NAS-BRCA-001 cohort pipeline
 
-With `NAS-BRCA-001` protocol `1.1.0` founder-approved and preregistered, complete
-the ingestion controls required to retrieve the exact public/open GDC clinical
-snapshot without overstating its Data Release provenance.
+Transform the verified immutable GDC snapshot into an analysis-ready cohort
+using only protocol `1.1.0` rules. Do not fit survival models or inspect final
+stage-outcome results until cohort construction and quality control are frozen.
 
 Definition of done:
 
-- The approved protocol commit is tagged before network retrieval.
-- The snapshot records an official GDC Data Release reference and checksum
-  separately from the API software status.
-- The exact paginated requests, raw response bytes, warnings, case identifiers,
-  retrieval time, object locations, and checksums are frozen.
-- Source governance remains `public_open` and only approved clinical fields are requested.
-- Synthetic tests prove preregistration enforcement, immutable writes,
-  pagination consistency, release provenance, and duplicate-case rejection.
-- The real snapshot is stored under the `NAS-BRCA-001` external artifact
-  namespace and its manifest is independently rechecked before cohort building.
+- Load only the receipt-identified snapshot and verify its manifest before transformation.
+- Select one primary diagnosis per case using the preregistered flag and tie-break rules.
+- Normalize stage, age, vital status, death time, and follow-up time deterministically.
+- Apply mutually exclusive exclusions in a declared order and retain a case-level audit log.
+- Produce cohort-flow, missingness, and field-normalization summaries without
+  fitting or displaying the primary survival association.
+- Write analysis-ready data and QA artifacts immutably with checksums and code provenance.
+- Cover every derivation and edge case with synthetic tests before outcome analysis.
 
 Current gate state:
 
-- Protocol `1.1.0`: founder-approved and preregistered.
-- Protocol tag: `NAS-BRCA-001-protocol-v1.1.0` identifies the approval commit.
-- Data Release provenance: implemented and tested against official GDC-host references.
-- Seagate filesystem object store: configured and marker-validated.
-- First real snapshot: ready to execute; no case data has yet been retrieved.
+- Protocol and tag: complete.
+- Data Release 45 snapshot: complete and independently checksum-verified.
+- Snapshot receipt: recorded; 1,098 cases, three pages, zero API warnings.
+- Outcome analysis: not started.
 
 ## Next implementation queue
 
-1. Complete and test Data Release provenance, tag the locked protocol, execute
-   the first GDC snapshot, and independently verify its manifest, checksums,
-   record count, warnings, and external-drive location.
-2. Implement the deterministic TCGA-BRCA cohort and analysis pipeline with
+1. Implement and freeze the deterministic TCGA-BRCA cohort and QA pipeline.
+2. Implement the prespecified survival analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
    tables, figures, effect sizes, and uncertainty.
 3. Complete structured founder review and AI-assisted critique of proposed
@@ -68,6 +63,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-21 — First governed NAS-BRCA-001 dataset snapshot
+
+Retrieved 1,098 public/open TCGA-BRCA case records from GDC Data Release 45.0
+under preregistered protocol `1.1.0`. Stored three immutable response pages, the
+GDC API status response, official Data Release notes, and the content-addressed
+manifest on the marker-validated Seagate object store. Independently recomputed
+all five stored-object checksums and the manifest payload checksum; every check
+passed and the API returned no warnings. Added a Git-tracked provenance receipt
+without patient-level fields. No cohort derivation, survival modeling, or result
+inspection was performed.
+
+Validation: snapshot `ec9cac7c…ef435`, manifest `0ea0d00b…64b7`, 1,098 records,
+three pages, five verified objects, and zero warnings.
 
 ### 2026-07-21 — GDC release provenance and Seagate object storage
 
@@ -125,33 +134,6 @@ data was retrieved as part of this implementation.
 Validation: the question template, both study workspaces, the oncology charter,
 and the analysis plan passed governed validation; Ruff passed, strict MyPy
 passed, and 61 tests passed.
-
-### 2026-07-20 — NAS-BRCA-002 proposal-to-publication operating plan
-
-Registered PAM50 classification stability in clinically HR-positive/HER2-negative
-breast cancer as the proposed first discovery study. Added its standardized study
-workspace, decision-led intake, provisional 30/40 selection score, explicit
-nonclinical claim boundary, independent-validation requirement, and gated plan from question
-review through literature, feasibility, preregistration, ingestion, analysis,
-validation, evidence release, scientific paper, website production, publication,
-and correction handling. Added a human-readable live phase tracker, current
-blockers, immediate queue, and evidence requirement alongside the
-machine-readable lifecycle. Added the proposal to oncology charter v1.1.0. It
-remains unselected; no literature or biomedical data was retrieved.
-
-Phase 1 preparation: narrowed question version 0.2.0 to distinguish robust
-non-luminal biology from unstable classification and added a structured reviewer
-packet covering scientific/product, molecular/pathology, statistical, governance,
-and publication gates. Added a task-level Phase 1 execution board, decision
-paths, review agenda, implemented-versus-deferred boundary, validation commands,
-and objective definition of done. Tightened lifecycle enforcement so every
-recorded gate-required review must be approved before selection or literature
-work. Dalron J. Robertson is recorded as Founder and Study Lead; Phase 1 task
-P1.4 is complete. The newer founder-led governance entry above supersedes the
-original multi-reviewer staffing assumption.
-
-Validation: the study, question, and oncology program manifests passed; Ruff
-passed, strict MyPy passed, and 55 tests passed.
 
 ## Current blockers
 

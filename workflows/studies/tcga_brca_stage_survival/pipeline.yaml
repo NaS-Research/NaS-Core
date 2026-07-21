@@ -1,7 +1,7 @@
 schema_version: 1.0.0
 study_id: NAS-BRCA-001
 pipeline_version: 1.0.0
-current_stage: ingestion
+current_stage: analysis
 stages:
   - stage: question
     status: complete
@@ -19,12 +19,13 @@ stages:
       - protocol/analysis_plan.yaml
     completion_gate: Analysis plan has documented founder approval, is preregistered, and is Git-tagged.
   - stage: ingestion
-    status: in_progress
+    status: complete
     required_artifacts:
       - ingestion/README.md
+      - ingestion/snapshot_receipt.yaml
     completion_gate: Governed immutable GDC snapshot is independently verified.
   - stage: analysis
-    status: not_started
+    status: in_progress
     required_artifacts:
       - analysis/README.md
       - tests/README.md

@@ -3,6 +3,10 @@
 Store source-specific query definitions and transformation code here. Immutable
 responses, manifests, and snapshots belong in external object storage.
 
+The first immutable snapshot is recorded in
+[`snapshot_receipt.yaml`](snapshot_receipt.yaml). The receipt contains only
+provenance and integrity metadata; raw clinical records remain outside Git.
+
 ## Locked source release
 
 - Declared GDC Data Release: `45.0`
