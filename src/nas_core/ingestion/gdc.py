@@ -8,6 +8,7 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Protocol, cast
+from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
 from nas_core.domain.research import AnalysisPlan, PlanStatus
@@ -21,6 +22,8 @@ from nas_core.storage.object_store import ObjectStore
 
 GDC_API_ROOT = "https://api.gdc.cancer.gov"
 JSON_MEDIA_TYPE = "application/json"
+HTML_MEDIA_TYPE = "text/html"
+GDC_RELEASE_NOTES_HOSTS = frozenset({"docs.gdc.cancer.gov", "gdc.cancer.gov"})
 
 
 class ProtocolNotLockedError(PermissionError):
@@ -88,6 +91,21 @@ def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def validate_release_notes_url(url: str) -> str:
+    """Allow release evidence only from official HTTPS GDC hosts."""
+
+    parsed = urlsplit(url)
+    if (
+        parsed.scheme != "https"
+        or parsed.hostname not in GDC_RELEASE_NOTES_HOSTS
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.port not in (None, 443)
+    ):
+        raise ValueError("release notes URL must use HTTPS on an official GDC host")
+    return url
+
+
 def build_case_query(plan: AnalysisPlan, *, page_size: int, offset: int = 0) -> dict[str, object]:
     """Build the exact deterministic GDC cases request from a reviewed protocol."""
 
@@ -126,18 +144,34 @@ class GDCSnapshotService:
         self._clock = clock or (lambda: datetime.now(UTC))
         self._page_size = page_size
 
-    def capture_cases(self, plan: AnalysisPlan, *, data_release: str) -> DatasetSnapshot:
+    def capture_cases(
+        self,
+        plan: AnalysisPlan,
+        *,
+        data_release: str,
+        release_notes_url: str,
+    ) -> DatasetSnapshot:
         if plan.status is not PlanStatus.PREREGISTERED:
             raise ProtocolNotLockedError(
                 f"study {plan.study_id} is {plan.status.value}; preregistration is required"
             )
         if not data_release.strip():
             raise ValueError("the exact GDC data release is required")
+        release_notes_url = validate_release_notes_url(release_notes_url)
 
         retrieved_at = self._clock()
         status_response = self._checked(self._transport.get(f"{GDC_API_ROOT}/status"))
         status_payload = self._json_object(status_response.body, context="GDC status")
-        release = self._release_record(data_release, status_payload, status_response.body)
+        release_notes_response = self._checked(self._transport.get(release_notes_url))
+        self._validate_release_reference(data_release, release_notes_response.body)
+        release = self._release_record(
+            data_release,
+            status_payload,
+            status_response.body,
+            release_notes_url=release_notes_url,
+            release_notes_body=release_notes_response.body,
+            retrieved_at=retrieved_at,
+        )
 
         requests: list[RequestRecord] = []
         page_bodies: list[bytes] = []
@@ -185,6 +219,8 @@ class GDCSnapshotService:
             "protocol_version": plan.protocol_version,
             "source_id": plan.governance.source_id,
             "data_release": data_release,
+            "release_notes_url": release_notes_url,
+            "release_notes_sha256": sha256(release_notes_response.body),
             "retrieved_at": retrieved_at.isoformat(),
             "requests": [request.model_dump(mode="json") for request in requests],
             "page_sha256": [sha256(body) for body in page_bodies],
@@ -216,6 +252,21 @@ class GDCSnapshotService:
                 media_type=JSON_MEDIA_TYPE,
                 size_bytes=len(status_response.body),
                 sha256=sha256(status_response.body),
+            )
+        )
+
+        release_notes_key = f"{prefix}/gdc-data-release-notes.html"
+        self._put_immutable(
+            release_notes_key,
+            release_notes_response.body,
+            content_type=HTML_MEDIA_TYPE,
+        )
+        objects.append(
+            StoredObject(
+                object_key=release_notes_key,
+                media_type=HTML_MEDIA_TYPE,
+                size_bytes=len(release_notes_response.body),
+                sha256=sha256(release_notes_response.body),
             )
         )
 
@@ -269,19 +320,40 @@ class GDCSnapshotService:
 
     @staticmethod
     def _release_record(
-        data_release: str, status: dict[str, object], status_body: bytes
+        data_release: str,
+        status: dict[str, object],
+        status_body: bytes,
+        *,
+        release_notes_url: str,
+        release_notes_body: bytes,
+        retrieved_at: datetime,
     ) -> ReleaseRecord:
         required = ("status", "tag", "version", "commit")
         if any(field not in status for field in required):
             raise RemoteResponseError("GDC status response is missing release provenance")
         return ReleaseRecord(
             data_release=data_release,
+            release_notes_url=release_notes_url,
+            release_notes_retrieved_at=retrieved_at,
+            release_notes_sha256=sha256(release_notes_body),
             api_status=str(status["status"]),
             api_tag=str(status["tag"]),
             api_version=str(status["version"]),
             api_commit=str(status["commit"]),
             status_response_sha256=sha256(status_body),
         )
+
+    @staticmethod
+    def _validate_release_reference(data_release: str, body: bytes) -> None:
+        try:
+            text = body.decode("utf-8").casefold()
+        except UnicodeDecodeError as error:
+            raise RemoteResponseError("GDC release notes are not valid UTF-8") from error
+        expected = (f"data release {data_release}".casefold(), f"v{data_release}".casefold())
+        if not any(identifier in text for identifier in expected):
+            raise RemoteResponseError(
+                f"GDC release notes do not identify Data Release {data_release}"
+            )
 
     @staticmethod
     def _parse_page(

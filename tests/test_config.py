@@ -9,3 +9,4 @@ def test_settings_use_nas_environment_prefix(monkeypatch) -> None:
 
     assert settings.environment == "test"
     assert settings.api_port == 9000
+    assert settings.object_store_backend == "filesystem"

@@ -9,7 +9,7 @@ from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.storage.layout import DataLayout
-from nas_core.storage.object_store import S3ObjectStore
+from nas_core.storage.object_store import get_object_store
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
 from nas_core.workflows.program import (
     load_program_charter,
@@ -56,6 +56,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Path to the governed source registry",
     )
     gdc.add_argument("--data-release", help="Exact GDC data release, for example 45.0")
+    gdc.add_argument(
+        "--release-notes-url",
+        help="Official GDC release-notes URL that identifies the declared Data Release",
+    )
     gdc.add_argument(
         "--execute",
         action="store_true",
@@ -147,8 +151,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         if not args.data_release:
             raise SystemExit("--data-release is required with --execute")
-        snapshot = GDCSnapshotService(store=S3ObjectStore()).capture_cases(
-            plan, data_release=args.data_release
+        if not args.release_notes_url:
+            raise SystemExit("--release-notes-url is required with --execute")
+        snapshot = GDCSnapshotService(store=get_object_store()).capture_cases(
+            plan,
+            data_release=args.data_release,
+            release_notes_url=args.release_notes_url,
         )
         print(
             f"Created immutable snapshot {snapshot.snapshot_id} "

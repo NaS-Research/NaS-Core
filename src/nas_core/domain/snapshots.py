@@ -23,6 +23,9 @@ class RequestRecord(SnapshotModel):
 
 class ReleaseRecord(SnapshotModel):
     data_release: str = Field(min_length=1)
+    release_notes_url: str = Field(min_length=1)
+    release_notes_retrieved_at: datetime
+    release_notes_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     api_status: str = Field(min_length=1)
     api_tag: str = Field(min_length=1)
     api_version: str = Field(min_length=1)

@@ -31,8 +31,9 @@ Current gate state:
 
 - Protocol `1.1.0`: founder-approved and preregistered.
 - Protocol tag: `NAS-BRCA-001-protocol-v1.1.0` identifies the approval commit.
-- Outcome-bearing retrieval: blocked until the tag and Data Release provenance
-  implementation are complete.
+- Data Release provenance: implemented and tested against official GDC-host references.
+- Seagate filesystem object store: configured and marker-validated.
+- First real snapshot: ready to execute; no case data has yet been retrieved.
 
 ## Next implementation queue
 
@@ -67,6 +68,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-21 — GDC release provenance and Seagate object storage
+
+Separated GDC Data Release evidence from API software status in the immutable
+snapshot model. Execution now requires an official HTTPS GDC release-notes URL,
+verifies that its content identifies the declared release, freezes its bytes and
+checksum, and rejects non-GDC hosts. Added a path-safe local filesystem
+object-store adapter behind the existing replaceable storage contract, configured
+this checkout to use the marker-validated Seagate data root, and preserved S3 as
+the future deployment option. The Data Release 45 dry run performed no network
+or storage activity; no case data was retrieved.
+
+Validation: the Seagate root passed integrity validation; Ruff passed, strict
+MyPy passed, and 71 tests passed.
 
 ### 2026-07-21 — NAS-BRCA-001 founder approval and preregistration
 
@@ -138,25 +153,10 @@ original multi-reviewer staffing assumption.
 Validation: the study, question, and oncology program manifests passed; Ruff
 passed, strict MyPy passed, and 55 tests passed.
 
-### 2026-07-20 — Current pipeline and decision-support translation map
-
-Documented the complete research flow from decision-led question through
-evidence, independent validation, frozen release, and impact evaluation.
-Separated the current TCGA-BRCA platform-qualification outputs from patient-level
-decision support and defined the user, choice, patient context, alternatives,
-outcome, evidence, uncertainty, validation, and impact requirements that a
-future translational study must satisfy. No clinical claim or product status was
-assigned.
-
-Validation: documentation formatting passed; Ruff passed, strict MyPy passed,
-and 53 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
-- Protocol `1.1.0` is approved, but its Git tag and the official Data Release
-  reference-capture implementation must be completed before real ingestion.
 - `NAS-BRCA-002` is the proposed first decision-led discovery question but
   remains unselected pending founder scientific/product, molecular/pathology,
   and statistical self-review plus AI-assisted critique; formal literature
@@ -226,6 +226,9 @@ and 53 tests passed.
   the Seagate data root.
 - Raw datasets, credentials, embeddings, and generated research artifacts do
   not belong in Git.
+- Local v0 snapshots use the path-safe filesystem object-store adapter rooted at
+  the marker-validated Seagate `NAS_DATA_ROOT`; S3 remains a replaceable future
+  deployment backend.
 - Public/open v0 data and research artifacts use the configurable external
   `NAS_DATA_ROOT`; storage layout integrity is marker-validated before use.
 

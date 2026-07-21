@@ -17,6 +17,7 @@ from nas_core.ingestion.gdc import (
     build_case_query,
     canonical_json,
     sha256,
+    validate_release_notes_url,
 )
 from nas_core.storage.object_store import InMemoryObjectStore
 
@@ -26,15 +27,24 @@ PLAN_PATH = (
 )
 SCHEMA_PATH = ROOT / "workflows" / "dataset_snapshot.schema.json"
 NOW = datetime(2026, 7, 20, 18, 0, tzinfo=UTC)
+RELEASE_NOTES_URL = "https://docs.gdc.cancer.gov/Data/Release_Notes/Data_Release_Notes/"
 
 
 class FakeTransport:
-    def __init__(self, pages: list[dict[str, object]]) -> None:
+    def __init__(
+        self,
+        pages: list[dict[str, object]],
+        *,
+        release_notes_body: bytes = b"<html><h2>Data Release 45.0</h2></html>",
+    ) -> None:
         self.pages = pages
+        self.release_notes_body = release_notes_body
         self.requests: list[tuple[str, dict[str, object] | None]] = []
 
     def get(self, url: str) -> HTTPResponse:
         self.requests.append((url, None))
+        if url == RELEASE_NOTES_URL:
+            return HTTPResponse(status_code=200, headers={}, body=self.release_notes_body)
         return HTTPResponse(
             status_code=200,
             headers={},
@@ -112,7 +122,9 @@ def test_pending_plan_blocks_network_and_storage() -> None:
 
     with pytest.raises(ProtocolNotLockedError, match="preregistration is required"):
         GDCSnapshotService(store=store, transport=transport).capture_cases(
-            _plan(approved=False), data_release="45.0"
+            _plan(approved=False),
+            data_release="45.0",
+            release_notes_url=RELEASE_NOTES_URL,
         )
 
     assert transport.requests == []
@@ -128,20 +140,28 @@ def test_capture_paginates_and_writes_immutable_provenance() -> None:
         page_size=2,
     )
 
-    snapshot = service.capture_cases(_plan(approved=True), data_release="45.0")
+    snapshot = service.capture_cases(
+        _plan(approved=True),
+        data_release="45.0",
+        release_notes_url=RELEASE_NOTES_URL,
+    )
 
     assert snapshot.record_count == 3
     assert snapshot.release.data_release == "45.0"
+    assert snapshot.release.release_notes_url == RELEASE_NOTES_URL
+    assert snapshot.release.release_notes_retrieved_at == NOW
     assert snapshot.release.api_tag == "8.5.0"
     assert snapshot.classification.value == "public_open"
     assert len(snapshot.requests) == 2
     assert snapshot.requests[1].body["from"] == 2
     assert transport.requests[0] == (f"{GDC_API_ROOT}/status", None)
+    assert transport.requests[1] == (RELEASE_NOTES_URL, None)
 
     prefix = f"raw/gdc-tcga-open/NAS-BRCA-001/{snapshot.snapshot_id}"
     assert store.exists(f"{prefix}/pages/00001.json")
     assert store.exists(f"{prefix}/pages/00002.json")
     assert store.exists(f"{prefix}/gdc-status.json")
+    assert store.exists(f"{prefix}/gdc-data-release-notes.html")
     assert store.exists(f"{prefix}/manifest.json")
 
     manifest = json.loads(store.get_bytes(f"{prefix}/manifest.json"))
@@ -160,4 +180,35 @@ def test_capture_rejects_duplicate_case_ids_across_pages() -> None:
             transport=transport,
             clock=lambda: NOW,
             page_size=1,
-        ).capture_cases(_plan(approved=True), data_release="45.0")
+        ).capture_cases(
+            _plan(approved=True),
+            data_release="45.0",
+            release_notes_url=RELEASE_NOTES_URL,
+        )
+
+
+def test_release_reference_must_identify_declared_release() -> None:
+    transport = FakeTransport([], release_notes_body=b"<html>Data Release 44.0</html>")
+
+    with pytest.raises(RemoteResponseError, match="do not identify Data Release 45.0"):
+        GDCSnapshotService(store=InMemoryObjectStore(), transport=transport).capture_cases(
+            _plan(approved=True),
+            data_release="45.0",
+            release_notes_url=RELEASE_NOTES_URL,
+        )
+
+    assert len(transport.requests) == 2
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "http://docs.gdc.cancer.gov/releases",
+        "https://example.com/releases",
+        "https://gdc.cancer.gov.evil.example/releases",
+        "https://user@gdc.cancer.gov/releases",
+    ],
+)
+def test_release_reference_rejects_nonofficial_urls(url: str) -> None:
+    with pytest.raises(ValueError, match="official GDC host"):
+        validate_release_notes_url(url)

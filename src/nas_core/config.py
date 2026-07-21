@@ -24,6 +24,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg://nas_core:nas_core@localhost:5432/nas_core"
 
+    object_store_backend: Literal["filesystem", "s3"] = "filesystem"
     object_store_bucket: str = "nas-core-local"
     object_store_region: str = "us-east-1"
     object_store_endpoint_url: str | None = "http://localhost:9000"
