@@ -5,6 +5,8 @@ Question version: 0.2.0
 Status: Awaiting named human reviewers  
 Decision requested: Approve, request changes, place on hold, or reject
 
+Accountable study lead: **Dalron J. Robertson — Founder and Study Lead**
+
 ## Proposed question
 
 > Among clinically HR-positive/HER2-negative primary breast cancers, which

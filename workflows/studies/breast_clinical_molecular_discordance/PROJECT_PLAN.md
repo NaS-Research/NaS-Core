@@ -61,7 +61,7 @@ Phase objective: decide whether `NAS-RQ-BRCA002` is sufficiently useful,
 testable, differentiated, feasible, governable, and externally validatable to
 authorize a formal literature review.
 
-- Phase owner: **To be confirmed**
+- Phase owner: **Dalron J. Robertson — Founder and Study Lead**
 - Current question version: `0.2.0`
 - Current decision: `pending`
 - Current gate state: `in_progress`
@@ -71,7 +71,7 @@ authorize a formal literature review.
 | P1.1 | Register permanent study and question IDs | NaS Research | Complete | `study.yaml` and `research_question.yaml` |
 | P1.2 | Narrow the question to robust versus unstable PAM50 assignment | NaS Research | Complete | Question version `0.2.0` |
 | P1.3 | Prepare the multidisciplinary review packet | NaS Research | Complete | `reviews/QUESTION_REVIEW_PACKET.md` |
-| P1.4 | Confirm the accountable study lead | Founder/NaS | Not started | Name and role recorded in the study manifest |
+| P1.4 | Confirm the accountable study lead | Dalron J. Robertson | Complete | Name and role recorded in `study.yaml` |
 | P1.5 | Assign scientific/product review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
 | P1.6 | Assign molecular pathology/oncology review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
 | P1.7 | Assign biostatistical review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |

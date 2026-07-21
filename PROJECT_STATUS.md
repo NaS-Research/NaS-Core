@@ -83,7 +83,8 @@ paths, review agenda, implemented-versus-deferred boundary, validation commands,
 and objective definition of done. Tightened lifecycle enforcement so every
 recorded required review must be approved before selection or literature work,
 and registered the three pending review perspectives. Named human review and a
-selection decision remain pending.
+selection decision remain pending. Dalron J. Robertson is recorded as Founder
+and Study Lead; Phase 1 task P1.4 is complete.
 
 Validation: the study, question, and oncology program manifests passed; Ruff
 passed, strict MyPy passed, and 55 tests passed.
