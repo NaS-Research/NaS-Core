@@ -9,6 +9,51 @@ Current state: **Proposed; not approved for literature retrieval or data analysi
 Planned public URL:
 `https://nasresearch.bio/research/clinical-molecular-discordance-breast-cancer`
 
+## Live progress tracker
+
+Update this table whenever a gate changes. `pipeline.yaml` is the
+machine-readable lifecycle record; this table is the human operating view.
+Completion requires a link to the reviewed artifact or release that proves the
+gate was satisfied.
+
+| Phase | Workstream | Status | Completion evidence / next action |
+| ---: | --- | --- | --- |
+| 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
+| 1 | Review and select question | In progress | Assign reviewers; approve, revise, hold, or reject `NAS-RQ-BRCA002` |
+| 2 | Lock evidence-review protocol | Not started | Blocked until the question is selected and literature-ready |
+| 3 | Establish data and assay feasibility | Not started | Build TCGA field matrix and assess an external validation source |
+| 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and independent protocol approval |
+| 5 | Capture discovery snapshots | Not started | Requires preregistration and completion of the `NAS-BRCA-001` qualification gate |
+| 6 | Build and quality-check cohort | Not started | Requires an independently verified immutable snapshot |
+| 7 | Execute discovery analysis | Not started | Requires approved cohort QA and frozen analysis code |
+| 8 | Execute exploratory outcome analysis | Not started | Run only if prespecified event, follow-up, and diagnostic criteria are met |
+| 9 | Reproduce and stress-test | Not started | Requires a frozen discovery run |
+| 10 | Perform external validation | Not started | Requires a locked validation addendum and approved independent source |
+| 11 | Assemble evidence and freeze release | Not started | Requires completed discovery, validation, claim audit, and reviews |
+| 12 | Draft scientific paper | Not started | Must derive exclusively from the approved frozen release |
+| 13 | Complete publication review | Not started | Resolve clinical, statistical, reproducibility, governance, claim, and editorial reviews |
+| 14 | Produce website edition | Not started | Build approved web content, figures, tables, PDF, metadata, and accessibility assets |
+| 15 | Publish and verify production | Not started | Approve deployment preview, publish version 1.0, and verify production artifacts |
+| 16 | Maintain, correct, and decide next study | Not started | Monitor feedback, version corrections, and hold translation decision review |
+
+### Current blockers
+
+- `NAS-BRCA-001` has not completed platform qualification.
+- Independent scientific/product, molecular/pathology, and statistical reviewers
+  have not been assigned to `NAS-RQ-BRCA002`.
+- The discovery question is proposed, not selected, so automated literature
+  retrieval is not authorized.
+- No compatible independent validation source has been assessed or approved.
+
+### Immediate working queue
+
+1. Assign the three required question-review perspectives.
+2. Review the intended decision and whether the proposed output is useful beyond
+   producing an interesting publication.
+3. Resolve the receptor-to-intrinsic-subtype mapping and gold-standard concern.
+4. Confirm a credible external-validation path.
+5. Record a selection decision and update both this table and `pipeline.yaml`.
+
 ## 1. Purpose and claim boundary
 
 The project will estimate how often prespecified clinical receptor-based breast

@@ -70,7 +70,9 @@ decision-led intake, provisional 29/40 selection score, explicit nonclinical
 claim boundary, independent-validation requirement, and gated plan from question
 review through literature, feasibility, preregistration, ingestion, analysis,
 validation, evidence release, scientific paper, website production, publication,
-and correction handling. Added the proposal to oncology charter v1.1.0. It
+and correction handling. Added a human-readable live phase tracker, current
+blockers, immediate queue, and evidence requirement alongside the
+machine-readable lifecycle. Added the proposal to oncology charter v1.1.0. It
 remains unselected; no literature or biomedical data was retrieved.
 
 Validation: the study, question, and oncology program manifests passed; Ruff
