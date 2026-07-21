@@ -8,42 +8,36 @@ and what comes next?
 
 ## Current focus
 
-### Complete founder-led review and lock the first TCGA-BRCA analysis plan
+### Implement release provenance and capture the first governed snapshot
 
-Review `NAS-BRCA-001`, which tests the established association between advanced
-pathologic stage and poorer overall survival using public/open TCGA-BRCA
-clinical data. Resolve review comments and lock the protocol before downloading
-the study dataset or inspecting final outcomes.
+With `NAS-BRCA-001` protocol `1.1.0` founder-approved and preregistered, complete
+the ingestion controls required to retrieve the exact public/open GDC clinical
+snapshot without overstating its Data Release provenance.
 
 Definition of done:
 
-- Dalron J. Robertson completes separately documented scientific, statistical,
-  governance, and reproducibility self-review passes.
-- The founder evaluates the question, cohort rules, diagnosis-record
-  precedence, endpoint derivation, covariates, statistical model, missing-data
-  plan, multiplicity rules, sensitivity analyses, and limitations.
-- OpenAI Codex completes a non-authoritative adversarial review; every finding
-  is resolved or explicitly accepted as a limitation.
-- Every requested change is resolved in Git with a traceable protocol-version
-  update when required.
-- The founder records the internal approval decision, timestamp, conflicts, and
-  knowledge limitations.
-- The plan status changes from `pending_review` to `preregistered` and continues
-  to pass `make plan-validate` and `make check`.
-- The approved protocol commit is tagged before any outcome-bearing data is
-  ingested.
+- The approved protocol commit is tagged before network retrieval.
+- The snapshot records an official GDC Data Release reference and checksum
+  separately from the API software status.
+- The exact paginated requests, raw response bytes, warnings, case identifiers,
+  retrieval time, object locations, and checksums are frozen.
+- Source governance remains `public_open` and only approved clinical fields are requested.
+- Synthetic tests prove preregistration enforcement, immutable writes,
+  pagination consistency, release provenance, and duplicate-case rejection.
+- The real snapshot is stored under the `NAS-BRCA-001` external artifact
+  namespace and its manifest is independently rechecked before cohort building.
 
 Current gate state:
 
-- AI-assisted protocol review: complete for protocol `1.0.0`; findings resolved
-  into `1.1.0` and recorded in the study review directory.
-- Founder self-review: pending for protocol `1.1.0`.
-- Protocol authorization: blocked until the founder records a decision.
+- Protocol `1.1.0`: founder-approved and preregistered.
+- Protocol tag: `NAS-BRCA-001-protocol-v1.1.0` identifies the approval commit.
+- Outcome-bearing retrieval: blocked until the tag and Data Release provenance
+  implementation are complete.
 
 ## Next implementation queue
 
-1. After protocol approval, tag the locked plan and execute the first GDC Data
-   Release snapshot; independently verify its manifest, object checksums,
+1. Complete and test Data Release provenance, tag the locked protocol, execute
+   the first GDC snapshot, and independently verify its manifest, checksums,
    record count, warnings, and external-drive location.
 2. Implement the deterministic TCGA-BRCA cohort and analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
@@ -73,6 +67,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-21 — NAS-BRCA-001 founder approval and preregistration
+
+Recorded Dalron J. Robertson's explicit approval of protocol `1.1.0`, including
+the founder/author/analyst/approver conflict and accepted limitations. Completed
+the structured founder checklist, changed the plan to `preregistered`, and
+advanced the machine-readable lifecycle from protocol to ingestion. No GDC case
+data or outcome-bearing results were retrieved. The approved commit must be
+tagged before the first network retrieval.
+
+Validation: the preregistered plan and ingestion-stage workspace passed governed
+validation; Ruff passed, strict MyPy passed, and 61 tests passed.
 
 ### 2026-07-21 — NAS-BRCA-001 adversarial protocol review
 
@@ -145,27 +151,12 @@ assigned.
 Validation: documentation formatting passed; Ruff passed, strict MyPy passed,
 and 53 tests passed.
 
-### 2026-07-20 — Standardized study workspaces and lifecycle pipeline
-
-Implemented typed study and pipeline manifests, canonical JSON Schemas, a
-collision-safe CLI scaffold, manifest validation, ordered stage gates, stable
-artifact namespaces, and a documented boundary between versioned Git content
-and external research artifacts. Migrated `NAS-BRCA-001` into the canonical
-question, literature, protocol, ingestion, analysis, evidence, release, tests,
-and reviews layout without changing its pending scientific-review gate. No
-biomedical data was downloaded or generated.
-
-Validation: the migrated study and analysis plan passed governance validation;
-the GDC dry run performed no network or storage activity; Ruff passed, strict
-MyPy passed, and 53 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
-- The AI-assisted review for `NAS-BRCA-001` is complete, but the structured
-  founder review of protocol `1.1.0` is pending. Outcome-bearing ingestion waits
-  on the founder's recorded decision.
+- Protocol `1.1.0` is approved, but its Git tag and the official Data Release
+  reference-capture implementation must be completed before real ingestion.
 - `NAS-BRCA-002` is the proposed first decision-led discovery question but
   remains unselected pending founder scientific/product, molecular/pathology,
   and statistical self-review plus AI-assisted critique; formal literature

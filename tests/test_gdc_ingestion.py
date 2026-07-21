@@ -67,6 +67,10 @@ def _plan(*, approved: bool) -> AnalysisPlan:
             "reviewed_at": "2026-07-20T17:00:00Z",
             "notes": "Synthetic approval used only by automated tests.",
         }
+    else:
+        payload["status"] = "pending_review"
+        payload["reviews"][0]["decision"] = "pending"
+        payload["reviews"][0]["reviewed_at"] = None
     return AnalysisPlan.model_validate(payload)
 
 

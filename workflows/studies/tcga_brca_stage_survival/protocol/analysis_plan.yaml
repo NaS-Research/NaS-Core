@@ -2,7 +2,7 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-001
 protocol_version: 1.1.0
 title: Association of pathologic stage with overall survival in TCGA-BRCA
-status: pending_review
+status: preregistered
 created_at: 2026-07-20T12:00:00-05:00
 objective: >-
   Reproduce the established association between more advanced breast-cancer stage
@@ -211,12 +211,16 @@ reviews:
     role: Founder, Study Lead, and Internal Protocol Reviewer
     review_type: internal_self_review
     required_for_gate: true
-    decision: pending
-    reviewed_at: null
+    decision: approved
+    reviewed_at: 2026-07-21T14:13:33-05:00
     notes: >-
-      Complete and document a structured founder self-review of the clinical
-      question, record precedence, endpoint derivation, covariates, model,
-      sensitivities, limitations, and stop rules before preregistration.
+      Founder approval recorded after review of protocol version 1.1.0 and the
+      recommendations in reviews/AI_PROTOCOL_REVIEW_v1.0.0.md. Approved the
+      diagnosis-based index-date restriction, transparent exclusion of zero-day
+      durations, minimum 10 deaths per stage group for interpretation, age-only
+      adjustment for this noncausal qualification study, prespecified sensitivity
+      analyses, and pass/conditional-pass/fail rules. Conflict disclosed: founder,
+      study lead, analyst, author, internal reviewer, and gate approver.
   - reviewer: OpenAI Codex
     role: AI-assisted adversarial and consistency reviewer
     review_type: ai_assisted_internal_review

@@ -27,7 +27,8 @@ def test_first_study_plan_is_typed_and_governed() -> None:
     plan = load_analysis_plan(PLAN_PATH, registry=SourceRegistry.from_yaml(REGISTRY_PATH))
 
     assert plan.study_id == "NAS-BRCA-001"
-    assert plan.status is PlanStatus.PENDING_REVIEW
+    assert plan.status is PlanStatus.PREREGISTERED
+    assert plan.protocol_version == "1.1.0"
     assert plan.governance.source_id == "gdc-tcga-open"
     assert len([hypothesis for hypothesis in plan.hypotheses if hypothesis.primary]) == 1
 
@@ -51,6 +52,8 @@ def test_plan_rejects_multiple_primary_hypotheses() -> None:
 def test_plan_cannot_be_preregistered_without_approval() -> None:
     payload = _payload()
     payload["status"] = "preregistered"
+    payload["reviews"][0]["decision"] = "pending"
+    payload["reviews"][0]["reviewed_at"] = None
 
     with pytest.raises(ValidationError, match="requires all gate reviews approved"):
         AnalysisPlan.model_validate(payload)
