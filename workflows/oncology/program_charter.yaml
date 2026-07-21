@@ -1,6 +1,6 @@
 schema_version: 1.0.0
 program_id: NAS-ONC-001
-charter_version: 1.1.0
+charter_version: 1.2.0
 title: NaS Oncology Precision-Medicine Research Program
 status: active
 created_at: 2026-07-20T15:00:00-05:00
@@ -32,6 +32,7 @@ operating_principles:
   - Require independent data before representing a discovery as externally validated.
   - Treat patient benefit and decision utility as later validation requirements, not assumptions.
   - Preserve null, contradictory, uncertain, and negative findings.
+  - Disclose that NaS is founder-led and distinguish self-review, AI assistance, external expert feedback, and journal peer review.
 stage_gates:
   - from_stage: platform_qualification
     to_stage: discovery
@@ -39,6 +40,7 @@ stage_gates:
       - Reproduce a known oncology result from a frozen dataset snapshot.
       - Demonstrate end-to-end protocol, analysis, evidence, and release lineage.
       - Pass numerical, provenance, citation, and reproducibility evaluations.
+      - Complete a documented founder self-review without representing it as independent peer review.
   - from_stage: discovery
     to_stage: external_validation
     requirements:
@@ -79,6 +81,8 @@ governance_boundaries:
   - TCGA is public research data and must not be represented as longitudinal real-world care data.
   - No model output becomes verified evidence without traceable support and human review.
   - No research result becomes a clinical recommendation without appropriate validation and governance.
+  - AI review cannot authorize a gate; founder self-review and later external review retain distinct provenance.
+  - Public reports remain labeled not peer reviewed until formal journal review and acceptance occur.
 program_success_criteria:
   - NaS can reproduce known results with complete lineage on a clean environment.
   - NaS selects a decision-led oncology question using the approved intake rubric.

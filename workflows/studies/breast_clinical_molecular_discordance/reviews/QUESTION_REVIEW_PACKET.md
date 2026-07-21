@@ -2,7 +2,8 @@
 
 Packet version: 0.1.0  
 Question version: 0.2.0  
-Status: Awaiting named human reviewers  
+Status: Awaiting structured founder self-review
+
 Decision requested: Approve, request changes, place on hold, or reject
 
 Accountable study lead: **Dalron J. Robertson — Founder and Study Lead**
@@ -94,7 +95,7 @@ No treatment-response or clinical-utility analysis is proposed.
 
 ## Hard selection gates
 
-The question should not be selected unless reviewers agree that:
+The question should not be selected unless the founder documents that:
 
 - classification stability is a meaningful research question;
 - at least two defensible implementations or configurations can be prespecified;
@@ -105,7 +106,11 @@ The question should not be selected unless reviewers agree that:
 - the public output can remain clearly nonclinical; and
 - success would justify a specific next research decision.
 
-## Review checklist
+## Founder self-review checklist
+
+Complete each perspective as a separate review pass. Record the founder's
+author/analyst/approver conflict and any limits in expertise. Checking a box is
+not sufficient by itself; material concerns require a comment and resolution.
 
 ### Scientific/product review
 
@@ -141,27 +146,28 @@ The question should not be selected unless reviewers agree that:
 - [ ] Data, code, AI use, funding, conflicts, and TCGA acknowledgements will be disclosed.
 - [ ] Patient-level testing and treatment claims remain prohibited.
 
-## Required reviewer record
+## Required review record
 
-| Field | Scientific/product | Molecular/pathology | Statistical |
-| --- | --- | --- | --- |
-| Reviewer name | To be assigned | To be assigned | To be assigned |
-| Affiliation/qualification | | | |
-| Conflict disclosure | | | |
-| Decision | Pending | Pending | Pending |
-| Reviewed question version | 0.2.0 | 0.2.0 | 0.2.0 |
-| Review date | | | |
-| Required changes | | | |
-| Rationale | | | |
+| Reviewer | Review type | Required for gate | Conflict / authority | Decision |
+| --- | --- | --- | --- | --- |
+| Dalron J. Robertson | `internal_self_review` | Yes | Founder, study lead, analyst, author, and approver | Pending |
+| OpenAI Codex | `ai_assisted_internal_review` | No | Advisory system; no gate authority and not a human reviewer | Pending |
 
-At least the required perspectives must be documented. One qualified person may
-cover more than one perspective when disclosed, but the study author and an AI
-assistant cannot substitute for independent scientific approval.
+The founder record must include the reviewed question version, date, checklist
+responses, requested changes, resolutions, rationale, knowledge limitations,
+and final decision. The AI record must include the model/tool identity, date,
+prompt or review procedure, findings, and resolutions. It may be marked
+`advisory_complete`, but never `approved`.
+
+External expert feedback is planned near manuscript completion. It is recorded
+separately as `independent_human_review` with identity, qualifications,
+affiliation, conflicts, reviewed version, comments, and resolutions. It is not
+journal peer review and is not required to authorize this initial question gate.
 
 ## Decision consequences
 
 - **Approved:** update the intake to `selected`, mark literature `ready`, record
-  reviewer metadata, and begin the locked literature protocol.
+  founder review provenance, and begin the locked literature protocol.
 - **Changes requested:** keep the question proposed, version the revision, and
   return the complete packet for review.
 - **On hold:** document the missing person, evidence, data, or validation path.

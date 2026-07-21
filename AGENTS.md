@@ -29,6 +29,12 @@ Run `make check` before handing off code changes.
 - Treat model output as unverified until it is linked to evidence and reviewed.
 - Numerical research results must originate from executed deterministic code,
   not from a language model.
+- NaS is currently a founder-led one-person organization. Do not invent staff,
+  committees, collaborators, independent review, or peer-review status.
+- AI-assisted review is advisory and cannot authorize a scientific gate.
+- Founder self-review is permitted only when typed and publicly disclosed as
+  internal self-review; external expert feedback and journal peer review remain
+  separate provenance states.
 
 ## Architecture
 

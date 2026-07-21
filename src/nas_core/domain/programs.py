@@ -7,6 +7,8 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from nas_core.domain.reviews import ReviewType
+
 
 class ProgramModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -52,6 +54,7 @@ class LiteratureStatus(StrEnum):
 class ReviewDecision(StrEnum):
     PENDING = "pending"
     APPROVED = "approved"
+    ADVISORY_COMPLETE = "advisory_complete"
     CHANGES_REQUESTED = "changes_requested"
     REJECTED = "rejected"
 
@@ -165,9 +168,27 @@ class SelectionScores(ProgramModel):
 class QuestionReview(ProgramModel):
     reviewer: str = Field(min_length=1)
     role: str = Field(min_length=1)
+    review_type: ReviewType
+    required_for_gate: bool
     decision: ReviewDecision
     reviewed_at: datetime | None = None
     rationale: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_review_authority(self) -> QuestionReview:
+        if self.review_type is ReviewType.AI_ASSISTED_INTERNAL_REVIEW:
+            if self.required_for_gate:
+                raise ValueError("AI-assisted review cannot be required to authorize a gate")
+            if self.decision is ReviewDecision.APPROVED:
+                raise ValueError("AI-assisted review cannot approve a research gate")
+        elif self.decision is ReviewDecision.ADVISORY_COMPLETE:
+            raise ValueError("only AI-assisted review may use advisory_complete")
+        if (
+            self.decision in {ReviewDecision.APPROVED, ReviewDecision.ADVISORY_COMPLETE}
+            and self.reviewed_at is None
+        ):
+            raise ValueError("a completed review requires a review timestamp")
+        return self
 
 
 class ResearchQuestionIntake(ProgramModel):
@@ -196,16 +217,17 @@ class ResearchQuestionIntake(ProgramModel):
 
     @model_validator(mode="after")
     def validate_selection_and_literature_gates(self) -> ResearchQuestionIntake:
-        all_approved = all(
-            review.decision is ReviewDecision.APPROVED for review in self.reviews
+        required_reviews = [review for review in self.reviews if review.required_for_gate]
+        gate_approved = bool(required_reviews) and all(
+            review.decision is ReviewDecision.APPROVED for review in required_reviews
         )
-        if self.status is QuestionStatus.SELECTED and not all_approved:
-            raise ValueError("a selected research question requires all recorded reviews approved")
+        if self.status is QuestionStatus.SELECTED and not gate_approved:
+            raise ValueError("a selected research question requires all gate reviews approved")
         if self.literature_status is not LiteratureStatus.NOT_READY and (
-            self.status is not QuestionStatus.SELECTED or not all_approved
+            self.status is not QuestionStatus.SELECTED or not gate_approved
         ):
             raise ValueError(
-                "literature work requires a selected research question with all reviews approved"
+                "literature work requires a selected question with all gate reviews approved"
             )
         if self.study_role is StudyRole.VALIDATION and not self.data_feasibility.available_sources:
             raise ValueError("a validation question requires an available data source")

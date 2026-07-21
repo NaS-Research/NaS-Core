@@ -63,10 +63,21 @@ selection_scores:
   governance_feasibility: 0
 literature_status: not_ready
 reviews:
-  - reviewer: To be assigned
-    role: Scientific and product reviewer
+  - reviewer: Study lead name
+    role: Accountable study lead
+    review_type: internal_self_review
+    required_for_gate: true
     decision: pending
     reviewed_at: null
     rationale: >-
-      Score and review this intake before changing its status to selected or
-      beginning the formal literature review.
+      Complete a documented self-review before changing status to selected or
+      beginning the formal literature review. Disclose the founder-led review model.
+  - reviewer: OpenAI Codex
+    role: AI-assisted adversarial reviewer
+    review_type: ai_assisted_internal_review
+    required_for_gate: false
+    decision: pending
+    reviewed_at: null
+    rationale: >-
+      AI may identify assumptions and requested changes but cannot approve a gate
+      or be represented as independent human review.

@@ -9,8 +9,9 @@ Large or generated artifacts use the external object namespace
 `studies/NAS-BRCA-001`; they do not belong in Git.
 
 The protocol is intentionally marked `pending_review`. Do not download the study
-dataset or inspect final outcome results until an independent scientific reviewer
-approves the plan and its status is changed to `preregistered`.
+dataset or inspect final outcome results until the founder completes documented
+protocol self-review, approves the plan, and changes its status to
+`preregistered`. AI-assisted review is advisory and cannot authorize this gate.
 
 Validate the plan from the repository root:
 

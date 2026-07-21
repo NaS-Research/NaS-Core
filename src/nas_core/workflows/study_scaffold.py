@@ -29,7 +29,7 @@ STAGE_DETAILS: dict[PipelineStage, tuple[list[str], str]] = {
     ),
     PipelineStage.PROTOCOL: (
         ["protocol/analysis_plan.yaml"],
-        "Analysis plan is independently approved, preregistered, and Git-tagged.",
+        "Analysis plan has documented gate approval, is preregistered, and is Git-tagged.",
     ),
     PipelineStage.INGESTION: (
         ["ingestion/README.md"],
@@ -45,7 +45,7 @@ STAGE_DETAILS: dict[PipelineStage, tuple[list[str], str]] = {
     ),
     PipelineStage.RELEASE: (
         ["release/README.md"],
-        "Immutable research release is independently approved.",
+        "Immutable research release has documented approval and review provenance.",
     ),
 }
 

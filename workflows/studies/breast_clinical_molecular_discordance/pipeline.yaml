@@ -18,7 +18,7 @@ stages:
   status: not_started
   required_artifacts:
   - protocol/analysis_plan.yaml
-  completion_gate: Analysis plan is independently approved, preregistered, and Git-tagged.
+  completion_gate: Analysis plan has documented founder approval, is preregistered, and is Git-tagged.
 - stage: ingestion
   status: not_started
   required_artifacts:
@@ -42,4 +42,4 @@ stages:
   status: not_started
   required_artifacts:
   - release/README.md
-  completion_gate: Immutable research release is independently approved.
+  completion_gate: Immutable research release has documented founder approval and review provenance.

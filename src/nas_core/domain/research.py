@@ -7,6 +7,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from nas_core.domain.reviews import ReviewType
 from nas_core.governance.classifications import DataClassification
 
 
@@ -32,6 +33,7 @@ class AnalysisMode(StrEnum):
 class ReviewDecision(StrEnum):
     PENDING = "pending"
     APPROVED = "approved"
+    ADVISORY_COMPLETE = "advisory_complete"
     CHANGES_REQUESTED = "changes_requested"
     REJECTED = "rejected"
 
@@ -115,9 +117,27 @@ class MultiplicityPlan(StrictModel):
 class ReviewRecord(StrictModel):
     reviewer: str = Field(min_length=1)
     role: str = Field(min_length=1)
+    review_type: ReviewType
+    required_for_gate: bool
     decision: ReviewDecision
     reviewed_at: datetime | None = None
     notes: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_review_authority(self) -> ReviewRecord:
+        if self.review_type is ReviewType.AI_ASSISTED_INTERNAL_REVIEW:
+            if self.required_for_gate:
+                raise ValueError("AI-assisted review cannot be required to authorize a gate")
+            if self.decision is ReviewDecision.APPROVED:
+                raise ValueError("AI-assisted review cannot approve a research gate")
+        elif self.decision is ReviewDecision.ADVISORY_COMPLETE:
+            raise ValueError("only AI-assisted review may use advisory_complete")
+        if (
+            self.decision in {ReviewDecision.APPROVED, ReviewDecision.ADVISORY_COMPLETE}
+            and self.reviewed_at is None
+        ):
+            raise ValueError("a completed review requires a review timestamp")
+        return self
 
 
 class AnalysisPlan(StrictModel):
@@ -181,8 +201,12 @@ class AnalysisPlan(StrictModel):
             raise ValueError("primary model outcome must match the defined endpoint")
 
         if self.status in {PlanStatus.PREREGISTERED, PlanStatus.AMENDED}:
-            approved = any(review.decision is ReviewDecision.APPROVED for review in self.reviews)
-            if not approved:
-                raise ValueError("a preregistered or amended plan requires an approved review")
+            required_reviews = [review for review in self.reviews if review.required_for_gate]
+            if not required_reviews or any(
+                review.decision is not ReviewDecision.APPROVED for review in required_reviews
+            ):
+                raise ValueError(
+                    "a preregistered or amended plan requires all gate reviews approved"
+                )
 
         return self

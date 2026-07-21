@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Scientifically review and lock the first TCGA-BRCA analysis plan
+### Complete founder-led review and lock the first TCGA-BRCA analysis plan
 
 Review `NAS-BRCA-001`, which tests the established association between advanced
 pathologic stage and poorer overall survival using public/open TCGA-BRCA
@@ -17,13 +17,17 @@ the study dataset or inspecting final outcomes.
 
 Definition of done:
 
-- An independent scientific reviewer is named in the plan.
-- The reviewer evaluates the question, cohort rules, diagnosis-record
+- Dalron J. Robertson completes separately documented scientific, statistical,
+  governance, and reproducibility self-review passes.
+- The founder evaluates the question, cohort rules, diagnosis-record
   precedence, endpoint derivation, covariates, statistical model, missing-data
   plan, multiplicity rules, sensitivity analyses, and limitations.
+- OpenAI Codex completes a non-authoritative adversarial review; every finding
+  is resolved or explicitly accepted as a limitation.
 - Every requested change is resolved in Git with a traceable protocol-version
   update when required.
-- The reviewer records an approval decision and timestamp.
+- The founder records the internal approval decision, timestamp, conflicts, and
+  knowledge limitations.
 - The plan status changes from `pending_review` to `preregistered` and continues
   to pass `make plan-validate` and `make check`.
 - The approved protocol commit is tagged before any outcome-bearing data is
@@ -37,10 +41,11 @@ Definition of done:
 2. Implement the deterministic TCGA-BRCA cohort and analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
    tables, figures, effect sizes, and uncertainty.
-3. Independently review proposed `NAS-BRCA-002`, resolve its classification
-   mapping, intended decision, claim boundaries, and external-validation path,
-   then select, revise, hold, or reject it. Only an approved selection may be
-   marked ready for a formal literature-review protocol.
+3. Complete structured founder review and AI-assisted critique of proposed
+   `NAS-BRCA-002`, resolve its classification mapping, intended decision, claim
+   boundaries, and external-validation path, then select, revise, hold, or
+   reject it. Only a founder-approved selection may be marked ready for a formal
+   literature-review protocol.
 4. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
 5. Register approved bibliographic sources, execute the selected question's
@@ -62,6 +67,23 @@ Definition of done:
 
 ## Recently completed
 
+### 2026-07-20 — Founder-led research review and publication governance
+
+Aligned NaS Core with the present one-person operating reality. Added typed
+review provenance for founder self-review, AI-assisted advisory review,
+independent human expert feedback, and journal peer review. Founder approval may
+authorize an internal gate when conflicts and limitations are disclosed; AI can
+identify issues but cannot approve or authorize any gate. Updated both breast
+cancer studies, templates, policies, publication states, and public-disclosure
+requirements. External dataset validation remains scientifically independent,
+while external expert critique is planned near manuscript completion and remains
+distinct from journal peer review. No study gate was approved and no biomedical
+data was retrieved as part of this implementation.
+
+Validation: the question template, both study workspaces, the oncology charter,
+and the analysis plan passed governed validation; Ruff passed, strict MyPy
+passed, and 61 tests passed.
+
 ### 2026-07-20 — NAS-BRCA-002 proposal-to-publication operating plan
 
 Registered PAM50 classification stability in clinically HR-positive/HER2-negative
@@ -81,10 +103,10 @@ packet covering scientific/product, molecular/pathology, statistical, governance
 and publication gates. Added a task-level Phase 1 execution board, decision
 paths, review agenda, implemented-versus-deferred boundary, validation commands,
 and objective definition of done. Tightened lifecycle enforcement so every
-recorded required review must be approved before selection or literature work,
-and registered the three pending review perspectives. Named human review and a
-selection decision remain pending. Dalron J. Robertson is recorded as Founder
-and Study Lead; Phase 1 task P1.4 is complete.
+recorded gate-required review must be approved before selection or literature
+work. Dalron J. Robertson is recorded as Founder and Study Lead; Phase 1 task
+P1.4 is complete. The newer founder-led governance entry above supersedes the
+original multi-reviewer staffing assumption.
 
 Validation: the study, question, and oncology program manifests passed; Ruff
 passed, strict MyPy passed, and 55 tests passed.
@@ -130,31 +152,17 @@ approved.
 Validation: documentation links and formatting passed; Ruff passed, strict
 MyPy passed, and 48 tests passed.
 
-### 2026-07-20 — Decision-led oncology program and pre-literature gates
-
-Established the machine-readable NaS Oncology Research Program, separated
-platform qualification from discovery and product claims, and documented stage
-gates through external validation, translation, and deployment. Added a typed
-research-question intake covering the intended user, decision, scientific
-question, evidence needs, data feasibility, analysis family, validation path,
-system output, and scientific, decision, and product success criteria. Added a
-40-point selection rubric, review approval gate, literature-readiness gate,
-checked-in schemas, CLI validation, topic-selection guidance, and a reproducible
-literature-review template. No articles were collected and no product wedge was
-assumed.
-
-Validation: oncology program and question-template validation passed; Ruff
-passed, strict MyPy passed, and 48 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
-- An independent scientific reviewer has not yet been assigned to approve and
-  lock `NAS-BRCA-001`; ingestion of outcome-bearing pilot data waits on this.
+- The structured founder protocol review and AI-assisted adversarial review for
+  `NAS-BRCA-001` are not complete; ingestion of outcome-bearing pilot data waits
+  on founder approval.
 - `NAS-BRCA-002` is the proposed first decision-led discovery question but
-  remains unselected pending scientific/product, molecular/pathology, and
-  statistical review; formal literature retrieval waits on approval.
+  remains unselected pending founder scientific/product, molecular/pathology,
+  and statistical self-review plus AI-assisted critique; formal literature
+  retrieval waits on founder approval.
 - The independent external validation source for `NAS-BRCA-002` has not been
   selected or approved. Its license, compatible variables, cohort overlap, and
   export terms must be established before preregistration.
@@ -196,11 +204,16 @@ passed, strict MyPy passed, and 48 tests passed.
   release. The version-of-record PDF, web edition, tables, figures, citations,
   and displayed numbers must agree and follow visible versioning and correction
   procedures.
-- Study plans must be typed, governance-validated, independently reviewed, and
-  locked before outcome-bearing data ingestion.
+- Study plans must be typed, governance-validated, reviewed with explicit
+  provenance, and locked before outcome-bearing data ingestion.
 - A research question cannot become selected or literature-ready until every
-  recorded required review is approved; one approval cannot override another
-  pending, rejected, or changes-requested review.
+  gate-required review is approved. Founder self-review may authorize the
+  current internal gate when conflicts and knowledge limits are disclosed.
+- AI-assisted review is advisory: it cannot be gate-required, approve a study,
+  authorize ingestion, or be represented as human review.
+- External expert feedback is recorded separately from founder self-review.
+  Public NaS reports remain labeled founder-led, internally reviewed, and not
+  peer reviewed until a journal completes formal peer review.
 - GDC ingestion is fail-closed unless the plan is `preregistered`; every
   snapshot records the exact request, API provenance, explicitly supplied data
   release, raw response checksums, and immutable object locations.

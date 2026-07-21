@@ -136,7 +136,7 @@ make gdc-plan-dry-run
 
 The execution path writes content-addressed raw responses and an immutable
 dataset manifest to configured object storage. It refuses to run until the
-analysis plan is independently approved and marked `preregistered`. See
+analysis plan has documented founder approval and is marked `preregistered`. See
 [`src/nas_core/ingestion/README.md`](src/nas_core/ingestion/README.md) for the
 operational command and safeguards.
 

@@ -121,25 +121,22 @@ selection_scores:
   governance_feasibility: 5
 literature_status: not_ready
 reviews:
-  - reviewer: To be assigned
-    role: Independent scientific and product reviewer
+  - reviewer: Dalron J. Robertson
+    role: Founder, Study Lead, and Internal Scientific Reviewer
+    review_type: internal_self_review
+    required_for_gate: true
     decision: pending
     reviewed_at: null
     rationale: >-
-      Provisional score is 30 of 40. Review the PAM50 implementations, consensus
-      and confidence rules, intended decision, external-validation path, and risk
-      of overstating clinical relevance before selection or literature retrieval.
-  - reviewer: To be assigned
-    role: Breast molecular pathology or oncology reviewer
+      Complete separate scientific/product, molecular/pathology, and statistical
+      self-review passes. The provisional score is 30 of 40. Disclose that this is
+      founder-led internal review, not independent peer review.
+  - reviewer: OpenAI Codex
+    role: AI-assisted adversarial and consistency reviewer
+    review_type: ai_assisted_internal_review
+    required_for_gate: false
     decision: pending
     reviewed_at: null
     rationale: >-
-      Review clinical eligibility, assay interpretation, candidate PAM50
-      implementations, biological uncertainty, and nonclinical claim boundaries.
-  - reviewer: To be assigned
-    role: Biostatistical reviewer
-    decision: pending
-    reviewed_at: null
-    rationale: >-
-      Review primary stability estimands, sparse-group rules, uncertainty,
-      multiplicity, outcome-analysis gates, and external-validation criteria.
+      Challenge assumptions, mappings, estimands, data feasibility, claim scope,
+      and missing safeguards. AI findings are advisory and cannot authorize selection.

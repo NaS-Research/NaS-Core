@@ -62,7 +62,7 @@ def test_selected_question_requires_approval() -> None:
     payload = _question_payload()
     payload["status"] = "selected"
 
-    with pytest.raises(ValidationError, match="requires all recorded reviews approved"):
+    with pytest.raises(ValidationError, match="requires all gate reviews approved"):
         ResearchQuestionIntake.model_validate(payload)
 
 
@@ -81,6 +81,8 @@ def test_approved_selected_question_can_become_literature_ready() -> None:
     payload["reviews"][0] = {
         "reviewer": "Synthetic Reviewer",
         "role": "Scientific and product reviewer",
+        "review_type": "internal_self_review",
+        "required_for_gate": True,
         "decision": "approved",
         "reviewed_at": "2026-07-20T16:00:00Z",
         "rationale": "Synthetic approval used only by automated tests.",
@@ -98,6 +100,8 @@ def test_selected_question_requires_every_recorded_review_approved() -> None:
     payload["reviews"][0] = {
         "reviewer": "Synthetic Scientific Reviewer",
         "role": "Scientific reviewer",
+        "review_type": "internal_self_review",
+        "required_for_gate": True,
         "decision": "approved",
         "reviewed_at": "2026-07-20T16:00:00Z",
         "rationale": "Synthetic approval used only by automated tests.",
@@ -106,13 +110,72 @@ def test_selected_question_requires_every_recorded_review_approved() -> None:
         {
             "reviewer": "Synthetic Statistical Reviewer",
             "role": "Biostatistical reviewer",
+            "review_type": "independent_human_review",
+            "required_for_gate": True,
             "decision": "pending",
             "reviewed_at": None,
             "rationale": "Synthetic pending review used only by automated tests.",
         }
     )
 
-    with pytest.raises(ValidationError, match="requires all recorded reviews approved"):
+    with pytest.raises(ValidationError, match="requires all gate reviews approved"):
+        ResearchQuestionIntake.model_validate(payload)
+
+
+def test_ai_review_cannot_authorize_question_selection() -> None:
+    payload = deepcopy(_question_payload())
+    payload["status"] = "selected"
+    payload["reviews"] = [
+        {
+            "reviewer": "Synthetic AI Reviewer",
+            "role": "AI-assisted reviewer",
+            "review_type": "ai_assisted_internal_review",
+            "required_for_gate": True,
+            "decision": "approved",
+            "reviewed_at": "2026-07-20T16:00:00Z",
+            "rationale": "Synthetic AI review used only by automated tests.",
+        }
+    ]
+
+    with pytest.raises(ValidationError, match="AI-assisted review cannot"):
+        ResearchQuestionIntake.model_validate(payload)
+
+
+def test_nonrequired_ai_advice_does_not_block_founder_approval() -> None:
+    payload = deepcopy(_question_payload())
+    payload["status"] = "selected"
+    payload["literature_status"] = "ready"
+    payload["reviews"][0] = {
+        "reviewer": "Synthetic Founder",
+        "role": "Founder and study lead",
+        "review_type": "internal_self_review",
+        "required_for_gate": True,
+        "decision": "approved",
+        "reviewed_at": "2026-07-20T16:00:00Z",
+        "rationale": "Synthetic founder approval used only by automated tests.",
+    }
+    payload["reviews"][1] = {
+        "reviewer": "Synthetic AI Reviewer",
+        "role": "AI-assisted reviewer",
+        "review_type": "ai_assisted_internal_review",
+        "required_for_gate": False,
+        "decision": "advisory_complete",
+        "reviewed_at": "2026-07-20T15:00:00Z",
+        "rationale": "Synthetic advisory review used only by automated tests.",
+    }
+
+    question = ResearchQuestionIntake.model_validate(payload)
+
+    assert question.status.value == "selected"
+    assert question.literature_status.value == "ready"
+
+
+def test_human_review_cannot_use_ai_advisory_decision() -> None:
+    payload = deepcopy(_question_payload())
+    payload["reviews"][0]["decision"] = "advisory_complete"
+    payload["reviews"][0]["reviewed_at"] = "2026-07-20T16:00:00Z"
+
+    with pytest.raises(ValidationError, match="only AI-assisted review"):
         ResearchQuestionIntake.model_validate(payload)
 
 

@@ -59,8 +59,10 @@ def _plan(*, approved: bool) -> AnalysisPlan:
     if approved:
         payload["status"] = "preregistered"
         payload["reviews"][0] = {
-            "reviewer": "Synthetic Reviewer",
-            "role": "Independent scientific reviewer",
+            "reviewer": "Synthetic Founder",
+            "role": "Founder protocol reviewer",
+            "review_type": "internal_self_review",
+            "required_for_gate": True,
             "decision": "approved",
             "reviewed_at": "2026-07-20T17:00:00Z",
             "notes": "Synthetic approval used only by automated tests.",

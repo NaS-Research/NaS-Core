@@ -4,4 +4,5 @@ Required artifacts:
 
 - `protocol/analysis_plan.yaml`
 
-Completion gate: Analysis plan is independently approved, preregistered, and Git-tagged.
+Completion gate: Analysis plan has documented founder approval, is preregistered,
+and is Git-tagged.

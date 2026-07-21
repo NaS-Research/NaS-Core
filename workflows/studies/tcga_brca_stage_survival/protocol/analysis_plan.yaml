@@ -157,10 +157,22 @@ limitations:
   - The binary stage contrast sacrifices detail and can mask non-monotonic effects.
 
 reviews:
-  - reviewer: To be assigned
-    role: Independent scientific reviewer
+  - reviewer: Dalron J. Robertson
+    role: Founder, Study Lead, and Internal Protocol Reviewer
+    review_type: internal_self_review
+    required_for_gate: true
     decision: pending
     reviewed_at: null
     notes: >-
-      Confirm the clinical question, diagnosis-record precedence, endpoint derivation,
-      covariates, model, and sensitivity analyses before changing status to preregistered.
+      Complete and document a structured founder self-review of the clinical
+      question, record precedence, endpoint derivation, covariates, model,
+      sensitivities, limitations, and stop rules before preregistration.
+  - reviewer: OpenAI Codex
+    role: AI-assisted adversarial and consistency reviewer
+    review_type: ai_assisted_internal_review
+    required_for_gate: false
+    decision: pending
+    reviewed_at: null
+    notes: >-
+      Identify inconsistencies, unsupported assumptions, missing diagnostics, and
+      reproducibility risks. This advisory review cannot approve preregistration.

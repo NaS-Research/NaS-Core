@@ -52,7 +52,46 @@ def test_plan_cannot_be_preregistered_without_approval() -> None:
     payload = _payload()
     payload["status"] = "preregistered"
 
-    with pytest.raises(ValidationError, match="requires an approved review"):
+    with pytest.raises(ValidationError, match="requires all gate reviews approved"):
+        AnalysisPlan.model_validate(payload)
+
+
+def test_founder_self_review_can_authorize_preregistration() -> None:
+    payload = _payload()
+    payload["status"] = "preregistered"
+    payload["reviews"][0]["decision"] = "approved"
+    payload["reviews"][0]["reviewed_at"] = "2026-07-20T20:00:00Z"
+
+    plan = AnalysisPlan.model_validate(payload)
+
+    assert plan.status is PlanStatus.PREREGISTERED
+
+
+def test_ai_review_cannot_authorize_preregistration() -> None:
+    payload = _payload()
+    payload["status"] = "preregistered"
+    payload["reviews"] = [
+        {
+            "reviewer": "Synthetic AI Reviewer",
+            "role": "AI-assisted reviewer",
+            "review_type": "ai_assisted_internal_review",
+            "required_for_gate": True,
+            "decision": "approved",
+            "reviewed_at": "2026-07-20T20:00:00Z",
+            "notes": "Synthetic AI review used only by automated tests.",
+        }
+    ]
+
+    with pytest.raises(ValidationError, match="AI-assisted review cannot"):
+        AnalysisPlan.model_validate(payload)
+
+
+def test_human_review_cannot_use_ai_advisory_decision() -> None:
+    payload = _payload()
+    payload["reviews"][0]["decision"] = "advisory_complete"
+    payload["reviews"][0]["reviewed_at"] = "2026-07-20T20:00:00Z"
+
+    with pytest.raises(ValidationError, match="only AI-assisted review"):
         AnalysisPlan.model_validate(payload)
 
 

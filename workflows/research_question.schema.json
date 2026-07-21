@@ -118,6 +118,13 @@
           "title": "Rationale",
           "type": "string"
         },
+        "required_for_gate": {
+          "title": "Required For Gate",
+          "type": "boolean"
+        },
+        "review_type": {
+          "$ref": "#/$defs/ReviewType"
+        },
         "reviewed_at": {
           "anyOf": [
             {
@@ -145,6 +152,8 @@
       "required": [
         "reviewer",
         "role",
+        "review_type",
+        "required_for_gate",
         "decision",
         "rationale"
       ],
@@ -166,10 +175,22 @@
       "enum": [
         "pending",
         "approved",
+        "advisory_complete",
         "changes_requested",
         "rejected"
       ],
       "title": "ReviewDecision",
+      "type": "string"
+    },
+    "ReviewType": {
+      "description": "Review provenance; only human review types may authorize lifecycle gates.",
+      "enum": [
+        "internal_self_review",
+        "ai_assisted_internal_review",
+        "independent_human_review",
+        "journal_peer_review"
+      ],
+      "title": "ReviewType",
       "type": "string"
     },
     "ScientificQuestion": {

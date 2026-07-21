@@ -16,7 +16,7 @@ Carcinoma project; it does not mean a study limited to BRCA1 or BRCA2 variants.
 
 The study tests whether Cortex can reproducibly recover the established
 association between advanced pathologic stage and poorer overall survival while
-preserving governance, provenance, uncertainty, and independent review.
+preserving governance, provenance, uncertainty, and documented review.
 
 This is a platform-qualification study. It is not a patient-level prediction,
 treatment recommendation, clinical validation, or medical device.
@@ -47,9 +47,9 @@ treatment recommendation, clinical validation, or medical device.
    Link every claim to an executed result or approved external source; preserve
    contradictory evidence, null findings, uncertainty, and limitations.
         ↓
-7. Independent validation and review
-   Test robustness in an independent population or setting and resolve scientific,
-   clinical, governance, and product-review findings.
+7. Independent data validation and documented review
+   Test robustness in an independent population or setting, complete structured
+   founder review, and resolve scientific, clinical, governance, and product findings.
         ↓
 8. Frozen research release
    Freeze the protocol, snapshots, code, environment, results, evidence,
@@ -62,7 +62,7 @@ treatment recommendation, clinical validation, or medical device.
 
 ## What `NAS-BRCA-001` will produce
 
-- an independently approved and preregistered analysis plan;
+- a founder-reviewed, approved, and preregistered analysis plan with disclosed provenance;
 - an immutable GDC query, data-release record, response, manifest, and checksums;
 - a deterministic participant cohort and record-level exclusion audit;
 - missing-data and baseline-characteristic tables;
@@ -72,7 +72,8 @@ treatment recommendation, clinical validation, or medical device.
 - proportional-hazards, convergence, and influence diagnostics;
 - prespecified sensitivity analyses, including null or contradictory findings;
 - a machine-readable run manifest with code and environment provenance; and
-- an independently reviewed, frozen qualification release.
+- a founder-approved frozen qualification release, with any external expert
+  feedback recorded separately.
 
 The end of this study is a pass, conditional pass, or fail decision about the
 research platform. A technically correct hazard ratio is not the final NaS
@@ -135,10 +136,11 @@ truth and not an independent clinical decision-maker.
 
 ## Current gate and next action
 
-`NAS-BRCA-001` is currently at the **protocol** stage. The next action is to
-assign an independent scientific reviewer, resolve review findings, and lock
-and tag the approved analysis plan. Outcome-bearing ingestion remains blocked
-until that gate is complete.
+`NAS-BRCA-001` is currently at the **protocol** stage. The next action is for
+Dalron J. Robertson to complete the structured founder protocol review, use the
+AI-assisted review as non-authoritative critique, resolve all findings, record
+the founder approval, and lock and tag the analysis plan. Outcome-bearing
+ingestion remains blocked until that gate is complete.
 
 NaS has registered `NAS-BRCA-002`, robust and unstable PAM50 molecular
 reclassification in clinically HR-positive/HER2-negative breast cancer, as the
@@ -147,7 +149,7 @@ proposed first discovery study. Its detailed
 covers selection through external validation, frozen release, paper review, and
 publication on `nasresearch.bio`.
 
-`NAS-BRCA-002` is not yet selected. Planning and independent question review may
-proceed while qualification is completed, but literature retrieval and data
-analysis remain gated. That study—not `NAS-BRCA-001`—would begin the work toward
-a validated precision-medicine decision-support output.
+`NAS-BRCA-002` is not yet selected. Structured founder review and AI-assisted
+critique may proceed while qualification is completed, but literature retrieval
+and data analysis remain gated. That study—not `NAS-BRCA-001`—would begin the
+work toward a validated precision-medicine decision-support output.

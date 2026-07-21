@@ -19,10 +19,10 @@ gate was satisfied.
 | Phase | Workstream | Status | Completion evidence / next action |
 | ---: | --- | --- | --- |
 | 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
-| 1 | Review and select question | In progress | Review packet prepared; assign reviewers and record a decision |
+| 1 | Review and select question | In progress | Review packet prepared; complete founder review and record a decision |
 | 2 | Lock evidence-review protocol | Not started | Blocked until the question is selected and literature-ready |
 | 3 | Establish data and assay feasibility | Not started | Build TCGA field matrix and assess an external validation source |
-| 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and independent protocol approval |
+| 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and documented founder protocol approval |
 | 5 | Capture discovery snapshots | Not started | Requires preregistration and completion of the `NAS-BRCA-001` qualification gate |
 | 6 | Build and quality-check cohort | Not started | Requires an independently verified immutable snapshot |
 | 7 | Execute discovery analysis | Not started | Requires approved cohort QA and frozen analysis code |
@@ -39,21 +39,23 @@ gate was satisfied.
 ### Current blockers
 
 - `NAS-BRCA-001` has not completed platform qualification.
-- Independent scientific/product, molecular/pathology, and statistical reviewers
-  have not been assigned to `NAS-RQ-BRCA002`.
+- The founder's scientific/product, molecular/pathology, and statistical
+  self-review passes have not been completed for `NAS-RQ-BRCA002`.
 - The discovery question is proposed, not selected, so automated literature
   retrieval is not authorized.
 - No compatible independent validation source has been assessed or approved.
 
 ### Immediate working queue
 
-1. Assign named reviewers for the three required perspectives using
+1. Complete three separately documented founder review passes using
    `reviews/QUESTION_REVIEW_PACKET.md`.
 2. Review the intended decision and whether the proposed output is useful beyond
    producing an interesting publication.
 3. Review the PAM50 implementations, consensus/confidence rules, and gold-standard concern.
 4. Confirm a credible external-validation path.
-5. Record a selection decision and update both this table and `pipeline.yaml`.
+5. Complete the non-authoritative AI adversarial review, resolve its findings,
+   and record the founder's selection decision.
+6. Update both this table and `pipeline.yaml`.
 
 ## Phase 1 execution board — Question review and selection
 
@@ -72,13 +74,13 @@ authorize a formal literature review.
 | P1.2 | Narrow the question to robust versus unstable PAM50 assignment | NaS Research | Complete | Question version `0.2.0` |
 | P1.3 | Prepare the multidisciplinary review packet | NaS Research | Complete | `reviews/QUESTION_REVIEW_PACKET.md` |
 | P1.4 | Confirm the accountable study lead | Dalron J. Robertson | Complete | Name and role recorded in `study.yaml` |
-| P1.5 | Assign scientific/product review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
-| P1.6 | Assign molecular pathology/oncology review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
-| P1.7 | Assign biostatistical review perspective | Human reviewer | Blocked | Name, qualification, affiliation, and conflict disclosure |
-| P1.8 | Complete independent reviews | Assigned reviewers | Not started | Checklist responses, comments, rationale, and individual decisions |
-| P1.9 | Resolve every requested change | Study lead + reviewers | Not started | Comment-resolution log and versioned question changes |
-| P1.10 | Re-score the final candidate | Review group | Not started | Evidence-backed scores and written rationale for all eight dimensions |
-| P1.11 | Record final selection decision | Independent human reviewer | Not started | Approved, changes requested, on hold, or rejected with timestamp |
+| P1.5 | Complete scientific/product self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and conflict disclosure |
+| P1.6 | Complete molecular pathology/oncology self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and knowledge limitations |
+| P1.7 | Complete biostatistical self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and knowledge limitations |
+| P1.8 | Complete AI-assisted adversarial review | OpenAI Codex | Not started | Advisory findings clearly labeled non-authoritative |
+| P1.9 | Resolve every requested change | Dalron J. Robertson | Not started | Comment-resolution log and versioned question changes |
+| P1.10 | Re-score the final candidate | Dalron J. Robertson | Not started | Evidence-backed scores and written rationale for all eight dimensions |
+| P1.11 | Record final selection decision | Dalron J. Robertson | Not started | Founder approval, changes requested, on hold, or rejection with timestamp |
 | P1.12 | Update lifecycle records | NaS Core maintainer | Not started | Intake, study, pipeline, charter, and tracker agree |
 | P1.13 | Validate and freeze the selected question | NaS Core maintainer | Not started | Validation output, clean tests, commit, and question-version Git tag |
 
@@ -88,7 +90,7 @@ authorize a formal literature review.
 - typed question validation and lifecycle enforcement;
 - a proposed decision context, scientific question, data path, validation path,
   output, success criteria, limitations, and provisional 30/40 score;
-- a structured multidisciplinary reviewer packet;
+- a structured multidisciplinary self-review packet;
 - explicit nonclinical, nonpredictive, and no-gold-standard boundaries;
 - a live human tracker and machine-readable `pipeline.yaml`;
 - automated tests preventing an unapproved question from becoming selected or
@@ -109,20 +111,22 @@ Those choices depend on completed Phase 1 review, then the Phase 2 literature
 review and Phase 3 data-feasibility assessment. Implementing them now would risk
 encoding unreviewed assumptions or tuning the question to available results.
 
-### Required human input
+### Required founder input
 
-The study lead may coordinate work and respond to comments, but an AI assistant
-cannot provide independent scientific approval. Before selection, the review
-record must contain the following perspectives:
+NaS is currently a one-person organization. Dalron J. Robertson performs and
+documents the internal gate review. Before selection, the review record must
+contain separate passes from the following perspectives:
 
 1. scientific/product usefulness and differentiation;
 2. breast molecular pathology or oncology validity; and
 3. biostatistical design and external-validation feasibility.
 
-One qualified human may cover more than one perspective when qualifications and
-conflicts are disclosed. At least one approval must be independent of the study
-author. Reviewers do not need repository access; they can review an exported
-packet and return written comments that are transcribed with attribution.
+The same founder may cover every perspective, but must disclose that he is also
+the study author, analyst, and approver, and must record knowledge limits. The
+AI-assisted review is an adversarial aid only: it may identify omissions and
+propose changes but cannot approve, reject, or authorize the gate. External
+experts from the founder's network may review a near-final manuscript in Phase
+13; their feedback is separately attributed and is not journal peer review.
 
 ### Review meeting agenda
 
@@ -143,7 +147,7 @@ packet and return written comments that are transcribed with attribution.
 - change question status to `selected`;
 - change literature status to `ready`;
 - update the question version to `1.0.0`;
-- record reviewer identity, rationale, decision, and time;
+- record founder identity, review type, rationale, decision, and time;
 - mark the question stage complete and literature stage in progress;
 - create a signed-off Git commit and question-version tag; and
 - begin Phase 2 by locking the literature-review protocol.
@@ -154,7 +158,7 @@ packet and return written comments that are transcribed with attribution.
 - assign every comment an owner;
 - revise the question with a new `0.x.0` version;
 - document resolutions; and
-- return the full revision to reviewers.
+- return the full revision to founder review.
 
 **On hold**
 
@@ -185,10 +189,11 @@ make check
 ### Phase 1 definition of done
 
 - an accountable study lead is recorded;
-- all required review perspectives and conflicts are documented;
+- all three founder review perspectives, conflicts, and knowledge limits are documented;
+- AI-assisted advisory findings are resolved or accepted as limitations;
 - every review comment is resolved or explicitly accepted as a limitation;
 - final selection scores have evidence-backed rationales;
-- an independent human records a decision and timestamp;
+- the founder records the gate decision and timestamp;
 - an approved question is version `1.0.0`, `selected`, and `literature-ready`;
 - `study.yaml`, `pipeline.yaml`, the oncology charter, and this tracker agree;
 - all validators and tests pass; and
@@ -218,7 +223,7 @@ PAM50 implementation, or consensus is assumed to be a universal gold standard.
 
 The project is complete only when all of the following are true:
 
-- the research question and literature protocol were independently approved;
+- the research question and literature protocol received documented founder approval;
 - the analysis plan was preregistered and Git-tagged before outcome inspection;
 - every data source was approved and captured in immutable snapshots;
 - the complete discovery pipeline ran from a clean environment;
@@ -226,28 +231,31 @@ The project is complete only when all of the following are true:
 - the primary result was attempted in an independent dataset;
 - every public claim traces to an executed result or approved external source;
 - scientific, statistical, governance, and publication reviews were resolved;
-- a frozen NaS research release was created and independently verified;
+- a frozen NaS research release was created and reproducibility-checked;
 - the version-of-record PDF and accessible web edition agree;
 - the production page, downloads, citations, metadata, and figures were tested;
 - the publication is live on `nasresearch.bio` with a version and correction path.
 
 Completion does not make the output a clinical decision-support system.
 
-## 3. Roles and independence
+## 3. Roles and review provenance
 
-One person may temporarily perform multiple operational tasks, but approval
-roles must be recorded separately and conflicts disclosed.
+NaS is a founder-led, one-person organization during this study. Dalron J.
+Robertson may perform multiple operational and approval roles, but each role,
+self-review pass, conflict, and limitation must be recorded explicitly. AI has
+no gate authority. External expert feedback and journal peer review remain
+separate review types.
 
 | Role | Responsibility | Required before |
 | --- | --- | --- |
-| Study lead | Scope, coordination, decisions, and accountable authorship | Question approval |
-| Breast-oncology reviewer | Clinical definitions, applicability, and claim boundaries | Protocol lock and publication |
-| Molecular/pathology reviewer | Receptor assays, PAM50 interpretation, mapping, and biology | Protocol lock |
-| Biostatistical reviewer | Estimands, missingness, multiplicity, survival, and sensitivity analyses | Protocol lock and release |
-| Data/governance reviewer | Terms, classification, minimum necessary fields, export, and attribution | Any ingestion |
-| Reproducibility reviewer | Clean rerun, checksums, manifests, and numerical agreement | Frozen release |
-| Publication reviewer | Claim-to-evidence audit, disclosures, figures, and website/PDF agreement | Public release |
-| Web publisher | Website implementation, accessibility, metadata, build, and production verification | Deployment |
+| Founder, study lead, analyst, and author — Dalron J. Robertson | Scope, analysis, decisions, authorship, and accountable internal approval | Every internal gate |
+| Founder clinical/molecular review pass | Definitions, applicability, receptor assays, PAM50 interpretation, mappings, and claim boundaries | Protocol lock and public release |
+| Founder statistical review pass | Estimands, missingness, multiplicity, diagnostics, survival, and sensitivities | Protocol lock and release |
+| Founder governance/reproducibility review pass | Terms, classifications, exports, clean rerun, checksums, manifests, and numerical agreement | Ingestion and frozen release |
+| OpenAI Codex — AI-assisted reviewer | Adversarial critique, consistency checks, and issue discovery; no decision authority | Advisory throughout |
+| External domain or statistical experts | Attributed critique of a near-final manuscript when available | Planned in Phase 13 |
+| Journal editors and reviewers | Formal independent peer-review process | After journal submission |
+| Founder web publisher | Website implementation, accessibility, metadata, build, and production verification | Deployment |
 
 An AI model cannot fill an independent approval role.
 
@@ -523,7 +531,8 @@ Actions:
 4. Test implementation, preprocessing, and consensus perturbations exactly as preregistered.
 5. Conduct subgroup and fairness-oriented checks only where sample sizes permit.
 6. Run leakage, cohort-overlap, duplicate-sample, and data-lineage checks.
-7. Have an independent reviewer inspect randomly selected claim-to-result links.
+7. Have the founder inspect a declared random sample of claim-to-result links
+   during a separate reproducibility pass and preserve the sample seed.
 
 Gate: unexplained numerical drift or manual result transcription blocks validation.
 
@@ -565,11 +574,11 @@ Actions:
    and appropriate-abstention evaluations.
 6. Freeze the protocol, snapshots, code, environment, runs, evidence graph,
    tables, figures, reviews, and disclosures under a release ID.
-7. Independently reproduce checksums and release inventory.
+7. Reproduce checksums and the release inventory in a clean, separate run.
 
 G8 exit criteria:
 
-- reviewers approve the frozen release;
+- the founder approves the frozen release with complete review provenance;
 - no paper wording is permitted to exceed its claim class;
 - a failed or null study may still be released when scientifically informative.
 
@@ -604,7 +613,7 @@ an approved external source, or an explicitly labeled interpretation.
 
 ### Phase 13 — Scientific and publication review
 
-Review passes:
+Founder review passes:
 
 1. **Clinical/molecular:** definitions, mappings, relevance, and overstatement.
 2. **Statistical:** estimands, denominators, models, diagnostics, uncertainty,
@@ -614,11 +623,19 @@ Review passes:
 5. **Claim audit:** sentence-level evidence trace and prohibited clinical language.
 6. **Editorial:** clarity, accessibility, terminology, references, and figure captions.
 
-All comments receive an owner and resolution. Material analytical changes
-require a versioned protocol deviation, rerun, and renewed review.
+The AI-assisted reviewer performs an additional adversarial claim, numerical,
+and consistency audit. Its findings are advisory and cannot authorize release.
+The founder then invites one or more qualified domain or statistical experts
+from his network to critique the near-final manuscript when available. Their
+identity, qualifications, conflicts, reviewed version, comments, and resolutions
+are recorded as `independent_human_review`; this is external expert feedback,
+not journal peer review.
 
-G9 prerequisite: the publication reviewer signs the exact PDF and web-content
-commit derived from the approved frozen release.
+All comments receive an owner and resolution. Material analytical changes
+require a versioned protocol deviation, rerun, and renewed founder review.
+
+G9 prerequisite: the founder approves the exact PDF and web-content commit
+derived from the frozen release after the review record is complete.
 
 ### Phase 14 — Produce the website edition
 
@@ -657,7 +674,7 @@ No result is copied manually from a notebook into the website.
 
 Actions:
 
-1. Record final scientific, governance, publication, and web approvals.
+1. Record final founder scientific, governance, publication, and web approvals.
 2. Tag the NaS Core research release and website publication version.
 3. Merge/push the approved website commit through the normal deployment path.
 4. Verify the live canonical URL, PDF, images, metadata, citation, and mobile view.
@@ -666,7 +683,9 @@ Actions:
 7. Prepare social posts only from approved claims and link to the paper—not to
    unsupported interpretations.
 
-The initial public version is `1.0`. Silent substantive edits are prohibited.
+The initial public version is `1.0`. It must be labeled founder-led, internally
+reviewed, and not peer reviewed unless and until a journal completes formal
+peer review. Silent substantive edits are prohibited.
 
 ### Phase 16 — Maintain, correct, and decide what follows
 
@@ -721,14 +740,17 @@ Stop, narrow, or explicitly abstain when:
 - external validation is unavailable, incompatible, failed, or inconclusive;
 - source terms do not permit the intended analysis or public artifact;
 - a result cannot be traced to an immutable input and executed run;
-- reviewers cannot distinguish the evidence from a clinical recommendation.
+- the founder or an external critic cannot clearly distinguish the evidence
+  from a clinical recommendation.
 
 An honest negative or inconclusive paper is an acceptable scientific completion.
 
 ## 8. Immediate next actions
 
-1. Assign scientific/product, molecular/pathology, and statistical reviewers.
-2. Review and either approve, revise, hold, or reject `NAS-RQ-BRCA002`.
+1. Complete the founder scientific/product, molecular/pathology, and statistical
+   self-review passes plus the non-authoritative AI adversarial pass.
+2. Resolve findings and have the founder approve, revise, hold, or reject
+   `NAS-RQ-BRCA002`.
 3. Finish `NAS-BRCA-001` platform qualification before discovery execution.
 4. If selected, register bibliographic sources and lock the literature protocol.
 5. Build the field-level TCGA and external-validation feasibility matrix.
