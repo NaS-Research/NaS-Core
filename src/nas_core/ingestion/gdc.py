@@ -4,12 +4,15 @@ from __future__ import annotations
 
 import hashlib
 import json
+import ssl
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Protocol, cast
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
+
+import certifi
 
 from nas_core.domain.research import AnalysisPlan, PlanStatus
 from nas_core.domain.snapshots import (
@@ -56,6 +59,7 @@ class UrllibTransport:
 
     def __init__(self, *, timeout_seconds: float = 60.0) -> None:
         self._timeout_seconds = timeout_seconds
+        self._ssl_context = ssl.create_default_context(cafile=certifi.where())
 
     def get(self, url: str) -> HTTPResponse:
         request = Request(url, headers={"Accept": JSON_MEDIA_TYPE, "User-Agent": "NaS-Core/0.1"})
@@ -75,7 +79,11 @@ class UrllibTransport:
         return self._send(request)
 
     def _send(self, request: Request) -> HTTPResponse:
-        with urlopen(request, timeout=self._timeout_seconds) as response:  # noqa: S310
+        with urlopen(  # noqa: S310
+            request,
+            timeout=self._timeout_seconds,
+            context=self._ssl_context,
+        ) as response:
             return HTTPResponse(
                 status_code=response.status,
                 headers=dict(response.headers.items()),
