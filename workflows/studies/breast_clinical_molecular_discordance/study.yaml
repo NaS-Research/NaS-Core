@@ -1,15 +1,16 @@
 schema_version: 1.0.0
 study_id: NAS-BRCA-002
 slug: breast_clinical_molecular_discordance
-title: 'When the Label Doesn''t Match the Biology: Clinical-Molecular Discordance
-  in Breast Cancer'
+title: >-
+  Not All Discordance Is Equal: Robust and Unstable Molecular Reclassification
+  in HR-Positive/HER2-Negative Breast Cancer
 program_id: NAS-ONC-001
 role: discovery
 status: proposed
 created_at: '2026-07-20T23:36:49.718103Z'
 owner: NaS Research
 objective: >-
-  Quantify and characterize disagreement between prespecified clinical
-  receptor-based categories and molecular intrinsic subtypes, then test the
-  primary pattern in an independent breast-cancer cohort.
+  Identify which non-luminal PAM50 assignments in clinically HR-positive/
+  HER2-negative breast cancer remain stable across defensible implementations,
+  characterize stable and unstable groups, and test them independently.
 artifact_namespace: studies/NAS-BRCA-002

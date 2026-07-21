@@ -67,13 +67,12 @@ studies:
       prognostic association; this study is not a precision-medicine product claim.
   - study_id: NAS-BRCA-002
     role: discovery
-    title: Clinical-molecular subtype discordance in primary breast cancer
+    title: PAM50 classification stability in HR-positive/HER2-negative breast cancer
     status: proposed
     purpose: >-
-      Evaluate whether disagreement between prespecified clinical receptor-based
-      categories and molecular intrinsic subtypes identifies a reproducible
-      translational research question. The proposal is not yet selected and
-      makes no patient-level testing or treatment claim.
+      Distinguish robust non-luminal biology from unstable PAM50 assignment across
+      defensible implementations and test the pattern independently. The proposal
+      is not yet selected and makes no patient-level testing or treatment claim.
 governance_boundaries:
   - Cortex v0 permits public/open and explicitly approved licensed data only.
   - Controlled data and PHI remain prohibited.

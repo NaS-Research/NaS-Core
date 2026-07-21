@@ -64,16 +64,21 @@ Definition of done:
 
 ### 2026-07-20 — NAS-BRCA-002 proposal-to-publication operating plan
 
-Registered clinical-molecular subtype discordance in primary breast cancer as
-the proposed first discovery study. Added its standardized study workspace,
-decision-led intake, provisional 29/40 selection score, explicit nonclinical
-claim boundary, independent-validation requirement, and gated plan from question
+Registered PAM50 classification stability in clinically HR-positive/HER2-negative
+breast cancer as the proposed first discovery study. Added its standardized study
+workspace, decision-led intake, provisional 30/40 selection score, explicit
+nonclinical claim boundary, independent-validation requirement, and gated plan from question
 review through literature, feasibility, preregistration, ingestion, analysis,
 validation, evidence release, scientific paper, website production, publication,
 and correction handling. Added a human-readable live phase tracker, current
 blockers, immediate queue, and evidence requirement alongside the
 machine-readable lifecycle. Added the proposal to oncology charter v1.1.0. It
 remains unselected; no literature or biomedical data was retrieved.
+
+Phase 1 preparation: narrowed question version 0.2.0 to distinguish robust
+non-luminal biology from unstable classification and added a structured reviewer
+packet covering scientific/product, molecular/pathology, statistical, governance,
+and publication gates. Named human review and a selection decision remain pending.
 
 Validation: the study, question, and oncology program manifests passed; Ruff
 passed, strict MyPy passed, and 54 tests passed.
@@ -177,10 +182,10 @@ passed, strict MyPy passed, and 48 tests passed.
 - A decision-support study must define the user, choice, patient context,
   alternatives, outcome, evidence, uncertainty, validation path, abstention
   conditions, and real-world impact evaluation before translation.
-- `NAS-BRCA-002` is a proposed discovery and external-validation study of
-  prespecified classification disagreement. Neither receptor categories nor
-  intrinsic subtypes are assumed to be a universal gold standard, and the work
-  cannot support patient-level testing or treatment claims.
+- `NAS-BRCA-002` is a proposed discovery and external-validation study of PAM50
+  classification stability in clinically HR-positive/HER2-negative disease. No
+  implementation is assumed to be a universal gold standard, and the work cannot
+  support patient-level testing or treatment claims.
 - Public website publication must derive from an approved frozen research
   release. The version-of-record PDF, web edition, tables, figures, citations,
   and displayed numbers must agree and follow visible versioning and correction

@@ -55,7 +55,7 @@ def test_proposed_discovery_question_is_valid_but_not_literature_ready() -> None
     assert question.question_id == "NAS-RQ-BRCA002"
     assert question.status.value == "proposed"
     assert question.literature_status.value == "not_ready"
-    assert question.selection_scores.total == 29
+    assert question.selection_scores.total == 30
 
 
 def test_selected_question_requires_approval() -> None:

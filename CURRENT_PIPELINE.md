@@ -140,8 +140,9 @@ assign an independent scientific reviewer, resolve review findings, and lock
 and tag the approved analysis plan. Outcome-bearing ingestion remains blocked
 until that gate is complete.
 
-NaS has registered `NAS-BRCA-002`, clinical-molecular subtype discordance in
-breast cancer, as the proposed first discovery study. Its detailed
+NaS has registered `NAS-BRCA-002`, robust and unstable PAM50 molecular
+reclassification in clinically HR-positive/HER2-negative breast cancer, as the
+proposed first discovery study. Its detailed
 [project-to-publication plan](workflows/studies/breast_clinical_molecular_discordance/PROJECT_PLAN.md)
 covers selection through external validation, frozen release, paper review, and
 publication on `nasresearch.bio`.

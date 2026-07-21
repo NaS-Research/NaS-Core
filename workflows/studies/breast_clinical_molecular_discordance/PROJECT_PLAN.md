@@ -1,13 +1,13 @@
 # NAS-BRCA-002 Project-to-Publication Plan
 
-Study: **When the Label Doesn't Match the Biology: Clinical-Molecular
-Discordance in Breast Cancer**
+Study: **Not All Discordance Is Equal: Robust and Unstable Molecular
+Reclassification in HR-Positive/HER2-Negative Breast Cancer**
 
 Study ID: `NAS-BRCA-002`  
 Question ID: `NAS-RQ-BRCA002`  
 Current state: **Proposed; not approved for literature retrieval or data analysis**  
 Planned public URL:
-`https://nasresearch.bio/research/clinical-molecular-discordance-breast-cancer`
+`https://nasresearch.bio/research/pam50-classification-stability-breast-cancer`
 
 ## Live progress tracker
 
@@ -19,7 +19,7 @@ gate was satisfied.
 | Phase | Workstream | Status | Completion evidence / next action |
 | ---: | --- | --- | --- |
 | 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
-| 1 | Review and select question | In progress | Assign reviewers; approve, revise, hold, or reject `NAS-RQ-BRCA002` |
+| 1 | Review and select question | In progress | Review packet prepared; assign reviewers and record a decision |
 | 2 | Lock evidence-review protocol | Not started | Blocked until the question is selected and literature-ready |
 | 3 | Establish data and assay feasibility | Not started | Build TCGA field matrix and assess an external validation source |
 | 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and independent protocol approval |
@@ -47,28 +47,30 @@ gate was satisfied.
 
 ### Immediate working queue
 
-1. Assign the three required question-review perspectives.
+1. Assign named reviewers for the three required perspectives using
+   `reviews/QUESTION_REVIEW_PACKET.md`.
 2. Review the intended decision and whether the proposed output is useful beyond
    producing an interesting publication.
-3. Resolve the receptor-to-intrinsic-subtype mapping and gold-standard concern.
+3. Review the PAM50 implementations, consensus/confidence rules, and gold-standard concern.
 4. Confirm a credible external-validation path.
 5. Record a selection decision and update both this table and `pipeline.yaml`.
 
 ## 1. Purpose and claim boundary
 
-The project will estimate how often prespecified clinical receptor-based breast
-cancer categories and RNA-expression intrinsic subtypes disagree, characterize
-the biology and clinicopathologic context of those disagreements, and test the
-primary pattern in an independent cohort.
+The project will examine clinically HR-positive/HER2-negative breast cancers,
+identify which non-luminal PAM50 assignments remain stable across defensible
+preprocessing and classifier implementations, distinguish robust biological
+discordance from analytical instability, and test the primary pattern in an
+independent cohort.
 
 The study may support a translational hypothesis about where additional
 molecular characterization deserves evaluation. It cannot establish that a
 test improves treatment selection, that a treatment works differently, or that
 an individual patient should receive different care.
 
-The word **discordance** means disagreement under a prespecified mapping. It
-does not imply that either classification system is universally correct or that
-the other is an error.
+The word **discordance** means disagreement under prespecified rules. A robust
+non-luminal call and an unstable call are different results. No clinical label,
+PAM50 implementation, or consensus is assumed to be a universal gold standard.
 
 ## 2. Completion definition
 
@@ -161,8 +163,8 @@ Actions:
 1. Review the intended user and the research decision being supported.
 2. Challenge whether the classification comparison can change a meaningful
    research decision rather than merely produce an attractive figure.
-3. Review the proposed concordance mapping and the danger of treating PAM50 or
-   receptor categories as a universal gold standard.
+3. Review the proposed PAM50 implementations, stability/consensus rules, and the
+   danger of treating one implementation as a universal gold standard.
 4. Verify that the primary outcome is measurable and that an independent
    validation path is plausible.
 5. Re-score all eight selection dimensions with written evidence.
@@ -184,8 +186,8 @@ external-validation path, or decision beyond publication alone.
 Actions:
 
 1. Define a targeted evidence review covering clinical receptor categories,
-   intrinsic subtypes, PAM50 implementation, discordance studies, prognosis,
-   assay variability, tumor purity, and known confounding.
+   intrinsic subtypes, PAM50 implementations, classification stability,
+   discordance studies, prognosis, assay variability, tumor purity, and confounding.
 2. Register PubMed and any permitted full-text sources before automated use.
 3. Record exact queries, dates, filters, APIs, exports, counts, and checksums.
 4. Define duplicate handling, screening criteria, extraction fields, two-person
@@ -195,7 +197,7 @@ Actions:
 6. Build an evidence table separating supporting, conflicting, null, and
    nonapplicable results.
 7. Identify the original TCGA breast-cancer analysis and subsequent discordance
-   literature without assuming novelty.
+   and stability literature without assuming novelty.
 
 Required standards:
 
@@ -247,20 +249,22 @@ biology and prognosis.
 
 Primary analysis:
 
-1. Freeze the receptor-category and intrinsic-subtype definitions.
-2. Freeze the expected-category mapping and unclassifiable rules.
-3. Estimate the overall discordance proportion with a 95% confidence interval.
-4. Report the complete transition matrix and per-category proportions.
-5. Use an alluvial/Sankey figure to show direction, not merely a single rate.
+1. Freeze the HR-positive/HER2-negative clinical eligibility definition.
+2. Freeze each PAM50 preprocessing and classifier implementation.
+3. Freeze the consensus, confidence, instability, and unclassifiable rules.
+4. Estimate stable luminal, robust non-luminal, unstable, and unclassifiable
+   proportions with 95% confidence intervals.
+5. Report complete cross-implementation transitions and centroid margins.
+6. Use an alluvial/Sankey figure to show individual assignment movement.
 
 Prespecified secondary analyses:
 
 - classification agreement metrics with known prevalence limitations;
-- associations between discordance and age, stage, histology, purity, and
+- associations between stability group and age, stage, histology, purity, and
   relevant assay variables;
 - selected pathway, immune, mutation, and copy-number comparisons;
 - exploratory overall-survival analysis with effect estimates and diagnostics;
-- sensitivity to alternative defensible mappings and PAM50 preprocessing;
+- sensitivity to prespecified PAM50 preprocessing and consensus rules;
 - analyses excluding low-confidence, missing, or ambiguous classifications.
 
 The protocol must specify:
@@ -331,8 +335,8 @@ Gate: no scientific result is interpreted until cohort QA is approved.
 Actions:
 
 1. Run the preregistered primary classification analysis once on the frozen cohort.
-2. Generate the transition matrix, category-specific estimates, uncertainty,
-   and alluvial figure.
+2. Generate cross-implementation transitions, stability estimates, uncertainty,
+   centroid-margin results, and the alluvial figure.
 3. Execute prespecified clinicopathologic association models.
 4. Execute only the molecular analyses defined in the protocol.
 5. Apply multiplicity control by analysis family.
@@ -374,7 +378,7 @@ Actions:
 1. Rerun the complete pipeline in a clean environment from immutable snapshots.
 2. Compare all key numerical outputs within declared tolerances.
 3. Verify that tables and figures are generated directly from frozen outputs.
-4. Test alternative mappings and preprocessing exactly as preregistered.
+4. Test implementation, preprocessing, and consensus perturbations exactly as preregistered.
 5. Conduct subgroup and fairness-oriented checks only where sample sizes permit.
 6. Run leakage, cohort-overlap, duplicate-sample, and data-lineage checks.
 7. Have an independent reviewer inspect randomly selected claim-to-result links.
@@ -392,7 +396,7 @@ Before opening validation outcomes:
 
 Validation actions:
 
-- reproduce the primary transition pattern and discordance estimate;
+- reproduce the primary stable and unstable proportions and transition pattern;
 - test prespecified key correlates;
 - quantify heterogeneity rather than requiring identical point estimates;
 - report assay, population, treatment-era, and preprocessing differences;
@@ -442,7 +446,7 @@ Planned manuscript:
    - validation, software, reproducibility, and AI-use disclosure.
 4. Results
    - cohort flow and characteristics;
-   - primary transition and discordance results;
+   - primary stability groups, transitions, and confidence results;
    - clinicopathologic and molecular characterization;
    - exploratory outcome results;
    - sensitivity and external-validation results.
@@ -493,7 +497,7 @@ Website implementation:
 
 1. Add a dedicated paper-data module under `src/data/`.
 2. Add a `researchItems` record in `src/data/researchLibrary.js`.
-3. Add figures under `public/research/brca-discordance/visuals/`.
+3. Add figures under `public/research/pam50-stability/visuals/`.
 4. Add the PDF under `public/research/papers/`.
 5. Render the long-form route at the planned `/research/...` URL.
 6. Provide summary, methods, results, limitations, sources, citation, related
@@ -549,13 +553,13 @@ build or deploy patient-level decision support.
 | ID | Artifact | Purpose |
 | --- | --- | --- |
 | Figure 1 | Study and cohort-flow diagram | Make selection and missingness visible |
-| Figure 2 | Clinical-to-molecular alluvial plot | Show the direction of category transitions |
-| Figure 3 | Discordance matrix with uncertainty | Report primary estimates and denominators |
-| Figure 4 | Clinicopathologic correlates | Characterize who is represented in each group |
-| Figure 5 | Prespecified molecular/pathway landscape | Describe biological differences without cherry-picking |
+| Figure 2 | Cross-implementation alluvial plot | Show how individual subtype assignments move |
+| Figure 3 | Stability and centroid-margin results | Report primary groups, confidence, and denominators |
+| Figure 4 | Clinicopathologic correlates | Compare stable luminal, robust non-luminal, and unstable groups |
+| Figure 5 | Prespecified molecular/pathway landscape | Test whether robust discordance has distinct biology |
 | Figure 6 | External-validation comparison | Show transportability and heterogeneity |
 | Table 1 | Cohort characteristics and missingness | Describe discovery and validation cohorts |
-| Table 2 | Primary and category-specific discordance | Report estimates with confidence intervals |
+| Table 2 | Primary stability-group proportions | Report estimates with confidence intervals |
 | Table 3 | Prespecified adjusted associations | Report effect sizes, uncertainty, and multiplicity |
 | Table 4 | Sensitivity and validation results | Preserve robustness, nulls, and contradictions |
 

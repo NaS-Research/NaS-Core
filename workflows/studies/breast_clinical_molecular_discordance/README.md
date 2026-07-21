@@ -1,4 +1,7 @@
-# NAS-BRCA-002: When the Label Doesn't Match the Biology: Clinical-Molecular Discordance in Breast Cancer
+# NAS-BRCA-002: Not All Discordance Is Equal
+
+**Robust and Unstable Molecular Reclassification in HR-Positive/HER2-Negative
+Breast Cancer**
 
 This directory contains versioned definitions, deterministic code, tests, and
 reviews for one NaS study. It must not contain raw data, credentials, PHI,
