@@ -1,0 +1,146 @@
+{
+  "$defs": {
+    "ScreeningDecision": {
+      "enum": [
+        "pending",
+        "include",
+        "exclude",
+        "unclear"
+      ],
+      "title": "ScreeningDecision",
+      "type": "string"
+    },
+    "ScreeningDecisionInput": {
+      "additionalProperties": false,
+      "properties": {
+        "change_reason": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Change Reason"
+        },
+        "decision": {
+          "$ref": "#/$defs/ScreeningDecision"
+        },
+        "exclusion_reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScreeningExclusionReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "screening_id": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Screening Id",
+          "type": "string"
+        },
+        "supersedes_event_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Supersedes Event Id"
+        }
+      },
+      "required": [
+        "screening_id",
+        "decision"
+      ],
+      "title": "ScreeningDecisionInput",
+      "type": "object"
+    },
+    "ScreeningExclusionReason": {
+      "enum": [
+        "nonhuman_or_no_primary_human_tumor_cohort",
+        "no_molecular_intrinsic_subtype_measure",
+        "no_relevant_discordance_stability_or_classifier_method",
+        "review_editorial_or_commentary_for_citation_chaining_only",
+        "duplicate_or_superseded_report_without_distinct_contribution",
+        "outside_breast_cancer_scope"
+      ],
+      "title": "ScreeningExclusionReason",
+      "type": "string"
+    },
+    "ScreeningReviewerRole": {
+      "enum": [
+        "founder_internal_reviewer"
+      ],
+      "title": "ScreeningReviewerRole",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "decisions": {
+      "items": {
+        "$ref": "#/$defs/ScreeningDecisionInput"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Decisions",
+      "type": "array"
+    },
+    "expected_previous_progress_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Previous Progress Id"
+    },
+    "queue_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Queue Id",
+      "type": "string"
+    },
+    "reviewer_id": {
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "title": "Reviewer Id",
+      "type": "string"
+    },
+    "reviewer_name": {
+      "minLength": 1,
+      "title": "Reviewer Name",
+      "type": "string"
+    },
+    "reviewer_role": {
+      "$ref": "#/$defs/ScreeningReviewerRole"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "queue_id",
+    "reviewer_id",
+    "reviewer_name",
+    "reviewer_role",
+    "decisions"
+  ],
+  "title": "ScreeningDecisionBatch",
+  "type": "object"
+}

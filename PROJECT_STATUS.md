@@ -44,6 +44,9 @@ Current gate state:
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` contains all 457 records as pending with zero
   human and zero AI decisions; human screening has not started.
+- The append-only founder-review workflow is implemented with resumable batches,
+  immutable decision events, explicit supersession, and verified progress receipts.
+  The first real founder decision batch has not been submitted.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -51,9 +54,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Implement the reviewer decision workflow for small batches with immutable
-   decision events, progress receipts, and resumable founder review.
-2. Record founder title/abstract decisions, adjudicate unclear records, populate
+1. Begin founder title/abstract screening in small batches and preserve each
+   sequential verified aggregate progress receipt.
+2. Complete founder decisions, adjudicate unclear records, populate
    the evidence matrix, and produce a novelty memo with an explicit no-go test.
 3. Complete discovery and validation source feasibility, including exact variable
    mappings, terms, compatibility, independence, overlap, and source-registry review.
@@ -82,6 +85,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Governed resumable founder screening workflow
+
+Implemented deterministic next-batch selection and an append-only human decision
+ledger for the verified 457-record queue. Each batch is bound to the latest progress
+state; stale submissions, unknown records, unapproved exclusion reasons, duplicate
+decisions, malformed correction chains, tampered artifacts, and premature claims
+fail closed. Corrections and unclear adjudication explicitly supersede—but never
+delete—prior events. Verification independently reloads the queue, manifest,
+cumulative ledger, and summary before emitting a concise Git-safe receipt. The
+workflow records the founder internal-review role and hard-codes zero AI decisions.
+No real screening decision or scientific conclusion was created.
+
+Validation: canonical decision, progress-manifest, and progress-receipt schemas;
+synthetic initial, resumed, stale-state, supersession, and tamper tests; repository
+validation passed Ruff, strict MyPy, study-contract checks, and all 107 tests.
 
 ### 2026-07-22 — First verified NAS-BRCA-002 screening queue
 
@@ -138,19 +157,6 @@ search or scientific screening was performed.
 
 Validation: Ruff, strict MyPy, focused provenance tests, and all 94 repository
 tests passed; live execution requires a valid API contact email.
-
-### 2026-07-22 — Founder-authorized NAS-BRCA-002 Phase 0 audit
-
-Recorded Dalron J. Robertson's explicit authorization for the bounded novelty and
-data-feasibility audit under question version `0.2.0`. Locked the literature-search
-and source-feasibility specifications and authorized bibliographic retrieval,
-source assessment, and non-outcome metadata queries. Outcome-bearing data access,
-hypothesis testing, question selection, novelty claims, and clinical claims remain
-prohibited. The authorization includes role-conflict disclosure and a permanent
-human-readable review record.
-
-Validation: typed authorization and cross-artifact fail-closed rules passed Ruff,
-strict MyPy, and all 89 repository tests.
 
 ## Current blockers
 

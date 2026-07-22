@@ -12,13 +12,22 @@ from nas_core.domain.cohorts import (
     write_cohort_schemas,
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
-from nas_core.domain.literature import load_literature_search_receipt, write_literature_schemas
+from nas_core.domain.literature import (
+    load_literature_search_receipt,
+    load_screening_decision_batch,
+    load_screening_progress_receipt,
+    load_screening_queue_receipt,
+    write_literature_schemas,
+    write_screening_progress_receipt,
+    write_screening_review_schemas,
+)
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.literature import LiteratureSearchService
+from nas_core.retrieval.review import ScreeningReviewService
 from nas_core.retrieval.screening import ScreeningQueueService
 from nas_core.storage.layout import DataLayout
 from nas_core.storage.object_store import get_object_store
@@ -188,6 +197,50 @@ def build_parser() -> argparse.ArgumentParser:
     screening_build.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
     screening_build.add_argument(
         "--execute", action="store_true", help="Read verified records and persist the queue"
+    )
+    screening_next = literature_commands.add_parser(
+        "screening-next", help="Display the next resumable founder-review batch"
+    )
+    screening_next.add_argument("receipt", type=Path, help="Verified screening_queue_receipt.yaml")
+    screening_next.add_argument(
+        "--progress-receipt", type=Path, help="Latest verified screening progress receipt"
+    )
+    screening_next.add_argument("--batch-size", type=int, default=20, help="Records to display")
+    screening_next.add_argument(
+        "--include-unclear",
+        action="store_true",
+        help="Include records whose latest decision is unclear for adjudication",
+    )
+    screening_record = literature_commands.add_parser(
+        "screening-record", help="Record and verify one immutable founder-review batch"
+    )
+    screening_record.add_argument(
+        "receipt", type=Path, help="Verified screening_queue_receipt.yaml"
+    )
+    screening_record.add_argument(
+        "decisions", type=Path, help="Typed screening decision batch YAML"
+    )
+    screening_record.add_argument(
+        "--previous-progress-receipt", type=Path, help="Latest verified progress receipt"
+    )
+    screening_record.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
+    screening_record.add_argument(
+        "--receipt-output", type=Path, help="New path for the verified aggregate progress receipt"
+    )
+    screening_record.add_argument(
+        "--execute", action="store_true", help="Persist decision events and verify progress"
+    )
+    screening_review_schema = literature_commands.add_parser(
+        "screening-review-schema", help="Write founder-review JSON Schemas"
+    )
+    screening_review_schema.add_argument(
+        "decision_batch_path", type=Path, help="Decision-batch schema output path"
+    )
+    screening_review_schema.add_argument(
+        "progress_manifest_path", type=Path, help="Progress-manifest schema output path"
+    )
+    screening_review_schema.add_argument(
+        "progress_receipt_path", type=Path, help="Progress-receipt schema output path"
     )
 
     program = commands.add_parser("program", help="Manage research program charters")
@@ -435,6 +488,75 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             f"Created immutable screening queue {queue.queue_id}: "
             f"{queue.summary.pending_record_count} pending human decisions"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-next":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = (
+            load_screening_progress_receipt(args.progress_receipt)
+            if args.progress_receipt
+            else None
+        )
+        review_batch = ScreeningReviewService(store=get_object_store()).next_batch(
+            queue_receipt,
+            progress_receipt=progress_receipt,
+            batch_size=args.batch_size,
+            include_unclear=args.include_unclear,
+        )
+        print(json.dumps(review_batch.model_dump(mode="json", exclude_none=True), indent=2))
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-record":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        decision_batch = load_screening_decision_batch(args.decisions)
+        progress_receipt = (
+            load_screening_progress_receipt(args.previous_progress_receipt)
+            if args.previous_progress_receipt
+            else None
+        )
+        review_service = ScreeningReviewService(store=get_object_store())
+        if not args.execute:
+            review_service.validate_batch(
+                queue_receipt,
+                decision_batch,
+                code_revision=args.code_revision,
+                progress_receipt=progress_receipt,
+            )
+            print(
+                f"Review batch is valid: {len(decision_batch.decisions)} founder decisions "
+                f"for queue {decision_batch.queue_id}, code {args.code_revision}"
+            )
+            print("Dry run only; no queue records were read and no decisions were stored.")
+            return 0
+        if args.receipt_output is None:
+            raise SystemExit("--receipt-output is required with --execute")
+        progress = review_service.record_batch(
+            queue_receipt,
+            decision_batch,
+            code_revision=args.code_revision,
+            progress_receipt=progress_receipt,
+        )
+        verified_receipt = review_service.verify(queue_receipt, progress)
+        write_screening_progress_receipt(args.receipt_output, verified_receipt)
+        print(
+            f"Recorded immutable screening progress {progress.progress_id}: "
+            f"{progress.summary.decided_record_count}/"
+            f"{progress.summary.total_record_count} records decided"
+        )
+        print(f"Wrote verified aggregate receipt: {args.receipt_output}")
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-review-schema":
+        write_screening_review_schemas(
+            args.decision_batch_path,
+            args.progress_manifest_path,
+            args.progress_receipt_path,
+        )
+        print(
+            "Wrote screening-review schemas: "
+            f"{args.decision_batch_path}, {args.progress_manifest_path}, "
+            f"{args.progress_receipt_path}"
         )
         return 0
 

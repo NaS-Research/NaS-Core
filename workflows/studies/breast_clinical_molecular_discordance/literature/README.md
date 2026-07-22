@@ -33,3 +33,10 @@ states and mandatory human provenance for every decision. Verified queue
 `b02c2abf…f042` contains all 457 titles and abstracts as pending, with zero human
 and zero AI decisions. It remains outside Git; the aggregate
 [`screening_queue_receipt.yaml`](screening_queue_receipt.yaml) records provenance.
+
+The append-only founder-review engine is implemented. It produces deterministic
+pending batches, rejects stale or duplicate submissions, locks exclusions to the
+protocol taxonomy, supports explicit supersession for correction and unclear-record
+adjudication, verifies the full cumulative event chain, and writes only aggregate
+progress receipts to Git. Screening remains unstarted. Follow
+[`SCREENING_WORKFLOW.md`](SCREENING_WORKFLOW.md) for each small review batch.

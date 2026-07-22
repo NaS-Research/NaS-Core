@@ -47,6 +47,11 @@ and internal reviewer. Any future AI triage is advisory only, is stored separate
 and cannot populate the final decision, reviewer, timestamp, or exclusion reason.
 The initial queue contains zero human and zero AI decisions.
 
+Final decisions are recorded as append-only events. Corrections and resolution of
+an `unclear` decision must explicitly supersede the current event and state why;
+prior events remain immutable. Each batch is bound to the latest verified progress
+receipt so stale submissions cannot silently replace newer review work.
+
 ## Full-text stage
 
 Included and unresolved records proceed to a separately versioned full-text queue.

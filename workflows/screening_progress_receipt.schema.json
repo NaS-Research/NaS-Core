@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "ScreeningProgressSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "completion_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Completion Percent",
+          "type": "number"
+        },
+        "decided_record_count": {
+          "minimum": 0,
+          "title": "Decided Record Count",
+          "type": "integer"
+        },
+        "decision_event_count": {
+          "minimum": 0,
+          "title": "Decision Event Count",
+          "type": "integer"
+        },
+        "excluded_record_count": {
+          "minimum": 0,
+          "title": "Excluded Record Count",
+          "type": "integer"
+        },
+        "included_record_count": {
+          "minimum": 0,
+          "title": "Included Record Count",
+          "type": "integer"
+        },
+        "pending_record_count": {
+          "minimum": 0,
+          "title": "Pending Record Count",
+          "type": "integer"
+        },
+        "total_record_count": {
+          "minimum": 1,
+          "title": "Total Record Count",
+          "type": "integer"
+        },
+        "unclear_record_count": {
+          "minimum": 0,
+          "title": "Unclear Record Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total_record_count",
+        "decided_record_count",
+        "pending_record_count",
+        "included_record_count",
+        "excluded_record_count",
+        "unclear_record_count",
+        "decision_event_count",
+        "completion_percent"
+      ],
+      "title": "ScreeningProgressSummary",
+      "type": "object"
+    },
+    "ScreeningStatus": {
+      "enum": [
+        "not_started",
+        "in_progress",
+        "complete"
+      ],
+      "title": "ScreeningStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "ai_decisions_recorded": {
+      "minimum": 0,
+      "title": "Ai Decisions Recorded",
+      "type": "integer"
+    },
+    "algorithm_version": {
+      "minLength": 1,
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "artifact_checksums_verified": {
+      "title": "Artifact Checksums Verified",
+      "type": "boolean"
+    },
+    "batch_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Batch Id",
+      "type": "string"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "count_invariants_verified": {
+      "title": "Count Invariants Verified",
+      "type": "boolean"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "decisions_object_key": {
+      "minLength": 1,
+      "title": "Decisions Object Key",
+      "type": "string"
+    },
+    "decisions_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Decisions Sha256",
+      "type": "string"
+    },
+    "decisions_size_bytes": {
+      "minimum": 1,
+      "title": "Decisions Size Bytes",
+      "type": "integer"
+    },
+    "event_chain_verified": {
+      "title": "Event Chain Verified",
+      "type": "boolean"
+    },
+    "manifest_checksum_verified": {
+      "title": "Manifest Checksum Verified",
+      "type": "boolean"
+    },
+    "manifest_object_key": {
+      "minLength": 1,
+      "title": "Manifest Object Key",
+      "type": "string"
+    },
+    "manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Manifest Sha256",
+      "type": "string"
+    },
+    "previous_progress_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Previous Progress Id"
+    },
+    "progress_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Progress Id",
+      "type": "string"
+    },
+    "queue_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Queue Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_conclusions_drawn": {
+      "title": "Scientific Conclusions Drawn",
+      "type": "boolean"
+    },
+    "screening_status": {
+      "$ref": "#/$defs/ScreeningStatus"
+    },
+    "summary": {
+      "$ref": "#/$defs/ScreeningProgressSummary"
+    },
+    "summary_object_key": {
+      "minLength": 1,
+      "title": "Summary Object Key",
+      "type": "string"
+    },
+    "summary_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Summary Sha256",
+      "type": "string"
+    },
+    "summary_size_bytes": {
+      "minimum": 1,
+      "title": "Summary Size Bytes",
+      "type": "integer"
+    },
+    "verified_at": {
+      "format": "date-time",
+      "title": "Verified At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "progress_id",
+    "queue_id",
+    "batch_id",
+    "algorithm_version",
+    "code_revision",
+    "created_at",
+    "manifest_object_key",
+    "manifest_sha256",
+    "decisions_object_key",
+    "decisions_sha256",
+    "decisions_size_bytes",
+    "summary_object_key",
+    "summary_sha256",
+    "summary_size_bytes",
+    "summary",
+    "verified_at",
+    "manifest_checksum_verified",
+    "artifact_checksums_verified",
+    "event_chain_verified",
+    "count_invariants_verified",
+    "screening_status",
+    "ai_decisions_recorded",
+    "scientific_conclusions_drawn"
+  ],
+  "title": "ScreeningProgressReceipt",
+  "type": "object"
+}

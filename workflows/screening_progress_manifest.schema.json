@@ -1,0 +1,250 @@
+{
+  "$defs": {
+    "ScreeningProgressSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "completion_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Completion Percent",
+          "type": "number"
+        },
+        "decided_record_count": {
+          "minimum": 0,
+          "title": "Decided Record Count",
+          "type": "integer"
+        },
+        "decision_event_count": {
+          "minimum": 0,
+          "title": "Decision Event Count",
+          "type": "integer"
+        },
+        "excluded_record_count": {
+          "minimum": 0,
+          "title": "Excluded Record Count",
+          "type": "integer"
+        },
+        "included_record_count": {
+          "minimum": 0,
+          "title": "Included Record Count",
+          "type": "integer"
+        },
+        "pending_record_count": {
+          "minimum": 0,
+          "title": "Pending Record Count",
+          "type": "integer"
+        },
+        "total_record_count": {
+          "minimum": 1,
+          "title": "Total Record Count",
+          "type": "integer"
+        },
+        "unclear_record_count": {
+          "minimum": 0,
+          "title": "Unclear Record Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total_record_count",
+        "decided_record_count",
+        "pending_record_count",
+        "included_record_count",
+        "excluded_record_count",
+        "unclear_record_count",
+        "decision_event_count",
+        "completion_percent"
+      ],
+      "title": "ScreeningProgressSummary",
+      "type": "object"
+    },
+    "ScreeningReviewerRole": {
+      "enum": [
+        "founder_internal_reviewer"
+      ],
+      "title": "ScreeningReviewerRole",
+      "type": "string"
+    },
+    "StoredObject": {
+      "additionalProperties": false,
+      "properties": {
+        "file_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "File Ids",
+          "type": "array"
+        },
+        "media_type": {
+          "minLength": 1,
+          "title": "Media Type",
+          "type": "string"
+        },
+        "object_key": {
+          "minLength": 1,
+          "title": "Object Key",
+          "type": "string"
+        },
+        "record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Record Ids",
+          "type": "array"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_key",
+        "media_type",
+        "size_bytes",
+        "sha256"
+      ],
+      "title": "StoredObject",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "added_event_count": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Added Event Count",
+      "type": "integer"
+    },
+    "ai_decisions_recorded": {
+      "minimum": 0,
+      "title": "Ai Decisions Recorded",
+      "type": "integer"
+    },
+    "algorithm_version": {
+      "minLength": 1,
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/StoredObject"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "batch_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Batch Id",
+      "type": "string"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "manifest_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Manifest Sha256"
+    },
+    "previous_progress_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Previous Progress Id"
+    },
+    "progress_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Progress Id",
+      "type": "string"
+    },
+    "queue_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Queue Id",
+      "type": "string"
+    },
+    "queue_object_key": {
+      "minLength": 1,
+      "title": "Queue Object Key",
+      "type": "string"
+    },
+    "queue_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Queue Sha256",
+      "type": "string"
+    },
+    "reviewer_id": {
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "title": "Reviewer Id",
+      "type": "string"
+    },
+    "reviewer_name": {
+      "minLength": 1,
+      "title": "Reviewer Name",
+      "type": "string"
+    },
+    "reviewer_role": {
+      "$ref": "#/$defs/ScreeningReviewerRole"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_conclusions_drawn": {
+      "title": "Scientific Conclusions Drawn",
+      "type": "boolean"
+    },
+    "summary": {
+      "$ref": "#/$defs/ScreeningProgressSummary"
+    }
+  },
+  "required": [
+    "progress_id",
+    "queue_id",
+    "batch_id",
+    "algorithm_version",
+    "code_revision",
+    "created_at",
+    "reviewer_id",
+    "reviewer_name",
+    "reviewer_role",
+    "queue_object_key",
+    "queue_sha256",
+    "artifacts",
+    "summary",
+    "added_event_count",
+    "ai_decisions_recorded",
+    "scientific_conclusions_drawn"
+  ],
+  "title": "ScreeningProgressManifest",
+  "type": "object"
+}
