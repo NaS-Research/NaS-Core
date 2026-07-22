@@ -1,0 +1,304 @@
+{
+  "$defs": {
+    "CohortArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "media_type": {
+          "minLength": 1,
+          "title": "Media Type",
+          "type": "string"
+        },
+        "object_key": {
+          "minLength": 1,
+          "title": "Object Key",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_key",
+        "media_type",
+        "size_bytes",
+        "sha256"
+      ],
+      "title": "CohortArtifact",
+      "type": "object"
+    },
+    "CohortGateStatus": {
+      "enum": [
+        "pending_founder_review",
+        "approved",
+        "changes_requested",
+        "on_hold",
+        "rejected"
+      ],
+      "title": "CohortGateStatus",
+      "type": "string"
+    },
+    "CohortVerification": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_checksums": {
+          "const": "passed",
+          "title": "Artifact Checksums",
+          "type": "string"
+        },
+        "case_partition_complete": {
+          "const": "passed",
+          "title": "Case Partition Complete",
+          "type": "string"
+        },
+        "case_partition_disjoint": {
+          "const": "passed",
+          "title": "Case Partition Disjoint",
+          "type": "string"
+        },
+        "case_partition_unique": {
+          "const": "passed",
+          "title": "Case Partition Unique",
+          "type": "string"
+        },
+        "manifest_payload_checksum": {
+          "const": "passed",
+          "title": "Manifest Payload Checksum",
+          "type": "string"
+        },
+        "outcome_analysis_performed": {
+          "const": false,
+          "title": "Outcome Analysis Performed",
+          "type": "boolean"
+        },
+        "requested_field_missingness_complete": {
+          "const": "passed",
+          "title": "Requested Field Missingness Complete",
+          "type": "string"
+        },
+        "verified_at": {
+          "format": "date-time",
+          "title": "Verified At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "verified_at",
+        "manifest_payload_checksum",
+        "artifact_checksums",
+        "case_partition_unique",
+        "case_partition_disjoint",
+        "case_partition_complete",
+        "requested_field_missingness_complete",
+        "outcome_analysis_performed"
+      ],
+      "title": "CohortVerification",
+      "type": "object"
+    },
+    "ReviewDecision": {
+      "enum": [
+        "pending",
+        "approved",
+        "advisory_complete",
+        "changes_requested",
+        "rejected"
+      ],
+      "title": "ReviewDecision",
+      "type": "string"
+    },
+    "ReviewRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/ReviewDecision"
+        },
+        "notes": {
+          "minLength": 1,
+          "title": "Notes",
+          "type": "string"
+        },
+        "required_for_gate": {
+          "title": "Required For Gate",
+          "type": "boolean"
+        },
+        "review_type": {
+          "$ref": "#/$defs/ReviewType"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer",
+        "role",
+        "review_type",
+        "required_for_gate",
+        "decision",
+        "notes"
+      ],
+      "title": "ReviewRecord",
+      "type": "object"
+    },
+    "ReviewType": {
+      "description": "Review provenance; only human review types may authorize lifecycle gates.",
+      "enum": [
+        "internal_self_review",
+        "ai_assisted_internal_review",
+        "independent_human_review",
+        "journal_peer_review"
+      ],
+      "title": "ReviewType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "algorithm_version": {
+      "minLength": 1,
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/CohortArtifact"
+      },
+      "minItems": 3,
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "build_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Build Id",
+      "type": "string"
+    },
+    "built_at": {
+      "format": "date-time",
+      "title": "Built At",
+      "type": "string"
+    },
+    "code_revision": {
+      "minLength": 7,
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "excluded_case_count": {
+      "minimum": 0,
+      "title": "Excluded Case Count",
+      "type": "integer"
+    },
+    "exclusion_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Exclusion Counts",
+      "type": "object"
+    },
+    "included_case_count": {
+      "minimum": 0,
+      "title": "Included Case Count",
+      "type": "integer"
+    },
+    "input_case_count": {
+      "minimum": 0,
+      "title": "Input Case Count",
+      "type": "integer"
+    },
+    "manifest_object_key": {
+      "minLength": 1,
+      "title": "Manifest Object Key",
+      "type": "string"
+    },
+    "manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Manifest Sha256",
+      "type": "string"
+    },
+    "protocol_tag": {
+      "minLength": 1,
+      "title": "Protocol Tag",
+      "type": "string"
+    },
+    "protocol_version": {
+      "minLength": 1,
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "qa_gate_status": {
+      "$ref": "#/$defs/CohortGateStatus"
+    },
+    "reviews": {
+      "items": {
+        "$ref": "#/$defs/ReviewRecord"
+      },
+      "minItems": 1,
+      "title": "Reviews",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "study_id": {
+      "minLength": 1,
+      "title": "Study Id",
+      "type": "string"
+    },
+    "verification": {
+      "$ref": "#/$defs/CohortVerification"
+    }
+  },
+  "required": [
+    "study_id",
+    "protocol_version",
+    "protocol_tag",
+    "snapshot_id",
+    "build_id",
+    "algorithm_version",
+    "code_revision",
+    "built_at",
+    "input_case_count",
+    "included_case_count",
+    "excluded_case_count",
+    "exclusion_counts",
+    "manifest_object_key",
+    "manifest_sha256",
+    "artifacts",
+    "verification",
+    "qa_gate_status",
+    "reviews"
+  ],
+  "title": "CohortBuildReceipt",
+  "type": "object"
+}

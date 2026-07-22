@@ -28,6 +28,7 @@ stages:
     status: in_progress
     required_artifacts:
       - analysis/README.md
+      - analysis/cohort_build_receipt.yaml
       - tests/README.md
     completion_gate: Deterministic pipeline and synthetic tests pass; run artifacts are frozen.
   - stage: evidence

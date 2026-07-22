@@ -92,6 +92,7 @@ def build_parser() -> argparse.ArgumentParser:
     cohort_schema = cohort_commands.add_parser("schema", help="Write cohort JSON Schemas")
     cohort_schema.add_argument("qa_path", type=Path, help="Output path for QA schema")
     cohort_schema.add_argument("manifest_path", type=Path, help="Output path for manifest schema")
+    cohort_schema.add_argument("receipt_path", type=Path, help="Output path for receipt schema")
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -215,8 +216,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
 
     if args.command == "cohort" and args.cohort_command == "schema":
-        write_cohort_schemas(args.qa_path, args.manifest_path)
-        print(f"Wrote cohort schemas: {args.qa_path}, {args.manifest_path}")
+        write_cohort_schemas(args.qa_path, args.manifest_path, args.receipt_path)
+        print(f"Wrote cohort schemas: {args.qa_path}, {args.manifest_path}, {args.receipt_path}")
         return 0
 
     if args.command == "program" and args.program_command == "validate":

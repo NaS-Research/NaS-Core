@@ -8,33 +8,38 @@ and what comes next?
 
 ## Current focus
 
-### Implement the deterministic NAS-BRCA-001 cohort pipeline
+### Review and freeze the NAS-BRCA-001 cohort gate
 
-Transform the verified immutable GDC snapshot into an analysis-ready cohort
-using only protocol `1.1.0` rules. Do not fit survival models or inspect final
-stage-outcome results until cohort construction and quality control are frozen.
+Complete the founder cohort-QA review for immutable build
+`73bfc986…d2e53` before implementing or running survival models. The AI-assisted
+integrity review is advisory and cannot authorize this gate.
 
 Definition of done:
 
-- Load only the receipt-identified snapshot and verify its manifest before transformation.
-- Select one primary diagnosis per case using the preregistered flag and tie-break rules.
-- Normalize stage, age, vital status, death time, and follow-up time deterministically.
-- Apply mutually exclusive exclusions in a declared order and retain a case-level audit log.
-- Produce cohort-flow, missingness, and field-normalization summaries without
-  fitting or displaying the primary survival association.
-- Write analysis-ready data and QA artifacts immutably with checksums and code provenance.
-- Cover every derivation and edge case with synthetic tests before outcome analysis.
+- Founder reviews the typed receipt, cohort flow, requested-field missingness,
+  normalization coverage, and included-versus-excluded selection descriptives.
+- Founder records an explicit decision, timestamp, rationale, required changes,
+  and accepted limitations in the cohort review record.
+- An approval must retain the AJCC-edition and five-year-censoring sensitivities
+  and the complete-case selection limitation.
+- The typed receipt must reject an approved gate unless every required review is approved.
+- If approved, tag the frozen gate as `NAS-BRCA-001-cohort-v1.0.0` before modeling.
+- If changes are requested, preserve this build and create a new algorithm version
+  without inspecting stage-by-outcome results.
 
 Current gate state:
 
 - Protocol and tag: complete.
 - Data Release 45 snapshot: complete and independently checksum-verified.
-- Snapshot receipt: recorded; 1,098 cases, three pages, zero API warnings.
+- Deterministic cohort build: complete; 1,037 included and 61 excluded.
+- Build receipt and independent artifact verification: complete.
+- AI-assisted cohort integrity review: advisory complete.
+- Founder cohort-QA review: pending.
 - Outcome analysis: not started.
 
 ## Next implementation queue
 
-1. Implement and freeze the deterministic TCGA-BRCA cohort and QA pipeline.
+1. Complete founder cohort-QA review and, if approved, tag the frozen cohort gate.
 2. Implement the prespecified survival analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
    tables, figures, effect sizes, and uncertainty.
@@ -63,6 +68,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-21 — First governed NAS-BRCA-001 analysis cohort
+
+Built the first immutable analysis-ready cohort from the verified Data Release
+45 snapshot using only protocol `1.1.0` rules and code revision `912e281`.
+Selected one primary diagnosis per case, normalized stage and survival fields,
+and applied mutually exclusive exclusions with a case-level audit log. The
+result contains 1,037 included cases and 61 excluded cases. Independently
+recomputed the build manifest and all artifact checksums, confirmed a unique,
+disjoint, complete 1,098-case partition, and recorded a typed receipt plus
+AI-assisted QA review. No stage-by-outcome comparison or survival model was run.
+
+Validation: build `73bfc986…d2e53`; cohort, exclusions, and QA artifacts verified;
+Ruff, strict MyPy, and the full test suite passed.
 
 ### 2026-07-21 — First governed NAS-BRCA-001 dataset snapshot
 
@@ -118,23 +137,6 @@ checklist. The protocol remains unapproved and ingestion remains blocked.
 Validation: protocol `1.1.0` and the study workspace passed governed validation;
 Ruff passed, strict MyPy passed, and 61 tests passed.
 
-### 2026-07-20 — Founder-led research review and publication governance
-
-Aligned NaS Core with the present one-person operating reality. Added typed
-review provenance for founder self-review, AI-assisted advisory review,
-independent human expert feedback, and journal peer review. Founder approval may
-authorize an internal gate when conflicts and limitations are disclosed; AI can
-identify issues but cannot approve or authorize any gate. Updated both breast
-cancer studies, templates, policies, publication states, and public-disclosure
-requirements. External dataset validation remains scientifically independent,
-while external expert critique is planned near manuscript completion and remains
-distinct from journal peer review. No study gate was approved and no biomedical
-data was retrieved as part of this implementation.
-
-Validation: the question template, both study workspaces, the oncology charter,
-and the analysis plan passed governed validation; Ruff passed, strict MyPy
-passed, and 61 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -148,6 +150,8 @@ passed, and 61 tests passed.
   export terms must be established before preregistration.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
+- Survival modeling for `NAS-BRCA-001` is blocked until the founder records the
+  cohort-QA decision and the approved gate, if any, is Git-tagged.
 
 ## Durable decisions and boundaries
 
@@ -156,6 +160,9 @@ passed, and 61 tests passed.
 - OpenAI is a replaceable reasoning provider, not the NaS product or knowledge
   store.
 - Numerical research results come from deterministic executed code.
+- Cohort construction is frozen before outcome modeling. An unexpected result
+  cannot justify silently changing eligibility, normalization, or exclusions;
+  any correction requires a preserved prior build and a new algorithm version.
 - The first pilot is a reproduction of the association between pathologic
   stage and overall survival in TCGA-BRCA, not a clinical validation study.
 - NaS research begins with an intended user and decision. Datasets, articles,

@@ -10,6 +10,7 @@ import yaml
 from nas_core.analysis.cohort import CohortBuildError, CohortBuildService, canonical_json, sha256
 from nas_core.domain.cohorts import (
     CohortBuildManifest,
+    CohortBuildReceipt,
     CohortQASummary,
     SnapshotReceipt,
 )
@@ -29,8 +30,17 @@ RECEIPT_PATH = (
     / "ingestion"
     / "snapshot_receipt.yaml"
 )
+COHORT_RECEIPT_PATH = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "tcga_brca_stage_survival"
+    / "analysis"
+    / "cohort_build_receipt.yaml"
+)
 QA_SCHEMA_PATH = ROOT / "workflows" / "cohort_qa.schema.json"
 MANIFEST_SCHEMA_PATH = ROOT / "workflows" / "cohort_build.schema.json"
+RECEIPT_SCHEMA_PATH = ROOT / "workflows" / "cohort_receipt.schema.json"
 NOW = datetime(2026, 7, 21, 20, 0, tzinfo=UTC)
 SNAPSHOT_ID = "b" * 64
 CODE_REVISION = "a" * 40
@@ -213,10 +223,17 @@ def _fixture() -> tuple[InMemoryObjectStore, SnapshotReceipt, list[dict[str, obj
 
 def test_checked_in_receipt_and_schemas_are_typed() -> None:
     receipt = SnapshotReceipt.model_validate(yaml.safe_load(RECEIPT_PATH.read_text()))
+    cohort_receipt = CohortBuildReceipt.model_validate(
+        yaml.safe_load(COHORT_RECEIPT_PATH.read_text())
+    )
 
     assert receipt.study_id == "NAS-BRCA-001"
+    assert cohort_receipt.study_id == "NAS-BRCA-001"
+    assert cohort_receipt.qa_gate_status == "pending_founder_review"
+    assert cohort_receipt.verification.outcome_analysis_performed is False
     assert json.loads(QA_SCHEMA_PATH.read_text()) == CohortQASummary.model_json_schema()
     assert json.loads(MANIFEST_SCHEMA_PATH.read_text()) == CohortBuildManifest.model_json_schema()
+    assert json.loads(RECEIPT_SCHEMA_PATH.read_text()) == CohortBuildReceipt.model_json_schema()
 
 
 def test_build_creates_cohort_exclusions_and_nonoutcome_qa() -> None:

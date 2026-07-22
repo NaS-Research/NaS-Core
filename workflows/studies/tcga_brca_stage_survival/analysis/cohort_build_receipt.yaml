@@ -1,0 +1,66 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-001
+protocol_version: 1.1.0
+protocol_tag: NAS-BRCA-001-protocol-v1.1.0
+snapshot_id: ec9cac7c70a1f3286c0ae6ad490ec6883e5beb488f6cab3987cb62f68cbef435
+build_id: 73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53
+algorithm_version: tcga-brca-cohort-1.0.0
+code_revision: 912e281
+built_at: '2026-07-22T00:18:39.385041Z'
+input_case_count: 1098
+included_case_count: 1037
+excluded_case_count: 61
+exclusion_counts:
+  invalid_index_date: 2
+  invalid_pathologic_stage: 24
+  invalid_survival_time: 20
+  missing_or_invalid_age: 15
+manifest_object_key: >-
+  analysis-ready/gdc-tcga-open/NAS-BRCA-001/ec9cac7c70a1f3286c0ae6ad490ec6883e5beb488f6cab3987cb62f68cbef435/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/manifest.json
+manifest_sha256: 8ce4263eb2ed307549f5c9dd910f6e83bce4a9fe8f1467e070034061bd7b3dc9
+artifacts:
+  - object_key: >-
+      analysis-ready/gdc-tcga-open/NAS-BRCA-001/ec9cac7c70a1f3286c0ae6ad490ec6883e5beb488f6cab3987cb62f68cbef435/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/cohort.csv
+    media_type: text/csv
+    size_bytes: 162390
+    sha256: 66c83595714b3f47cb878df8f6a855b7924858f959ae01fd8c1dd510c8b09b70
+  - object_key: >-
+      analysis-ready/gdc-tcga-open/NAS-BRCA-001/ec9cac7c70a1f3286c0ae6ad490ec6883e5beb488f6cab3987cb62f68cbef435/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/exclusions.csv
+    media_type: text/csv
+    size_bytes: 3695
+    sha256: da539179b519f6f3a3e6278399ff7d00129bfc535034eb56e80b67092237f6b0
+  - object_key: >-
+      analysis-ready/gdc-tcga-open/NAS-BRCA-001/ec9cac7c70a1f3286c0ae6ad490ec6883e5beb488f6cab3987cb62f68cbef435/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/qa-summary.json
+    media_type: application/json
+    size_bytes: 1552
+    sha256: aa922df46b2bea71db849a742273bf5f76a27e5a42509d229b1af83f66072159
+verification:
+  verified_at: '2026-07-21T19:19:43-05:00'
+  manifest_payload_checksum: passed
+  artifact_checksums: passed
+  case_partition_unique: passed
+  case_partition_disjoint: passed
+  case_partition_complete: passed
+  requested_field_missingness_complete: passed
+  outcome_analysis_performed: false
+qa_gate_status: pending_founder_review
+reviews:
+  - reviewer: Dalron J. Robertson
+    role: Founder, Study Lead, and Internal Cohort QA Reviewer
+    review_type: internal_self_review
+    required_for_gate: true
+    decision: pending
+    reviewed_at: null
+    notes: >-
+      Review cohort flow, requested-field missingness, normalization coverage,
+      selection descriptives, artifact integrity, and accepted limitations before
+      authorizing survival modeling.
+  - reviewer: OpenAI Codex
+    role: AI-assisted cohort integrity and consistency reviewer
+    review_type: ai_assisted_internal_review
+    required_for_gate: false
+    decision: advisory_complete
+    reviewed_at: '2026-07-21T19:19:43-05:00'
+    notes: >-
+      Integrity and aggregate QA review completed in reviews/AI_COHORT_QA_REVIEW.md.
+      No stage-by-outcome analysis, survival curve, or fitted model was performed.

@@ -30,6 +30,10 @@ vital status, duration, event, and time source, and writes:
 The QA summary intentionally contains no stage-by-event table, hazard ratio,
 survival curve, or fitted model.
 
+The current immutable build is recorded in
+[`cohort_build_receipt.yaml`](cohort_build_receipt.yaml). Its AI-assisted QA
+review and pending founder gate are stored in the study `reviews/` directory.
+
 Dry run:
 
 ```bash
