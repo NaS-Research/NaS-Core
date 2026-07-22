@@ -49,9 +49,12 @@ Current gate state:
   The first founder decision batch has been submitted and independently verified.
 - The governed AI advisory screener, OpenAI gateway, locked structured prompt, and
   immutable provenance contracts are implemented and validated without live model
-  use. Founder-authorized policy `1.0.1` accepts standard API abuse-monitoring
-  retention for this exact public/open queue with provider storage disabled. Live
-  calibration is blocked only by the absent local API credential.
+  use. The founder selected zero-API Phase 0 screening, so policy `1.0.2` disables
+  live provider execution. No API credential is required for the active workflow.
+- Deterministic prioritization `1.0.0` ranked all 452 pending records locally: 29
+  core, 158 supporting, and 265 context. It wrote zero screening decisions and drew
+  no conclusion; founder eligibility review and later full-text quality appraisal
+  remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -59,13 +62,12 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Configure `OPENAI_API_KEY` in the repository-local ignored `.env`, then run and
-   verify the first ten-record calibration under founder-authorized policy `1.0.1`.
-2. Implement evaluation against founder-labeled records and lock routing and
-   audit rules before relying on it; do not permit autonomous exclusions in this
-   locked study protocol.
-3. Resume founder screening with AI-prepared batches, adjudicate unclear records,
-   and preserve every sequential verified human progress receipt.
+1. Present the 29 core-priority records in small founder-review batches and record
+   only explicit include, exclude, or unclear decisions against the locked protocol.
+2. Retrieve permitted full text for founder-included records and implement a
+   study-design-specific quality-appraisal form; do not infer quality from rank.
+3. Review supporting records and citation chains until the locked stopping rule is
+   satisfied; preserve eligible contradictory and null evidence regardless of rank.
 4. Complete founder decisions, populate the evidence matrix, and produce a novelty
    memo with an explicit no-go test.
 5. Complete discovery and validation source feasibility, including exact variable
@@ -95,6 +97,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Zero-cost deterministic literature prioritization
+
+Implemented transparent local ranking for every pending NAS-BRCA-002 title and
+abstract without a model, credential, network request, or usage charge. Versioned
+signals cover PAM50/intrinsic subtype, stability, uncertainty, discordance,
+preprocessing, validation, human cohorts, methods, and outcomes, with explicit
+caution signals. The first diagnostic threshold was rejected as too permissive;
+the locked thresholds now identify 29 core, 158 supporting, and 265 context records.
+Ranking creates no eligibility or quality decision and cannot write the human ledger.
+Founder policy `1.0.2` disables live AI execution for Phase 0.
+
+Validation: deterministic scoring and no-decision tests, complete verified pending-
+queue ranking, Ruff, strict MyPy, study validation, and all 116 tests passed.
 
 ### 2026-07-22 — Founder-authorized AI provider retention path
 
@@ -157,27 +173,12 @@ Validation: canonical decision, progress-manifest, and progress-receipt schemas;
 synthetic initial, resumed, stale-state, supersession, and tamper tests; repository
 validation passed Ruff, strict MyPy, study-contract checks, and all 107 tests.
 
-### 2026-07-22 — First verified NAS-BRCA-002 screening queue
-
-Built queue `b02c2abf…f042` from replacement search execution `83d33fb2…4434`
-using pushed engine revision `3f10788`. Queue QA first exposed 334 missing PubMed
-abstracts in an earlier diagnostic queue; the retrieval layer was corrected with
-batched EFetch capture, the search was repeated immutably, and all 457 abstracts
-were independently verified before the replacement queue was accepted. The final
-queue contains 457 unique pending records, zero missing abstracts, zero human
-decisions, and zero AI decisions. The diagnostic snapshot and queue remain retained
-but are not approved inputs.
-
-Validation: manifest `c764c56b…5727`; both queue artifacts, hashes, sizes, 457
-unique screening IDs, abstract coverage, pending status, and zero-decision
-invariants independently verified; typed aggregate receipt added.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
-- Live AI advisory screening is blocked until `OPENAI_API_KEY` is configured in a
-  local ignored `.env`; no credential may be committed or stored in provenance.
+- Paid AI advisory screening is intentionally inactive under founder policy `1.0.2`;
+  the active deterministic Phase 0 workflow requires no API credential.
 - `NAS-BRCA-002` remains unselected pending founder scientific/product,
   molecular/pathology, and statistical self-review. Its bounded Phase 0 audit is
   authorized, but outcome work and formal question selection are not.

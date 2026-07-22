@@ -1,10 +1,14 @@
 # AI Advisory Screening Runbook
 
-Policy: `AI_SCREENING_POLICY.yaml` version `1.0.1`
+Policy: `AI_SCREENING_POLICY.yaml` version `1.0.2` (inactive)
 
 AI screening is advisory. It cannot create, change, or supersede a founder
 decision. All requests, recommendation records, and model manifests remain in
 the external object store; Git receives aggregate receipts only.
+
+The founder selected a zero-API workflow for the current Phase 0. Policy `1.0.2`
+sets `live_execution_authorized: false`; do not perform the calibration or configure
+a credential unless a later prospective founder decision reactivates this pathway.
 
 ## Credential setup
 

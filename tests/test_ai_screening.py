@@ -178,8 +178,8 @@ def test_checked_in_ai_screening_contracts() -> None:
     policy = AIAdvisoryPolicy.model_validate(yaml.safe_load(POLICY_PATH.read_text()))
     assert policy.autonomous_decisions_allowed is False
     assert policy.human_review_required is True
-    assert policy.policy_version == "1.0.1"
-    assert policy.live_execution_authorized is True
+    assert policy.policy_version == "1.0.2"
+    assert policy.live_execution_authorized is False
     assert policy.standard_abuse_monitoring_acknowledged is True
     assert policy.zero_data_retention_required is False
     assert policy.provider_store_enabled is False

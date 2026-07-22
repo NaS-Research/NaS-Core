@@ -364,6 +364,35 @@ class ScreeningReviewBatch(LiteratureModel):
     records: list[ScreeningQueueRecord]
 
 
+class ScreeningPriorityTier(StrEnum):
+    CORE = "core"
+    SUPPORTING = "supporting"
+    CONTEXT = "context"
+
+
+class ScreeningPriorityRecord(LiteratureModel):
+    rank: int = Field(ge=1)
+    score: int
+    tier: ScreeningPriorityTier
+    positive_signals: list[str]
+    caution_signals: list[str]
+    record: ScreeningQueueRecord
+
+
+class ScreeningPriorityBatch(LiteratureModel):
+    schema_version: str = "1.0.0"
+    algorithm_version: str = Field(min_length=1)
+    queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    based_on_progress_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    available_record_count: int = Field(ge=0)
+    core_record_count: int = Field(ge=0)
+    supporting_record_count: int = Field(ge=0)
+    context_record_count: int = Field(ge=0)
+    records: list[ScreeningPriorityRecord]
+    final_decisions_recorded: int = Field(ge=0)
+    scientific_conclusions_drawn: bool
+
+
 def load_literature_search_receipt(path: Path) -> LiteratureSearchReceipt:
     return LiteratureSearchReceipt.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 

@@ -47,11 +47,16 @@ receipt is [`screening-progress/batch-0001.yaml`](screening-progress/batch-0001.
 The next engineering step is governed AI advisory triage; under this locked protocol,
 AI may prepare and prioritize recommendations but may not create final decisions.
 
-AI advisory policy `1.0.1` and its prompt are locked for implementation. The
+AI advisory policy `1.0.2` and its prompt remain available but live provider use is
+disabled following the founder's zero-API Phase 0 decision. The
 provider-neutral gateway records structured recommendations, confidence, matched
 criteria, sentence-level evidence references, model/prompt/input provenance, and
-zero final decisions. The founder authorized standard API abuse-monitoring
-retention for this exact public/open title-and-abstract queue on 2026-07-22, with
-provider application storage disabled. Live execution remains blocked until
-`OPENAI_API_KEY` is configured locally; model credentials never belong in Git or
-research artifacts.
+zero final decisions. No API credential is required for the active workflow.
+
+Deterministic prioritization version `1.0.0` ranked all 452 pending records locally
+with no model call, network call, screening decision, or scientific conclusion. The
+locked thresholds produced 29 core-priority, 158 supporting-priority, and 265
+context-priority records. Priority is not eligibility or methodological quality;
+the founder must screen records against the protocol, and quality appraisal follows
+full-text eligibility. See
+[`DETERMINISTIC_PRIORITIZATION.md`](DETERMINISTIC_PRIORITIZATION.md).

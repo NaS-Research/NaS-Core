@@ -79,6 +79,19 @@ class ScreeningReviewService:
 
         return self._load_queue(receipt)
 
+    def pending_records(
+        self,
+        queue_receipt: ScreeningQueueReceipt,
+        *,
+        progress_receipt: ScreeningProgressReceipt | None = None,
+    ) -> list[ScreeningQueueRecord]:
+        """Return every pending record after independently verifying progress."""
+
+        queue = self._load_queue(queue_receipt)
+        events = self._load_prior_events(queue_receipt, progress_receipt)
+        current = self._current_events(events)
+        return [record for record in queue if record.screening_id not in current]
+
     def record_batch(
         self,
         queue_receipt: ScreeningQueueReceipt,

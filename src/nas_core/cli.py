@@ -34,6 +34,7 @@ from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.literature import LiteratureSearchService
+from nas_core.retrieval.prioritization import DeterministicPrioritizationService
 from nas_core.retrieval.review import ScreeningReviewService
 from nas_core.retrieval.screening import ScreeningQueueService
 from nas_core.storage.layout import DataLayout
@@ -217,6 +218,19 @@ def build_parser() -> argparse.ArgumentParser:
         "--include-unclear",
         action="store_true",
         help="Include records whose latest decision is unclear for adjudication",
+    )
+    screening_prioritize = literature_commands.add_parser(
+        "screening-prioritize",
+        help="Rank pending records with transparent zero-cost rules",
+    )
+    screening_prioritize.add_argument(
+        "receipt", type=Path, help="Verified screening_queue_receipt.yaml"
+    )
+    screening_prioritize.add_argument(
+        "--progress-receipt", type=Path, help="Latest verified screening progress receipt"
+    )
+    screening_prioritize.add_argument(
+        "--limit", type=int, default=30, help="Highest-priority records to display"
     )
     screening_record = literature_commands.add_parser(
         "screening-record", help="Record and verify one immutable founder-review batch"
@@ -533,6 +547,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             include_unclear=args.include_unclear,
         )
         print(json.dumps(review_batch.model_dump(mode="json", exclude_none=True), indent=2))
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-prioritize":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = (
+            load_screening_progress_receipt(args.progress_receipt)
+            if args.progress_receipt
+            else None
+        )
+        priority_batch = DeterministicPrioritizationService(store=get_object_store()).rank(
+            queue_receipt,
+            progress_receipt=progress_receipt,
+            limit=args.limit,
+        )
+        print(json.dumps(priority_batch.model_dump(mode="json", exclude_none=True), indent=2))
         return 0
 
     if args.command == "literature" and args.literature_command == "screening-record":
