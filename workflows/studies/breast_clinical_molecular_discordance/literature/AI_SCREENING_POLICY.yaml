@@ -1,5 +1,5 @@
 schema_version: 1.0.0
-policy_version: 1.0.0
+policy_version: 1.0.1
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 status: implementation_locked
@@ -11,8 +11,8 @@ prompt_path: workflows/studies/breast_clinical_molecular_discordance/literature/
 permitted_data_classes:
   - public_open
 provider_store_enabled: false
-live_execution_authorized: false
-standard_abuse_monitoring_acknowledged: false
+live_execution_authorized: true
+standard_abuse_monitoring_acknowledged: true
 zero_data_retention_required: false
 autonomous_decisions_allowed: false
 human_review_required: true

@@ -47,8 +47,11 @@ receipt is [`screening-progress/batch-0001.yaml`](screening-progress/batch-0001.
 The next engineering step is governed AI advisory triage; under this locked protocol,
 AI may prepare and prioritize recommendations but may not create final decisions.
 
-AI advisory policy `1.0.0` and its prompt are locked for implementation. The
+AI advisory policy `1.0.1` and its prompt are locked for implementation. The
 provider-neutral gateway records structured recommendations, confidence, matched
 criteria, sentence-level evidence references, model/prompt/input provenance, and
-zero final decisions. Live execution remains blocked until `OPENAI_API_KEY` is
-configured locally; model credentials never belong in Git or research artifacts.
+zero final decisions. The founder authorized standard API abuse-monitoring
+retention for this exact public/open title-and-abstract queue on 2026-07-22, with
+provider application storage disabled. Live execution remains blocked until
+`OPENAI_API_KEY` is configured locally; model credentials never belong in Git or
+research artifacts.

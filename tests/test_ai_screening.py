@@ -178,7 +178,11 @@ def test_checked_in_ai_screening_contracts() -> None:
     policy = AIAdvisoryPolicy.model_validate(yaml.safe_load(POLICY_PATH.read_text()))
     assert policy.autonomous_decisions_allowed is False
     assert policy.human_review_required is True
-    assert policy.live_execution_authorized is False
+    assert policy.policy_version == "1.0.1"
+    assert policy.live_execution_authorized is True
+    assert policy.standard_abuse_monitoring_acknowledged is True
+    assert policy.zero_data_retention_required is False
+    assert policy.provider_store_enabled is False
     assert PROMPT_PATH.read_text().strip()
 
 
@@ -225,7 +229,7 @@ def test_ai_advisory_rejects_unverifiable_evidence_reference() -> None:
         )
 
 
-def test_checked_in_policy_blocks_live_provider_execution() -> None:
+def test_disabled_policy_blocks_live_provider_execution() -> None:
     store, receipt, identifiers = _fixture()
     policy = AIAdvisoryPolicy.model_validate(yaml.safe_load(POLICY_PATH.read_text()))
     service = AIAdvisoryScreeningService(
@@ -237,7 +241,13 @@ def test_checked_in_policy_blocks_live_provider_execution() -> None:
     with pytest.raises(AIAdvisoryError, match="does not authorize live"):
         service.run(
             receipt,
-            policy.model_copy(update={"queue_id": receipt.queue_id}),
+            policy.model_copy(
+                update={
+                    "queue_id": receipt.queue_id,
+                    "live_execution_authorized": False,
+                    "standard_abuse_monitoring_acknowledged": False,
+                }
+            ),
             prompt_text=PROMPT_PATH.read_text(),
             code_revision="f5b94a3",
         )

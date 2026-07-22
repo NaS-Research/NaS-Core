@@ -49,8 +49,9 @@ Current gate state:
   The first founder decision batch has been submitted and independently verified.
 - The governed AI advisory screener, OpenAI gateway, locked structured prompt, and
   immutable provenance contracts are implemented and validated without live model
-  use. Live calibration is blocked pending API credential and provider-retention
-  authorization.
+  use. Founder-authorized policy `1.0.1` accepts standard API abuse-monitoring
+  retention for this exact public/open queue with provider storage disabled. Live
+  calibration is blocked only by the absent local API credential.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -58,9 +59,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Choose and record the provider-retention path (standard abuse monitoring for
-   this public/open queue or verified Zero Data Retention), authorize policy `1.0.1`,
-   configure `OPENAI_API_KEY` locally, and run the first ten-record calibration.
+1. Configure `OPENAI_API_KEY` in the repository-local ignored `.env`, then run and
+   verify the first ten-record calibration under founder-authorized policy `1.0.1`.
 2. Implement evaluation against founder-labeled records and lock routing and
    audit rules before relying on it; do not permit autonomous exclusions in this
    locked study protocol.
@@ -95,6 +95,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Founder-authorized AI provider retention path
+
+Recorded Dalron J. Robertson's prospective authorization of the standard API
+abuse-monitoring retention path for the exact verified NAS-BRCA-002 public/open
+title-and-abstract queue. Policy `1.0.1` enables only governed advisory execution,
+keeps provider application storage disabled, caps calls at ten records, requires
+human review and calibration, and continues to prohibit autonomous decisions.
+Licensed full text, controlled data, PHI, patient-level data, other queues,
+scientific conclusions, and publication claims remain outside authorization. No
+live request was made because the local API credential is absent.
+
+Validation: checked-in policy contract, fail-closed disabled-policy test, explicit
+founder authorization record, and scope-aligned runbook and study status.
 
 ### 2026-07-22 — Governed AI advisory screening engine
 
@@ -158,28 +172,12 @@ Validation: manifest `c764c56b…5727`; both queue artifacts, hashes, sizes, 457
 unique screening IDs, abstract coverage, pending status, and zero-decision
 invariants independently verified; typed aggregate receipt added.
 
-### 2026-07-22 — Governed title/abstract screening-queue engine
-
-Implemented a fail-closed builder that reads only an independently verified
-literature snapshot, rechecks the normalized-object size and checksum, validates
-record counts and unique keys, and creates content-addressed queue, summary, and
-manifest artifacts outside Git. Every record begins pending. Typed contracts forbid
-an exclusion without one reason plus human reviewer and timestamp; the initial
-manifest records zero human and zero AI decisions. Development used synthetic
-bibliographic records only.
-
-Validation: Ruff, strict MyPy, focused tamper/invariant tests, and all 101 repository
-tests passed; real queue execution awaits the pushed engine revision.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
 - Live AI advisory screening is blocked until `OPENAI_API_KEY` is configured in a
   local ignored `.env`; no credential may be committed or stored in provenance.
-- Live AI advisory screening also requires a prospective choice between standard
-  API abuse-monitoring retention for this public/open queue and verified Zero Data
-  Retention. Checked-in policy `1.0.0` intentionally does not authorize transmission.
 - `NAS-BRCA-002` remains unselected pending founder scientific/product,
   molecular/pathology, and statistical self-review. Its bounded Phase 0 audit is
   authorized, but outcome work and formal question selection are not.

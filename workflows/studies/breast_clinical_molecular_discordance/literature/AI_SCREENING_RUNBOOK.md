@@ -1,6 +1,6 @@
 # AI Advisory Screening Runbook
 
-Policy: `AI_SCREENING_POLICY.yaml` version `1.0.0`
+Policy: `AI_SCREENING_POLICY.yaml` version `1.0.1`
 
 AI screening is advisory. It cannot create, change, or supersede a founder
 decision. All requests, recommendation records, and model manifests remain in
@@ -32,8 +32,11 @@ Before the first live run, record one prospective choice in a new policy version
   abstract queue; or
 - require and verify Zero Data Retention for the API organization.
 
-Then set `live_execution_authorized: true`. The checked-in policy intentionally
-keeps live execution disabled until this choice and the API credential exist.
+The founder selected the standard abuse-monitoring path for this exact public/open
+title-and-abstract queue on 2026-07-22. Policy `1.0.1` records that authorization
+and keeps provider application storage disabled. The authorization does not cover
+licensed full text, controlled data, PHI, patient-level data, autonomous decisions,
+or use outside this queue. Live execution still requires a local API credential.
 
 ## Network-free preview
 
