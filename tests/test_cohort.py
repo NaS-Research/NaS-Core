@@ -229,7 +229,7 @@ def test_checked_in_receipt_and_schemas_are_typed() -> None:
 
     assert receipt.study_id == "NAS-BRCA-001"
     assert cohort_receipt.study_id == "NAS-BRCA-001"
-    assert cohort_receipt.qa_gate_status == "pending_founder_review"
+    assert cohort_receipt.qa_gate_status == "approved"
     assert cohort_receipt.verification.outcome_analysis_performed is False
     assert json.loads(QA_SCHEMA_PATH.read_text()) == CohortQASummary.model_json_schema()
     assert json.loads(MANIFEST_SCHEMA_PATH.read_text()) == CohortBuildManifest.model_json_schema()

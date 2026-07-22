@@ -43,18 +43,21 @@ verification:
   case_partition_complete: passed
   requested_field_missingness_complete: passed
   outcome_analysis_performed: false
-qa_gate_status: pending_founder_review
+qa_gate_status: approved
 reviews:
   - reviewer: Dalron J. Robertson
     role: Founder, Study Lead, and Internal Cohort QA Reviewer
     review_type: internal_self_review
     required_for_gate: true
-    decision: pending
-    reviewed_at: null
+    decision: approved
+    reviewed_at: '2026-07-21T20:28:27-05:00'
     notes: >-
-      Review cohort flow, requested-field missingness, normalization coverage,
-      selection descriptives, artifact integrity, and accepted limitations before
-      authorizing survival modeling.
+      Founder explicitly approved this exact cohort build for prespecified
+      modeling on 2026-07-21 after receiving its cohort flow, exclusions,
+      selection observations, limitations, and AI-assisted QA recommendation.
+      Approval retains the AJCC-edition and five-year-censoring sensitivities,
+      complete-case selection limitation, immutable cohort requirement, and
+      prohibition on patient-level or clinical-utility claims.
   - reviewer: OpenAI Codex
     role: AI-assisted cohort integrity and consistency reviewer
     review_type: ai_assisted_internal_review

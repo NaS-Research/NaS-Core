@@ -8,41 +8,43 @@ and what comes next?
 
 ## Current focus
 
-### Review and freeze the NAS-BRCA-001 cohort gate
+### Implement the prespecified NAS-BRCA-001 survival analysis pipeline
 
-Complete the founder cohort-QA review for immutable build
-`73bfc986…d2e53` before implementing or running survival models. The AI-assisted
-integrity review is advisory and cannot authorize this gate.
+Implement the deterministic statistical pipeline against founder-approved,
+immutable cohort build `73bfc986…d2e53`. Produce the protocol-specified primary,
+secondary, diagnostic, and sensitivity results without changing the frozen
+cohort or inventing conclusions through a language model.
 
 Definition of done:
 
-- Founder reviews the typed receipt, cohort flow, requested-field missingness,
-  normalization coverage, and included-versus-excluded selection descriptives.
-- Founder records an explicit decision, timestamp, rationale, required changes,
-  and accepted limitations in the cohort review record.
-- An approval must retain the AJCC-edition and five-year-censoring sensitivities
-  and the complete-case selection limitation.
-- The typed receipt must reject an approved gate unless every required review is approved.
-- If approved, tag the frozen gate as `NAS-BRCA-001-cohort-v1.0.0` before modeling.
-- If changes are requested, preserve this build and create a new algorithm version
-  without inspecting stage-by-outcome results.
+- Load only the approved cohort receipt and fail closed unless its gate and
+  required founder review are approved and its external artifacts reverify.
+- Implement the prespecified descriptive, Kaplan–Meier, log-rank, and Cox models
+  with their declared reference groups, covariates, estimands, and alpha.
+- Implement proportional-hazards diagnostics and all prespecified sensitivity
+  analyses, including five-year censoring, nonlinear age, and AJCC edition.
+- Capture dependency versions, code revision, parameters, seeds, warnings,
+  model failures, tables, figures, effect sizes, confidence intervals, and p-values.
+- Preserve null, contradictory, unstable, and failed results alongside positive findings.
+- Write a content-addressed immutable run manifest and verify every output checksum.
+- Cover statistical transformations, gate failures, edge cases, and deterministic
+  reruns with synthetic tests before executing the real analysis.
 
 Current gate state:
 
-- Protocol and tag: complete.
-- Data Release 45 snapshot: complete and independently checksum-verified.
-- Deterministic cohort build: complete; 1,037 included and 61 excluded.
-- Build receipt and independent artifact verification: complete.
-- AI-assisted cohort integrity review: advisory complete.
-- Founder cohort-QA review: pending.
+- Protocol tag: `NAS-BRCA-001-protocol-v1.1.0` complete.
+- Data Release 45 snapshot and deterministic cohort build: complete and verified.
+- Founder cohort-QA approval: recorded for build `73bfc986…d2e53`.
+- Frozen cohort tag: `NAS-BRCA-001-cohort-v1.0.0` designates this approval commit.
 - Outcome analysis: not started.
 
 ## Next implementation queue
 
-1. Complete founder cohort-QA review and, if approved, tag the frozen cohort gate.
-2. Implement the prespecified survival analysis pipeline with
+1. Implement the prespecified survival analysis pipeline with
    captured code version, environment, parameters, random seeds, warnings,
    tables, figures, effect sizes, and uncertainty.
+2. Execute and independently verify the immutable analysis run, then complete
+   founder results review and AI-assisted statistical critique.
 3. Complete structured founder review and AI-assisted critique of proposed
    `NAS-BRCA-002`, resolve its classification mapping, intended decision, claim
    boundaries, and external-validation path, then select, revise, hold, or
@@ -68,6 +70,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-21 — Founder-approved NAS-BRCA-001 cohort gate
+
+Recorded Dalron J. Robertson's explicit approval of immutable cohort build
+`73bfc986…d2e53` for prespecified modeling. The typed receipt now enforces the
+approved founder self-review, timestamp, rationale, conflicts, accepted
+limitations, and mandatory AJCC-edition and five-year-censoring sensitivities.
+The cohort remains immutable, and any correction requires a preserved prior
+build plus a new algorithm version. No outcome analysis was performed.
+
+Validation: typed approval receipt and review record passed Ruff, strict MyPy,
+and the full test suite; frozen tag `NAS-BRCA-001-cohort-v1.0.0` created from the
+approval commit.
 
 ### 2026-07-21 — First governed NAS-BRCA-001 analysis cohort
 
@@ -123,20 +138,6 @@ tagged before the first network retrieval.
 Validation: the preregistered plan and ingestion-stage workspace passed governed
 validation; Ruff passed, strict MyPy passed, and 61 tests passed.
 
-### 2026-07-21 — NAS-BRCA-001 adversarial protocol review
-
-Completed the non-authoritative AI-assisted review without retrieving GDC case
-data or inspecting outcomes. Revised the pending protocol to version `1.1.0` to
-use GDC's primary-disease diagnosis flag, deterministic diagnosis identifiers,
-a verified diagnosis time-origin rule, positive survival durations, AJCC edition
-provenance, explicit model-failure thresholds, nonlinear-age and stage-edition
-sensitivities, and prespecified scientific-reproduction and Cortex qualification
-outcomes. Added the full finding-resolution record and a founder review
-checklist. The protocol remains unapproved and ingestion remains blocked.
-
-Validation: protocol `1.1.0` and the study workspace passed governed validation;
-Ruff passed, strict MyPy passed, and 61 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -150,8 +151,6 @@ Ruff passed, strict MyPy passed, and 61 tests passed.
   export terms must be established before preregistration.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
-- Survival modeling for `NAS-BRCA-001` is blocked until the founder records the
-  cohort-QA decision and the approved gate, if any, is Git-tagged.
 
 ## Durable decisions and boundaries
 
