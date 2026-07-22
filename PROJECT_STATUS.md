@@ -61,8 +61,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Retrieve permitted full text for the 27 provisional inclusions and implement a
-   study-design-specific quality-appraisal form; do not infer quality from rank.
+1. Build the 27-record full-text access inventory, retrieve only lawfully permitted
+   texts, and complete the first founder appraisal with page/section evidence.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
 3. Complete founder decisions, populate the evidence matrix, and produce a novelty
@@ -94,6 +94,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Governed full-text quality-appraisal gate
+
+Implemented a typed, design-aware full-text appraisal contract and validation
+command for the 27 provisional inclusions. Every locked appraisal must bind to an
+exact full-text checksum and lawful access basis; cite page/section evidence across
+population, specimen, classifier, comparator, statistics, validation, and
+reproducibility domains; and record funding, conflicts, strengths, limitations, and
+founder provenance. Anchor evidence cannot contain high or unclear domains and
+requires low-risk analysis and validation. High-risk evidence cannot be promoted to
+supporting or anchor status. Reporting completeness is not treated as proof of low
+bias, and favorable, contradictory, and null results use identical standards. No
+real paper has been appraised or assigned an evidence role.
+
+Validation: anchor, high-risk, incomplete-domain, and no-conclusion invariants;
+Ruff, strict MyPy, study-contract validation, and all 123 tests passed.
 
 ### 2026-07-22 — Core-priority title/abstract screening complete
 
@@ -147,24 +163,6 @@ Founder policy `1.0.2` disables live AI execution for Phase 0.
 
 Validation: deterministic scoring and no-decision tests, complete verified pending-
 queue ranking, Ruff, strict MyPy, study validation, and all 116 tests passed.
-
-### 2026-07-22 — Governed AI advisory screening engine
-
-Implemented a replaceable model gateway and a NAS-BRCA-002 advisory screener using
-the OpenAI Responses API with typed structured outputs. The workflow sends only a
-bounded title/abstract batch, converts source text into deterministic sentence IDs,
-requires recommendation, confidence, matched criteria, evidence references,
-protocol exclusion reason, concise rationale, and human-review status, and rejects
-missing records or unverifiable evidence. Requests, recommendations, summaries,
-and manifests are immutable external artifacts. Git stores only policy, prompt,
-schemas, tests, runbook, and future aggregate receipts. AI cannot write the human
-ledger, authorize routing before calibration, or create a conclusion. No live model
-request or AI recommendation was generated because the API credential is absent.
-
-Validation: official SDK adapter, provider-free synthetic gateway, tamper and
-evidence-reference boundaries, fail-closed credential test, network-free real-study
-dry run, canonical schemas, Ruff, strict MyPy, study-contract validation, and all
-114 repository tests passed.
 
 ## Current blockers
 

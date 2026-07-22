@@ -1,0 +1,49 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: REPLACE_WITH_64_CHARACTER_SCREENING_ID
+title: REPLACE_WITH_EXACT_TITLE
+pmid: REPLACE_OR_REMOVE
+doi: REPLACE_OR_REMOVE
+full_text_source_url: REPLACE_WITH_LAWFUL_SOURCE
+full_text_sha256: REPLACE_WITH_64_CHARACTER_CHECKSUM
+access_basis: REPLACE_WITH_OPEN_LICENSE_OR_OTHER_PERMITTED_ACCESS_BASIS
+study_design: REPLACE_WITH_ENUM_VALUE
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: unclear
+    rationale: REPLACE
+    evidence_locations: [REPLACE_WITH_PAGE_OR_SECTION]
+  - domain: specimen_and_measurement
+    judgment: unclear
+    rationale: REPLACE
+    evidence_locations: [REPLACE_WITH_PAGE_OR_SECTION]
+  - domain: classifier_implementation
+    judgment: unclear
+    rationale: REPLACE
+    evidence_locations: [REPLACE_WITH_PAGE_OR_SECTION]
+  - domain: reference_comparator
+    judgment: unclear
+    rationale: REPLACE
+    evidence_locations: [REPLACE_WITH_PAGE_OR_SECTION]
+  - domain: analysis_and_statistics
+    judgment: unclear
+    rationale: REPLACE
+    evidence_locations: [REPLACE_WITH_PAGE_OR_SECTION]
+  - domain: validation_and_transportability
+    judgment: unclear
+    rationale: REPLACE
+    evidence_locations: [REPLACE_WITH_PAGE_OR_SECTION]
+  - domain: reporting_and_reproducibility
+    judgment: unclear
+    rationale: REPLACE
+    evidence_locations: [REPLACE_WITH_PAGE_OR_SECTION]
+evidence_role: context_only
+key_strengths: []
+key_limitations: []
+conflicts_and_funding: REPLACE_WITH_DISCLOSURE_AND_FUNDING
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+assessed_at: 2026-07-22T00:00:00Z
+scientific_conclusions_drawn: false

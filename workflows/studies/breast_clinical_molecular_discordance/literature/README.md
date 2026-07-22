@@ -50,6 +50,12 @@ evidence set.
 The active workflow presents deterministic core-priority batches for explicit
 founder decisions.
 
+Full-text appraisal protocol `1.0.0`, a typed validation contract, and a founder
+template are implemented. Seven evidence-located domains govern eligibility and the
+`anchor`, `supporting`, `context_only`, or `excluded` role. High-risk domains cannot
+be averaged away, and only studies with low-risk analysis and validation can become
+anchor evidence. No real paper has been assigned a quality role yet.
+
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The
 provider-neutral gateway records structured recommendations, confidence, matched

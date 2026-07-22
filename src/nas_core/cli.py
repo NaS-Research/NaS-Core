@@ -13,6 +13,7 @@ from nas_core.domain.advisory import (
     write_ai_advisory_receipt,
     write_ai_advisory_schemas,
 )
+from nas_core.domain.appraisal import load_full_text_appraisal
 from nas_core.domain.cohorts import (
     load_cohort_receipt,
     load_snapshot_receipt,
@@ -284,6 +285,11 @@ def build_parser() -> argparse.ArgumentParser:
     screening_ai_schema.add_argument("output_path", type=Path)
     screening_ai_schema.add_argument("manifest_path", type=Path)
     screening_ai_schema.add_argument("receipt_path", type=Path)
+    appraisal_validate = literature_commands.add_parser(
+        "appraisal-validate",
+        help="Validate one full-text eligibility and quality appraisal",
+    )
+    appraisal_validate.add_argument("path", type=Path, help="Full-text appraisal YAML")
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -659,6 +665,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"Created verified AI advisory run {advisory_manifest.advisory_run_id}: "
             f"{advisory_manifest.summary.recommendation_count} recommendations, "
             "zero final decisions"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "appraisal-validate":
+        appraisal = load_full_text_appraisal(args.path)
+        print(
+            f"Full-text appraisal is valid: {appraisal.study_id}, "
+            f"{appraisal.screening_id}, {appraisal.evidence_role}"
         )
         return 0
 
