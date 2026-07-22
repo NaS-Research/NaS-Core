@@ -4,10 +4,16 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from nas_core.analysis.cohort import CohortBuildService
+from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.config import get_settings
-from nas_core.domain.cohorts import load_snapshot_receipt, write_cohort_schemas
+from nas_core.domain.cohorts import (
+    load_cohort_receipt,
+    load_snapshot_receipt,
+    write_cohort_schemas,
+)
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
+from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.storage.layout import DataLayout
@@ -93,6 +99,29 @@ def build_parser() -> argparse.ArgumentParser:
     cohort_schema.add_argument("qa_path", type=Path, help="Output path for QA schema")
     cohort_schema.add_argument("manifest_path", type=Path, help="Output path for manifest schema")
     cohort_schema.add_argument("receipt_path", type=Path, help="Output path for receipt schema")
+
+    analysis = commands.add_parser("analysis", help="Run governed statistical analyses")
+    analysis_commands = analysis.add_subparsers(dest="analysis_command", required=True)
+    survival = analysis_commands.add_parser("survival", help="Prepare or execute survival models")
+    survival.add_argument("plan", type=Path, help="Path to analysis_plan.yaml")
+    survival.add_argument("receipt", type=Path, help="Path to cohort_build_receipt.yaml")
+    survival.add_argument(
+        "--registry",
+        type=Path,
+        default=Path("data/source-registry.yaml"),
+        help="Path to the governed source registry",
+    )
+    survival.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
+    survival.add_argument(
+        "--execute",
+        action="store_true",
+        help="Read the approved cohort and persist statistical artifacts",
+    )
+    survival_schema = analysis_commands.add_parser(
+        "schema", help="Write survival result JSON Schemas"
+    )
+    survival_schema.add_argument("summary_path", type=Path, help="Output path for result schema")
+    survival_schema.add_argument("manifest_path", type=Path, help="Output path for run schema")
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -218,6 +247,30 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "cohort" and args.cohort_command == "schema":
         write_cohort_schemas(args.qa_path, args.manifest_path, args.receipt_path)
         print(f"Wrote cohort schemas: {args.qa_path}, {args.manifest_path}, {args.receipt_path}")
+        return 0
+
+    if args.command == "analysis" and args.analysis_command == "survival":
+        plan = load_analysis_plan(args.plan, registry=SourceRegistry.from_yaml(args.registry))
+        cohort_receipt = load_cohort_receipt(args.receipt)
+        if not args.execute:
+            print(
+                f"Survival analysis ready: {plan.study_id} protocol {plan.protocol_version}, "
+                f"cohort {cohort_receipt.build_id}, gate {cohort_receipt.qa_gate_status.value}, "
+                f"code {args.code_revision}"
+            )
+            print("Dry run only; no cohort rows were read and no models were fitted.")
+            return 0
+        run_manifest = SurvivalAnalysisService(store=get_object_store()).run(
+            plan,
+            cohort_receipt,
+            code_revision=args.code_revision,
+        )
+        print(f"Created immutable survival run {run_manifest.run_id}")
+        return 0
+
+    if args.command == "analysis" and args.analysis_command == "schema":
+        write_survival_schemas(args.summary_path, args.manifest_path)
+        print(f"Wrote survival schemas: {args.summary_path}, {args.manifest_path}")
         return 0
 
     if args.command == "program" and args.program_command == "validate":

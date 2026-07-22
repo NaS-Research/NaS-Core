@@ -8,27 +8,25 @@ and what comes next?
 
 ## Current focus
 
-### Implement the prespecified NAS-BRCA-001 survival analysis pipeline
+### Execute and independently verify the NAS-BRCA-001 survival analysis
 
-Implement the deterministic statistical pipeline against founder-approved,
-immutable cohort build `73bfc986…d2e53`. Produce the protocol-specified primary,
-secondary, diagnostic, and sensitivity results without changing the frozen
-cohort or inventing conclusions through a language model.
+Run the validated statistical engine once against founder-approved, immutable
+cohort build `73bfc986…d2e53` using the pushed implementation commit. Verify and
+freeze every result before scientific interpretation or evidence claims.
 
 Definition of done:
 
-- Load only the approved cohort receipt and fail closed unless its gate and
-  required founder review are approved and its external artifacts reverify.
-- Implement the prespecified descriptive, Kaplan–Meier, log-rank, and Cox models
-  with their declared reference groups, covariates, estimands, and alpha.
-- Implement proportional-hazards diagnostics and all prespecified sensitivity
-  analyses, including five-year censoring, nonlinear age, and AJCC edition.
-- Capture dependency versions, code revision, parameters, seeds, warnings,
-  model failures, tables, figures, effect sizes, confidence intervals, and p-values.
-- Preserve null, contradictory, unstable, and failed results alongside positive findings.
-- Write a content-addressed immutable run manifest and verify every output checksum.
-- Cover statistical transformations, gate failures, edge cases, and deterministic
-  reruns with synthetic tests before executing the real analysis.
+- Use the exact pushed implementation SHA and approved cohort receipt; reverify
+  the cohort manifest and every source artifact before fitting any model.
+- Execute the primary, secondary, diagnostic, and five sensitivity branches once.
+- Store the typed summary, baseline table, coefficient table, risk table,
+  Kaplan–Meier figure, and run manifest in external content-addressed storage.
+- Independently recompute the run-manifest and artifact hashes and confirm every match.
+- Confirm the run captured dependency versions, parameters, seed, warnings,
+  abstentions, null results, model failures, uncertainty, and diagnostic findings.
+- Add a Git-tracked aggregate run receipt without patient-level data.
+- Complete AI-assisted statistical critique and founder results review before
+  freezing any scientific claim or qualification conclusion.
 
 Current gate state:
 
@@ -36,15 +34,16 @@ Current gate state:
 - Data Release 45 snapshot and deterministic cohort build: complete and verified.
 - Founder cohort-QA approval: recorded for build `73bfc986…d2e53`.
 - Frozen cohort tag: `NAS-BRCA-001-cohort-v1.0.0` designates this approval commit.
+- Statistical engine and synthetic gate suite: complete; the real run must cite
+  this implementation's pushed Git SHA.
 - Outcome analysis: not started.
 
 ## Next implementation queue
 
-1. Implement the prespecified survival analysis pipeline with
-   captured code version, environment, parameters, random seeds, warnings,
-   tables, figures, effect sizes, and uncertainty.
-2. Execute and independently verify the immutable analysis run, then complete
+1. Execute and independently verify the immutable analysis run, then complete
    founder results review and AI-assisted statistical critique.
+2. Freeze the reviewed analysis release and map every substantive scientific
+   claim to a verified result artifact or external source.
 3. Complete structured founder review and AI-assisted critique of proposed
    `NAS-BRCA-002`, resolve its classification mapping, intended decision, claim
    boundaries, and external-validation path, then select, revise, hold, or
@@ -70,6 +69,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-21 — Governed NAS-BRCA-001 survival-analysis engine
+
+Implemented a fail-closed statistical runner that requires the founder-approved
+cohort receipt and reverifies the cohort manifest and every input checksum. The
+engine implements baseline summaries, Kaplan–Meier estimates and risk counts,
+log-rank testing, adjusted and unadjusted Cox models, categorical and ordinal
+stage models, proportional-hazards and influence diagnostics, AJCC-edition
+distribution, five-year censoring, time-interaction, restricted-cubic-spline,
+and common-edition sensitivities. It retains warnings, failed or skipped models,
+null results, confidence intervals, multiplicity-adjusted secondary p-values,
+environment versions, parameters, and immutable artifact hashes. Development
+used synthetic records only; the real cohort was not analyzed.
+
+Validation: Ruff passed, strict MyPy passed, seven synthetic survival tests and
+all 82 repository tests passed; typed schemas and CLI dry-run support added.
 
 ### 2026-07-21 — Founder-approved NAS-BRCA-001 cohort gate
 
@@ -126,18 +141,6 @@ or storage activity; no case data was retrieved.
 Validation: the Seagate root passed integrity validation; Ruff passed, strict
 MyPy passed, and 71 tests passed.
 
-### 2026-07-21 — NAS-BRCA-001 founder approval and preregistration
-
-Recorded Dalron J. Robertson's explicit approval of protocol `1.1.0`, including
-the founder/author/analyst/approver conflict and accepted limitations. Completed
-the structured founder checklist, changed the plan to `preregistered`, and
-advanced the machine-readable lifecycle from protocol to ingestion. No GDC case
-data or outcome-bearing results were retrieved. The approved commit must be
-tagged before the first network retrieval.
-
-Validation: the preregistered plan and ingestion-stage workspace passed governed
-validation; Ruff passed, strict MyPy passed, and 61 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -159,6 +162,9 @@ validation; Ruff passed, strict MyPy passed, and 61 tests passed.
 - OpenAI is a replaceable reasoning provider, not the NaS product or knowledge
   store.
 - Numerical research results come from deterministic executed code.
+- Survival analysis uses pinned, replaceable statistical libraries behind NaS
+  typed result contracts; library output is not accepted until serialized,
+  checksummed, and independently verified.
 - Cohort construction is frozen before outcome modeling. An unexpected result
   cannot justify silently changing eligibility, normalization, or exclusions;
   any correction requires a preserved prior build and a new algorithm version.

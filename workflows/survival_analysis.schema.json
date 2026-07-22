@@ -1,0 +1,483 @@
+{
+  "$defs": {
+    "AnalysisStatus": {
+      "enum": [
+        "complete",
+        "not_interpretable",
+        "skipped",
+        "failed"
+      ],
+      "title": "AnalysisStatus",
+      "type": "string"
+    },
+    "CoefficientEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "adjusted_p_value": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Adjusted P Value"
+        },
+        "coefficient": {
+          "title": "Coefficient",
+          "type": "number"
+        },
+        "confidence_interval_lower": {
+          "exclusiveMinimum": 0,
+          "title": "Confidence Interval Lower",
+          "type": "number"
+        },
+        "confidence_interval_upper": {
+          "exclusiveMinimum": 0,
+          "title": "Confidence Interval Upper",
+          "type": "number"
+        },
+        "hazard_ratio": {
+          "exclusiveMinimum": 0,
+          "title": "Hazard Ratio",
+          "type": "number"
+        },
+        "p_value": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "P Value",
+          "type": "number"
+        },
+        "standard_error": {
+          "minimum": 0,
+          "title": "Standard Error",
+          "type": "number"
+        },
+        "term": {
+          "title": "Term",
+          "type": "string"
+        },
+        "z": {
+          "title": "Z",
+          "type": "number"
+        }
+      },
+      "required": [
+        "term",
+        "coefficient",
+        "hazard_ratio",
+        "confidence_interval_lower",
+        "confidence_interval_upper",
+        "standard_error",
+        "z",
+        "p_value"
+      ],
+      "title": "CoefficientEstimate",
+      "type": "object"
+    },
+    "EditionDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "edition": {
+          "title": "Edition",
+          "type": "string"
+        },
+        "participants": {
+          "minimum": 0,
+          "title": "Participants",
+          "type": "integer"
+        },
+        "stage_group": {
+          "title": "Stage Group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "edition",
+        "stage_group",
+        "participants"
+      ],
+      "title": "EditionDistribution",
+      "type": "object"
+    },
+    "GroupSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "censored": {
+          "minimum": 0,
+          "title": "Censored",
+          "type": "integer"
+        },
+        "events": {
+          "minimum": 0,
+          "title": "Events",
+          "type": "integer"
+        },
+        "group": {
+          "title": "Group",
+          "type": "string"
+        },
+        "mean_age_years": {
+          "title": "Mean Age Years",
+          "type": "number"
+        },
+        "median_age_years": {
+          "title": "Median Age Years",
+          "type": "number"
+        },
+        "median_follow_up_days": {
+          "title": "Median Follow Up Days",
+          "type": "number"
+        },
+        "participants": {
+          "minimum": 0,
+          "title": "Participants",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "group",
+        "participants",
+        "events",
+        "censored",
+        "mean_age_years",
+        "median_age_years",
+        "median_follow_up_days"
+      ],
+      "title": "GroupSummary",
+      "type": "object"
+    },
+    "InfluenceObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "title": "Case Id",
+          "type": "string"
+        },
+        "delta_beta_absolute": {
+          "minimum": 0,
+          "title": "Delta Beta Absolute",
+          "type": "number"
+        },
+        "term": {
+          "title": "Term",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "term",
+        "delta_beta_absolute"
+      ],
+      "title": "InfluenceObservation",
+      "type": "object"
+    },
+    "LogRankResult": {
+      "additionalProperties": false,
+      "properties": {
+        "p_value": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "P Value",
+          "type": "number"
+        },
+        "test_statistic": {
+          "title": "Test Statistic",
+          "type": "number"
+        }
+      },
+      "required": [
+        "test_statistic",
+        "p_value"
+      ],
+      "title": "LogRankResult",
+      "type": "object"
+    },
+    "ModelResult": {
+      "additionalProperties": false,
+      "properties": {
+        "analysis_id": {
+          "minLength": 1,
+          "title": "Analysis Id",
+          "type": "string"
+        },
+        "coefficients": {
+          "items": {
+            "$ref": "#/$defs/CoefficientEstimate"
+          },
+          "title": "Coefficients",
+          "type": "array"
+        },
+        "concordance_index": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Concordance Index"
+        },
+        "events": {
+          "minimum": 0,
+          "title": "Events",
+          "type": "integer"
+        },
+        "formula": {
+          "title": "Formula",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "log_likelihood": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Log Likelihood"
+        },
+        "participants": {
+          "minimum": 0,
+          "title": "Participants",
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/AnalysisStatus"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "analysis_id",
+        "label",
+        "status",
+        "participants",
+        "events",
+        "formula"
+      ],
+      "title": "ModelResult",
+      "type": "object"
+    },
+    "PHDiagnostic": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption_violated": {
+          "title": "Assumption Violated",
+          "type": "boolean"
+        },
+        "p_value": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "P Value",
+          "type": "number"
+        },
+        "term": {
+          "title": "Term",
+          "type": "string"
+        },
+        "test_statistic": {
+          "title": "Test Statistic",
+          "type": "number"
+        }
+      },
+      "required": [
+        "term",
+        "test_statistic",
+        "p_value",
+        "assumption_violated"
+      ],
+      "title": "PHDiagnostic",
+      "type": "object"
+    },
+    "QualificationDecision": {
+      "enum": [
+        "pass",
+        "conditional_pass",
+        "fail"
+      ],
+      "title": "QualificationDecision",
+      "type": "string"
+    },
+    "RiskTableRow": {
+      "additionalProperties": false,
+      "properties": {
+        "advanced_at_risk": {
+          "minimum": 0,
+          "title": "Advanced At Risk",
+          "type": "integer"
+        },
+        "early_at_risk": {
+          "minimum": 0,
+          "title": "Early At Risk",
+          "type": "integer"
+        },
+        "time_days": {
+          "minimum": 0,
+          "title": "Time Days",
+          "type": "number"
+        }
+      },
+      "required": [
+        "time_days",
+        "early_at_risk",
+        "advanced_at_risk"
+      ],
+      "title": "RiskTableRow",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "ajcc_edition_distribution": {
+      "items": {
+        "$ref": "#/$defs/EditionDistribution"
+      },
+      "title": "Ajcc Edition Distribution",
+      "type": "array"
+    },
+    "cohort_build_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Cohort Build Id",
+      "type": "string"
+    },
+    "event_count": {
+      "minimum": 0,
+      "title": "Event Count",
+      "type": "integer"
+    },
+    "generated_by_deterministic_code": {
+      "default": true,
+      "title": "Generated By Deterministic Code",
+      "type": "boolean"
+    },
+    "groups": {
+      "items": {
+        "$ref": "#/$defs/GroupSummary"
+      },
+      "minItems": 2,
+      "title": "Groups",
+      "type": "array"
+    },
+    "influential_observations": {
+      "items": {
+        "$ref": "#/$defs/InfluenceObservation"
+      },
+      "title": "Influential Observations",
+      "type": "array"
+    },
+    "log_rank": {
+      "$ref": "#/$defs/LogRankResult"
+    },
+    "participant_count": {
+      "minimum": 0,
+      "title": "Participant Count",
+      "type": "integer"
+    },
+    "ph_diagnostics": {
+      "items": {
+        "$ref": "#/$defs/PHDiagnostic"
+      },
+      "title": "Ph Diagnostics",
+      "type": "array"
+    },
+    "primary_model": {
+      "$ref": "#/$defs/ModelResult"
+    },
+    "protocol_version": {
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "qualification_decision": {
+      "$ref": "#/$defs/QualificationDecision"
+    },
+    "qualification_reasons": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Qualification Reasons",
+      "type": "array"
+    },
+    "risk_table": {
+      "items": {
+        "$ref": "#/$defs/RiskTableRow"
+      },
+      "title": "Risk Table",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_reproduction": {
+      "title": "Scientific Reproduction",
+      "type": "string"
+    },
+    "secondary_models": {
+      "items": {
+        "$ref": "#/$defs/ModelResult"
+      },
+      "title": "Secondary Models",
+      "type": "array"
+    },
+    "sensitivity_models": {
+      "items": {
+        "$ref": "#/$defs/ModelResult"
+      },
+      "title": "Sensitivity Models",
+      "type": "array"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "study_id",
+    "protocol_version",
+    "cohort_build_id",
+    "participant_count",
+    "event_count",
+    "groups",
+    "log_rank",
+    "primary_model",
+    "secondary_models",
+    "sensitivity_models",
+    "ph_diagnostics",
+    "influential_observations",
+    "ajcc_edition_distribution",
+    "risk_table",
+    "scientific_reproduction",
+    "qualification_decision",
+    "qualification_reasons"
+  ],
+  "title": "SurvivalAnalysisSummary",
+  "type": "object"
+}
