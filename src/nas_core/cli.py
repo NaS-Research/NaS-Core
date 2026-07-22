@@ -12,11 +12,13 @@ from nas_core.domain.cohorts import (
     write_cohort_schemas,
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
+from nas_core.domain.literature import write_literature_snapshot_schema
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
+from nas_core.retrieval.literature import LiteratureSearchService
 from nas_core.storage.layout import DataLayout
 from nas_core.storage.object_store import get_object_store
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
@@ -141,6 +143,31 @@ def build_parser() -> argparse.ArgumentParser:
     discovery_schema.add_argument(
         "feasibility_path", type=Path, help="Output path for feasibility schema"
     )
+
+    literature = commands.add_parser("literature", help="Capture governed evidence searches")
+    literature_commands = literature.add_subparsers(dest="literature_command", required=True)
+    literature_search = literature_commands.add_parser(
+        "search", help="Prepare or execute a locked bibliographic search"
+    )
+    literature_search.add_argument("plan", type=Path, help="Path to phase_zero_plan.yaml")
+    literature_search.add_argument("search", type=Path, help="Path to search_strategy.yaml")
+    literature_search.add_argument("feasibility", type=Path, help="Path to data_feasibility.yaml")
+    literature_search.add_argument(
+        "--registry",
+        type=Path,
+        default=Path("data/source-registry.yaml"),
+        help="Path to the governed source registry",
+    )
+    literature_search.add_argument(
+        "--contact-email", help="Valid API contact email; hashed in the manifest"
+    )
+    literature_search.add_argument(
+        "--execute", action="store_true", help="Contact APIs and persist immutable search exports"
+    )
+    literature_schema = literature_commands.add_parser(
+        "schema", help="Write the literature-search snapshot JSON Schema"
+    )
+    literature_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -314,6 +341,35 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote discovery schemas: "
             f"{args.plan_path}, {args.search_path}, {args.feasibility_path}"
         )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "search":
+        phase_zero, search, _ = load_phase_zero_artifacts(
+            args.plan,
+            args.search,
+            args.feasibility,
+        )
+        if not args.execute:
+            for source in search.sources:
+                print(f"{source.source_id}: {source.query}")
+            print("Dry run only; no literature API was contacted and nothing was stored.")
+            return 0
+        if not args.contact_email:
+            raise SystemExit("--contact-email is required with --execute")
+        literature_snapshot = LiteratureSearchService(
+            store=get_object_store(),
+            registry=SourceRegistry.from_yaml(args.registry),
+        ).capture(phase_zero, search, contact_email=args.contact_email)
+        print(
+            f"Created immutable literature search {literature_snapshot.execution_id}: "
+            f"{literature_snapshot.unique_record_count} unique records, "
+            f"{literature_snapshot.duplicate_record_count} duplicates"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "schema":
+        write_literature_snapshot_schema(args.path)
+        print(f"Wrote literature-search snapshot schema: {args.path}")
         return 0
 
     if args.command == "program" and args.program_command == "validate":

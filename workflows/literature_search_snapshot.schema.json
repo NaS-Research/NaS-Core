@@ -1,0 +1,243 @@
+{
+  "$defs": {
+    "LiteratureRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "minLength": 1,
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Parameters",
+          "type": "object"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "endpoint",
+        "parameters"
+      ],
+      "title": "LiteratureRequest",
+      "type": "object"
+    },
+    "SourceSearchResult": {
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "minLength": 1,
+          "title": "Query",
+          "type": "string"
+        },
+        "raw_objects": {
+          "items": {
+            "$ref": "#/$defs/StoredObject"
+          },
+          "minItems": 1,
+          "title": "Raw Objects",
+          "type": "array"
+        },
+        "reported_result_count": {
+          "minimum": 0,
+          "title": "Reported Result Count",
+          "type": "integer"
+        },
+        "request_count": {
+          "minimum": 1,
+          "title": "Request Count",
+          "type": "integer"
+        },
+        "retrieved_record_count": {
+          "minimum": 0,
+          "title": "Retrieved Record Count",
+          "type": "integer"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_id",
+        "query",
+        "reported_result_count",
+        "retrieved_record_count",
+        "request_count",
+        "raw_objects"
+      ],
+      "title": "SourceSearchResult",
+      "type": "object"
+    },
+    "StoredObject": {
+      "additionalProperties": false,
+      "properties": {
+        "file_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "File Ids",
+          "type": "array"
+        },
+        "media_type": {
+          "minLength": 1,
+          "title": "Media Type",
+          "type": "string"
+        },
+        "object_key": {
+          "minLength": 1,
+          "title": "Object Key",
+          "type": "string"
+        },
+        "record_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Record Ids",
+          "type": "array"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_key",
+        "media_type",
+        "size_bytes",
+        "sha256"
+      ],
+      "title": "StoredObject",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "contact_email_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Contact Email Sha256",
+      "type": "string"
+    },
+    "duplicate_record_count": {
+      "minimum": 0,
+      "title": "Duplicate Record Count",
+      "type": "integer"
+    },
+    "executed_at": {
+      "format": "date-time",
+      "title": "Executed At",
+      "type": "string"
+    },
+    "execution_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Execution Id",
+      "type": "string"
+    },
+    "manifest_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Manifest Sha256"
+    },
+    "normalized_records_object": {
+      "$ref": "#/$defs/StoredObject"
+    },
+    "question_id": {
+      "minLength": 1,
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "minLength": 1,
+      "title": "Question Version",
+      "type": "string"
+    },
+    "requests": {
+      "items": {
+        "$ref": "#/$defs/LiteratureRequest"
+      },
+      "minItems": 1,
+      "title": "Requests",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_results": {
+      "items": {
+        "$ref": "#/$defs/SourceSearchResult"
+      },
+      "minItems": 2,
+      "title": "Source Results",
+      "type": "array"
+    },
+    "strategy_version": {
+      "minLength": 1,
+      "title": "Strategy Version",
+      "type": "string"
+    },
+    "study_id": {
+      "minLength": 1,
+      "title": "Study Id",
+      "type": "string"
+    },
+    "unique_record_count": {
+      "minimum": 0,
+      "title": "Unique Record Count",
+      "type": "integer"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "execution_id",
+    "study_id",
+    "question_id",
+    "question_version",
+    "strategy_version",
+    "executed_at",
+    "contact_email_sha256",
+    "requests",
+    "source_results",
+    "normalized_records_object",
+    "unique_record_count",
+    "duplicate_record_count"
+  ],
+  "title": "LiteratureSearchSnapshot",
+  "type": "object"
+}

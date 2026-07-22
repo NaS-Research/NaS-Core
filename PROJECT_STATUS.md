@@ -40,6 +40,9 @@ Current gate state:
 - AI-assisted question review is complete and advisory; founder review is pending.
 - The search and source-feasibility specifications are locked. Literature retrieval
   and non-outcome source assessment are authorized; outcome access is disabled.
+- PubMed and Europe PMC are registered for bounded evidence synthesis, and the
+  immutable retrieval runner is implemented. Live execution awaits a valid API
+  contact email and has not yet occurred.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -59,9 +62,8 @@ Current gate state:
    preserve the original immutable run.
 6. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-7. Register approved bibliographic sources, execute the selected question's
-   literature-review protocol, and add permitted metadata and passage ingestion
-   with hybrid keyword and semantic retrieval.
+7. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+   retrieval after the Phase 0 evidence inventory is screened.
 8. Add the replaceable model gateway with structured outputs, minimum-necessary
    context, citations, uncertainty, abstention, and governance enforcement.
 9. Build evaluation suites for retrieval, citation validity, numerical
@@ -77,6 +79,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Governed PubMed and Europe PMC retrieval engine
+
+Registered PubMed and Europe PMC for bounded evidence synthesis and implemented a
+fail-closed, content-addressed search runner. It validates founder authorization,
+locked queries, source status, roles, and purpose before network access; captures
+exact requests and raw responses outside Git; normalizes and deduplicates by DOI,
+PMID, and title; hashes the required API contact address in provenance; enforces
+NCBI-compatible request pacing; and supports a network-free CLI preview. No live
+search or scientific screening was performed.
+
+Validation: Ruff, strict MyPy, focused provenance tests, and all 94 repository
+tests passed; live execution requires a valid API contact email.
 
 ### 2026-07-22 — Founder-authorized NAS-BRCA-002 Phase 0 audit
 
@@ -101,7 +116,7 @@ AI-assisted advisory review. At completion of this scaffold, retrieval and outco
 data access were disabled, and no scientific result or novelty claim was generated.
 
 Validation: Ruff, strict MyPy, and all 87 repository tests passed; founder
-founder authorization was required before executing the bounded Phase 0 audit.
+authorization was required before executing the bounded Phase 0 audit.
 
 ### 2026-07-22 — First immutable NAS-BRCA-001 survival run
 
@@ -136,19 +151,6 @@ used synthetic records only; the real cohort was not analyzed.
 Validation: Ruff passed, strict MyPy passed, seven synthetic survival tests and
 all 82 repository tests passed; typed schemas and CLI dry-run support added.
 
-### 2026-07-21 — Founder-approved NAS-BRCA-001 cohort gate
-
-Recorded Dalron J. Robertson's explicit approval of immutable cohort build
-`73bfc986…d2e53` for prespecified modeling. The typed receipt now enforces the
-approved founder self-review, timestamp, rationale, conflicts, accepted
-limitations, and mandatory AJCC-edition and five-year-censoring sensitivities.
-The cohort remains immutable, and any correction requires a preserved prior
-build plus a new algorithm version. No outcome analysis was performed.
-
-Validation: typed approval receipt and review record passed Ruff, strict MyPy,
-and the full test suite; frozen tag `NAS-BRCA-001-cohort-v1.0.0` created from the
-approval commit.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -156,6 +158,9 @@ approval commit.
 - `NAS-BRCA-002` remains unselected pending founder scientific/product,
   molecular/pathology, and statistical self-review. Its bounded Phase 0 audit is
   authorized, but outcome work and formal question selection are not.
+- A valid organizational contact email is required by the literature APIs before
+  the locked search can be executed. It will be sent to the APIs but stored in the
+  immutable manifest only as a SHA-256 digest.
 - The independent external validation source for `NAS-BRCA-002` has not been
   selected or approved. Its license, compatible variables, cohort overlap, and
   export terms must be established before preregistration.
@@ -227,6 +232,10 @@ approval commit.
 - External expert feedback is recorded separately from founder self-review.
   Public NaS reports remain labeled founder-led, internally reviewed, and not
   peer reviewed until a journal completes formal peer review.
+- Bibliographic API exports and normalized records remain in external object
+  storage. Git may contain only aggregate receipts, screening decisions, and
+  concise evidence extraction; copyrighted abstracts and full text are not
+  redistributed, embedded, or used for model training without item-level rights.
 - GDC ingestion is fail-closed unless the plan is `preregistered`; every
   snapshot records the exact request, API provenance, explicitly supplied data
   release, raw response checksums, and immutable object locations.

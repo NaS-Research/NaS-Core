@@ -1,5 +1,103 @@
 version: 1
 sources:
+  - source_id: pubmed
+    name: PubMed via NCBI E-utilities
+    owner: U.S. National Library of Medicine, National Center for Biotechnology Information
+    authoritative_url: https://pubmed.ncbi.nlm.nih.gov/
+    classification: public_open
+    status: active
+    version: current-api-at-snapshot
+    access_method: NCBI Entrez Programming Utilities over HTTPS
+    approved_purposes:
+      - evidence-synthesis
+      - research-publication
+    intended_uses:
+      - Reproducible bibliographic searching and citation inventory
+      - Retrieval of identifiers and metadata for human screening
+    prohibited_uses:
+      - Systematic full-text retrieval outside an explicitly permitted service
+      - Redistribution of copyrighted abstracts or publisher content
+      - Using source content to train a generative model
+      - Exceeding NCBI request-rate and identification requirements
+    license_or_terms: NCBI Website and Data Usage Policies and E-utilities requirements
+    terms_url: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    attribution: Acknowledge PubMed, NLM, and NCBI; citations must identify original works.
+    authorized_roles:
+      - researcher
+      - data_steward
+      - scientific_reviewer
+      - publication_approver
+    storage_restrictions:
+      - Raw API exports remain outside Git in approved object storage.
+      - Abstracts inherit publisher or author copyright and are not redistributed.
+      - Requests identify the NaS tool and a valid contact email and remain below three per second.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-07-22
+    ai_processing_allowed: true
+    embeddings_allowed: false
+    model_training_allowed: false
+    export_allowed: true
+    publication_allowed: true
+    approvals:
+      - approver: Dalron J. Robertson
+        role: founder_data_steward
+        decision: approve
+        decided_at: 2026-07-22T13:07:43-05:00
+        rationale: >-
+          Approved only for the bounded NAS-BRCA-002 Phase 0 literature audit,
+          subject to NCBI rate, contact, attribution, copyright, and storage rules.
+    notes:
+      - Metadata access does not confer rights to redistribute abstracts or full text.
+  - source_id: europe-pmc
+    name: Europe PMC RESTful Web Service
+    owner: Europe PMC and EMBL-EBI
+    authoritative_url: https://europepmc.org/
+    classification: public_open
+    status: active
+    version: production-api-at-snapshot
+    access_method: Europe PMC RESTful Web Service over HTTPS
+    approved_purposes:
+      - evidence-synthesis
+      - research-publication
+    intended_uses:
+      - Reproducible bibliographic searching and metadata inventory
+      - Open-access and persistent-identifier discovery
+    prohibited_uses:
+      - Crawling or systematic download outside official automated services
+      - Reusing full text without verifying the article-specific license
+      - Redistributing copyrighted publisher content
+      - Using source content to train a generative model
+    license_or_terms: Europe PMC copyright notice and RESTful Web Service terms
+    terms_url: https://europepmc.org/Copyright
+    attribution: Acknowledge Europe PMC and cite every original work used as evidence.
+    authorized_roles:
+      - researcher
+      - data_steward
+      - scientific_reviewer
+      - publication_approver
+    storage_restrictions:
+      - Raw API exports remain outside Git in approved object storage.
+      - Full text may be retained only when the item-specific license permits it.
+      - This registration authorizes metadata and abstracts, not bulk full-text retrieval.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-07-22
+    ai_processing_allowed: true
+    embeddings_allowed: false
+    model_training_allowed: false
+    export_allowed: true
+    publication_allowed: true
+    approvals:
+      - approver: Dalron J. Robertson
+        role: founder_data_steward
+        decision: approve
+        decided_at: 2026-07-22T13:07:43-05:00
+        rationale: >-
+          Approved only for the bounded NAS-BRCA-002 Phase 0 literature audit,
+          using official APIs with item-level copyright and license enforcement.
+    notes:
+      - Open access does not mean public domain; licenses vary by article.
   - source_id: gdc-tcga-open
     name: NCI Genomic Data Commons TCGA Open Data
     owner: National Cancer Institute
