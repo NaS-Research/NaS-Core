@@ -22,3 +22,8 @@ object storage; [`search_receipt.yaml`](search_receipt.yaml) contains aggregates
 
 Screening has not started, the evidence matrix is still empty, and no novelty or
 scientific conclusion has been drawn.
+
+The screening-queue engine is implemented with typed pending/include/exclude/unclear
+states and mandatory human provenance for every decision. It keeps titles and
+abstracts outside Git and will not infer inclusion from a model or keyword rule.
+The real queue must be built from the pushed engine revision before screening begins.

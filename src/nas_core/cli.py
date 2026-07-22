@@ -12,13 +12,14 @@ from nas_core.domain.cohorts import (
     write_cohort_schemas,
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
-from nas_core.domain.literature import write_literature_schemas
+from nas_core.domain.literature import load_literature_search_receipt, write_literature_schemas
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.literature import LiteratureSearchService
+from nas_core.retrieval.screening import ScreeningQueueService
 from nas_core.storage.layout import DataLayout
 from nas_core.storage.object_store import get_object_store
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
@@ -174,6 +175,20 @@ def build_parser() -> argparse.ArgumentParser:
     )
     literature_schema.add_argument("snapshot_path", type=Path, help="Snapshot schema output path")
     literature_schema.add_argument("receipt_path", type=Path, help="Receipt schema output path")
+    literature_schema.add_argument(
+        "screening_manifest_path", type=Path, help="Screening manifest schema output path"
+    )
+    literature_schema.add_argument(
+        "screening_receipt_path", type=Path, help="Screening receipt schema output path"
+    )
+    screening_build = literature_commands.add_parser(
+        "screening-build", help="Prepare or create an immutable human screening queue"
+    )
+    screening_build.add_argument("receipt", type=Path, help="Verified search_receipt.yaml")
+    screening_build.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
+    screening_build.add_argument(
+        "--execute", action="store_true", help="Read verified records and persist the queue"
+    )
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -390,8 +405,37 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
 
     if args.command == "literature" and args.literature_command == "schema":
-        write_literature_schemas(args.snapshot_path, args.receipt_path)
-        print(f"Wrote literature-search schemas: {args.snapshot_path}, {args.receipt_path}")
+        write_literature_schemas(
+            args.snapshot_path,
+            args.receipt_path,
+            args.screening_manifest_path,
+            args.screening_receipt_path,
+        )
+        print(
+            "Wrote literature schemas: "
+            f"{args.snapshot_path}, {args.receipt_path}, "
+            f"{args.screening_manifest_path}, {args.screening_receipt_path}"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-build":
+        screening_receipt = load_literature_search_receipt(args.receipt)
+        if not args.execute:
+            print(
+                f"Screening queue ready: {screening_receipt.study_id}, "
+                f"search {screening_receipt.execution_id}, "
+                f"{screening_receipt.unique_record_count} records, code {args.code_revision}"
+            )
+            print("Dry run only; no literature records were read and no queue was stored.")
+            return 0
+        queue = ScreeningQueueService(store=get_object_store()).build(
+            screening_receipt,
+            code_revision=args.code_revision,
+        )
+        print(
+            f"Created immutable screening queue {queue.queue_id}: "
+            f"{queue.summary.pending_record_count} pending human decisions"
+        )
         return 0
 
     if args.command == "program" and args.program_command == "validate":

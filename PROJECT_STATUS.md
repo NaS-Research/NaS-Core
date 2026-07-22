@@ -43,6 +43,8 @@ Current gate state:
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Locked
   strategy `0.1.1` produced verified immutable execution `9eec1656…c185` with
   457 unique records; human screening has not started.
+- The typed screening-queue engine is complete and validated with synthetic
+  records. The real queue awaits execution from its pushed code revision.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -50,35 +52,50 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Screen the verified 457-record literature inventory, populate the evidence
-   matrix, and produce a novelty memo with an explicit no-go test.
-2. Complete discovery and validation source feasibility, including exact variable
+1. Build the immutable title/abstract queue from the verified 457-record inventory
+   using the pushed screening-engine revision.
+2. Record founder title/abstract decisions, adjudicate unclear records, populate
+   the evidence matrix, and produce a novelty memo with an explicit no-go test.
+3. Complete discovery and validation source feasibility, including exact variable
    mappings, terms, compatibility, independence, overlap, and source-registry review.
-3. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
+4. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
    after a documented `go` decision.
-4. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-5. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-6. Implement persisted evidence claims, citations, provenance, contradictory
+7. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-7. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+8. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-8. Add the replaceable model gateway with structured outputs, minimum-necessary
+9. Add the replaceable model gateway with structured outputs, minimum-necessary
    context, citations, uncertainty, abstention, and governance enforcement.
-9. Build evaluation suites for retrieval, citation validity, numerical
+10. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-10. Generate an immutable research release containing the protocol, dataset
+11. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-11. Generate a reviewable white-paper draft whose substantive claims trace to
+12. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-12. Build the internal workbench for projects, protocols, datasets, runs,
+13. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-13. Complete repeated internal oncology pilots before selecting the first
+14. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Governed title/abstract screening-queue engine
+
+Implemented a fail-closed builder that reads only an independently verified
+literature snapshot, rechecks the normalized-object size and checksum, validates
+record counts and unique keys, and creates content-addressed queue, summary, and
+manifest artifacts outside Git. Every record begins pending. Typed contracts forbid
+an exclusion without one reason plus human reviewer and timestamp; the initial
+manifest records zero human and zero AI decisions. Development used synthetic
+bibliographic records only.
+
+Validation: Ruff, strict MyPy, focused tamper/invariant tests, and all 101 repository
+tests passed; real queue execution awaits the pushed engine revision.
 
 ### 2026-07-22 — First immutable NAS-BRCA-002 literature search
 
@@ -132,23 +149,6 @@ data access were disabled, and no scientific result or novelty claim was generat
 
 Validation: Ruff, strict MyPy, and all 87 repository tests passed; founder
 authorization was required before executing the bounded Phase 0 audit.
-
-### 2026-07-22 — First immutable NAS-BRCA-001 survival run
-
-Executed the pushed statistical engine revision `52fc08c` once against the
-founder-approved 1,037-participant cohort. The primary age-adjusted association
-was HR 2.81 (95% CI 2.00–3.94) with 139 deaths, supporting scientific reproduction.
-The advanced-stage PH test failed, S3 emitted a nonconvergence warning, S4 failed
-with a singular matrix, and the Kaplan–Meier risk annotation overlaps its x-axis
-label. The engine retained these findings and classified Cortex as conditional
-pass. Independently recomputed all five artifact hashes, sizes, the manifest
-checksum, group/event partitions, and sensitivity completeness; all integrity
-checks passed. Added a typed aggregate receipt and AI-assisted advisory review
-without committing case-level data.
-
-Validation: run `f41f9440…a2ec`; manifest `49aa35b2…c7cb9`; five verified
-artifacts; Ruff, strict MyPy, and all 82 tests passed; results gate pending
-founder review.
 
 ## Current blockers
 
