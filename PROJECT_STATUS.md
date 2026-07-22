@@ -42,11 +42,11 @@ Current gate state:
   and non-outcome source assessment are authorized; outcome access is disabled.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
-- Verified queue `b02c2abf…f042` contains all 457 records as pending with zero
-  human and zero AI decisions; human screening has not started.
+- Verified queue `b02c2abf…f042` has progress state `1529a64b…3f1`: 5 founder-
+  included records, 452 pending, zero excluded, zero unclear, and zero AI decisions.
 - The append-only founder-review workflow is implemented with resumable batches,
   immutable decision events, explicit supersession, and verified progress receipts.
-  The first real founder decision batch has not been submitted.
+  The first founder decision batch has been submitted and independently verified.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -54,37 +54,56 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Begin founder title/abstract screening in small batches and preserve each
-   sequential verified aggregate progress receipt.
-2. Complete founder decisions, adjudicate unclear records, populate
-   the evidence matrix, and produce a novelty memo with an explicit no-go test.
-3. Complete discovery and validation source feasibility, including exact variable
+1. Implement governed AI advisory title/abstract triage with structured
+   recommendations, confidence, matched criteria, evidence references, abstention,
+   and immutable model/prompt/input provenance separate from human decisions.
+2. Evaluate advisory triage against founder-labeled records and lock routing and
+   audit rules before relying on it; do not permit autonomous exclusions in this
+   locked study protocol.
+3. Resume founder screening with AI-prepared batches, adjudicate unclear records,
+   and preserve every sequential verified human progress receipt.
+4. Complete founder decisions, populate the evidence matrix, and produce a novelty
+   memo with an explicit no-go test.
+5. Complete discovery and validation source feasibility, including exact variable
    mappings, terms, compatibility, independence, overlap, and source-registry review.
-4. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
+6. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
    after a documented `go` decision.
-5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-7. Implement persisted evidence claims, citations, provenance, contradictory
+9. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-8. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-9. Add the replaceable model gateway with structured outputs, minimum-necessary
-   context, citations, uncertainty, abstention, and governance enforcement.
-10. Build evaluation suites for retrieval, citation validity, numerical
+11. Expand the screening model gateway into general evidence reasoning with
+   minimum-necessary context, citations, uncertainty, abstention, and governance.
+12. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-11. Generate an immutable research release containing the protocol, dataset
+13. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-12. Generate a reviewable white-paper draft whose substantive claims trace to
+14. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-13. Build the internal workbench for projects, protocols, datasets, runs,
+15. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-14. Complete repeated internal oncology pilots before selecting the first
+16. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — First founder title/abstract decisions
+
+Recorded and verified progress state `1529a64b…3f1` after Dalron J. Robertson
+approved five high-confidence inclusions from the first presented batch. The other
+five presented records remain pending because the founder did not authorize their
+inclusion, exclusion, or unclear status. The cumulative state is 5 included and 452
+pending, with zero exclusions, zero unclear decisions, and zero AI decisions. No
+novelty or scientific conclusion was drawn.
+
+Validation: manifest and cumulative event-ledger hashes, event identities, queue
+membership, founder provenance, progress counts, and human-only boundary verified;
+aggregate receipt `screening-progress/batch-0001.yaml` created.
 
 ### 2026-07-22 — Governed resumable founder screening workflow
 
@@ -144,19 +163,6 @@ access, or scientific conclusion occurred.
 The approved replacement execution is `83d33fb2…4434`, manifest `e01a2798…3bbc`;
 all 12 objects, hashes, sizes, count invariants, and 457 abstracts were independently
 verified. The earlier execution is retained as superseded for screening readiness.
-
-### 2026-07-22 — Governed PubMed and Europe PMC retrieval engine
-
-Registered PubMed and Europe PMC for bounded evidence synthesis and implemented a
-fail-closed, content-addressed search runner. It validates founder authorization,
-locked queries, source status, roles, and purpose before network access; captures
-exact requests and raw responses outside Git; normalizes and deduplicates by DOI,
-PMID, and title; hashes the required API contact address in provenance; enforces
-NCBI-compatible request pacing; and supports a network-free CLI preview. No live
-search or scientific screening was performed.
-
-Validation: Ruff, strict MyPy, focused provenance tests, and all 94 repository
-tests passed; live execution requires a valid API contact email.
 
 ## Current blockers
 

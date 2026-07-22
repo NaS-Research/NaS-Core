@@ -40,3 +40,9 @@ protocol taxonomy, supports explicit supersession for correction and unclear-rec
 adjudication, verifies the full cumulative event chain, and writes only aggregate
 progress receipts to Git. Screening remains unstarted. Follow
 [`SCREENING_WORKFLOW.md`](SCREENING_WORKFLOW.md) for each small review batch.
+
+Founder batch 1 produced verified progress state `1529a64b…3f1`: 5 included,
+452 pending, zero excluded, zero unclear, and zero AI decisions. The aggregate
+receipt is [`screening-progress/batch-0001.yaml`](screening-progress/batch-0001.yaml).
+The next engineering step is governed AI advisory triage; under this locked protocol,
+AI may prepare and prioritize recommendations but may not create final decisions.

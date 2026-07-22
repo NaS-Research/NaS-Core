@@ -28,6 +28,7 @@ SEARCH_RECEIPT = STUDY / "literature" / "search_receipt.yaml"
 DECISION_SCHEMA = ROOT / "workflows" / "screening_decision_batch.schema.json"
 PROGRESS_MANIFEST_SCHEMA = ROOT / "workflows" / "screening_progress_manifest.schema.json"
 PROGRESS_RECEIPT_SCHEMA = ROOT / "workflows" / "screening_progress_receipt.schema.json"
+FIRST_PROGRESS_RECEIPT = STUDY / "literature" / "screening-progress" / "batch-0001.yaml"
 NOW = datetime(2026, 7, 22, 21, 0, tzinfo=UTC)
 
 
@@ -117,6 +118,21 @@ def test_checked_in_review_schemas_match_runtime_models() -> None:
         json.loads(PROGRESS_MANIFEST_SCHEMA.read_text())
         == ScreeningProgressManifest.model_json_schema()
     )
+
+
+def test_first_checked_in_progress_receipt_records_only_founder_inclusions() -> None:
+    receipt = ScreeningProgressReceipt.model_validate(
+        yaml.safe_load(FIRST_PROGRESS_RECEIPT.read_text())
+    )
+
+    assert receipt.summary.total_record_count == 457
+    assert receipt.summary.decided_record_count == 5
+    assert receipt.summary.included_record_count == 5
+    assert receipt.summary.pending_record_count == 452
+    assert receipt.summary.excluded_record_count == 0
+    assert receipt.summary.unclear_record_count == 0
+    assert receipt.ai_decisions_recorded == 0
+    assert receipt.scientific_conclusions_drawn is False
     assert (
         json.loads(PROGRESS_RECEIPT_SCHEMA.read_text())
         == ScreeningProgressReceipt.model_json_schema()
