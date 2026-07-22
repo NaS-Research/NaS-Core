@@ -1,0 +1,424 @@
+{
+  "$defs": {
+    "AnalysisArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "media_type": {
+          "minLength": 1,
+          "title": "Media Type",
+          "type": "string"
+        },
+        "object_key": {
+          "minLength": 1,
+          "title": "Object Key",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "object_key",
+        "media_type",
+        "size_bytes",
+        "sha256"
+      ],
+      "title": "AnalysisArtifact",
+      "type": "object"
+    },
+    "AnalysisStatus": {
+      "enum": [
+        "complete",
+        "not_interpretable",
+        "skipped",
+        "failed"
+      ],
+      "title": "AnalysisStatus",
+      "type": "string"
+    },
+    "PrimaryResultSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "advanced_events": {
+          "minimum": 0,
+          "title": "Advanced Events",
+          "type": "integer"
+        },
+        "advanced_participants": {
+          "minimum": 0,
+          "title": "Advanced Participants",
+          "type": "integer"
+        },
+        "confidence_interval_lower": {
+          "exclusiveMinimum": 0,
+          "title": "Confidence Interval Lower",
+          "type": "number"
+        },
+        "confidence_interval_upper": {
+          "exclusiveMinimum": 0,
+          "title": "Confidence Interval Upper",
+          "type": "number"
+        },
+        "early_events": {
+          "minimum": 0,
+          "title": "Early Events",
+          "type": "integer"
+        },
+        "early_participants": {
+          "minimum": 0,
+          "title": "Early Participants",
+          "type": "integer"
+        },
+        "events": {
+          "minimum": 0,
+          "title": "Events",
+          "type": "integer"
+        },
+        "hazard_ratio": {
+          "exclusiveMinimum": 0,
+          "title": "Hazard Ratio",
+          "type": "number"
+        },
+        "p_value": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "P Value",
+          "type": "number"
+        },
+        "participants": {
+          "minimum": 0,
+          "title": "Participants",
+          "type": "integer"
+        },
+        "ph_assumption_violated": {
+          "title": "Ph Assumption Violated",
+          "type": "boolean"
+        },
+        "ph_test_p_value": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Ph Test P Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "participants",
+        "events",
+        "early_participants",
+        "early_events",
+        "advanced_participants",
+        "advanced_events",
+        "hazard_ratio",
+        "confidence_interval_lower",
+        "confidence_interval_upper",
+        "p_value",
+        "ph_test_p_value",
+        "ph_assumption_violated"
+      ],
+      "title": "PrimaryResultSnapshot",
+      "type": "object"
+    },
+    "QualificationDecision": {
+      "enum": [
+        "pass",
+        "conditional_pass",
+        "fail"
+      ],
+      "title": "QualificationDecision",
+      "type": "string"
+    },
+    "ResultsGateStatus": {
+      "enum": [
+        "pending_founder_review",
+        "approved",
+        "changes_requested",
+        "on_hold",
+        "rejected"
+      ],
+      "title": "ResultsGateStatus",
+      "type": "string"
+    },
+    "ReviewDecision": {
+      "enum": [
+        "pending",
+        "approved",
+        "advisory_complete",
+        "changes_requested",
+        "rejected"
+      ],
+      "title": "ReviewDecision",
+      "type": "string"
+    },
+    "ReviewRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/ReviewDecision"
+        },
+        "notes": {
+          "minLength": 1,
+          "title": "Notes",
+          "type": "string"
+        },
+        "required_for_gate": {
+          "title": "Required For Gate",
+          "type": "boolean"
+        },
+        "review_type": {
+          "$ref": "#/$defs/ReviewType"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer",
+        "role",
+        "review_type",
+        "required_for_gate",
+        "decision",
+        "notes"
+      ],
+      "title": "ReviewRecord",
+      "type": "object"
+    },
+    "ReviewType": {
+      "description": "Review provenance; only human review types may authorize lifecycle gates.",
+      "enum": [
+        "internal_self_review",
+        "ai_assisted_internal_review",
+        "independent_human_review",
+        "journal_peer_review"
+      ],
+      "title": "ReviewType",
+      "type": "string"
+    },
+    "RunVerification": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_checksums": {
+          "const": "passed",
+          "title": "Artifact Checksums",
+          "type": "string"
+        },
+        "artifact_sizes": {
+          "const": "passed",
+          "title": "Artifact Sizes",
+          "type": "string"
+        },
+        "event_partition": {
+          "const": "passed",
+          "title": "Event Partition",
+          "type": "string"
+        },
+        "figure_layout": {
+          "enum": [
+            "passed",
+            "failed"
+          ],
+          "title": "Figure Layout",
+          "type": "string"
+        },
+        "figure_rendering": {
+          "const": "passed",
+          "title": "Figure Rendering",
+          "type": "string"
+        },
+        "manifest_payload_checksum": {
+          "const": "passed",
+          "title": "Manifest Payload Checksum",
+          "type": "string"
+        },
+        "participant_partition": {
+          "const": "passed",
+          "title": "Participant Partition",
+          "type": "string"
+        },
+        "sensitivity_branch_completeness": {
+          "const": "passed",
+          "title": "Sensitivity Branch Completeness",
+          "type": "string"
+        },
+        "typed_result_validation": {
+          "const": "passed",
+          "title": "Typed Result Validation",
+          "type": "string"
+        },
+        "verified_at": {
+          "format": "date-time",
+          "title": "Verified At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "verified_at",
+        "manifest_payload_checksum",
+        "artifact_sizes",
+        "artifact_checksums",
+        "participant_partition",
+        "event_partition",
+        "sensitivity_branch_completeness",
+        "typed_result_validation",
+        "figure_rendering",
+        "figure_layout"
+      ],
+      "title": "RunVerification",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "algorithm_version": {
+      "title": "Algorithm Version",
+      "type": "string"
+    },
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/AnalysisArtifact"
+      },
+      "minItems": 1,
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "code_revision": {
+      "minLength": 7,
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "cohort_build_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Cohort Build Id",
+      "type": "string"
+    },
+    "cohort_tag": {
+      "title": "Cohort Tag",
+      "type": "string"
+    },
+    "executed_at": {
+      "format": "date-time",
+      "title": "Executed At",
+      "type": "string"
+    },
+    "manifest_object_key": {
+      "title": "Manifest Object Key",
+      "type": "string"
+    },
+    "manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Manifest Sha256",
+      "type": "string"
+    },
+    "material_findings": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Material Findings",
+      "type": "array"
+    },
+    "primary_result": {
+      "$ref": "#/$defs/PrimaryResultSnapshot"
+    },
+    "protocol_tag": {
+      "title": "Protocol Tag",
+      "type": "string"
+    },
+    "protocol_version": {
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "qualification_decision": {
+      "$ref": "#/$defs/QualificationDecision"
+    },
+    "results_gate_status": {
+      "$ref": "#/$defs/ResultsGateStatus"
+    },
+    "reviews": {
+      "items": {
+        "$ref": "#/$defs/ReviewRecord"
+      },
+      "minItems": 1,
+      "title": "Reviews",
+      "type": "array"
+    },
+    "run_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_reproduction": {
+      "title": "Scientific Reproduction",
+      "type": "string"
+    },
+    "sensitivity_statuses": {
+      "additionalProperties": {
+        "$ref": "#/$defs/AnalysisStatus"
+      },
+      "title": "Sensitivity Statuses",
+      "type": "object"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    },
+    "verification": {
+      "$ref": "#/$defs/RunVerification"
+    }
+  },
+  "required": [
+    "study_id",
+    "protocol_version",
+    "protocol_tag",
+    "cohort_build_id",
+    "cohort_tag",
+    "run_id",
+    "algorithm_version",
+    "code_revision",
+    "executed_at",
+    "manifest_object_key",
+    "manifest_sha256",
+    "artifacts",
+    "verification",
+    "primary_result",
+    "scientific_reproduction",
+    "qualification_decision",
+    "sensitivity_statuses",
+    "material_findings",
+    "results_gate_status",
+    "reviews"
+  ],
+  "title": "SurvivalRunReceipt",
+  "type": "object"
+}

@@ -1,0 +1,100 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-001
+protocol_version: 1.1.0
+protocol_tag: NAS-BRCA-001-protocol-v1.1.0
+cohort_build_id: 73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53
+cohort_tag: NAS-BRCA-001-cohort-v1.0.0
+run_id: f41f944078a2b08c4a3348c55709a9dcb1302e0fb565239c446e4a1a8583a2ec
+algorithm_version: tcga-brca-survival-1.0.0
+code_revision: 52fc08c
+executed_at: '2026-07-22T13:28:14.365900Z'
+manifest_object_key: >-
+  analysis-runs/NAS-BRCA-001/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/f41f944078a2b08c4a3348c55709a9dcb1302e0fb565239c446e4a1a8583a2ec/manifest.json
+manifest_sha256: 49aa35b27e423c330ea61ae3f625d22d10d7e687f41a20d10c2b0dfddb3c7cb9
+artifacts:
+  - object_key: >-
+      analysis-runs/NAS-BRCA-001/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/f41f944078a2b08c4a3348c55709a9dcb1302e0fb565239c446e4a1a8583a2ec/analysis-summary.json
+    media_type: application/json
+    size_bytes: 11633
+    sha256: 3466725c2adcaa80280d25fd2bdf545ee0dcd543f515393d2122a25db41696e8
+  - object_key: >-
+      analysis-runs/NAS-BRCA-001/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/f41f944078a2b08c4a3348c55709a9dcb1302e0fb565239c446e4a1a8583a2ec/baseline-table.csv
+    media_type: text/csv
+    size_bytes: 207
+    sha256: 17f8529937807877948ea09072c3635df990d8f6584c8f71109fc2760646907b
+  - object_key: >-
+      analysis-runs/NAS-BRCA-001/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/f41f944078a2b08c4a3348c55709a9dcb1302e0fb565239c446e4a1a8583a2ec/model-coefficients.csv
+    media_type: text/csv
+    size_bytes: 3613
+    sha256: 3ea7f621a86f6a86e4e5ab410ab524273e84363a486e96641dd4372f55a10d0d
+  - object_key: >-
+      analysis-runs/NAS-BRCA-001/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/f41f944078a2b08c4a3348c55709a9dcb1302e0fb565239c446e4a1a8583a2ec/risk-table.csv
+    media_type: text/csv
+    size_bytes: 98
+    sha256: dfd132b1727967febdc47e382d09efc8bf384cc198464f0a92a92c1ed85e29ca
+  - object_key: >-
+      analysis-runs/NAS-BRCA-001/73bfc98672e03ca3da427fda5de63ccf804674783a21ddcbf5563955290d2e53/f41f944078a2b08c4a3348c55709a9dcb1302e0fb565239c446e4a1a8583a2ec/kaplan-meier.png
+    media_type: image/png
+    size_bytes: 67149
+    sha256: 17f23f8a178757eb05d82df3abc7a71a5c0d0d8b62cc505b1e8d4972411135d0
+verification:
+  verified_at: '2026-07-22T08:30:42-05:00'
+  manifest_payload_checksum: passed
+  artifact_sizes: passed
+  artifact_checksums: passed
+  participant_partition: passed
+  event_partition: passed
+  sensitivity_branch_completeness: passed
+  typed_result_validation: passed
+  figure_rendering: passed
+  figure_layout: failed
+primary_result:
+  participants: 1037
+  events: 139
+  early_participants: 777
+  early_events: 80
+  advanced_participants: 260
+  advanced_events: 59
+  hazard_ratio: 2.8086885681176876
+  confidence_interval_lower: 2.0039744626851985
+  confidence_interval_upper: 3.9365429148755653
+  p_value: 2.0250121784652462e-09
+  ph_test_p_value: 0.00042630549701872563
+  ph_assumption_violated: true
+scientific_reproduction: supported
+qualification_decision: conditional_pass
+sensitivity_statuses:
+  S1: complete
+  S2: complete
+  S3: not_interpretable
+  S4: failed
+  S5: complete
+material_findings:
+  - The age-adjusted advanced-versus-early hazard ratio is 2.81 (95% CI 2.00 to 3.94).
+  - The advanced-stage proportional-hazards test failed (p=0.000426).
+  - The prespecified S3 time-interaction model emitted a convergence warning and is not interpretable.
+  - The prespecified S4 restricted-cubic-spline model failed with a singular matrix.
+  - The Kaplan-Meier risk annotation overlaps the x-axis label and is not release-ready.
+  - This qualification study does not support patient-level treatment or diagnostic claims.
+results_gate_status: pending_founder_review
+reviews:
+  - reviewer: Dalron J. Robertson
+    role: Founder, Study Lead, Analyst, Author, and Internal Results Reviewer
+    review_type: internal_self_review
+    required_for_gate: true
+    decision: pending
+    reviewed_at: null
+    notes: >-
+      Review the verified primary and secondary results, PH violation, S3 warning,
+      S4 failure, figure defect, limitations, and remediation options before any
+      result release, claim freeze, or publication drafting.
+  - reviewer: OpenAI Codex
+    role: AI-assisted statistical consistency and artifact reviewer
+    review_type: ai_assisted_internal_review
+    required_for_gate: false
+    decision: advisory_complete
+    reviewed_at: '2026-07-22T08:30:42-05:00'
+    notes: >-
+      Verified aggregate completeness and all hashes, reviewed the rendered figure,
+      and documented advisory findings in reviews/AI_STATISTICAL_REVIEW_v1.0.0.md.
+      This review cannot approve the results gate.

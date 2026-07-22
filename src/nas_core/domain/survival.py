@@ -6,8 +6,12 @@ import json
 from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
+from typing import Literal
 
+import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+from nas_core.domain.research import ReviewDecision, ReviewRecord
 
 
 class SurvivalModel(BaseModel):
@@ -25,6 +29,14 @@ class QualificationDecision(StrEnum):
     PASS = "pass"
     CONDITIONAL_PASS = "conditional_pass"
     FAIL = "fail"
+
+
+class ResultsGateStatus(StrEnum):
+    PENDING_FOUNDER_REVIEW = "pending_founder_review"
+    APPROVED = "approved"
+    CHANGES_REQUESTED = "changes_requested"
+    ON_HOLD = "on_hold"
+    REJECTED = "rejected"
 
 
 class AnalysisArtifact(SurvivalModel):
@@ -148,10 +160,90 @@ class SurvivalRunManifest(SurvivalModel):
     manifest_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
 
 
-def write_survival_schemas(summary_path: Path, manifest_path: Path) -> None:
+class RunVerification(SurvivalModel):
+    verified_at: datetime
+    manifest_payload_checksum: Literal["passed"]
+    artifact_sizes: Literal["passed"]
+    artifact_checksums: Literal["passed"]
+    participant_partition: Literal["passed"]
+    event_partition: Literal["passed"]
+    sensitivity_branch_completeness: Literal["passed"]
+    typed_result_validation: Literal["passed"]
+    figure_rendering: Literal["passed"]
+    figure_layout: Literal["passed", "failed"]
+
+
+class PrimaryResultSnapshot(SurvivalModel):
+    participants: int = Field(ge=0)
+    events: int = Field(ge=0)
+    early_participants: int = Field(ge=0)
+    early_events: int = Field(ge=0)
+    advanced_participants: int = Field(ge=0)
+    advanced_events: int = Field(ge=0)
+    hazard_ratio: float = Field(gt=0)
+    confidence_interval_lower: float = Field(gt=0)
+    confidence_interval_upper: float = Field(gt=0)
+    p_value: float = Field(ge=0, le=1)
+    ph_test_p_value: float = Field(ge=0, le=1)
+    ph_assumption_violated: bool
+
+
+class SurvivalRunReceipt(SurvivalModel):
+    schema_version: str = "1.0.0"
+    study_id: str
+    protocol_version: str
+    protocol_tag: str
+    cohort_build_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    cohort_tag: str
+    run_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    algorithm_version: str
+    code_revision: str = Field(min_length=7)
+    executed_at: datetime
+    manifest_object_key: str
+    manifest_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    artifacts: list[AnalysisArtifact] = Field(min_length=1)
+    verification: RunVerification
+    primary_result: PrimaryResultSnapshot
+    scientific_reproduction: str
+    qualification_decision: QualificationDecision
+    sensitivity_statuses: dict[str, AnalysisStatus]
+    material_findings: list[str] = Field(min_length=1)
+    results_gate_status: ResultsGateStatus
+    reviews: list[ReviewRecord] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_gate(self) -> SurvivalRunReceipt:
+        if (
+            self.primary_result.early_participants + self.primary_result.advanced_participants
+            != self.primary_result.participants
+        ):
+            raise ValueError("exposure-group participants do not equal primary participants")
+        if (
+            self.primary_result.early_events + self.primary_result.advanced_events
+            != self.primary_result.events
+        ):
+            raise ValueError("exposure-group events do not equal primary events")
+        if set(self.sensitivity_statuses) != {"S1", "S2", "S3", "S4", "S5"}:
+            raise ValueError("run receipt must record all five sensitivity branches")
+        if self.results_gate_status is ResultsGateStatus.APPROVED:
+            required = [review for review in self.reviews if review.required_for_gate]
+            if not required or any(
+                review.decision is not ReviewDecision.APPROVED for review in required
+            ):
+                raise ValueError("an approved results gate requires all gate reviews approved")
+        return self
+
+
+def load_survival_run_receipt(path: Path) -> SurvivalRunReceipt:
+    payload = yaml.safe_load(path.read_text(encoding="utf-8"))
+    return SurvivalRunReceipt.model_validate(payload)
+
+
+def write_survival_schemas(summary_path: Path, manifest_path: Path, receipt_path: Path) -> None:
     for path, model in (
         (summary_path, SurvivalAnalysisSummary),
         (manifest_path, SurvivalRunManifest),
+        (receipt_path, SurvivalRunReceipt),
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
         payload = json.dumps(model.model_json_schema(), indent=2, sort_keys=True)

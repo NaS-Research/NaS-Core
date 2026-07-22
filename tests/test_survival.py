@@ -15,7 +15,11 @@ from nas_core.domain.cohorts import (
     CohortVerification,
 )
 from nas_core.domain.research import AnalysisPlan, ReviewRecord
-from nas_core.domain.survival import SurvivalAnalysisSummary, SurvivalRunManifest
+from nas_core.domain.survival import (
+    SurvivalAnalysisSummary,
+    SurvivalRunManifest,
+    SurvivalRunReceipt,
+)
 from nas_core.ingestion.gdc import canonical_json, sha256
 from nas_core.storage.object_store import InMemoryObjectStore
 
@@ -25,6 +29,15 @@ PLAN_PATH = (
 )
 SUMMARY_SCHEMA_PATH = ROOT / "workflows" / "survival_analysis.schema.json"
 RUN_SCHEMA_PATH = ROOT / "workflows" / "survival_run.schema.json"
+RECEIPT_SCHEMA_PATH = ROOT / "workflows" / "survival_run_receipt.schema.json"
+RUN_RECEIPT_PATH = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "tcga_brca_stage_survival"
+    / "analysis"
+    / "survival_run_receipt.yaml"
+)
 NOW = datetime(2026, 7, 22, 2, 0, tzinfo=UTC)
 BUILD_ID = "b" * 64
 MANIFEST_KEY = f"analysis-ready/gdc/NAS-BRCA-001/snapshot/{BUILD_ID}/manifest.json"
@@ -183,6 +196,10 @@ def test_checked_in_survival_schemas_match_typed_models() -> None:
         json.loads(SUMMARY_SCHEMA_PATH.read_text()) == SurvivalAnalysisSummary.model_json_schema()
     )
     assert json.loads(RUN_SCHEMA_PATH.read_text()) == SurvivalRunManifest.model_json_schema()
+    assert json.loads(RECEIPT_SCHEMA_PATH.read_text()) == SurvivalRunReceipt.model_json_schema()
+    receipt = SurvivalRunReceipt.model_validate(yaml.safe_load(RUN_RECEIPT_PATH.read_text()))
+    assert receipt.study_id == "NAS-BRCA-001"
+    assert receipt.results_gate_status == "pending_founder_review"
 
 
 def test_survival_run_generates_typed_immutable_artifacts() -> None:

@@ -122,6 +122,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     survival_schema.add_argument("summary_path", type=Path, help="Output path for result schema")
     survival_schema.add_argument("manifest_path", type=Path, help="Output path for run schema")
+    survival_schema.add_argument("receipt_path", type=Path, help="Output path for receipt schema")
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -269,8 +270,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
 
     if args.command == "analysis" and args.analysis_command == "schema":
-        write_survival_schemas(args.summary_path, args.manifest_path)
-        print(f"Wrote survival schemas: {args.summary_path}, {args.manifest_path}")
+        write_survival_schemas(args.summary_path, args.manifest_path, args.receipt_path)
+        print(
+            "Wrote survival schemas: "
+            f"{args.summary_path}, {args.manifest_path}, {args.receipt_path}"
+        )
         return 0
 
     if args.command == "program" and args.program_command == "validate":

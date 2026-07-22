@@ -75,3 +75,8 @@ uv run nas-core analysis survival \
 
 The real run requires `--execute` and must use the pushed implementation commit.
 Do not execute during engine development or synthetic validation.
+
+The first immutable real run is registered in
+[`survival_run_receipt.yaml`](survival_run_receipt.yaml). That receipt contains
+aggregate results and artifact hashes only; outcome-bearing artifacts remain in
+external storage. The results gate remains pending founder review.

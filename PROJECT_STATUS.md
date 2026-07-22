@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-21
+Last updated: 2026-07-22
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -8,25 +8,25 @@ and what comes next?
 
 ## Current focus
 
-### Execute and independently verify the NAS-BRCA-001 survival analysis
+### Review NAS-BRCA-001 results and authorize a remediation path
 
-Run the validated statistical engine once against founder-approved, immutable
-cohort build `73bfc986…d2e53` using the pushed implementation commit. Verify and
-freeze every result before scientific interpretation or evidence claims.
+Complete the founder results review for immutable run `f41f9440…a2ec`. Decide
+whether to request a transparent versioned remediation, hold the study, or reject
+the release. Do not silently repair the original run after viewing its results.
 
 Definition of done:
 
-- Use the exact pushed implementation SHA and approved cohort receipt; reverify
-  the cohort manifest and every source artifact before fitting any model.
-- Execute the primary, secondary, diagnostic, and five sensitivity branches once.
-- Store the typed summary, baseline table, coefficient table, risk table,
-  Kaplan–Meier figure, and run manifest in external content-addressed storage.
-- Independently recompute the run-manifest and artifact hashes and confirm every match.
-- Confirm the run captured dependency versions, parameters, seed, warnings,
-  abstentions, null results, model failures, uncertainty, and diagnostic findings.
-- Add a Git-tracked aggregate run receipt without patient-level data.
-- Complete AI-assisted statistical critique and founder results review before
-  freezing any scientific claim or qualification conclusion.
+- Founder reviews the verified aggregate receipt and advisory statistical review.
+- Founder explicitly accepts or rejects the PH violation, S3 nonconvergence, S4
+  failure, figure-layout defect, causal limitations, and prohibited claim boundaries.
+- Founder records `changes_requested`, `on_hold`, or `rejected`; approval is not
+  recommended while the prespecified S4 analysis and release figure remain defective.
+- If changes are requested, write a post-result amendment limited to declared
+  technical defects, increment the analysis algorithm, and preserve run 1.0.0.
+- Obtain targeted statistical review of the S3 time-varying-effect specification
+  before authorizing a replacement outcome run.
+- Do not freeze public claims or begin manuscript drafting until a reviewed result
+  gate is approved.
 
 Current gate state:
 
@@ -34,41 +34,61 @@ Current gate state:
 - Data Release 45 snapshot and deterministic cohort build: complete and verified.
 - Founder cohort-QA approval: recorded for build `73bfc986…d2e53`.
 - Frozen cohort tag: `NAS-BRCA-001-cohort-v1.0.0` designates this approval commit.
-- Statistical engine and synthetic gate suite: complete; the real run must cite
-  this implementation's pushed Git SHA.
-- Outcome analysis: not started.
+- Statistical engine revision: `52fc08c` complete and pushed.
+- Immutable run 1.0.0: complete; all five artifacts and manifest independently verified.
+- Scientific reproduction: supported; primary HR 2.81 (95% CI 2.00–3.94).
+- Cortex qualification: conditional pass because material diagnostics remain.
+- Results gate: pending founder review; public release blocked.
 
 ## Next implementation queue
 
-1. Execute and independently verify the immutable analysis run, then complete
-   founder results review and AI-assisted statistical critique.
-2. Freeze the reviewed analysis release and map every substantive scientific
+1. Complete founder results review and authorize, hold, or reject a versioned remediation.
+2. If authorized, amend only the declared technical defects, independently review
+   S3, implement analysis algorithm 1.0.1, and create a new immutable run.
+3. Freeze the reviewed analysis release and map every substantive scientific
    claim to a verified result artifact or external source.
-3. Complete structured founder review and AI-assisted critique of proposed
+4. Complete structured founder review and AI-assisted critique of proposed
    `NAS-BRCA-002`, resolve its classification mapping, intended decision, claim
    boundaries, and external-validation path, then select, revise, hold, or
    reject it. Only a founder-approved selection may be marked ready for a formal
    literature-review protocol.
-4. Implement persisted evidence claims, citations, provenance, contradictory
+5. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-5. Register approved bibliographic sources, execute the selected question's
+6. Register approved bibliographic sources, execute the selected question's
    literature-review protocol, and add permitted metadata and passage ingestion
    with hybrid keyword and semantic retrieval.
-6. Add the replaceable model gateway with structured outputs, minimum-necessary
+7. Add the replaceable model gateway with structured outputs, minimum-necessary
    context, citations, uncertainty, abstention, and governance enforcement.
-7. Build evaluation suites for retrieval, citation validity, numerical
+8. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-8. Generate an immutable research release containing the protocol, dataset
+9. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-9. Generate a reviewable white-paper draft whose substantive claims trace to
+10. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-10. Build the internal workbench for projects, protocols, datasets, runs,
+11. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-11. Complete repeated internal oncology pilots before selecting the first
+12. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — First immutable NAS-BRCA-001 survival run
+
+Executed the pushed statistical engine revision `52fc08c` once against the
+founder-approved 1,037-participant cohort. The primary age-adjusted association
+was HR 2.81 (95% CI 2.00–3.94) with 139 deaths, supporting scientific reproduction.
+The advanced-stage PH test failed, S3 emitted a nonconvergence warning, S4 failed
+with a singular matrix, and the Kaplan–Meier risk annotation overlaps its x-axis
+label. The engine retained these findings and classified Cortex as conditional
+pass. Independently recomputed all five artifact hashes, sizes, the manifest
+checksum, group/event partitions, and sensitivity completeness; all integrity
+checks passed. Added a typed aggregate receipt and AI-assisted advisory review
+without committing case-level data.
+
+Validation: run `f41f9440…a2ec`; manifest `49aa35b2…c7cb9`; five verified
+artifacts; Ruff, strict MyPy, and all 82 tests passed; results gate pending
+founder review.
 
 ### 2026-07-21 — Governed NAS-BRCA-001 survival-analysis engine
 
@@ -127,20 +147,6 @@ inspection was performed.
 Validation: snapshot `ec9cac7c…ef435`, manifest `0ea0d00b…64b7`, 1,098 records,
 three pages, five verified objects, and zero warnings.
 
-### 2026-07-21 — GDC release provenance and Seagate object storage
-
-Separated GDC Data Release evidence from API software status in the immutable
-snapshot model. Execution now requires an official HTTPS GDC release-notes URL,
-verifies that its content identifies the declared release, freezes its bytes and
-checksum, and rejects non-GDC hosts. Added a path-safe local filesystem
-object-store adapter behind the existing replaceable storage contract, configured
-this checkout to use the marker-validated Seagate data root, and preserved S3 as
-the future deployment option. The Data Release 45 dry run performed no network
-or storage activity; no case data was retrieved.
-
-Validation: the Seagate root passed integrity validation; Ruff passed, strict
-MyPy passed, and 71 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -154,6 +160,9 @@ MyPy passed, and 71 tests passed.
   export terms must be established before preregistration.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
+- NAS-BRCA-001 public release is blocked by pending founder results review, a
+  failed S4 nonlinear-age sensitivity, nonconvergent S3, a material exposure PH
+  violation, and Kaplan–Meier figure-layout failure.
 
 ## Durable decisions and boundaries
 
@@ -165,6 +174,9 @@ MyPy passed, and 71 tests passed.
 - Survival analysis uses pinned, replaceable statistical libraries behind NaS
   typed result contracts; library output is not accepted until serialized,
   checksummed, and independently verified.
+- Outcome-bearing runs are immutable. Post-result defect corrections require a
+  written amendment, new algorithm version, new run ID, and retained provenance
+  for both the original and replacement runs.
 - Cohort construction is frozen before outcome modeling. An unexpected result
   cannot justify silently changing eligibility, normalization, or exclusions;
   any correction requires a preserved prior build and a new algorithm version.
