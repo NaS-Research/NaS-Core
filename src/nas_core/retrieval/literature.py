@@ -14,6 +14,7 @@ from typing import Protocol, cast
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
+from xml.etree import ElementTree
 
 import certifi
 
@@ -38,6 +39,7 @@ from nas_core.storage.object_store import ObjectStore
 
 PUBMED_SEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
 PUBMED_SUMMARY_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+PUBMED_FETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 EUROPE_PMC_SEARCH_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 ALLOWED_HOSTS = frozenset({"eutils.ncbi.nlm.nih.gov", "www.ebi.ac.uk"})
 JSON_MEDIA_TYPE = "application/json"
@@ -371,6 +373,24 @@ class LiteratureSearchService:
             records.extend(self._parse_pubmed_summaries(payload, batch))
             requests.append(self._request("pubmed", PUBMED_SUMMARY_URL, params))
             bodies.append(response.body)
+        abstracts: dict[str, str] = {}
+        for batch in pubmed_summary_batches(ids):
+            params = {
+                "db": "pubmed",
+                "id": ",".join(batch),
+                "retmode": "xml",
+                "rettype": "abstract",
+                "tool": "nas_core",
+                "email": contact_email,
+            }
+            response = self._checked(self._transport.get(PUBMED_FETCH_URL, params), "PubMed")
+            abstracts.update(self._parse_pubmed_abstracts(response.body))
+            requests.append(self._request("pubmed", PUBMED_FETCH_URL, params))
+            bodies.append(response.body)
+        records = [
+            record.model_copy(update={"abstract": abstracts.get(record.pmid or "")})
+            for record in records
+        ]
         result = SourceSearchResult(
             source_id="pubmed",
             query=query,
@@ -488,6 +508,28 @@ class LiteratureSearchService:
                 )
             )
         return records
+
+    @staticmethod
+    def _parse_pubmed_abstracts(body: bytes) -> dict[str, str]:
+        try:
+            root = ElementTree.fromstring(body)
+        except ElementTree.ParseError as error:
+            raise RemoteResponseError("PubMed abstract response is not valid XML") from error
+        abstracts: dict[str, str] = {}
+        for article in root.findall(".//PubmedArticle"):
+            pmid_element = article.find("./MedlineCitation/PMID")
+            if pmid_element is None or not pmid_element.text:
+                raise RemoteResponseError("PubMed abstract article is missing PMID")
+            sections: list[str] = []
+            for element in article.findall("./MedlineCitation/Article/Abstract/AbstractText"):
+                text = "".join(element.itertext()).strip()
+                if not text:
+                    continue
+                label = element.attrib.get("Label")
+                sections.append(f"{label}: {text}" if label else text)
+            if sections:
+                abstracts[pmid_element.text] = "\n".join(sections)
+        return abstracts
 
     @staticmethod
     def _parse_europe_record(item: dict[str, object]) -> BibliographicRecord:

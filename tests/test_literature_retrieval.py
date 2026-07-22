@@ -56,6 +56,18 @@ class FakeLiteratureTransport:
                     },
                 }
             }
+        elif url.endswith("efetch.fcgi"):
+            articles = "".join(
+                f"<PubmedArticle><MedlineCitation><PMID>{pmid}</PMID><Article>"
+                f"<Abstract><AbstractText Label='BACKGROUND'>Synthetic abstract {pmid}."
+                "</AbstractText></Abstract></Article></MedlineCitation></PubmedArticle>"
+                for pmid in parameters["id"].split(",")
+            )
+            return HTTPResponse(
+                status_code=200,
+                headers={},
+                body=f"<PubmedArticleSet>{articles}</PubmedArticleSet>".encode(),
+            )
         else:
             payload = {
                 "hitCount": 2,
@@ -126,7 +138,7 @@ def test_capture_is_governed_deduplicated_and_immutable() -> None:
     assert snapshot.unique_record_count == 3
     assert snapshot.duplicate_record_count == 1
     assert len(snapshot.source_results) == 2
-    assert len(snapshot.requests) == 3
+    assert len(snapshot.requests) == 4
     assert all("email" not in request.parameters for request in snapshot.requests)
     assert all(request[1]["email"] == "research@example.org" for request in transport.requests)
     europe_request = next(request for request in transport.requests if "europepmc" in request[0])
@@ -137,7 +149,7 @@ def test_capture_is_governed_deduplicated_and_immutable() -> None:
     normalized = json.loads(store.get_bytes(f"{prefix}/normalized-records.json"))
     stable = next(record for record in normalized if record["pmid"] == "1")
     assert stable["source_ids"] == ["europe-pmc", "pubmed"]
-    assert stable["abstract"] == "Synthetic abstract for testing."
+    assert stable["abstract"] == "BACKGROUND: Synthetic abstract 1."
     assert stable["is_open_access"] is False
 
     manifest = json.loads(store.get_bytes(f"{prefix}/manifest.json"))
