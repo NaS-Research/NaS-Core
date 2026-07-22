@@ -42,8 +42,8 @@ Current gate state:
   and non-outcome source assessment are authorized; outcome access is disabled.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
-- Verified queue `b02c2abf…f042` has progress state `9c2322a8…9473`: 19 founder-
-  included records, 6 excluded, 432 pending, zero unclear, and zero AI decisions.
+- Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
+  included records, 7 excluded, 423 pending, zero unclear, and zero AI decisions.
 - The append-only founder-review workflow is implemented with resumable batches,
   immutable decision events, explicit supersession, and verified progress receipts.
   The first founder decision batch has been submitted and independently verified.
@@ -51,10 +51,9 @@ Current gate state:
   immutable provenance contracts are implemented and validated without live model
   use. The founder selected zero-API Phase 0 screening, so policy `1.0.2` disables
   live provider execution. No API credential is required for the active workflow.
-- Deterministic prioritization `1.0.0` ranked all 452 pending records locally: 29
-  core, 158 supporting, and 265 context. It wrote zero screening decisions and drew
-  no conclusion; founder eligibility review and later full-text quality appraisal
-  remain required.
+- Deterministic prioritization `1.0.0` ranked all 452 initially pending records
+  locally. The 29-record core tier is fully founder-reviewed. Supporting/context
+  safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -62,41 +61,52 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Present the 29 core-priority records in small founder-review batches and record
-   only explicit include, exclude, or unclear decisions against the locked protocol.
-2. Retrieve permitted full text for founder-included records and implement a
+1. Retrieve permitted full text for the 27 provisional inclusions and implement a
    study-design-specific quality-appraisal form; do not infer quality from rank.
-3. Review supporting records and citation chains until the locked stopping rule is
+2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
-4. Complete founder decisions, populate the evidence matrix, and produce a novelty
+3. Complete founder decisions, populate the evidence matrix, and produce a novelty
    memo with an explicit no-go test.
-5. Complete discovery and validation source feasibility, including exact variable
+4. Complete discovery and validation source feasibility, including exact variable
    mappings, terms, compatibility, independence, overlap, and source-registry review.
-6. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
+5. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
    after a documented `go` decision.
-7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-9. Implement persisted evidence claims, citations, provenance, contradictory
+8. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-11. Expand the screening model gateway into general evidence reasoning with
+10. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-12. Build evaluation suites for retrieval, citation validity, numerical
+11. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-13. Generate an immutable research release containing the protocol, dataset
+12. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-14. Generate a reviewable white-paper draft whose substantive claims trace to
+13. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-15. Build the internal workbench for projects, protocols, datasets, runs,
+14. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-16. Complete repeated internal oncology pilots before selecting the first
+15. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Core-priority title/abstract screening complete
+
+Recorded and independently verified the final nine core-priority founder decisions:
+eight inclusions and one protocol-based exclusion. All 29 records in the locked core
+tier have now been reviewed. The cumulative immutable state is 34 of 457 records
+decided: 27 provisionally included, 7 excluded, 423 pending, zero unclear, and zero
+AI decisions. Provisional inclusion authorizes full-text eligibility review only;
+it is not a quality judgment or evidence conclusion.
+
+Validation: exact prior-state binding, queue membership, reviewer provenance,
+exclusion taxonomy, event-chain and artifact hashes, reconciled cumulative counts,
+and human-only boundary independently verified.
 
 ### 2026-07-22 — Third founder title/abstract decision batch
 
@@ -137,20 +147,6 @@ Founder policy `1.0.2` disables live AI execution for Phase 0.
 
 Validation: deterministic scoring and no-decision tests, complete verified pending-
 queue ranking, Ruff, strict MyPy, study validation, and all 116 tests passed.
-
-### 2026-07-22 — Founder-authorized AI provider retention path
-
-Recorded Dalron J. Robertson's prospective authorization of the standard API
-abuse-monitoring retention path for the exact verified NAS-BRCA-002 public/open
-title-and-abstract queue. Policy `1.0.1` enables only governed advisory execution,
-keeps provider application storage disabled, caps calls at ten records, requires
-human review and calibration, and continues to prohibit autonomous decisions.
-Licensed full text, controlled data, PHI, patient-level data, other queues,
-scientific conclusions, and publication claims remain outside authorization. No
-live request was made because the local API credential is absent.
-
-Validation: checked-in policy contract, fail-closed disabled-policy test, explicit
-founder authorization record, and scope-aligned runbook and study status.
 
 ### 2026-07-22 — Governed AI advisory screening engine
 
