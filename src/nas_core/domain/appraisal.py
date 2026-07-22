@@ -54,6 +54,59 @@ class EvidenceRole(StrEnum):
     EXCLUDED = "excluded"
 
 
+class FullTextAccessStatus(StrEnum):
+    REPOSITORY_CANDIDATE = "repository_candidate"
+    ACCESS_CHECK_REQUIRED = "access_check_required"
+
+
+class FullTextInventoryRecord(AppraisalModel):
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    record_key: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    publication_year: int | None = None
+    journal: str | None = None
+    pmid: str | None = None
+    pmcid: str | None = None
+    doi: str | None = None
+    bibliographic_open_access_flag: bool | None = None
+    access_status: FullTextAccessStatus
+    full_text_retrieved: bool = False
+    full_text_appraised: bool = False
+
+
+class FullTextInventory(AppraisalModel):
+    schema_version: str = "1.0.0"
+    inventory_version: str = "1.0.0"
+    study_id: str = Field(min_length=1)
+    queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    provisional_inclusion_count: int = Field(ge=1)
+    repository_candidate_count: int = Field(ge=0)
+    access_check_required_count: int = Field(ge=0)
+    records: list[FullTextInventoryRecord] = Field(min_length=1)
+    full_texts_retrieved: int = 0
+    appraisals_completed: int = 0
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_counts(self) -> FullTextInventory:
+        if len(self.records) != self.provisional_inclusion_count:
+            raise ValueError("inventory record count does not match provisional inclusions")
+        repository = sum(
+            item.access_status is FullTextAccessStatus.REPOSITORY_CANDIDATE
+            for item in self.records
+        )
+        if repository != self.repository_candidate_count:
+            raise ValueError("repository-candidate count does not reconcile")
+        if len(self.records) - repository != self.access_check_required_count:
+            raise ValueError("access-check count does not reconcile")
+        if self.full_texts_retrieved or self.appraisals_completed:
+            raise ValueError("initial access inventory cannot claim completed downstream work")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("an access inventory cannot draw scientific conclusions")
+        return self
+
+
 class AppraisalDomain(AppraisalModel):
     domain: AppraisalDomainName
     judgment: RiskJudgment

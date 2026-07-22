@@ -56,6 +56,13 @@ template are implemented. Seven evidence-located domains govern eligibility and 
 be averaged away, and only studies with low-risk analysis and validation can become
 anchor evidence. No real paper has been assigned a quality role yet.
 
+The verified access inventory derives directly from founder progress state
+`dd27a686…ac21` and reconciles all 27 provisional inclusions. Sixteen have PMC
+repository identifiers and 11 require separate lawful-access checks. A PMCID is
+treated only as a repository candidate, not proof of reuse rights. The first
+candidate (`PMC10587090`) was checked against official Europe PMC XML and declares
+CC BY 4.0; durable governed retrieval remains the next step.
+
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The
 provider-neutral gateway records structured recommendations, confidence, matched

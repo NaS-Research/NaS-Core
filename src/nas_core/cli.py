@@ -34,6 +34,7 @@ from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
+from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.literature import LiteratureSearchService
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
 from nas_core.retrieval.review import ScreeningReviewService
@@ -290,6 +291,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Validate one full-text eligibility and quality appraisal",
     )
     appraisal_validate.add_argument("path", type=Path, help="Full-text appraisal YAML")
+    full_text_inventory = literature_commands.add_parser(
+        "full-text-inventory",
+        help="Build a verified access inventory from founder-included records",
+    )
+    full_text_inventory.add_argument(
+        "receipt", type=Path, help="Verified screening queue receipt"
+    )
+    full_text_inventory.add_argument(
+        "progress_receipt", type=Path, help="Latest verified founder progress receipt"
+    )
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -674,6 +685,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"Full-text appraisal is valid: {appraisal.study_id}, "
             f"{appraisal.screening_id}, {appraisal.evidence_role}"
         )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "full-text-inventory":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = load_screening_progress_receipt(args.progress_receipt)
+        inventory = FullTextInventoryService(store=get_object_store()).build(
+            queue_receipt,
+            progress_receipt,
+        )
+        print(json.dumps(inventory.model_dump(mode="json", exclude_none=True), indent=2))
         return 0
 
     if args.command == "literature" and args.literature_command == "screening-ai-schema":

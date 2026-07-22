@@ -92,6 +92,24 @@ class ScreeningReviewService:
         current = self._current_events(events)
         return [record for record in queue if record.screening_id not in current]
 
+    def included_records(
+        self,
+        queue_receipt: ScreeningQueueReceipt,
+        *,
+        progress_receipt: ScreeningProgressReceipt,
+    ) -> list[ScreeningQueueRecord]:
+        """Return founder-included records after verifying the cumulative ledger."""
+
+        queue = self._load_queue(queue_receipt)
+        events = self._load_prior_events(queue_receipt, progress_receipt)
+        current = self._current_events(events)
+        return [
+            record
+            for record in queue
+            if record.screening_id in current
+            and current[record.screening_id].decision is ScreeningDecision.INCLUDE
+        ]
+
     def record_batch(
         self,
         queue_receipt: ScreeningQueueReceipt,

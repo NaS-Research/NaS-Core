@@ -61,8 +61,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Build the 27-record full-text access inventory, retrieve only lawfully permitted
-   texts, and complete the first founder appraisal with page/section evidence.
+1. Implement immutable, license-recorded full-text retrieval; persist and verify
+   `PMC10587090`, then complete its first founder appraisal with section evidence.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
 3. Complete founder decisions, populate the evidence matrix, and produce a novelty
@@ -94,6 +94,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Verified provisional-inclusion access inventory
+
+Implemented a local, no-cost inventory derived directly from the verified founder
+decision ledger rather than a copied citation list. The service independently
+rechecks the queue and cumulative event chain, selects exactly the 27 current
+founder inclusions, preserves screening identities and citation metadata, and makes
+no eligibility, quality, or scientific judgment. Sixteen records have PMC repository
+identifiers and 11 require separate access checks; PMCID is explicitly only a
+candidate signal. The first official Europe PMC check confirmed `PMC10587090` is
+CC BY 4.0 and produced temporary XML checksum `2ca3db6f…0e2a`; no temporary file is
+yet represented as a durable artifact.
+
+Validation: inclusion-ledger selection, inventory/count reconciliation, downstream-
+completion and no-conclusion boundaries, Ruff, strict MyPy, and all 124 tests passed.
 
 ### 2026-07-22 — Governed full-text quality-appraisal gate
 
@@ -149,20 +164,6 @@ evidentiary weight. No scientific conclusion was drawn.
 Validation: queue membership, exact prior-state binding, reviewer provenance,
 exclusion taxonomy, cumulative event-chain identities and hashes, artifact hashes
 and sizes, reconciled progress counts, and human-only boundary verified.
-
-### 2026-07-22 — Zero-cost deterministic literature prioritization
-
-Implemented transparent local ranking for every pending NAS-BRCA-002 title and
-abstract without a model, credential, network request, or usage charge. Versioned
-signals cover PAM50/intrinsic subtype, stability, uncertainty, discordance,
-preprocessing, validation, human cohorts, methods, and outcomes, with explicit
-caution signals. The first diagnostic threshold was rejected as too permissive;
-the locked thresholds now identify 29 core, 158 supporting, and 265 context records.
-Ranking creates no eligibility or quality decision and cannot write the human ledger.
-Founder policy `1.0.2` disables live AI execution for Phase 0.
-
-Validation: deterministic scoring and no-decision tests, complete verified pending-
-queue ranking, Ruff, strict MyPy, study validation, and all 116 tests passed.
 
 ## Current blockers
 

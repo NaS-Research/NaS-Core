@@ -230,6 +230,8 @@ def test_records_verifies_and_resumes_founder_review() -> None:
     assert receipt.screening_status == "in_progress"
     assert receipt.ai_decisions_recorded == 0
     assert receipt.scientific_conclusions_drawn is False
+    included = service.included_records(queue_receipt, progress_receipt=receipt)
+    assert [record.screening_id for record in included] == [identifiers[0]]
     resumed = service.next_batch(queue_receipt, progress_receipt=receipt, batch_size=10)
     assert [record.screening_id for record in resumed.records] == identifiers[2:]
 
