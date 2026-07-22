@@ -30,6 +30,7 @@ PROGRESS_MANIFEST_SCHEMA = ROOT / "workflows" / "screening_progress_manifest.sch
 PROGRESS_RECEIPT_SCHEMA = ROOT / "workflows" / "screening_progress_receipt.schema.json"
 FIRST_PROGRESS_RECEIPT = STUDY / "literature" / "screening-progress" / "batch-0001.yaml"
 SECOND_PROGRESS_RECEIPT = STUDY / "literature" / "screening-progress" / "batch-0002.yaml"
+THIRD_PROGRESS_RECEIPT = STUDY / "literature" / "screening-progress" / "batch-0003.yaml"
 NOW = datetime(2026, 7, 22, 21, 0, tzinfo=UTC)
 
 
@@ -153,6 +154,24 @@ def test_second_checked_in_progress_receipt_records_approved_founder_batch() -> 
     assert receipt.summary.included_record_count == 12
     assert receipt.summary.excluded_record_count == 3
     assert receipt.summary.pending_record_count == 442
+    assert receipt.summary.unclear_record_count == 0
+    assert receipt.ai_decisions_recorded == 0
+    assert receipt.scientific_conclusions_drawn is False
+
+
+def test_third_checked_in_progress_receipt_records_approved_founder_batch() -> None:
+    receipt = ScreeningProgressReceipt.model_validate(
+        yaml.safe_load(THIRD_PROGRESS_RECEIPT.read_text())
+    )
+
+    assert receipt.previous_progress_id == (
+        "2ba74e8bec2a8ec5d6861313ba6e7d0282b29275969a91f489cb205b6da23910"
+    )
+    assert receipt.summary.total_record_count == 457
+    assert receipt.summary.decided_record_count == 25
+    assert receipt.summary.included_record_count == 19
+    assert receipt.summary.excluded_record_count == 6
+    assert receipt.summary.pending_record_count == 432
     assert receipt.summary.unclear_record_count == 0
     assert receipt.ai_decisions_recorded == 0
     assert receipt.scientific_conclusions_drawn is False

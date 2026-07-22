@@ -42,8 +42,8 @@ Current gate state:
   and non-outcome source assessment are authorized; outcome access is disabled.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
-- Verified queue `b02c2abf…f042` has progress state `2ba74e8b…3910`: 12 founder-
-  included records, 3 excluded, 442 pending, zero unclear, and zero AI decisions.
+- Verified queue `b02c2abf…f042` has progress state `9c2322a8…9473`: 19 founder-
+  included records, 6 excluded, 432 pending, zero unclear, and zero AI decisions.
 - The append-only founder-review workflow is implemented with resumable batches,
   immutable decision events, explicit supersession, and verified progress receipts.
   The first founder decision batch has been submitted and independently verified.
@@ -97,6 +97,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Third founder title/abstract decision batch
+
+Recorded and independently verified ten explicit founder decisions from the second
+deterministic core-priority batch: seven inclusions and three protocol-based
+exclusions. The cumulative immutable state is 25 of 457 records decided: 19
+included, 6 excluded, 432 pending, zero unclear, and zero AI decisions. Nine records
+remain in the locked core-priority tier. No quality judgment or scientific
+conclusion was drawn.
+
+Validation: exact prior-state binding, queue membership, reviewer provenance,
+exclusion taxonomy, event-chain and artifact hashes, reconciled cumulative counts,
+and the human-only boundary independently verified.
 
 ### 2026-07-22 — Second founder title/abstract decision batch
 
@@ -156,19 +169,6 @@ Validation: official SDK adapter, provider-free synthetic gateway, tamper and
 evidence-reference boundaries, fail-closed credential test, network-free real-study
 dry run, canonical schemas, Ruff, strict MyPy, study-contract validation, and all
 114 repository tests passed.
-
-### 2026-07-22 — First founder title/abstract decisions
-
-Recorded and verified progress state `1529a64b…3f1` after Dalron J. Robertson
-approved five high-confidence inclusions from the first presented batch. The other
-five presented records remain pending because the founder did not authorize their
-inclusion, exclusion, or unclear status. The cumulative state is 5 included and 452
-pending, with zero exclusions, zero unclear decisions, and zero AI decisions. No
-novelty or scientific conclusion was drawn.
-
-Validation: manifest and cumulative event-ledger hashes, event identities, queue
-membership, founder provenance, progress counts, and human-only boundary verified;
-aggregate receipt `screening-progress/batch-0001.yaml` created.
 
 ## Current blockers
 

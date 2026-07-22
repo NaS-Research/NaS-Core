@@ -41,9 +41,9 @@ adjudication, verifies the full cumulative event chain, and writes only aggregat
 progress receipts to Git. Screening remains unstarted. Follow
 [`SCREENING_WORKFLOW.md`](SCREENING_WORKFLOW.md) for each small review batch.
 
-Founder batch 2 produced verified progress state `2ba74e8b…3910`: 12 included,
-3 excluded, 442 pending, zero unclear, and zero AI decisions. The latest aggregate
-receipt is [`screening-progress/batch-0002.yaml`](screening-progress/batch-0002.yaml).
+Founder batch 3 produced verified progress state `9c2322a8…9473`: 19 included,
+6 excluded, 432 pending, zero unclear, and zero AI decisions. The latest aggregate
+receipt is [`screening-progress/batch-0003.yaml`](screening-progress/batch-0003.yaml).
 The active workflow presents deterministic core-priority batches for explicit
 founder decisions.
 
