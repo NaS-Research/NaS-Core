@@ -19,9 +19,9 @@ gate was satisfied.
 | Phase | Workstream | Status | Completion evidence / next action |
 | ---: | --- | --- | --- |
 | 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
-| 1 | Review and select question | In progress | Review packet prepared; complete founder review and record a decision |
-| 2 | Lock evidence-review protocol | Not started | Blocked until the question is selected and literature-ready |
-| 3 | Establish data and assay feasibility | Not started | Build TCGA field matrix and assess an external validation source |
+| 1 | Review and select question | In progress | AI advisory complete; complete founder review and record a decision |
+| 2 | Lock evidence-review protocol | Drafted; retrieval blocked | Draft protocol and search strategy exist; founder authorization is required before retrieval |
+| 3 | Establish data and assay feasibility | Drafted; assessment not started | Variable requirements exist; assess exact fields, terms, compatibility, and independence |
 | 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and documented founder protocol approval |
 | 5 | Capture discovery snapshots | Not started | Requires preregistration and completion of the `NAS-BRCA-001` qualification gate |
 | 6 | Build and quality-check cohort | Not started | Requires an independently verified immutable snapshot |
@@ -38,7 +38,8 @@ gate was satisfied.
 
 ### Current blockers
 
-- `NAS-BRCA-001` has not completed platform qualification.
+- `NAS-BRCA-001` received a conditional platform-qualification pass; its founder
+  results/remediation gate remains pending before outcome-bearing discovery work.
 - The founder's scientific/product, molecular/pathology, and statistical
   self-review passes have not been completed for `NAS-RQ-BRCA002`.
 - The discovery question is proposed, not selected, so automated literature
@@ -53,9 +54,12 @@ gate was satisfied.
    producing an interesting publication.
 3. Review the PAM50 implementations, consensus/confidence rules, and gold-standard concern.
 4. Confirm a credible external-validation path.
-5. Complete the non-authoritative AI adversarial review, resolve its findings,
-   and record the founder's selection decision.
-6. Update both this table and `pipeline.yaml`.
+5. Review the completed non-authoritative AI adversarial review and explicitly
+   accept, resolve, or defer each blocker.
+6. Authorize or reject the bounded, non-outcome Phase 0 novelty and feasibility audit.
+7. If authorized, lock the search protocol, populate the evidence matrix, and
+   assess source feasibility without testing molecular outcomes.
+8. Record `go`, `change`, `hold`, or `reject` and update lifecycle records.
 
 ## Phase 1 execution board — Question review and selection
 
@@ -77,7 +81,7 @@ authorize a formal literature review.
 | P1.5 | Complete scientific/product self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and conflict disclosure |
 | P1.6 | Complete molecular pathology/oncology self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and knowledge limitations |
 | P1.7 | Complete biostatistical self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and knowledge limitations |
-| P1.8 | Complete AI-assisted adversarial review | OpenAI Codex | Not started | Advisory findings clearly labeled non-authoritative |
+| P1.8 | Complete AI-assisted adversarial review | OpenAI Codex | Complete | `reviews/AI_QUESTION_REVIEW_v0.2.0.md`; advisory and non-authoritative |
 | P1.9 | Resolve every requested change | Dalron J. Robertson | Not started | Comment-resolution log and versioned question changes |
 | P1.10 | Re-score the final candidate | Dalron J. Robertson | Not started | Evidence-backed scores and written rationale for all eight dimensions |
 | P1.11 | Record final selection decision | Dalron J. Robertson | Not started | Founder approval, changes requested, on hold, or rejection with timestamp |
@@ -91,6 +95,10 @@ authorize a formal literature review.
 - a proposed decision context, scientific question, data path, validation path,
   output, success criteria, limitations, and provisional 30/40 score;
 - a structured multidisciplinary self-review packet;
+- a typed Phase 0 novelty/data-feasibility plan, reproducible draft search
+  strategy, evidence-matrix structure, and candidate-source requirements;
+- a completed AI-assisted adversarial review with explicit scientific and
+  operational blockers;
 - explicit nonclinical, nonpredictive, and no-gold-standard boundaries;
 - a live human tracker and machine-readable `pipeline.yaml`;
 - automated tests preventing an unapproved question from becoming selected or

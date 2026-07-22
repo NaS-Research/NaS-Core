@@ -1,0 +1,73 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.2.0
+strategy_version: 0.1.0
+status: draft
+objective: >-
+  Map prior clinical/PAM50 discordance, classification-stability, preprocessing,
+  confidence, abstention, molecular-correlate, outcome, and external-validation
+  studies to determine the exact unresolved contribution.
+sources:
+  - source_id: pubmed
+    name: PubMed
+    official_url: https://pubmed.ncbi.nlm.nih.gov/
+    query: >-
+      (breast cancer OR breast carcinoma) AND (PAM50 OR intrinsic subtype) AND
+      (discordance OR concordance OR stability OR instability OR uncertainty OR
+      confidence OR centroid OR second-best OR perturbation OR preprocessing)
+    purpose: Primary biomedical literature discovery and reproducible citation inventory.
+  - source_id: europe-pmc
+    name: Europe PMC
+    official_url: https://europepmc.org/
+    query: >-
+      (breast cancer OR breast carcinoma) AND (PAM50 OR intrinsic subtype) AND
+      (discordance OR stability OR uncertainty OR classifier OR normalization)
+    purpose: Independent bibliographic coverage, open-access status, and full-text links.
+date_range: Database inception through the final locked search date.
+languages:
+  - English
+inclusion_criteria:
+  - Primary human breast-cancer studies evaluating PAM50 or a documented intrinsic-subtype implementation.
+  - Studies comparing clinical receptor categories with molecular subtype.
+  - Studies evaluating subtype stability, confidence, margins, perturbation, preprocessing, or centering.
+  - Studies reporting biological correlates, outcomes, or validation relevant to stable or discordant groups.
+  - Methods papers specifying reproducible classifier or normalization details.
+exclusion_criteria:
+  - Reviews, editorials, and commentaries from the primary evidence matrix; retain them only for citation chasing.
+  - Studies without sufficient method detail to identify the subtype approach.
+  - Nonhuman, cell-line-only, or purely mechanistic studies without a human-tumor cohort.
+  - Studies using only clinical surrogate subtypes without a molecular intrinsic-subtype measure.
+  - Duplicate reports that do not contribute a distinct cohort, method, endpoint, or analysis.
+screening_process:
+  - Export bibliographic identifiers, title, abstract, year, journal, DOI, PMID, and access status.
+  - Deduplicate by DOI, PMID, title, and author-year combination while retaining provenance.
+  - Founder screens titles and abstracts against locked criteria; AI may assist but cannot make final inclusion decisions.
+  - Founder records one exclusion reason for every full text excluded.
+  - Citation-chain relevant included studies and major prior reviews.
+  - Preserve ambiguous studies for full-text adjudication rather than silently excluding them.
+extraction_fields:
+  - Citation and persistent identifiers
+  - Cohort, country, recruitment years, setting, and sample size
+  - Clinical HR/HER2 definitions, assay methods, thresholds, and missingness
+  - Expression platform, sample type, tumor purity handling, and batch processing
+  - PAM50 centroids, gene mapping, normalization, centering, classifier implementation, and software version
+  - Assigned subtype, second-best subtype, margins, probability, entropy, stability, and abstention rules
+  - Discordance categories and denominators
+  - Molecular, pathway, immune, mutation, copy-number, and outcome analyses
+  - Covariates, missing-data strategy, multiplicity control, diagnostics, and sensitivity analyses
+  - Internal validation, external cohort, transportability, and replication results
+  - Author conclusions, limitations, conflicts, funding, and data/code availability
+  - Exact contribution relevant to NAS-BRCA-002 and remaining unanswered question
+synthesis_plan:
+  - Produce an evidence map before any pooled estimate.
+  - Separate simple clinical/molecular discordance from analytical-stability research.
+  - Compare implementations and perturbations without assuming a gold standard.
+  - Identify claim saturation, contradictions, unvalidated findings, and missing external replication.
+  - Write a claim-by-claim novelty memorandum with direct citations and explicit uncertainty.
+stopping_rule: >-
+  Stop the initial search only after all locked queries are executed, deduplication
+  and citation chaining are complete, two consecutive citation-chaining passes add
+  no eligible methodological or external-validation study, and unresolved claims
+  are documented rather than assumed absent.
+retrieval_authorized: false

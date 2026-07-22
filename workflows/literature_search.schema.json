@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "DraftStatus": {
+      "enum": [
+        "draft",
+        "locked",
+        "complete"
+      ],
+      "title": "DraftStatus",
+      "type": "string"
+    },
+    "SearchSource": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "official_url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Official Url",
+          "type": "string"
+        },
+        "purpose": {
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "query": {
+          "minLength": 1,
+          "title": "Query",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "name",
+        "official_url",
+        "query",
+        "purpose"
+      ],
+      "title": "SearchSource",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "date_range": {
+      "minLength": 1,
+      "title": "Date Range",
+      "type": "string"
+    },
+    "exclusion_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Exclusion Criteria",
+      "type": "array"
+    },
+    "extraction_fields": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Extraction Fields",
+      "type": "array"
+    },
+    "inclusion_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Inclusion Criteria",
+      "type": "array"
+    },
+    "languages": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Languages",
+      "type": "array"
+    },
+    "objective": {
+      "minLength": 1,
+      "title": "Objective",
+      "type": "string"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "retrieval_authorized": {
+      "default": false,
+      "title": "Retrieval Authorized",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "screening_process": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Screening Process",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SearchSource"
+      },
+      "minItems": 2,
+      "title": "Sources",
+      "type": "array"
+    },
+    "status": {
+      "$ref": "#/$defs/DraftStatus"
+    },
+    "stopping_rule": {
+      "minLength": 1,
+      "title": "Stopping Rule",
+      "type": "string"
+    },
+    "strategy_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Strategy Version",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "synthesis_plan": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Synthesis Plan",
+      "type": "array"
+    }
+  },
+  "required": [
+    "study_id",
+    "question_id",
+    "question_version",
+    "strategy_version",
+    "status",
+    "objective",
+    "sources",
+    "date_range",
+    "languages",
+    "inclusion_criteria",
+    "exclusion_criteria",
+    "screening_process",
+    "extraction_fields",
+    "synthesis_plan",
+    "stopping_rule"
+  ],
+  "title": "LiteratureSearchStrategy",
+  "type": "object"
+}

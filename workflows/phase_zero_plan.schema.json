@@ -1,0 +1,171 @@
+{
+  "$defs": {
+    "AuditStatus": {
+      "enum": [
+        "in_progress",
+        "ready_for_founder_decision",
+        "passed",
+        "changes_requested",
+        "on_hold",
+        "failed"
+      ],
+      "title": "AuditStatus",
+      "type": "string"
+    },
+    "CandidateContribution": {
+      "additionalProperties": false,
+      "properties": {
+        "established_knowledge": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Established Knowledge",
+          "type": "array"
+        },
+        "falsification_condition": {
+          "minLength": 1,
+          "title": "Falsification Condition",
+          "type": "string"
+        },
+        "proposed_contribution": {
+          "minLength": 1,
+          "title": "Proposed Contribution",
+          "type": "string"
+        },
+        "unresolved_problem": {
+          "minLength": 1,
+          "title": "Unresolved Problem",
+          "type": "string"
+        },
+        "value_if_null": {
+          "minLength": 1,
+          "title": "Value If Null",
+          "type": "string"
+        }
+      },
+      "required": [
+        "established_knowledge",
+        "unresolved_problem",
+        "proposed_contribution",
+        "falsification_condition",
+        "value_if_null"
+      ],
+      "title": "CandidateContribution",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_thesis": {
+      "minLength": 1,
+      "title": "Candidate Thesis",
+      "type": "string"
+    },
+    "contribution": {
+      "$ref": "#/$defs/CandidateContribution"
+    },
+    "data_questions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Data Questions",
+      "type": "array"
+    },
+    "deliverables": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Deliverables",
+      "type": "array"
+    },
+    "external_validation_questions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "External Validation Questions",
+      "type": "array"
+    },
+    "hard_pass_gates": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Hard Pass Gates",
+      "type": "array"
+    },
+    "no_go_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "No Go Criteria",
+      "type": "array"
+    },
+    "novelty_questions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Novelty Questions",
+      "type": "array"
+    },
+    "objective": {
+      "minLength": 1,
+      "title": "Objective",
+      "type": "string"
+    },
+    "prohibited_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Prohibited Actions",
+      "type": "array"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/AuditStatus"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "study_id",
+    "question_id",
+    "question_version",
+    "status",
+    "objective",
+    "candidate_thesis",
+    "contribution",
+    "novelty_questions",
+    "data_questions",
+    "external_validation_questions",
+    "hard_pass_gates",
+    "no_go_criteria",
+    "deliverables",
+    "prohibited_actions"
+  ],
+  "title": "PhaseZeroPlan",
+  "type": "object"
+}

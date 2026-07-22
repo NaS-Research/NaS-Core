@@ -1,0 +1,90 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.2.0
+specification_version: 0.1.0
+status: draft
+discovery_source_id: gdc-tcga-open
+discovery_source_registry_status: approved_public_open
+variable_requirements:
+  - domain: eligibility
+    concepts:
+      - Primary invasive breast tumor and sample identity
+      - Estrogen-receptor assay result and method
+      - Progesterone-receptor assay result and method
+      - HER2 immunohistochemistry and amplification result
+    purpose: Define clinically HR-positive/HER2-negative eligibility without molecular outcomes.
+    required_for_primary_analysis: true
+    maximum_missing_fraction: 0.20
+  - domain: transcriptomics
+    concepts:
+      - Expression measurements for every required PAM50 gene
+      - Gene identifiers and mapping version
+      - Library strategy, workflow, normalization inputs, and batch metadata
+      - Tumor sample, aliquot, and case mappings
+    purpose: Execute locked subtype implementations and perturbations reproducibly.
+    required_for_primary_analysis: true
+    maximum_missing_fraction: 0.05
+  - domain: clinicopathologic_covariates
+    concepts:
+      - Age at diagnosis
+      - Pathologic stage and AJCC edition
+      - Histologic grade
+      - Nodal status
+      - Histologic type
+      - Tumor purity estimate or suitable proxy
+    purpose: Characterize groups and support prespecified association models.
+    required_for_primary_analysis: false
+    maximum_missing_fraction: 0.30
+  - domain: somatic_alterations
+    concepts:
+      - Somatic mutation calls
+      - Gene-level copy-number alterations
+      - Assay and processing provenance
+    purpose: Prespecified secondary biological characterization with multiplicity control.
+    required_for_primary_analysis: false
+    maximum_missing_fraction: 0.30
+  - domain: outcomes
+    concepts:
+      - Vital status and overall-survival duration
+      - Recurrence or progression endpoints only if definitions are fit for purpose
+      - Follow-up duration and censoring source
+    purpose: Secondary exploratory prognostic analysis, never treatment-effect estimation.
+    required_for_primary_analysis: false
+    maximum_missing_fraction: 0.30
+candidate_validation_sources:
+  - candidate_id: metabric-cbioportal
+    name: Molecular Taxonomy of Breast Cancer International Consortium cohort
+    intended_role: Independent external validation candidate
+    authoritative_url: https://www.cbioportal.org/study/summary?id=brca_metabric
+    assessment_status: unassessed
+    source_registry_status: not_registered_not_approved
+    access_and_license_questions:
+      - Which files and variables can NaS legally download, store, transform, and publish in aggregate?
+      - What attribution, redistribution, and export restrictions apply to each access route?
+      - Is programmatic access reproducible without relying on an unstable user session?
+    compatibility_questions:
+      - Are clinical HR/HER2 definitions and assay thresholds sufficiently recoverable?
+      - Is expression data compatible with every locked PAM50 implementation or only a validation mapping?
+      - Are sample identifiers, primary tumors, covariates, and outcomes linkable without ambiguity?
+      - Can the discovery stability taxonomy be applied unchanged across platform differences?
+    independence_questions:
+      - Are all participants independent of TCGA-BRCA?
+      - Were expression processing and subtype labels generated independently of the discovery pipeline?
+      - Can NaS recompute rather than inherit the primary classification outcome?
+compatibility_gates:
+  - Discovery and validation cohorts must share the minimum eligibility and primary-analysis variables.
+  - Platform transformations must be locked without using validation outcomes.
+  - Validation participants must not overlap discovery participants.
+  - A candidate source must be approved in the source registry before data retrieval.
+  - License, export, storage, attribution, and publication terms must be documented.
+  - Minimum stable, unstable, and robust non-luminal group sizes must be declared before validation.
+minimum_feasibility_outputs:
+  - Field-level source mapping with definitions and authoritative data-dictionary links.
+  - File-type, workflow, sample, aliquot, and case-identifier relationship map.
+  - Non-outcome missingness and eligible sample-count report.
+  - PAM50 gene-coverage and identifier-mapping report.
+  - Candidate perturbation and implementation dependency matrix.
+  - External-source license, access, overlap, compatibility, and sample-size decision.
+  - Explicit pass, changes-requested, on-hold, or fail recommendation.
+outcome_data_access_authorized: false

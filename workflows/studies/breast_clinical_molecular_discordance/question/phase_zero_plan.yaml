@@ -1,0 +1,83 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.2.0
+status: in_progress
+objective: >-
+  Determine whether the proposed classification-stability study has a defensible
+  doctoral-level contribution, sufficient discovery variables, and a credible
+  independent-validation path before question selection or outcome analysis.
+candidate_thesis: >-
+  Among clinically HR-positive/HER2-negative primary breast tumors, stable
+  non-luminal classification across prespecified PAM50 perturbations identifies
+  a reproducible biological state that differs from analytical instability and
+  may add prognostic information beyond conventional clinicopathologic factors.
+contribution:
+  established_knowledge:
+    - Clinical receptor categories and PAM50 intrinsic subtypes can disagree.
+    - PAM50 assignments can change with preprocessing, cohort composition, and perturbation.
+    - First-versus-second subtype information can contain biological or prognostic information.
+  unresolved_problem: >-
+    It is not yet established whether robust non-luminal classification can be
+    separated reproducibly from unstable boundary assignments under a locked,
+    multi-implementation framework and independently validated.
+  proposed_contribution: >-
+    A transparent stability taxonomy, uncertainty and abstention framework,
+    multi-omic characterization, and external validation for clinically
+    HR-positive/HER2-negative primary breast cancer.
+  falsification_condition: >-
+    The proposed contribution is not supported if stability groups cannot be
+    prespecified reproducibly, collapse under reasonable perturbations, lack
+    measurable biological distinction, or cannot be reproduced independently.
+  value_if_null: >-
+    A null or instability-dominant result would quantify the limits of research
+    PAM50 reclassification and identify when Cortex should abstain.
+novelty_questions:
+  - Which studies already combine clinical/PAM50 discordance with classification stability?
+  - Which preprocessing, centering, and classifier perturbations have been compared?
+  - Have stable non-luminal and unstable assignments been separated explicitly?
+  - Has uncertainty or abstention been evaluated rather than forcing a single label?
+  - Which molecular correlates and outcome associations have been independently validated?
+  - What contribution would remain differentiated after the complete evidence review?
+data_questions:
+  - Are ER, PR, and HER2 assay results sufficiently interpretable to lock eligibility?
+  - Are primary-tumor RNA measurements and all required PAM50 genes available?
+  - Can samples, aliquots, cases, and clinical records be mapped without ambiguity?
+  - Are stage, grade, nodal status, histology, age, purity, site, and batch variables adequate?
+  - Are mutation and copy-number data sufficiently complete for prespecified secondary families?
+  - Are outcome event counts adequate for secondary exploratory survival models?
+external_validation_questions:
+  - Is a candidate cohort independent of TCGA participants and processing?
+  - Are receptor definitions, expression platform, PAM50 inputs, and covariates compatible?
+  - Do license and export terms permit reproducible aggregate publication?
+  - Can the primary stability taxonomy be evaluated without tuning it to the validation cohort?
+  - Are sample size and subgroup counts sufficient under locked success criteria?
+hard_pass_gates:
+  - A specific unresolved contribution is supported by the structured evidence matrix.
+  - At least two scientifically defensible perturbations or implementations can be locked.
+  - Stable, unstable, and unclassifiable rules can be declared without outcome inspection.
+  - TCGA discovery variables and identifiers pass field-level feasibility assessment.
+  - At least one independent validation source has compatible variables and approved terms.
+  - The primary analysis remains valuable if molecular or outcome associations are null.
+  - The study remains explicitly nonclinical and does not imply treatment utility.
+no_go_criteria:
+  - Prior evidence already resolves the proposed contribution without a meaningful extension.
+  - The stability taxonomy depends on outcome-guided thresholds or arbitrary implementation selection.
+  - Required receptor or RNA variables cannot be harmonized reproducibly.
+  - No independent validation source can be approved before preregistration.
+  - Expected stable non-luminal or event counts are inadequate for the declared estimands.
+  - The only remaining contribution is a single-cohort exploratory classifier or heatmap.
+deliverables:
+  - Locked literature protocol and reproducible search strategy.
+  - Deduplicated evidence inventory and structured evidence matrix.
+  - Novelty and gap memorandum with claim-by-claim support.
+  - TCGA field, file, identifier, missingness, and sample-size feasibility matrix.
+  - External-validation source, compatibility, license, and independence assessment.
+  - Preliminary subgroup and event-count feasibility report without hypothesis testing.
+  - Founder go, changes-requested, on-hold, or reject decision with review provenance.
+prohibited_actions:
+  - No outcome-bearing molecular data retrieval before question selection and protocol approval.
+  - No classifier threshold tuning against survival or molecular-enrichment results.
+  - No representation of research PAM50 output as a clinical assay.
+  - No patient-level testing, diagnosis, prognosis, or treatment recommendation.
+  - No claim of novelty before completion of the evidence and feasibility audit.

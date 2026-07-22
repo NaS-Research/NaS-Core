@@ -7,6 +7,7 @@ stages:
   status: in_progress
   required_artifacts:
   - question/research_question.yaml
+  - question/phase_zero_plan.yaml
   completion_gate: Question is selected, approved, and marked literature-ready.
 - stage: literature
   status: not_started
@@ -23,6 +24,7 @@ stages:
   status: not_started
   required_artifacts:
   - ingestion/README.md
+  - ingestion/data_feasibility.yaml
   completion_gate: Governed immutable dataset snapshot is verified.
 - stage: analysis
   status: not_started

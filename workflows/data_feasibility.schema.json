@@ -1,0 +1,237 @@
+{
+  "$defs": {
+    "CandidateDataSource": {
+      "additionalProperties": false,
+      "properties": {
+        "access_and_license_questions": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Access And License Questions",
+          "type": "array"
+        },
+        "assessment_status": {
+          "$ref": "#/$defs/SourceAssessmentStatus"
+        },
+        "authoritative_url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Authoritative Url",
+          "type": "string"
+        },
+        "candidate_id": {
+          "minLength": 1,
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "compatibility_questions": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Compatibility Questions",
+          "type": "array"
+        },
+        "independence_questions": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Independence Questions",
+          "type": "array"
+        },
+        "intended_role": {
+          "minLength": 1,
+          "title": "Intended Role",
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "source_registry_status": {
+          "minLength": 1,
+          "title": "Source Registry Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "name",
+        "intended_role",
+        "authoritative_url",
+        "assessment_status",
+        "source_registry_status",
+        "access_and_license_questions",
+        "compatibility_questions",
+        "independence_questions"
+      ],
+      "title": "CandidateDataSource",
+      "type": "object"
+    },
+    "DraftStatus": {
+      "enum": [
+        "draft",
+        "locked",
+        "complete"
+      ],
+      "title": "DraftStatus",
+      "type": "string"
+    },
+    "SourceAssessmentStatus": {
+      "enum": [
+        "unassessed",
+        "in_review",
+        "approved",
+        "rejected"
+      ],
+      "title": "SourceAssessmentStatus",
+      "type": "string"
+    },
+    "VariableRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "concepts": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Concepts",
+          "type": "array"
+        },
+        "domain": {
+          "minLength": 1,
+          "title": "Domain",
+          "type": "string"
+        },
+        "maximum_missing_fraction": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Missing Fraction"
+        },
+        "purpose": {
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "required_for_primary_analysis": {
+          "title": "Required For Primary Analysis",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "domain",
+        "concepts",
+        "purpose",
+        "required_for_primary_analysis"
+      ],
+      "title": "VariableRequirement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_validation_sources": {
+      "items": {
+        "$ref": "#/$defs/CandidateDataSource"
+      },
+      "minItems": 1,
+      "title": "Candidate Validation Sources",
+      "type": "array"
+    },
+    "compatibility_gates": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Compatibility Gates",
+      "type": "array"
+    },
+    "discovery_source_id": {
+      "minLength": 1,
+      "title": "Discovery Source Id",
+      "type": "string"
+    },
+    "discovery_source_registry_status": {
+      "minLength": 1,
+      "title": "Discovery Source Registry Status",
+      "type": "string"
+    },
+    "minimum_feasibility_outputs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Minimum Feasibility Outputs",
+      "type": "array"
+    },
+    "outcome_data_access_authorized": {
+      "default": false,
+      "title": "Outcome Data Access Authorized",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "specification_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Specification Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/DraftStatus"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "variable_requirements": {
+      "items": {
+        "$ref": "#/$defs/VariableRequirement"
+      },
+      "minItems": 1,
+      "title": "Variable Requirements",
+      "type": "array"
+    }
+  },
+  "required": [
+    "study_id",
+    "question_id",
+    "question_version",
+    "specification_version",
+    "status",
+    "discovery_source_id",
+    "discovery_source_registry_status",
+    "variable_requirements",
+    "candidate_validation_sources",
+    "compatibility_gates",
+    "minimum_feasibility_outputs"
+  ],
+  "title": "DataFeasibilitySpecification",
+  "type": "object"
+}

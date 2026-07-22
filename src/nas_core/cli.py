@@ -11,6 +11,7 @@ from nas_core.domain.cohorts import (
     load_snapshot_receipt,
     write_cohort_schemas,
 )
+from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
@@ -123,6 +124,23 @@ def build_parser() -> argparse.ArgumentParser:
     survival_schema.add_argument("summary_path", type=Path, help="Output path for result schema")
     survival_schema.add_argument("manifest_path", type=Path, help="Output path for run schema")
     survival_schema.add_argument("receipt_path", type=Path, help="Output path for receipt schema")
+
+    discovery = commands.add_parser("discovery", help="Manage discovery-study Phase 0 audits")
+    discovery_commands = discovery.add_subparsers(dest="discovery_command", required=True)
+    discovery_validate = discovery_commands.add_parser(
+        "validate", help="Validate a Phase 0 novelty and feasibility package"
+    )
+    discovery_validate.add_argument("plan", type=Path, help="Path to phase_zero_plan.yaml")
+    discovery_validate.add_argument("search", type=Path, help="Path to search_strategy.yaml")
+    discovery_validate.add_argument("feasibility", type=Path, help="Path to data_feasibility.yaml")
+    discovery_schema = discovery_commands.add_parser(
+        "schema", help="Write Phase 0 discovery JSON Schemas"
+    )
+    discovery_schema.add_argument("plan_path", type=Path, help="Output path for plan schema")
+    discovery_schema.add_argument("search_path", type=Path, help="Output path for search schema")
+    discovery_schema.add_argument(
+        "feasibility_path", type=Path, help="Output path for feasibility schema"
+    )
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -274,6 +292,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             "Wrote survival schemas: "
             f"{args.summary_path}, {args.manifest_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if args.command == "discovery" and args.discovery_command == "validate":
+        phase_zero, search, feasibility = load_phase_zero_artifacts(
+            args.plan,
+            args.search,
+            args.feasibility,
+        )
+        print(
+            f"Phase 0 package is valid: {phase_zero.study_id} "
+            f"question {phase_zero.question_id} v{phase_zero.question_version}; "
+            f"search {search.status.value}; feasibility {feasibility.status.value}"
+        )
+        return 0
+
+    if args.command == "discovery" and args.discovery_command == "schema":
+        write_discovery_schemas(args.plan_path, args.search_path, args.feasibility_path)
+        print(
+            "Wrote discovery schemas: "
+            f"{args.plan_path}, {args.search_path}, {args.feasibility_path}"
         )
         return 0
 

@@ -135,8 +135,12 @@ reviews:
     role: AI-assisted adversarial and consistency reviewer
     review_type: ai_assisted_internal_review
     required_for_gate: false
-    decision: pending
-    reviewed_at: null
+    decision: advisory_complete
+    reviewed_at: 2026-07-22T12:49:15-05:00
     rationale: >-
-      Challenge assumptions, mappings, estimands, data feasibility, claim scope,
-      and missing safeguards. AI findings are advisory and cannot authorize selection.
+      Completed the non-authoritative review in
+      reviews/AI_QUESTION_REVIEW_v0.2.0.md. The proposal is suitable for a
+      non-outcome novelty and feasibility audit but remains unselected pending
+      resolution of novelty, perturbation, clinical-mapping, uncertainty,
+      sparse-group, multiplicity, and independent-validation findings. AI
+      findings are advisory and cannot authorize selection or retrieval.
