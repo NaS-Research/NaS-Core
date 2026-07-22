@@ -18,6 +18,9 @@ stages:
   - literature/SCREENING_PROTOCOL.md
   - literature/screening_queue_receipt.yaml
   - literature/screening-progress/README.md
+  - literature/AI_SCREENING_POLICY.yaml
+  - literature/AI_SCREENING_PROMPT.md
+  - literature/ai-screening/README.md
   completion_gate: Search protocol is locked before evidence retrieval.
 - stage: protocol
   status: not_started

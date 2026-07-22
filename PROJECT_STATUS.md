@@ -47,6 +47,10 @@ Current gate state:
 - The append-only founder-review workflow is implemented with resumable batches,
   immutable decision events, explicit supersession, and verified progress receipts.
   The first founder decision batch has been submitted and independently verified.
+- The governed AI advisory screener, OpenAI gateway, locked structured prompt, and
+  immutable provenance contracts are implemented and validated without live model
+  use. Live calibration is blocked pending API credential and provider-retention
+  authorization.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -54,10 +58,10 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Implement governed AI advisory title/abstract triage with structured
-   recommendations, confidence, matched criteria, evidence references, abstention,
-   and immutable model/prompt/input provenance separate from human decisions.
-2. Evaluate advisory triage against founder-labeled records and lock routing and
+1. Choose and record the provider-retention path (standard abuse monitoring for
+   this public/open queue or verified Zero Data Retention), authorize policy `1.0.1`,
+   configure `OPENAI_API_KEY` locally, and run the first ten-record calibration.
+2. Implement evaluation against founder-labeled records and lock routing and
    audit rules before relying on it; do not permit autonomous exclusions in this
    locked study protocol.
 3. Resume founder screening with AI-prepared batches, adjudicate unclear records,
@@ -91,6 +95,24 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Governed AI advisory screening engine
+
+Implemented a replaceable model gateway and a NAS-BRCA-002 advisory screener using
+the OpenAI Responses API with typed structured outputs. The workflow sends only a
+bounded title/abstract batch, converts source text into deterministic sentence IDs,
+requires recommendation, confidence, matched criteria, evidence references,
+protocol exclusion reason, concise rationale, and human-review status, and rejects
+missing records or unverifiable evidence. Requests, recommendations, summaries,
+and manifests are immutable external artifacts. Git stores only policy, prompt,
+schemas, tests, runbook, and future aggregate receipts. AI cannot write the human
+ledger, authorize routing before calibration, or create a conclusion. No live model
+request or AI recommendation was generated because the API credential is absent.
+
+Validation: official SDK adapter, provider-free synthetic gateway, tamper and
+evidence-reference boundaries, fail-closed credential test, network-free real-study
+dry run, canonical schemas, Ruff, strict MyPy, study-contract validation, and all
+114 repository tests passed.
 
 ### 2026-07-22 — First founder title/abstract decisions
 
@@ -149,25 +171,15 @@ bibliographic records only.
 Validation: Ruff, strict MyPy, focused tamper/invariant tests, and all 101 repository
 tests passed; real queue execution awaits the pushed engine revision.
 
-### 2026-07-22 — First immutable NAS-BRCA-002 literature search
-
-Executed locked search strategy `0.1.1` against PubMed and Europe PMC using the
-founder-authorized contact identity. A count-only gate detected that strategy
-`0.1.0` expanded to 79,501 Europe PMC records; the source-syntax correction was
-versioned before record storage and without viewing scientific results. The final
-execution retrieved 391 PubMed and 123 Europe PMC records, yielding 457 unique
-records after 57 duplicates. Raw responses and normalized abstracts are confined
-to the Seagate object store. No screening, evidence extraction, molecular outcome
-access, or scientific conclusion occurred.
-
-The approved replacement execution is `83d33fb2…4434`, manifest `e01a2798…3bbc`;
-all 12 objects, hashes, sizes, count invariants, and 457 abstracts were independently
-verified. The earlier execution is retained as superseded for screening readiness.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
+- Live AI advisory screening is blocked until `OPENAI_API_KEY` is configured in a
+  local ignored `.env`; no credential may be committed or stored in provenance.
+- Live AI advisory screening also requires a prospective choice between standard
+  API abuse-monitoring retention for this public/open queue and verified Zero Data
+  Retention. Checked-in policy `1.0.0` intentionally does not authorize transmission.
 - `NAS-BRCA-002` remains unselected pending founder scientific/product,
   molecular/pathology, and statistical self-review. Its bounded Phase 0 audit is
   authorized, but outcome work and formal question selection are not.
@@ -239,6 +251,9 @@ verified. The earlier execution is retained as superseded for screening readines
   current internal gate when conflicts and knowledge limits are disclosed.
 - AI-assisted review is advisory: it cannot be gate-required, approve a study,
   authorize ingestion, or be represented as human review.
+- AI literature recommendations remain separate from the append-only founder
+  decision ledger. NAS-BRCA-002 prohibits autonomous exclusions; calibration and
+  locked routing rules are required before AI output may prioritize human review.
 - External expert feedback is recorded separately from founder self-review.
   Public NaS reports remain labeled founder-led, internally reviewed, and not
   peer reviewed until a journal completes formal peer review.

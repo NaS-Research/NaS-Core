@@ -74,6 +74,11 @@ class ScreeningReviewService:
             records=available[:batch_size],
         )
 
+    def load_queue(self, receipt: ScreeningQueueReceipt) -> list[ScreeningQueueRecord]:
+        """Load and reverify the immutable source queue for another governed workflow."""
+
+        return self._load_queue(receipt)
+
     def record_batch(
         self,
         queue_receipt: ScreeningQueueReceipt,

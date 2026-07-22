@@ -3,9 +3,16 @@ import json
 from collections.abc import Sequence
 from pathlib import Path
 
+from nas_core.ai.gateway import OpenAIScreeningGateway
+from nas_core.ai.screening import AIAdvisoryScreeningService
 from nas_core.analysis.cohort import CohortBuildService
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.config import get_settings
+from nas_core.domain.advisory import (
+    load_ai_advisory_policy,
+    write_ai_advisory_receipt,
+    write_ai_advisory_schemas,
+)
 from nas_core.domain.cohorts import (
     load_cohort_receipt,
     load_snapshot_receipt,
@@ -242,6 +249,27 @@ def build_parser() -> argparse.ArgumentParser:
     screening_review_schema.add_argument(
         "progress_receipt_path", type=Path, help="Progress-receipt schema output path"
     )
+    screening_ai = literature_commands.add_parser(
+        "screening-ai", help="Run governed AI advisory screening without final decisions"
+    )
+    screening_ai.add_argument("receipt", type=Path, help="Verified screening queue receipt")
+    screening_ai.add_argument("policy", type=Path, help="Locked AI screening policy YAML")
+    screening_ai.add_argument(
+        "--progress-receipt", type=Path, help="Latest verified founder progress receipt"
+    )
+    screening_ai.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
+    screening_ai.add_argument(
+        "--receipt-output", type=Path, help="New path for the aggregate AI advisory receipt"
+    )
+    screening_ai.add_argument(
+        "--execute", action="store_true", help="Send pending records to the configured provider"
+    )
+    screening_ai_schema = literature_commands.add_parser(
+        "screening-ai-schema", help="Write AI advisory screening JSON Schemas"
+    )
+    screening_ai_schema.add_argument("output_path", type=Path)
+    screening_ai_schema.add_argument("manifest_path", type=Path)
+    screening_ai_schema.add_argument("receipt_path", type=Path)
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -557,6 +585,59 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote screening-review schemas: "
             f"{args.decision_batch_path}, {args.progress_manifest_path}, "
             f"{args.progress_receipt_path}"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-ai":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        ai_policy = load_ai_advisory_policy(args.policy)
+        ai_prompt = Path(ai_policy.prompt_path).read_text(encoding="utf-8")
+        progress_receipt = (
+            load_screening_progress_receipt(args.progress_receipt)
+            if args.progress_receipt
+            else None
+        )
+        if not args.execute:
+            print(
+                f"AI advisory screening ready: queue {queue_receipt.queue_id}, "
+                f"policy {ai_policy.policy_version}, {ai_policy.model}, "
+                f"up to {ai_policy.max_records_per_call} records"
+            )
+            print("Dry run only; no queue records were read and no provider was contacted.")
+            return 0
+        if args.receipt_output is None:
+            raise SystemExit("--receipt-output is required with --execute")
+        settings = get_settings()
+        gateway = OpenAIScreeningGateway(
+            api_key=settings.openai_api_key,
+            model=ai_policy.model,
+            reasoning_effort=ai_policy.reasoning_effort,
+        )
+        ai_service = AIAdvisoryScreeningService(
+            store=get_object_store(settings),
+            gateway=gateway,
+        )
+        advisory_manifest = ai_service.run(
+            queue_receipt,
+            ai_policy,
+            prompt_text=ai_prompt,
+            code_revision=args.code_revision,
+            progress_receipt=progress_receipt,
+        )
+        verified = ai_service.verify(advisory_manifest)
+        write_ai_advisory_receipt(args.receipt_output, verified)
+        print(
+            f"Created verified AI advisory run {advisory_manifest.advisory_run_id}: "
+            f"{advisory_manifest.summary.recommendation_count} recommendations, "
+            "zero final decisions"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-ai-schema":
+        write_ai_advisory_schemas(args.output_path, args.manifest_path, args.receipt_path)
+        print(
+            f"Wrote AI advisory schemas: {args.output_path}, "
+            f"{args.manifest_path}, {args.receipt_path}"
         )
         return 0
 

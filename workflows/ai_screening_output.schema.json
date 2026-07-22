@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "AIAdvisoryRecommendation": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "$ref": "#/$defs/AdvisoryConfidence"
+        },
+        "evidence_sentence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Sentence Ids",
+          "type": "array"
+        },
+        "exclusion_reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScreeningExclusionReason"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "human_review_required": {
+          "title": "Human Review Required",
+          "type": "boolean"
+        },
+        "matched_criteria": {
+          "items": {
+            "$ref": "#/$defs/AdvisoryCriterion"
+          },
+          "minItems": 1,
+          "title": "Matched Criteria",
+          "type": "array"
+        },
+        "rationale": {
+          "maxLength": 800,
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "recommendation": {
+          "$ref": "#/$defs/ScreeningDecision"
+        },
+        "screening_id": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Screening Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "screening_id",
+        "recommendation",
+        "confidence",
+        "matched_criteria",
+        "evidence_sentence_ids",
+        "rationale",
+        "human_review_required"
+      ],
+      "title": "AIAdvisoryRecommendation",
+      "type": "object"
+    },
+    "AdvisoryConfidence": {
+      "enum": [
+        "high",
+        "moderate",
+        "low"
+      ],
+      "title": "AdvisoryConfidence",
+      "type": "string"
+    },
+    "AdvisoryCriterion": {
+      "enum": [
+        "primary_human_breast_tumor",
+        "molecular_intrinsic_subtype",
+        "clinical_molecular_discordance",
+        "classification_stability_or_uncertainty",
+        "classifier_or_normalization_method",
+        "relevant_correlate_outcome_or_validation",
+        "citation_chaining_only",
+        "insufficient_information"
+      ],
+      "title": "AdvisoryCriterion",
+      "type": "string"
+    },
+    "ScreeningDecision": {
+      "enum": [
+        "pending",
+        "include",
+        "exclude",
+        "unclear"
+      ],
+      "title": "ScreeningDecision",
+      "type": "string"
+    },
+    "ScreeningExclusionReason": {
+      "enum": [
+        "nonhuman_or_no_primary_human_tumor_cohort",
+        "no_molecular_intrinsic_subtype_measure",
+        "no_relevant_discordance_stability_or_classifier_method",
+        "review_editorial_or_commentary_for_citation_chaining_only",
+        "duplicate_or_superseded_report_without_distinct_contribution",
+        "outside_breast_cancer_scope"
+      ],
+      "title": "ScreeningExclusionReason",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "recommendations": {
+      "items": {
+        "$ref": "#/$defs/AIAdvisoryRecommendation"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Recommendations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "recommendations"
+  ],
+  "title": "AIAdvisoryBatchOutput",
+  "type": "object"
+}

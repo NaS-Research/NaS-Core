@@ -17,6 +17,7 @@ dependencies = [
   "lifelines>=0.30.3,<0.31",
   "matplotlib>=3.10,<4",
   "numpy>=2.2,<3",
+  "openai>=2,<3",
   "pandas>=2.2,<3",
   "scipy>=1.15,<2",
 ]

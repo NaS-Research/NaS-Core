@@ -32,6 +32,11 @@ class Settings(BaseSettings):
     object_store_secret_key: str | None = Field(default=None, repr=False)
     object_store_secure: bool = False
 
+    ai_provider: Literal["openai"] = "openai"
+    ai_screening_model: str = "gpt-5.6-sol"
+    ai_screening_reasoning_effort: Literal["low", "medium", "high", "xhigh", "max"] = "medium"
+    openai_api_key: str | None = Field(default=None, repr=False, validation_alias="OPENAI_API_KEY")
+
 
 @lru_cache
 def get_settings() -> Settings:
