@@ -41,11 +41,11 @@ adjudication, verifies the full cumulative event chain, and writes only aggregat
 progress receipts to Git. Screening remains unstarted. Follow
 [`SCREENING_WORKFLOW.md`](SCREENING_WORKFLOW.md) for each small review batch.
 
-Founder batch 1 produced verified progress state `1529a64b…3f1`: 5 included,
-452 pending, zero excluded, zero unclear, and zero AI decisions. The aggregate
-receipt is [`screening-progress/batch-0001.yaml`](screening-progress/batch-0001.yaml).
-The next engineering step is governed AI advisory triage; under this locked protocol,
-AI may prepare and prioritize recommendations but may not create final decisions.
+Founder batch 2 produced verified progress state `2ba74e8b…3910`: 12 included,
+3 excluded, 442 pending, zero unclear, and zero AI decisions. The latest aggregate
+receipt is [`screening-progress/batch-0002.yaml`](screening-progress/batch-0002.yaml).
+The active workflow presents deterministic core-priority batches for explicit
+founder decisions.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The

@@ -42,8 +42,8 @@ Current gate state:
   and non-outcome source assessment are authorized; outcome access is disabled.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
-- Verified queue `b02c2abf…f042` has progress state `1529a64b…3f1`: 5 founder-
-  included records, 452 pending, zero excluded, zero unclear, and zero AI decisions.
+- Verified queue `b02c2abf…f042` has progress state `2ba74e8b…3910`: 12 founder-
+  included records, 3 excluded, 442 pending, zero unclear, and zero AI decisions.
 - The append-only founder-review workflow is implemented with resumable batches,
   immutable decision events, explicit supersession, and verified progress receipts.
   The first founder decision batch has been submitted and independently verified.
@@ -97,6 +97,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Second founder title/abstract decision batch
+
+Recorded and independently verified ten explicit founder decisions from the first
+deterministic core-priority batch: seven inclusions and three protocol-based
+exclusions. The cumulative immutable state is 15 of 457 records decided: 12
+included, 3 excluded, 442 pending, zero unclear, and zero AI decisions. Inclusion
+advances a record to full-text eligibility review; it does not establish quality or
+evidentiary weight. No scientific conclusion was drawn.
+
+Validation: queue membership, exact prior-state binding, reviewer provenance,
+exclusion taxonomy, cumulative event-chain identities and hashes, artifact hashes
+and sizes, reconciled progress counts, and human-only boundary verified.
 
 ### 2026-07-22 — Zero-cost deterministic literature prioritization
 
@@ -156,22 +169,6 @@ novelty or scientific conclusion was drawn.
 Validation: manifest and cumulative event-ledger hashes, event identities, queue
 membership, founder provenance, progress counts, and human-only boundary verified;
 aggregate receipt `screening-progress/batch-0001.yaml` created.
-
-### 2026-07-22 — Governed resumable founder screening workflow
-
-Implemented deterministic next-batch selection and an append-only human decision
-ledger for the verified 457-record queue. Each batch is bound to the latest progress
-state; stale submissions, unknown records, unapproved exclusion reasons, duplicate
-decisions, malformed correction chains, tampered artifacts, and premature claims
-fail closed. Corrections and unclear adjudication explicitly supersede—but never
-delete—prior events. Verification independently reloads the queue, manifest,
-cumulative ledger, and summary before emitting a concise Git-safe receipt. The
-workflow records the founder internal-review role and hard-codes zero AI decisions.
-No real screening decision or scientific conclusion was created.
-
-Validation: canonical decision, progress-manifest, and progress-receipt schemas;
-synthetic initial, resumed, stale-state, supersession, and tamper tests; repository
-validation passed Ruff, strict MyPy, study-contract checks, and all 107 tests.
 
 ## Current blockers
 
