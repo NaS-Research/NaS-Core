@@ -20,7 +20,7 @@ gate was satisfied.
 | ---: | --- | --- | --- |
 | 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
 | 1 | Review and select question | In progress | AI advisory complete; complete founder review and record a decision |
-| 2 | Lock evidence-review protocol | Screening engine complete; queue next | Build the immutable 457-record queue from a pushed code revision, then begin founder screening |
+| 2 | Lock evidence-review protocol | Queue verified; human screening next | Queue `b02c2abf…f042` has 457 complete abstracts pending founder decisions |
 | 3 | Establish data and assay feasibility | Locked; assessment next | Source and non-outcome metadata assessment authorized; outcome access remains prohibited |
 | 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and documented founder protocol approval |
 | 5 | Capture discovery snapshots | Not started | Requires preregistration and completion of the `NAS-BRCA-001` qualification gate |

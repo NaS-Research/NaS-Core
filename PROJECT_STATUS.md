@@ -40,11 +40,10 @@ Current gate state:
 - AI-assisted question review is complete and advisory; founder review is pending.
 - The search and source-feasibility specifications are locked. Literature retrieval
   and non-outcome source assessment are authorized; outcome access is disabled.
-- PubMed and Europe PMC are registered for bounded evidence synthesis. Locked
-  strategy `0.1.1` produced verified immutable execution `9eec1656…c185` with
-  457 unique records; human screening has not started.
-- The typed screening-queue engine is complete and validated with synthetic
-  records. The real queue awaits execution from its pushed code revision.
+- PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
+  execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
+- Verified queue `b02c2abf…f042` contains all 457 records as pending with zero
+  human and zero AI decisions; human screening has not started.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -52,8 +51,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Build the immutable title/abstract queue from the verified 457-record inventory
-   using the pushed screening-engine revision.
+1. Implement the reviewer decision workflow for small batches with immutable
+   decision events, progress receipts, and resumable founder review.
 2. Record founder title/abstract decisions, adjudicate unclear records, populate
    the evidence matrix, and produce a novelty memo with an explicit no-go test.
 3. Complete discovery and validation source feasibility, including exact variable
@@ -84,6 +83,21 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-22 — First verified NAS-BRCA-002 screening queue
+
+Built queue `b02c2abf…f042` from replacement search execution `83d33fb2…4434`
+using pushed engine revision `3f10788`. Queue QA first exposed 334 missing PubMed
+abstracts in an earlier diagnostic queue; the retrieval layer was corrected with
+batched EFetch capture, the search was repeated immutably, and all 457 abstracts
+were independently verified before the replacement queue was accepted. The final
+queue contains 457 unique pending records, zero missing abstracts, zero human
+decisions, and zero AI decisions. The diagnostic snapshot and queue remain retained
+but are not approved inputs.
+
+Validation: manifest `c764c56b…5727`; both queue artifacts, hashes, sizes, 457
+unique screening IDs, abstract coverage, pending status, and zero-decision
+invariants independently verified; typed aggregate receipt added.
+
 ### 2026-07-22 — Governed title/abstract screening-queue engine
 
 Implemented a fail-closed builder that reads only an independently verified
@@ -108,9 +122,9 @@ records after 57 duplicates. Raw responses and normalized abstracts are confined
 to the Seagate object store. No screening, evidence extraction, molecular outcome
 access, or scientific conclusion occurred.
 
-Validation: execution `9eec1656…c185`; manifest `1f041638…dec2`; all eight
-objects, hashes, sizes, and count invariants independently verified; typed aggregate
-receipt created; Ruff, strict MyPy, and all 97 repository tests passed.
+The approved replacement execution is `83d33fb2…4434`, manifest `e01a2798…3bbc`;
+all 12 objects, hashes, sizes, count invariants, and 457 abstracts were independently
+verified. The earlier execution is retained as superseded for screening readiness.
 
 ### 2026-07-22 — Governed PubMed and Europe PMC retrieval engine
 
@@ -137,18 +151,6 @@ human-readable review record.
 
 Validation: typed authorization and cross-artifact fail-closed rules passed Ruff,
 strict MyPy, and all 89 repository tests.
-
-### 2026-07-22 — NAS-BRCA-002 Phase 0 audit infrastructure
-
-Implemented typed, cross-validated contracts for the novelty plan, reproducible
-literature-search strategy, and data-feasibility assessment. Added schemas and CLI
-validation, a question-specific search protocol, an empty provenance-ready evidence
-matrix, discovery/validation variable requirements, explicit no-go criteria, and an
-AI-assisted advisory review. At completion of this scaffold, retrieval and outcome-
-data access were disabled, and no scientific result or novelty claim was generated.
-
-Validation: Ruff, strict MyPy, and all 87 repository tests passed; founder
-authorization was required before executing the bounded Phase 0 audit.
 
 ## Current blockers
 

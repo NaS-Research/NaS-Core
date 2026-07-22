@@ -26,6 +26,7 @@ STUDY = ROOT / "workflows" / "studies" / "breast_clinical_molecular_discordance"
 SEARCH_RECEIPT = STUDY / "literature" / "search_receipt.yaml"
 MANIFEST_SCHEMA = ROOT / "workflows" / "screening_queue_manifest.schema.json"
 RECEIPT_SCHEMA = ROOT / "workflows" / "screening_queue_receipt.schema.json"
+QUEUE_RECEIPT = STUDY / "literature" / "screening_queue_receipt.yaml"
 NOW = datetime(2026, 7, 22, 20, 0, tzinfo=UTC)
 
 
@@ -73,6 +74,17 @@ def _fixture() -> tuple[InMemoryObjectStore, LiteratureSearchReceipt]:
 def test_checked_in_screening_schemas_match_runtime_models() -> None:
     assert json.loads(MANIFEST_SCHEMA.read_text()) == ScreeningQueueManifest.model_json_schema()
     assert json.loads(RECEIPT_SCHEMA.read_text()) == ScreeningQueueReceipt.model_json_schema()
+
+
+def test_checked_in_queue_receipt_is_pending_and_nonconclusive() -> None:
+    receipt = ScreeningQueueReceipt.model_validate(yaml.safe_load(QUEUE_RECEIPT.read_text()))
+
+    assert receipt.summary.input_record_count == 457
+    assert receipt.summary.records_with_abstract == 457
+    assert receipt.summary.records_without_abstract == 0
+    assert receipt.summary.pending_record_count == 457
+    assert receipt.screening_status == "not_started"
+    assert receipt.scientific_conclusions_drawn is False
 
 
 def test_build_creates_pending_human_queue_without_decisions() -> None:
