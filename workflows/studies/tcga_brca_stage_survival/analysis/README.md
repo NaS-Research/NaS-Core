@@ -1,4 +1,42 @@
 # Analysis
 
-The deterministic cohort-construction and statistical pipeline will live here.
-Generated tables, figures, logs, and model artifacts belong in external storage.
+Generated cohorts, tables, figures, logs, and model artifacts belong in external
+storage. Git contains the deterministic implementation, schemas, synthetic
+tests, and metadata receipts only.
+
+## Cohort build
+
+The cohort engine verifies the snapshot manifest and page checksums before
+reading records. It then applies this mutually exclusive exclusion order:
+
+1. invalid case index date;
+2. no primary-disease diagnosis;
+3. non-normalizable pathologic stage;
+4. missing diagnosis identifier;
+5. missing, invalid, or under-18 age;
+6. invalid vital status; and
+7. missing, zero, negative, or invalid survival time.
+
+For included cases it selects one primary diagnosis, derives parent stage, age,
+vital status, duration, event, and time source, and writes:
+
+- `cohort.csv` — one analysis-ready row per included case;
+- `exclusions.csv` — one case ID and one reason per excluded case;
+- `qa-summary.json` — every requested field's missingness, cohort flow, stage
+  normalization, and included-versus-excluded age/vital summaries; and
+- `manifest.json` — source snapshot, protocol, code revision, artifact hashes,
+  counts, and build identity.
+
+The QA summary intentionally contains no stage-by-event table, hazard ratio,
+survival curve, or fitted model.
+
+Dry run:
+
+```bash
+uv run nas-core cohort build \
+  workflows/studies/tcga_brca_stage_survival/protocol/analysis_plan.yaml \
+  workflows/studies/tcga_brca_stage_survival/ingestion/snapshot_receipt.yaml \
+  --code-revision <GIT_SHA>
+```
+
+Add `--execute` only after the cohort implementation commit has been pushed.

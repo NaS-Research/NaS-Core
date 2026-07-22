@@ -1,0 +1,147 @@
+{
+  "$defs": {
+    "SelectionDescriptives": {
+      "additionalProperties": false,
+      "properties": {
+        "age_available_count": {
+          "minimum": 0,
+          "title": "Age Available Count",
+          "type": "integer"
+        },
+        "case_count": {
+          "minimum": 0,
+          "title": "Case Count",
+          "type": "integer"
+        },
+        "mean_age_years": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean Age Years"
+        },
+        "median_age_years": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Median Age Years"
+        },
+        "vital_alive_count": {
+          "minimum": 0,
+          "title": "Vital Alive Count",
+          "type": "integer"
+        },
+        "vital_dead_count": {
+          "minimum": 0,
+          "title": "Vital Dead Count",
+          "type": "integer"
+        },
+        "vital_other_or_missing_count": {
+          "minimum": 0,
+          "title": "Vital Other Or Missing Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "case_count",
+        "age_available_count",
+        "vital_alive_count",
+        "vital_dead_count",
+        "vital_other_or_missing_count"
+      ],
+      "title": "SelectionDescriptives",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "excluded_case_count": {
+      "minimum": 0,
+      "title": "Excluded Case Count",
+      "type": "integer"
+    },
+    "excluded_descriptives": {
+      "$ref": "#/$defs/SelectionDescriptives"
+    },
+    "exclusion_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Exclusion Counts",
+      "type": "object"
+    },
+    "included_case_count": {
+      "minimum": 0,
+      "title": "Included Case Count",
+      "type": "integer"
+    },
+    "included_descriptives": {
+      "$ref": "#/$defs/SelectionDescriptives"
+    },
+    "input_case_count": {
+      "minimum": 0,
+      "title": "Input Case Count",
+      "type": "integer"
+    },
+    "missingness_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Missingness Counts",
+      "type": "object"
+    },
+    "outcome_analysis_performed": {
+      "const": false,
+      "default": false,
+      "title": "Outcome Analysis Performed",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "snapshot_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "stage_normalization_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Stage Normalization Counts",
+      "type": "object"
+    },
+    "study_id": {
+      "minLength": 1,
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "study_id",
+    "snapshot_id",
+    "input_case_count",
+    "included_case_count",
+    "excluded_case_count",
+    "exclusion_counts",
+    "missingness_counts",
+    "stage_normalization_counts",
+    "included_descriptives",
+    "excluded_descriptives"
+  ],
+  "title": "CohortQASummary",
+  "type": "object"
+}

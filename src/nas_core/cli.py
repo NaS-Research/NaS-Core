@@ -3,7 +3,9 @@ import json
 from collections.abc import Sequence
 from pathlib import Path
 
+from nas_core.analysis.cohort import CohortBuildService
 from nas_core.config import get_settings
+from nas_core.domain.cohorts import load_snapshot_receipt, write_cohort_schemas
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.governance.registry import SourceRegistry
@@ -69,6 +71,27 @@ def build_parser() -> argparse.ArgumentParser:
         "schema", help="Write the canonical dataset-snapshot JSON Schema"
     )
     snapshot_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+
+    cohort = commands.add_parser("cohort", help="Build governed analysis-ready cohorts")
+    cohort_commands = cohort.add_subparsers(dest="cohort_command", required=True)
+    cohort_build = cohort_commands.add_parser("build", help="Prepare or execute cohort build")
+    cohort_build.add_argument("plan", type=Path, help="Path to analysis_plan.yaml")
+    cohort_build.add_argument("receipt", type=Path, help="Path to snapshot_receipt.yaml")
+    cohort_build.add_argument(
+        "--registry",
+        type=Path,
+        default=Path("data/source-registry.yaml"),
+        help="Path to the governed source registry",
+    )
+    cohort_build.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
+    cohort_build.add_argument(
+        "--execute",
+        action="store_true",
+        help="Read the frozen snapshot and persist cohort artifacts",
+    )
+    cohort_schema = cohort_commands.add_parser("schema", help="Write cohort JSON Schemas")
+    cohort_schema.add_argument("qa_path", type=Path, help="Output path for QA schema")
+    cohort_schema.add_argument("manifest_path", type=Path, help="Output path for manifest schema")
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -167,6 +190,33 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "ingest" and args.ingest_command == "schema":
         write_dataset_snapshot_schema(args.path)
         print(f"Wrote dataset-snapshot schema: {args.path}")
+        return 0
+
+    if args.command == "cohort" and args.cohort_command == "build":
+        plan = load_analysis_plan(args.plan, registry=SourceRegistry.from_yaml(args.registry))
+        receipt = load_snapshot_receipt(args.receipt)
+        if not args.execute:
+            print(
+                f"Cohort build ready: {plan.study_id} protocol {plan.protocol_version}, "
+                f"snapshot {receipt.snapshot_id}, code {args.code_revision}"
+            )
+            print("Dry run only; no snapshot records were read and no artifacts were stored.")
+            return 0
+        manifest = CohortBuildService(store=get_object_store()).build(
+            plan,
+            receipt,
+            code_revision=args.code_revision,
+        )
+        print(
+            f"Created immutable cohort build {manifest.build_id}: "
+            f"{manifest.included_case_count} included, "
+            f"{manifest.excluded_case_count} excluded"
+        )
+        return 0
+
+    if args.command == "cohort" and args.cohort_command == "schema":
+        write_cohort_schemas(args.qa_path, args.manifest_path)
+        print(f"Wrote cohort schemas: {args.qa_path}, {args.manifest_path}")
         return 0
 
     if args.command == "program" and args.program_command == "validate":
