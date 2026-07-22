@@ -3,7 +3,7 @@ study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.2.0
 specification_version: 0.1.0
-status: draft
+status: locked
 discovery_source_id: gdc-tcga-open
 discovery_source_registry_status: approved_public_open
 variable_requirements:

@@ -3,7 +3,7 @@ study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.2.0
 strategy_version: 0.1.0
-status: draft
+status: locked
 objective: >-
   Map prior clinical/PAM50 discordance, classification-stability, preprocessing,
   confidence, abstention, molecular-correlate, outcome, and external-validation
@@ -70,4 +70,4 @@ stopping_rule: >-
   and citation chaining are complete, two consecutive citation-chaining passes add
   no eligible methodological or external-validation study, and unresolved claims
   are documented rather than assumed absent.
-retrieval_authorized: false
+retrieval_authorized: true

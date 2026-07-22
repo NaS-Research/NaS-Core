@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
 
@@ -36,6 +37,29 @@ class SourceAssessmentStatus(StrEnum):
     REJECTED = "rejected"
 
 
+class AuthorizationDecision(StrEnum):
+    APPROVED = "approved"
+    REVOKED = "revoked"
+
+
+class AuthorizedActivity(StrEnum):
+    LITERATURE_RETRIEVAL = "literature_retrieval"
+    SOURCE_FEASIBILITY_ASSESSMENT = "source_feasibility_assessment"
+    NON_OUTCOME_METADATA_QUERIES = "non_outcome_metadata_queries"
+
+
+class PhaseZeroAuthorization(DiscoveryModel):
+    reviewer: str = Field(min_length=1)
+    role: str = Field(min_length=1)
+    review_type: str = Field(pattern=r"^internal_self_review$")
+    decision: AuthorizationDecision
+    authorized_at: datetime
+    authorized_activities: list[AuthorizedActivity] = Field(min_length=1)
+    prohibited_activities: list[str] = Field(min_length=1)
+    rationale: str = Field(min_length=1)
+    conflict_disclosure: str = Field(min_length=1)
+
+
 class CandidateContribution(DiscoveryModel):
     established_knowledge: list[str] = Field(min_length=1)
     unresolved_problem: str = Field(min_length=1)
@@ -60,6 +84,7 @@ class PhaseZeroPlan(DiscoveryModel):
     no_go_criteria: list[str] = Field(min_length=1)
     deliverables: list[str] = Field(min_length=1)
     prohibited_actions: list[str] = Field(min_length=1)
+    authorization: PhaseZeroAuthorization | None = None
 
 
 class SearchSource(DiscoveryModel):
@@ -153,6 +178,24 @@ def load_phase_zero_artifacts(
     }
     if len(identities) != 1:
         raise ValueError("Phase 0 artifacts must identify the same study question version")
+    authorization = plan.authorization
+    if search.retrieval_authorized:
+        if search.status is not DraftStatus.LOCKED:
+            raise ValueError("literature retrieval requires a locked search strategy")
+        if authorization is None or authorization.decision is not AuthorizationDecision.APPROVED:
+            raise ValueError("literature retrieval requires founder Phase 0 authorization")
+        if AuthorizedActivity.LITERATURE_RETRIEVAL not in authorization.authorized_activities:
+            raise ValueError("founder authorization does not include literature retrieval")
+    if feasibility.status is DraftStatus.LOCKED:
+        if authorization is None or authorization.decision is not AuthorizationDecision.APPROVED:
+            raise ValueError("locked feasibility work requires founder Phase 0 authorization")
+        if (
+            AuthorizedActivity.SOURCE_FEASIBILITY_ASSESSMENT
+            not in authorization.authorized_activities
+        ):
+            raise ValueError("founder authorization does not include source feasibility")
+    if feasibility.outcome_data_access_authorized:
+        raise ValueError("Phase 0 cannot authorize outcome-bearing data access")
     return plan, search, feasibility
 
 

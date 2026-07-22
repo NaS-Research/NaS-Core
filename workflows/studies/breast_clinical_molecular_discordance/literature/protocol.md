@@ -1,8 +1,8 @@
 # NAS-BRCA-002 Literature-Gap Review Protocol
 
-Protocol version: `0.1.0-draft`
+Protocol version: `0.1.0`
 Question version: `0.2.0`
-Status: **Draft; retrieval is not authorized**
+Status: **Locked for the founder-authorized bounded Phase 0 audit**
 
 ## Purpose
 
@@ -84,7 +84,9 @@ must be time-bounded, qualified, and supported by the executed search record.
 
 ## Gate
 
-This draft may be refined during founder question review. Retrieval begins only
-after the question is selected, the strategy is locked, `retrieval_authorized`
-is true, and lifecycle records agree. Literature completion does not authorize
-biomedical-data ingestion or outcome inspection.
+The strategy is locked and `retrieval_authorized` is true under the separate
+founder Phase 0 authorization. This permits the preselection evidence audit while
+the scientific question remains proposed; it does not mark the formal literature
+stage ready. Any protocol change requires a new version and authorization review.
+Literature completion does not authorize biomedical-data ingestion, molecular
+outcome inspection, question selection, or a novelty claim.

@@ -12,6 +12,23 @@
       "title": "AuditStatus",
       "type": "string"
     },
+    "AuthorizationDecision": {
+      "enum": [
+        "approved",
+        "revoked"
+      ],
+      "title": "AuthorizationDecision",
+      "type": "string"
+    },
+    "AuthorizedActivity": {
+      "enum": [
+        "literature_retrieval",
+        "source_feasibility_assessment",
+        "non_outcome_metadata_queries"
+      ],
+      "title": "AuthorizedActivity",
+      "type": "string"
+    },
     "CandidateContribution": {
       "additionalProperties": false,
       "properties": {
@@ -53,10 +70,88 @@
       ],
       "title": "CandidateContribution",
       "type": "object"
+    },
+    "PhaseZeroAuthorization": {
+      "additionalProperties": false,
+      "properties": {
+        "authorized_activities": {
+          "items": {
+            "$ref": "#/$defs/AuthorizedActivity"
+          },
+          "minItems": 1,
+          "title": "Authorized Activities",
+          "type": "array"
+        },
+        "authorized_at": {
+          "format": "date-time",
+          "title": "Authorized At",
+          "type": "string"
+        },
+        "conflict_disclosure": {
+          "minLength": 1,
+          "title": "Conflict Disclosure",
+          "type": "string"
+        },
+        "decision": {
+          "$ref": "#/$defs/AuthorizationDecision"
+        },
+        "prohibited_activities": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Prohibited Activities",
+          "type": "array"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "review_type": {
+          "pattern": "^internal_self_review$",
+          "title": "Review Type",
+          "type": "string"
+        },
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer",
+        "role",
+        "review_type",
+        "decision",
+        "authorized_at",
+        "authorized_activities",
+        "prohibited_activities",
+        "rationale",
+        "conflict_disclosure"
+      ],
+      "title": "PhaseZeroAuthorization",
+      "type": "object"
     }
   },
   "additionalProperties": false,
   "properties": {
+    "authorization": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PhaseZeroAuthorization"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
     "candidate_thesis": {
       "minLength": 1,
       "title": "Candidate Thesis",

@@ -25,7 +25,8 @@ The project is proposed and remains at the question stage. Read the
 [Phase 0 plan](question/phase_zero_plan.yaml), and the non-authoritative
 [AI question review](reviews/AI_QUESTION_REVIEW_v0.2.0.md).
 
-The literature-search protocol and data-feasibility specification are drafted,
-but their authorization flags are false. No literature retrieval, biomedical-
-data ingestion, outcome analysis, novelty claim, or clinical claim is authorized
-until its corresponding founder review gate is complete.
+The founder authorized the bounded Phase 0 novelty and feasibility audit on
+2026-07-22. The literature-search strategy and source-feasibility specification
+are locked. This permits bibliographic retrieval, source assessment, and non-
+outcome metadata queries only. Biomedical outcome ingestion, molecular or survival
+analysis, question selection, novelty claims, and clinical claims remain prohibited.

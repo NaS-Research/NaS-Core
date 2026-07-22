@@ -81,3 +81,27 @@ prohibited_actions:
   - No representation of research PAM50 output as a clinical assay.
   - No patient-level testing, diagnosis, prognosis, or treatment recommendation.
   - No claim of novelty before completion of the evidence and feasibility audit.
+authorization:
+  reviewer: Dalron J. Robertson
+  role: Founder, Study Lead, and Internal Phase 0 Reviewer
+  review_type: internal_self_review
+  decision: approved
+  authorized_at: 2026-07-22T13:07:43-05:00
+  authorized_activities:
+    - literature_retrieval
+    - source_feasibility_assessment
+    - non_outcome_metadata_queries
+  prohibited_activities:
+    - Molecular outcome data retrieval or analysis
+    - Classifier threshold tuning against survival or molecular enrichment
+    - Patient-level, diagnostic, prognostic, treatment, or clinical-utility claims
+    - A novelty claim before the evidence and feasibility audit is reviewed
+  rationale: >-
+    Founder explicitly authorized the bounded NAS-BRCA-002 Phase 0 novelty and
+    data-feasibility audit under question version 0.2.0. Authorization permits
+    reproducible literature searching, source assessment, and non-outcome metadata
+    queries but does not select the scientific question or authorize outcome analysis.
+  conflict_disclosure: >-
+    Dalron J. Robertson is the founder, study lead, prospective analyst, author,
+    internal reviewer, and gate approver. This is founder-led internal review and
+    is not independent peer review.

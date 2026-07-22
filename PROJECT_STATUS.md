@@ -18,7 +18,7 @@ it does not authorize molecular outcome analysis or a novelty claim.
 
 Definition of done:
 
-- Founder records authorization for the bounded, non-outcome Phase 0 audit.
+- Founder authorization for the bounded, non-outcome Phase 0 audit is recorded.
 - The search strategy is locked before retrieval and the evidence matrix records
   every included and excluded source with a reproducible search trail.
 - A novelty memo separates established knowledge, the unresolved gap, the proposed
@@ -38,7 +38,8 @@ Current gate state:
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
   feasibility specification are implemented.
 - AI-assisted question review is complete and advisory; founder review is pending.
-- Literature retrieval and outcome-data access are both explicitly disabled.
+- The search and source-feasibility specifications are locked. Literature retrieval
+  and non-outcome source assessment are authorized; outcome access is disabled.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -46,38 +47,49 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Record founder authorization for the bounded NAS-BRCA-002 Phase 0 novelty and
-   data-feasibility audit; do not authorize outcome-bearing analysis.
-2. Lock and execute the reproducible literature-gap search, populate the evidence
+1. Execute the reproducible literature-gap search, populate the evidence
    matrix, and produce a novelty memo with an explicit no-go test.
-3. Complete discovery and validation source feasibility, including exact variable
+2. Complete discovery and validation source feasibility, including exact variable
    mappings, terms, compatibility, independence, overlap, and source-registry review.
-4. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
+3. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
    after a documented `go` decision.
-5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+4. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+5. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-7. Implement persisted evidence claims, citations, provenance, contradictory
+6. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-8. Register approved bibliographic sources, execute the selected question's
+7. Register approved bibliographic sources, execute the selected question's
    literature-review protocol, and add permitted metadata and passage ingestion
    with hybrid keyword and semantic retrieval.
-9. Add the replaceable model gateway with structured outputs, minimum-necessary
+8. Add the replaceable model gateway with structured outputs, minimum-necessary
    context, citations, uncertainty, abstention, and governance enforcement.
-10. Build evaluation suites for retrieval, citation validity, numerical
+9. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-11. Generate an immutable research release containing the protocol, dataset
+10. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-12. Generate a reviewable white-paper draft whose substantive claims trace to
+11. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-13. Build the internal workbench for projects, protocols, datasets, runs,
+12. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-14. Complete repeated internal oncology pilots before selecting the first
+13. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Founder-authorized NAS-BRCA-002 Phase 0 audit
+
+Recorded Dalron J. Robertson's explicit authorization for the bounded novelty and
+data-feasibility audit under question version `0.2.0`. Locked the literature-search
+and source-feasibility specifications and authorized bibliographic retrieval,
+source assessment, and non-outcome metadata queries. Outcome-bearing data access,
+hypothesis testing, question selection, novelty claims, and clinical claims remain
+prohibited. The authorization includes role-conflict disclosure and a permanent
+human-readable review record.
+
+Validation: typed authorization and cross-artifact fail-closed rules passed Ruff,
+strict MyPy, and all 89 repository tests.
 
 ### 2026-07-22 — NAS-BRCA-002 Phase 0 audit infrastructure
 
@@ -85,11 +97,11 @@ Implemented typed, cross-validated contracts for the novelty plan, reproducible
 literature-search strategy, and data-feasibility assessment. Added schemas and CLI
 validation, a question-specific search protocol, an empty provenance-ready evidence
 matrix, discovery/validation variable requirements, explicit no-go criteria, and an
-AI-assisted advisory review. Retrieval and outcome-data access remain disabled, and
-no scientific result or novelty claim was generated.
+AI-assisted advisory review. At completion of this scaffold, retrieval and outcome-
+data access were disabled, and no scientific result or novelty claim was generated.
 
 Validation: Ruff, strict MyPy, and all 87 repository tests passed; founder
-authorization is required before executing the bounded Phase 0 audit.
+founder authorization was required before executing the bounded Phase 0 audit.
 
 ### 2026-07-22 — First immutable NAS-BRCA-001 survival run
 
@@ -137,27 +149,13 @@ Validation: typed approval receipt and review record passed Ruff, strict MyPy,
 and the full test suite; frozen tag `NAS-BRCA-001-cohort-v1.0.0` created from the
 approval commit.
 
-### 2026-07-21 — First governed NAS-BRCA-001 analysis cohort
-
-Built the first immutable analysis-ready cohort from the verified Data Release
-45 snapshot using only protocol `1.1.0` rules and code revision `912e281`.
-Selected one primary diagnosis per case, normalized stage and survival fields,
-and applied mutually exclusive exclusions with a case-level audit log. The
-result contains 1,037 included cases and 61 excluded cases. Independently
-recomputed the build manifest and all artifact checksums, confirmed a unique,
-disjoint, complete 1,098-case partition, and recorded a typed receipt plus
-AI-assisted QA review. No stage-by-outcome comparison or survival model was run.
-
-Validation: build `73bfc986…d2e53`; cohort, exclusions, and QA artifacts verified;
-Ruff, strict MyPy, and the full test suite passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
 - `NAS-BRCA-002` remains unselected pending founder scientific/product,
-  molecular/pathology, and statistical self-review. Its AI-assisted critique is
-  complete but advisory; even the bounded Phase 0 audit requires founder authorization.
+  molecular/pathology, and statistical self-review. Its bounded Phase 0 audit is
+  authorized, but outcome work and formal question selection are not.
 - The independent external validation source for `NAS-BRCA-002` has not been
   selected or approved. Its license, compatible variables, cohort overlap, and
   export terms must be established before preregistration.

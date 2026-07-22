@@ -32,8 +32,10 @@ def test_checked_in_phase_zero_package_is_typed_and_bound() -> None:
 
     assert plan.study_id == "NAS-BRCA-002"
     assert plan.status == "in_progress"
-    assert search.status == "draft"
-    assert search.retrieval_authorized is False
+    assert search.status == "locked"
+    assert search.retrieval_authorized is True
+    assert plan.authorization is not None
+    assert plan.authorization.decision == "approved"
     assert feasibility.outcome_data_access_authorized is False
 
 
@@ -50,6 +52,7 @@ def test_checked_in_discovery_schemas_match_runtime_models() -> None:
 
 def test_draft_search_cannot_authorize_retrieval() -> None:
     payload = deepcopy(yaml.safe_load(SEARCH_PATH.read_text()))
+    payload["status"] = "draft"
     payload["retrieval_authorized"] = True
 
     with pytest.raises(ValidationError, match="draft search strategy cannot authorize"):
@@ -58,6 +61,7 @@ def test_draft_search_cannot_authorize_retrieval() -> None:
 
 def test_draft_feasibility_cannot_authorize_outcome_access() -> None:
     payload = deepcopy(yaml.safe_load(FEASIBILITY_PATH.read_text()))
+    payload["status"] = "draft"
     payload["outcome_data_access_authorized"] = True
 
     with pytest.raises(ValidationError, match="cannot authorize outcome access"):
@@ -72,3 +76,23 @@ def test_phase_zero_artifacts_must_share_question_version(tmp_path: Path) -> Non
 
     with pytest.raises(ValueError, match="same study question version"):
         load_phase_zero_artifacts(PLAN_PATH, mismatched, FEASIBILITY_PATH)
+
+
+def test_retrieval_requires_founder_authorization(tmp_path: Path) -> None:
+    payload = deepcopy(yaml.safe_load(PLAN_PATH.read_text()))
+    payload["authorization"] = None
+    unauthorized = tmp_path / "plan.yaml"
+    unauthorized.write_text(yaml.safe_dump(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="requires founder Phase 0 authorization"):
+        load_phase_zero_artifacts(unauthorized, SEARCH_PATH, FEASIBILITY_PATH)
+
+
+def test_phase_zero_never_authorizes_outcome_data_access(tmp_path: Path) -> None:
+    payload = deepcopy(yaml.safe_load(FEASIBILITY_PATH.read_text()))
+    payload["outcome_data_access_authorized"] = True
+    authorized = tmp_path / "feasibility.yaml"
+    authorized.write_text(yaml.safe_dump(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="cannot authorize outcome-bearing data access"):
+        load_phase_zero_artifacts(PLAN_PATH, SEARCH_PATH, authorized)

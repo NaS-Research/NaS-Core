@@ -20,8 +20,8 @@ gate was satisfied.
 | ---: | --- | --- | --- |
 | 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
 | 1 | Review and select question | In progress | AI advisory complete; complete founder review and record a decision |
-| 2 | Lock evidence-review protocol | Drafted; retrieval blocked | Draft protocol and search strategy exist; founder authorization is required before retrieval |
-| 3 | Establish data and assay feasibility | Drafted; assessment not started | Variable requirements exist; assess exact fields, terms, compatibility, and independence |
+| 2 | Lock evidence-review protocol | Locked; execution next | Founder authorized the bounded audit; execute and log both searches |
+| 3 | Establish data and assay feasibility | Locked; assessment next | Source and non-outcome metadata assessment authorized; outcome access remains prohibited |
 | 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and documented founder protocol approval |
 | 5 | Capture discovery snapshots | Not started | Requires preregistration and completion of the `NAS-BRCA-001` qualification gate |
 | 6 | Build and quality-check cohort | Not started | Requires an independently verified immutable snapshot |
@@ -42,24 +42,20 @@ gate was satisfied.
   results/remediation gate remains pending before outcome-bearing discovery work.
 - The founder's scientific/product, molecular/pathology, and statistical
   self-review passes have not been completed for `NAS-RQ-BRCA002`.
-- The discovery question is proposed, not selected, so automated literature
-  retrieval is not authorized.
+- The discovery question is proposed, not selected. A separately documented
+  founder decision authorizes only the bounded Phase 0 literature and source audit.
 - No compatible independent validation source has been assessed or approved.
 
 ### Immediate working queue
 
-1. Complete three separately documented founder review passes using
+1. Execute the locked PubMed and Europe PMC searches and retain their exact logs.
+2. Deduplicate records, screen them, populate the evidence matrix, and draft the
+   claim-by-claim novelty memorandum.
+3. Map discovery fields/files and assess external-validation terms, compatibility,
+   independence, overlap, and reproducibility without accessing molecular outcomes.
+4. Complete the three founder review perspectives in
    `reviews/QUESTION_REVIEW_PACKET.md`.
-2. Review the intended decision and whether the proposed output is useful beyond
-   producing an interesting publication.
-3. Review the PAM50 implementations, consensus/confidence rules, and gold-standard concern.
-4. Confirm a credible external-validation path.
-5. Review the completed non-authoritative AI adversarial review and explicitly
-   accept, resolve, or defer each blocker.
-6. Authorize or reject the bounded, non-outcome Phase 0 novelty and feasibility audit.
-7. If authorized, lock the search protocol, populate the evidence matrix, and
-   assess source feasibility without testing molecular outcomes.
-8. Record `go`, `change`, `hold`, or `reject` and update lifecycle records.
+5. Resolve the AI-advisory blockers and record `go`, `change`, `hold`, or `reject`.
 
 ## Phase 1 execution board — Question review and selection
 
