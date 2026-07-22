@@ -2,7 +2,7 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.2.0
-strategy_version: 0.1.0
+strategy_version: 0.1.1
 status: locked
 objective: >-
   Map prior clinical/PAM50 discordance, classification-stability, preprocessing,
@@ -21,8 +21,10 @@ sources:
     name: Europe PMC
     official_url: https://europepmc.org/
     query: >-
-      (breast cancer OR breast carcinoma) AND (PAM50 OR intrinsic subtype) AND
-      (discordance OR stability OR uncertainty OR classifier OR normalization)
+      (TITLE_ABS:"breast cancer" OR TITLE_ABS:"breast carcinoma") AND
+      (TITLE_ABS:PAM50 OR TITLE_ABS:"intrinsic subtype") AND
+      (TITLE_ABS:discordance OR TITLE_ABS:stability OR TITLE_ABS:uncertainty OR
+      TITLE_ABS:classifier OR TITLE_ABS:normalization)
     purpose: Independent bibliographic coverage, open-access status, and full-text links.
 date_range: Database inception through the final locked search date.
 languages:

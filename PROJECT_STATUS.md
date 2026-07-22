@@ -40,9 +40,9 @@ Current gate state:
 - AI-assisted question review is complete and advisory; founder review is pending.
 - The search and source-feasibility specifications are locked. Literature retrieval
   and non-outcome source assessment are authorized; outcome access is disabled.
-- PubMed and Europe PMC are registered for bounded evidence synthesis, and the
-  immutable retrieval runner is implemented. Live execution awaits a valid API
-  contact email and has not yet occurred.
+- PubMed and Europe PMC are registered for bounded evidence synthesis. Locked
+  strategy `0.1.1` produced verified immutable execution `9eec1656…c185` with
+  457 unique records; human screening has not started.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -50,7 +50,7 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Execute the reproducible literature-gap search, populate the evidence
+1. Screen the verified 457-record literature inventory, populate the evidence
    matrix, and produce a novelty memo with an explicit no-go test.
 2. Complete discovery and validation source feasibility, including exact variable
    mappings, terms, compatibility, independence, overlap, and source-registry review.
@@ -79,6 +79,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — First immutable NAS-BRCA-002 literature search
+
+Executed locked search strategy `0.1.1` against PubMed and Europe PMC using the
+founder-authorized contact identity. A count-only gate detected that strategy
+`0.1.0` expanded to 79,501 Europe PMC records; the source-syntax correction was
+versioned before record storage and without viewing scientific results. The final
+execution retrieved 391 PubMed and 123 Europe PMC records, yielding 457 unique
+records after 57 duplicates. Raw responses and normalized abstracts are confined
+to the Seagate object store. No screening, evidence extraction, molecular outcome
+access, or scientific conclusion occurred.
+
+Validation: execution `9eec1656…c185`; manifest `1f041638…dec2`; all eight
+objects, hashes, sizes, and count invariants independently verified; typed aggregate
+receipt created; Ruff, strict MyPy, and all 97 repository tests passed.
 
 ### 2026-07-22 — Governed PubMed and Europe PMC retrieval engine
 
@@ -135,22 +150,6 @@ Validation: run `f41f9440…a2ec`; manifest `49aa35b2…c7cb9`; five verified
 artifacts; Ruff, strict MyPy, and all 82 tests passed; results gate pending
 founder review.
 
-### 2026-07-21 — Governed NAS-BRCA-001 survival-analysis engine
-
-Implemented a fail-closed statistical runner that requires the founder-approved
-cohort receipt and reverifies the cohort manifest and every input checksum. The
-engine implements baseline summaries, Kaplan–Meier estimates and risk counts,
-log-rank testing, adjusted and unadjusted Cox models, categorical and ordinal
-stage models, proportional-hazards and influence diagnostics, AJCC-edition
-distribution, five-year censoring, time-interaction, restricted-cubic-spline,
-and common-edition sensitivities. It retains warnings, failed or skipped models,
-null results, confidence intervals, multiplicity-adjusted secondary p-values,
-environment versions, parameters, and immutable artifact hashes. Development
-used synthetic records only; the real cohort was not analyzed.
-
-Validation: Ruff passed, strict MyPy passed, seven synthetic survival tests and
-all 82 repository tests passed; typed schemas and CLI dry-run support added.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -158,9 +157,6 @@ all 82 repository tests passed; typed schemas and CLI dry-run support added.
 - `NAS-BRCA-002` remains unselected pending founder scientific/product,
   molecular/pathology, and statistical self-review. Its bounded Phase 0 audit is
   authorized, but outcome work and formal question selection are not.
-- A valid organizational contact email is required by the literature APIs before
-  the locked search can be executed. It will be sent to the APIs but stored in the
-  immutable manifest only as a SHA-256 digest.
 - The independent external validation source for `NAS-BRCA-002` has not been
   selected or approved. Its license, compatible variables, cohort overlap, and
   export terms must be established before preregistration.

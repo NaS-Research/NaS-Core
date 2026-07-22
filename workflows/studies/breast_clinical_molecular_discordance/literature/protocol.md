@@ -1,6 +1,6 @@
 # NAS-BRCA-002 Literature-Gap Review Protocol
 
-Protocol version: `0.1.0`
+Protocol version: `0.1.1`
 Question version: `0.2.0`
 Status: **Locked for the founder-authorized bounded Phase 0 audit**
 
@@ -90,3 +90,8 @@ the scientific question remains proposed; it does not mark the formal literature
 stage ready. Any protocol change requires a new version and authorization review.
 Literature completion does not authorize biomedical-data ingestion, molecular
 outcome inspection, question selection, or a novelty claim.
+
+Version `0.1.1` changes only the Europe PMC syntax after a count-only feasibility
+check showed that unquoted, unfielded phrases expanded to 79,501 records. The
+scientific concepts and eligibility criteria are unchanged. See
+[`SEARCH_AMENDMENT_v0.1.1.md`](SEARCH_AMENDMENT_v0.1.1.md).

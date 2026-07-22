@@ -14,6 +14,11 @@ evidence yet. No novelty conclusion may be drawn from an empty or partially
 screened matrix.
 
 The governed PubMed/Europe PMC retrieval runner and both source registrations are
-implemented. Live execution requires a valid API contact email; no live search has
-yet been captured. Raw responses and normalized abstracts remain in external object
-storage, while Git receives only an aggregate receipt after independent verification.
+implemented. Locked strategy `0.1.1` produced immutable execution `9eec1656…c185`:
+391 PubMed records and 123 Europe PMC records became 457 unique records after 57
+cross-source duplicates. All eight objects, hashes, sizes, and count invariants were
+independently verified. Raw responses and normalized abstracts remain in external
+object storage; [`search_receipt.yaml`](search_receipt.yaml) contains aggregates only.
+
+Screening has not started, the evidence matrix is still empty, and no novelty or
+scientific conclusion has been drawn.

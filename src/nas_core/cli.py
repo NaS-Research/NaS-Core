@@ -12,7 +12,7 @@ from nas_core.domain.cohorts import (
     write_cohort_schemas,
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
-from nas_core.domain.literature import write_literature_snapshot_schema
+from nas_core.domain.literature import write_literature_schemas
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
@@ -164,10 +164,16 @@ def build_parser() -> argparse.ArgumentParser:
     literature_search.add_argument(
         "--execute", action="store_true", help="Contact APIs and persist immutable search exports"
     )
+    literature_search.add_argument(
+        "--count-only",
+        action="store_true",
+        help="Contact each API once for result counts without storing records",
+    )
     literature_schema = literature_commands.add_parser(
         "schema", help="Write the literature-search snapshot JSON Schema"
     )
-    literature_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+    literature_schema.add_argument("snapshot_path", type=Path, help="Snapshot schema output path")
+    literature_schema.add_argument("receipt_path", type=Path, help="Receipt schema output path")
 
     program = commands.add_parser("program", help="Manage research program charters")
     program_commands = program.add_subparsers(dest="program_command", required=True)
@@ -349,17 +355,33 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.search,
             args.feasibility,
         )
-        if not args.execute:
+        if args.execute and args.count_only:
+            raise SystemExit("choose either --execute or --count-only")
+        if not args.execute and not args.count_only:
             for source in search.sources:
                 print(f"{source.source_id}: {source.query}")
             print("Dry run only; no literature API was contacted and nothing was stored.")
             return 0
         if not args.contact_email:
-            raise SystemExit("--contact-email is required with --execute")
-        literature_snapshot = LiteratureSearchService(
+            raise SystemExit("--contact-email is required with --execute or --count-only")
+        literature_service = LiteratureSearchService(
             store=get_object_store(),
             registry=SourceRegistry.from_yaml(args.registry),
-        ).capture(phase_zero, search, contact_email=args.contact_email)
+        )
+        if args.count_only:
+            counts = literature_service.preview_counts(
+                phase_zero,
+                search,
+                contact_email=args.contact_email,
+            )
+            print(json.dumps(counts, indent=2, sort_keys=True))
+            print("Count preview only; no literature records or manifests were stored.")
+            return 0
+        literature_snapshot = literature_service.capture(
+            phase_zero,
+            search,
+            contact_email=args.contact_email,
+        )
         print(
             f"Created immutable literature search {literature_snapshot.execution_id}: "
             f"{literature_snapshot.unique_record_count} unique records, "
@@ -368,8 +390,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
 
     if args.command == "literature" and args.literature_command == "schema":
-        write_literature_snapshot_schema(args.path)
-        print(f"Wrote literature-search snapshot schema: {args.path}")
+        write_literature_schemas(args.snapshot_path, args.receipt_path)
+        print(f"Wrote literature-search schemas: {args.snapshot_path}, {args.receipt_path}")
         return 0
 
     if args.command == "program" and args.program_command == "validate":

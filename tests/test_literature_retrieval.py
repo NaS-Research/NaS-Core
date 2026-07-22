@@ -4,12 +4,17 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
+import yaml
 
 from nas_core.domain.discovery import load_phase_zero_artifacts
-from nas_core.domain.literature import LiteratureSearchSnapshot
+from nas_core.domain.literature import LiteratureSearchReceipt, LiteratureSearchSnapshot
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import HTTPResponse, canonical_json, sha256
-from nas_core.retrieval.literature import LiteratureSearchService, UrllibLiteratureTransport
+from nas_core.retrieval.literature import (
+    LiteratureSearchService,
+    UrllibLiteratureTransport,
+    pubmed_summary_batches,
+)
 from nas_core.storage.object_store import InMemoryObjectStore
 
 ROOT = Path(__file__).parents[1]
@@ -18,6 +23,8 @@ PLAN_PATH = STUDY / "question" / "phase_zero_plan.yaml"
 SEARCH_PATH = STUDY / "literature" / "search_strategy.yaml"
 FEASIBILITY_PATH = STUDY / "ingestion" / "data_feasibility.yaml"
 SCHEMA_PATH = ROOT / "workflows" / "literature_search_snapshot.schema.json"
+RECEIPT_SCHEMA_PATH = ROOT / "workflows" / "literature_search_receipt.schema.json"
+RECEIPT_PATH = STUDY / "literature" / "search_receipt.yaml"
 NOW = datetime(2026, 7, 22, 19, 0, tzinfo=UTC)
 
 
@@ -89,6 +96,19 @@ def _package():
 
 def test_checked_in_literature_snapshot_schema_matches_runtime_model() -> None:
     assert json.loads(SCHEMA_PATH.read_text()) == LiteratureSearchSnapshot.model_json_schema()
+    assert (
+        json.loads(RECEIPT_SCHEMA_PATH.read_text()) == LiteratureSearchReceipt.model_json_schema()
+    )
+
+
+def test_checked_in_search_receipt_is_typed_and_nonconclusive() -> None:
+    receipt = LiteratureSearchReceipt.model_validate(yaml.safe_load(RECEIPT_PATH.read_text()))
+
+    assert receipt.unique_record_count == 457
+    assert receipt.duplicate_record_count == 57
+    assert receipt.screening_status == "not_started"
+    assert receipt.scientific_conclusions_drawn is False
+    assert receipt.outcome_data_accessed is False
 
 
 def test_capture_is_governed_deduplicated_and_immutable() -> None:
@@ -100,7 +120,7 @@ def test_capture_is_governed_deduplicated_and_immutable() -> None:
         registry=SourceRegistry.from_yaml(ROOT / "data" / "source-registry.yaml"),
         transport=transport,
         clock=lambda: NOW,
-        page_size=100,
+        page_size=500,
     ).capture(plan, strategy, contact_email="research@example.org")
 
     assert snapshot.unique_record_count == 3
@@ -109,6 +129,8 @@ def test_capture_is_governed_deduplicated_and_immutable() -> None:
     assert len(snapshot.requests) == 3
     assert all("email" not in request.parameters for request in snapshot.requests)
     assert all(request[1]["email"] == "research@example.org" for request in transport.requests)
+    europe_request = next(request for request in transport.requests if "europepmc" in request[0])
+    assert europe_request[1]["pageSize"] == "100"
     prefix = f"literature/NAS-BRCA-002/{snapshot.execution_id}"
     assert store.exists(f"{prefix}/manifest.json")
     assert store.exists(f"{prefix}/normalized-records.json")
@@ -122,6 +144,21 @@ def test_capture_is_governed_deduplicated_and_immutable() -> None:
     unhashed = deepcopy(manifest)
     manifest_hash = unhashed.pop("manifest_sha256")
     assert manifest_hash == sha256(canonical_json(unhashed))
+
+
+def test_count_preview_contacts_each_source_once_and_stores_nothing() -> None:
+    plan, strategy, _ = _package()
+    transport = FakeLiteratureTransport()
+    store = InMemoryObjectStore()
+    counts = LiteratureSearchService(
+        store=store,
+        registry=SourceRegistry.from_yaml(ROOT / "data" / "source-registry.yaml"),
+        transport=transport,
+    ).preview_counts(plan, strategy, contact_email="research@example.org")
+
+    assert counts == {"pubmed": 2, "europe-pmc": 2}
+    assert len(transport.requests) == 2
+    assert not store.exists("literature")
 
 
 def test_capture_blocks_unlocked_search_before_network() -> None:
@@ -156,3 +193,9 @@ def test_capture_requires_contact_email_before_network() -> None:
 def test_default_transport_rejects_noncompliant_request_rate() -> None:
     with pytest.raises(ValueError, match="at least 0.34 seconds"):
         UrllibLiteratureTransport(minimum_request_interval_seconds=0.1)
+
+
+def test_pubmed_summary_batches_prevent_oversized_get_requests() -> None:
+    batches = pubmed_summary_batches([str(value) for value in range(250)])
+
+    assert [len(batch) for batch in batches] == [100, 100, 50]

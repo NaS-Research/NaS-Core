@@ -11,6 +11,7 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from typing import Protocol, cast
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 
@@ -40,6 +41,17 @@ PUBMED_SUMMARY_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcg
 EUROPE_PMC_SEARCH_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 ALLOWED_HOSTS = frozenset({"eutils.ncbi.nlm.nih.gov", "www.ebi.ac.uk"})
 JSON_MEDIA_TYPE = "application/json"
+PUBMED_SUMMARY_BATCH_SIZE = 100
+EUROPE_PMC_PAGE_SIZE = 100
+
+
+def pubmed_summary_batches(ids: list[str]) -> list[list[str]]:
+    """Bound GET request size so PMID lists do not exceed server URI limits."""
+
+    return [
+        ids[start : start + PUBMED_SUMMARY_BATCH_SIZE]
+        for start in range(0, len(ids), PUBMED_SUMMARY_BATCH_SIZE)
+    ]
 
 
 class LiteratureTransport(Protocol):
@@ -52,11 +64,17 @@ class UrllibLiteratureTransport:
         *,
         timeout_seconds: float = 60.0,
         minimum_request_interval_seconds: float = 0.34,
+        maximum_attempts: int = 3,
+        retry_backoff_seconds: float = 1.0,
     ) -> None:
         if minimum_request_interval_seconds < 0.34:
             raise ValueError("NCBI-compatible request interval must be at least 0.34 seconds")
+        if maximum_attempts < 1:
+            raise ValueError("maximum_attempts must be positive")
         self._timeout_seconds = timeout_seconds
         self._minimum_request_interval_seconds = minimum_request_interval_seconds
+        self._maximum_attempts = maximum_attempts
+        self._retry_backoff_seconds = retry_backoff_seconds
         self._ssl_context = ssl.create_default_context(cafile=certifi.where())
         self._last_request_at: float | None = None
 
@@ -64,24 +82,44 @@ class UrllibLiteratureTransport:
         parsed = urlsplit(url)
         if parsed.scheme != "https" or parsed.hostname not in ALLOWED_HOSTS:
             raise ValueError("literature API URL must use an approved HTTPS host")
-        if self._last_request_at is not None:
-            elapsed = time.monotonic() - self._last_request_at
-            time.sleep(max(0.0, self._minimum_request_interval_seconds - elapsed))
         request = Request(
             f"{url}?{urlencode(parameters)}",
             headers={"Accept": JSON_MEDIA_TYPE, "User-Agent": "NaS-Core/0.1"},
         )
+        for attempt in range(self._maximum_attempts):
+            self._pace_request()
+            try:
+                with urlopen(  # noqa: S310
+                    request,
+                    timeout=self._timeout_seconds,
+                    context=self._ssl_context,
+                ) as response:
+                    return HTTPResponse(
+                        status_code=response.status,
+                        headers=dict(response.headers.items()),
+                        body=response.read(),
+                    )
+            except HTTPError as error:
+                if error.code not in {429, 500, 502, 503, 504}:
+                    return HTTPResponse(
+                        status_code=error.code,
+                        headers=dict(error.headers.items()),
+                        body=error.read(),
+                    )
+                last_error: Exception = error
+            except (TimeoutError, URLError) as error:
+                last_error = error
+            if attempt + 1 < self._maximum_attempts:
+                time.sleep(self._retry_backoff_seconds * (2**attempt))
+        raise RemoteResponseError(
+            f"literature API request failed after {self._maximum_attempts} attempts"
+        ) from last_error
+
+    def _pace_request(self) -> None:
+        if self._last_request_at is not None:
+            elapsed = time.monotonic() - self._last_request_at
+            time.sleep(max(0.0, self._minimum_request_interval_seconds - elapsed))
         self._last_request_at = time.monotonic()
-        with urlopen(  # noqa: S310
-            request,
-            timeout=self._timeout_seconds,
-            context=self._ssl_context,
-        ) as response:
-            return HTTPResponse(
-                status_code=response.status,
-                headers=dict(response.headers.items()),
-                body=response.read(),
-            )
 
 
 @dataclass(frozen=True, slots=True)
@@ -103,14 +141,18 @@ class LiteratureSearchService:
         transport: LiteratureTransport | None = None,
         clock: Callable[[], datetime] | None = None,
         page_size: int = 500,
+        maximum_source_records: int = 5000,
     ) -> None:
         if not 1 <= page_size <= 1000:
             raise ValueError("page_size must be between 1 and 1000")
+        if maximum_source_records < 1:
+            raise ValueError("maximum_source_records must be positive")
         self._store = store
         self._registry = registry
         self._transport = transport or UrllibLiteratureTransport()
         self._clock = clock or (lambda: datetime.now(UTC))
         self._page_size = page_size
+        self._maximum_source_records = maximum_source_records
 
     def capture(
         self,
@@ -119,33 +161,9 @@ class LiteratureSearchService:
         *,
         contact_email: str,
     ) -> LiteratureSearchSnapshot:
-        if not strategy.retrieval_authorized or strategy.status.value != "locked":
-            raise PermissionError("a locked, retrieval-authorized search strategy is required")
-        if plan.authorization is None or plan.authorization.decision.value != "approved":
-            raise PermissionError("founder Phase 0 authorization is required")
-        if "@" not in contact_email or contact_email.startswith("@"):
-            raise ValueError("a valid contact email is required by the literature APIs")
-
-        for source in strategy.sources:
-            registration = self._registry.get(source.source_id)
-            policy = GovernancePolicy()
-            policy.authorize(
-                registration,
-                DataAction.INGEST,
-                actor_role="researcher",
-                purpose="evidence-synthesis",
-            )
-            policy.authorize(
-                registration,
-                DataAction.STORE,
-                actor_role="researcher",
-                purpose="evidence-synthesis",
-            )
-
+        self._authorize(plan, strategy, contact_email)
         executed_at = self._clock()
-        source_queries = {source.source_id: source.query for source in strategy.sources}
-        if set(source_queries) != {"pubmed", "europe-pmc"}:
-            raise ValueError("the current literature runner requires PubMed and Europe PMC")
+        source_queries = self._source_queries(strategy)
         pubmed = self._capture_pubmed(source_queries["pubmed"], contact_email)
         europe = self._capture_europe_pmc(source_queries["europe-pmc"], contact_email)
         captured = [pubmed, europe]
@@ -209,6 +227,92 @@ class LiteratureSearchService:
         self._put_immutable(f"{prefix}/manifest.json", manifest_bytes)
         return snapshot
 
+    def preview_counts(
+        self,
+        plan: PhaseZeroPlan,
+        strategy: LiteratureSearchStrategy,
+        *,
+        contact_email: str,
+    ) -> dict[str, int]:
+        """Contact each source once to assess corpus size without storing records."""
+
+        self._authorize(plan, strategy, contact_email)
+        queries = self._source_queries(strategy)
+        pubmed_params = {
+            "db": "pubmed",
+            "term": queries["pubmed"],
+            "retmode": "json",
+            "retmax": "0",
+            "tool": "nas_core",
+            "email": contact_email,
+        }
+        pubmed_payload = self._json(
+            self._checked(self._transport.get(PUBMED_SEARCH_URL, pubmed_params), "PubMed").body,
+            "PubMed count preview",
+        )
+        search_result = pubmed_payload.get("esearchresult")
+        if not isinstance(search_result, dict):
+            raise RemoteResponseError("PubMed count preview is missing esearchresult")
+        try:
+            pubmed_count = int(str(search_result["count"]))
+        except (KeyError, TypeError, ValueError) as error:
+            raise RemoteResponseError("PubMed count preview has an invalid count") from error
+
+        europe_params = {
+            "query": queries["europe-pmc"],
+            "format": "json",
+            "resultType": "idlist",
+            "pageSize": "1",
+            "cursorMark": "*",
+            "email": contact_email,
+        }
+        europe_payload = self._json(
+            self._checked(
+                self._transport.get(EUROPE_PMC_SEARCH_URL, europe_params), "Europe PMC"
+            ).body,
+            "Europe PMC count preview",
+        )
+        europe_count = europe_payload.get("hitCount")
+        if not isinstance(europe_count, int):
+            raise RemoteResponseError("Europe PMC count preview has an invalid hitCount")
+        return {"pubmed": pubmed_count, "europe-pmc": europe_count}
+
+    def _authorize(
+        self,
+        plan: PhaseZeroPlan,
+        strategy: LiteratureSearchStrategy,
+        contact_email: str,
+    ) -> None:
+        if not strategy.retrieval_authorized or strategy.status.value != "locked":
+            raise PermissionError("a locked, retrieval-authorized search strategy is required")
+        if plan.authorization is None or plan.authorization.decision.value != "approved":
+            raise PermissionError("founder Phase 0 authorization is required")
+        if "@" not in contact_email or contact_email.startswith("@"):
+            raise ValueError("a valid contact email is required by the literature APIs")
+
+        for source in strategy.sources:
+            registration = self._registry.get(source.source_id)
+            policy = GovernancePolicy()
+            policy.authorize(
+                registration,
+                DataAction.INGEST,
+                actor_role="researcher",
+                purpose="evidence-synthesis",
+            )
+            policy.authorize(
+                registration,
+                DataAction.STORE,
+                actor_role="researcher",
+                purpose="evidence-synthesis",
+            )
+
+    @staticmethod
+    def _source_queries(strategy: LiteratureSearchStrategy) -> dict[str, str]:
+        source_queries = {source.source_id: source.query for source in strategy.sources}
+        if set(source_queries) != {"pubmed", "europe-pmc"}:
+            raise ValueError("the current literature runner requires PubMed and Europe PMC")
+        return source_queries
+
     def _capture_pubmed(self, query: str, contact_email: str) -> _CapturedSource:
         requests: list[LiteratureRequest] = []
         bodies: list[bytes] = []
@@ -238,6 +342,10 @@ class LiteratureSearchService:
                 raise RemoteResponseError("PubMed response has invalid count or IDs") from error
             if page_total > 9999:
                 raise RemoteResponseError("PubMed search exceeds 9,999 records; partition by date")
+            if page_total > self._maximum_source_records:
+                raise RemoteResponseError(
+                    f"PubMed search returned {page_total} records; refine the locked strategy"
+                )
             total = page_total if total is None else total
             if page_total != total:
                 raise RemoteResponseError("PubMed result count changed during retrieval")
@@ -249,8 +357,7 @@ class LiteratureSearchService:
             offset += len(page_ids)
 
         records: list[BibliographicRecord] = []
-        for start in range(0, len(ids), self._page_size):
-            batch = ids[start : start + self._page_size]
+        for batch in pubmed_summary_batches(ids):
             params = {
                 "db": "pubmed",
                 "id": ",".join(batch),
@@ -285,7 +392,7 @@ class LiteratureSearchService:
                 "query": query,
                 "format": "json",
                 "resultType": "core",
-                "pageSize": str(self._page_size),
+                "pageSize": str(min(self._page_size, EUROPE_PMC_PAGE_SIZE)),
                 "cursorMark": cursor,
                 "email": contact_email,
             }
@@ -301,6 +408,10 @@ class LiteratureSearchService:
             if not isinstance(page, list):
                 raise RemoteResponseError("Europe PMC response has an invalid result page")
             total = hit_count if total is None else total
+            if hit_count > self._maximum_source_records:
+                raise RemoteResponseError(
+                    f"Europe PMC search returned {hit_count} records; refine the locked strategy"
+                )
             if hit_count != total:
                 raise RemoteResponseError("Europe PMC result count changed during retrieval")
             page_records = [

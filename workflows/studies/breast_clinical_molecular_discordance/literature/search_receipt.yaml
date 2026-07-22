@@ -1,0 +1,36 @@
+schema_version: 1.0.0
+execution_id: 9eec16567fa6a9d161c9884f617cd07238d52d4bdaebe3f8a999e406429bc185
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.2.0
+strategy_version: 0.1.1
+executed_at: 2026-07-22T18:43:21.791974Z
+source_results:
+  - source_id: pubmed
+    reported_result_count: 391
+    retrieved_record_count: 391
+    request_count: 5
+    raw_object_count: 5
+  - source_id: europe-pmc
+    reported_result_count: 123
+    retrieved_record_count: 123
+    request_count: 2
+    raw_object_count: 2
+unique_record_count: 457
+duplicate_record_count: 57
+manifest_object_key: >-
+  literature/NAS-BRCA-002/9eec16567fa6a9d161c9884f617cd07238d52d4bdaebe3f8a999e406429bc185/manifest.json
+manifest_sha256: 1f04163829c732221b83c07e57cc87dcf7f3119b74e3a3d55d973bc50e68dec2
+normalized_records_object_key: >-
+  literature/NAS-BRCA-002/9eec16567fa6a9d161c9884f617cd07238d52d4bdaebe3f8a999e406429bc185/normalized-records.json
+normalized_records_sha256: 73b62dd9a704f9640d6e66627099398ae928b37671a437c37be098791048f243
+normalized_records_size_bytes: 459151
+verified_at: 2026-07-22T13:45:22-05:00
+manifest_checksum_verified: true
+object_checksums_verified: true
+object_sizes_verified: true
+record_count_invariants_verified: true
+verified_object_count: 8
+screening_status: not_started
+scientific_conclusions_drawn: false
+outcome_data_accessed: false
