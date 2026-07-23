@@ -35,9 +35,12 @@ from nas_core.domain.literature import (
     load_screening_decision_batch,
     load_screening_progress_receipt,
     load_screening_queue_receipt,
+    write_inventory_reconciliation_receipt,
+    write_inventory_reconciliation_schema,
     write_literature_schemas,
     write_literature_search_receipt,
     write_screening_progress_receipt,
+    write_screening_queue_receipt,
     write_screening_review_schemas,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
@@ -57,6 +60,7 @@ from nas_core.retrieval.literature import (
     LiteratureSearchVerificationService,
 )
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
+from nas_core.retrieval.reconciliation import InventoryReconciliationService
 from nas_core.retrieval.review import ScreeningReviewService
 from nas_core.retrieval.screening import ScreeningQueueService
 from nas_core.storage.layout import DataLayout
@@ -268,6 +272,27 @@ def build_parser() -> argparse.ArgumentParser:
     screening_build.add_argument(
         "--execute", action="store_true", help="Read verified records and persist the queue"
     )
+    screening_verify = literature_commands.add_parser(
+        "screening-verify", help="Independently verify a stored screening queue"
+    )
+    screening_verify.add_argument("study_id")
+    screening_verify.add_argument("search_execution_id")
+    screening_verify.add_argument("queue_id")
+    screening_verify.add_argument("output_path", type=Path)
+    screening_reconcile = literature_commands.add_parser(
+        "screening-reconcile",
+        help="Reconcile a revised queue against a prior inventory without carrying decisions",
+    )
+    screening_reconcile.add_argument("current_receipt", type=Path)
+    screening_reconcile.add_argument("prior_receipt", type=Path)
+    screening_reconcile.add_argument("--code-revision", required=True)
+    screening_reconcile.add_argument("--receipt-output", type=Path)
+    screening_reconcile.add_argument("--execute", action="store_true")
+    reconciliation_schema = literature_commands.add_parser(
+        "screening-reconciliation-schema",
+        help="Write the inventory-reconciliation receipt JSON Schema",
+    )
+    reconciliation_schema.add_argument("output_path", type=Path)
     screening_next = literature_commands.add_parser(
         "screening-next", help="Display the next resumable founder-review batch"
     )
@@ -704,6 +729,60 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"Created immutable screening queue {queue.queue_id}: "
             f"{queue.summary.pending_record_count} pending human decisions"
         )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-verify":
+        queue_receipt = ScreeningQueueService(store=get_object_store()).verify(
+            args.study_id,
+            args.search_execution_id,
+            args.queue_id,
+        )
+        write_screening_queue_receipt(args.output_path, queue_receipt)
+        print(
+            f"Verified screening queue {queue_receipt.queue_id}: "
+            f"{queue_receipt.summary.pending_record_count} pending records; "
+            f"receipt {args.output_path}"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-reconcile":
+        current_receipt = load_screening_queue_receipt(args.current_receipt)
+        prior_receipt = load_screening_queue_receipt(args.prior_receipt)
+        if not args.execute:
+            print(
+                f"Inventory reconciliation ready: current {current_receipt.queue_id}, "
+                f"prior {prior_receipt.queue_id}, code {args.code_revision}"
+            )
+            print("Dry run only; no queue records were read and no artifact was stored.")
+            return 0
+        if args.receipt_output is None:
+            raise SystemExit("--receipt-output is required with --execute")
+        reconciliation_receipt = InventoryReconciliationService(
+            store=get_object_store()
+        ).reconcile(
+            current_receipt,
+            prior_receipt,
+            code_revision=args.code_revision,
+        )
+        write_inventory_reconciliation_receipt(
+            args.receipt_output,
+            reconciliation_receipt,
+        )
+        print(
+            f"Reconciled inventory {reconciliation_receipt.reconciliation_id}: "
+            f"{reconciliation_receipt.prior_exact_match_count} exact prior matches, "
+            f"{reconciliation_receipt.author_year_candidate_count} author-year candidates, "
+            f"{reconciliation_receipt.new_candidate_count} new candidates"
+        )
+        print(f"Wrote verified aggregate receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "screening-reconciliation-schema"
+    ):
+        write_inventory_reconciliation_schema(args.output_path)
+        print(f"Wrote inventory-reconciliation schema: {args.output_path}")
         return 0
 
     if args.command == "literature" and args.literature_command == "screening-next":

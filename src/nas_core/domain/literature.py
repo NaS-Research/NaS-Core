@@ -198,6 +198,50 @@ class ScreeningQueueReceipt(LiteratureModel):
     scientific_conclusions_drawn: bool
 
 
+class InventoryReconciliationStatus(StrEnum):
+    PRIOR_EXACT_MATCH = "prior_exact_match"
+    AUTHOR_YEAR_CANDIDATE = "author_year_candidate"
+    NEW_CANDIDATE = "new_candidate"
+
+
+class InventoryReconciliationReceipt(LiteratureModel):
+    schema_version: str = "1.0.0"
+    reconciliation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(min_length=1)
+    current_queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    prior_queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    algorithm_version: str = Field(min_length=1)
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    created_at: datetime
+    artifact_object_key: str = Field(min_length=1)
+    artifact_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    artifact_size_bytes: int = Field(ge=1)
+    current_record_count: int = Field(ge=1)
+    prior_record_count: int = Field(ge=1)
+    prior_exact_match_count: int = Field(ge=0)
+    author_year_candidate_count: int = Field(ge=0)
+    new_candidate_count: int = Field(ge=0)
+    verified_at: datetime
+    input_checksums_verified: bool
+    artifact_checksum_verified: bool
+    classification_counts_verified: bool
+    prior_decisions_carried_forward: bool
+    scientific_conclusions_drawn: bool
+
+    @model_validator(mode="after")
+    def validate_reconciliation(self) -> InventoryReconciliationReceipt:
+        classified = (
+            self.prior_exact_match_count
+            + self.author_year_candidate_count
+            + self.new_candidate_count
+        )
+        if classified != self.current_record_count:
+            raise ValueError("reconciliation classifications must cover every current record")
+        if self.prior_decisions_carried_forward:
+            raise ValueError("prior screening decisions cannot carry into a revised question")
+        return self
+
+
 class ScreeningExclusionReason(StrEnum):
     NONHUMAN_OR_NO_PRIMARY_HUMAN_TUMOR_COHORT = "nonhuman_or_no_primary_human_tumor_cohort"
     NO_MOLECULAR_INTRINSIC_SUBTYPE_MEASURE = "no_molecular_intrinsic_subtype_measure"
@@ -412,6 +456,23 @@ def load_screening_queue_receipt(path: Path) -> ScreeningQueueReceipt:
     return ScreeningQueueReceipt.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
 
+def write_screening_queue_receipt(path: Path, receipt: ScreeningQueueReceipt) -> None:
+    _write_exclusive_yaml(path, receipt)
+
+
+def load_inventory_reconciliation_receipt(path: Path) -> InventoryReconciliationReceipt:
+    return InventoryReconciliationReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_inventory_reconciliation_receipt(
+    path: Path,
+    receipt: InventoryReconciliationReceipt,
+) -> None:
+    _write_exclusive_yaml(path, receipt)
+
+
 def load_screening_progress_receipt(path: Path) -> ScreeningProgressReceipt:
     return ScreeningProgressReceipt.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
@@ -421,9 +482,13 @@ def load_screening_decision_batch(path: Path) -> ScreeningDecisionBatch:
 
 
 def write_screening_progress_receipt(path: Path, receipt: ScreeningProgressReceipt) -> None:
+    _write_exclusive_yaml(path, receipt)
+
+
+def _write_exclusive_yaml(path: Path, model: LiteratureModel) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = yaml.safe_dump(
-        receipt.model_dump(mode="json", exclude_none=True),
+        model.model_dump(mode="json", exclude_none=True),
         sort_keys=False,
         width=100,
     )
@@ -444,6 +509,16 @@ def write_screening_review_schemas(
         path.parent.mkdir(parents=True, exist_ok=True)
         payload = json.dumps(model.model_json_schema(), indent=2, sort_keys=True)
         path.write_text(f"{payload}\n", encoding="utf-8")
+
+
+def write_inventory_reconciliation_schema(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(
+        InventoryReconciliationReceipt.model_json_schema(),
+        indent=2,
+        sort_keys=True,
+    )
+    path.write_text(f"{payload}\n", encoding="utf-8")
 
 
 def write_literature_schemas(

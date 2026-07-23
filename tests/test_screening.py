@@ -110,6 +110,43 @@ def test_build_creates_pending_human_queue_without_decisions() -> None:
     assert all("reviewer" not in row for row in rows)
 
 
+def test_verify_reloads_queue_and_recomputes_invariants() -> None:
+    store, receipt = _fixture()
+    service = ScreeningQueueService(store=store, clock=lambda: NOW)
+    manifest = service.build(receipt, code_revision="d459191")
+
+    verified = service.verify(
+        manifest.study_id,
+        manifest.search_execution_id,
+        manifest.queue_id,
+    )
+
+    assert verified.queue_id == manifest.queue_id
+    assert verified.summary.input_record_count == 2
+    assert verified.summary.pending_record_count == 2
+    assert verified.manifest_checksum_verified is True
+    assert verified.artifact_checksums_verified is True
+    assert verified.record_count_verified is True
+    assert verified.scientific_conclusions_drawn is False
+
+
+def test_verify_rejects_corrupted_queue_artifact() -> None:
+    store, receipt = _fixture()
+    service = ScreeningQueueService(store=store, clock=lambda: NOW)
+    manifest = service.build(receipt, code_revision="d459191")
+    queue_object = next(
+        artifact for artifact in manifest.artifacts if artifact.object_key.endswith(".jsonl")
+    )
+    store.put_bytes(queue_object.object_key, b"corrupted", content_type="application/x-ndjson")
+
+    with pytest.raises(ScreeningQueueError, match="artifact verification failed"):
+        service.verify(
+            manifest.study_id,
+            manifest.search_execution_id,
+            manifest.queue_id,
+        )
+
+
 def test_build_rejects_tampered_normalized_records() -> None:
     store, receipt = _fixture()
     receipt = receipt.model_copy(

@@ -14,8 +14,10 @@ from nas_core.domain.literature import (
     LiteratureSearchReceipt,
     ScreeningDecision,
     ScreeningQueueManifest,
+    ScreeningQueueReceipt,
     ScreeningQueueRecord,
     ScreeningQueueSummary,
+    ScreeningStatus,
 )
 from nas_core.domain.snapshots import StoredObject
 from nas_core.ingestion.gdc import ImmutableObjectConflictError, canonical_json, sha256
@@ -109,6 +111,132 @@ class ScreeningQueueService:
             content_type=JSON_MEDIA_TYPE,
         )
         return manifest
+
+    def verify(
+        self,
+        study_id: str,
+        search_execution_id: str,
+        queue_id: str,
+    ) -> ScreeningQueueReceipt:
+        for label, value in (
+            ("search execution ID", search_execution_id),
+            ("queue ID", queue_id),
+        ):
+            if not re.fullmatch(r"[a-f0-9]{64}", value):
+                raise ScreeningQueueError(f"{label} must be a SHA-256")
+        if not re.fullmatch(r"NAS-[A-Z0-9]+-[0-9]{3}", study_id):
+            raise ScreeningQueueError("study ID is invalid")
+
+        prefix = f"literature-screening/{study_id}/{search_execution_id}/{queue_id}"
+        manifest_key = f"{prefix}/manifest.json"
+        if not self._store.exists(manifest_key):
+            raise ScreeningQueueError("screening queue manifest does not exist")
+        try:
+            manifest = ScreeningQueueManifest.model_validate_json(
+                self._store.get_bytes(manifest_key)
+            )
+        except (ValidationError, ValueError) as error:
+            raise ScreeningQueueError("screening queue manifest is invalid") from error
+        if (
+            manifest.study_id != study_id
+            or manifest.search_execution_id != search_execution_id
+            or manifest.queue_id != queue_id
+        ):
+            raise ScreeningQueueError("screening queue manifest identity does not match its key")
+
+        payload = manifest.model_dump(mode="json", exclude_none=True)
+        declared_manifest_sha256 = payload.pop("manifest_sha256", None)
+        if (
+            declared_manifest_sha256 is None
+            or sha256(canonical_json(payload)) != declared_manifest_sha256
+        ):
+            raise ScreeningQueueError("screening queue manifest checksum verification failed")
+        if len(manifest.artifacts) != 2:
+            raise ScreeningQueueError("screening queue must contain exactly two artifacts")
+
+        bodies: dict[str, bytes] = {}
+        for artifact in manifest.artifacts:
+            if not self._store.exists(artifact.object_key):
+                raise ScreeningQueueError("one or more screening queue artifacts are missing")
+            body = self._store.get_bytes(artifact.object_key)
+            if sha256(body) != artifact.sha256 or len(body) != artifact.size_bytes:
+                raise ScreeningQueueError("screening queue artifact verification failed")
+            bodies[artifact.object_key] = body
+
+        queue_artifact = next(
+            (
+                item
+                for item in manifest.artifacts
+                if item.object_key.endswith("/title-abstract-queue.jsonl")
+            ),
+            None,
+        )
+        summary_artifact = next(
+            (
+                item
+                for item in manifest.artifacts
+                if item.object_key.endswith("/queue-summary.json")
+            ),
+            None,
+        )
+        if queue_artifact is None or summary_artifact is None:
+            raise ScreeningQueueError("screening queue artifact roles are invalid")
+        try:
+            rows = [
+                ScreeningQueueRecord.model_validate_json(line)
+                for line in bodies[queue_artifact.object_key].splitlines()
+                if line
+            ]
+            stored_summary = ScreeningQueueSummary.model_validate_json(
+                bodies[summary_artifact.object_key]
+            )
+        except (ValidationError, ValueError) as error:
+            raise ScreeningQueueError("screening queue artifacts are invalid") from error
+
+        screening_ids = [row.screening_id for row in rows]
+        expected_ids = [
+            sha256(
+                canonical_json(
+                    {
+                        "execution_id": search_execution_id,
+                        "record_key": row.record_key,
+                    }
+                )
+            )
+            for row in rows
+        ]
+        recalculated_summary = self._summary(rows)
+        if (
+            screening_ids != expected_ids
+            or len(screening_ids) != len(set(screening_ids))
+            or any(row.decision is not ScreeningDecision.PENDING for row in rows)
+            or stored_summary != recalculated_summary
+            or manifest.summary != recalculated_summary
+            or manifest.human_decisions_recorded != 0
+            or manifest.ai_decisions_recorded != 0
+        ):
+            raise ScreeningQueueError("screening queue record-count verification failed")
+
+        return ScreeningQueueReceipt(
+            queue_id=manifest.queue_id,
+            study_id=manifest.study_id,
+            search_execution_id=manifest.search_execution_id,
+            algorithm_version=manifest.algorithm_version,
+            code_revision=manifest.code_revision,
+            created_at=manifest.created_at,
+            manifest_object_key=manifest_key,
+            manifest_sha256=declared_manifest_sha256,
+            queue_object_key=queue_artifact.object_key,
+            queue_sha256=queue_artifact.sha256,
+            queue_size_bytes=queue_artifact.size_bytes,
+            summary=manifest.summary,
+            verified_at=self._clock(),
+            manifest_checksum_verified=True,
+            artifact_checksums_verified=True,
+            record_count_verified=True,
+            screening_status=ScreeningStatus.NOT_STARTED,
+            scientific_conclusions_drawn=False,
+        )
 
     @staticmethod
     def _validate_receipt(receipt: LiteratureSearchReceipt, code_revision: str) -> None:
