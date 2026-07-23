@@ -1,0 +1,115 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 0ffb04676d622758119fa9460e3e0c03be1ab53e6fef5c26c7800b4f5bae5103
+title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
+pmid: '37857634'
+doi: 10.1038/s41523-023-00589-0
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10587090/fullTextXML
+full_text_sha256: 2ca3db6fae40accbc47d98f6b0ff4aedbdb976d8cdde7cda059d6abbf4520e2a
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The population-based SCAN-B cohort is large and was reported as representative of
+      its South Sweden healthcare region, but this analysis used 6,233 complete cases
+      (93.6% of a previously defined 6,660-patient early-stage cohort). Detailed original
+      inclusion and exclusion criteria and the consequences of the omitted cases are
+      deferred to an earlier publication.
+    evidence_locations:
+      - Methods — Unselected population-based breast cancer cohort
+      - Discussion — first paragraph
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Curated RNA sequencing and registry-derived ER, PR, and HER2 data were available,
+      but key processing detail is incorporated by reference. The authors explicitly state
+      that bulk-tissue sampling, tissue heterogeneity, and cellularity could not be properly
+      addressed and can affect PAM50 assignment.
+    evidence_locations:
+      - Methods — Unselected population-based breast cancer cohort
+      - Discussion — limitations paragraph beginning “A limitation of the current study”
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      The PAM50 nearest-centroid implementation, 100 reference-set repetitions, majority
+      vote, averaged centroid correlations, gene-cluster construction, and leave-one-cluster-
+      out perturbation rule are described sufficiently to understand and reproduce the
+      classifier experiment with the cited upstream method and software.
+    evidence_locations:
+      - Methods — Unselected population-based breast cancer cohort
+      - Methods — PAM50 gene set clustering
+      - Methods — PAM50 reclassification by the leave-oneGeneCluster-out strategy
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Clinical subgroups were defined using cancer-registry ER, PR, and HER2 status and are
+      appropriate comparators for the stated stratified question, but assay methods,
+      positivity cutoffs, discordance adjudication, and temporal measurement details are
+      not reported in this article.
+    evidence_locations:
+      - Methods — Unselected population-based breast cancer cohort
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The paper identifies two-sided testing, Spearman correlations, Kaplan–Meier curves,
+      log-rank tests, and Cox models with software versions. However, it does not describe
+      a study-wide multiplicity strategy for the many subgroup, gene-set, and survival
+      comparisons, covariate adjustment, proportional-hazards diagnostics, or missing-data
+      handling. Prognostic findings are framed as associations and future-validation targets.
+    evidence_locations:
+      - Methods — Statistical methods
+      - Methods — Survival analysis
+      - Discussion — paragraph beginning “While the LOGO strategy can inform”
+      - Discussion — concluding paragraph
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      The cohort is large and population based, and limited TCGA comparisons support selected
+      gene-correlation observations. The classifier-stability and prognostic results were not
+      independently replicated as a complete analysis, the cohort is from one Swedish region,
+      and the authors explicitly call for validation in larger cohorts before clinical use.
+    evidence_locations:
+      - Discussion — first paragraph
+      - Discussion — gene-cluster interpretation paragraph
+      - Discussion — second-best subtype survival paragraph
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Processed RNA-sequencing and clinical data are linked to an open repository, software
+      versions are reported, and SRIQ clustering code is linked. A complete executable
+      end-to-end analysis package, environment lockfile, and all analysis code are not supplied
+      in the article’s code-availability statement.
+    evidence_locations:
+      - Methods — Statistical methods
+      - Methods — Survival analysis
+      - Data availability
+      - Code availability
+evidence_role: supporting
+key_strengths:
+  - Large population-based cohort with 6,233 primary invasive breast cancers.
+  - Repeated-reference PAM50 classification reduces dependence on a single centering set.
+  - Perturbation is systematic and stratified by clinically relevant receptor groups.
+  - Authors distinguish exploratory prognostic associations from results needing validation.
+key_limitations:
+  - No independent end-to-end replication of classifier-stability or prognostic findings.
+  - Complete-case selection and detailed eligibility are not fully evaluated in this report.
+  - No stated study-wide multiplicity control, Cox covariate plan, or proportional-hazards checks.
+  - Bulk-tissue heterogeneity, sampling, and cellularity can affect PAM50 subtype assignment.
+  - Generalizability beyond the South Sweden cohort and research RNA-seq workflow is uncertain.
+conflicts_and_funding: >-
+  The authors declare no competing interests. Open-access funding was provided by Lund
+  University; additional funders are listed in the article acknowledgements.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable for
+  the locked eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T19:30:00-05:00
+scientific_conclusions_drawn: false

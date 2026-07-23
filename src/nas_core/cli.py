@@ -15,6 +15,7 @@ from nas_core.domain.advisory import (
 )
 from nas_core.domain.appraisal import (
     load_full_text_appraisal,
+    write_full_text_appraisal_progress,
     write_full_text_retrieval_receipt,
 )
 from nas_core.domain.cohorts import (
@@ -37,6 +38,7 @@ from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
+from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
 from nas_core.retrieval.literature import LiteratureSearchService
@@ -295,6 +297,21 @@ def build_parser() -> argparse.ArgumentParser:
         help="Validate one full-text eligibility and quality appraisal",
     )
     appraisal_validate.add_argument("path", type=Path, help="Full-text appraisal YAML")
+    appraisal_progress = literature_commands.add_parser(
+        "appraisal-progress",
+        help="Reconcile founder inclusions, verified full texts, and completed appraisals",
+    )
+    appraisal_progress.add_argument("receipt", type=Path, help="Screening queue receipt")
+    appraisal_progress.add_argument(
+        "progress_receipt", type=Path, help="Latest founder progress receipt"
+    )
+    appraisal_progress.add_argument(
+        "full_text_receipt_dir", type=Path, help="Directory of verified full-text receipts"
+    )
+    appraisal_progress.add_argument(
+        "appraisal_dir", type=Path, help="Directory of completed appraisal YAML files"
+    )
+    appraisal_progress.add_argument("output_path", type=Path)
     full_text_inventory = literature_commands.add_parser(
         "full-text-inventory",
         help="Build a verified access inventory from founder-included records",
@@ -705,6 +722,27 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"Full-text appraisal is valid: {appraisal.study_id}, "
             f"{appraisal.screening_id}, {appraisal.evidence_role}"
         )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "appraisal-progress":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = load_screening_progress_receipt(args.progress_receipt)
+        inventory = FullTextInventoryService(store=get_object_store()).build(
+            queue_receipt,
+            progress_receipt,
+        )
+        appraisal_progress = FullTextAppraisalProgressService().build(
+            inventory,
+            retrieval_receipt_paths=sorted(args.full_text_receipt_dir.glob("*.yaml")),
+            appraisal_paths=sorted(args.appraisal_dir.glob("*.yaml")),
+        )
+        write_full_text_appraisal_progress(args.output_path, appraisal_progress)
+        print(
+            f"Appraisal progress: {appraisal_progress.appraisals_completed}/"
+            f"{appraisal_progress.provisional_inclusion_count} completed; "
+            f"{appraisal_progress.full_texts_retrieved} full texts retrieved"
+        )
+        print(f"Wrote reconciled progress: {args.output_path}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-inventory":

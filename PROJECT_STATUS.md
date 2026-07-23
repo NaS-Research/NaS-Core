@@ -56,13 +56,17 @@ Current gate state:
   safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
+- Full-text progress is now mechanically reconciled: 1 of 27 founder inclusions has
+  a verified full text and completed appraisal. `PMC10587090` is eligible as
+  supporting—not anchor—evidence; no scientific conclusion was drawn.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
   a pending founder results/remediation decision.
 
 ## Next implementation queue
 
-1. Complete the founder appraisal of `PMC10587090` with section-located evidence,
-   then lock its eligibility and `anchor`, `supporting`, or `context_only` role.
+1. Retrieve and appraise the next highest-value lawful full text, prioritizing the
+   direct PAM50 classification-uncertainty record `PMC3275466` if its item-level
+   license passes the allowlist.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
 3. Complete founder decisions, populate the evidence matrix, and produce a novelty
@@ -94,6 +98,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — First full-text appraisal and resumable progress ledger
+
+Completed a section-located methodological appraisal of `PMC10587090`. The study is
+eligible as `supporting` evidence, not anchor evidence: its large population-based
+cohort and systematic PAM50 perturbation are valuable, while complete-case selection,
+bulk-tissue heterogeneity, incomplete multiplicity/model-diagnostic reporting, and
+the absence of independent end-to-end validation limit its role. AI assistance is
+explicitly disclosed, founder authorization is required, and the record itself draws
+no scientific conclusion. Implemented a deterministic progress ledger that derives
+state from the verified 27-record founder inclusion set, full-text receipts, and
+completed appraisals; rejects missing receipts, duplicates, identity/checksum drift,
+stale screening state, and invalid verification flags; and reports 1 of 27 complete.
+
+Validation: appraisal schema validation, Ruff, strict MyPy across 54 source files,
+and all 133 tests passed.
 
 ### 2026-07-22 — First verified licensed full-text artifact
 
@@ -156,19 +176,6 @@ real paper has been appraised or assigned an evidence role.
 
 Validation: anchor, high-risk, incomplete-domain, and no-conclusion invariants;
 Ruff, strict MyPy, study-contract validation, and all 123 tests passed.
-
-### 2026-07-22 — Core-priority title/abstract screening complete
-
-Recorded and independently verified the final nine core-priority founder decisions:
-eight inclusions and one protocol-based exclusion. All 29 records in the locked core
-tier have now been reviewed. The cumulative immutable state is 34 of 457 records
-decided: 27 provisionally included, 7 excluded, 423 pending, zero unclear, and zero
-AI decisions. Provisional inclusion authorizes full-text eligibility review only;
-it is not a quality judgment or evidence conclusion.
-
-Validation: exact prior-state binding, queue membership, reviewer provenance,
-exclusion taxonomy, event-chain and artifact hashes, reconciled cumulative counts,
-and human-only boundary independently verified.
 
 ## Current blockers
 

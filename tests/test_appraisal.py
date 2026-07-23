@@ -34,6 +34,8 @@ def _payload(*, role: str = "anchor", validation: str = "low") -> dict[str, obje
         "conflicts_and_funding": "None declared in synthetic fixture.",
         "reviewer_id": "dalron-j-robertson",
         "reviewer_name": "Dalron J. Robertson",
+        "review_method": "founder_only",
+        "founder_authorized": True,
         "assessed_at": datetime(2026, 7, 22, tzinfo=UTC),
     }
 
@@ -64,4 +66,20 @@ def test_appraisal_requires_each_domain_once() -> None:
     payload["domains"] = payload["domains"][:-1]  # type: ignore[index]
 
     with pytest.raises(ValidationError, match="at least 7 items"):
+        FullTextAppraisal.model_validate(payload)
+
+
+def test_ai_assisted_appraisal_requires_disclosure() -> None:
+    payload = _payload()
+    payload["review_method"] = "founder_with_ai_assistance"
+
+    with pytest.raises(ValidationError, match="assistant disclosure"):
+        FullTextAppraisal.model_validate(payload)
+
+
+def test_locked_appraisal_requires_founder_authorization() -> None:
+    payload = _payload()
+    payload["founder_authorized"] = False
+
+    with pytest.raises(ValidationError, match="founder authorization"):
         FullTextAppraisal.model_validate(payload)

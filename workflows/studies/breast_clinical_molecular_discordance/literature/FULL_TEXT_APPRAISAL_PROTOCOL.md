@@ -1,6 +1,6 @@
 # Full-Text Eligibility and Quality-Appraisal Protocol
 
-Version: `1.0.0`
+Version: `1.0.1`
 
 This gate applies to the 27 provisional title/abstract inclusions. Relevance rank,
 journal name, citation count, novelty, and favorable results are not measures of
@@ -52,3 +52,11 @@ appraised under the same rules as favorable findings.
 5. Validate the YAML with `nas-core literature appraisal-validate`.
 6. Founder reviews and locks the appraisal; later evidence claims cite the locked
    appraisal and exact source artifact.
+7. Rebuild `appraisal_progress.yaml` from the verified screening state, retrieval
+   receipts, and appraisal files. A completed appraisal without a matching verified
+   full-text receipt is rejected.
+
+AI may assist with extracting section-located methods and proposing judgments only
+when that assistance is disclosed. The founder remains the accountable reviewer,
+must explicitly authorize the locked record, and AI assistance cannot create a
+scientific result or substitute for later external peer review.

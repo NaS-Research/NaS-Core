@@ -56,9 +56,20 @@ class EvidenceRole(StrEnum):
     EXCLUDED = "excluded"
 
 
+class AppraisalReviewMethod(StrEnum):
+    FOUNDER_ONLY = "founder_only"
+    FOUNDER_WITH_AI_ASSISTANCE = "founder_with_ai_assistance"
+
+
 class FullTextAccessStatus(StrEnum):
     REPOSITORY_CANDIDATE = "repository_candidate"
     ACCESS_CHECK_REQUIRED = "access_check_required"
+
+
+class AppraisalCompletionStatus(StrEnum):
+    AWAITING_FULL_TEXT = "awaiting_full_text"
+    READY_FOR_APPRAISAL = "ready_for_appraisal"
+    COMPLETED = "completed"
 
 
 class FullTextInventoryRecord(AppraisalModel):
@@ -190,6 +201,9 @@ class FullTextAppraisal(AppraisalModel):
     conflicts_and_funding: str = Field(min_length=1)
     reviewer_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
     reviewer_name: str = Field(min_length=1)
+    review_method: AppraisalReviewMethod
+    assistant_disclosure: str | None = Field(default=None, min_length=1)
+    founder_authorized: bool
     assessed_at: datetime
     scientific_conclusions_drawn: bool = False
 
@@ -202,6 +216,18 @@ class FullTextAppraisal(AppraisalModel):
             raise ValueError("each required appraisal domain must appear exactly once")
         if self.scientific_conclusions_drawn:
             raise ValueError("an appraisal cannot itself record a scientific conclusion")
+        if not self.founder_authorized:
+            raise ValueError("a locked appraisal requires explicit founder authorization")
+        if (
+            self.review_method is AppraisalReviewMethod.FOUNDER_WITH_AI_ASSISTANCE
+            and self.assistant_disclosure is None
+        ):
+            raise ValueError("AI-assisted appraisal requires an assistant disclosure")
+        if (
+            self.review_method is AppraisalReviewMethod.FOUNDER_ONLY
+            and self.assistant_disclosure is not None
+        ):
+            raise ValueError("founder-only appraisal cannot contain an AI disclosure")
         if self.eligibility is FullTextEligibility.EXCLUDE:
             if self.evidence_role is not EvidenceRole.EXCLUDED:
                 raise ValueError("a full-text exclusion must have the excluded evidence role")
@@ -232,8 +258,104 @@ class FullTextAppraisal(AppraisalModel):
         return self
 
 
+class FullTextAppraisalProgressRecord(AppraisalModel):
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    title: str = Field(min_length=1)
+    pmcid: str | None = None
+    status: AppraisalCompletionStatus
+    retrieval_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    full_text_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    appraisal_version: str | None = Field(
+        default=None, pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$"
+    )
+    evidence_role: EvidenceRole | None = None
+
+    @model_validator(mode="after")
+    def validate_state(self) -> FullTextAppraisalProgressRecord:
+        retrieval_fields = (self.retrieval_id, self.full_text_sha256)
+        appraisal_fields = (self.appraisal_version, self.evidence_role)
+        if self.status is AppraisalCompletionStatus.AWAITING_FULL_TEXT:
+            if any(value is not None for value in (*retrieval_fields, *appraisal_fields)):
+                raise ValueError("awaiting-full-text record cannot contain downstream state")
+        elif self.status is AppraisalCompletionStatus.READY_FOR_APPRAISAL:
+            if any(value is None for value in retrieval_fields) or any(
+                value is not None for value in appraisal_fields
+            ):
+                raise ValueError("ready record requires retrieval state only")
+        elif any(value is None for value in (*retrieval_fields, *appraisal_fields)):
+            raise ValueError("completed record requires retrieval and appraisal state")
+        return self
+
+
+class FullTextAppraisalProgress(AppraisalModel):
+    schema_version: str = "1.0.0"
+    study_id: str = Field(min_length=1)
+    queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    generated_at: datetime
+    provisional_inclusion_count: int = Field(ge=1)
+    full_texts_retrieved: int = Field(ge=0)
+    appraisals_completed: int = Field(ge=0)
+    anchor_count: int = Field(ge=0)
+    supporting_count: int = Field(ge=0)
+    context_only_count: int = Field(ge=0)
+    excluded_count: int = Field(ge=0)
+    records: list[FullTextAppraisalProgressRecord] = Field(min_length=1)
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_progress(self) -> FullTextAppraisalProgress:
+        if len(self.records) != self.provisional_inclusion_count:
+            raise ValueError("appraisal-progress record count does not reconcile")
+        if len({item.screening_id for item in self.records}) != len(self.records):
+            raise ValueError("appraisal-progress screening IDs must be unique")
+        retrieved = sum(
+            item.status is not AppraisalCompletionStatus.AWAITING_FULL_TEXT
+            for item in self.records
+        )
+        completed = sum(
+            item.status is AppraisalCompletionStatus.COMPLETED for item in self.records
+        )
+        if retrieved != self.full_texts_retrieved or completed != self.appraisals_completed:
+            raise ValueError("appraisal-progress completion counts do not reconcile")
+        roles = {
+            EvidenceRole.ANCHOR: self.anchor_count,
+            EvidenceRole.SUPPORTING: self.supporting_count,
+            EvidenceRole.CONTEXT_ONLY: self.context_only_count,
+            EvidenceRole.EXCLUDED: self.excluded_count,
+        }
+        for role, expected in roles.items():
+            if sum(item.evidence_role is role for item in self.records) != expected:
+                raise ValueError(f"appraisal-progress {role} count does not reconcile")
+        if sum(roles.values()) != self.appraisals_completed:
+            raise ValueError("appraisal-progress role counts do not match completed count")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("appraisal progress cannot draw scientific conclusions")
+        return self
+
+
 def load_full_text_appraisal(path: Path) -> FullTextAppraisal:
     return FullTextAppraisal.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
+
+
+def load_full_text_retrieval_receipt(path: Path) -> FullTextRetrievalReceipt:
+    return FullTextRetrievalReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_full_text_appraisal_progress(
+    path: Path, progress: FullTextAppraisalProgress
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(
+            progress.model_dump(mode="json", exclude_none=True),
+            sort_keys=False,
+            width=100,
+        ),
+        encoding="utf-8",
+    )
 
 
 def write_full_text_retrieval_receipt(path: Path, receipt: FullTextRetrievalReceipt) -> None:

@@ -45,5 +45,8 @@ key_limitations: []
 conflicts_and_funding: REPLACE_WITH_DISCLOSURE_AND_FUNDING
 reviewer_id: dalron-j-robertson
 reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: REPLACE_WITH_THE_AI_SYSTEM_ROLE_AND_HUMAN_ACCOUNTABILITY_BOUNDARY
+founder_authorized: false
 assessed_at: 2026-07-22T00:00:00Z
 scientific_conclusions_drawn: false

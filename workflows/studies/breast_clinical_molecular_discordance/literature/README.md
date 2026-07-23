@@ -50,11 +50,12 @@ evidence set.
 The active workflow presents deterministic core-priority batches for explicit
 founder decisions.
 
-Full-text appraisal protocol `1.0.0`, a typed validation contract, and a founder
+Full-text appraisal protocol `1.0.1`, a typed validation contract, and a founder
 template are implemented. Seven evidence-located domains govern eligibility and the
 `anchor`, `supporting`, `context_only`, or `excluded` role. High-risk domains cannot
 be averaged away, and only studies with low-risk analysis and validation can become
-anchor evidence. No real paper has been assigned a quality role yet.
+anchor evidence. AI assistance must be disclosed and every locked record requires
+explicit founder authorization.
 
 The verified access inventory derives directly from founder progress state
 `dd27a686…ac21` and reconciles all 27 provisional inclusions. Sixteen have PMC
@@ -75,12 +76,16 @@ period difference in titles; PMCID, PMID, and DOI must match exactly. This bound
 rule addresses punctuation differences between bibliographic and repository records
 without permitting fuzzy article matching.
 
-The first durable retrieval is complete. `PMC10587090` was fetched by pushed engine
+The first durable retrieval and appraisal are complete. `PMC10587090` was fetched by pushed engine
 revision `42d9752`, stored as 137,087 bytes of official Europe PMC XML outside Git,
 and independently verified against SHA-256 `2ca3db6f…0e2a`, article identity, and
 CC BY 4.0 metadata. The aggregate receipt is
-[`full-text/PMC10587090.yaml`](full-text/PMC10587090.yaml). Retrieval makes no
-eligibility, quality, or scientific claim.
+[`full-text/PMC10587090.yaml`](full-text/PMC10587090.yaml). Its section-located
+appraisal is eligible with a `supporting` role: it is useful evidence about PAM50
+stability, but is not independent anchor evidence. This is a methodological evidence
+designation, not a scientific conclusion. The reconciled
+[`appraisal_progress.yaml`](appraisal_progress.yaml) records 1 of 27 appraisals
+complete and fails closed on identity, checksum, or provenance mismatches.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The
