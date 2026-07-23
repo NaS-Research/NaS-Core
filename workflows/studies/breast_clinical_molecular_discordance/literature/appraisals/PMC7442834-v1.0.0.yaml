@@ -1,0 +1,128 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: cd6114fb298c6d8c8fbc02faf0e63e2610c170cfb893c1382b9cac8529f980c9
+title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
+pmid: '32826944'
+doi: 10.1038/s41598-020-70832-2
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7442834/fullTextXML
+full_text_sha256: 186a84b2285043a611853488490a17a557716aa7ccc0324e8a6798115d136518
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Four public RNA-seq datasets contributed 4,731 tumors, including TCGA-BRCA,
+      SCAN-B/GSE96058, PanCA, and GSE81538. This is a large multi-cohort sample, but
+      inclusion was limited to datasets with existing PAM50 labels, clinical and technical
+      characteristics are incompletely harmonized, and possible patient overlap between the
+      TCGA and TCGA PanCancer-derived collections is not explicitly excluded.
+    evidence_locations:
+      - Results — Assembly of breast cancer RNA-seq datasets
+      - Methods — Samples and clinical data
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The authors appropriately keep RSEM and FPKM profiles separate after demonstrating
+      incompatibility and match external references to the same preprocessing family.
+      Nevertheless, public cohorts differ in tissue handling, sequencing, normalization,
+      gene availability, and annotation, and no central assay or technical replicate study
+      isolates measurement effects from cohort effects.
+    evidence_locations:
+      - Results — Assembly of breast cancer RNA-seq datasets
+      - Results — Double averaging for robust reference construction
+      - Methods — Samples and clinical data
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      The original PAM50 centroids, reference-centering rule, Spearman nearest-centroid
+      assignment, AWCA construction, machine-learning candidates, regularization, and feature-
+      selection strategies are described, with public R code and precomputed references.
+      However, AWCA begins from a preliminary cohort-level PAM50 classification, Normal-like
+      handling varies by cohort, and exact random seeds and every trained artifact are not
+      frozen in the report.
+    evidence_locations:
+      - Results — Double averaging for robust reference construction
+      - Methods — Original PAM50 method and Prosigna test
+      - Methods — Machine learning techniques for breast cancer classification
+      - Data availability
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Published PAM50 calls provide a consistent technical benchmark for measuring reproduction
+      and pairwise stability, and the authors explicitly acknowledge they are not a gold standard.
+      Because the supervised models are trained on those labels and often reuse PAM50 genes,
+      concordance partly measures reproduction of the labeling procedure rather than biological
+      truth, assay accuracy, or clinical correctness.
+    evidence_locations:
+      - Results — Evaluation of the standard PAM50 method and arisen issues
+      - Results — Robustness and prognostic ability of single-sample classifiers
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The reference-sensitivity experiment uses repeated random subsets, reports mean concordance
+      and dispersion, and compares internal and external references. Machine-learning work uses
+      stratified cross-validation, grid search, held-out tests, external tests, balanced metrics,
+      and regularization. Remaining concerns include many exploratory algorithms, features, and
+      comparisons without a study-wide multiplicity plan; limited uncertainty estimates; possible
+      feature-selection optimism; and very small, non-prespecified prognostic discordance analyses.
+    evidence_locations:
+      - Results — Evaluation of the standard PAM50 method and arisen issues
+      - Results — Survey and selection of the most suitable machine learning algorithm
+      - Results — Feature selection study to improve breast cancer classifier performances
+      - Results — Robustness and prognostic ability of single-sample classifiers
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Reference sensitivity was examined in TCGA and reproduced in the independent SCAN-B
+      dataset; precomputed RSEM and FPKM references and logistic models were tested on PanCA and
+      GSE81538. However, TCGA/PanCA patient independence is unclear, external performance remains
+      preprocessing-specific, published PAM50 labels remain the principal target, and no fixed
+      clinical assay, prospective cohort, treatment decision, or patient utility was validated.
+    evidence_locations:
+      - Results — Double averaging for robust reference construction
+      - Results — External testing of the logistic regression models
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      The paper identifies all four datasets and normalization families, supplies original PAM50
+      centroids and extensive supplementary methods, distinguishes internal and external testing,
+      and publishes R code, AWCA reference construction, precomputed references, and logistic
+      classifiers in a public repository. These materials support substantive reproduction.
+    evidence_locations:
+      - Methods — Samples and clinical data
+      - Methods — Original PAM50 method and Prosigna test
+      - Methods — Machine learning techniques for breast cancer classification
+      - Data availability
+evidence_role: supporting
+key_strengths:
+  - Directly tests the dependence of RNA-seq PAM50 calls on reference-cohort construction.
+  - Uses 4,731 tumors across RSEM and FPKM datasets while respecting preprocessing differences.
+  - Replicates reference-sensitivity and tests precomputed references on additional datasets.
+  - Uses cross-validation, held-out testing, external testing, regularization, and balanced metrics.
+  - Publishes R code, reference construction, precomputed references, and trained classifiers.
+key_limitations:
+  - Published PAM50 calls are technical targets rather than a biological or clinical gold standard.
+  - Potential overlap between TCGA-BRCA and the PanCancer-derived external set is not resolved.
+  - AWCA depends on preliminary cohort classification and preprocessing-matched reference cohorts.
+  - Multiple exploratory models and features lack a study-wide multiplicity framework.
+  - Prognostic superiority claims use few discordant cases and require independent confirmation.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Funding included ERC Advanced Grant
+  693174 Data-Driven Genomic Computing, AIRC MFAG 19047, Italian Ministry of Health
+  GR-2016-02362726 and Progetto di Rete ACC 2018-RC 2019, and Fondazione Piemontese
+  per la ricerca sul Cancro FPRC 5x1000 2015 Cancer-ImGen.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable for
+  the locked eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T21:45:00-05:00
+scientific_conclusions_drawn: false

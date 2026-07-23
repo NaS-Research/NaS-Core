@@ -85,8 +85,8 @@ CC BY 4.0 metadata. The aggregate receipt is
 appraisal is eligible with a `supporting` role: it is useful evidence about PAM50
 stability, but is not independent anchor evidence. This is a methodological evidence
 designation, not a scientific conclusion. The reconciled
-[`appraisal_progress.yaml`](appraisal_progress.yaml) records 4 of 27 appraisals
-complete, 4 verified full texts retrieved, 2 access-restricted records, and fails
+[`appraisal_progress.yaml`](appraisal_progress.yaml) records 5 of 27 appraisals
+complete, 5 verified full texts retrieved, 2 access-restricted records, and fails
 closed on identity, checksum, license, or provenance mismatches. `PMC3275466` is
 eligible as `context_only` evidence because
 its sample-level uncertainty is simulated from a sparse, laboratory-specific error
@@ -101,6 +101,11 @@ their full texts were not durably stored.
 validation and direct PAM50 comparisons, but evaluates an adaptable IntClust research
 classifier across heterogeneous retrospective cohorts rather than a fixed modern
 PAM50 assay or patient-decision workflow.
+`PMC7442834` is direct supporting evidence that PAM50 RNA-seq calls depend on
+reference-cohort construction and that preprocessing-matched AWCA references can
+improve stability. It is not anchor evidence because published PAM50 calls are not
+a gold standard, TCGA/PanCA independence is unresolved, and clinical validation is
+exploratory.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The

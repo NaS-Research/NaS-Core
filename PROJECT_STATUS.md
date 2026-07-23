@@ -56,8 +56,8 @@ Current gate state:
   safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
-- Full-text progress is now mechanically reconciled: 4 of 27 founder inclusions have
-  verified full text and completed appraisals. Roles are 2 supporting and 2 context-only;
+- Full-text progress is now mechanically reconciled: 5 of 27 founder inclusions have
+  verified full text and completed appraisals. Roles are 3 supporting and 2 context-only;
   2 additional papers are access-restricted under noncommercial licenses. No anchor
   study or scientific conclusion exists yet.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -66,7 +66,7 @@ Current gate state:
 ## Next implementation queue
 
 1. Retrieve and appraise the next high-value lawful full text, prioritizing the
-   modern RNA-sequencing intrinsic-subtyping study `PMC7442834` if its exact
+   alternative three-gene intrinsic-subtyping study `PMC3283537` if its exact
    identity and item-level license pass the governed checks.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
@@ -99,6 +99,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — RNA-seq PAM50 reference-sensitivity study appraised as supporting
+
+Retrieved `PMC7442834` under CC BY 4.0 as 127,968 bytes with SHA-256
+`186a84b2…6518` and completed its full-text appraisal. Across 4,731 tumors, the paper
+directly tests how PAM50 reference-cohort selection changes subtype calls, replicates
+the issue in TCGA and SCAN-B/GSE96058, evaluates preprocessing-matched AWCA references,
+and publishes code and classifiers. It is locked as `supporting`, not anchor, because
+published PAM50 calls are an imperfect and partly circular benchmark, TCGA/PanCA cohort
+independence is unresolved, the approach remains preprocessing-specific, and prognostic
+comparisons are exploratory. The ledger now records 5 retrieved, 5 appraised, 2 access-
+restricted, 3 supporting, 2 context-only, and 0 anchor.
+
+Validation: receipt identity, license/checksum binding, appraisal schema, ledger
+reconciliation, Ruff, strict MyPy across 54 source files, and all 143 tests passed.
 
 ### 2026-07-22 — Large multi-cohort classification study appraised as supporting
 
@@ -161,22 +176,6 @@ scientific conclusion was assigned to the second paper.
 
 Validation: Ruff, strict MyPy across 54 source files, all 135 tests, the checked-in
 receipt contract, and reconciled progress passed.
-
-### 2026-07-22 — First full-text appraisal and resumable progress ledger
-
-Completed a section-located methodological appraisal of `PMC10587090`. The study is
-eligible as `supporting` evidence, not anchor evidence: its large population-based
-cohort and systematic PAM50 perturbation are valuable, while complete-case selection,
-bulk-tissue heterogeneity, incomplete multiplicity/model-diagnostic reporting, and
-the absence of independent end-to-end validation limit its role. AI assistance is
-explicitly disclosed, founder authorization is required, and the record itself draws
-no scientific conclusion. Implemented a deterministic progress ledger that derives
-state from the verified 27-record founder inclusion set, full-text receipts, and
-completed appraisals; rejects missing receipts, duplicates, identity/checksum drift,
-stale screening state, and invalid verification flags; and reports 1 of 27 complete.
-
-Validation: appraisal schema validation, Ruff, strict MyPy across 54 source files,
-and all 133 tests passed.
 
 ## Current blockers
 

@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: 6f568e6fcb6e3fd18496c0501cc29fd7ef634f7daa27ff3236e0936f5337bc29
+study_id: NAS-BRCA-002
+queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
+progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
+screening_id: cd6114fb298c6d8c8fbc02faf0e63e2610c170cfb893c1382b9cac8529f980c9
+pmcid: PMC7442834
+title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7442834/fullTextXML
+retrieved_at: '2026-07-23T02:22:39.629065Z'
+code_revision: 5e8bba1
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2020"
+manifest_object_key: full-text/NAS-BRCA-002/cd6114fb298c6d8c8fbc02faf0e63e2610c170cfb893c1382b9cac8529f980c9/6f568e6fcb6e3fd18496c0501cc29fd7ef634f7daa27ff3236e0936f5337bc29/manifest.json
+manifest_sha256: e941464aac646919e9be57694a8bbe9eec391ef802ff2b604f9948a988d5ce5f
+full_text_object_key: full-text/NAS-BRCA-002/cd6114fb298c6d8c8fbc02faf0e63e2610c170cfb893c1382b9cac8529f980c9/6f568e6fcb6e3fd18496c0501cc29fd7ef634f7daa27ff3236e0936f5337bc29/article.xml
+full_text_sha256: 186a84b2285043a611853488490a17a557716aa7ccc0324e8a6798115d136518
+full_text_size_bytes: 127968
+verified_at: '2026-07-23T02:22:39.651628Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

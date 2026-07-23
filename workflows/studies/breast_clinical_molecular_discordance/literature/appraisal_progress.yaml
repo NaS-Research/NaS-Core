@@ -2,13 +2,13 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
-generated_at: '2026-07-23T02:01:31.605557Z'
+generated_at: '2026-07-23T02:25:31.256862Z'
 provisional_inclusion_count: 27
-full_texts_retrieved: 4
-appraisals_completed: 4
+full_texts_retrieved: 5
+appraisals_completed: 5
 access_restricted_count: 2
 anchor_count: 0
-supporting_count: 2
+supporting_count: 3
 context_only_count: 2
 excluded_count: 0
 records:
@@ -94,7 +94,11 @@ records:
 - screening_id: cd6114fb298c6d8c8fbc02faf0e63e2610c170cfb893c1382b9cac8529f980c9
   title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
   pmcid: PMC7442834
-  status: awaiting_full_text
+  status: completed
+  retrieval_id: 6f568e6fcb6e3fd18496c0501cc29fd7ef634f7daa27ff3236e0936f5337bc29
+  full_text_sha256: 186a84b2285043a611853488490a17a557716aa7ccc0324e8a6798115d136518
+  appraisal_version: 1.0.0
+  evidence_role: supporting
 - screening_id: b2708b96d26dad3430555dd519cb483c34bc0189b64f6336ab8e35fd114e16bd
   title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
   pmcid: PMC10052604

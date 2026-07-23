@@ -134,3 +134,16 @@ def test_large_multicohort_appraisal_is_supporting_and_non_conclusive() -> None:
     assert all(judgment != "high" for judgment in judgments.values())
     assert judgments[AppraisalDomainName.REPORTING_AND_REPRODUCIBILITY] == "low"
     assert appraisal.scientific_conclusions_drawn is False
+
+
+def test_rnaseq_pam50_appraisal_is_supporting_and_non_conclusive() -> None:
+    path = REAL_APPRAISAL_DIR / "PMC7442834-v1.0.0.yaml"
+    appraisal = FullTextAppraisal.model_validate(yaml.safe_load(path.read_text()))
+    judgments = {item.domain: item.judgment for item in appraisal.domains}
+
+    assert appraisal.pmid == "32826944"
+    assert appraisal.doi == "10.1038/s41598-020-70832-2"
+    assert appraisal.evidence_role == "supporting"
+    assert all(judgment != "high" for judgment in judgments.values())
+    assert judgments[AppraisalDomainName.REPORTING_AND_REPRODUCIBILITY] == "low"
+    assert appraisal.scientific_conclusions_drawn is False
