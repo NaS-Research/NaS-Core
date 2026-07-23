@@ -4,17 +4,21 @@ study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.3.0
 review_status: active
-search_strategy_version: 0.2.3
+search_strategy_version: 0.2.4
 priority_set_version: 1.0.0
 locked_search_executed: true
-search_execution_id: 7c57c576958ace94b3eb5e07ed951f8d0012608cdfc45e6afb1b058c9b88fbee
-search_receipt_path: literature/search_receipt_v0.3.0.yaml
-deduplication_complete: false
+search_execution_id: a2500aba7ae0277cdd0c572553b74d53622b2d9c8bf011b87bb55fe4f2f1ea9f
+search_receipt_path: literature/search_receipt_v0.3.1.yaml
+screening_queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+screening_queue_receipt_path: literature/screening_queue_receipt_v0.3.1.yaml
+inventory_reconciliation_id: 075aa08301a96fd9ea9f672e9c1f72a0956a8e7730d70f317ba686eafb397891
+inventory_reconciliation_receipt_path: literature/inventory_reconciliation_v0.3.1.yaml
+deduplication_complete: true
 primary_screening_complete: false
 eligible_evidence_count: 0
 completed_appraisal_count: 0
 access_restricted_count: 0
-pending_candidate_count: 96
+pending_candidate_count: 100
 citation_passes: []
 unresolved_claims:
   - >-

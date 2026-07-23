@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+study_id: NAS-BRCA-002
+search_execution_id: a2500aba7ae0277cdd0c572553b74d53622b2d9c8bf011b87bb55fe4f2f1ea9f
+algorithm_version: literature-screening-queue-1.0.0
+code_revision: 73e7175
+created_at: '2026-07-23T20:23:11.727532Z'
+manifest_object_key: literature-screening/NAS-BRCA-002/a2500aba7ae0277cdd0c572553b74d53622b2d9c8bf011b87bb55fe4f2f1ea9f/af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3/manifest.json
+manifest_sha256: 06c68aa50cbca5502a64a58ab3c3d4539925a8817004c9a7f400465ac45c1a79
+queue_object_key: literature-screening/NAS-BRCA-002/a2500aba7ae0277cdd0c572553b74d53622b2d9c8bf011b87bb55fe4f2f1ea9f/af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3/title-abstract-queue.jsonl
+queue_sha256: e1077a873764686737e7a0a860b532becf55cd94731dfbdb30c411a1a23053f3
+queue_size_bytes: 264978
+summary:
+  input_record_count: 100
+  pending_record_count: 100
+  records_with_abstract: 100
+  records_without_abstract: 0
+  records_with_doi: 100
+  records_with_pmid: 87
+  earliest_publication_year: 2009
+  latest_publication_year: 2026
+verified_at: '2026-07-23T20:23:25.190066Z'
+manifest_checksum_verified: true
+artifact_checksums_verified: true
+record_count_verified: true
+screening_status: not_started
+scientific_conclusions_drawn: false

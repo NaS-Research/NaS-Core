@@ -8,18 +8,22 @@ The current reliability-focused review is governed by:
 - [`search_strategy_v0.3.0.yaml`](search_strategy_v0.3.0.yaml)
 - [`revised_priority_evidence.yaml`](revised_priority_evidence.yaml)
 - [`revised_evidence_review_progress.yaml`](revised_evidence_review_progress.yaml)
+- [`REVISED_SCREENING_WORKFLOW.md`](REVISED_SCREENING_WORKFLOW.md)
 
-Search strategy `0.2.3` is locked for bounded bibliographic retrieval after
-count-only feasibility returned 52 PubMed and 95 Europe PMC records. The immutable
-execution `7c57c576…8fbee` contains 96 unique records and 51 cross-source duplicates;
-all raw responses, normalized records, hashes, sizes, and count invariants were
-independently verified. Raw and normalized data remain outside Git, while
-[`search_receipt_v0.3.0.yaml`](search_receipt_v0.3.0.yaml) preserves the aggregate
-verification record. Its 13-record direct priority set contains candidate evidence,
-not automatic inclusion decisions or scientific conclusions. The progress ledger
-cannot claim completion until deduplication against the prior inventory, founder
-screening, appraisal accounting, and two consecutive zero-yield
-backward-plus-forward citation passes all reconcile.
+Search strategy `0.2.4` is locked after coverage QA repaired a pre-screening gap in
+version `0.2.3`. Count-only feasibility returned 56 PubMed and 99 Europe PMC hits.
+The replacement execution `a2500aba…f1ea9f` contains 100 unique records, 55
+cross-source duplicates, complete abstracts, and all 13 mandatory priority papers.
+Its search and queue objects, hashes, sizes, schemas, identifiers, pending states,
+and count invariants were independently verified.
+
+Reconciliation `075aa083…397891` classified all 100 records against the immutable
+prior inventory: 55 exact matches, 5 author-year-only candidates, and 40 new
+candidates. All 100 remain pending for question `0.3.0`; no prior decision was
+transferred. Raw records and detailed reconciliation mappings remain outside Git.
+The progress ledger cannot claim completion until founder screening, appraisal
+accounting, and two consecutive zero-yield backward-plus-forward citation passes
+all reconcile.
 
 Required artifacts:
 

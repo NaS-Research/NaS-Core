@@ -8,14 +8,14 @@ and what comes next?
 
 ## Current focus
 
-### Deduplicate and screen the NAS-BRCA-002 revised evidence review
+### Founder-screen the NAS-BRCA-002 direct priority evidence
 
-The question-`0.3.0` review is authorized and active. Its targeted search was
-iteratively narrowed through count-only checks, locked as strategy `0.2.3`, executed
-once, and independently verified. Deduplicate the 96-record result against the prior
-inventory, adjudicate and appraise the direct evidence, then complete sequential
-backward-plus-forward citation passes. Preserve the metadata-only, nonclinical
-boundary until founder review supports a new decision.
+The question-`0.3.0` review is authorized and active. Coverage-repaired strategy
+`0.2.4`, its 100-record all-pending queue, and its prior-inventory reconciliation
+are independently verified. Founder-adjudicate the 13 direct-priority records first,
+confirm the five author-year-only links, screen the remaining candidates, and then
+complete sequential backward-plus-forward citation passes. Preserve the
+metadata-only, nonclinical boundary until founder review supports a new decision.
 
 Definition of done:
 
@@ -42,7 +42,7 @@ Current gate state:
   outcome access remain prohibited.
 - Draft method specification `0.1.0` is typed and mechanically validated. It cannot
   authorize molecular execution while any scientific dependency remains unresolved.
-- Revised evidence protocol `0.2.3` and priority set `1.0.0` are typed. All 13
+- Revised evidence protocol `0.2.4` and priority set `1.0.0` are typed. All 13
   direct candidates are pending question-`0.3.0` founder adjudication; no prior
   decision was silently carried forward.
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
@@ -51,10 +51,14 @@ Current gate state:
   while the revised scientific, molecular, and statistical reviews remain pending.
 - The search and source-feasibility specifications are locked. Literature retrieval
   and non-outcome source assessment are authorized; outcome access is disabled.
-- Revised search execution `7c57c576…8fbee` contains 96 unique records and 51
-  cross-source duplicates from 52 PubMed and 95 Europe PMC hits. Its manifest, four
-  raw responses, normalized record object, hashes, sizes, schema, and count
-  invariants were independently verified. Screening has not started.
+- Coverage QA stopped the interim 96-record queue before screening because four
+  mandatory priority papers were absent. Replacement execution `a2500aba…f1ea9f`
+  contains 100 unique records and 55 cross-source duplicates from 56 PubMed and 99
+  Europe PMC hits. Its verified all-pending queue contains complete abstracts and
+  all 13 priority papers.
+- Reconciliation `075aa083…397891` classifies all 100 records against the prior
+  inventory: 55 exact matches, 5 author-year-only candidates, and 40 new candidates.
+  No previous screening decision was transferred.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -86,10 +90,10 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Build a verified question-`0.3.0` screening queue and deduplicate its 96 records
-   against the prior evidence inventory without carrying forward prior decisions.
-2. Screen and appraise the 13-record direct priority set, beginning with the
+1. Screen and appraise the 13-record direct priority set, beginning with the
    single-subject uncertainty, AIMS, MiniABS, SSP, MPAM50, and BreastSubtypeR reports.
+2. Founder-confirm or reject the five author-year-only inventory links, then screen
+   every remaining record in the 100-record revised queue.
 3. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
 4. Resolve and approve the exact centroid and external-reference artifacts,
@@ -123,6 +127,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-23 — Revised screening corpus verified and reconciled
+
+Built an immutable all-pending queue from the focused search, then stopped it before
+screening when coverage QA found only 9 of 13 mandatory priority papers. Strategy
+`0.2.4` explicitly unions the locked priority identifiers and passed count-only
+feasibility at 56 PubMed and 99 Europe PMC hits.
+
+Replacement execution `a2500aba…f1ea9f` contains 100 unique records and 55
+cross-source duplicates. Queue `af08a334…8a2a3` has 100 complete abstracts, all 13
+priority papers, zero human or AI decisions, and independently verified identities,
+hashes, sizes, summaries, and pending states. Reconciliation against the prior
+457-record inventory found 55 exact matches, 5 author-year-only candidates, and 40
+new candidates. It transferred zero prior decisions and generated no scientific
+conclusion.
 
 ### 2026-07-23 — Revised reliability search locked and captured
 
@@ -196,27 +215,6 @@ analysis, outcome access, or clinical use was authorized.
 Validation: active and archived question validation, version-history tests, Ruff,
 strict MyPy across 54 source files, and all 156 tests passed.
 
-### 2026-07-23 — Phase 0 triggers a disciplined question change
-
-Resolved the planned PAM50-stability target as the Research Square preprint of
-already-appraised `PMC10587090`, preventing one study from being counted twice.
-The eight completed appraisals now populate the structured evidence matrix. The
-novelty memorandum records an early no-go trigger—not search saturation and not a
-novelty claim—because the 6,233-tumor SCAN-B paper already performs much of the
-broad perturbation, nearest/second-nearest subtype, clinical-subgroup, and
-exploratory outcome work proposed in version `0.2.0`.
-
-Completed field-level feasibility for TCGA discovery and processed SCAN-B GSE96058
-validation, registered GSE96058 under public/open governance, rejected METABRIC for
-this version because exact lawful access and platform compatibility were unresolved,
-and recorded the founder-authorized gate decision as `change`. No preregistration or
-outcome access was authorized. The next question must specify a fixed single-sample
-reliability, calibration, and abstention layer.
-
-Validation: Phase 0 artifact contracts, duplicate reconciliation, source governance,
-question and study lifecycle validation, Ruff, strict MyPy across 54 source files,
-and all 154 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -228,9 +226,9 @@ and all 154 tests passed.
   numerical tolerances, and thresholds are resolved. The complete evidence stopping
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
-- Revised search strategy `0.2.3` is locked and executed. Deduplication against the
-  prior evidence inventory, founder screening, full-text appraisal, and the
-  citation-chain stopping rule remain incomplete.
+- Revised search strategy `0.2.4`, its queue, and prior-inventory reconciliation are
+  complete. Founder screening, full-text appraisal, and the citation-chain stopping
+  rule remain incomplete.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is

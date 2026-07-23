@@ -26,6 +26,14 @@ SEARCH_PATH = STUDY / "literature" / "search_strategy.yaml"
 FEASIBILITY_PATH = STUDY / "ingestion" / "data_feasibility.yaml"
 SCHEMA_PATH = ROOT / "workflows" / "literature_search_snapshot.schema.json"
 RECEIPT_SCHEMA_PATH = ROOT / "workflows" / "literature_search_receipt.schema.json"
+REVISED_SEARCH_RECEIPT_PATH = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "breast_clinical_molecular_discordance"
+    / "literature"
+    / "search_receipt_v0.3.1.yaml"
+)
 RECEIPT_PATH = STUDY / "literature" / "search_receipt.yaml"
 NOW = datetime(2026, 7, 22, 19, 0, tzinfo=UTC)
 
@@ -113,6 +121,19 @@ def test_checked_in_literature_snapshot_schema_matches_runtime_model() -> None:
     assert (
         json.loads(RECEIPT_SCHEMA_PATH.read_text()) == LiteratureSearchReceipt.model_json_schema()
     )
+
+
+def test_checked_in_revised_search_receipt_has_complete_priority_corpus() -> None:
+    receipt = LiteratureSearchReceipt.model_validate(
+        yaml.safe_load(REVISED_SEARCH_RECEIPT_PATH.read_text())
+    )
+
+    assert receipt.strategy_version == "0.2.4"
+    assert receipt.unique_record_count == 100
+    assert receipt.duplicate_record_count == 55
+    assert receipt.record_count_invariants_verified is True
+    assert receipt.scientific_conclusions_drawn is False
+    assert receipt.outcome_data_accessed is False
 
 
 def test_checked_in_search_receipt_is_typed_and_nonconclusive() -> None:

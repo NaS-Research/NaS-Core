@@ -3,6 +3,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
+import yaml
 
 from nas_core.domain.literature import (
     BibliographicRecord,
@@ -20,6 +21,14 @@ from nas_core.storage.object_store import InMemoryObjectStore
 
 ROOT = Path(__file__).parents[1]
 SCHEMA_PATH = ROOT / "workflows" / "inventory_reconciliation_receipt.schema.json"
+REAL_RECEIPT_PATH = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "breast_clinical_molecular_discordance"
+    / "literature"
+    / "inventory_reconciliation_v0.3.1.yaml"
+)
 NOW = datetime(2026, 7, 23, 20, 0, tzinfo=UTC)
 
 
@@ -88,6 +97,19 @@ def test_reconciliation_schema_matches_runtime_model() -> None:
     assert json.loads(SCHEMA_PATH.read_text()) == (
         InventoryReconciliationReceipt.model_json_schema()
     )
+
+
+def test_checked_in_reconciliation_classifies_all_revised_records() -> None:
+    receipt = InventoryReconciliationReceipt.model_validate(
+        yaml.safe_load(REAL_RECEIPT_PATH.read_text())
+    )
+
+    assert receipt.current_record_count == 100
+    assert receipt.prior_record_count == 457
+    assert receipt.prior_exact_match_count == 55
+    assert receipt.author_year_candidate_count == 5
+    assert receipt.new_candidate_count == 40
+    assert receipt.prior_decisions_carried_forward is False
 
 
 def test_reconcile_classifies_exact_candidate_and_new_without_decisions() -> None:

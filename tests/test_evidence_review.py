@@ -69,10 +69,15 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert progress.locked_search_executed is True
     assert (
         progress.search_execution_id
-        == "7c57c576958ace94b3eb5e07ed951f8d0012608cdfc45e6afb1b058c9b88fbee"
+        == "a2500aba7ae0277cdd0c572553b74d53622b2d9c8bf011b87bb55fe4f2f1ea9f"
     )
-    assert progress.search_receipt_path == "literature/search_receipt_v0.3.0.yaml"
-    assert progress.pending_candidate_count == 96
+    assert progress.search_receipt_path == "literature/search_receipt_v0.3.1.yaml"
+    assert progress.deduplication_complete is True
+    assert (
+        progress.screening_queue_id
+        == "af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3"
+    )
+    assert progress.pending_candidate_count == 100
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False
     assert progress.molecular_data_access_authorized is False
@@ -157,6 +162,14 @@ def test_search_execution_requires_id_and_receipt_path() -> None:
         EvidenceReviewProgress.model_validate(payload)
 
 
+def test_deduplication_requires_queue_and_reconciliation_receipts() -> None:
+    payload = load_progress_payload()
+    payload["inventory_reconciliation_receipt_path"] = None
+
+    with pytest.raises(ValidationError, match="queue and inventory-reconciliation"):
+        EvidenceReviewProgress.model_validate(payload)
+
+
 def test_two_consecutive_zero_yield_passes_can_satisfy_stopping_rule() -> None:
     payload = load_progress_payload()
     payload.update(
@@ -226,4 +239,4 @@ def test_progress_payload_copy_is_independent() -> None:
     copied = deepcopy(payload)
     copied["pending_candidate_count"] = 0
 
-    assert payload["pending_candidate_count"] == 96
+    assert payload["pending_candidate_count"] == 100

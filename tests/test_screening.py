@@ -27,6 +27,7 @@ SEARCH_RECEIPT = STUDY / "literature" / "search_receipt.yaml"
 MANIFEST_SCHEMA = ROOT / "workflows" / "screening_queue_manifest.schema.json"
 RECEIPT_SCHEMA = ROOT / "workflows" / "screening_queue_receipt.schema.json"
 QUEUE_RECEIPT = STUDY / "literature" / "screening_queue_receipt.yaml"
+REVISED_QUEUE_RECEIPT = STUDY / "literature" / "screening_queue_receipt_v0.3.1.yaml"
 NOW = datetime(2026, 7, 22, 20, 0, tzinfo=UTC)
 
 
@@ -83,6 +84,19 @@ def test_checked_in_queue_receipt_is_pending_and_nonconclusive() -> None:
     assert receipt.summary.records_with_abstract == 457
     assert receipt.summary.records_without_abstract == 0
     assert receipt.summary.pending_record_count == 457
+    assert receipt.screening_status == "not_started"
+    assert receipt.scientific_conclusions_drawn is False
+
+
+def test_checked_in_revised_queue_contains_complete_pending_corpus() -> None:
+    receipt = ScreeningQueueReceipt.model_validate(
+        yaml.safe_load(REVISED_QUEUE_RECEIPT.read_text())
+    )
+
+    assert receipt.summary.input_record_count == 100
+    assert receipt.summary.pending_record_count == 100
+    assert receipt.summary.records_with_abstract == 100
+    assert receipt.summary.records_without_abstract == 0
     assert receipt.screening_status == "not_started"
     assert receipt.scientific_conclusions_drawn is False
 

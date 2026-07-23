@@ -64,7 +64,7 @@ def test_checked_in_revised_phase_zero_package_is_authorized_and_bound() -> None
     assert plan.authorization is not None
     assert plan.authorization.decision == "approved"
     assert search.status == "locked"
-    assert search.strategy_version == "0.2.3"
+    assert search.strategy_version == "0.2.4"
     assert search.retrieval_authorized is True
     assert feasibility.status == "draft"
     assert feasibility.discovery_source_id == "gdc-tcga-open"

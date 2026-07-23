@@ -2,7 +2,7 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.3.0
-strategy_version: 0.2.3
+strategy_version: 0.2.4
 status: locked
 objective: >-
   Identify high-quality primary evidence that could specify, support, contradict,
@@ -14,7 +14,7 @@ sources:
     name: PubMed
     official_url: https://pubmed.ncbi.nlm.nih.gov/
     query: >-
-      (breast cancer[Title/Abstract] OR breast carcinoma[Title/Abstract]) AND
+      ((breast cancer[Title/Abstract] OR breast carcinoma[Title/Abstract]) AND
       (PAM50[Title/Abstract] OR
       "Absolute Intrinsic Molecular Subtyping"[Title/Abstract] OR
       MiniABS[Title/Abstract] OR MPAM50[Title/Abstract] OR
@@ -26,7 +26,12 @@ sources:
       permutation[Title/Abstract] OR calibration[Title/Abstract] OR
       centering[Title/Abstract] OR
       "test set bias"[Title/Abstract] OR repeatability[Title/Abstract] OR
-      reproducibility[Title/Abstract])
+      reproducibility[Title/Abstract])) OR
+      (19204204[PMID] OR 28062443[PMID] OR 22196354[PMID] OR
+      25479802[PMID] OR 33255759[PMID] OR 35974007[PMID] OR
+      37008073[PMID] OR 32826944[PMID] OR 37857634[PMID] OR
+      41064593[PMID] OR 41390542[PMID] OR 25788628[PMID] OR
+      25849221[PMID])
     purpose: >-
       Primary biomedical methods and analytical-validation studies directly relevant
       to one-sample classification, uncertainty, abstention, and transport.
@@ -34,7 +39,7 @@ sources:
     name: Europe PMC
     official_url: https://europepmc.org/
     query: >-
-      (TITLE_ABS:"breast cancer" OR TITLE_ABS:"breast carcinoma") AND
+      ((TITLE_ABS:"breast cancer" OR TITLE_ABS:"breast carcinoma") AND
       (TITLE_ABS:PAM50 OR TITLE_ABS:"Absolute Intrinsic Molecular Subtyping" OR
       TITLE_ABS:MiniABS OR TITLE_ABS:MPAM50 OR TITLE_ABS:BreastSubtypeR OR
       TITLE_ABS:PCAPAM50) AND
@@ -43,7 +48,12 @@ sources:
       TITLE_ABS:abstain* OR TITLE_ABS:margin OR
       TITLE_ABS:permutation OR TITLE_ABS:calibration OR TITLE_ABS:centering OR
       TITLE_ABS:"test set bias" OR TITLE_ABS:repeatability OR
-      TITLE_ABS:reproducibility)
+      TITLE_ABS:reproducibility)) OR
+      (EXT_ID:19204204 OR EXT_ID:28062443 OR EXT_ID:22196354 OR
+      EXT_ID:25479802 OR EXT_ID:33255759 OR EXT_ID:35974007 OR
+      EXT_ID:37008073 OR EXT_ID:32826944 OR EXT_ID:37857634 OR
+      EXT_ID:41064593 OR EXT_ID:41390542 OR EXT_ID:25788628 OR
+      EXT_ID:25849221)
     purpose: >-
       Independent bibliographic coverage, open-license assessment, full-text links,
       and official backward and forward citation-chain endpoints.

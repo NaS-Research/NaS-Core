@@ -1,9 +1,9 @@
-# Revised Search Feasibility Amendment — Version 0.2.3
+# Revised Search Feasibility and Coverage Amendment — Version 0.2.4
 
 Question version: `0.3.0`
 Prior candidate strategy: `0.2.0`
-Intermediate candidate strategies: `0.2.1`, `0.2.2`
-Amended candidate strategy: `0.2.3`
+Intermediate candidate strategies: `0.2.1`, `0.2.2`, `0.2.3`
+Amended candidate strategy: `0.2.4`
 
 ## Count-only result
 
@@ -47,3 +47,15 @@ precision, not eligibility, the evidence cap, or the citation-chain stopping rul
 The final counts are bounded for complete human screening and the 30-study evidence
 cap. Strategy `0.2.3` is therefore locked and retrieval-authorized under the
 question-`0.3.0` founder Phase 0 authorization. Count previews stored no records.
+
+## Pre-screening coverage amendment 0.2.4
+
+After execution and queue construction, identifier-level QA found that strategy
+`0.2.3` captured 9 of the 13 mandatory direct-priority records. Four priority
+records were absent, so the 96-record queue was retained as immutable audit history
+but was not opened for screening.
+
+Strategy `0.2.4` preserves the focused query and explicitly unions all 13 locked
+priority PMIDs. Count-only feasibility returned 56 PubMed and 99 Europe PMC hits.
+No records were stored during the preview. This bounded change repairs protocol
+coverage before founder decisions and does not broaden the scientific question.

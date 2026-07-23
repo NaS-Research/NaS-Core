@@ -1,7 +1,7 @@
 # NAS-BRCA-002 Revised Reliability Evidence Review
 
-Protocol version: `0.2.3`
-Question version: `0.3.0`  
+Protocol version: `0.2.4`
+Question version: `0.3.0`
 Status: **Locked for the founder-authorized bounded evidence audit**
 
 ## Purpose
@@ -60,10 +60,12 @@ No autonomous exclusion is allowed.
 ## Search and deduplication
 
 The revised database strategy is
-[`search_strategy_v0.3.0.yaml`](search_strategy_v0.3.0.yaml). Version `0.2.3`
-passed count-only feasibility with 52 PubMed and 95 Europe PMC records after two
-documented precision amendments. It is locked under the question-`0.3.0` founder
-authorization and remains non-outcome and non-molecular.
+[`search_strategy_v0.3.0.yaml`](search_strategy_v0.3.0.yaml). Version `0.2.4`
+passed count-only feasibility with 56 PubMed and 99 Europe PMC records. It preserves
+the focused strategy and explicitly unions the 13-record direct-priority set after
+pre-screening coverage QA found four priority records absent from version `0.2.3`.
+It is locked under the question-`0.3.0` founder authorization and remains
+non-outcome and non-molecular.
 
 Executed results will be deduplicated against the immutable `0.2.0` inventory while
 preserving all source and version provenance. A prior screening decision does not

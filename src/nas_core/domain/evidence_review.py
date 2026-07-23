@@ -159,6 +159,13 @@ class EvidenceReviewProgress(EvidenceReviewModel):
     locked_search_executed: bool
     search_execution_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     search_receipt_path: str | None = None
+    screening_queue_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    screening_queue_receipt_path: str | None = None
+    inventory_reconciliation_id: str | None = Field(
+        default=None,
+        pattern=r"^[a-f0-9]{64}$",
+    )
+    inventory_reconciliation_receipt_path: str | None = None
     deduplication_complete: bool
     primary_screening_complete: bool
     eligible_evidence_count: int = Field(ge=0, le=30)
@@ -186,6 +193,18 @@ class EvidenceReviewProgress(EvidenceReviewModel):
         ):
             raise ValueError(
                 "search execution state requires both an execution ID and receipt path"
+            )
+        reconciliation_bound = all(
+            (
+                self.screening_queue_id is not None,
+                self.screening_queue_receipt_path is not None,
+                self.inventory_reconciliation_id is not None,
+                self.inventory_reconciliation_receipt_path is not None,
+            )
+        )
+        if self.deduplication_complete != reconciliation_bound:
+            raise ValueError(
+                "deduplication state requires a queue and inventory-reconciliation receipt"
             )
         if self.novelty_claim_authorized and not self.stopping_rule_satisfied:
             raise ValueError("novelty cannot be authorized before the stopping rule is satisfied")

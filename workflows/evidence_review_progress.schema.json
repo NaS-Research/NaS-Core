@@ -134,6 +134,31 @@
       "title": "Eligible Evidence Count",
       "type": "integer"
     },
+    "inventory_reconciliation_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inventory Reconciliation Id"
+    },
+    "inventory_reconciliation_receipt_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Inventory Reconciliation Receipt Path"
+    },
     "locked_search_executed": {
       "title": "Locked Search Executed",
       "type": "boolean"
@@ -186,6 +211,31 @@
       "default": "1.0.0",
       "title": "Schema Version",
       "type": "string"
+    },
+    "screening_queue_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Screening Queue Id"
+    },
+    "screening_queue_receipt_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Screening Queue Receipt Path"
     },
     "search_execution_id": {
       "anyOf": [
