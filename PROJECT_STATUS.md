@@ -95,6 +95,21 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-22 — License-enforced immutable full-text retriever
+
+Implemented one-record-at-a-time retrieval from the official Europe PMC full-text
+endpoint for current founder inclusions. The engine requires an explicit PMCID,
+allowlists CC BY 4.0 only, and verifies PMCID, PMID, DOI, exact title, license URL,
+license text, and copyright statement before storing content. Raw XML and a hashed
+manifest remain immutable in external object storage. Verification independently
+reloads both artifacts, rechecks size, checksums, identity, license, and the no-
+conclusion boundary, and emits only an aggregate Git receipt. Missing, ambiguous,
+restricted, or altered content fails closed. Founder authorization is recorded;
+no real durable full text was retrieved before the engine revision was pushed.
+
+Validation: synthetic licensed retrieval, unapproved-license rejection, tamper
+detection, Ruff, strict MyPy, and all 127 tests passed.
+
 ### 2026-07-22 — Verified provisional-inclusion access inventory
 
 Implemented a local, no-cost inventory derived directly from the verified founder
@@ -151,19 +166,6 @@ conclusion was drawn.
 Validation: exact prior-state binding, queue membership, reviewer provenance,
 exclusion taxonomy, event-chain and artifact hashes, reconciled cumulative counts,
 and the human-only boundary independently verified.
-
-### 2026-07-22 — Second founder title/abstract decision batch
-
-Recorded and independently verified ten explicit founder decisions from the first
-deterministic core-priority batch: seven inclusions and three protocol-based
-exclusions. The cumulative immutable state is 15 of 457 records decided: 12
-included, 3 excluded, 442 pending, zero unclear, and zero AI decisions. Inclusion
-advances a record to full-text eligibility review; it does not establish quality or
-evidentiary weight. No scientific conclusion was drawn.
-
-Validation: queue membership, exact prior-state binding, reviewer provenance,
-exclusion taxonomy, cumulative event-chain identities and hashes, artifact hashes
-and sizes, reconciled progress counts, and human-only boundary verified.
 
 ## Current blockers
 

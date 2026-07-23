@@ -13,7 +13,10 @@ from nas_core.domain.advisory import (
     write_ai_advisory_receipt,
     write_ai_advisory_schemas,
 )
-from nas_core.domain.appraisal import load_full_text_appraisal
+from nas_core.domain.appraisal import (
+    load_full_text_appraisal,
+    write_full_text_retrieval_receipt,
+)
 from nas_core.domain.cohorts import (
     load_cohort_receipt,
     load_snapshot_receipt,
@@ -35,6 +38,7 @@ from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.full_text import FullTextInventoryService
+from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
 from nas_core.retrieval.literature import LiteratureSearchService
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
 from nas_core.retrieval.review import ScreeningReviewService
@@ -300,6 +304,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     full_text_inventory.add_argument(
         "progress_receipt", type=Path, help="Latest verified founder progress receipt"
+    )
+    full_text_fetch = literature_commands.add_parser(
+        "full-text-fetch",
+        help="Retrieve and verify one explicitly licensed Europe PMC full text",
+    )
+    full_text_fetch.add_argument("receipt", type=Path, help="Verified screening queue receipt")
+    full_text_fetch.add_argument(
+        "progress_receipt", type=Path, help="Latest verified founder progress receipt"
+    )
+    full_text_fetch.add_argument("screening_id", help="Founder-included screening ID")
+    full_text_fetch.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
+    full_text_fetch.add_argument(
+        "--receipt-output", type=Path, help="New path for the verified aggregate receipt"
+    )
+    full_text_fetch.add_argument(
+        "--execute", action="store_true", help="Contact Europe PMC and persist licensed XML"
     )
 
     program = commands.add_parser("program", help="Manage research program charters")
@@ -695,6 +715,44 @@ def main(argv: Sequence[str] | None = None) -> int:
             progress_receipt,
         )
         print(json.dumps(inventory.model_dump(mode="json", exclude_none=True), indent=2))
+        return 0
+
+    if args.command == "literature" and args.literature_command == "full-text-fetch":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = load_screening_progress_receipt(args.progress_receipt)
+        inventory = FullTextInventoryService(store=get_object_store()).build(
+            queue_receipt,
+            progress_receipt,
+        )
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not a current founder inclusion")
+        if not args.execute:
+            print(
+                f"Full-text retrieval ready: {matches[0].pmcid}, "
+                f"screening {matches[0].screening_id}, code {args.code_revision}"
+            )
+            print("Dry run only; Europe PMC was not contacted and nothing was stored.")
+            return 0
+        if args.receipt_output is None:
+            raise SystemExit("--receipt-output is required with --execute")
+        retrieval_service = FullTextRetrievalService(store=get_object_store())
+        retrieval_manifest = retrieval_service.retrieve(
+            matches[0],
+            study_id=inventory.study_id,
+            queue_id=inventory.queue_id,
+            progress_id=inventory.progress_id,
+            code_revision=args.code_revision,
+        )
+        retrieval_receipt = retrieval_service.verify(retrieval_manifest)
+        write_full_text_retrieval_receipt(args.receipt_output, retrieval_receipt)
+        print(
+            f"Retrieved and verified {retrieval_receipt.pmcid}: "
+            f"{retrieval_receipt.full_text_size_bytes} bytes, "
+            f"{retrieval_receipt.license.spdx_identifier}, "
+            f"{retrieval_receipt.full_text_sha256}"
+        )
+        print(f"Wrote verified aggregate receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "screening-ai-schema":

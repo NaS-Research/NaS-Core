@@ -63,6 +63,13 @@ treated only as a repository candidate, not proof of reuse rights. The first
 candidate (`PMC10587090`) was checked against official Europe PMC XML and declares
 CC BY 4.0; durable governed retrieval remains the next step.
 
+Immutable full-text retrieval `1.0.0` is implemented for one current founder-
+included record at a time through the official Europe PMC endpoint. It verifies
+PMCID, PMID, DOI, exact title, and an allowlisted item-level CC BY 4.0 declaration;
+stores raw XML and its manifest outside Git; independently reloads and revalidates
+both artifacts; and emits only a concise receipt to Git. Missing, ambiguous, or
+unapproved licenses fail closed. Real retrieval awaits the pushed engine revision.
+
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The
 provider-neutral gateway records structured recommendations, confidence, matched

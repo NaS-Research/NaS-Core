@@ -9,6 +9,8 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from nas_core.domain.snapshots import StoredObject
+
 
 class AppraisalModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -107,6 +109,59 @@ class FullTextInventory(AppraisalModel):
         return self
 
 
+class FullTextLicense(AppraisalModel):
+    name: str = Field(min_length=1)
+    spdx_identifier: str = Field(pattern=r"^CC-BY-4\.0$")
+    url: str = Field(min_length=1)
+    copyright_statement: str = Field(min_length=1)
+
+
+class FullTextRetrievalManifest(AppraisalModel):
+    schema_version: str = "1.0.0"
+    retrieval_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(min_length=1)
+    queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    pmcid: str = Field(pattern=r"^PMC[0-9]+$")
+    pmid: str | None = None
+    doi: str | None = None
+    title: str = Field(min_length=1)
+    source_url: str = Field(min_length=1)
+    retrieved_at: datetime
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    license: FullTextLicense
+    full_text_object: StoredObject
+    scientific_conclusions_drawn: bool = False
+    manifest_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+
+
+class FullTextRetrievalReceipt(AppraisalModel):
+    schema_version: str = "1.0.0"
+    retrieval_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(min_length=1)
+    queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    pmcid: str = Field(pattern=r"^PMC[0-9]+$")
+    title: str = Field(min_length=1)
+    source_url: str = Field(min_length=1)
+    retrieved_at: datetime
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    license: FullTextLicense
+    manifest_object_key: str = Field(min_length=1)
+    manifest_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    full_text_object_key: str = Field(min_length=1)
+    full_text_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    full_text_size_bytes: int = Field(ge=1)
+    verified_at: datetime
+    manifest_checksum_verified: bool
+    full_text_checksum_verified: bool
+    article_identity_verified: bool
+    license_verified: bool
+    scientific_conclusions_drawn: bool = False
+
+
 class AppraisalDomain(AppraisalModel):
     domain: AppraisalDomainName
     judgment: RiskJudgment
@@ -179,3 +234,14 @@ class FullTextAppraisal(AppraisalModel):
 
 def load_full_text_appraisal(path: Path) -> FullTextAppraisal:
     return FullTextAppraisal.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
+
+
+def write_full_text_retrieval_receipt(path: Path, receipt: FullTextRetrievalReceipt) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
