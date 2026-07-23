@@ -8,12 +8,12 @@ and what comes next?
 
 ## Current focus
 
-### Resolve and lock the NAS-BRCA-002 method dependencies
+### Execute the NAS-BRCA-002 revised evidence review
 
-Method specification `0.1.0` now fixes the minimum single-sample classifier,
-perturbation families, output fields, and abstention state machine. Resolve its
-scientific dependencies without using molecular or outcome results, then complete
-the revised evidence and metadata reviews. Preserve the metadata-only, nonclinical
+The question-`0.3.0` review protocol, targeted search, 13-record direct priority
+set, and machine-audited progress ledger are implemented. Lock and execute the
+bounded search, adjudicate and appraise the direct evidence, then complete sequential
+backward-plus-forward citation passes. Preserve the metadata-only, nonclinical
 boundary until founder review supports a new decision.
 
 Definition of done:
@@ -41,6 +41,9 @@ Current gate state:
   outcome access remain prohibited.
 - Draft method specification `0.1.0` is typed and mechanically validated. It cannot
   authorize molecular execution while any scientific dependency remains unresolved.
+- Revised evidence protocol `0.2.0` and priority set `1.0.0` are typed and
+  nonexecuting. All 13 direct candidates are pending question-`0.3.0` founder
+  adjudication; no prior decision was silently carried forward.
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
   feasibility specification are implemented.
 - AI-assisted question review is advisory; the founder Phase 0 decision is recorded,
@@ -78,39 +81,63 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete the revised high-quality evidence review and its two-pass
-   citation-chain stopping rule.
-2. Resolve and approve the exact centroid and external-reference artifacts,
+1. Run count-only feasibility for revised search `0.2.0`, review and lock the
+   queries, and record question-`0.3.0` founder retrieval authorization.
+2. Screen and appraise the 13-record direct priority set, beginning with the
+   single-subject uncertainty, AIMS, MiniABS, SSP, MPAM50, and BreastSubtypeR reports.
+3. Execute sequential backward-plus-forward Europe PMC citation passes until two
+   consecutive complete passes add zero eligible methods or external validations.
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-3. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-4. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-5. Complete the founder scientific/product, molecular/pathology, and statistical
+7. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-8. Implement persisted evidence claims, citations, provenance, contradictory
+10. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-10. Expand the screening model gateway into general evidence reasoning with
+12. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-11. Build evaluation suites for retrieval, citation validity, numerical
+13. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-12. Generate an immutable research release containing the protocol, dataset
+14. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-13. Generate a reviewable white-paper draft whose substantive claims trace to
+15. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-14. Build the internal workbench for projects, protocols, datasets, runs,
+16. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-15. Complete repeated internal oncology pilots before selecting the first
+17. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-23 — Revised evidence-review phase implemented
+
+Implemented a question-`0.3.0` evidence protocol and targeted PubMed/Europe PMC
+strategy focused on fixed single-sample classifiers, centering, mapping,
+patient-level uncertainty, technical error, perturbation, abstention, and unchanged
+external transport. The direct priority set contains 13 high-relevance candidates
+and remains capped at 30 final studies. It explicitly prioritizes the previously
+unappraised single-subject PAM50 uncertainty method, AIMS, MiniABS, RNA-seq SSP,
+MPAM50, BreastSubtypeR, and current centering implementations.
+
+Added typed priority, citation-pass, and progress contracts plus CLI validation.
+The ledger cannot claim saturation unless the search, prior-inventory deduplication,
+founder screening, appraisal/access accounting, and two latest consecutive complete
+backward-plus-forward Europe PMC passes all reconcile with zero newly eligible
+methodological or external-transport evidence. AI cannot finalize screening
+decisions, and the phase cannot authorize novelty, molecular data, or outcomes.
+
+Validation: checked-in schema parity, CLI binding, false-saturation and founder-
+authority invariants, focused tests, Ruff, strict MyPy, and the full test suite.
 
 ### 2026-07-23 — Single-sample reliability method contract implemented
 
@@ -187,23 +214,6 @@ no external validation. The ledger now records 8 retrieved, 8 appraised, 4 restr
 Validation: receipt identity, license/checksum binding, appraisal schema, ledger
 reconciliation, Ruff, strict MyPy across 54 source files, and all 149 tests passed.
 
-### 2026-07-22 — Cross-condition classifier exposes the single-patient gap
-
-The planned NanoString normalization article `PMC8138885` returned 404 from Europe
-PMC and official NCBI metadata reported `idIsNotOpenAccess`; no full text was stored
-and a restriction now prevents retries. Advanced to `PMC5001207` (CrossLink), retrieved
-110,398 bytes under CC BY 4.0 with SHA-256 `a40c55e3…953fd`, and completed its appraisal.
-CrossLink is `context_only`: its class-specific k-means predictions depend on the whole
-test cohort, cannot classify one patient independently, achieved 73% in its main real
-true-label test, and used a 20-sample ER/PR surrogate evaluation for cross-platform PAM50.
-This failure mode is relevant to the NaS reliability-layer gap but cannot support a
-clinical claim. The ledger now records 7 retrieved, 7 appraised, 4 restricted,
-3 supporting, 4 context-only, and 0 anchor.
-
-Validation: restriction provenance, receipt identity, license/checksum binding,
-appraisal schema, ledger reconciliation, Ruff, strict MyPy across 54 source files,
-and all 147 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -215,6 +225,9 @@ and all 147 tests passed.
   numerical tolerances, and thresholds are resolved. The complete evidence stopping
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
+- Revised search strategy `0.2.0` is intentionally a draft. Count-only feasibility,
+  query lock, and founder authorization are required before contacting the literature
+  APIs or claiming the revised evidence review is active.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is

@@ -1,0 +1,42 @@
+schema_version: 1.0.0
+progress_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+review_status: draft
+search_strategy_version: 0.2.0
+priority_set_version: 1.0.0
+locked_search_executed: false
+deduplication_complete: false
+primary_screening_complete: false
+eligible_evidence_count: 0
+completed_appraisal_count: 0
+access_restricted_count: 0
+pending_candidate_count: 13
+citation_passes: []
+unresolved_claims:
+  - >-
+    Whether a patient-independent PAM50 implementation with lawfully reusable fixed
+    centroids and reference values is sufficiently specified for unchanged execution.
+  - >-
+    Whether an existing single-subject uncertainty or Not Assigned method already
+    resolves the proposed NaS margin, reliability, and abstention contribution.
+  - >-
+    Whether leave-one-gene-out retention adds defensible information beyond published
+    gene-cluster removal, gene-removal, and permutation methods.
+  - >-
+    Which independently measured technical-error model is transportable to TCGA RNA-seq
+    and processed GSE96058 expression, if any.
+  - >-
+    Whether any margin or canonical-label-retention threshold has a defensible,
+    non-outcome-guided calibration target and independent validation.
+  - >-
+    Whether fixed external centering can be transported across RSEM-style TCGA data and
+    processed GSE96058 FPKM without validation-cohort adaptation.
+  - >-
+    Whether the exact question 0.3.0 contribution remains differentiated after current
+    single-sample classifiers, uncertainty methods, and reproducible software are appraised.
+stopping_rule_satisfied: false
+novelty_claim_authorized: false
+molecular_data_access_authorized: false
+outcome_data_access_authorized: false

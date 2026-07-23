@@ -1,0 +1,236 @@
+schema_version: 1.0.0
+set_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+maximum_final_evidence_count: 30
+selection_rule: >-
+  Prioritize direct primary methods and analytical-validation evidence that can
+  resolve or falsify one or more dependencies in reliability specification 0.1.0.
+  This is an AI-assisted priority set, not a founder screening decision or a
+  scientific conclusion. Final evidence may not exceed 30 studies unless a
+  versioned protocol amendment explains why the high-quality stopping rule cannot
+  otherwise be evaluated.
+candidates:
+  - candidate_id: PMID:19204204
+    title: Supervised risk predictor of breast cancer based on intrinsic subtypes
+    publication_year: 2009
+    pmid: "19204204"
+    pmcid: PMC2667820
+    doi: 10.1200/JCO.2008.18.1370
+    evidence_domains:
+      - fixed_single_sample_classifier
+      - reference_and_centering
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      Foundational source for the historical 50-gene classifier, centroid scoring,
+      preprocessing assumptions, and exact research-artifact provenance.
+    prior_artifact: null
+    founder_decision_recorded: false
+  - candidate_id: PMID:28062443
+    title: >-
+      A novel non-parametric method for uncertainty evaluation of correlation-based
+      molecular signatures: its application on PAM50 algorithm
+    publication_year: 2017
+    pmid: "28062443"
+    pmcid: null
+    doi: 10.1093/bioinformatics/btw704
+    evidence_domains:
+      - margin_and_uncertainty
+      - abstention_and_unclassifiable
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      Direct single-subject PAM50 uncertainty method with Assigned, Ambiguous, and
+      Not Assigned states; it is a central novelty challenge for question 0.3.0.
+    prior_artifact: null
+    founder_decision_recorded: false
+  - candidate_id: PMID:22196354
+    title: >-
+      Characterization of uncertainty in the classification of multivariate assays:
+      application to PAM50 centroid-based genomic predictors for breast cancer treatment plans
+    publication_year: 2012
+    pmid: "22196354"
+    pmcid: PMC3275466
+    doi: 10.1186/2043-9113-1-37
+    evidence_domains:
+      - technical_measurement_error
+      - perturbation_and_repeatability
+      - abstention_and_unclassifiable
+    review_state: pending_reappraisal
+    priority_rationale: >-
+      Existing appraisal directly informs the technical-error model but must be
+      reinterpreted against the exact dependencies and claim boundary of question 0.3.0.
+    prior_artifact: literature/appraisals/PMC3275466-v1.0.0.yaml
+    founder_decision_recorded: false
+  - candidate_id: PMID:25479802
+    title: Absolute assignment of breast cancer intrinsic molecular subtype
+    publication_year: 2015
+    pmid: "25479802"
+    pmcid: null
+    doi: 10.1093/jnci/dju357
+    evidence_domains:
+      - fixed_single_sample_classifier
+      - perturbation_and_repeatability
+      - external_transport
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      AIMS is an absolute, cohort-independent classifier explicitly benchmarked
+      against PAM50 under technology, gene-removal, and contamination tests.
+    prior_artifact: null
+    founder_decision_recorded: false
+  - candidate_id: PMID:33255759
+    title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier
+    publication_year: 2020
+    pmid: "33255759"
+    pmcid: PMC7761033
+    doi: 10.3390/cancers12123506
+    evidence_domains:
+      - fixed_single_sample_classifier
+      - gene_mapping_and_transformation
+      - external_transport
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      MiniABS is a platform-agnostic absolute single-sample method evaluated across
+      multiple platforms and is a direct alternative-method comparator.
+    prior_artifact: null
+    founder_decision_recorded: false
+  - candidate_id: PMID:35974007
+    title: >-
+      RNA sequencing-based single sample predictors of molecular subtype and risk
+      of recurrence for clinical assessment of early-stage breast cancer
+    publication_year: 2022
+    pmid: "35974007"
+    pmcid: PMC9381586
+    doi: 10.1038/s41523-022-00465-3
+    evidence_domains:
+      - fixed_single_sample_classifier
+      - external_transport
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      Large RNA-seq SSP development with external Prosigna comparisons and
+      patient-level disagreement relevant to unchanged transport.
+    prior_artifact: null
+    founder_decision_recorded: false
+  - candidate_id: PMC:PMC10052604
+    title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer
+    publication_year: 2023
+    pmid: "37008073"
+    pmcid: PMC10052604
+    doi: 10.1177/11769351231159893
+    evidence_domains:
+      - fixed_single_sample_classifier
+      - reference_and_centering
+      - external_transport
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      MPAM50 removes reference subtraction, changes centroids and the correlation
+      metric, and tests a direct single-sample alternative across 19 datasets.
+    prior_artifact: literature/full-text/access-decisions/PMC10052604.yaml
+    founder_decision_recorded: false
+  - candidate_id: PMID:32826944
+    title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer
+    publication_year: 2020
+    pmid: "32826944"
+    pmcid: PMC7442834
+    doi: 10.1038/s41598-020-70832-2
+    evidence_domains:
+      - reference_and_centering
+      - external_transport
+      - implementation_and_licensing
+    review_state: pending_reappraisal
+    priority_rationale: >-
+      Existing appraisal directly evaluates RNA-seq reference sensitivity and
+      fixed preprocessing-matched references but predates the narrowed question.
+    prior_artifact: literature/appraisals/PMC7442834-v1.0.0.yaml
+    founder_decision_recorded: false
+  - candidate_id: PMID:37857634
+    title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer
+    publication_year: 2023
+    pmid: "37857634"
+    pmcid: PMC10587090
+    doi: 10.1038/s41523-023-00589-0
+    evidence_domains:
+      - margin_and_uncertainty
+      - perturbation_and_repeatability
+      - external_transport
+    review_state: pending_reappraisal
+    priority_rationale: >-
+      Existing appraisal is the main overlap study and must be mapped precisely
+      against the leave-one-gene-out and abstention contribution.
+    prior_artifact: literature/appraisals/PMC10587090-v1.0.0.yaml
+    founder_decision_recorded: false
+  - candidate_id: PMID:41064593
+    title: >-
+      BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular
+      subtyping in breast cancer research
+    publication_year: 2025
+    pmid: "41064593"
+    pmcid: PMC12501779
+    doi: 10.1093/nargab/lqaf131
+    evidence_domains:
+      - fixed_single_sample_classifier
+      - reference_and_centering
+      - gene_mapping_and_transformation
+      - external_transport
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      Current unified implementation exposes multiple published classifiers,
+      calibration strategies, mapping, assumptions, and reproducible GPL artifacts.
+    prior_artifact: null
+    founder_decision_recorded: false
+  - candidate_id: PMID:41390542
+    title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package
+    publication_year: 2025
+    pmid: "41390542"
+    pmcid: PMC12789466
+    doi: 10.1038/s41598-025-30752-5
+    evidence_domains:
+      - reference_and_centering
+      - external_transport
+      - implementation_and_licensing
+    review_state: pending_screening
+    priority_rationale: >-
+      Recent executable centering implementation directly tests robustness in
+      ER-imbalanced subsets and may constrain the fixed-reference design.
+    prior_artifact: literature/full-text/access-decisions/PMC12789466.yaml
+    founder_decision_recorded: false
+  - candidate_id: DOI:10.1093/bioinformatics/btv157
+    title: Test set bias affects reproducibility of gene signatures
+    publication_year: 2015
+    pmid: "25788628"
+    pmcid: PMC4495301
+    doi: 10.1093/bioinformatics/btv157
+    evidence_domains:
+      - reference_and_centering
+      - perturbation_and_repeatability
+      - external_transport
+    review_state: pending_screening
+    priority_rationale: >-
+      Direct evidence that test-set composition can alter genomic-signature
+      assignments and a core methodological justification for patient independence.
+    prior_artifact: null
+    founder_decision_recorded: false
+  - candidate_id: DOI:10.1186/s13058-015-0520-4
+    title: Molecular subtyping for clinically defined breast cancer subgroups
+    publication_year: 2015
+    pmid: "25849221"
+    pmcid: PMC4365540
+    doi: 10.1186/s13058-015-0520-4
+    evidence_domains:
+      - reference_and_centering
+      - external_transport
+    review_state: pending_screening
+    priority_rationale: >-
+      Subgroup-specific gene centering directly addresses restricted clinical
+      cohorts and must be compared with any fixed external-reference strategy.
+    prior_artifact: null
+    founder_decision_recorded: false
+autonomous_screening_decisions_allowed: false
+scientific_conclusions_drawn: false

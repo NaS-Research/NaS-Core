@@ -1,0 +1,134 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+strategy_version: 0.2.0
+status: draft
+objective: >-
+  Identify high-quality primary evidence that could specify, support, contradict,
+  or render non-novel a fixed single-sample PAM50 reliability and abstention layer,
+  with particular attention to immutable preprocessing, patient-level uncertainty,
+  technical repeatability, unclassifiable states, and unchanged external transport.
+sources:
+  - source_id: pubmed
+    name: PubMed
+    official_url: https://pubmed.ncbi.nlm.nih.gov/
+    query: >-
+      (breast cancer[Title/Abstract] OR breast carcinoma[Title/Abstract]) AND
+      (PAM50[Title/Abstract] OR intrinsic subtype[Title/Abstract]) AND
+      ("single sample"[Title/Abstract] OR "absolute assignment"[Title/Abstract] OR
+      uncertainty[Title/Abstract] OR ambiguous[Title/Abstract] OR
+      "not assigned"[Title/Abstract] OR abstain*[Title/Abstract] OR
+      confidence[Title/Abstract] OR margin[Title/Abstract] OR
+      permutation[Title/Abstract] OR calibration[Title/Abstract] OR
+      centering[Title/Abstract] OR normalization[Title/Abstract] OR
+      "test set bias"[Title/Abstract] OR repeatability[Title/Abstract] OR
+      perturbation[Title/Abstract])
+    purpose: >-
+      Primary biomedical methods and analytical-validation studies directly relevant
+      to one-sample classification, uncertainty, abstention, and transport.
+  - source_id: europe-pmc
+    name: Europe PMC
+    official_url: https://europepmc.org/
+    query: >-
+      (TITLE_ABS:"breast cancer" OR TITLE_ABS:"breast carcinoma") AND
+      (TITLE_ABS:PAM50 OR TITLE_ABS:"intrinsic subtype") AND
+      (TITLE_ABS:"single sample" OR TITLE_ABS:"absolute assignment" OR
+      TITLE_ABS:uncertainty OR TITLE_ABS:ambiguous OR TITLE_ABS:"not assigned" OR
+      TITLE_ABS:abstain* OR TITLE_ABS:confidence OR TITLE_ABS:margin OR
+      TITLE_ABS:permutation OR TITLE_ABS:calibration OR TITLE_ABS:centering OR
+      TITLE_ABS:normalization OR TITLE_ABS:"test set bias" OR
+      TITLE_ABS:repeatability OR TITLE_ABS:perturbation)
+    purpose: >-
+      Independent bibliographic coverage, open-license assessment, full-text links,
+      and official backward and forward citation-chain endpoints.
+date_range: Database inception through the final locked execution date.
+languages:
+  - English
+inclusion_criteria:
+  - >-
+    Primary human-tumor or analytical-method studies implementing a fixed
+    single-sample breast intrinsic-subtype classifier.
+  - >-
+    Studies quantifying patient-level centroid margin, ambiguity, uncertainty,
+    assignment confidence, unclassifiable results, abstention, or technical repeatability.
+  - >-
+    Studies directly evaluating PAM50 reference construction, centering, transformation,
+    gene mapping, cohort-composition dependence, or test-set bias.
+  - >-
+    Studies applying an unchanged classifier or calibration artifact across independent
+    cohorts, expression platforms, laboratories, or technical replicates.
+  - >-
+    Reproducible software or methods reports that expose exact classifier assumptions,
+    implementation artifacts, versions, and lawful reuse terms.
+exclusion_criteria:
+  - >-
+    Outcome-only or biological-subtype association studies without direct evidence about
+    classifier implementation, reliability, uncertainty, or transport.
+  - >-
+    Image-only, protein-only, cell-line-only, animal, or purely mechanistic classifiers
+    without a relevant human-tumor gene-expression method.
+  - >-
+    New subtype taxonomies that do not evaluate the PAM50 or intrinsic-subtype reliability
+    problem addressed by question 0.3.0.
+  - >-
+    Reviews, editorials, and commentaries as primary evidence; retain them solely as
+    citation-chain sources.
+  - >-
+    Duplicate or derivative reports without a distinct method, cohort, calibration,
+    validation, or uncertainty analysis.
+screening_process:
+  - >-
+    Deduplicate the revised search against the immutable 0.2.0 inventory by PMID, PMCID,
+    DOI, normalized title, and author-year while retaining source provenance.
+  - >-
+    Screen the direct high-priority evidence set first; final inclusion and exclusion
+    decisions remain founder decisions and cannot be supplied autonomously by AI.
+  - >-
+    Record one question-0.3.0-specific reason for every exclusion; prior relevance
+    decisions do not automatically transfer from question 0.2.0.
+  - >-
+    Retrieve only lawfully reusable full text; preserve access-restricted records in the
+    evidence map using permitted metadata and abstract-level evidence.
+  - >-
+    Complete backward and forward Europe PMC citation chaining over the cumulative eligible
+    set until two consecutive fully screened passes add zero eligible methodological or
+    external-transport studies.
+extraction_fields:
+  - Exact classifier name, version, source code, license, centroids, and reference artifacts
+  - Required genes, aliases, missing-gene rules, duplicates, imputation, and mapping conflicts
+  - Expression platform, input unit, transformation, offset, centering, and numerical precision
+  - Single-sample independence and any test-cohort or clinical-variable dependence
+  - Top and runner-up scores, margin, probability, entropy, ambiguity, and tie handling
+  - Perturbation family, technical-error source, dependence assumptions, run count, and random seed
+  - Reliability, unclassifiable, not-assigned, and abstention definitions and thresholds
+  - Threshold-selection data, target, calibration method, optimism controls, and outcome use
+  - Internal validation, unchanged external validation, platform transport, and replicate evidence
+  - Biological-truth, clinical-validity, clinical-utility, and treatment claims kept distinct
+  - Null, contradictory, failure-heavy, and high-abstention findings
+  - Conflicts, funding, data and code availability, artifact checksums, and reuse restrictions
+synthesis_plan:
+  - >-
+    Map each eligible study to one or more reliability-specification dependencies rather
+    than pooling unrelated accuracy or outcome estimates.
+  - >-
+    Separate original PAM50 implementations from alternative single-sample classifiers;
+    agreement with PAM50 is not biological truth.
+  - >-
+    Compare calibration and uncertainty approaches by their target, data dependence,
+    external validation, and abstention behavior.
+  - >-
+    Treat evidence that already implements patient-level uncertainty or not-assigned
+    states as a direct challenge to novelty.
+  - >-
+    Produce a claim-by-claim revised memorandum preserving contradictions, null findings,
+    access limitations, and unresolved dependencies.
+stopping_rule: >-
+  Completion requires execution of the locked revised queries, deduplication against the
+  prior inventory, final founder screening of every revised candidate, appraisal or
+  access-restriction accounting for every eligible study, and sequential backward-plus-
+  forward Europe PMC citation passes over the cumulative eligible set. Stop only when the
+  latest two consecutive complete passes each screen every unique candidate and each add
+  zero eligible methodological or external-transport studies. Continue chaining whenever
+  either pass adds eligible evidence. Document unresolved claims; absence is not novelty.
+retrieval_authorized: false

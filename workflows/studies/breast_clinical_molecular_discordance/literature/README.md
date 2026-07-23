@@ -1,5 +1,20 @@
 # Literature
 
+## Question 0.3.0 revised evidence review
+
+The current reliability-focused review is governed by:
+
+- [`REVISED_EVIDENCE_REVIEW_PROTOCOL.md`](REVISED_EVIDENCE_REVIEW_PROTOCOL.md)
+- [`search_strategy_v0.3.0.yaml`](search_strategy_v0.3.0.yaml)
+- [`revised_priority_evidence.yaml`](revised_priority_evidence.yaml)
+- [`revised_evidence_review_progress.yaml`](revised_evidence_review_progress.yaml)
+
+The revised search remains a nonexecuting draft. Its 13-record direct priority set
+contains candidate evidence, not automatic inclusion decisions or scientific
+conclusions. The progress ledger cannot claim completion until the locked search,
+deduplication, founder screening, appraisal accounting, and two consecutive
+zero-yield backward-plus-forward citation passes all reconcile.
+
 Required artifacts:
 
 - `literature/protocol.md`

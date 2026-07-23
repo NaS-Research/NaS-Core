@@ -25,6 +25,11 @@ from nas_core.domain.cohorts import (
     write_cohort_schemas,
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
+from nas_core.domain.evidence_review import (
+    load_evidence_review_progress,
+    load_priority_evidence_set,
+    write_evidence_review_schemas,
+)
 from nas_core.domain.literature import (
     load_literature_search_receipt,
     load_screening_decision_batch,
@@ -191,6 +196,23 @@ def build_parser() -> argparse.ArgumentParser:
         "schema", help="Write the canonical reliability JSON Schema"
     )
     reliability_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+
+    evidence_review = commands.add_parser(
+        "evidence-review", help="Manage bounded evidence reviews and citation-chain saturation"
+    )
+    evidence_review_commands = evidence_review.add_subparsers(
+        dest="evidence_review_command", required=True
+    )
+    evidence_review_validate = evidence_review_commands.add_parser(
+        "validate", help="Validate priority evidence and review-progress artifacts"
+    )
+    evidence_review_validate.add_argument("priority_path", type=Path)
+    evidence_review_validate.add_argument("progress_path", type=Path)
+    evidence_review_schema = evidence_review_commands.add_parser(
+        "schema", help="Write evidence-review JSON Schemas"
+    )
+    evidence_review_schema.add_argument("priority_path", type=Path)
+    evidence_review_schema.add_argument("progress_path", type=Path)
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
     literature_commands = literature.add_subparsers(dest="literature_command", required=True)
@@ -553,6 +575,39 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "reliability" and args.reliability_command == "schema":
         write_reliability_schema(args.path)
         print(f"Wrote reliability schema: {args.path}")
+        return 0
+
+    if args.command == "evidence-review" and args.evidence_review_command == "validate":
+        priority = load_priority_evidence_set(args.priority_path)
+        review_progress = load_evidence_review_progress(args.progress_path)
+        priority_identity = (
+            priority.study_id,
+            priority.question_id,
+            priority.question_version,
+            priority.set_version,
+        )
+        progress_identity = (
+            review_progress.study_id,
+            review_progress.question_id,
+            review_progress.question_version,
+            review_progress.priority_set_version,
+        )
+        if priority_identity != progress_identity:
+            raise ValueError("priority set and evidence-review progress must identify one version")
+        print(
+            f"Evidence review is valid: {review_progress.study_id} "
+            f"question {review_progress.question_version}; "
+            f"{len(priority.candidates)} priority records, "
+            f"{review_progress.pending_candidate_count} pending, "
+            f"stopping rule satisfied: {review_progress.stopping_rule_satisfied}"
+        )
+        return 0
+
+    if args.command == "evidence-review" and args.evidence_review_command == "schema":
+        write_evidence_review_schemas(args.priority_path, args.progress_path)
+        print(
+            f"Wrote evidence-review schemas: {args.priority_path}, {args.progress_path}"
+        )
         return 0
 
     if args.command == "literature" and args.literature_command == "search":
