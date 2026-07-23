@@ -24,6 +24,9 @@ DISCOVERY_QUESTION_PATH = (
     / "question"
     / "research_question.yaml"
 )
+ARCHIVED_DISCOVERY_QUESTION_PATH = DISCOVERY_QUESTION_PATH.parent / "versions" / (
+    "research_question_v0.2.0.yaml"
+)
 CHARTER_SCHEMA_PATH = ROOT / "workflows" / "program_charter.schema.json"
 QUESTION_SCHEMA_PATH = ROOT / "workflows" / "research_question.schema.json"
 
@@ -53,9 +56,32 @@ def test_proposed_discovery_question_is_valid_but_not_literature_ready() -> None
     question = load_research_question(DISCOVERY_QUESTION_PATH)
 
     assert question.question_id == "NAS-RQ-BRCA002"
+    assert question.version == "0.3.0"
     assert question.status.value == "proposed"
     assert question.literature_status.value == "not_ready"
-    assert question.selection_scores.total == 30
+    assert question.selection_scores.total == 31
+    assert "single-sample" in question.title.lower()
+    assert question.reviews[0].decision == "pending"
+
+
+def test_v020_question_and_change_decision_are_preserved() -> None:
+    question = load_research_question(ARCHIVED_DISCOVERY_QUESTION_PATH)
+
+    assert question.version == "0.2.0"
+    assert question.status == "proposed"
+    assert question.reviews[0].decision == "changes_requested"
+    assert question.reviews[0].reviewed_at is not None
+
+
+def test_v030_primary_outcomes_are_analytical_not_clinical() -> None:
+    question = load_research_question(DISCOVERY_QUESTION_PATH)
+    outcomes = " ".join(question.scientific_question.outcomes).lower()
+    estimand = question.scientific_question.estimand.lower()
+
+    assert "abstain" in outcomes
+    assert "repeatability" in outcomes
+    assert "treatment response" not in outcomes
+    assert "not probabilities of" in estimand
 
 
 def test_selected_question_requires_approval() -> None:

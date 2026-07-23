@@ -69,7 +69,7 @@ studies:
       prognostic association; this study is not a precision-medicine product claim.
   - study_id: NAS-BRCA-002
     role: discovery
-    title: PAM50 classification stability in HR-positive/HER2-negative breast cancer
+    title: Single-sample PAM50 reliability and abstention in HR-positive/HER2-negative breast cancer
     status: proposed
     purpose: >-
       Distinguish robust non-luminal biology from unstable PAM50 assignment across

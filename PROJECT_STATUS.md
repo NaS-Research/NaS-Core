@@ -8,13 +8,12 @@ and what comes next?
 
 ## Current focus
 
-### Revise NAS-BRCA-002 after the Phase 0 change decision
+### Specify the NAS-BRCA-002 single-sample reliability method
 
-Question `0.2.0` is not approved for preregistration. Rewrite it around a fixed
-single-sample reliability, calibration, and abstention layer that is meaningfully
-distinct from the published 6,233-tumor SCAN-B perturbation study. Preserve the
-metadata-only, nonclinical boundary until revised evidence and founder review support
-a new decision.
+Question `0.3.0` is drafted around a fixed single-sample reliability, calibration,
+and abstention layer. Define the exact method and result states without using
+molecular or outcome results. Preserve the metadata-only, nonclinical boundary until
+revised evidence and founder review support a new decision.
 
 Definition of done:
 
@@ -33,8 +32,9 @@ Definition of done:
 
 Current gate state:
 
-- Question version `0.2.0` remains proposed with a founder-authorized `change`
-  decision; preregistration and outcome access are prohibited.
+- Question version `0.2.0` and its founder-authorized `change` decision are
+  preserved. Version `0.3.0` is the active proposed revision; preregistration and
+  outcome access remain prohibited.
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
   feasibility specification are implemented.
 - AI-assisted question review is advisory; the founder Phase 0 decision is recorded,
@@ -72,41 +72,57 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Draft question version `0.3.0` around a fixed single-sample reliability,
-   calibration, and abstention layer.
-2. Define the minimum PAM50 implementation and perturbation set without using
+1. Define the minimum PAM50 implementation and perturbation set without using
    molecular or outcome results.
-3. Define patient-level margin, stability, uncertainty, and abstention outputs,
+2. Define patient-level margin, stability, uncertainty, and abstention outputs,
    including failure and unclassifiable states.
-4. Complete the revised high-quality evidence review and its two-pass
+3. Complete the revised high-quality evidence review and its two-pass
    citation-chain stopping rule.
-5. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+4. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-6. Complete the founder scientific/product, molecular/pathology, and statistical
+5. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-9. Implement persisted evidence claims, citations, provenance, contradictory
+8. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-11. Expand the screening model gateway into general evidence reasoning with
+10. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-12. Build evaluation suites for retrieval, citation validity, numerical
+11. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-13. Generate an immutable research release containing the protocol, dataset
+12. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-14. Generate a reviewable white-paper draft whose substantive claims trace to
+13. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-15. Build the internal workbench for projects, protocols, datasets, runs,
+14. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-16. Complete repeated internal oncology pilots before selecting the first
+15. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-23 — Question v0.3.0 narrows the study to reliability and abstention
+
+Preserved question `0.2.0` and its review packet as immutable versioned history,
+then drafted active question `0.3.0`. The new primary object is a frozen,
+patient-independent research procedure that returns the subtype and runner-up
+scores, margin, perturbation repeatability, data-quality state, reliability state,
+and an explicit abstention reason. The primary estimands are analytical reliability
+and repeatability—not biological truth, prognosis, treatment response, or clinical
+utility.
+
+The v0.3.0 change-resolution trace maps every Phase 0 requirement to a resolved or
+pending state. The founder and AI review states reset to `pending`; prior v0.2.0
+work is not carried forward as approval. No preregistration, ingestion, molecular
+analysis, outcome access, or clinical use was authorized.
+
+Validation: active and archived question validation, version-history tests, Ruff,
+strict MyPy across 54 source files, and all 156 tests passed.
 
 ### 2026-07-23 — Phase 0 triggers a disciplined question change
 
@@ -178,28 +194,13 @@ Validation: restriction provenance, receipt identity, license/checksum binding,
 appraisal schema, ledger reconciliation, Ruff, strict MyPy across 54 source files,
 and all 145 tests passed.
 
-### 2026-07-22 — RNA-seq PAM50 reference-sensitivity study appraised as supporting
-
-Retrieved `PMC7442834` under CC BY 4.0 as 127,968 bytes with SHA-256
-`186a84b2…6518` and completed its full-text appraisal. Across 4,731 tumors, the paper
-directly tests how PAM50 reference-cohort selection changes subtype calls, replicates
-the issue in TCGA and SCAN-B/GSE96058, evaluates preprocessing-matched AWCA references,
-and publishes code and classifiers. It is locked as `supporting`, not anchor, because
-published PAM50 calls are an imperfect and partly circular benchmark, TCGA/PanCA cohort
-independence is unresolved, the approach remains preprocessing-specific, and prognostic
-comparisons are exploratory. The ledger now records 5 retrieved, 5 appraised, 2 access-
-restricted, 3 supporting, 2 context-only, and 0 anchor.
-
-Validation: receipt identity, license/checksum binding, appraisal schema, ledger
-reconciliation, Ruff, strict MyPy across 54 source files, and all 143 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
 - Paid AI advisory screening is intentionally inactive under founder policy `1.0.2`;
   the active deterministic Phase 0 workflow requires no API credential.
-- `NAS-BRCA-002` version `0.2.0` received a `change` decision. A revised question,
+- `NAS-BRCA-002` version `0.3.0` is proposed. Its exact method specification,
   complete evidence stopping rule, and founder scientific/product,
   molecular/pathology, and statistical reviews are required before selection.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene

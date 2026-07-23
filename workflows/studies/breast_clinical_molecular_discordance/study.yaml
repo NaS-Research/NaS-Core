@@ -2,15 +2,16 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 slug: breast_clinical_molecular_discordance
 title: >-
-  Not All Discordance Is Equal: Robust and Unstable Molecular Reclassification
-  in HR-Positive/HER2-Negative Breast Cancer
+  Single-Sample PAM50 Reliability and Abstention in
+  HR-Positive/HER2-Negative Breast Cancer
 program_id: NAS-ONC-001
 role: discovery
 status: proposed
 created_at: '2026-07-20T23:36:49.718103Z'
 owner: Dalron J. Robertson — Founder and Study Lead
 objective: >-
-  Identify which non-luminal PAM50 assignments in clinically HR-positive/
-  HER2-negative breast cancer remain stable across defensible implementations,
-  characterize stable and unstable groups, and test them independently.
+  Develop and externally test a frozen, patient-independent research procedure
+  that distinguishes analysis-ready PAM50 labels from unstable,
+  insufficient-data, and abstain states without claiming biological truth or
+  clinical utility.
 artifact_namespace: studies/NAS-BRCA-002

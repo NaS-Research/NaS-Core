@@ -1,123 +1,149 @@
 schema_version: 1.0.0
 question_id: NAS-RQ-BRCA002
-version: 0.2.0
+version: 0.3.0
 program_id: NAS-ONC-001
-title: Robust and unstable molecular reclassification in HR-positive HER2-negative breast cancer
+title: Single-sample PAM50 reliability and abstention in HR-positive HER2-negative breast cancer
 status: proposed
 study_role: discovery
-created_at: 2026-07-20T19:00:00-05:00
+created_at: 2026-07-23T01:30:00-05:00
 decision_context:
   intended_user: >-
-    Translational breast-cancer researchers and molecular tumor boards evaluating
-    where additional molecular characterization deserves formal study.
+    Translational breast-cancer researchers deciding whether a research PAM50
+    assignment is sufficiently reliable for downstream biological investigation.
   decision_to_support: >-
-    Prioritize which clinically HR-positive/HER2-negative tumors and research
-    settings warrant further study of transcriptomic subtyping, confidence, or abstention.
+    Decide whether a tumor's research subtype result is analysis-ready, should be
+    reported with an instability warning, or should be withheld through abstention
+    before it enters subgroup characterization.
   current_workflow: >-
-    Research pipelines often report one PAM50 label without showing whether the
-    assignment persists across defensible preprocessing and classifier implementations.
+    Research pipelines commonly return one forced subtype label. Some implementations
+    also depend on the other samples in the test cohort, so the same tumor may receive
+    a different result when cohort composition changes.
   unmet_need: >-
-    Clinically discordant results can reflect durable tumor biology, analytical
-    instability, or both, but these states are rarely separated with reproducible
-    definitions, uncertainty, and independent validation.
+    There is no validated, transparent NaS workflow that operates on one sample at a
+    time, preserves input and preprocessing failures, quantifies margin and repeatability
+    under locked technical perturbations, and abstains without claiming diagnostic truth.
   desired_action_change: >-
-    Distinguish robust non-luminal biology from unstable subtype assignment before
-    choosing focused molecular-testing, biomarker, or translational-validation studies.
+    Replace the forced-label-only research workflow with a fixed result contract:
+    subtype, first and second centroid scores, margin, perturbation repeatability,
+    data-quality state, reliability state, and an explicit abstain decision.
   meaningful_outcome: >-
-    Reproducible evidence identifying whether a clearly defined subgroup merits
-    additional molecular characterization and independent clinical-utility study.
+    A reproducible method that determines whether downstream research analyses may use
+    a subtype label or must preserve uncertainty, and that transports unchanged from
+    TCGA-BRCA discovery to an independent processed SCAN-B cohort.
 scientific_question:
   population: >-
-    Clinically HR-positive/HER2-negative primary invasive breast cancers with
-    interpretable receptor, transcriptomic, and required clinicopathologic data.
+    Clinically HR-positive/HER2-negative primary invasive breast tumors with
+    interpretable receptor metadata and expression measurements covering the locked
+    PAM50 input requirements.
   exposure_or_intervention: >-
-    Stability of RNA-expression intrinsic subtype assignment across prespecified,
-    defensible PAM50 preprocessing and classifier implementations.
+    A frozen, patient-independent PAM50 reliability procedure that uses fixed gene
+    mappings, transformations, centroids, perturbations, quality rules, margin rules,
+    repeatability rules, and abstention logic without reference to other test samples
+    or clinical outcomes.
   comparator: >-
-    Stable luminal tumors compared with robustly non-luminal and
-    classification-unstable tumors under locked consensus and confidence rules.
+    Forced subtype labeling compared with prespecified reliable-label,
+    unstable-label, insufficient-data, and abstain states produced by the frozen
+    single-sample procedure.
   outcomes:
-    - Proportions of stable luminal, robustly non-luminal, unstable, and unclassifiable tumors.
-    - Agreement, transition patterns, centroid margins, and classification confidence.
-    - Clinicopathologic, genomic, pathway, and immune correlates where available.
-    - Overall-survival association as a secondary exploratory outcome, not a treatment effect.
-  time_horizon: Classification at the index primary tumor and available longitudinal follow-up.
+    - Fraction of samples receiving a valid fixed-configuration PAM50 result.
+    - First and second centroid scores and their prespecified margin.
+    - Subtype repeatability across a locked, non-outcome-guided perturbation panel.
+    - Proportions classified as reliable, unstable, insufficient-data, or abstain.
+    - Unchanged external reproduction of the primary reliability outputs in GSE96058.
+  time_horizon: Analytical classification of the index primary tumor; no longitudinal endpoint is primary.
   estimand: >-
-    Cohort-specific proportions of robust non-luminal and unstable assignments,
-    with uncertainty, plus prespecified associations with biological features.
+    Cohort-specific proportions and confidence intervals for each reliability state,
+    plus the per-sample repeatability of the top subtype under prespecified technical
+    perturbations. These are analytical-reliability estimands, not probabilities of
+    biological truth, prognosis, treatment response, or clinical utility.
 precision_medicine_rationale:
-  - Clinically similar tumors can contain heterogeneous molecular programs.
-  - A stable non-luminal assignment may identify a focused translational research subgroup.
-  - An unstable assignment may require uncertainty reporting or abstention rather than reclassification.
-  - No classifier implementation or clinical category is treated as a universal gold standard.
+  - Precision research requires knowing when a molecular label is too unstable to interpret.
+  - Abstention can prevent weak subtype assignments from contaminating downstream subgroup analyses.
+  - A patient-independent method is necessary if the eventual unit of interpretation is one tumor.
+  - Clinical receptor status, research PAM50 output, and biological truth remain distinct constructs.
+  - No research output from this study may direct patient testing, diagnosis, prognosis, or treatment.
 evidence_needed:
-  - Definitions and intended uses of receptor-based and intrinsic subtype systems.
-  - Prior discordance, PAM50 stability, preprocessing, classifier, and confidence studies.
-  - Clinical receptor, RNA-expression, mutation, copy-number, and outcome data.
-  - Independent cohort data capable of reproducing the primary classification analysis.
+  - Fixed PAM50 implementations that can score one sample independently.
+  - Evidence on centering, reference construction, missing genes, platform effects, and measurement error.
+  - Studies defining centroid margins, repeatability, uncertainty, calibration targets, or abstention.
+  - External validation studies that apply a frozen classifier without outcome-guided adaptation.
+  - Explicit evidence that distinguishes analytical repeatability from biological or clinical correctness.
 data_feasibility:
   required_modalities:
-    - Clinical receptor and clinicopathologic variables.
-    - Gene-expression measurements or validated intrinsic-subtype assignments.
-    - Somatic alteration data for exploratory characterization.
-    - Survival and follow-up data for secondary exploratory analysis.
+    - Clinical ER, PR, and HER2 metadata for cohort eligibility only.
+    - Primary-tumor gene expression with complete locked PAM50 input coverage.
+    - Gene identifiers, genome annotation, expression units, workflow, and sample mappings.
+    - Technical-replicate labels where available for secondary repeatability assessment.
   available_sources:
-    - Public/open TCGA-BRCA data through the NCI Genomic Data Commons, pending exact field assessment.
+    - Public/open TCGA-BRCA harmonized data through the NCI Genomic Data Commons.
+    - Public processed SCAN-B RNA-seq and sample metadata through GEO accession GSE96058.
   missing_sources:
-    - An independently approved external validation cohort with compatible subtype and clinical variables.
-    - Fit-for-purpose treatment and recurrence data for any later clinical-utility claim.
+    - Verified receptor-field completeness and assay-definition harmonization.
+    - Verified PAM50 gene coverage and alias mapping in both sources.
+    - A locked cross-platform transformation that does not use validation outcomes.
+    - A defensible external calibration target when no biological gold standard exists.
   requires_real_world_data: false
   public_data_role: >-
-    Public data can support discovery and methodological validation, but not a
-    patient-level treatment recommendation or clinical-utility claim.
+    Public research cohorts support analytical method development and external
+    reproducibility. They cannot establish clinical validity, clinical utility, or
+    a patient-level treatment recommendation.
   known_data_limitations:
-    - TCGA is a retrospective research cohort with incomplete treatment and follow-up context.
-    - Clinical assay methods, thresholds, and missingness can vary across contributing sites.
-    - Intrinsic subtype assignment depends on preprocessing, centering, cohort composition, and implementation.
-    - Apparent outcome differences may reflect stage, age, treatment, sampling, or other confounding.
+    - TCGA is a retrospective research cohort with heterogeneous clinical metadata.
+    - GSE96058 exposes processed FPKM expression; raw sequence data are unavailable.
+    - GSE96058 overlaps the broader SCAN-B evidence-development literature.
+    - Cross-platform differences can be confounded with biological differences.
+    - A repeatable centroid assignment is not necessarily a biologically correct assignment.
 analysis_families:
-  - Descriptive cross-implementation agreement, transition, and stability analysis.
-  - Nearest and second-nearest centroid margin and uncertainty analysis.
-  - Multivariable association modeling with prespecified confounders.
-  - Transcriptomic pathway and immune-signature characterization.
-  - Somatic mutation and copy-number enrichment analysis with multiplicity control.
-  - Exploratory survival analysis with diagnostics and explicit noncausal interpretation.
+  - Deterministic fixed-centroid single-sample scoring and failure-state testing.
+  - Descriptive first-versus-second centroid margin analysis.
+  - Prespecified technical perturbation and subtype-repeatability analysis.
+  - Reliability-state and abstention-rate estimation with confidence intervals.
+  - Technical-replicate agreement where explicitly identified.
+  - Locked external reproduction in GSE96058 without validation-outcome tuning.
+  - Secondary non-outcome clinicopathologic characterization only after the primary analytical release.
 validation_path:
   internal_validation: >-
-    Lock implementations and consensus rules, quantify bootstrap uncertainty,
-    perturb only prespecified analytical choices, and reproduce from a clean environment.
+    Test deterministic single-sample invariance, missing-gene behavior, identifier
+    mapping, numerical tolerances, perturbation repeatability, abstention boundaries,
+    and clean-environment reproduction using synthetic fixtures before real inputs.
   external_validation: >-
-    Repeat the primary stability categories and prespecified correlates in an
-    independent HR-positive/HER2-negative cohort after source and license approval.
+    Freeze the complete method in TCGA-BRCA, then run the identical version in
+    GSE96058 using only the prespecified platform bridge. Report transport failures
+    and abstention rather than adapting the method to improve validation results.
   biological_or_clinical_validation: >-
-    Seek breast-pathology, molecular-oncology, and biostatistical review; any
-    proposed biological mechanism requires independent experimental or clinical evidence.
+    This study does not validate biological truth or a clinical assay. Any future
+    claim that a reliability state reflects biology, prognosis, treatment response,
+    or clinical usefulness requires a separate independently reviewed study.
   deployment_evaluation: >-
-    A later project must test whether presenting validated classification
-    confidence improves molecular-review decisions without inappropriate action.
+    The first deployment is a research workbench artifact with provenance and
+    abstention, not a patient-facing or clinician-facing decision-support product.
 proposed_system_output: >-
-  A versioned PAM50 stability atlas and evidence report showing stable luminal,
-  robust non-luminal, unstable, and unclassifiable groups; transitions; associated
-  biology; uncertainty; limitations; and abstention. It is not a patient tool.
+  A versioned NaS single-sample reliability report containing input eligibility,
+  quality checks, subtype and runner-up scores, margin, perturbation results,
+  repeatability, reliability state, abstention reason, provenance, limitations,
+  and evidence links. It is a research artifact, not a clinical test.
 scientific_success_criteria:
-  - Implementations, consensus rules, and primary estimands are preregistered before outcomes.
-  - Stability estimates include uncertainty and survive the prespecified robustness analysis.
-  - All molecular analyses control multiplicity and preserve null and contradictory findings.
-  - Primary stable and unstable proportions are tested in an independent cohort.
+  - The same sample and frozen inputs produce the same result regardless of other test samples.
+  - Missing genes, invalid mappings, and failed transformations produce explicit failure or abstention.
+  - All reliability and abstention thresholds are locked before molecular or outcome analysis.
+  - Primary reliability-state estimates include uncertainty and retain null or failure-heavy results.
+  - The complete frozen method is attempted unchanged in GSE96058.
+  - No outcome association is required for the analytical method to be scientifically informative.
 decision_success_criteria:
-  - Results identify a specific subgroup and follow-up research decision, or support abstention.
-  - Reviewers can distinguish descriptive, prognostic, predictive, and clinical-utility claims.
+  - Researchers can tell which subtype labels are permitted for downstream study and why.
+  - The output clearly separates repeatability, uncertainty, biological interpretation, and clinical validity.
+  - A failure or high-abstention result produces a documented stop or redesign decision.
 product_success_criteria:
-  - The frozen release can power a traceable public atlas and paper without manual result transcription.
-  - The work reveals whether a credible partner, data, and validation path exists for translation.
+  - Every report field traces to a frozen input, deterministic calculation, rule, or approved evidence source.
+  - The method can later become a governed Cortex reliability component without embedding a cohort-dependent classifier.
 selection_scores:
   decision_impact: 3
-  unmet_need: 3
+  unmet_need: 4
   scientific_testability: 5
   data_feasibility: 4
-  validation_feasibility: 3
+  validation_feasibility: 4
   differentiation: 4
-  translation_path: 3
+  translation_path: 2
   governance_feasibility: 5
 literature_status: not_ready
 reviews:
@@ -125,25 +151,19 @@ reviews:
     role: Founder, Study Lead, and Internal Scientific Reviewer
     review_type: internal_self_review
     required_for_gate: true
-    decision: changes_requested
-    reviewed_at: 2026-07-23T01:10:00-05:00
+    decision: pending
+    reviewed_at: null
     rationale: >-
-      Phase 0 found that PMC10587090 already resolves a substantial portion of the
-      broad PAM50 perturbation/stability thesis in 6,233 SCAN-B tumors. Revise the
-      question around a fixed single-sample reliability, calibration, and abstention
-      layer, then complete separate scientific/product, molecular/pathology, and
-      statistical self-review passes. This is founder-led internal review, not
-      independent peer review.
+      Complete separate scientific/product, molecular/pathology, and statistical
+      review passes for version 0.3.0 after the implementation set, output rules,
+      revised evidence stopping rule, and metadata checks are complete.
   - reviewer: OpenAI Codex
     role: AI-assisted adversarial and consistency reviewer
     review_type: ai_assisted_internal_review
     required_for_gate: false
-    decision: advisory_complete
-    reviewed_at: 2026-07-22T12:49:15-05:00
+    decision: pending
+    reviewed_at: null
     rationale: >-
-      Completed the non-authoritative review in
-      reviews/AI_QUESTION_REVIEW_v0.2.0.md. The proposal is suitable for a
-      non-outcome novelty and feasibility audit but remains unselected pending
-      resolution of novelty, perturbation, clinical-mapping, uncertainty,
-      sparse-group, multiplicity, and independent-validation findings. AI
-      findings are advisory and cannot authorize selection or retrieval.
+      Version 0.3.0 was drafted with AI assistance in response to the Phase 0 change
+      decision. A separate non-authoritative adversarial review remains required and
+      cannot authorize selection, preregistration, ingestion, or analysis.

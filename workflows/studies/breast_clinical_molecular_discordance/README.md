@@ -1,7 +1,6 @@
-# NAS-BRCA-002: Not All Discordance Is Equal
+# NAS-BRCA-002: Single-Sample PAM50 Reliability
 
-**Robust and Unstable Molecular Reclassification in HR-Positive/HER2-Negative
-Breast Cancer**
+**Reliability and Abstention in HR-Positive/HER2-Negative Breast Cancer**
 
 This directory contains versioned definitions, deterministic code, tests, and
 reviews for one NaS study. It must not contain raw data, credentials, PHI,
@@ -19,10 +18,12 @@ artifact namespace and immutable snapshot, run, or release identifiers.
 
 ## Current state
 
-The project remains at the question stage with changes requested for version
-`0.2.0`. Read the
+The project remains at the question stage. Version `0.2.0` received changes
+requested and is preserved; version `0.3.0` is now the active proposed revision.
+Read the
 [project-to-publication plan](PROJECT_PLAN.md), the draft
-[research-question intake](question/research_question.yaml), the bounded
+[research-question intake](question/research_question.yaml), its
+[change-resolution trace](reviews/QUESTION_v0.3.0_CHANGE_RESOLUTION.md), the bounded
 [Phase 0 plan](question/phase_zero_plan.yaml), and the non-authoritative
 [AI question review](reviews/AI_QUESTION_REVIEW_v0.2.0.md).
 

@@ -1,11 +1,11 @@
 # NAS-BRCA-002 Project-to-Publication Plan
 
-Study: **Not All Discordance Is Equal: Robust and Unstable Molecular
-Reclassification in HR-Positive/HER2-Negative Breast Cancer**
+Study: **Single-Sample PAM50 Reliability and Abstention in
+HR-Positive/HER2-Negative Breast Cancer**
 
 Study ID: `NAS-BRCA-002`  
 Question ID: `NAS-RQ-BRCA002`  
-Current state: **Changes requested after Phase 0; no data analysis authorized**
+Current state: **Question v0.3.0 drafted; review prerequisites pending**
 Planned public URL:
 `https://nasresearch.bio/research/pam50-classification-stability-breast-cancer`
 
@@ -40,7 +40,8 @@ gate was satisfied.
 
 - `NAS-BRCA-001` received a conditional platform-qualification pass; its founder
   results/remediation gate remains pending before outcome-bearing discovery work.
-- Question `0.2.0` received a `change` decision after direct prior work was found.
+- Question `0.2.0` received a `change` decision after direct prior work was found;
+  the narrowed `0.3.0` revision is proposed and not approved.
 - The revised single-sample reliability/abstention contribution has not completed
   scientific/product, molecular/pathology, and statistical self-review.
 - GSE96058 is approved as a processed-data validation candidate, but its PAM50
@@ -48,16 +49,14 @@ gate was satisfied.
 
 ### Immediate working queue
 
-1. Create question version `0.3.0` centered on a fixed single-sample reliability,
-   calibration, and abstention layer.
-2. Lock the minimum implementation set and patient-level uncertainty outputs
+1. Lock the minimum implementation set and patient-level uncertainty outputs
    without outcome-guided selection.
-3. Complete the revised evidence review and two-pass citation-chain stopping rule.
-4. Verify TCGA receptor fields and both sources' PAM50 gene coverage using
+2. Complete the revised evidence review and two-pass citation-chain stopping rule.
+3. Verify TCGA receptor fields and both sources' PAM50 gene coverage using
    metadata-only checks.
-5. Complete the three founder review perspectives in
+4. Complete the three founder review perspectives in
    `reviews/QUESTION_REVIEW_PACKET.md`.
-6. Return revised version `0.3.0` for `go`, `change`, `hold`, or `reject`.
+5. Return revised version `0.3.0` for `go`, `change`, `hold`, or `reject`.
 
 ## Phase 1 execution board — Question review and selection
 
@@ -66,20 +65,21 @@ testable, differentiated, feasible, governable, and externally validatable to
 authorize a formal literature review.
 
 - Phase owner: **Dalron J. Robertson — Founder and Study Lead**
-- Current question version: `0.2.0`
+- Current question version: `0.3.0`
 - Current decision: `changes_requested`
 - Current gate state: `in_progress`
 
 | ID | Task | Owner | Status | Required evidence |
 | --- | --- | --- | --- | --- |
 | P1.1 | Register permanent study and question IDs | NaS Research | Complete | `study.yaml` and `research_question.yaml` |
-| P1.2 | Narrow the question to robust versus unstable PAM50 assignment | NaS Research | Complete | Question version `0.2.0` |
+| P1.2 | Narrow the question to robust versus unstable PAM50 assignment | NaS Research | Superseded | Version `0.2.0` preserved after changes requested |
+| P1.2a | Revise to patient-independent reliability and abstention | NaS Research | Complete | Proposed question `0.3.0` and change-resolution trace |
 | P1.3 | Prepare the multidisciplinary review packet | NaS Research | Complete | `reviews/QUESTION_REVIEW_PACKET.md` |
 | P1.4 | Confirm the accountable study lead | Dalron J. Robertson | Complete | Name and role recorded in `study.yaml` |
 | P1.5 | Complete scientific/product self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and conflict disclosure |
 | P1.6 | Complete molecular pathology/oncology self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and knowledge limitations |
 | P1.7 | Complete biostatistical self-review pass | Dalron J. Robertson | Not started | Checklist, comments, rationale, and knowledge limitations |
-| P1.8 | Complete AI-assisted adversarial review | OpenAI Codex | Complete | `reviews/AI_QUESTION_REVIEW_v0.2.0.md`; advisory and non-authoritative |
+| P1.8 | Complete AI-assisted adversarial review | OpenAI Codex | Pending for v0.3.0 | v0.2.0 advisory preserved; revised review required |
 | P1.9 | Resolve every requested change | Dalron J. Robertson | Not started | Comment-resolution log and versioned question changes |
 | P1.10 | Re-score the final candidate | Dalron J. Robertson | Not started | Evidence-backed scores and written rationale for all eight dimensions |
 | P1.11 | Record final selection decision | Dalron J. Robertson | Complete for v0.2.0 | Changes requested at Phase 0 gate; revision required |
