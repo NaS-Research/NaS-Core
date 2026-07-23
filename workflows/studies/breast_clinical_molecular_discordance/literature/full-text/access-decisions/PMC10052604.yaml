@@ -1,0 +1,17 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: b2708b96d26dad3430555dd519cb483c34bc0189b64f6336ab8e35fd114e16bd
+pmcid: PMC10052604
+title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10052604/fullTextXML
+observed_license: CC-BY-NC-4.0
+license_url: https://creativecommons.org/licenses/by-nc/4.0/
+outcome: restricted
+policy_reason: >-
+  The item-level license limits reuse to non-commercial purposes. NaS is a company,
+  so the current commercial research policy does not authorize durable full-text
+  ingestion or redistribution without separate permission.
+checked_at: 2026-07-22T20:28:00-05:00
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

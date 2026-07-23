@@ -1,0 +1,122 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: a9967242446d109e4ecce32c7076bf8571bdfb42ea8f1f2d5c6bcb45d1b19137
+title: The molecular portraits of breast tumors are conserved across microarray platforms.
+pmid: '16643655'
+doi: 10.1186/1471-2164-7-96
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC1468408/fullTextXML
+full_text_sha256: 6e8f968dffa8ca8ebd09ade787aeaefaa29908adad1a81972033226e27af4634
+access_basis: Creative Commons Attribution 2.0 Generic (CC-BY-2.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The intrinsic-gene training material included 105 tumors and 9 normal samples from
+      four institutions, followed by 315 previously published samples and two additional
+      60- and 96-tumor datasets. This provides institutional and treatment diversity, but
+      the historical cohorts are convenience collections with heterogeneous treatment,
+      incomplete clinical variables, and limited reporting of exclusions and missingness.
+    evidence_locations:
+      - Methods — Sample collection, RNA isolation and microarray hybridization
+      - Methods — Creation and analyses of the combined test set
+      - Methods — Derivation of the Single Sample Predictor
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Fresh-frozen RNA processing and Agilent hybridization are described, and primary data
+      are available in GEO. Cross-platform synthesis required probe-to-UniGene mapping,
+      median collapsing, k-nearest-neighbor imputation, DWD batch adjustment, and reduction
+      from 1,300 intrinsic genes to the 306 represented on all combined platforms. These
+      transformations can materially affect the measured subtype structure.
+    evidence_locations:
+      - Methods — Sample collection, RNA isolation and microarray hybridization
+      - Methods — Creation and analyses of the combined test set
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      The nearest-centroid and Spearman-correlation rule is stated, but subtype centroids
+      were created from 249 samples selected as clearly assigned using the dendrogram of
+      the same 315-sample set presented as independent validation. This subjective selection
+      and reuse of the validation set for classifier construction can yield optimistic
+      performance. DWD adjustment of each application dataset relative to the combined set
+      also limits the claimed single-sample character and portability of the implementation.
+    evidence_locations:
+      - Results — Validation of the Intrinsic/UNC gene list
+      - Methods — Derivation of the Single Sample Predictor
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Biological gene clusters, prior Stanford intrinsic assignments, receptor status, and
+      survival outcomes provide convergent comparators. However, cluster labels partly rely
+      on dendrogram interpretation and prior subtype knowledge, with only 78% concordance
+      against earlier assignments and no fixed independent gold standard.
+    evidence_locations:
+      - Results — Validation of the Intrinsic/UNC gene list
+      - Results — Tumor subtypes identified by the Intrinsic/UNC gene set are predictive of outcome
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Permutation-based intrinsic-gene selection included an FDR estimate, and survival models
+      included standard clinical covariates. Nevertheless, outcome associations were tested
+      after data-driven gene and subgroup construction, the combined validation set helped
+      define SSP centroids, and the report does not provide a prespecified multiplicity plan,
+      missing-data strategy, proportional-hazards diagnostics, or uncertainty for classification
+      agreement. These limitations prevent unbiased estimation of predictive performance.
+    evidence_locations:
+      - Methods — Identification of the intrinsic gene set
+      - Results — Tumor subtypes identified by the Intrinsic/UNC gene set are predictive of outcome
+      - Methods — Survival analyses
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Recurring subtype structure was examined across several historical datasets and microarray
+      platforms, and the completed SSP was applied to two additional datasets. Transportability
+      remains limited by fresh-frozen tissue, legacy microarrays, dataset-level DWD normalization,
+      substantial loss of genes across platforms, heterogeneous treatments, and absence of a
+      contemporary RNA-seq or fixed clinical-assay validation.
+    evidence_locations:
+      - Methods — Creation and analyses of the combined test set
+      - Methods — Derivation of the Single Sample Predictor
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Primary microarray data, clinical supplements, filtering criteria, imputation, DWD,
+      clustering, centroid construction, and statistical software are described. Complete
+      executable code, software versions, fixed centroids, random seeds, and a fully specified
+      pipeline are not supplied, so exact modern reproduction requires reconstruction.
+    evidence_locations:
+      - Methods — Sample collection, RNA isolation and microarray hybridization
+      - Methods — Creation and analyses of the combined test set
+      - Methods — Derivation of the Single Sample Predictor
+      - Methods — Survival analyses
+evidence_role: context_only
+key_strengths:
+  - Multi-institution training material and several external historical cohorts.
+  - Explicit cross-platform harmonization and open primary microarray data.
+  - Permutation-based FDR control for intrinsic-gene selection.
+  - Foundational evidence that broad breast intrinsic-subtype patterns recur across datasets.
+key_limitations:
+  - The 315-sample validation set was reused to select cases and construct SSP centroids.
+  - Subtype construction involved dendrogram-guided judgment rather than a fully frozen rule.
+  - Dataset-level DWD adjustment complicates true single-sample deployment and transportability.
+  - Historical microarrays and fresh-frozen tissue do not directly validate modern PAM50 workflows.
+  - Survival analyses lack several contemporary bias-control and model-diagnostic details.
+conflicts_and_funding: >-
+  No explicit competing-interest statement was located in the full text. Funding listed
+  NCI Breast SPORE P50-CA58223-09A1, NIEHS U19-ES11391-03 and P50-ES012382,
+  NCI R01-CA101227-01 and R33-CA97769-01, NSF DMS-0406361 and DMS-0308331,
+  NIH M01RR00046, and the Breast Cancer Research Foundation.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable for
+  the locked eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T20:45:00-05:00
+scientific_conclusions_drawn: false

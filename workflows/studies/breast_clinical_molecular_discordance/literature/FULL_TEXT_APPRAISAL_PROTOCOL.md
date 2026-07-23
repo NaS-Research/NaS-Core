@@ -45,7 +45,9 @@ appraised under the same rules as favorable findings.
 
 ## Operational sequence
 
-1. Resolve a lawful source and record its access basis; do not bypass paywalls.
+1. Resolve a lawful source and record its access basis; do not bypass paywalls. If
+   item-level terms prohibit current company use, record a restricted-access decision
+   without durably storing the full text, and do not retry unless permission changes.
 2. Hash the exact reviewed full-text file or normalized open-text representation.
 3. Confirm eligibility from the complete paper before quality designation.
 4. Select the study design and evaluate all seven domains with page/section evidence.

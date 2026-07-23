@@ -2,13 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
-generated_at: '2026-07-23T01:25:23.181604Z'
+generated_at: '2026-07-23T01:38:30.821331Z'
 provisional_inclusion_count: 27
-full_texts_retrieved: 2
-appraisals_completed: 2
+full_texts_retrieved: 3
+appraisals_completed: 3
+access_restricted_count: 2
 anchor_count: 0
 supporting_count: 1
-context_only_count: 1
+context_only_count: 2
 excluded_count: 0
 records:
 - screening_id: c69ed60b1fe2c0073fd6f87ab23247dcb3f93770da497960e5b10cf0a7a8acff
@@ -31,7 +32,11 @@ records:
 - screening_id: a9967242446d109e4ecce32c7076bf8571bdfb42ea8f1f2d5c6bcb45d1b19137
   title: The molecular portraits of breast tumors are conserved across microarray platforms.
   pmcid: PMC1468408
-  status: awaiting_full_text
+  status: completed
+  retrieval_id: 6d579cb65dd4fe3de0253284c087c18ba81de8c924be1d8a6873775968a039b0
+  full_text_sha256: 6e8f968dffa8ca8ebd09ade787aeaefaa29908adad1a81972033226e27af4634
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 93023cb1b5de0c7e4356e30be72cd088e2bbc1c9dffe772cb4a83dee8e9fbe8e
   title: 'Characterization of uncertainty in the classification of multivariate assays: application to
     PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
@@ -89,7 +94,8 @@ records:
 - screening_id: b2708b96d26dad3430555dd519cb483c34bc0189b64f6336ab8e35fd114e16bd
   title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
   pmcid: PMC10052604
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: CC-BY-NC-4.0
 - screening_id: 0ffb04676d622758119fa9460e3e0c03be1ab53e6fef5c26c7800b4f5bae5103
   title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
   pmcid: PMC10587090
@@ -101,7 +107,8 @@ records:
 - screening_id: 90b679dea1b6b42850662829d4c79a648529ac94ae65ce136299d07c18e60e30
   title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
   pmcid: PMC12789466
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: CC-BY-NC-ND-4.0
 - screening_id: 21bf239ddfdb126af8073794a96bc9f0fecf3ad9c00b6f969af4960cfb5705ef
   title: Selective multimodal deep learning for reliable breast cancer subtype classification from histopathology
     and genomic data.

@@ -117,6 +117,22 @@ def _appraisal_payload() -> dict[str, object]:
     }
 
 
+def _access_decision_payload() -> dict[str, object]:
+    return {
+        "decision_version": "1.0.0",
+        "study_id": "NAS-BRCA-002",
+        "screening_id": "d" * 64,
+        "pmcid": "PMC2",
+        "title": "Two",
+        "source_url": "https://example.org/two.xml",
+        "observed_license": "CC-BY-NC-4.0",
+        "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+        "outcome": "restricted",
+        "policy_reason": "Commercial reuse is not authorized.",
+        "checked_at": "2026-07-22T00:00:00Z",
+    }
+
+
 def test_progress_reconciles_retrieval_and_appraisal(tmp_path: Path) -> None:
     receipt = _write_yaml(tmp_path / "receipt.yaml", _receipt_payload())
     appraisal = _write_yaml(tmp_path / "appraisal.yaml", _appraisal_payload())
@@ -143,4 +159,39 @@ def test_progress_rejects_appraisal_without_receipt(tmp_path: Path) -> None:
     with pytest.raises(AppraisalProgressError, match="lacks a verified"):
         FullTextAppraisalProgressService().build(
             _inventory(), retrieval_receipt_paths=[], appraisal_paths=[appraisal]
+        )
+
+
+def test_progress_records_restricted_access_without_claiming_retrieval(
+    tmp_path: Path,
+) -> None:
+    decision = _write_yaml(tmp_path / "decision.yaml", _access_decision_payload())
+
+    progress = FullTextAppraisalProgressService().build(
+        _inventory(),
+        retrieval_receipt_paths=[],
+        appraisal_paths=[],
+        access_decision_paths=[decision],
+    )
+
+    assert progress.full_texts_retrieved == 0
+    assert progress.access_restricted_count == 1
+    assert progress.records[1].status == "access_restricted"
+    assert progress.records[1].observed_license == "CC-BY-NC-4.0"
+
+
+def test_progress_rejects_restricted_and_retrieved_conflict(tmp_path: Path) -> None:
+    receipt_payload = _receipt_payload()
+    receipt_payload["screening_id"] = "d" * 64
+    receipt_payload["pmcid"] = "PMC2"
+    receipt_payload["title"] = "Two"
+    receipt = _write_yaml(tmp_path / "receipt.yaml", receipt_payload)
+    decision = _write_yaml(tmp_path / "decision.yaml", _access_decision_payload())
+
+    with pytest.raises(AppraisalProgressError, match="both access-restricted"):
+        FullTextAppraisalProgressService().build(
+            _inventory(),
+            retrieval_receipt_paths=[receipt],
+            appraisal_paths=[],
+            access_decision_paths=[decision],
         )

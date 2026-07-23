@@ -68,8 +68,38 @@ class FullTextAccessStatus(StrEnum):
 
 class AppraisalCompletionStatus(StrEnum):
     AWAITING_FULL_TEXT = "awaiting_full_text"
+    ACCESS_RESTRICTED = "access_restricted"
     READY_FOR_APPRAISAL = "ready_for_appraisal"
     COMPLETED = "completed"
+
+
+class FullTextAccessOutcome(StrEnum):
+    RESTRICTED = "restricted"
+
+
+class FullTextAccessDecision(AppraisalModel):
+    schema_version: str = "1.0.0"
+    decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(min_length=1)
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    pmcid: str = Field(pattern=r"^PMC[0-9]+$")
+    title: str = Field(min_length=1)
+    source_url: str = Field(min_length=1)
+    observed_license: str = Field(min_length=1)
+    license_url: str = Field(min_length=1)
+    outcome: FullTextAccessOutcome
+    policy_reason: str = Field(min_length=1)
+    checked_at: datetime
+    durable_full_text_stored: bool = False
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_decision(self) -> FullTextAccessDecision:
+        if self.durable_full_text_stored:
+            raise ValueError("restricted access decision cannot claim durable storage")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("access decision cannot draw scientific conclusions")
+        return self
 
 
 class FullTextInventoryRecord(AppraisalModel):
@@ -269,21 +299,33 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
         default=None, pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$"
     )
     evidence_role: EvidenceRole | None = None
+    observed_license: str | None = None
 
     @model_validator(mode="after")
     def validate_state(self) -> FullTextAppraisalProgressRecord:
         retrieval_fields = (self.retrieval_id, self.full_text_sha256)
         appraisal_fields = (self.appraisal_version, self.evidence_role)
         if self.status is AppraisalCompletionStatus.AWAITING_FULL_TEXT:
-            if any(value is not None for value in (*retrieval_fields, *appraisal_fields)):
+            if any(
+                value is not None
+                for value in (*retrieval_fields, *appraisal_fields, self.observed_license)
+            ):
                 raise ValueError("awaiting-full-text record cannot contain downstream state")
+        elif self.status is AppraisalCompletionStatus.ACCESS_RESTRICTED:
+            if any(value is not None for value in (*retrieval_fields, *appraisal_fields)):
+                raise ValueError("restricted record cannot contain retrieval or appraisal state")
+            if self.observed_license is None:
+                raise ValueError("restricted record requires its observed license")
         elif self.status is AppraisalCompletionStatus.READY_FOR_APPRAISAL:
             if any(value is None for value in retrieval_fields) or any(
                 value is not None for value in appraisal_fields
-            ):
+            ) or self.observed_license is not None:
                 raise ValueError("ready record requires retrieval state only")
-        elif any(value is None for value in (*retrieval_fields, *appraisal_fields)):
-            raise ValueError("completed record requires retrieval and appraisal state")
+        elif (
+            any(value is None for value in (*retrieval_fields, *appraisal_fields))
+            or self.observed_license is not None
+        ):
+            raise ValueError("completed record requires retrieval and appraisal state only")
         return self
 
 
@@ -296,6 +338,7 @@ class FullTextAppraisalProgress(AppraisalModel):
     provisional_inclusion_count: int = Field(ge=1)
     full_texts_retrieved: int = Field(ge=0)
     appraisals_completed: int = Field(ge=0)
+    access_restricted_count: int = Field(ge=0)
     anchor_count: int = Field(ge=0)
     supporting_count: int = Field(ge=0)
     context_only_count: int = Field(ge=0)
@@ -310,7 +353,11 @@ class FullTextAppraisalProgress(AppraisalModel):
         if len({item.screening_id for item in self.records}) != len(self.records):
             raise ValueError("appraisal-progress screening IDs must be unique")
         retrieved = sum(
-            item.status is not AppraisalCompletionStatus.AWAITING_FULL_TEXT
+            item.status
+            in {
+                AppraisalCompletionStatus.READY_FOR_APPRAISAL,
+                AppraisalCompletionStatus.COMPLETED,
+            }
             for item in self.records
         )
         completed = sum(
@@ -318,6 +365,12 @@ class FullTextAppraisalProgress(AppraisalModel):
         )
         if retrieved != self.full_texts_retrieved or completed != self.appraisals_completed:
             raise ValueError("appraisal-progress completion counts do not reconcile")
+        restricted = sum(
+            item.status is AppraisalCompletionStatus.ACCESS_RESTRICTED
+            for item in self.records
+        )
+        if restricted != self.access_restricted_count:
+            raise ValueError("appraisal-progress restricted count does not reconcile")
         roles = {
             EvidenceRole.ANCHOR: self.anchor_count,
             EvidenceRole.SUPPORTING: self.supporting_count,
@@ -340,6 +393,12 @@ def load_full_text_appraisal(path: Path) -> FullTextAppraisal:
 
 def load_full_text_retrieval_receipt(path: Path) -> FullTextRetrievalReceipt:
     return FullTextRetrievalReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_full_text_access_decision(path: Path) -> FullTextAccessDecision:
+    return FullTextAccessDecision.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

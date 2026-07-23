@@ -14,6 +14,7 @@ from nas_core.domain.advisory import (
     write_ai_advisory_schemas,
 )
 from nas_core.domain.appraisal import (
+    load_full_text_access_decision,
     load_full_text_appraisal,
     write_full_text_appraisal_progress,
     write_full_text_retrieval_receipt,
@@ -334,6 +335,11 @@ def build_parser() -> argparse.ArgumentParser:
     full_text_fetch.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
     full_text_fetch.add_argument(
         "--receipt-output", type=Path, help="New path for the verified aggregate receipt"
+    )
+    full_text_fetch.add_argument(
+        "--access-decision-dir",
+        type=Path,
+        help="Directory of prior restricted-access decisions that must not be retried",
     )
     full_text_fetch.add_argument(
         "--execute", action="store_true", help="Contact Europe PMC and persist licensed XML"
@@ -735,12 +741,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             inventory,
             retrieval_receipt_paths=sorted(args.full_text_receipt_dir.glob("*.yaml")),
             appraisal_paths=sorted(args.appraisal_dir.glob("*.yaml")),
+            access_decision_paths=sorted(
+                (args.full_text_receipt_dir / "access-decisions").glob("*.yaml")
+            ),
         )
         write_full_text_appraisal_progress(args.output_path, appraisal_progress)
         print(
             f"Appraisal progress: {appraisal_progress.appraisals_completed}/"
             f"{appraisal_progress.provisional_inclusion_count} completed; "
-            f"{appraisal_progress.full_texts_retrieved} full texts retrieved"
+            f"{appraisal_progress.full_texts_retrieved} full texts retrieved; "
+            f"{appraisal_progress.access_restricted_count} access restricted"
         )
         print(f"Wrote reconciled progress: {args.output_path}")
         return 0
@@ -765,6 +775,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not a current founder inclusion")
+        if args.access_decision_dir is not None:
+            decisions = [
+                load_full_text_access_decision(path)
+                for path in sorted(args.access_decision_dir.glob("*.yaml"))
+            ]
+            if any(item.screening_id == args.screening_id for item in decisions):
+                raise SystemExit(
+                    "full-text retrieval blocked by a recorded restricted-access decision"
+                )
         if not args.execute:
             print(
                 f"Full-text retrieval ready: {matches[0].pmcid}, "
