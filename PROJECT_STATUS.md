@@ -56,8 +56,8 @@ Current gate state:
   safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
-- Full-text progress is now mechanically reconciled: 3 of 27 founder inclusions have
-  verified full text and completed appraisals. Roles are 1 supporting and 2 context-only;
+- Full-text progress is now mechanically reconciled: 4 of 27 founder inclusions have
+  verified full text and completed appraisals. Roles are 2 supporting and 2 context-only;
   2 additional papers are access-restricted under noncommercial licenses. No anchor
   study or scientific conclusion exists yet.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -66,7 +66,7 @@ Current gate state:
 ## Next implementation queue
 
 1. Retrieve and appraise the next high-value lawful full text, prioritizing the
-   large multi-cohort classification-validation study `PMC4166472` if its exact
+   modern RNA-sequencing intrinsic-subtyping study `PMC7442834` if its exact
    identity and item-level license pass the governed checks.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
@@ -99,6 +99,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Large multi-cohort classification study appraised as supporting
+
+Retrieved `PMC4166472` under CC BY 4.0 as 121,641 bytes with SHA-256
+`de6a84bd…5014` and completed its section-located appraisal. The study spans 42 public
+cohorts, actively detects duplicate records, applies trained outcome coefficients to
+external datasets, compares IntClust with PAM50 and SCMGENE, responds to proportional-
+hazards violations, and publishes iC10 plus annotated analysis code. It is the strongest
+external-scale validation appraised so far, but remains `supporting` rather than anchor
+evidence because it validates a feature-adaptive IntClust research implementation across
+heterogeneous retrospective cohorts, not a fixed PAM50 assay or clinical-use workflow.
+The ledger now records 4 retrieved, 4 appraised, 2 restricted, 2 supporting, 2 context-
+only, and 0 anchor.
+
+Validation: exact receipt and appraisal identity, checksum/license binding, schema and
+ledger reconciliation, Ruff, strict MyPy across 54 source files, and all 141 tests passed.
 
 ### 2026-07-22 — Cross-platform paper appraised and restricted access made durable
 
@@ -161,22 +177,6 @@ stale screening state, and invalid verification flags; and reports 1 of 27 compl
 
 Validation: appraisal schema validation, Ruff, strict MyPy across 54 source files,
 and all 133 tests passed.
-
-### 2026-07-22 — First verified licensed full-text artifact
-
-Retrieved `PMC10587090`, “Perturbation and stability of PAM50 subtyping in
-population-based primary invasive breast cancer,” from the official Europe PMC XML
-endpoint using pushed engine revision `42d9752`. Item-level metadata explicitly
-declares CC BY 4.0. The 137,087-byte XML and hashed manifest are immutable outside
-Git; the aggregate receipt records SHA-256 `2ca3db6f…0e2a`. Independent verification
-reloaded both artifacts and rechecked size, checksum, PMCID, PMID, DOI, bounded title
-normalization, license URL/text, copyright, and the no-conclusion boundary. Two
-failed attempts—incorrect Accept header and terminal-title punctuation—stored no
-artifact and prompted tested, pushed fixes before retry. No quality role or
-scientific conclusion was assigned.
-
-Validation: checked-in receipt contract, immutable artifact verification, Ruff,
-strict MyPy, study validation, and all 129 tests passed.
 
 ## Current blockers
 

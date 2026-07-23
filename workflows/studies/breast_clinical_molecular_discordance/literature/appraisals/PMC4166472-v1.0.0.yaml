@@ -1,0 +1,126 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 4f3f0d10147a78169280a6357e0c45a8e1433138ba9e114ea76178c887c76698
+title: Genome-driven integrated classification of breast cancer validated in over 7,500 samples.
+pmid: '25164602'
+doi: 10.1186/s13059-014-0431-1
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4166472/fullTextXML
+full_text_sha256: de6a84bdce740bdc39c05d091c4ade484efcf2fcd11e06760a54ed7f14875014
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The analysis compiled a very large set of public breast-cancer cohorts spanning 42
+      studies and explicitly removed duplicate records using identifiers, prior annotations,
+      expression correlation, and concordant clinical fields. However, these retrospective
+      convenience cohorts vary in eligibility, treatment, tissue acquisition, follow-up,
+      endpoint availability, and covariate completeness, limiting population-level inference.
+    evidence_locations:
+      - Materials and methods — Development of the IntClust expression-based classifier
+      - Results — IntClust subtypes are reproducible entities observable across studies
+      - Results — IntClust subtypes are associated with reproducible survival patterns
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The study deliberately evaluates platform and feature flexibility across many public
+      expression datasets, but specimens and assays were not centrally processed. Feature
+      matching, platform-specific availability, gene-level mapping, z-score normalization to
+      METABRIC, and variable biopsy or resection material can introduce measurement and batch
+      differences that subtype-frequency similarity alone cannot exclude.
+    evidence_locations:
+      - Materials and methods — Development of the IntClust expression-based classifier
+      - Results — IntClust subtypes are reproducible entities observable across studies
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Feature matching, METABRIC-referenced normalization, shrunken-centroid training, cross-
+      validation, quality statistics, and public iC10 R-package functions are described.
+      Centroids are re-estimated for features available on each platform, and the authors note
+      that classifications can vary between runs unless a random seed is fixed; the report does
+      not provide the exact seed or one immutable classifier artifact for every dataset.
+    evidence_locations:
+      - Materials and methods — Development of the IntClust expression-based classifier
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      PAM50 and SCMGENE were implemented as prespecified comparator classifications, with
+      PAM50 accounting for ER imbalance and SCMGENE using genefu. Clinical comparisons use
+      standard survival and pathological-complete-response outcomes, but RFS and DMFS were
+      combined when one was unavailable and full comparator implementation details are
+      incorporated by reference rather than frozen in this report.
+    evidence_locations:
+      - Materials and methods — Development of the IntClust expression-based classifier
+      - Materials and methods — Statistical analysis of the association between subtype and clinical outcome
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Outcome models were adjusted for tumor size, nodal status, and grade; training coefficients
+      were applied to external data; performance used C-index or AUC; follow-up was split to
+      address proportional-hazards violations; and genomic-driver comparisons used adjusted
+      R-squared with bootstrap intervals. Remaining concerns include heterogeneous endpoint
+      substitution, multiple classifier/subgroup/time-window comparisons without a study-wide
+      multiplicity plan, incomplete missing-data detail, and acknowledged low power for late events.
+    evidence_locations:
+      - Materials and methods — Statistical analysis of the association between subtype and clinical outcome
+      - Materials and methods — Comparative evaluation of the representation of genomic drivers by subtype
+      - Results — IntClust subtypes are associated with reproducible survival patterns
+      - Results — IntClust subtypes show large differences in chemosensitivity
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Subtype frequencies, survival patterns, chemotherapy response, and driver-expression
+      representation were evaluated across many external cohorts, with explicit separation of
+      training and test data for key prediction analyses. Transportability is nevertheless shown
+      for a research implementation of IntClust rather than a fixed clinical assay or patient-
+      decision workflow, and feature-dependent centroid retraining reduces strict external
+      validation of one immutable model. PAM50-specific stability was not the target.
+    evidence_locations:
+      - Results — IntClust subtypes are reproducible entities observable across studies
+      - Results — IntClust subtypes are associated with reproducible survival patterns
+      - Results — IntClust subtypes show large differences in chemosensitivity
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      The paper identifies public cohort accessions, METABRIC archive identifiers, software
+      packages and versions, classifier functions, normalization options, statistical procedures,
+      and annotated R and Stata analysis code. The iC10 package is publicly distributed through
+      CRAN, enabling substantive independent reconstruction despite the missing exact random seed.
+    evidence_locations:
+      - Materials and methods — Development of the IntClust expression-based classifier
+      - Materials and methods — Statistical analysis of the association between subtype and clinical outcome
+      - Materials and methods — Comparative evaluation of the representation of genomic drivers by subtype
+      - Data availability
+evidence_role: supporting
+key_strengths:
+  - Very large multi-study validation collection with explicit duplicate-record mitigation.
+  - External application of outcome-model coefficients to reduce optimistic performance estimates.
+  - Direct comparison against PAM50 and SCMGENE across survival and chemotherapy-response tasks.
+  - Public iC10 implementation, annotated analysis code, and documented dataset accessions.
+  - Time-stratified survival analysis explicitly responds to proportional-hazards violations.
+key_limitations:
+  - Retrospective public cohorts have heterogeneous eligibility, treatment, assays, and endpoints.
+  - Classifier features and centroids are adapted to available platform measurements.
+  - Exact random seeds and one fixed cross-platform classifier artifact are not reported.
+  - Multiple comparisons and missing-data handling are not fully specified.
+  - The work validates IntClust research classification, not modern PAM50 assay stability or clinical utility.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Funding was acknowledged from Cancer
+  Research UK, the NIHR Cambridge Biomedical Research Centre and Experimental Cancer
+  Medicine Centre, an NIHR Academic Clinical Lectureship, and a Pathological Society
+  of Great Britain and Northern Ireland Career Development Fellowship. TCGA-generated
+  data contributed to the analyses.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable for
+  the locked eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T21:15:00-05:00
+scientific_conclusions_drawn: false

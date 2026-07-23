@@ -85,8 +85,8 @@ CC BY 4.0 metadata. The aggregate receipt is
 appraisal is eligible with a `supporting` role: it is useful evidence about PAM50
 stability, but is not independent anchor evidence. This is a methodological evidence
 designation, not a scientific conclusion. The reconciled
-[`appraisal_progress.yaml`](appraisal_progress.yaml) records 3 of 27 appraisals
-complete, 3 verified full texts retrieved, 2 access-restricted records, and fails
+[`appraisal_progress.yaml`](appraisal_progress.yaml) records 4 of 27 appraisals
+complete, 4 verified full texts retrieved, 2 access-restricted records, and fails
 closed on identity, checksum, license, or provenance mismatches. `PMC3275466` is
 eligible as `context_only` evidence because
 its sample-level uncertainty is simulated from a sparse, laboratory-specific error
@@ -97,6 +97,10 @@ its validation set contributed to SSP centroid construction and its legacy DWD-b
 microarray workflow does not directly validate modern PAM50. `PMC10052604` and
 `PMC12789466` are recorded as restricted under CC BY-NC and CC BY-NC-ND respectively;
 their full texts were not durably stored.
+`PMC4166472` is supporting evidence: it provides large-scale, multi-study external
+validation and direct PAM50 comparisons, but evaluates an adaptable IntClust research
+classifier across heterogeneous retrospective cohorts rather than a fixed modern
+PAM50 assay or patient-decision workflow.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The

@@ -121,3 +121,16 @@ def test_cross_platform_real_appraisal_records_classifier_risk() -> None:
     assert judgments[AppraisalDomainName.CLASSIFIER_IMPLEMENTATION] == "high"
     assert judgments[AppraisalDomainName.ANALYSIS_AND_STATISTICS] == "high"
     assert appraisal.scientific_conclusions_drawn is False
+
+
+def test_large_multicohort_appraisal_is_supporting_and_non_conclusive() -> None:
+    path = REAL_APPRAISAL_DIR / "PMC4166472-v1.0.0.yaml"
+    appraisal = FullTextAppraisal.model_validate(yaml.safe_load(path.read_text()))
+    judgments = {item.domain: item.judgment for item in appraisal.domains}
+
+    assert appraisal.pmid == "25164602"
+    assert appraisal.doi == "10.1186/s13059-014-0431-1"
+    assert appraisal.evidence_role == "supporting"
+    assert all(judgment != "high" for judgment in judgments.values())
+    assert judgments[AppraisalDomainName.REPORTING_AND_REPRODUCIBILITY] == "low"
+    assert appraisal.scientific_conclusions_drawn is False

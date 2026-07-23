@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: ddef54686396b8712bbd93463d49db72206d8af72b5e8a5be49179d9fa2a1ee4
+study_id: NAS-BRCA-002
+queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
+progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
+screening_id: 4f3f0d10147a78169280a6357e0c45a8e1433138ba9e114ea76178c887c76698
+pmcid: PMC4166472
+title: Genome-driven integrated classification of breast cancer validated in over 7,500 samples.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4166472/fullTextXML
+retrieved_at: '2026-07-23T01:58:32.612620Z'
+code_revision: bc7cd36
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 Ali et al.; licensee BioMed Central Ltd. 2014"
+manifest_object_key: full-text/NAS-BRCA-002/4f3f0d10147a78169280a6357e0c45a8e1433138ba9e114ea76178c887c76698/ddef54686396b8712bbd93463d49db72206d8af72b5e8a5be49179d9fa2a1ee4/manifest.json
+manifest_sha256: 4175c4cc18d5e1d5ee38eb101a81f74878303ec327339f39db4fbfcc6b00db14
+full_text_object_key: full-text/NAS-BRCA-002/4f3f0d10147a78169280a6357e0c45a8e1433138ba9e114ea76178c887c76698/ddef54686396b8712bbd93463d49db72206d8af72b5e8a5be49179d9fa2a1ee4/article.xml
+full_text_sha256: de6a84bdce740bdc39c05d091c4ade484efcf2fcd11e06760a54ed7f14875014
+full_text_size_bytes: 121641
+verified_at: '2026-07-23T01:58:32.641657Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

@@ -2,13 +2,13 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
-generated_at: '2026-07-23T01:38:30.821331Z'
+generated_at: '2026-07-23T02:01:31.605557Z'
 provisional_inclusion_count: 27
-full_texts_retrieved: 3
-appraisals_completed: 3
+full_texts_retrieved: 4
+appraisals_completed: 4
 access_restricted_count: 2
 anchor_count: 0
-supporting_count: 1
+supporting_count: 2
 context_only_count: 2
 excluded_count: 0
 records:
@@ -58,7 +58,11 @@ records:
 - screening_id: 4f3f0d10147a78169280a6357e0c45a8e1433138ba9e114ea76178c887c76698
   title: Genome-driven integrated classification of breast cancer validated in over 7,500 samples.
   pmcid: PMC4166472
-  status: awaiting_full_text
+  status: completed
+  retrieval_id: ddef54686396b8712bbd93463d49db72206d8af72b5e8a5be49179d9fa2a1ee4
+  full_text_sha256: de6a84bdce740bdc39c05d091c4ade484efcf2fcd11e06760a54ed7f14875014
+  appraisal_version: 1.0.0
+  evidence_role: supporting
 - screening_id: efc366a65461ba416765f341601422d4affc7c792f8bb73ddcc79b5dd289c97d
   title: Absolute assignment of breast cancer intrinsic molecular subtype.
   status: awaiting_full_text
