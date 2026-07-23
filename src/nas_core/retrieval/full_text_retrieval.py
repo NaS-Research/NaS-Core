@@ -4,10 +4,16 @@ from __future__ import annotations
 
 import json
 import re
+import ssl
 from collections.abc import Callable
 from datetime import UTC, datetime
+from typing import Protocol
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlsplit
+from urllib.request import Request, urlopen
 from xml.etree import ElementTree
 
+import certifi
 from pydantic import ValidationError
 
 from nas_core.domain.appraisal import (
@@ -18,12 +24,12 @@ from nas_core.domain.appraisal import (
 )
 from nas_core.domain.snapshots import StoredObject
 from nas_core.ingestion.gdc import (
+    HTTPResponse,
     ImmutableObjectConflictError,
     RemoteResponseError,
     canonical_json,
     sha256,
 )
-from nas_core.retrieval.literature import LiteratureTransport, UrllibLiteratureTransport
 from nas_core.storage.object_store import ObjectStore
 
 EUROPE_PMC_FULL_TEXT_URL = (
@@ -41,16 +47,54 @@ class FullTextRetrievalError(RuntimeError):
     """Raised when identity, license, transport, or artifact verification fails."""
 
 
+class FullTextTransport(Protocol):
+    def get(self, url: str) -> HTTPResponse: ...
+
+
+class UrllibFullTextTransport:
+    def __init__(self, *, timeout_seconds: float = 60.0) -> None:
+        self._timeout_seconds = timeout_seconds
+        self._ssl_context = ssl.create_default_context(cafile=certifi.where())
+
+    def get(self, url: str) -> HTTPResponse:
+        parsed = urlsplit(url)
+        if parsed.scheme != "https" or parsed.hostname != "www.ebi.ac.uk":
+            raise ValueError("full-text URL must use the approved Europe PMC HTTPS host")
+        request = Request(
+            url,
+            headers={"Accept": XML_MEDIA_TYPE, "User-Agent": "NaS-Core/0.1"},
+        )
+        try:
+            with urlopen(  # noqa: S310
+                request,
+                timeout=self._timeout_seconds,
+                context=self._ssl_context,
+            ) as response:
+                return HTTPResponse(
+                    status_code=response.status,
+                    headers=dict(response.headers.items()),
+                    body=response.read(),
+                )
+        except HTTPError as error:
+            return HTTPResponse(
+                status_code=error.code,
+                headers=dict(error.headers.items()),
+                body=error.read(),
+            )
+        except (TimeoutError, URLError) as error:
+            raise RemoteResponseError("Europe PMC full-text request failed") from error
+
+
 class FullTextRetrievalService:
     def __init__(
         self,
         *,
         store: ObjectStore,
-        transport: LiteratureTransport | None = None,
+        transport: FullTextTransport | None = None,
         clock: Callable[[], datetime] | None = None,
     ) -> None:
         self._store = store
-        self._transport = transport or UrllibLiteratureTransport()
+        self._transport = transport or UrllibFullTextTransport()
         self._clock = clock or (lambda: datetime.now(UTC))
 
     def retrieve(
@@ -67,7 +111,7 @@ class FullTextRetrievalService:
         if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
             raise FullTextRetrievalError("code revision must be a 7-to-40 character Git SHA")
         source_url = EUROPE_PMC_FULL_TEXT_URL.format(pmcid=record.pmcid)
-        response = self._transport.get(source_url, {})
+        response = self._transport.get(source_url)
         if response.status_code != 200 or not response.body:
             raise RemoteResponseError(
                 f"Europe PMC full-text request failed with status {response.status_code}"

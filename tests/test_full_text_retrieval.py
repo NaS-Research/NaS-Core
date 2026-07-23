@@ -36,8 +36,8 @@ class FakeTransport:
     def __init__(self, body: bytes) -> None:
         self.body = body
 
-    def get(self, url: str, parameters: object) -> HTTPResponse:
-        del url, parameters
+    def get(self, url: str) -> HTTPResponse:
+        del url
         return HTTPResponse(status_code=200, headers={}, body=self.body)
 
 
