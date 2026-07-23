@@ -157,6 +157,8 @@ class EvidenceReviewProgress(EvidenceReviewModel):
     search_strategy_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     priority_set_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     locked_search_executed: bool
+    search_execution_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    search_receipt_path: str | None = None
     deduplication_complete: bool
     primary_screening_complete: bool
     eligible_evidence_count: int = Field(ge=0, le=30)
@@ -179,6 +181,12 @@ class EvidenceReviewProgress(EvidenceReviewModel):
             raise ValueError("citation-pass numbers must be unique")
         if self.completed_appraisal_count > self.eligible_evidence_count:
             raise ValueError("completed appraisals cannot exceed eligible evidence")
+        if self.locked_search_executed != (
+            self.search_execution_id is not None and self.search_receipt_path is not None
+        ):
+            raise ValueError(
+                "search execution state requires both an execution ID and receipt path"
+            )
         if self.novelty_claim_authorized and not self.stopping_rule_satisfied:
             raise ValueError("novelty cannot be authorized before the stopping rule is satisfied")
         if self.molecular_data_access_authorized or self.outcome_data_access_authorized:

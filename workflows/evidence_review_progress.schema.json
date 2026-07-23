@@ -187,6 +187,31 @@
       "title": "Schema Version",
       "type": "string"
     },
+    "search_execution_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Search Execution Id"
+    },
+    "search_receipt_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Search Receipt Path"
+    },
     "search_strategy_version": {
       "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
       "title": "Search Strategy Version",

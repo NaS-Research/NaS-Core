@@ -2,8 +2,8 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.3.0
-strategy_version: 0.2.0
-status: draft
+strategy_version: 0.2.3
+status: locked
 objective: >-
   Identify high-quality primary evidence that could specify, support, contradict,
   or render non-novel a fixed single-sample PAM50 reliability and abstention layer,
@@ -15,15 +15,18 @@ sources:
     official_url: https://pubmed.ncbi.nlm.nih.gov/
     query: >-
       (breast cancer[Title/Abstract] OR breast carcinoma[Title/Abstract]) AND
-      (PAM50[Title/Abstract] OR intrinsic subtype[Title/Abstract]) AND
+      (PAM50[Title/Abstract] OR
+      "Absolute Intrinsic Molecular Subtyping"[Title/Abstract] OR
+      MiniABS[Title/Abstract] OR MPAM50[Title/Abstract] OR
+      BreastSubtypeR[Title/Abstract] OR PCAPAM50[Title/Abstract]) AND
       ("single sample"[Title/Abstract] OR "absolute assignment"[Title/Abstract] OR
       uncertainty[Title/Abstract] OR ambiguous[Title/Abstract] OR
       "not assigned"[Title/Abstract] OR abstain*[Title/Abstract] OR
-      confidence[Title/Abstract] OR margin[Title/Abstract] OR
+      margin[Title/Abstract] OR
       permutation[Title/Abstract] OR calibration[Title/Abstract] OR
-      centering[Title/Abstract] OR normalization[Title/Abstract] OR
+      centering[Title/Abstract] OR
       "test set bias"[Title/Abstract] OR repeatability[Title/Abstract] OR
-      perturbation[Title/Abstract])
+      reproducibility[Title/Abstract])
     purpose: >-
       Primary biomedical methods and analytical-validation studies directly relevant
       to one-sample classification, uncertainty, abstention, and transport.
@@ -32,13 +35,15 @@ sources:
     official_url: https://europepmc.org/
     query: >-
       (TITLE_ABS:"breast cancer" OR TITLE_ABS:"breast carcinoma") AND
-      (TITLE_ABS:PAM50 OR TITLE_ABS:"intrinsic subtype") AND
+      (TITLE_ABS:PAM50 OR TITLE_ABS:"Absolute Intrinsic Molecular Subtyping" OR
+      TITLE_ABS:MiniABS OR TITLE_ABS:MPAM50 OR TITLE_ABS:BreastSubtypeR OR
+      TITLE_ABS:PCAPAM50) AND
       (TITLE_ABS:"single sample" OR TITLE_ABS:"absolute assignment" OR
       TITLE_ABS:uncertainty OR TITLE_ABS:ambiguous OR TITLE_ABS:"not assigned" OR
-      TITLE_ABS:abstain* OR TITLE_ABS:confidence OR TITLE_ABS:margin OR
+      TITLE_ABS:abstain* OR TITLE_ABS:margin OR
       TITLE_ABS:permutation OR TITLE_ABS:calibration OR TITLE_ABS:centering OR
-      TITLE_ABS:normalization OR TITLE_ABS:"test set bias" OR
-      TITLE_ABS:repeatability OR TITLE_ABS:perturbation)
+      TITLE_ABS:"test set bias" OR TITLE_ABS:repeatability OR
+      TITLE_ABS:reproducibility)
     purpose: >-
       Independent bibliographic coverage, open-license assessment, full-text links,
       and official backward and forward citation-chain endpoints.
@@ -131,4 +136,4 @@ stopping_rule: >-
   latest two consecutive complete passes each screen every unique candidate and each add
   zero eligible methodological or external-transport studies. Continue chaining whenever
   either pass adds eligible evidence. Document unresolved claims; absence is not novelty.
-retrieval_authorized: false
+retrieval_authorized: true

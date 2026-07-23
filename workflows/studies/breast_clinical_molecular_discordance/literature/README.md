@@ -9,11 +9,17 @@ The current reliability-focused review is governed by:
 - [`revised_priority_evidence.yaml`](revised_priority_evidence.yaml)
 - [`revised_evidence_review_progress.yaml`](revised_evidence_review_progress.yaml)
 
-The revised search remains a nonexecuting draft. Its 13-record direct priority set
-contains candidate evidence, not automatic inclusion decisions or scientific
-conclusions. The progress ledger cannot claim completion until the locked search,
-deduplication, founder screening, appraisal accounting, and two consecutive
-zero-yield backward-plus-forward citation passes all reconcile.
+Search strategy `0.2.3` is locked for bounded bibliographic retrieval after
+count-only feasibility returned 52 PubMed and 95 Europe PMC records. The immutable
+execution `7c57c576…8fbee` contains 96 unique records and 51 cross-source duplicates;
+all raw responses, normalized records, hashes, sizes, and count invariants were
+independently verified. Raw and normalized data remain outside Git, while
+[`search_receipt_v0.3.0.yaml`](search_receipt_v0.3.0.yaml) preserves the aggregate
+verification record. Its 13-record direct priority set contains candidate evidence,
+not automatic inclusion decisions or scientific conclusions. The progress ledger
+cannot claim completion until deduplication against the prior inventory, founder
+screening, appraisal accounting, and two consecutive zero-yield
+backward-plus-forward citation passes all reconcile.
 
 Required artifacts:
 

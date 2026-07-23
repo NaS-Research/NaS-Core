@@ -12,6 +12,8 @@ from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import HTTPResponse, canonical_json, sha256
 from nas_core.retrieval.literature import (
     LiteratureSearchService,
+    LiteratureSearchVerificationService,
+    LiteratureVerificationError,
     UrllibLiteratureTransport,
     pubmed_summary_batches,
 )
@@ -158,19 +160,86 @@ def test_capture_is_governed_deduplicated_and_immutable() -> None:
     assert manifest_hash == sha256(canonical_json(unhashed))
 
 
+def test_stored_search_is_independently_verified_into_minimal_receipt() -> None:
+    plan, strategy, _ = _package()
+    store = InMemoryObjectStore()
+    snapshot = LiteratureSearchService(
+        store=store,
+        registry=SourceRegistry.from_yaml(ROOT / "data" / "source-registry.yaml"),
+        transport=FakeLiteratureTransport(),
+        clock=lambda: NOW,
+    ).capture(plan, strategy, contact_email="research@example.org")
+
+    receipt = LiteratureSearchVerificationService(
+        store=store,
+        clock=lambda: NOW,
+    ).verify(plan.study_id, snapshot.execution_id)
+
+    assert receipt.execution_id == snapshot.execution_id
+    assert receipt.unique_record_count == 3
+    assert receipt.duplicate_record_count == 1
+    assert receipt.verified_object_count == 6
+    assert receipt.manifest_checksum_verified is True
+    assert receipt.object_checksums_verified is True
+    assert receipt.object_sizes_verified is True
+    assert receipt.record_count_invariants_verified is True
+    assert receipt.screening_status == "not_started"
+    assert receipt.scientific_conclusions_drawn is False
+    assert receipt.outcome_data_accessed is False
+
+
+def test_search_verification_rejects_corrupt_normalized_records() -> None:
+    plan, strategy, _ = _package()
+    store = InMemoryObjectStore()
+    snapshot = LiteratureSearchService(
+        store=store,
+        registry=SourceRegistry.from_yaml(ROOT / "data" / "source-registry.yaml"),
+        transport=FakeLiteratureTransport(),
+        clock=lambda: NOW,
+    ).capture(plan, strategy, contact_email="research@example.org")
+    store.put_bytes(
+        snapshot.normalized_records_object.object_key,
+        b"corrupt",
+        content_type="application/json",
+    )
+
+    with pytest.raises(LiteratureVerificationError, match="checksum"):
+        LiteratureSearchVerificationService(store=store).verify(
+            plan.study_id,
+            snapshot.execution_id,
+        )
+
+
 def test_count_preview_contacts_each_source_once_and_stores_nothing() -> None:
     plan, strategy, _ = _package()
+    candidate = strategy.model_copy(
+        update={"status": "draft", "retrieval_authorized": False}
+    )
     transport = FakeLiteratureTransport()
     store = InMemoryObjectStore()
     counts = LiteratureSearchService(
         store=store,
         registry=SourceRegistry.from_yaml(ROOT / "data" / "source-registry.yaml"),
         transport=transport,
-    ).preview_counts(plan, strategy, contact_email="research@example.org")
+    ).preview_counts(plan, candidate, contact_email="research@example.org")
 
     assert counts == {"pubmed": 2, "europe-pmc": 2}
     assert len(transport.requests) == 2
     assert not store.exists("literature")
+
+
+def test_count_preview_rejects_retrieval_authorized_strategy_before_network() -> None:
+    plan, strategy, _ = _package()
+    transport = FakeLiteratureTransport()
+
+    with pytest.raises(PermissionError, match="non-retrieval candidate strategy"):
+        LiteratureSearchService(
+            store=InMemoryObjectStore(),
+            registry=SourceRegistry.from_yaml(ROOT / "data" / "source-registry.yaml"),
+            transport=transport,
+        ).preview_counts(plan, strategy, contact_email="research@example.org")
+
+    assert transport.requests == []
 
 
 def test_capture_blocks_unlocked_search_before_network() -> None:

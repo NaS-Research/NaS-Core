@@ -36,6 +36,7 @@ from nas_core.domain.literature import (
     load_screening_progress_receipt,
     load_screening_queue_receipt,
     write_literature_schemas,
+    write_literature_search_receipt,
     write_screening_progress_receipt,
     write_screening_review_schemas,
 )
@@ -51,7 +52,10 @@ from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
-from nas_core.retrieval.literature import LiteratureSearchService
+from nas_core.retrieval.literature import (
+    LiteratureSearchService,
+    LiteratureSearchVerificationService,
+)
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
 from nas_core.retrieval.review import ScreeningReviewService
 from nas_core.retrieval.screening import ScreeningQueueService
@@ -250,6 +254,12 @@ def build_parser() -> argparse.ArgumentParser:
     literature_schema.add_argument(
         "screening_receipt_path", type=Path, help="Screening receipt schema output path"
     )
+    literature_verify = literature_commands.add_parser(
+        "search-verify", help="Verify a stored search and write a minimal receipt"
+    )
+    literature_verify.add_argument("study_id")
+    literature_verify.add_argument("execution_id")
+    literature_verify.add_argument("output_path", type=Path)
     screening_build = literature_commands.add_parser(
         "screening-build", help="Prepare or create an immutable human screening queue"
     )
@@ -661,6 +671,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote literature schemas: "
             f"{args.snapshot_path}, {args.receipt_path}, "
             f"{args.screening_manifest_path}, {args.screening_receipt_path}"
+        )
+        return 0
+
+    if args.command == "literature" and args.literature_command == "search-verify":
+        search_receipt = LiteratureSearchVerificationService(store=get_object_store()).verify(
+            args.study_id,
+            args.execution_id,
+        )
+        write_literature_search_receipt(args.output_path, search_receipt)
+        print(
+            f"Verified literature search {search_receipt.execution_id}: "
+            f"{search_receipt.unique_record_count} unique records; receipt {args.output_path}"
         )
         return 0
 

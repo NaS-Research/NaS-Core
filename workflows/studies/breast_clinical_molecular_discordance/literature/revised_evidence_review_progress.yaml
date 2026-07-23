@@ -3,16 +3,18 @@ progress_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.3.0
-review_status: draft
-search_strategy_version: 0.2.0
+review_status: active
+search_strategy_version: 0.2.3
 priority_set_version: 1.0.0
-locked_search_executed: false
+locked_search_executed: true
+search_execution_id: 7c57c576958ace94b3eb5e07ed951f8d0012608cdfc45e6afb1b058c9b88fbee
+search_receipt_path: literature/search_receipt_v0.3.0.yaml
 deduplication_complete: false
 primary_screening_complete: false
 eligible_evidence_count: 0
 completed_appraisal_count: 0
 access_restricted_count: 0
-pending_candidate_count: 13
+pending_candidate_count: 96
 citation_passes: []
 unresolved_claims:
   - >-

@@ -22,7 +22,10 @@ from nas_core.domain.discovery import LiteratureSearchStrategy, PhaseZeroPlan
 from nas_core.domain.literature import (
     BibliographicRecord,
     LiteratureRequest,
+    LiteratureSearchReceipt,
     LiteratureSearchSnapshot,
+    ScreeningStatus,
+    SourceSearchReceipt,
     SourceSearchResult,
 )
 from nas_core.domain.snapshots import StoredObject
@@ -122,6 +125,136 @@ class UrllibLiteratureTransport:
             elapsed = time.monotonic() - self._last_request_at
             time.sleep(max(0.0, self._minimum_request_interval_seconds - elapsed))
         self._last_request_at = time.monotonic()
+
+
+class LiteratureVerificationError(ValueError):
+    """Raised when a stored search snapshot fails independent verification."""
+
+
+class LiteratureSearchVerificationService:
+    """Verify a stored search manifest and issue a minimal Git-safe receipt."""
+
+    def __init__(
+        self,
+        *,
+        store: ObjectStore,
+        clock: Callable[[], datetime] | None = None,
+    ) -> None:
+        self._store = store
+        self._clock = clock or (lambda: datetime.now(UTC))
+
+    def verify(self, study_id: str, execution_id: str) -> LiteratureSearchReceipt:
+        if not re.fullmatch(r"NAS-[A-Z0-9]+-[0-9]{3}", study_id):
+            raise LiteratureVerificationError("study ID is invalid")
+        if not re.fullmatch(r"[a-f0-9]{64}", execution_id):
+            raise LiteratureVerificationError("execution ID must be a SHA-256")
+        manifest_key = f"literature/{study_id}/{execution_id}/manifest.json"
+        if not self._store.exists(manifest_key):
+            raise LiteratureVerificationError("literature search manifest does not exist")
+        manifest_body = self._store.get_bytes(manifest_key)
+        try:
+            manifest_payload = json.loads(manifest_body)
+            snapshot = LiteratureSearchSnapshot.model_validate(manifest_payload)
+        except (UnicodeDecodeError, json.JSONDecodeError, ValueError) as error:
+            raise LiteratureVerificationError("literature search manifest is invalid") from error
+        if snapshot.execution_id != execution_id:
+            raise LiteratureVerificationError("manifest execution ID does not match its key")
+        if snapshot.study_id != study_id:
+            raise LiteratureVerificationError("manifest study ID does not match its key")
+
+        unhashed_payload = snapshot.model_dump(mode="json", exclude_none=True)
+        declared_manifest_sha256 = unhashed_payload.pop("manifest_sha256", None)
+        manifest_checksum_verified = (
+            declared_manifest_sha256 is not None
+            and sha256(canonical_json(unhashed_payload)) == declared_manifest_sha256
+        )
+        if not manifest_checksum_verified:
+            raise LiteratureVerificationError("manifest checksum verification failed")
+
+        objects = [
+            snapshot.normalized_records_object,
+            *[
+                stored
+                for source_result in snapshot.source_results
+                for stored in source_result.raw_objects
+            ],
+        ]
+        if any(not self._store.exists(stored.object_key) for stored in objects):
+            raise LiteratureVerificationError("one or more declared search objects are missing")
+        object_bodies = {
+            stored.object_key: self._store.get_bytes(stored.object_key) for stored in objects
+        }
+        object_checksums_verified = all(
+            sha256(object_bodies[stored.object_key]) == stored.sha256 for stored in objects
+        )
+        if not object_checksums_verified:
+            raise LiteratureVerificationError("search object checksum verification failed")
+        object_sizes_verified = all(
+            len(object_bodies[stored.object_key]) == stored.size_bytes for stored in objects
+        )
+        if not object_sizes_verified:
+            raise LiteratureVerificationError("search object size verification failed")
+
+        normalized_body = object_bodies[snapshot.normalized_records_object.object_key]
+        try:
+            normalized_payload = json.loads(normalized_body)
+            if not isinstance(normalized_payload, list):
+                raise TypeError("normalized record payload must be a list")
+            records = [BibliographicRecord.model_validate(item) for item in normalized_payload]
+        except (UnicodeDecodeError, json.JSONDecodeError, TypeError, ValueError) as error:
+            raise LiteratureVerificationError("normalized records are invalid") from error
+        record_keys = [record.record_key for record in records]
+        retrieved_count = sum(item.retrieved_record_count for item in snapshot.source_results)
+        record_count_invariants_verified = all(
+            (
+                len(records) == snapshot.unique_record_count,
+                len(record_keys) == len(set(record_keys)),
+                retrieved_count
+                == snapshot.unique_record_count + snapshot.duplicate_record_count,
+                all(
+                    item.reported_result_count == item.retrieved_record_count
+                    and item.request_count == len(item.raw_objects)
+                    for item in snapshot.source_results
+                ),
+            )
+        )
+        if not record_count_invariants_verified:
+            raise LiteratureVerificationError("search record-count verification failed")
+
+        return LiteratureSearchReceipt(
+            execution_id=snapshot.execution_id,
+            study_id=snapshot.study_id,
+            question_id=snapshot.question_id,
+            question_version=snapshot.question_version,
+            strategy_version=snapshot.strategy_version,
+            executed_at=snapshot.executed_at,
+            source_results=[
+                SourceSearchReceipt(
+                    source_id=item.source_id,
+                    reported_result_count=item.reported_result_count,
+                    retrieved_record_count=item.retrieved_record_count,
+                    request_count=item.request_count,
+                    raw_object_count=len(item.raw_objects),
+                )
+                for item in snapshot.source_results
+            ],
+            unique_record_count=snapshot.unique_record_count,
+            duplicate_record_count=snapshot.duplicate_record_count,
+            manifest_object_key=manifest_key,
+            manifest_sha256=declared_manifest_sha256,
+            normalized_records_object_key=snapshot.normalized_records_object.object_key,
+            normalized_records_sha256=snapshot.normalized_records_object.sha256,
+            normalized_records_size_bytes=snapshot.normalized_records_object.size_bytes,
+            verified_at=self._clock(),
+            manifest_checksum_verified=True,
+            object_checksums_verified=True,
+            object_sizes_verified=True,
+            record_count_invariants_verified=True,
+            verified_object_count=len(objects) + 1,
+            screening_status=ScreeningStatus.NOT_STARTED,
+            scientific_conclusions_drawn=False,
+            outcome_data_accessed=False,
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -238,7 +371,7 @@ class LiteratureSearchService:
     ) -> dict[str, int]:
         """Contact each source once to assess corpus size without storing records."""
 
-        self._authorize(plan, strategy, contact_email)
+        self._authorize_preview(plan, strategy, contact_email)
         queries = self._source_queries(strategy)
         pubmed_params = {
             "db": "pubmed",
@@ -279,6 +412,22 @@ class LiteratureSearchService:
             raise RemoteResponseError("Europe PMC count preview has an invalid hitCount")
         return {"pubmed": pubmed_count, "europe-pmc": europe_count}
 
+    def _authorize_preview(
+        self,
+        plan: PhaseZeroPlan,
+        strategy: LiteratureSearchStrategy,
+        contact_email: str,
+    ) -> None:
+        if strategy.retrieval_authorized:
+            raise PermissionError("count preview requires a non-retrieval candidate strategy")
+        if plan.authorization is None or plan.authorization.decision.value != "approved":
+            raise PermissionError("founder Phase 0 authorization is required")
+        self._validate_contact_and_sources(
+            strategy,
+            contact_email,
+            require_storage=False,
+        )
+
     def _authorize(
         self,
         plan: PhaseZeroPlan,
@@ -289,6 +438,19 @@ class LiteratureSearchService:
             raise PermissionError("a locked, retrieval-authorized search strategy is required")
         if plan.authorization is None or plan.authorization.decision.value != "approved":
             raise PermissionError("founder Phase 0 authorization is required")
+        self._validate_contact_and_sources(
+            strategy,
+            contact_email,
+            require_storage=True,
+        )
+
+    def _validate_contact_and_sources(
+        self,
+        strategy: LiteratureSearchStrategy,
+        contact_email: str,
+        *,
+        require_storage: bool,
+    ) -> None:
         if "@" not in contact_email or contact_email.startswith("@"):
             raise ValueError("a valid contact email is required by the literature APIs")
 
@@ -301,12 +463,13 @@ class LiteratureSearchService:
                 actor_role="researcher",
                 purpose="evidence-synthesis",
             )
-            policy.authorize(
-                registration,
-                DataAction.STORE,
-                actor_role="researcher",
-                purpose="evidence-synthesis",
-            )
+            if require_storage:
+                policy.authorize(
+                    registration,
+                    DataAction.STORE,
+                    actor_role="researcher",
+                    purpose="evidence-synthesis",
+                )
 
     @staticmethod
     def _source_queries(strategy: LiteratureSearchStrategy) -> dict[str, str]:

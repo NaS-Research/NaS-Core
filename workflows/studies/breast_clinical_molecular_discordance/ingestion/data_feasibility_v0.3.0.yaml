@@ -1,0 +1,88 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+specification_version: 0.3.0
+status: draft
+discovery_source_id: gdc-tcga-open
+discovery_source_registry_status: approved_public_open
+variable_requirements:
+  - domain: eligibility_metadata
+    concepts:
+      - Primary invasive breast tumor and sample identity
+      - Estrogen-receptor result and assay metadata
+      - Progesterone-receptor result and assay metadata
+      - HER2 immunohistochemistry and amplification metadata
+    purpose: >-
+      Determine clinically HR-positive/HER2-negative eligibility without accessing
+      molecular measurements or outcomes.
+    required_for_primary_analysis: true
+    maximum_missing_fraction: 0.20
+  - domain: pam50_input_coverage
+    concepts:
+      - Presence of all 50 canonical PAM50 gene identifiers
+      - CDCA1 to NUF2, KNTC2 to NDC80, and ORC6L to ORC6 alias resolution
+      - Duplicate, ambiguous, retired, and unmapped gene identifiers
+      - Expression unit, workflow, annotation release, and numerical-value metadata
+    purpose: >-
+      Establish whether the locked one-sample input contract can be evaluated;
+      metadata checks must not read patient expression values.
+    required_for_primary_analysis: true
+    maximum_missing_fraction: 0.0
+  - domain: fixed_method_artifacts
+    concepts:
+      - Five-by-fifty centroid matrix provenance and checksum
+      - External reference vector provenance and checksum
+      - TCGA and GSE96058 transformation formulas and parameters
+      - Platform-appropriate technical-error model
+    purpose: >-
+      Resolve every external dependency required to lock reliability specification
+      0.1.0 without fitting on discovery or validation measurements.
+    required_for_primary_analysis: true
+    maximum_missing_fraction: 0.0
+  - domain: sample_and_processing_provenance
+    concepts:
+      - Case, sample, portion, analyte, aliquot, and file mappings
+      - Primary-tumor designation
+      - Library strategy and processing workflow
+      - Technical replicate identifiers where explicitly available
+    purpose: >-
+      Guarantee one primary-tumor unit per classifier call and prevent accidental
+      participant or technical-replicate duplication.
+    required_for_primary_analysis: true
+    maximum_missing_fraction: 0.05
+candidate_validation_sources:
+  - candidate_id: ncbi-geo-gse96058
+    name: SCAN-B population-based RNA-seq cohort (GSE96058)
+    intended_role: Unchanged external analytical reproduction candidate
+    authoritative_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96058
+    assessment_status: approved
+    source_registry_status: active_approved_public_open
+    access_and_license_questions:
+      - Use only public processed expression and public GSM or series metadata.
+      - Cite GSE96058, its original publication, and NCBI GEO.
+      - Verify that intended transformations and aggregate outputs comply with source terms.
+    compatibility_questions:
+      - Are all 50 canonical genes present with unambiguous current identifiers?
+      - Are FPKM values and preprocessing metadata sufficient for a fixed platform bridge?
+      - Can technical replicates be identified and prevented from becoming independent patients?
+      - Can the method run without reported PAM50 labels, outcomes, or cohort adaptation?
+    independence_questions:
+      - Confirm participant independence from TCGA-BRCA.
+      - Disclose overlap with the SCAN-B literature used to develop the evidence base.
+      - Recompute all research outputs rather than inheriting published classifier labels.
+compatibility_gates:
+  - Every canonical PAM50 gene and historical alias must resolve unambiguously.
+  - Centroid and reference artifacts must be lawful, immutable, and checksummed.
+  - Transformation parameters must be fixed without patient expression or outcomes.
+  - GSE96058 must be attempted unchanged without label- or performance-guided adaptation.
+  - Participant, sample, and technical-replicate mappings must be auditable.
+  - Metadata failure must stop molecular retrieval rather than trigger imputation.
+minimum_feasibility_outputs:
+  - TCGA receptor-field definition, completeness, and assay-provenance report.
+  - TCGA and GSE96058 PAM50 gene and alias coverage report.
+  - File, workflow, annotation, sample, aliquot, and case relationship map.
+  - Exact centroid, reference, transformation, and license dependency matrix.
+  - GSE96058 independence, overlap, platform, and reuse assessment.
+  - Explicit pass, changes-requested, on-hold, or fail recommendation.
+outcome_data_access_authorized: false

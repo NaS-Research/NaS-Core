@@ -29,6 +29,9 @@ NOVELTY_PATH = STUDY_ROOT / "literature" / "novelty_memorandum.yaml"
 SOURCE_ASSESSMENT_PATH = STUDY_ROOT / "ingestion" / "source_feasibility_assessment.yaml"
 GATE_DECISION_PATH = STUDY_ROOT / "reviews" / "FOUNDER_PHASE_ZERO_GATE_DECISION_v0.2.0.yaml"
 EVIDENCE_MATRIX_PATH = STUDY_ROOT / "literature" / "evidence_matrix.csv"
+REVISED_PLAN_PATH = STUDY_ROOT / "question" / "phase_zero_plan_v0.3.0.yaml"
+REVISED_SEARCH_PATH = STUDY_ROOT / "literature" / "search_strategy_v0.3.0.yaml"
+REVISED_FEASIBILITY_PATH = STUDY_ROOT / "ingestion" / "data_feasibility_v0.3.0.yaml"
 
 
 def test_checked_in_phase_zero_package_is_typed_and_bound() -> None:
@@ -46,6 +49,26 @@ def test_checked_in_phase_zero_package_is_typed_and_bound() -> None:
     assert plan.authorization.decision == "approved"
     assert feasibility.outcome_data_access_authorized is False
     assert feasibility.status == "complete"
+
+
+def test_checked_in_revised_phase_zero_package_is_authorized_and_bound() -> None:
+    plan, search, feasibility = load_phase_zero_artifacts(
+        REVISED_PLAN_PATH,
+        REVISED_SEARCH_PATH,
+        REVISED_FEASIBILITY_PATH,
+    )
+
+    assert plan.study_id == "NAS-BRCA-002"
+    assert plan.question_version == "0.3.0"
+    assert plan.status == "in_progress"
+    assert plan.authorization is not None
+    assert plan.authorization.decision == "approved"
+    assert search.status == "locked"
+    assert search.strategy_version == "0.2.3"
+    assert search.retrieval_authorized is True
+    assert feasibility.status == "draft"
+    assert feasibility.discovery_source_id == "gdc-tcga-open"
+    assert feasibility.outcome_data_access_authorized is False
 
 
 def test_checked_in_discovery_schemas_match_runtime_models() -> None:

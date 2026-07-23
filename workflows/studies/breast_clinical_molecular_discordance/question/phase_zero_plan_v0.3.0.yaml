@@ -1,0 +1,105 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+status: in_progress
+objective: >-
+  Determine whether a fixed single-sample PAM50 reliability and abstention layer
+  remains scientifically differentiated, can be specified without outcome-guided
+  choices, and can be transported unchanged from TCGA-BRCA to GSE96058.
+candidate_thesis: >-
+  A frozen patient-independent research procedure can preserve input failures,
+  quantify top-versus-runner-up separation and technical repeatability, and abstain
+  on unreliable PAM50 assignments without claiming biological truth or clinical utility.
+contribution:
+  established_knowledge:
+    - PAM50 assignments can depend on reference construction and test-cohort composition.
+    - Absolute and single-sample breast intrinsic-subtype classifiers have been published.
+    - Patient-level PAM50 uncertainty, ambiguity, and Not Assigned states have prior evidence.
+  unresolved_problem: >-
+    It is not yet established whether the exact NaS fixed-input result contract,
+    perturbation panel, reliability states, and unchanged cross-platform transport
+    remain differentiated and defensible after complete current evidence appraisal.
+  proposed_contribution: >-
+    A governed research reliability component that returns scores, margin, technical
+    repeatability, explicit failure states, and abstention from one sample at a time,
+    with every parameter frozen before molecular access and attempted unchanged externally.
+  falsification_condition: >-
+    The contribution is not supported if prior methods already provide an equivalent
+    validated result contract, required artifacts or thresholds cannot be justified
+    independently of outcomes, or unchanged external transport is not feasible.
+  value_if_null: >-
+    A no-go result will document which reliability claims are already resolved and
+    prevent NaS from publishing a redundant or arbitrarily calibrated method.
+novelty_questions:
+  - Which existing methods classify one tumor independently of every test cohort?
+  - Which methods report margin, uncertainty, ambiguity, Not Assigned, or abstention states?
+  - How were uncertainty and assignment thresholds selected and externally validated?
+  - Which technical-error and gene-perturbation models use independent empirical calibration?
+  - Which exact implementations and artifacts can be lawfully reproduced and transported?
+  - What contribution remains after AIMS, MiniABS, SSP, MPAM50, and BreastSubtypeR?
+data_questions:
+  - Are all historical PAM50 genes and aliases unambiguously measurable in both sources?
+  - Can one fixed input transformation be declared for each platform without outcome access?
+  - Can an immutable reference and centroid artifact be sourced and checksummed lawfully?
+  - Are technical replicate or independent error data applicable to either expression platform?
+  - Can every quality failure and transport failure be detected before scoring?
+external_validation_questions:
+  - Are GSE96058 participants and processing sufficiently independent of TCGA-BRCA?
+  - Can the complete method be applied without using GSE96058 subtype labels or outcomes?
+  - Are processed FPKM values compatible with a prespecified fixed platform bridge?
+  - Do public terms permit reproducible aggregate reporting and artifact provenance?
+hard_pass_gates:
+  - The revised evidence stopping rule is satisfied without an early no-go trigger.
+  - A differentiated contribution survives direct comparison with all priority methods.
+  - Exact centroids, reference, transformations, and numerical tolerances are approved.
+  - Margin and repeatability thresholds have non-outcome calibration and validation support.
+  - TCGA and GSE96058 pass non-outcome gene, identifier, and transformation feasibility.
+  - Failure-heavy, high-abstention, and null results remain scientifically publishable.
+  - The work remains a nonclinical research method and not a diagnostic assay.
+no_go_criteria:
+  - Existing evidence already implements and validates an equivalent reliability contract.
+  - Thresholds depend on outcomes, subtype proportions, or validation-performance optimization.
+  - A patient-independent PAM50 implementation cannot be specified lawfully and reproducibly.
+  - No applicable independent technical-error evidence can support the proposed perturbation panel.
+  - The fixed method cannot be attempted unchanged in GSE96058.
+  - The only remaining difference is terminology or software wrapping without scientific contribution.
+deliverables:
+  - Locked revised search and immutable bibliographic snapshot.
+  - Founder-adjudicated direct evidence set capped at 30 studies.
+  - Completed dependency-focused appraisals and evidence matrix.
+  - Two consecutive zero-yield backward-plus-forward citation passes.
+  - Revised novelty, overlap, contradiction, and no-go memorandum.
+  - Metadata-only TCGA and GSE96058 compatibility report.
+  - Founder scientific, molecular/pathology, and statistical review passes.
+  - Go, change, hold, or reject decision for question 0.3.0.
+prohibited_actions:
+  - No molecular expression or outcome data retrieval during the evidence review.
+  - No classifier execution or threshold selection using TCGA or GSE96058 values.
+  - No autonomous AI inclusion or exclusion decision.
+  - No novelty claim before the stopping rule and founder review are complete.
+  - No diagnostic, prognostic, treatment, or clinical-utility claim.
+authorization:
+  reviewer: Dalron J. Robertson
+  role: Founder, Study Lead, and Internal Phase 0 Reviewer
+  review_type: internal_self_review
+  decision: approved
+  authorized_at: 2026-07-23T14:04:54-05:00
+  authorized_activities:
+    - literature_retrieval
+    - source_feasibility_assessment
+    - non_outcome_metadata_queries
+  prohibited_activities:
+    - Molecular expression or outcome data retrieval or analysis
+    - Outcome-guided classifier, perturbation, or threshold selection
+    - Autonomous AI screening decisions
+    - Novelty, diagnostic, prognostic, treatment, or clinical-utility claims
+  rationale: >-
+    The founder explicitly instructed NaS Core to proceed to the next bounded phase
+    after reviewing the question-0.3.0 evidence infrastructure. Authorization covers
+    count-only feasibility, query locking, bibliographic retrieval, evidence review,
+    and non-outcome metadata checks under the revised protocol.
+  conflict_disclosure: >-
+    Dalron J. Robertson is the founder, study lead, prospective analyst, author,
+    internal reviewer, and gate approver. This is founder-led internal review and
+    is not independent peer review.

@@ -8,11 +8,12 @@ and what comes next?
 
 ## Current focus
 
-### Execute the NAS-BRCA-002 revised evidence review
+### Deduplicate and screen the NAS-BRCA-002 revised evidence review
 
-The question-`0.3.0` review protocol, targeted search, 13-record direct priority
-set, and machine-audited progress ledger are implemented. Lock and execute the
-bounded search, adjudicate and appraise the direct evidence, then complete sequential
+The question-`0.3.0` review is authorized and active. Its targeted search was
+iteratively narrowed through count-only checks, locked as strategy `0.2.3`, executed
+once, and independently verified. Deduplicate the 96-record result against the prior
+inventory, adjudicate and appraise the direct evidence, then complete sequential
 backward-plus-forward citation passes. Preserve the metadata-only, nonclinical
 boundary until founder review supports a new decision.
 
@@ -41,15 +42,19 @@ Current gate state:
   outcome access remain prohibited.
 - Draft method specification `0.1.0` is typed and mechanically validated. It cannot
   authorize molecular execution while any scientific dependency remains unresolved.
-- Revised evidence protocol `0.2.0` and priority set `1.0.0` are typed and
-  nonexecuting. All 13 direct candidates are pending question-`0.3.0` founder
-  adjudication; no prior decision was silently carried forward.
+- Revised evidence protocol `0.2.3` and priority set `1.0.0` are typed. All 13
+  direct candidates are pending question-`0.3.0` founder adjudication; no prior
+  decision was silently carried forward.
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
   feasibility specification are implemented.
 - AI-assisted question review is advisory; the founder Phase 0 decision is recorded,
   while the revised scientific, molecular, and statistical reviews remain pending.
 - The search and source-feasibility specifications are locked. Literature retrieval
   and non-outcome source assessment are authorized; outcome access is disabled.
+- Revised search execution `7c57c576…8fbee` contains 96 unique records and 51
+  cross-source duplicates from 52 PubMed and 95 Europe PMC hits. Its manifest, four
+  raw responses, normalized record object, hashes, sizes, schema, and count
+  invariants were independently verified. Screening has not started.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -81,8 +86,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Run count-only feasibility for revised search `0.2.0`, review and lock the
-   queries, and record question-`0.3.0` founder retrieval authorization.
+1. Build a verified question-`0.3.0` screening queue and deduplicate its 96 records
+   against the prior evidence inventory without carrying forward prior decisions.
 2. Screen and appraise the 13-record direct priority set, beginning with the
    single-subject uncertainty, AIMS, MiniABS, SSP, MPAM50, and BreastSubtypeR reports.
 3. Execute sequential backward-plus-forward Europe PMC citation passes until two
@@ -118,6 +123,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-23 — Revised reliability search locked and captured
+
+Recorded founder Phase 0 authorization for question `0.3.0`, implemented a
+metadata-only feasibility specification, and refined the search through four
+count-only iterations. The final strategy `0.2.3` narrowed the result to 52 PubMed
+and 95 Europe PMC hits without storing preview records.
+
+Executed the locked query once. Immutable execution `7c57c576…8fbee` contains 96
+unique bibliographic records and 51 cross-source duplicates. A separate verifier
+reloaded the manifest and all five data objects from external storage, recomputed
+hashes and sizes, checked normalized-record schema and uniqueness, reconciled source
+and duplicate counts, and issued the aggregate receipt in Git. No molecular or
+outcome data were accessed, and no scientific conclusion was generated.
 
 ### 2026-07-23 — Revised evidence-review phase implemented
 
@@ -198,22 +217,6 @@ Validation: Phase 0 artifact contracts, duplicate reconciliation, source governa
 question and study lifecycle validation, Ruff, strict MyPy across 54 source files,
 and all 154 tests passed.
 
-### 2026-07-22 — Ki67 measurement variability added as context evidence
-
-Retrieved `PMC7376512` as 180,098 bytes of official Europe PMC XML under CC BY 4.0
-with SHA-256 `67c85e05…c99ef` and completed its section-located appraisal. In the
-limited molecular-subtype subset, IHC surrogate Luminal A/B labels agreed with PAM50
-for 55.8% of tumors using the selected hotspot score and 66.3% using global Ki67.
-This is relevant evidence that measurement choices can affect clinical-versus-
-molecular labeling, but it is locked as `context_only`: PAM50 was available for only
-111 tumors, 22 hotspot methods were evaluated without a prespecified multiplicity
-strategy, neither comparator establishes the correct discordant label, and there was
-no external validation. The ledger now records 8 retrieved, 8 appraised, 4 restricted,
-3 supporting, 5 context-only, and 0 anchor.
-
-Validation: receipt identity, license/checksum binding, appraisal schema, ledger
-reconciliation, Ruff, strict MyPy across 54 source files, and all 149 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -225,9 +228,9 @@ reconciliation, Ruff, strict MyPy across 54 source files, and all 149 tests pass
   numerical tolerances, and thresholds are resolved. The complete evidence stopping
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
-- Revised search strategy `0.2.0` is intentionally a draft. Count-only feasibility,
-  query lock, and founder authorization are required before contacting the literature
-  APIs or claiming the revised evidence review is active.
+- Revised search strategy `0.2.3` is locked and executed. Deduplication against the
+  prior evidence inventory, founder screening, full-text appraisal, and the
+  citation-chain stopping rule remain incomplete.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is

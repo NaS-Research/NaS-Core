@@ -52,7 +52,7 @@ def complete_pass(number: int, *, new_ids: list[str] | None = None) -> dict[str,
     }
 
 
-def test_checked_in_revised_review_artifacts_are_valid_and_nonexecuting() -> None:
+def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> None:
     priority = load_priority_evidence_set(PRIORITY_PATH)
     progress = load_evidence_review_progress(PROGRESS_PATH)
     search = LiteratureSearchStrategy.model_validate(
@@ -63,9 +63,16 @@ def test_checked_in_revised_review_artifacts_are_valid_and_nonexecuting() -> Non
     assert len(priority.candidates) == 13
     assert priority.maximum_final_evidence_count == 30
     assert all(not item.founder_decision_recorded for item in priority.candidates)
-    assert search.status == "draft"
-    assert search.retrieval_authorized is False
-    assert progress.pending_candidate_count == 13
+    assert search.status == "locked"
+    assert search.retrieval_authorized is True
+    assert progress.review_status == "active"
+    assert progress.locked_search_executed is True
+    assert (
+        progress.search_execution_id
+        == "7c57c576958ace94b3eb5e07ed951f8d0012608cdfc45e6afb1b058c9b88fbee"
+    )
+    assert progress.search_receipt_path == "literature/search_receipt_v0.3.0.yaml"
+    assert progress.pending_candidate_count == 96
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False
     assert progress.molecular_data_access_authorized is False
@@ -142,6 +149,14 @@ def test_false_stopping_rule_claim_is_rejected() -> None:
         EvidenceReviewProgress.model_validate(payload)
 
 
+def test_search_execution_requires_id_and_receipt_path() -> None:
+    payload = load_progress_payload()
+    payload["search_receipt_path"] = None
+
+    with pytest.raises(ValidationError, match="both an execution ID and receipt path"):
+        EvidenceReviewProgress.model_validate(payload)
+
+
 def test_two_consecutive_zero_yield_passes_can_satisfy_stopping_rule() -> None:
     payload = load_progress_payload()
     payload.update(
@@ -211,4 +226,4 @@ def test_progress_payload_copy_is_independent() -> None:
     copied = deepcopy(payload)
     copied["pending_candidate_count"] = 0
 
-    assert payload["pending_candidate_count"] == 13
+    assert payload["pending_candidate_count"] == 96

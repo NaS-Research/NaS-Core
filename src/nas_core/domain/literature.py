@@ -397,6 +397,17 @@ def load_literature_search_receipt(path: Path) -> LiteratureSearchReceipt:
     return LiteratureSearchReceipt.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
 
+def write_literature_search_receipt(path: Path, receipt: LiteratureSearchReceipt) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
 def load_screening_queue_receipt(path: Path) -> ScreeningQueueReceipt:
     return ScreeningQueueReceipt.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
