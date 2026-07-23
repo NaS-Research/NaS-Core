@@ -1,0 +1,626 @@
+{
+  "$defs": {
+    "ClassifierContract": {
+      "additionalProperties": false,
+      "properties": {
+        "centroids": {
+          "$ref": "#/$defs/GovernedArtifact"
+        },
+        "correlation_metric": {
+          "$ref": "#/$defs/CorrelationMetric"
+        },
+        "family": {
+          "pattern": "^fixed_nearest_centroid$",
+          "title": "Family",
+          "type": "string"
+        },
+        "margin_formula": {
+          "minLength": 1,
+          "title": "Margin Formula",
+          "type": "string"
+        },
+        "outcome_guided_tuning_allowed": {
+          "title": "Outcome Guided Tuning Allowed",
+          "type": "boolean"
+        },
+        "runner_up_rule": {
+          "minLength": 1,
+          "title": "Runner Up Rule",
+          "type": "string"
+        },
+        "score_formula": {
+          "minLength": 1,
+          "title": "Score Formula",
+          "type": "string"
+        },
+        "subtype_order": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "title": "Subtype Order",
+          "type": "array"
+        },
+        "test_cohort_dependent_operations_allowed": {
+          "title": "Test Cohort Dependent Operations Allowed",
+          "type": "boolean"
+        },
+        "top_label_rule": {
+          "minLength": 1,
+          "title": "Top Label Rule",
+          "type": "string"
+        }
+      },
+      "required": [
+        "family",
+        "subtype_order",
+        "correlation_metric",
+        "score_formula",
+        "top_label_rule",
+        "runner_up_rule",
+        "margin_formula",
+        "centroids",
+        "test_cohort_dependent_operations_allowed",
+        "outcome_guided_tuning_allowed"
+      ],
+      "title": "ClassifierContract",
+      "type": "object"
+    },
+    "CorrelationMetric": {
+      "enum": [
+        "spearman"
+      ],
+      "title": "CorrelationMetric",
+      "type": "string"
+    },
+    "DataQualityState": {
+      "enum": [
+        "valid",
+        "insufficient_gene_coverage",
+        "ambiguous_gene_mapping",
+        "invalid_transformation",
+        "nonfinite_input",
+        "invalid_centroid"
+      ],
+      "title": "DataQualityState",
+      "type": "string"
+    },
+    "DependencyStatus": {
+      "enum": [
+        "unresolved",
+        "specified",
+        "approved"
+      ],
+      "title": "DependencyStatus",
+      "type": "string"
+    },
+    "GovernedArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "access_and_license_basis": {
+          "minLength": 1,
+          "title": "Access And License Basis",
+          "type": "string"
+        },
+        "artifact_id": {
+          "minLength": 1,
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "provenance": {
+          "minLength": 1,
+          "title": "Provenance",
+          "type": "string"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "source_url": {
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/DependencyStatus"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "role",
+        "provenance",
+        "source_url",
+        "access_and_license_basis",
+        "status"
+      ],
+      "title": "GovernedArtifact",
+      "type": "object"
+    },
+    "InputContract": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_gene_symbols": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "minItems": 50,
+          "title": "Canonical Gene Symbols",
+          "type": "array"
+        },
+        "duplicate_or_ambiguous_mapping_action": {
+          "$ref": "#/$defs/ReportAction"
+        },
+        "historical_aliases": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Historical Aliases",
+          "type": "object"
+        },
+        "imputation_allowed": {
+          "title": "Imputation Allowed",
+          "type": "boolean"
+        },
+        "missing_gene_tolerance": {
+          "maximum": 0,
+          "minimum": 0,
+          "title": "Missing Gene Tolerance",
+          "type": "integer"
+        },
+        "nonfinite_value_action": {
+          "$ref": "#/$defs/ReportAction"
+        },
+        "one_primary_tumor_per_call": {
+          "title": "One Primary Tumor Per Call",
+          "type": "boolean"
+        },
+        "panel_name": {
+          "pattern": "^PAM50_historical_50$",
+          "title": "Panel Name",
+          "type": "string"
+        },
+        "required_gene_count": {
+          "maximum": 50,
+          "minimum": 50,
+          "title": "Required Gene Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "panel_name",
+        "canonical_gene_symbols",
+        "historical_aliases",
+        "required_gene_count",
+        "missing_gene_tolerance",
+        "imputation_allowed",
+        "duplicate_or_ambiguous_mapping_action",
+        "nonfinite_value_action",
+        "one_primary_tumor_per_call"
+      ],
+      "title": "InputContract",
+      "type": "object"
+    },
+    "OutputContract": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_quality_states": {
+          "items": {
+            "$ref": "#/$defs/DataQualityState"
+          },
+          "minItems": 1,
+          "title": "Allowed Quality States",
+          "type": "array"
+        },
+        "allowed_reliability_states": {
+          "items": {
+            "$ref": "#/$defs/ReliabilityState"
+          },
+          "minItems": 1,
+          "title": "Allowed Reliability States",
+          "type": "array"
+        },
+        "biological_truth_probability_reported": {
+          "title": "Biological Truth Probability Reported",
+          "type": "boolean"
+        },
+        "clinical_recommendation_reported": {
+          "title": "Clinical Recommendation Reported",
+          "type": "boolean"
+        },
+        "invalid_quality_reliability_state": {
+          "$ref": "#/$defs/ReliabilityState"
+        },
+        "repeatability_formula": {
+          "minLength": 1,
+          "title": "Repeatability Formula",
+          "type": "string"
+        },
+        "required_fields": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Required Fields",
+          "type": "array"
+        },
+        "state_actions": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ReportAction"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/ReliabilityState"
+          },
+          "title": "State Actions",
+          "type": "object"
+        },
+        "valid_perturbation_fraction_formula": {
+          "minLength": 1,
+          "title": "Valid Perturbation Fraction Formula",
+          "type": "string"
+        }
+      },
+      "required": [
+        "required_fields",
+        "repeatability_formula",
+        "valid_perturbation_fraction_formula",
+        "allowed_quality_states",
+        "allowed_reliability_states",
+        "state_actions",
+        "invalid_quality_reliability_state",
+        "biological_truth_probability_reported",
+        "clinical_recommendation_reported"
+      ],
+      "title": "OutputContract",
+      "type": "object"
+    },
+    "PerturbationDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "changes_canonical_result": {
+          "title": "Changes Canonical Result",
+          "type": "boolean"
+        },
+        "governing_artifact": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/GovernedArtifact"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "$ref": "#/$defs/PerturbationKind"
+        },
+        "outcome_data_used": {
+          "title": "Outcome Data Used",
+          "type": "boolean"
+        },
+        "perturbation_id": {
+          "minLength": 1,
+          "title": "Perturbation Id",
+          "type": "string"
+        },
+        "procedure": {
+          "minLength": 1,
+          "title": "Procedure",
+          "type": "string"
+        },
+        "purpose": {
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "random_seed": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Random Seed"
+        },
+        "run_count": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Count"
+        },
+        "status": {
+          "$ref": "#/$defs/DependencyStatus"
+        }
+      },
+      "required": [
+        "perturbation_id",
+        "kind",
+        "status",
+        "purpose",
+        "procedure",
+        "outcome_data_used",
+        "changes_canonical_result"
+      ],
+      "title": "PerturbationDefinition",
+      "type": "object"
+    },
+    "PerturbationKind": {
+      "enum": [
+        "leave_one_gene_out",
+        "technical_measurement_error"
+      ],
+      "title": "PerturbationKind",
+      "type": "string"
+    },
+    "PreprocessingContract": {
+      "additionalProperties": false,
+      "properties": {
+        "expression_input_unit": {
+          "minLength": 1,
+          "title": "Expression Input Unit",
+          "type": "string"
+        },
+        "gene_centering": {
+          "minLength": 1,
+          "title": "Gene Centering",
+          "type": "string"
+        },
+        "parameters_status": {
+          "$ref": "#/$defs/DependencyStatus"
+        },
+        "reference_artifact": {
+          "$ref": "#/$defs/GovernedArtifact"
+        },
+        "test_cohort_statistics_allowed": {
+          "title": "Test Cohort Statistics Allowed",
+          "type": "boolean"
+        },
+        "transformation": {
+          "minLength": 1,
+          "title": "Transformation",
+          "type": "string"
+        },
+        "validation_cohort_adaptation_allowed": {
+          "title": "Validation Cohort Adaptation Allowed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "expression_input_unit",
+        "transformation",
+        "gene_centering",
+        "parameters_status",
+        "reference_artifact",
+        "test_cohort_statistics_allowed",
+        "validation_cohort_adaptation_allowed"
+      ],
+      "title": "PreprocessingContract",
+      "type": "object"
+    },
+    "ReliabilityState": {
+      "enum": [
+        "reliable",
+        "unstable",
+        "unclassifiable",
+        "insufficient_data"
+      ],
+      "title": "ReliabilityState",
+      "type": "string"
+    },
+    "ReportAction": {
+      "enum": [
+        "report_label",
+        "abstain"
+      ],
+      "title": "ReportAction",
+      "type": "string"
+    },
+    "SpecificationStatus": {
+      "enum": [
+        "draft",
+        "locked"
+      ],
+      "title": "SpecificationStatus",
+      "type": "string"
+    },
+    "ThresholdDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "minLength": 1,
+          "title": "Metric",
+          "type": "string"
+        },
+        "operator": {
+          "pattern": "^(>=|>)$",
+          "title": "Operator",
+          "type": "string"
+        },
+        "outcome_guided_selection_allowed": {
+          "title": "Outcome Guided Selection Allowed",
+          "type": "boolean"
+        },
+        "selection_basis": {
+          "minLength": 1,
+          "title": "Selection Basis",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/DependencyStatus"
+        },
+        "threshold_id": {
+          "minLength": 1,
+          "title": "Threshold Id",
+          "type": "string"
+        },
+        "validation_performance_selection_allowed": {
+          "title": "Validation Performance Selection Allowed",
+          "type": "boolean"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "threshold_id",
+        "metric",
+        "operator",
+        "status",
+        "selection_basis",
+        "outcome_guided_selection_allowed",
+        "validation_performance_selection_allowed"
+      ],
+      "title": "ThresholdDefinition",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "classifier": {
+      "$ref": "#/$defs/ClassifierContract"
+    },
+    "clinical_use_authorized": {
+      "title": "Clinical Use Authorized",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "input_contract": {
+      "$ref": "#/$defs/InputContract"
+    },
+    "molecular_data_access_authorized": {
+      "title": "Molecular Data Access Authorized",
+      "type": "boolean"
+    },
+    "outcome_data_access_authorized": {
+      "title": "Outcome Data Access Authorized",
+      "type": "boolean"
+    },
+    "outputs": {
+      "$ref": "#/$defs/OutputContract"
+    },
+    "perturbations": {
+      "items": {
+        "$ref": "#/$defs/PerturbationDefinition"
+      },
+      "minItems": 2,
+      "title": "Perturbations",
+      "type": "array"
+    },
+    "preprocessing": {
+      "$ref": "#/$defs/PreprocessingContract"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "specification_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Specification Version",
+      "type": "string"
+    },
+    "state_logic": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 4,
+      "title": "State Logic",
+      "type": "array"
+    },
+    "status": {
+      "$ref": "#/$defs/SpecificationStatus"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "thresholds": {
+      "items": {
+        "$ref": "#/$defs/ThresholdDefinition"
+      },
+      "minItems": 2,
+      "title": "Thresholds",
+      "type": "array"
+    },
+    "unresolved_dependencies": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Dependencies",
+      "type": "array"
+    }
+  },
+  "required": [
+    "specification_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "status",
+    "input_contract",
+    "preprocessing",
+    "classifier",
+    "perturbations",
+    "thresholds",
+    "outputs",
+    "state_logic",
+    "unresolved_dependencies",
+    "execution_authorized",
+    "molecular_data_access_authorized",
+    "outcome_data_access_authorized",
+    "clinical_use_authorized"
+  ],
+  "title": "SingleSampleReliabilitySpecification",
+  "type": "object"
+}

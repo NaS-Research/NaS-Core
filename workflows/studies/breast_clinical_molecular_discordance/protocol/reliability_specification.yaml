@@ -1,0 +1,269 @@
+schema_version: 1.0.0
+specification_version: 0.1.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+status: draft
+
+input_contract:
+  panel_name: PAM50_historical_50
+  canonical_gene_symbols:
+    - ACTR3B
+    - ANLN
+    - BAG1
+    - BCL2
+    - BIRC5
+    - BLVRA
+    - CCNB1
+    - CCNE1
+    - CDC20
+    - CDC6
+    - CDH3
+    - CENPF
+    - CEP55
+    - CXXC5
+    - EGFR
+    - ERBB2
+    - ESR1
+    - EXO1
+    - FGFR4
+    - FOXA1
+    - FOXC1
+    - GPR160
+    - GRB7
+    - KIF2C
+    - KRT14
+    - KRT17
+    - KRT5
+    - MAPT
+    - MDM2
+    - MELK
+    - MIA
+    - MKI67
+    - MLPH
+    - MMP11
+    - MYBL2
+    - MYC
+    - NAT1
+    - NDC80
+    - NUF2
+    - ORC6
+    - PGR
+    - PHGDH
+    - PTTG1
+    - RRM2
+    - SFRP1
+    - SLC39A6
+    - TMEM45B
+    - TYMS
+    - UBE2C
+    - UBE2T
+  historical_aliases:
+    CDCA1: NUF2
+    KNTC2: NDC80
+    ORC6L: ORC6
+  required_gene_count: 50
+  missing_gene_tolerance: 0
+  imputation_allowed: false
+  duplicate_or_ambiguous_mapping_action: abstain
+  nonfinite_value_action: abstain
+  one_primary_tumor_per_call: true
+
+preprocessing:
+  expression_input_unit: unresolved; must be locked independently for TCGA and the fixed GSE96058 bridge
+  transformation: unresolved; exact formula, offsets, and numerical precision require evidence review
+  gene_centering: subtract one immutable external reference vector from the index sample
+  parameters_status: unresolved
+  reference_artifact:
+    artifact_id: pam50-fixed-reference-v0
+    role: Immutable 50-gene external centering vector; never estimated from the test cohort
+    provenance: >-
+      Candidate references must be independently derived, platform-matched where justified,
+      lawfully reusable, and selected without molecular results, outcomes, or validation performance.
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE26082
+    access_and_license_basis: Unresolved; exact reusable values and governing terms require review.
+    status: unresolved
+    sha256: null
+  test_cohort_statistics_allowed: false
+  validation_cohort_adaptation_allowed: false
+
+classifier:
+  family: fixed_nearest_centroid
+  subtype_order:
+    - Luminal A
+    - Luminal B
+    - HER2-enriched
+    - Basal-like
+    - Normal-like
+  correlation_metric: spearman
+  score_formula: >-
+    For each fixed subtype centroid, compute Spearman rank correlation between the
+    transformed, fixed-reference-centered 50-gene index-sample vector and the matching
+    immutable centroid vector.
+  top_label_rule: >-
+    Select the subtype with the greatest finite centroid score; an exact tie at the
+    greatest score is unclassifiable and must abstain.
+  runner_up_rule: >-
+    Select the distinct subtype with the second-greatest finite centroid score; an exact
+    tie affecting second place is retained as an ambiguity reason.
+  margin_formula: top_score - runner_up_score
+  centroids:
+    artifact_id: pam50-research-centroids-v0
+    role: Immutable five-by-fifty historical research PAM50 centroid matrix
+    provenance: >-
+      Parker et al. 2009 research classifier values, reconciled to current gene symbols.
+      Candidate values must be independently verified against an authoritative distribution.
+    source_url: https://pubmed.ncbi.nlm.nih.gov/19204204/
+    access_and_license_basis: >-
+      Scientific provenance is identified; redistribution and implementation rights for
+      the exact coefficient artifact remain under review.
+    status: unresolved
+    sha256: null
+  test_cohort_dependent_operations_allowed: false
+  outcome_guided_tuning_allowed: false
+
+perturbations:
+  - perturbation_id: logo-50-v1
+    kind: leave_one_gene_out
+    status: specified
+    purpose: >-
+      Measure whether a canonical assignment depends on any single panel gene without
+      altering the canonical 50-gene result or claiming biological correctness.
+    procedure: >-
+      Create exactly 50 deterministic sensitivity runs. In run g, remove gene g from both
+      the centered sample vector and every fixed centroid, recompute all five Spearman
+      scores on the identical remaining 49 genes, and compare the top label with the
+      canonical 50-gene label. Preserve ties and numerical failures as invalid perturbations.
+    run_count: 50
+    governing_artifact: null
+    random_seed: null
+    outcome_data_used: false
+    changes_canonical_result: false
+  - perturbation_id: technical-error-v1
+    kind: technical_measurement_error
+    status: unresolved
+    purpose: >-
+      Estimate sensitivity to platform-appropriate technical measurement variation using
+      an independently measured error model rather than an invented generic noise level.
+    procedure: >-
+      Draw a locked number of gene-level perturbation vectors from one immutable,
+      platform-specific technical error model with one frozen random seed; apply them to
+      the transformed index-sample vector and rescore against unchanged centroids. Exact
+      distribution, dependence structure, run count, seed, and platform scope are unresolved.
+    run_count: null
+    governing_artifact:
+      artifact_id: independent-technical-error-model-v0
+      role: Platform-specific gene-level technical error distribution and dependence model
+      provenance: >-
+        Must come from independent replicate measurements applicable to the expression
+        platform. The small single-laboratory model in PMID 22196354 is context evidence,
+        not an approved reusable calibration artifact.
+      source_url: https://pubmed.ncbi.nlm.nih.gov/22196354/
+      access_and_license_basis: Unresolved; no suitable calibrated artifact is approved.
+      status: unresolved
+      sha256: null
+    random_seed: null
+    outcome_data_used: false
+    changes_canonical_result: false
+
+thresholds:
+  - threshold_id: minimum-margin-v1
+    metric: top_score_minus_runner_up_score
+    operator: ">="
+    value: null
+    status: unresolved
+    selection_basis: >-
+      Lock before molecular access using revised analytical evidence and synthetic operating
+      characteristics. Do not select the value to maximize clinical separation, outcomes,
+      subtype proportions, or external-validation agreement.
+    outcome_guided_selection_allowed: false
+    validation_performance_selection_allowed: false
+  - threshold_id: minimum-label-retention-v1
+    metric: canonical_label_retention_fraction_across_valid_perturbations
+    operator: ">="
+    value: null
+    status: unresolved
+    selection_basis: >-
+      Lock before molecular access from an evidence-backed analytical tolerance and explicit
+      false-abstention tradeoff. Do not tune against outcomes or GSE96058 performance.
+    outcome_guided_selection_allowed: false
+    validation_performance_selection_allowed: false
+
+outputs:
+  required_fields:
+    - sample_id
+    - method_version
+    - input_artifact_sha256
+    - data_quality_state
+    - canonical_subtype
+    - top_score
+    - runner_up_subtype
+    - runner_up_score
+    - margin
+    - valid_perturbation_count
+    - total_perturbation_count
+    - valid_perturbation_fraction
+    - canonical_label_retention_fraction
+    - reliability_state
+    - report_action
+    - reason_codes
+    - provenance
+    - limitations
+  repeatability_formula: >-
+    count(valid perturbation runs whose top subtype equals the canonical top subtype)
+    divided by count(valid perturbation runs)
+  valid_perturbation_fraction_formula: >-
+    count(valid perturbation runs) divided by count(all prespecified perturbation runs)
+  allowed_quality_states:
+    - valid
+    - insufficient_gene_coverage
+    - ambiguous_gene_mapping
+    - invalid_transformation
+    - nonfinite_input
+    - invalid_centroid
+  allowed_reliability_states:
+    - reliable
+    - unstable
+    - unclassifiable
+    - insufficient_data
+  state_actions:
+    reliable: report_label
+    unstable: abstain
+    unclassifiable: abstain
+    insufficient_data: abstain
+  invalid_quality_reliability_state: insufficient_data
+  biological_truth_probability_reported: false
+  clinical_recommendation_reported: false
+
+state_logic:
+  - >-
+    If any input, mapping, transformation, or centroid check fails, preserve the specific
+    data-quality state, set reliability_state to insufficient_data, and abstain.
+  - >-
+    If canonical scores are finite but the top subtype is tied, the runner-up is undefined,
+    or the prespecified perturbation panel cannot produce its required valid runs, set
+    reliability_state to unclassifiable and abstain.
+  - >-
+    If canonical scoring is valid but either margin or canonical-label retention is below
+    its locked threshold, set reliability_state to unstable and abstain.
+  - >-
+    Only when canonical scoring is valid, every minimum perturbation requirement is met,
+    and all locked thresholds pass may reliability_state be reliable and the canonical
+    subtype be reported.
+  - >-
+    A reported label remains a research classifier output. It is not a probability of
+    biological truth and cannot direct diagnosis, prognosis, or treatment.
+
+unresolved_dependencies:
+  - Exact lawfully reusable and checksummed five-by-fifty centroid artifact.
+  - Exact fixed reference vector and its cross-platform scope.
+  - Exact TCGA and GSE96058 expression transformations, offsets, and precision.
+  - Independent platform-appropriate technical measurement-error model and fixed run count.
+  - Evidence-backed margin and canonical-label-retention thresholds.
+  - Numerical tolerances for score ties and floating-point reproducibility.
+  - Revised evidence-review stopping rule and founder scientific, molecular, and statistical approval.
+
+execution_authorized: false
+molecular_data_access_authorized: false
+outcome_data_access_authorized: false
+clinical_use_authorized: false

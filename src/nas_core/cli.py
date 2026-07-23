@@ -35,6 +35,10 @@ from nas_core.domain.literature import (
     write_screening_review_schemas,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
+from nas_core.domain.reliability import (
+    load_reliability_specification,
+    write_reliability_schema,
+)
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
@@ -170,6 +174,23 @@ def build_parser() -> argparse.ArgumentParser:
     discovery_schema.add_argument(
         "feasibility_path", type=Path, help="Output path for feasibility schema"
     )
+
+    reliability = commands.add_parser(
+        "reliability", help="Manage single-sample classifier reliability specifications"
+    )
+    reliability_commands = reliability.add_subparsers(
+        dest="reliability_command", required=True
+    )
+    reliability_validate = reliability_commands.add_parser(
+        "validate", help="Validate a governed reliability specification"
+    )
+    reliability_validate.add_argument(
+        "path", type=Path, help="Path to reliability_specification.yaml"
+    )
+    reliability_schema = reliability_commands.add_parser(
+        "schema", help="Write the canonical reliability JSON Schema"
+    )
+    reliability_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
     literature_commands = literature.add_subparsers(dest="literature_command", required=True)
@@ -517,6 +538,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote discovery schemas: "
             f"{args.plan_path}, {args.search_path}, {args.feasibility_path}"
         )
+        return 0
+
+    if args.command == "reliability" and args.reliability_command == "validate":
+        specification = load_reliability_specification(args.path)
+        print(
+            f"Reliability specification is valid: {specification.study_id} "
+            f"question {specification.question_version}, "
+            f"method {specification.specification_version} ({specification.status.value}); "
+            f"execution authorized: {specification.execution_authorized}"
+        )
+        return 0
+
+    if args.command == "reliability" and args.reliability_command == "schema":
+        write_reliability_schema(args.path)
+        print(f"Wrote reliability schema: {args.path}")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

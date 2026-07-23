@@ -8,12 +8,13 @@ and what comes next?
 
 ## Current focus
 
-### Specify the NAS-BRCA-002 single-sample reliability method
+### Resolve and lock the NAS-BRCA-002 method dependencies
 
-Question `0.3.0` is drafted around a fixed single-sample reliability, calibration,
-and abstention layer. Define the exact method and result states without using
-molecular or outcome results. Preserve the metadata-only, nonclinical boundary until
-revised evidence and founder review support a new decision.
+Method specification `0.1.0` now fixes the minimum single-sample classifier,
+perturbation families, output fields, and abstention state machine. Resolve its
+scientific dependencies without using molecular or outcome results, then complete
+the revised evidence and metadata reviews. Preserve the metadata-only, nonclinical
+boundary until founder review supports a new decision.
 
 Definition of done:
 
@@ -21,6 +22,9 @@ Definition of done:
   contribution not already answered by the SCAN-B perturbation study.
 - The minimum implementation set and all margin, stability, uncertainty,
   unclassifiable, and abstention rules are declared without outcome inspection.
+- Exact centroids, reference vector, platform transformations, technical-error
+  model, numerical tolerances, and reliability thresholds are lawfully sourced,
+  checksummed, evidence-backed, and locked before molecular access.
 - The revised evidence review satisfies its locked stopping rule and retains
   contradictory and null evidence.
 - Metadata-only checks verify receptor fields and PAM50 gene coverage in TCGA and
@@ -35,6 +39,8 @@ Current gate state:
 - Question version `0.2.0` and its founder-authorized `change` decision are
   preserved. Version `0.3.0` is the active proposed revision; preregistration and
   outcome access remain prohibited.
+- Draft method specification `0.1.0` is typed and mechanically validated. It cannot
+  authorize molecular execution while any scientific dependency remains unresolved.
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
   feasibility specification are implemented.
 - AI-assisted question review is advisory; the founder Phase 0 decision is recorded,
@@ -72,12 +78,12 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Define the minimum PAM50 implementation and perturbation set without using
-   molecular or outcome results.
-2. Define patient-level margin, stability, uncertainty, and abstention outputs,
-   including failure and unclassifiable states.
-3. Complete the revised high-quality evidence review and its two-pass
+1. Complete the revised high-quality evidence review and its two-pass
    citation-chain stopping rule.
+2. Resolve and approve the exact centroid and external-reference artifacts,
+   redistribution rights, expression transformations, and numerical tolerances.
+3. Define an independently calibrated technical-error model and lock the margin
+   and canonical-label-retention thresholds without molecular or outcome inspection.
 4. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
 5. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -105,6 +111,26 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-23 — Single-sample reliability method contract implemented
+
+Implemented typed method specification `0.1.0` for NAS-BRCA-002 question `0.3.0`.
+It fixes the historical PAM50 50-gene panel and aliases, one-tumor input boundary,
+five-centroid Spearman score, runner-up and margin formulas, deterministic 50-run
+leave-one-gene-out panel, and the governed boundary for an independent technical-
+error sensitivity panel. The patient-level contract now preserves all quality
+failures, canonical and runner-up scores, margin, perturbation validity, label
+retention, reliability state, reason codes, provenance, and limitations.
+
+Only a `reliable` state may report a research subtype. Unstable, unclassifiable,
+and insufficient-data results must abstain. Exact centroids, external reference,
+platform transforms, technical-error calibration, numerical tolerances, and margin
+and retention thresholds remain explicit unresolved dependencies. The typed
+validator prohibits a draft from authorizing molecular execution and prohibits
+outcome- or validation-guided tuning.
+
+Validation: checked-in schema parity, CLI validation, focused contract and invariant
+tests, Ruff, strict MyPy, and the full test suite.
 
 ### 2026-07-23 — Question v0.3.0 narrows the study to reliability and abstention
 
@@ -178,31 +204,17 @@ Validation: restriction provenance, receipt identity, license/checksum binding,
 appraisal schema, ledger reconciliation, Ruff, strict MyPy across 54 source files,
 and all 147 tests passed.
 
-### 2026-07-22 — Three-gene comparison appraised; source paper marked non-open
-
-The planned `PMC3283537` retrieval returned 404 from Europe PMC, and official NCBI
-OA metadata explicitly reported `idIsNotOpenAccess`; no full text was stored and a
-machine-readable restriction now prevents retries. Advanced to the directly related
-`PMC3413822`, retrieved 87,244 bytes under CC BY 4.0 with SHA-256 `8d6fbf32…c63c2`,
-and completed its appraisal. The head-to-head PAM50/SCMGENE reanalysis is useful for
-classifier-comparison context but cannot resolve which discordant patient-level call
-is biologically correct, uses heterogeneous retrospective microarrays, and discloses
-PAM50 stock/patent interests. It is locked as `context_only`. The ledger now records
-6 retrieved, 6 appraised, 3 restricted, 3 supporting, 3 context-only, and 0 anchor.
-
-Validation: restriction provenance, receipt identity, license/checksum binding,
-appraisal schema, ledger reconciliation, Ruff, strict MyPy across 54 source files,
-and all 145 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
 - Paid AI advisory screening is intentionally inactive under founder policy `1.0.2`;
   the active deterministic Phase 0 workflow requires no API credential.
-- `NAS-BRCA-002` version `0.3.0` is proposed. Its exact method specification,
-  complete evidence stopping rule, and founder scientific/product,
-  molecular/pathology, and statistical reviews are required before selection.
+- `NAS-BRCA-002` version `0.3.0` is proposed. Method specification `0.1.0` is
+  nonexecuting until its exact artifacts, transforms, technical-error calibration,
+  numerical tolerances, and thresholds are resolved. The complete evidence stopping
+  rule and founder scientific/product, molecular/pathology, and statistical reviews
+  are also required before selection.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
