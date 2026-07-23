@@ -1,0 +1,120 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: d3c788e13f703be5281e4866cf867dd021070039b73bc9dae6e65199622caa57
+title: 'CrossLink: a novel method for cross-condition classification of cancer subtypes.'
+pmid: '27556419'
+doi: 10.1186/s12864-016-2903-z
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5001207/fullTextXML
+full_text_sha256: a40c55e347cbd5dbf59df35a826046e3ef321058792e7f9ad4ae0a308aa953fd
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      PAM50 experiments use TCGA-BRCA as the reference, 349 UNC/GSE2740 tumors with
+      known labels, and a 20-sample subset of GSE10797 with ER/PR data; additional Arabic
+      tumors support exploratory application. Cohorts are convenience datasets, the labeled
+      cross-experiment validation is limited, and the smallest evaluation is highly unstable.
+    evidence_locations:
+      - Results — PAM50 prediction of a simulated dataset
+      - Results — PAM50 prediction for the UNC breast cancer dataset
+      - Results — PAM50 prediction for a dataset with no true PAM50 labels
+      - Methods — Data collection for Arabic breast cancer patients
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The method maps platforms through common gene symbols and is designed for heterogeneous
+      expression experiments. However, the main true-label UNC comparison is reported as using
+      the same platform as the TCGA reference, while the genuinely cross-platform example has
+      only 20 evaluable samples and no true PAM50 labels. Platform, preprocessing, and tissue
+      effects are therefore not cleanly separated from classification effects.
+    evidence_locations:
+      - Methods — Problem definition and CL algorithm details
+      - Results — PAM50 prediction for the UNC breast cancer dataset
+      - Results — PAM50 prediction for a dataset with no true PAM50 labels
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      CrossLink applies class-specific two-cluster k-means to the entire prediction cohort and
+      resolves multiple calls with distributional confidence scores. Consequently, an individual
+      patient's label depends on the other test samples, cannot be generated independently, and
+      can fail when the cohort lacks multiple classes. This directly prevents a fixed patient-level
+      classifier and makes results sensitive to test-cohort composition.
+    evidence_locations:
+      - Methods — Class prediction
+      - Discussion and Conclusions
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      Known PAM50 labels permit direct accuracy assessment in simulation and GSE2740, but the
+      cross-platform unlabeled experiment is evaluated with ISEP, an indirect score derived from
+      ER and PR frequencies that omits HER2 and is explicitly not comparable across datasets.
+      ISEP cannot determine whether an individual PAM50 subtype prediction is biologically correct.
+    evidence_locations:
+      - Methods — A metric for evaluating PAM50 subtype prediction using ER and PR status
+      - Results — PAM50 prediction for a dataset with no true PAM50 labels
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Signature thresholds are chosen for best leave-one-out performance, simulation bias follows
+      a simplified additive Gaussian model, algorithm comparisons lack uncertainty intervals or a
+      prespecified statistical comparison plan, and the manuscript states that genes with FDR
+      greater than 0.05 are significant, contrary to the usual criterion. The small indirect-label
+      experiment and optimization across thresholds increase overfitting risk.
+    evidence_locations:
+      - Methods — Signature gene set identification
+      - Results — PAM50 prediction of a simulated dataset
+      - Results — PAM50 prediction for the UNC breast cancer dataset
+      - Results — PAM50 prediction for a dataset with no true PAM50 labels
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      CrossLink reached 73% accuracy in the main real true-label UNC dataset, which the authors
+      describe as having no platform bias relative to the reference. The genuinely cross-platform
+      PAM50 example lacks true labels, uses 20 samples, and relies on ISEP. No independent frozen
+      validation, single-sample operation, prospective testing, outcome calibration, or clinical
+      utility assessment supports transport to patient care.
+    evidence_locations:
+      - Results — PAM50 prediction for the UNC breast cancer dataset
+      - Results — PAM50 prediction for a dataset with no true PAM50 labels
+      - Discussion and Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Equations, threshold exploration, software versions, public dataset identifiers, and R code
+      with an example are reported. Reproduction is weakened by apparent inconsistencies in the
+      FDR criterion, limited preprocessing detail, no immutable environment or seeds, and a package
+      distributed from a project URL rather than a versioned archival repository.
+    evidence_locations:
+      - Methods — Signature gene set identification
+      - Methods — Code implementation and development environment
+      - Availability of data and materials
+evidence_role: context_only
+key_strengths:
+  - Directly recognizes cross-condition and cross-platform subtype transport as a core problem.
+  - Compares CrossLink with seven normalization-based alternatives.
+  - Includes equations, public datasets, an R implementation, and a complete example.
+  - Explicitly acknowledges inability to classify an individual sample independently.
+key_limitations:
+  - Predictions depend on the composition and class diversity of the whole test cohort.
+  - Main true-label real-data accuracy was 73% and did not involve cross-platform bias.
+  - Cross-platform PAM50 evaluation used only 20 samples and an indirect ER/PR metric.
+  - Statistical comparison, multiplicity, uncertainty, and validation procedures are weak.
+  - No prospective clinical validity, calibration, outcome utility, or abstention evaluation.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Funding included NSF CCF-1246073,
+  Qatar National Research Fund 09-874-3-235, the San Antonio Life Science Institute,
+  and NIH-NCATS UL1TR000149. Publication costs were funded by the corresponding author.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable for
+  the locked eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T22:25:00-05:00
+scientific_conclusions_drawn: false

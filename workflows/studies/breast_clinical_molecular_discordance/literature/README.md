@@ -85,8 +85,8 @@ CC BY 4.0 metadata. The aggregate receipt is
 appraisal is eligible with a `supporting` role: it is useful evidence about PAM50
 stability, but is not independent anchor evidence. This is a methodological evidence
 designation, not a scientific conclusion. The reconciled
-[`appraisal_progress.yaml`](appraisal_progress.yaml) records 6 of 27 appraisals
-complete, 6 verified full texts retrieved, 3 access-restricted records, and fails
+[`appraisal_progress.yaml`](appraisal_progress.yaml) records 7 of 27 appraisals
+complete, 7 verified full texts retrieved, 4 access-restricted records, and fails
 closed on identity, checksum, license, or provenance mismatches. `PMC3275466` is
 eligible as `context_only` evidence because
 its sample-level uncertainty is simulated from a sparse, laboratory-specific error
@@ -110,6 +110,10 @@ exploratory.
 comparison `PMC3413822` is context-only evidence: it shows moderate classifier
 agreement and comparative prognostic differences but does not establish the correct
 patient-level subtype or directly test reference stability.
+`PMC8138885` is officially non-open-access and was not stored. `PMC5001207`
+(CrossLink) is context-only: it recognizes cross-condition transportability, but its
+cohort-level k-means procedure cannot classify an individual patient independently
+and its strongest cross-platform PAM50 evaluation lacks true subtype labels.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The

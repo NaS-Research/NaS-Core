@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
-generated_at: '2026-07-23T02:31:58.330046Z'
+generated_at: '2026-07-23T03:02:29.044999Z'
 provisional_inclusion_count: 27
-full_texts_retrieved: 6
-appraisals_completed: 6
-access_restricted_count: 3
+full_texts_retrieved: 7
+appraisals_completed: 7
+access_restricted_count: 4
 anchor_count: 0
 supporting_count: 3
-context_only_count: 3
+context_only_count: 4
 excluded_count: 0
 records:
 - screening_id: c69ed60b1fe2c0073fd6f87ab23247dcb3f93770da497960e5b10cf0a7a8acff
@@ -86,7 +86,11 @@ records:
 - screening_id: d3c788e13f703be5281e4866cf867dd021070039b73bc9dae6e65199622caa57
   title: 'CrossLink: a novel method for cross-condition classification of cancer subtypes.'
   pmcid: PMC5001207
-  status: awaiting_full_text
+  status: completed
+  retrieval_id: 1709c70b22b4b1e62282e694944ebe296360f4a63a367a53b61b1fb25d2afc65
+  full_text_sha256: a40c55e347cbd5dbf59df35a826046e3ef321058792e7f9ad4ae0a308aa953fd
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 8555697bf1099a0de854e0c5e12405dd9b256c8f41bcc018efdfaae811b9035c
   title: 'Prognostic potential of automated Ki67 evaluation in breast cancer: different hot spot definitions
     versus true global score.'
@@ -95,7 +99,8 @@ records:
 - screening_id: bee906ecbd8ca279b662c162d9b739afeb6acd6879a2e892a04a87b4bfa4be71
   title: An approach for normalization and quality control for NanoString RNA expression data.
   pmcid: PMC8138885
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: NO-OPEN-LICENSE
 - screening_id: cd6114fb298c6d8c8fbc02faf0e63e2610c170cfb893c1382b9cac8529f980c9
   title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
   pmcid: PMC7442834

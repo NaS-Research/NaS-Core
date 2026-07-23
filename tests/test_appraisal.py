@@ -157,3 +157,16 @@ def test_three_gene_comparison_appraisal_is_context_only() -> None:
     assert appraisal.doi == "10.1007/s10549-012-2143-0"
     assert appraisal.evidence_role == "context_only"
     assert appraisal.scientific_conclusions_drawn is False
+
+
+def test_cross_condition_appraisal_records_high_transport_risk() -> None:
+    path = REAL_APPRAISAL_DIR / "PMC5001207-v1.0.0.yaml"
+    appraisal = FullTextAppraisal.model_validate(yaml.safe_load(path.read_text()))
+    judgments = {item.domain: item.judgment for item in appraisal.domains}
+
+    assert appraisal.pmid == "27556419"
+    assert appraisal.doi == "10.1186/s12864-016-2903-z"
+    assert appraisal.evidence_role == "context_only"
+    assert judgments[AppraisalDomainName.CLASSIFIER_IMPLEMENTATION] == "high"
+    assert judgments[AppraisalDomainName.VALIDATION_AND_TRANSPORTABILITY] == "high"
+    assert appraisal.scientific_conclusions_drawn is False

@@ -1,0 +1,17 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: bee906ecbd8ca279b662c162d9b739afeb6acd6879a2e892a04a87b4bfa4be71
+pmcid: PMC8138885
+title: An approach for normalization and quality control for NanoString RNA expression data.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8138885/fullTextXML
+observed_license: NO-OPEN-LICENSE
+license_url: https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC8138885
+outcome: restricted
+policy_reason: >-
+  The Europe PMC full-text XML endpoint returned 404 and the official NCBI OA service
+  returned idIsNotOpenAccess. Current policy does not authorize durable full-text
+  ingestion without an open license or separate permission.
+checked_at: 2026-07-23T02:59:36Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

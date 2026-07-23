@@ -27,6 +27,7 @@ SECOND_RECEIPT = REAL_RECEIPT.with_name("PMC3275466.yaml")
 MULTICOHORT_RECEIPT = REAL_RECEIPT.with_name("PMC4166472.yaml")
 RNASEQ_RECEIPT = REAL_RECEIPT.with_name("PMC7442834.yaml")
 THREE_GENE_COMPARISON_RECEIPT = REAL_RECEIPT.with_name("PMC3413822.yaml")
+CROSS_CONDITION_RECEIPT = REAL_RECEIPT.with_name("PMC5001207.yaml")
 
 
 def _xml(
@@ -261,6 +262,24 @@ def test_three_gene_comparison_receipt_is_verified_and_non_conclusive() -> None:
     assert receipt.license.spdx_identifier == "CC-BY-4.0"
     assert receipt.full_text_sha256 == (
         "8d6fbf3299b3b844dfe40cc8aa08fbb195726ecbab002fe5b54d34836f8c63c2"
+    )
+    assert receipt.manifest_checksum_verified is True
+    assert receipt.full_text_checksum_verified is True
+    assert receipt.article_identity_verified is True
+    assert receipt.license_verified is True
+    assert receipt.scientific_conclusions_drawn is False
+
+
+def test_cross_condition_receipt_is_verified_and_non_conclusive() -> None:
+    receipt = FullTextRetrievalReceipt.model_validate(
+        yaml.safe_load(CROSS_CONDITION_RECEIPT.read_text())
+    )
+
+    assert receipt.pmcid == "PMC5001207"
+    assert receipt.code_revision == "2327704"
+    assert receipt.license.spdx_identifier == "CC-BY-4.0"
+    assert receipt.full_text_sha256 == (
+        "a40c55e347cbd5dbf59df35a826046e3ef321058792e7f9ad4ae0a308aa953fd"
     )
     assert receipt.manifest_checksum_verified is True
     assert receipt.full_text_checksum_verified is True

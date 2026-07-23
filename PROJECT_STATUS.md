@@ -56,9 +56,9 @@ Current gate state:
   safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
-- Full-text progress is now mechanically reconciled: 6 of 27 founder inclusions have
-  verified full text and completed appraisals. Roles are 3 supporting and 3 context-only;
-  3 additional papers are access-restricted or non-open-access. No anchor
+- Full-text progress is now mechanically reconciled: 7 of 27 founder inclusions have
+  verified full text and completed appraisals. Roles are 3 supporting and 4 context-only;
+  4 additional papers are access-restricted or non-open-access. No anchor
   study or scientific conclusion exists yet.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
   a pending founder results/remediation decision.
@@ -66,7 +66,7 @@ Current gate state:
 ## Next implementation queue
 
 1. Retrieve and appraise the next high-value lawful full text, prioritizing the
-   NanoString normalization and quality-control study `PMC8138885` if its exact
+   automated Ki67/proliferation robustness study `PMC7376512` if its exact
    identity and item-level license pass the governed checks.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
@@ -99,6 +99,23 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Cross-condition classifier exposes the single-patient gap
+
+The planned NanoString normalization article `PMC8138885` returned 404 from Europe
+PMC and official NCBI metadata reported `idIsNotOpenAccess`; no full text was stored
+and a restriction now prevents retries. Advanced to `PMC5001207` (CrossLink), retrieved
+110,398 bytes under CC BY 4.0 with SHA-256 `a40c55e3…953fd`, and completed its appraisal.
+CrossLink is `context_only`: its class-specific k-means predictions depend on the whole
+test cohort, cannot classify one patient independently, achieved 73% in its main real
+true-label test, and used a 20-sample ER/PR surrogate evaluation for cross-platform PAM50.
+This failure mode is relevant to the NaS reliability-layer gap but cannot support a
+clinical claim. The ledger now records 7 retrieved, 7 appraised, 4 restricted,
+3 supporting, 4 context-only, and 0 anchor.
+
+Validation: restriction provenance, receipt identity, license/checksum binding,
+appraisal schema, ledger reconciliation, Ruff, strict MyPy across 54 source files,
+and all 147 tests passed.
 
 ### 2026-07-22 — Three-gene comparison appraised; source paper marked non-open
 
@@ -163,21 +180,6 @@ microarrays do not directly validate modern PAM50. The ledger now records 3 retr
 Validation: access-state conflicts, no-storage boundaries, real appraisal identity,
 schema validation, ledger reconciliation, Ruff, strict MyPy across 54 source files,
 and all 139 tests passed.
-
-### 2026-07-22 — Classification-uncertainty paper appraised as context-only
-
-Completed the full-text appraisal of `PMC3275466`, an analytical-validation study
-using Monte Carlo perturbation to characterize PAM50 uncertainty. It is eligible for
-problem framing but locked as `context_only`: the central error model was estimated
-from 12 replicates of four archetypal specimens, assumes gene-wise Gaussian measurement
-errors, and was applied to 847 independent GEICAM tumors without empirical repeat
-testing of those tumors. Reported simulation counts are also inconsistent between the
-methods/results text and Figure 3 caption. The record transparently reports the PAM50
-inventor/licensing conflict and AI-assisted appraisal boundary. The progress ledger now
-reconciles 2 retrieved and 2 appraised papers: 1 supporting, 1 context-only, 0 anchor.
-
-Validation: exact full-text identity and checksum binding, appraisal schema validation,
-ledger reconciliation, Ruff, strict MyPy across 54 source files, and all 136 tests passed.
 
 ## Current blockers
 

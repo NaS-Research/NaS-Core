@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: 1709c70b22b4b1e62282e694944ebe296360f4a63a367a53b61b1fb25d2afc65
+study_id: NAS-BRCA-002
+queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
+progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
+screening_id: d3c788e13f703be5281e4866cf867dd021070039b73bc9dae6e65199622caa57
+pmcid: PMC5001207
+title: 'CrossLink: a novel method for cross-condition classification of cancer subtypes.'
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC5001207/fullTextXML
+retrieved_at: '2026-07-23T03:00:10.100782Z'
+code_revision: '2327704'
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s). 2016"
+manifest_object_key: full-text/NAS-BRCA-002/d3c788e13f703be5281e4866cf867dd021070039b73bc9dae6e65199622caa57/1709c70b22b4b1e62282e694944ebe296360f4a63a367a53b61b1fb25d2afc65/manifest.json
+manifest_sha256: e569df7086e25b05e6a7e8736f66ddb51ec9107fe72d9a642e2ca3f77dc5254b
+full_text_object_key: full-text/NAS-BRCA-002/d3c788e13f703be5281e4866cf867dd021070039b73bc9dae6e65199622caa57/1709c70b22b4b1e62282e694944ebe296360f4a63a367a53b61b1fb25d2afc65/article.xml
+full_text_sha256: a40c55e347cbd5dbf59df35a826046e3ef321058792e7f9ad4ae0a308aa953fd
+full_text_size_bytes: 110398
+verified_at: '2026-07-23T03:00:10.127649Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false
