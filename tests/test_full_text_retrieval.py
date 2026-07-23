@@ -45,7 +45,7 @@ def _record() -> FullTextInventoryRecord:
     return FullTextInventoryRecord(
         screening_id="a" * 64,
         record_key="pmid:456",
-        title="Synthetic licensed study",
+        title="Synthetic licensed study.",
         pmid="456",
         pmcid="PMC123",
         doi="10.1/synthetic",
@@ -87,6 +87,23 @@ def test_rejects_article_without_approved_license() -> None:
     with pytest.raises(FullTextRetrievalError, match="not in the approved"):
         service.retrieve(
             _record(),
+            study_id="NAS-BRCA-002",
+            queue_id="b" * 64,
+            progress_id="c" * 64,
+            code_revision="f9f1f46",
+        )
+
+
+def test_rejects_substantive_article_identity_mismatch() -> None:
+    service = FullTextRetrievalService(
+        store=InMemoryObjectStore(),
+        transport=FakeTransport(_xml()),
+        clock=lambda: NOW,
+    )
+
+    with pytest.raises(FullTextRetrievalError, match="does not match inventory identity"):
+        service.retrieve(
+            _record().model_copy(update={"title": "A different study"}),
             study_id="NAS-BRCA-002",
             queue_id="b" * 64,
             progress_id="c" * 64,

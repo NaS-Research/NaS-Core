@@ -70,6 +70,11 @@ stores raw XML and its manifest outside Git; independently reloads and revalidat
 both artifacts; and emits only a concise receipt to Git. Missing, ambiguous, or
 unapproved licenses fail closed. Real retrieval awaits the pushed engine revision.
 
+Identity normalization permits only XML whitespace normalization and one terminal
+period difference in titles; PMCID, PMID, and DOI must match exactly. This bounded
+rule addresses punctuation differences between bibliographic and repository records
+without permitting fuzzy article matching.
+
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The
 provider-neutral gateway records structured recommendations, confidence, matched

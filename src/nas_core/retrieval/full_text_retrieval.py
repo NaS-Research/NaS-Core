@@ -196,7 +196,7 @@ class FullTextRetrievalService:
             "doi": manifest.doi,
             "title": manifest.title,
         }
-        if identity != expected_identity:
+        if not self._identity_matches(expected_identity, identity):
             raise FullTextRetrievalError("stored full text does not match manifest identity")
         if license_record != manifest.license:
             raise FullTextRetrievalError("stored full-text license differs from manifest")
@@ -291,8 +291,20 @@ class FullTextRetrievalService:
             "doi": record.doi,
             "title": record.title,
         }
-        if identity != expected:
+        if not FullTextRetrievalService._identity_matches(expected, identity):
             raise FullTextRetrievalError("retrieved article does not match inventory identity")
+
+    @staticmethod
+    def _identity_matches(
+        expected: dict[str, str | None],
+        actual: dict[str, str | None],
+    ) -> bool:
+        for field in ("pmcid", "pmid", "doi"):
+            if expected[field] != actual[field]:
+                return False
+        expected_title = " ".join((expected["title"] or "").split()).removesuffix(".")
+        actual_title = " ".join((actual["title"] or "").split()).removesuffix(".")
+        return bool(expected_title) and expected_title == actual_title
 
     def _put_immutable(self, key: str, body: bytes, *, content_type: str) -> None:
         if self._store.exists(key):
