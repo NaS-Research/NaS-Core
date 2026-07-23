@@ -57,16 +57,17 @@ Current gate state:
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
 - Full-text progress is now mechanically reconciled: 2 of 27 founder inclusions have
-  verified full text and 1 has a completed appraisal. `PMC10587090` is eligible as
-  supporting—not anchor—evidence; `PMC3275466` is ready for appraisal. No scientific
-  conclusion was drawn.
+  verified full text and completed appraisals. `PMC10587090` is supporting evidence;
+  `PMC3275466` is context-only evidence because its modeled uncertainty lacks empirical
+  external validation. No anchor study or scientific conclusion exists yet.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
   a pending founder results/remediation decision.
 
 ## Next implementation queue
 
-1. Complete the section-located founder appraisal of the retrieved direct PAM50
-   classification-uncertainty record `PMC3275466` and lock its evidence role.
+1. Retrieve and appraise the next high-value lawful full text, prioritizing the
+   contemporary intrinsic-subtyping robustness study `PMC10052604` if its exact
+   identity and item-level license pass the governed checks.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
 3. Complete founder decisions, populate the evidence matrix, and produce a novelty
@@ -98,6 +99,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Classification-uncertainty paper appraised as context-only
+
+Completed the full-text appraisal of `PMC3275466`, an analytical-validation study
+using Monte Carlo perturbation to characterize PAM50 uncertainty. It is eligible for
+problem framing but locked as `context_only`: the central error model was estimated
+from 12 replicates of four archetypal specimens, assumes gene-wise Gaussian measurement
+errors, and was applied to 847 independent GEICAM tumors without empirical repeat
+testing of those tumors. Reported simulation counts are also inconsistent between the
+methods/results text and Figure 3 caption. The record transparently reports the PAM50
+inventor/licensing conflict and AI-assisted appraisal boundary. The progress ledger now
+reconciles 2 retrieved and 2 appraised papers: 1 supporting, 1 context-only, 0 anchor.
+
+Validation: exact full-text identity and checksum binding, appraisal schema validation,
+ledger reconciliation, Ruff, strict MyPy across 54 source files, and all 136 tests passed.
 
 ### 2026-07-22 — Second verified full text and version-aware CC BY policy
 
@@ -159,21 +175,6 @@ no real durable full text was retrieved before the engine revision was pushed.
 
 Validation: synthetic licensed retrieval, unapproved-license rejection, tamper
 detection, Ruff, strict MyPy, and all 127 tests passed.
-
-### 2026-07-22 — Verified provisional-inclusion access inventory
-
-Implemented a local, no-cost inventory derived directly from the verified founder
-decision ledger rather than a copied citation list. The service independently
-rechecks the queue and cumulative event chain, selects exactly the 27 current
-founder inclusions, preserves screening identities and citation metadata, and makes
-no eligibility, quality, or scientific judgment. Sixteen records have PMC repository
-identifiers and 11 require separate access checks; PMCID is explicitly only a
-candidate signal. The first official Europe PMC check confirmed `PMC10587090` is
-CC BY 4.0 and produced temporary XML checksum `2ca3db6f…0e2a`; no temporary file is
-yet represented as a durable artifact.
-
-Validation: inclusion-ledger selection, inventory/count reconciliation, downstream-
-completion and no-conclusion boundaries, Ruff, strict MyPy, and all 124 tests passed.
 
 ## Current blockers
 

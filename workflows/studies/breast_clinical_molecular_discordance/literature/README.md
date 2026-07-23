@@ -85,10 +85,12 @@ CC BY 4.0 metadata. The aggregate receipt is
 appraisal is eligible with a `supporting` role: it is useful evidence about PAM50
 stability, but is not independent anchor evidence. This is a methodological evidence
 designation, not a scientific conclusion. The reconciled
-[`appraisal_progress.yaml`](appraisal_progress.yaml) records 1 of 27 appraisals
+[`appraisal_progress.yaml`](appraisal_progress.yaml) records 2 of 27 appraisals
 complete, 2 verified full texts retrieved, and fails closed on identity, checksum,
-or provenance mismatches. `PMC3275466` is ready for the next appraisal; retrieval
-does not assign it a quality role.
+or provenance mismatches. `PMC3275466` is eligible as `context_only` evidence because
+its sample-level uncertainty is simulated from a sparse, laboratory-specific error
+model rather than validated with repeated measurements of the independent tumors.
+This role informs problem definition but cannot support a clinical-reliability claim.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The

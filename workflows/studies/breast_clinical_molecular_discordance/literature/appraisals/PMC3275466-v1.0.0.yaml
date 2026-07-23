@@ -1,0 +1,124 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 93023cb1b5de0c7e4356e30be72cd088e2bbc1c9dffe772cb4a83dee8e9fbe8e
+title: 'Characterization of uncertainty in the classification of multivariate assays: application to PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
+pmid: '22196354'
+doi: 10.1186/2043-9113-1-37
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3275466/fullTextXML
+full_text_sha256: a09221f7fa1a951709ad348c5e376b963abb4291e47897d2ac8238866fb2481e
+access_basis: Creative Commons Attribution 2.0 Generic (CC-BY-2.0).
+study_design: analytical_validation
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The evaluation used 911 tumors from the GEICAM 9906 clinical trial, of which 847
+      remained after excluding samples with insufficient tumor content. The independent
+      sample set is sizable, but the article does not characterize excluded tumors or show
+      that this clinical-trial cohort represents the intended-use population.
+    evidence_locations:
+      - Methods — Evaluation Using the GEICAM Larger and Independent Test Set
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The authors report FFPE tumor enrichment, RNA extraction, RT-qPCR, and quality-control
+      procedures. Experimental error distributions were nevertheless estimated from only
+      12 replicates of four archetypal specimens; two archetypes were pooled from 10 patient
+      tumors each, and one Luminal A run failed quality control. The authors state that these
+      error functions are laboratory- and setting-specific.
+    evidence_locations:
+      - Methods — Archetypal Sample Collection and Preparation
+      - Methods — Error Characterization
+      - Conclusions
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Simulated samples were classified with the stated standard PAM50 process and the
+      perturbation workflow is described, but the complete centroid coefficients, centering
+      reference, preprocessing specification, software implementation, and executable code
+      needed to reproduce subtype assignment are not supplied in this article.
+    evidence_locations:
+      - Methods — Monte Carlo Simulation Using Archetypal Samples
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+  - domain: reference_comparator
+    judgment: not_applicable
+    rationale: >-
+      This is a modeled repeatability study rather than a diagnostic-accuracy comparison.
+      Each parent sample's original PAM50 call is the reference for simulated reclassification;
+      no independent biological truth standard is claimed or required for that narrow aim.
+    evidence_locations:
+      - Methods — Error Effect on PAM50 Results for GEICAM Samples
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The central probabilities rely on Gaussian, gene-wise independent measurement errors
+      estimated from 12 replicates per archetype and extended to GEICAM through subtype-
+      specific loess models. Pooling 47 median-centered measurements was used to choose the
+      error-distribution family, while gene/subtype parameters still came from sparse data.
+      Very large Monte Carlo counts narrow simulation error but do not address uncertainty
+      or misspecification in the empirical error model. The text also reports 100,000 replicas
+      per GEICAM sample while the figure caption and table cell counts correspond to 1,000,
+      creating a material reproducibility inconsistency.
+    evidence_locations:
+      - Methods — Error Characterization
+      - Methods — Sample Size Justification for Archetypal Sample Monte Carlo Simulation
+      - Methods — Monte Carlo Simulation Using Archetypal Samples
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+      - Results and Discussion — GEICAM 9906 Samples
+      - Figure 3 caption
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Although GEICAM is an independent patient set, its tumors were not independently
+      repeat-tested to compare observed classification instability with predicted instability.
+      The same four-specimen, single-laboratory error model generated all GEICAM perturbations,
+      and no external laboratory, platform, calibration cohort, or prospective clinical-use
+      validation was reported. The proposed clinician scorecard therefore remains conceptual.
+    evidence_locations:
+      - Methods — Evaluation Using the GEICAM Larger and Independent Test Set
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+      - Results and Discussion — GEICAM 9906 Samples
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Laboratory procedures, simulation logic, R functions, loess parameters, and scenario
+      definitions are described, and supplementary error distributions are referenced.
+      However, no complete code or reusable data package is declared, random seeds and the R
+      version are absent, and the 100,000-versus-1,000 replica inconsistency prevents exact
+      reconstruction from the report alone.
+    evidence_locations:
+      - Methods — Error Characterization
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+      - Results and Discussion — GEICAM 9906 Samples
+      - Figure 3 caption
+evidence_role: context_only
+key_strengths:
+  - Directly frames sample-level uncertainty in centroid-based PAM50 classification.
+  - Includes detailed FFPE RT-qPCR procedures and an explicit experimental-error model.
+  - Applies the proposed simulation to 847 tumors from an independent clinical-trial cohort.
+  - Clearly acknowledges that its error functions must be recalculated by laboratory and setting.
+key_limitations:
+  - Error distributions derive from only four archetypal specimens and 12 replicates each.
+  - GEICAM uncertainty was simulated rather than confirmed through repeated wet-lab measurements.
+  - Strong distributional and independence assumptions are not empirically validated externally.
+  - Simulation-count reporting is internally inconsistent across text, tables, and Figure 3.
+  - The clinician scorecard was proposed without prospective clinical validation or utility testing.
+conflicts_and_funding: >-
+  Philip Bernard declared that he invented the PAM50 breast test and co-founded
+  Bioclassifier LLC, which held licensing rights to the PAM50 signature. The work
+  acknowledged National Library of Medicine training grant LM007124, ARUP Institute
+  laboratory support, and University of Utah high-performance computing time.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable for
+  the locked eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T20:15:00-05:00
+scientific_conclusions_drawn: false
