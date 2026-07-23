@@ -2,7 +2,7 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.2.0
-status: in_progress
+status: changes_requested
 objective: >-
   Determine whether the proposed classification-stability study has a defensible
   doctoral-level contribution, sufficient discovery variables, and a credible

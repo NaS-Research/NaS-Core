@@ -152,3 +152,62 @@ sources:
     notes:
       - This registration covers open-access data only.
       - Controlled GDC files require a separate future registration and remain prohibited in v0.
+  - source_id: ncbi-geo-gse96058
+    name: NCBI GEO SCAN-B GSE96058 Processed Data
+    owner: U.S. National Library of Medicine, NCBI, and the SCAN-B submitters
+    authoritative_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96058
+    classification: public_open
+    status: active
+    version: GSE96058-public-record-at-snapshot
+    access_method: NCBI GEO accession pages, HTTPS, and GEO FTP supplementary files
+    approved_purposes:
+      - oncology-research
+      - external-validation
+      - research-publication
+    intended_uses:
+      - Metadata-only feasibility assessment for NAS-BRCA-002
+      - Reproducible external validation using public processed expression after preregistration
+      - Publication of permitted aggregate findings with accession and study attribution
+    prohibited_uses:
+      - Attempting to identify or contact research participants
+      - Inferring or reconstructing unavailable raw germline or hereditary data
+      - Treating technical replicates as independent participants
+      - Redistributing source files through Git or unapproved systems
+      - Using source data to train a generative model
+      - Outcome-guided method selection or tuning
+    license_or_terms: NCBI Website and Data Usage Policies plus accession-specific submitter restrictions
+    terms_url: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    attribution: >-
+      Cite GEO accession GSE96058, the original SCAN-B publication, and NCBI GEO
+      in presentations, disclosures, derived releases, and publications.
+    authorized_roles:
+      - data_steward
+      - researcher
+      - principal_investigator
+      - scientific_reviewer
+      - publication_approver
+    storage_restrictions:
+      - Only public processed expression and public sample metadata are authorized.
+      - Source files must remain outside Git in approved object storage.
+      - Snapshots must record accession, filenames, sizes, checksums, retrieval dates, and terms.
+      - Raw sequence data are not publicly available and are not authorized.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-07-23
+    ai_processing_allowed: true
+    embeddings_allowed: false
+    model_training_allowed: false
+    export_allowed: true
+    publication_allowed: true
+    approvals:
+      - approver: Dalron J. Robertson
+        role: founder_data_steward
+        decision: approve
+        decided_at: 2026-07-23T01:00:00-05:00
+        rationale: >-
+          Approved for metadata-only feasibility now and public processed-data
+          validation only after a revised question is selected and preregistered.
+          Raw data, reidentification, outcome-guided tuning, and model training remain prohibited.
+    notes:
+      - GSE96058 describes 3,273 primary cases and 136 technical replicates.
+      - GEO states that raw sequence data are unavailable because of consent, Swedish law, privacy, and hereditary information.

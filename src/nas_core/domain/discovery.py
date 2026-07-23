@@ -37,6 +37,19 @@ class SourceAssessmentStatus(StrEnum):
     REJECTED = "rejected"
 
 
+class EvidenceReviewDisposition(StrEnum):
+    STOPPING_RULE_SATISFIED = "stopping_rule_satisfied"
+    TERMINATED_BY_NO_GO = "terminated_by_no_go"
+    INCOMPLETE = "incomplete"
+
+
+class QuestionGateDecision(StrEnum):
+    GO = "go"
+    CHANGE = "change"
+    HOLD = "hold"
+    REJECT = "reject"
+
+
 class AuthorizationDecision(StrEnum):
     APPROVED = "approved"
     REVOKED = "revoked"
@@ -160,6 +173,142 @@ class DataFeasibilitySpecification(DiscoveryModel):
     def validate_authority(self) -> DataFeasibilitySpecification:
         if self.status is DraftStatus.DRAFT and self.outcome_data_access_authorized:
             raise ValueError("a draft feasibility specification cannot authorize outcome access")
+        return self
+
+
+class EvidenceReviewSummary(DiscoveryModel):
+    review_disposition: EvidenceReviewDisposition
+    records_retrieved: int = Field(ge=0)
+    records_appraised: int = Field(ge=0)
+    duplicates_resolved: int = Field(ge=0)
+    access_restricted: int = Field(ge=0)
+    anchor_count: int = Field(ge=0)
+    supporting_count: int = Field(ge=0)
+    context_only_count: int = Field(ge=0)
+    stopping_rule_satisfied: bool
+    termination_rationale: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_disposition(self) -> EvidenceReviewSummary:
+        expected = (
+            self.review_disposition
+            is EvidenceReviewDisposition.STOPPING_RULE_SATISFIED
+        )
+        if self.stopping_rule_satisfied != expected:
+            raise ValueError("evidence-review disposition and stopping rule disagree")
+        return self
+
+
+class NoveltyClaimAssessment(DiscoveryModel):
+    claim: str = Field(min_length=1)
+    status: str = Field(pattern=r"^(established|partly_established|unresolved|not_assessed)$")
+    evidence_ids: list[str]
+    assessment: str = Field(min_length=1)
+
+
+class NoveltyMemorandum(DiscoveryModel):
+    schema_version: str = "1.0.0"
+    memorandum_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    evidence_review: EvidenceReviewSummary
+    claims: list[NoveltyClaimAssessment] = Field(min_length=1)
+    no_go_criterion_triggered: str = Field(min_length=1)
+    novelty_claim_authorized: bool = False
+    recommended_action: QuestionGateDecision
+    limitations: list[str] = Field(min_length=1)
+    prepared_at: datetime
+
+    @model_validator(mode="after")
+    def validate_claim_boundary(self) -> NoveltyMemorandum:
+        if (
+            not self.evidence_review.stopping_rule_satisfied
+            and self.novelty_claim_authorized
+        ):
+            raise ValueError("incomplete evidence review cannot authorize novelty")
+        if self.recommended_action is QuestionGateDecision.GO and (
+            not self.evidence_review.stopping_rule_satisfied
+            or not self.novelty_claim_authorized
+        ):
+            raise ValueError("go requires a completed review and authorized novelty claim")
+        return self
+
+
+class SourceFieldMapping(DiscoveryModel):
+    concept: str = Field(min_length=1)
+    source_field: str = Field(min_length=1)
+    source_entity_or_file: str = Field(min_length=1)
+    availability: str = Field(pattern=r"^(available|partial|unavailable|not_assessed)$")
+    notes: str = Field(min_length=1)
+
+
+class SourceFeasibilityDecision(DiscoveryModel):
+    source_id: str = Field(min_length=1)
+    intended_role: str = Field(min_length=1)
+    registry_status: str = Field(min_length=1)
+    access_class: str = Field(min_length=1)
+    participant_independence: str = Field(min_length=1)
+    processing_independence: str = Field(min_length=1)
+    overlap_assessment: str = Field(min_length=1)
+    platform_compatibility: str = Field(min_length=1)
+    terms_and_export: str = Field(min_length=1)
+    field_mappings: list[SourceFieldMapping] = Field(min_length=1)
+    decision: SourceAssessmentStatus
+    rationale: str = Field(min_length=1)
+
+
+class DataFeasibilityAssessment(DiscoveryModel):
+    schema_version: str = "1.0.0"
+    assessment_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    metadata_only: bool
+    outcome_data_accessed: bool
+    sources: list[SourceFeasibilityDecision] = Field(min_length=2)
+    overall_status: AuditStatus
+    unresolved_requirements: list[str]
+    assessed_at: datetime
+
+    @model_validator(mode="after")
+    def validate_phase_zero_boundary(self) -> DataFeasibilityAssessment:
+        if not self.metadata_only or self.outcome_data_accessed:
+            raise ValueError("Phase 0 feasibility assessment must remain metadata-only")
+        return self
+
+
+class PhaseZeroGateDecision(DiscoveryModel):
+    schema_version: str = "1.0.0"
+    decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    decision: QuestionGateDecision
+    rationale: str = Field(min_length=1)
+    triggered_criteria: list[str] = Field(min_length=1)
+    required_changes: list[str]
+    preregistration_authorized: bool
+    outcome_data_access_authorized: bool
+    reviewer: str = Field(min_length=1)
+    reviewer_role: str = Field(min_length=1)
+    review_type: str = Field(pattern=r"^internal_self_review$")
+    founder_authorized: bool
+    ai_assistance_disclosure: str = Field(min_length=1)
+    decided_at: datetime
+
+    @model_validator(mode="after")
+    def validate_gate(self) -> PhaseZeroGateDecision:
+        if not self.founder_authorized:
+            raise ValueError("Phase 0 gate decision requires founder authorization")
+        if self.outcome_data_access_authorized:
+            raise ValueError("Phase 0 gate decision cannot authorize outcome access")
+        if self.preregistration_authorized != (
+            self.decision is QuestionGateDecision.GO
+        ):
+            raise ValueError("only a go decision may authorize preregistration")
+        if self.decision is QuestionGateDecision.CHANGE and not self.required_changes:
+            raise ValueError("change decision requires explicit revisions")
         return self
 
 

@@ -87,6 +87,16 @@ def test_registry_loads_approved_gdc_open_source() -> None:
     assert not registered.model_training_allowed
 
 
+def test_registry_loads_processed_scan_b_validation_source() -> None:
+    registry = SourceRegistry.from_yaml(REGISTRY_PATH)
+    registered = registry.get("ncbi-geo-gse96058")
+
+    assert registered.classification is DataClassification.PUBLIC_OPEN
+    assert registered.status is SourceStatus.ACTIVE
+    assert registered.publication_allowed
+    assert not registered.model_training_allowed
+
+
 def test_registry_rejects_unknown_source() -> None:
     registry = SourceRegistry.from_yaml(REGISTRY_PATH)
     with pytest.raises(SourceNotFoundError):

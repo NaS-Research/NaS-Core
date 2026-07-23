@@ -69,12 +69,46 @@ class FullTextAccessStatus(StrEnum):
 class AppraisalCompletionStatus(StrEnum):
     AWAITING_FULL_TEXT = "awaiting_full_text"
     ACCESS_RESTRICTED = "access_restricted"
+    DUPLICATE_RESOLVED = "duplicate_resolved"
     READY_FOR_APPRAISAL = "ready_for_appraisal"
     COMPLETED = "completed"
 
 
 class FullTextAccessOutcome(StrEnum):
     RESTRICTED = "restricted"
+
+
+class DuplicateRelationship(StrEnum):
+    PREPRINT_OF = "preprint_of"
+    DUPLICATE_REPORT = "duplicate_report"
+
+
+class FullTextDuplicateDecision(AppraisalModel):
+    schema_version: str = "1.0.0"
+    decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(min_length=1)
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    title: str = Field(min_length=1)
+    relationship: DuplicateRelationship
+    canonical_screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    canonical_title: str = Field(min_length=1)
+    matching_identifiers: list[str] = Field(min_length=1)
+    rationale: str = Field(min_length=1)
+    reviewer_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    reviewer_name: str = Field(min_length=1)
+    founder_authorized: bool
+    decided_at: datetime
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_decision(self) -> FullTextDuplicateDecision:
+        if self.screening_id == self.canonical_screening_id:
+            raise ValueError("duplicate decision must reference a different canonical record")
+        if not self.founder_authorized:
+            raise ValueError("duplicate resolution requires founder authorization")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("duplicate resolution cannot draw scientific conclusions")
+        return self
 
 
 class FullTextAccessDecision(AppraisalModel):
@@ -300,30 +334,52 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
     )
     evidence_role: EvidenceRole | None = None
     observed_license: str | None = None
+    canonical_screening_id: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
+    duplicate_relationship: DuplicateRelationship | None = None
 
     @model_validator(mode="after")
     def validate_state(self) -> FullTextAppraisalProgressRecord:
         retrieval_fields = (self.retrieval_id, self.full_text_sha256)
         appraisal_fields = (self.appraisal_version, self.evidence_role)
+        duplicate_fields = (self.canonical_screening_id, self.duplicate_relationship)
         if self.status is AppraisalCompletionStatus.AWAITING_FULL_TEXT:
             if any(
                 value is not None
-                for value in (*retrieval_fields, *appraisal_fields, self.observed_license)
+                for value in (
+                    *retrieval_fields,
+                    *appraisal_fields,
+                    *duplicate_fields,
+                    self.observed_license,
+                )
             ):
                 raise ValueError("awaiting-full-text record cannot contain downstream state")
         elif self.status is AppraisalCompletionStatus.ACCESS_RESTRICTED:
-            if any(value is not None for value in (*retrieval_fields, *appraisal_fields)):
+            if any(
+                value is not None
+                for value in (*retrieval_fields, *appraisal_fields, *duplicate_fields)
+            ):
                 raise ValueError("restricted record cannot contain retrieval or appraisal state")
             if self.observed_license is None:
                 raise ValueError("restricted record requires its observed license")
+        elif self.status is AppraisalCompletionStatus.DUPLICATE_RESOLVED:
+            if any(
+                value is not None
+                for value in (*retrieval_fields, *appraisal_fields, self.observed_license)
+            ) or any(value is None for value in duplicate_fields):
+                raise ValueError(
+                    "duplicate-resolved record requires only canonical relationship state"
+                )
         elif self.status is AppraisalCompletionStatus.READY_FOR_APPRAISAL:
             if any(value is None for value in retrieval_fields) or any(
-                value is not None for value in appraisal_fields
+                value is not None for value in (*appraisal_fields, *duplicate_fields)
             ) or self.observed_license is not None:
                 raise ValueError("ready record requires retrieval state only")
         elif (
             any(value is None for value in (*retrieval_fields, *appraisal_fields))
             or self.observed_license is not None
+            or any(value is not None for value in duplicate_fields)
         ):
             raise ValueError("completed record requires retrieval and appraisal state only")
         return self
@@ -339,6 +395,7 @@ class FullTextAppraisalProgress(AppraisalModel):
     full_texts_retrieved: int = Field(ge=0)
     appraisals_completed: int = Field(ge=0)
     access_restricted_count: int = Field(ge=0)
+    duplicate_resolved_count: int = Field(ge=0)
     anchor_count: int = Field(ge=0)
     supporting_count: int = Field(ge=0)
     context_only_count: int = Field(ge=0)
@@ -371,6 +428,12 @@ class FullTextAppraisalProgress(AppraisalModel):
         )
         if restricted != self.access_restricted_count:
             raise ValueError("appraisal-progress restricted count does not reconcile")
+        duplicates = sum(
+            item.status is AppraisalCompletionStatus.DUPLICATE_RESOLVED
+            for item in self.records
+        )
+        if duplicates != self.duplicate_resolved_count:
+            raise ValueError("appraisal-progress duplicate count does not reconcile")
         roles = {
             EvidenceRole.ANCHOR: self.anchor_count,
             EvidenceRole.SUPPORTING: self.supporting_count,
@@ -399,6 +462,12 @@ def load_full_text_retrieval_receipt(path: Path) -> FullTextRetrievalReceipt:
 
 def load_full_text_access_decision(path: Path) -> FullTextAccessDecision:
     return FullTextAccessDecision.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_full_text_duplicate_decision(path: Path) -> FullTextDuplicateDecision:
+    return FullTextDuplicateDecision.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

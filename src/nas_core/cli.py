@@ -744,13 +744,17 @@ def main(argv: Sequence[str] | None = None) -> int:
             access_decision_paths=sorted(
                 (args.full_text_receipt_dir / "access-decisions").glob("*.yaml")
             ),
+            duplicate_decision_paths=sorted(
+                (args.full_text_receipt_dir / "duplicate-decisions").glob("*.yaml")
+            ),
         )
         write_full_text_appraisal_progress(args.output_path, appraisal_progress)
         print(
             f"Appraisal progress: {appraisal_progress.appraisals_completed}/"
             f"{appraisal_progress.provisional_inclusion_count} completed; "
             f"{appraisal_progress.full_texts_retrieved} full texts retrieved; "
-            f"{appraisal_progress.access_restricted_count} access restricted"
+            f"{appraisal_progress.access_restricted_count} access restricted; "
+            f"{appraisal_progress.duplicate_resolved_count} duplicates resolved"
         )
         print(f"Wrote reconciled progress: {args.output_path}")
         return 0

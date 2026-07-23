@@ -2,11 +2,12 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
-generated_at: '2026-07-23T03:35:47.743672Z'
+generated_at: '2026-07-23T08:44:57.333517Z'
 provisional_inclusion_count: 27
 full_texts_retrieved: 8
 appraisals_completed: 8
 access_restricted_count: 4
+duplicate_resolved_count: 1
 anchor_count: 0
 supporting_count: 3
 context_only_count: 5
@@ -24,7 +25,9 @@ records:
   status: awaiting_full_text
 - screening_id: 9ec9ff60437a2b13cce16d71f6fd256b9b151d6e0f1748d232cea5641fd976ba
   title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer
-  status: awaiting_full_text
+  status: duplicate_resolved
+  canonical_screening_id: 0ffb04676d622758119fa9460e3e0c03be1ab53e6fef5c26c7800b4f5bae5103
+  duplicate_relationship: preprint_of
 - screening_id: 155f522719ade31768c1d8d16a6c9b98934f1c5d2a91539f53dc89b2c354a5b1
   title: The Importance of Development and Application of Subtyping Models for Breast Cancer on the Same
     Platform

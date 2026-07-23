@@ -1,0 +1,84 @@
+schema_version: 1.0.0
+memorandum_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.2.0
+evidence_review:
+  review_disposition: terminated_by_no_go
+  records_retrieved: 8
+  records_appraised: 8
+  duplicates_resolved: 1
+  access_restricted: 4
+  anchor_count: 0
+  supporting_count: 3
+  context_only_count: 5
+  stopping_rule_satisfied: false
+  termination_rationale: >-
+    The review did not satisfy the locked saturation rule. It was terminated for
+    question-gate purposes after the highest-priority record proved to be a preprint
+    of the already-appraised peer-reviewed study PMC10587090 and that version of
+    record directly performed the proposed PAM50 perturbation/stability analysis in
+    6,233 population-based tumors. This supports an early change decision but does
+    not support any affirmative novelty claim.
+claims:
+  - claim: PAM50 assignments can change under defensible analytical perturbations.
+    status: established
+    evidence_ids:
+      - PMC10587090
+      - PMC7442834
+      - PMC3275466
+    assessment: >-
+      Direct gene-cluster perturbation, reference-cohort sensitivity, and modeled
+      measurement uncertainty already demonstrate that analytical choices can alter
+      subtype assignment.
+  - claim: Nearest-versus-second-nearest PAM50 subtype information can be biologically or prognostically informative.
+    status: established
+    evidence_ids:
+      - PMC10587090
+    assessment: >-
+      The SCAN-B study explicitly evaluated nearest and second-nearest centroids and
+      reported outcome associations in clinically defined subgroups. Those
+      associations were exploratory and not independently validated.
+  - claim: Clinical receptor categories and molecular subtype labels can disagree.
+    status: established
+    evidence_ids:
+      - PMC7376512
+      - PMC3413822
+      - PMC10587090
+    assessment: >-
+      The reviewed studies document clinical-surrogate or classifier disagreement,
+      but no comparator establishes a universal biologically correct label.
+  - claim: A patient-level, single-sample reliability layer can distinguish robust non-luminal biology from analytical instability.
+    status: unresolved
+    evidence_ids:
+      - PMC10587090
+      - PMC5001207
+      - PMC7442834
+    assessment: >-
+      Existing work tests perturbation and transportability, but the current evidence
+      set does not validate a fixed single-sample abstaining reliability layer across
+      independent cohorts and platforms. This narrower extension remains plausible,
+      not established as novel.
+  - claim: The exact question version 0.2.0 is sufficiently differentiated to preregister.
+    status: partly_established
+    evidence_ids:
+      - PMC10587090
+      - PMC7442834
+    assessment: >-
+      Important components of the proposed thesis are already reported. A narrower
+      contribution may remain, but it must be rewritten around a fixed single-sample
+      reliability and abstention specification rather than broad PAM50 stability.
+no_go_criterion_triggered: >-
+  Prior evidence already resolves a substantial portion of the proposed contribution
+  without a clearly bounded extension: PMC10587090 used 6,233 SCAN-B tumors to test
+  PAM50 perturbation, nearest/second-nearest subtype relationships, clinical subgroup
+  differences, and exploratory survival associations.
+novelty_claim_authorized: false
+recommended_action: change
+limitations:
+  - The locked search stopping rule was not satisfied and 423 queue records remain pending.
+  - Four included records are unavailable for company reuse under current policy.
+  - No reviewed study qualifies as low-risk anchor evidence.
+  - This memorandum supports changing the question, not claiming the revised idea is novel.
+  - AI assisted evidence extraction; the founder remains accountable for the gate decision.
+prepared_at: 2026-07-23T00:45:00-05:00

@@ -1,0 +1,37 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.2.0
+decision: change
+rationale: >-
+  Question 0.2.0 is not sufficiently differentiated for preregistration. The
+  peer-reviewed SCAN-B study PMC10587090 already tested PAM50 gene-cluster
+  perturbation, nearest and second-nearest subtype relationships, clinical subgroup
+  differences, and exploratory outcome associations in 6,233 tumors. A useful NaS
+  extension may remain if the question is narrowed to a fixed, single-sample,
+  externally validated reliability and abstention layer, but that revised contribution
+  has not completed the locked evidence review and cannot yet claim novelty.
+triggered_criteria:
+  - Prior evidence already resolves a substantial portion of the proposed contribution.
+  - The locked evidence stopping rule is not satisfied and no anchor study has been identified.
+  - The remaining contribution is not yet specified as a fixed single-sample method.
+required_changes:
+  - Create question version 0.3.0 centered on single-sample reliability, calibration, and abstention.
+  - Define the minimum implementation set without outcome-guided selection.
+  - Define patient-level margins, stability, uncertainty, and abstention before data access.
+  - Complete the revised evidence review and two-pass citation-chain stopping rule.
+  - Verify TCGA and GSE96058 receptor fields and PAM50 gene coverage using metadata-only checks.
+  - Return the revised question for separate founder scientific, molecular, and statistical review.
+preregistration_authorized: false
+outcome_data_access_authorized: false
+reviewer: Dalron J. Robertson
+reviewer_role: Founder, Study Lead, and Internal Phase 0 Reviewer
+review_type: internal_self_review
+founder_authorized: true
+ai_assistance_disclosure: >-
+  OpenAI Codex reconciled duplicate records, extracted evidence, drafted the novelty
+  and feasibility assessments, and recommended the change decision. The founder
+  expressly approved implementation of the five Phase 0 steps and remains accountable
+  for this internal decision. This is not independent scientific or peer review.
+decided_at: 2026-07-23T01:10:00-05:00

@@ -125,12 +125,15 @@ reviews:
     role: Founder, Study Lead, and Internal Scientific Reviewer
     review_type: internal_self_review
     required_for_gate: true
-    decision: pending
-    reviewed_at: null
+    decision: changes_requested
+    reviewed_at: 2026-07-23T01:10:00-05:00
     rationale: >-
-      Complete separate scientific/product, molecular/pathology, and statistical
-      self-review passes. The provisional score is 30 of 40. Disclose that this is
-      founder-led internal review, not independent peer review.
+      Phase 0 found that PMC10587090 already resolves a substantial portion of the
+      broad PAM50 perturbation/stability thesis in 6,233 SCAN-B tumors. Revise the
+      question around a fixed single-sample reliability, calibration, and abstention
+      layer, then complete separate scientific/product, molecular/pathology, and
+      statistical self-review passes. This is founder-led internal review, not
+      independent peer review.
   - reviewer: OpenAI Codex
     role: AI-assisted adversarial and consistency reviewer
     review_type: ai_assisted_internal_review

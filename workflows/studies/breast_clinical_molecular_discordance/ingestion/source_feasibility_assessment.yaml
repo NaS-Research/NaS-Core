@@ -1,0 +1,186 @@
+schema_version: 1.0.0
+assessment_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.2.0
+metadata_only: true
+outcome_data_accessed: false
+sources:
+  - source_id: gdc-tcga-open
+    intended_role: discovery
+    registry_status: active_approved_public_open
+    access_class: public_open
+    participant_independence: >-
+      TCGA-BRCA is the discovery cohort; independence is not applicable within
+      discovery but all case and sample identifiers must be frozen for overlap checks.
+    processing_independence: >-
+      GDC STAR Counts are harmonized by GDC. NaS must recompute subtype and stability
+      labels from frozen expression inputs rather than inherit outcome labels.
+    overlap_assessment: >-
+      No known participant overlap with SCAN-B GSE96058; this must be verified using
+      cohort provenance and publications because direct personal-identifier matching
+      is prohibited and unavailable.
+    platform_compatibility: >-
+      Open harmonized RNA-seq gene-expression quantification can cover PAM50 genes.
+      TCGA clinical receptor fields may require carefully governed supplemental
+      mappings; assay methods and thresholds are not uniformly represented.
+    terms_and_export: >-
+      Approved under the NCI GDC open-data registration. Open files may be stored in
+      external object storage and aggregate results published with TCGA/GDC
+      attribution; reidentification, controlled-file access, and Git redistribution
+      remain prohibited.
+    field_mappings:
+      - concept: Primary invasive breast project
+        source_field: cases.project.project_id=TCGA-BRCA
+        source_entity_or_file: GDC cases endpoint
+        availability: available
+        notes: Lock the project filter in the dataset request and manifest.
+      - concept: Primary tumor specimen
+        source_field: cases.samples.sample_type=Primary Tumor
+        source_entity_or_file: GDC case/sample graph
+        availability: available
+        notes: Preserve case, sample, portion, analyte, and aliquot identifiers.
+      - concept: RNA expression
+        source_field: Gene Expression Quantification / STAR - Counts
+        source_entity_or_file: GDC files endpoint and open TSV files
+        availability: available
+        notes: Freeze workflow type, genome annotation, file UUID, filename, size, and MD5.
+      - concept: ER, PR, and HER2 clinical status
+        source_field: molecular_tests and TCGA clinical supplement receptor fields
+        source_entity_or_file: GDC indexed clinical entities and clinical supplement
+        availability: partial
+        notes: Assay method, cutoff, and conflict-adjudication completeness require a non-outcome metadata query.
+      - concept: Age and pathologic stage
+        source_field: diagnoses.age_at_diagnosis; diagnoses.ajcc_pathologic_stage
+        source_entity_or_file: GDC diagnosis entity
+        availability: available
+        notes: Preserve units, AJCC edition, missing and not-reported categories.
+      - concept: Nodal status, grade, and histology
+        source_field: diagnoses.ajcc_pathologic_n; diagnoses.tumor_grade; diagnoses.primary_diagnosis
+        source_entity_or_file: GDC diagnosis entity
+        availability: available
+        notes: Harmonization rules must be locked before cohort construction.
+      - concept: Overall survival
+        source_field: demographic.vital_status; demographic.days_to_death; diagnoses.days_to_last_follow_up
+        source_entity_or_file: GDC demographic and diagnosis entities
+        availability: partial
+        notes: Outcome access remains prohibited in Phase 0; mapping only, with no values queried.
+    decision: approved
+    rationale: >-
+      The source is legally and technically suitable for a metadata-defined discovery
+      path, subject to a receptor-field completeness check and later preregistration.
+  - source_id: ncbi-geo-gse96058
+    intended_role: independent_external_validation_candidate
+    registry_status: active_approved_public_open
+    access_class: public_open_processed_only
+    participant_independence: >-
+      GSE96058 contains SCAN-B participants recruited in Sweden and is independent of
+      TCGA-BRCA by cohort provenance. Direct identifier-level matching is neither
+      available nor appropriate; publication and accession provenance must document
+      non-overlap.
+    processing_independence: >-
+      The cohort was generated and processed independently of GDC. NaS can recompute
+      PAM50/stability labels from public processed expression, but must not tune
+      transformations or thresholds to validation outcomes.
+    overlap_assessment: >-
+      GSE96058 is nested within the broader SCAN-B resource used by PMC10587090 and
+      other method-development studies. It is independent of TCGA participants but
+      not independent of the literature that motivated the revised method; this must
+      be disclosed as evidence-development overlap.
+    platform_compatibility: >-
+      Illumina RNA-seq FPKM matrices provide PAM50 gene expression and clinical sample
+      annotations. The validation uses a different processing scale from GDC STAR
+      Counts, so a locked platform-specific transformation or rank-based method is
+      required without outcome-guided tuning.
+    terms_and_export: >-
+      NCBI GEO publicly exposes processed expression and sample metadata. Raw sequence
+      data are unavailable because of consent, Swedish law, privacy, and hereditary
+      information. NaS may use registered processed files and publish permitted
+      aggregates with accession and original-study attribution; no reidentification,
+      model training, or raw-data inference is permitted.
+    field_mappings:
+      - concept: Primary breast tumor cohort
+        source_field: Series GSE96058; source_name=Primary breast tumor
+        source_entity_or_file: GEO series and GSM sample records
+        availability: available
+        notes: 3,273 primary cases plus 136 labeled technical replicates are described.
+      - concept: RNA expression
+        source_field: GSE96058_gene_expression_3273_samples_and_136_replicates_transformed.csv.gz
+        source_entity_or_file: GEO supplementary processed CSV
+        availability: available
+        notes: 564.3 MB public processed matrix; lock accession, size, checksum, and retrieval date.
+      - concept: PAM50 gene coverage
+        source_field: Gene-level FPKM rows mapped to GRCh38/hg38 annotation
+        source_entity_or_file: Processed expression CSV and supplied GTF
+        availability: partial
+        notes: Complete 50-gene coverage and alias mapping must be verified before approval for execution.
+      - concept: ER, PR, and HER2 status
+        source_field: er status; pgr status; her2 status
+        source_entity_or_file: GSM characteristics
+        availability: available
+        notes: Coding is exposed, but assay methods, thresholds, and missingness require series documentation.
+      - concept: Age, tumor size, nodal status, grade, and treatment
+        source_field: age at diagnosis; tumor size; lymph node status; nhg; endocrine treated; chemo treated
+        source_entity_or_file: GSM characteristics
+        availability: available
+        notes: Stage is not directly exposed and must not be silently reconstructed.
+      - concept: Overall survival
+        source_field: overall survival days; overall survival event
+        source_entity_or_file: GSM characteristics
+        availability: available
+        notes: Outcome access remains prohibited in Phase 0; mapping only, with no values analyzed.
+      - concept: Technical replication
+        source_field: primary sample and technical replicate labels
+        source_entity_or_file: GEO series design and GSM identifiers
+        availability: available
+        notes: Replicates may support analytical repeatability but must not be counted as independent patients.
+    decision: approved
+    rationale: >-
+      GSE96058 is a credible participant-independent validation source for a revised
+      TCGA discovery study, using processed public RNA-seq and clinical annotations.
+      Execution still requires PAM50 gene-coverage verification, locked cross-platform
+      preprocessing, and a new question version.
+  - source_id: metabric-cbioportal
+    intended_role: former_external_validation_candidate
+    registry_status: not_registered_not_approved
+    access_class: unresolved_item_level_terms
+    participant_independence: >-
+      METABRIC is participant-independent of TCGA-BRCA by study provenance.
+    processing_independence: >-
+      METABRIC used a microarray platform and independent processing, creating a
+      substantial platform bridge from GDC RNA-seq.
+    overlap_assessment: >-
+      No participant overlap with TCGA is expected, but identifier-level confirmation
+      and the exact redistribution route were not established.
+    platform_compatibility: >-
+      Microarray expression may support PAM50 classification, but it would require a
+      separately justified platform transformation and cannot validate an RNA-seq
+      implementation unchanged.
+    terms_and_export: >-
+      cBioPortal makes study data accessible, but the exact authoritative file-level
+      terms, download route, and redistribution permissions were not resolved during
+      this metadata audit. It therefore remains unapproved.
+    field_mappings:
+      - concept: Clinical receptor status
+        source_field: ER_STATUS; HER2_STATUS; PR_STATUS where present
+        source_entity_or_file: cBioPortal clinical patient/sample tables
+        availability: not_assessed
+        notes: Exact field completeness and assay definitions were not verified.
+      - concept: Gene expression
+        source_field: mRNA expression matrix
+        source_entity_or_file: METABRIC study molecular profile
+        availability: not_assessed
+        notes: PAM50 gene coverage, probe mapping, and authorized download terms remain unresolved.
+    decision: rejected
+    rationale: >-
+      Rejected for this question version because lawful reproducible access and
+      cross-platform compatibility were not established; GSE96058 provides a clearer
+      processed public RNA-seq path.
+overall_status: changes_requested
+unresolved_requirements:
+  - Rewrite question 0.2.0 around a fixed single-sample reliability and abstention layer.
+  - Verify TCGA receptor-field completeness without retrieving molecular outcomes.
+  - Verify all PAM50 genes and identifiers in both expression sources.
+  - Lock cross-platform transformations without validation-outcome access.
+  - Prespecify duplicate-sample and technical-replicate handling.
+assessed_at: 2026-07-23T01:00:00-05:00

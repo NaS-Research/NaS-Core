@@ -2,8 +2,8 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.2.0
-specification_version: 0.1.0
-status: locked
+specification_version: 0.2.0
+status: complete
 discovery_source_id: gdc-tcga-open
 discovery_source_registry_status: approved_public_open
 variable_requirements:
@@ -57,7 +57,7 @@ candidate_validation_sources:
     name: Molecular Taxonomy of Breast Cancer International Consortium cohort
     intended_role: Independent external validation candidate
     authoritative_url: https://www.cbioportal.org/study/summary?id=brca_metabric
-    assessment_status: unassessed
+    assessment_status: rejected
     source_registry_status: not_registered_not_approved
     access_and_license_questions:
       - Which files and variables can NaS legally download, store, transform, and publish in aggregate?
@@ -72,6 +72,24 @@ candidate_validation_sources:
       - Are all participants independent of TCGA-BRCA?
       - Were expression processing and subtype labels generated independently of the discovery pipeline?
       - Can NaS recompute rather than inherit the primary classification outcome?
+  - candidate_id: ncbi-geo-gse96058
+    name: SCAN-B population-based RNA-seq cohort (GSE96058)
+    intended_role: Independent external validation candidate
+    authoritative_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96058
+    assessment_status: approved
+    source_registry_status: active_approved_public_open
+    access_and_license_questions:
+      - Use only public processed expression and public GSM/series metadata.
+      - Cite GSE96058, its original publication, and NCBI GEO.
+      - Do not attempt reidentification or infer unavailable raw hereditary data.
+    compatibility_questions:
+      - Verify complete PAM50 gene coverage and gene identifiers before execution.
+      - Lock the transformation between GDC STAR Counts and GSE96058 FPKM without outcomes.
+      - Preserve technical replicates but do not count them as independent patients.
+    independence_questions:
+      - SCAN-B participants are independent of TCGA-BRCA by cohort provenance.
+      - GSE96058 overlaps the broader SCAN-B literature evidence and this must be disclosed.
+      - Recompute all primary reliability labels rather than inherit reported PAM50 labels.
 compatibility_gates:
   - Discovery and validation cohorts must share the minimum eligibility and primary-analysis variables.
   - Platform transformations must be locked without using validation outcomes.

@@ -5,7 +5,7 @@ Reclassification in HR-Positive/HER2-Negative Breast Cancer**
 
 Study ID: `NAS-BRCA-002`  
 Question ID: `NAS-RQ-BRCA002`  
-Current state: **Proposed; not approved for literature retrieval or data analysis**  
+Current state: **Changes requested after Phase 0; no data analysis authorized**
 Planned public URL:
 `https://nasresearch.bio/research/pam50-classification-stability-breast-cancer`
 
@@ -19,10 +19,10 @@ gate was satisfied.
 | Phase | Workstream | Status | Completion evidence / next action |
 | ---: | --- | --- | --- |
 | 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
-| 1 | Review and select question | In progress | AI advisory complete; complete founder review and record a decision |
-| 2 | Lock evidence-review protocol | Queue verified; human screening next | Queue `b02c2abf…f042` has 457 complete abstracts pending founder decisions |
-| 3 | Establish data and assay feasibility | Locked; assessment next | Source and non-outcome metadata assessment authorized; outcome access remains prohibited |
-| 4 | Preregister analysis plan | Not started | Requires evidence review, feasibility, and documented founder protocol approval |
+| 1 | Review and select question | Changes requested | Phase 0 decision requires a narrower question version `0.3.0` |
+| 2 | Lock evidence-review protocol | Terminated by no-go trigger | Direct prior work preempted the broad thesis; no affirmative novelty claim was made |
+| 3 | Establish data and assay feasibility | Assessment complete; revisions required | TCGA discovery and GSE96058 validation paths mapped; outcome access remains prohibited |
+| 4 | Preregister analysis plan | Blocked | `change` decision explicitly prohibits preregistration until revised review |
 | 5 | Capture discovery snapshots | Not started | Requires preregistration and completion of the `NAS-BRCA-001` qualification gate |
 | 6 | Build and quality-check cohort | Not started | Requires an independently verified immutable snapshot |
 | 7 | Execute discovery analysis | Not started | Requires approved cohort QA and frozen analysis code |
@@ -40,22 +40,24 @@ gate was satisfied.
 
 - `NAS-BRCA-001` received a conditional platform-qualification pass; its founder
   results/remediation gate remains pending before outcome-bearing discovery work.
-- The founder's scientific/product, molecular/pathology, and statistical
-  self-review passes have not been completed for `NAS-RQ-BRCA002`.
-- The discovery question is proposed, not selected. A separately documented
-  founder decision authorizes only the bounded Phase 0 literature and source audit.
-- No compatible independent validation source has been assessed or approved.
+- Question `0.2.0` received a `change` decision after direct prior work was found.
+- The revised single-sample reliability/abstention contribution has not completed
+  scientific/product, molecular/pathology, and statistical self-review.
+- GSE96058 is approved as a processed-data validation candidate, but its PAM50
+  gene coverage and the cross-platform transformation remain unverified.
 
 ### Immediate working queue
 
-1. Execute the locked PubMed and Europe PMC searches and retain their exact logs.
-2. Deduplicate records, screen them, populate the evidence matrix, and draft the
-   claim-by-claim novelty memorandum.
-3. Map discovery fields/files and assess external-validation terms, compatibility,
-   independence, overlap, and reproducibility without accessing molecular outcomes.
-4. Complete the three founder review perspectives in
+1. Create question version `0.3.0` centered on a fixed single-sample reliability,
+   calibration, and abstention layer.
+2. Lock the minimum implementation set and patient-level uncertainty outputs
+   without outcome-guided selection.
+3. Complete the revised evidence review and two-pass citation-chain stopping rule.
+4. Verify TCGA receptor fields and both sources' PAM50 gene coverage using
+   metadata-only checks.
+5. Complete the three founder review perspectives in
    `reviews/QUESTION_REVIEW_PACKET.md`.
-5. Resolve the AI-advisory blockers and record `go`, `change`, `hold`, or `reject`.
+6. Return revised version `0.3.0` for `go`, `change`, `hold`, or `reject`.
 
 ## Phase 1 execution board — Question review and selection
 
@@ -65,7 +67,7 @@ authorize a formal literature review.
 
 - Phase owner: **Dalron J. Robertson — Founder and Study Lead**
 - Current question version: `0.2.0`
-- Current decision: `pending`
+- Current decision: `changes_requested`
 - Current gate state: `in_progress`
 
 | ID | Task | Owner | Status | Required evidence |
@@ -80,7 +82,7 @@ authorize a formal literature review.
 | P1.8 | Complete AI-assisted adversarial review | OpenAI Codex | Complete | `reviews/AI_QUESTION_REVIEW_v0.2.0.md`; advisory and non-authoritative |
 | P1.9 | Resolve every requested change | Dalron J. Robertson | Not started | Comment-resolution log and versioned question changes |
 | P1.10 | Re-score the final candidate | Dalron J. Robertson | Not started | Evidence-backed scores and written rationale for all eight dimensions |
-| P1.11 | Record final selection decision | Dalron J. Robertson | Not started | Founder approval, changes requested, on hold, or rejection with timestamp |
+| P1.11 | Record final selection decision | Dalron J. Robertson | Complete for v0.2.0 | Changes requested at Phase 0 gate; revision required |
 | P1.12 | Update lifecycle records | NaS Core maintainer | Not started | Intake, study, pipeline, charter, and tracker agree |
 | P1.13 | Validate and freeze the selected question | NaS Core maintainer | Not started | Validation output, clean tests, commit, and question-version Git tag |
 

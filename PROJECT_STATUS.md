@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-22
+Last updated: 2026-07-23
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -8,36 +8,37 @@ and what comes next?
 
 ## Current focus
 
-### Complete the NAS-BRCA-002 novelty and data-feasibility audit
+### Revise NAS-BRCA-002 after the Phase 0 change decision
 
-Determine whether the proposed classification-stability study has a defensible
-novel contribution and an executable discovery/validation data path before
-preregistration. This gate may inspect literature metadata, source terms, variable
-availability, and non-outcome feasibility counts after explicit founder approval;
-it does not authorize molecular outcome analysis or a novelty claim.
+Question `0.2.0` is not approved for preregistration. Rewrite it around a fixed
+single-sample reliability, calibration, and abstention layer that is meaningfully
+distinct from the published 6,233-tumor SCAN-B perturbation study. Preserve the
+metadata-only, nonclinical boundary until revised evidence and founder review support
+a new decision.
 
 Definition of done:
 
-- Founder authorization for the bounded, non-outcome Phase 0 audit is recorded.
-- The search strategy is locked before retrieval and the evidence matrix records
-  every included and excluded source with a reproducible search trail.
-- A novelty memo separates established knowledge, the unresolved gap, the proposed
-  contribution, competing explanations, and the value of a null result.
-- Discovery and validation variable/file identifiers, access class, terms,
-  independence, cohort overlap, assay compatibility, and export constraints are
-  documented without retrieving outcome-bearing molecular data.
-- Preliminary group and event feasibility is assessed only under a separately
-  approved, logged query and does not test the scientific hypothesis.
-- Founder records `go`, `change`, `hold`, or `reject`; only `go` advances to a
-  versioned, preregistered analysis plan.
+- Question version `0.3.0` defines a fixed single-sample method and a specific
+  contribution not already answered by the SCAN-B perturbation study.
+- The minimum implementation set and all margin, stability, uncertainty,
+  unclassifiable, and abstention rules are declared without outcome inspection.
+- The revised evidence review satisfies its locked stopping rule and retains
+  contradictory and null evidence.
+- Metadata-only checks verify receptor fields and PAM50 gene coverage in TCGA and
+  GSE96058 without accessing outcomes.
+- Separate founder scientific/product, molecular/pathology, and statistical review
+  passes record conflicts and knowledge limitations.
+- A new `go`, `change`, `hold`, or `reject` decision is recorded; only `go` may
+  authorize a versioned preregistration.
 
 Current gate state:
 
-- Question version `0.2.0` remains proposed; no scientific selection decision has
-  been recorded.
+- Question version `0.2.0` remains proposed with a founder-authorized `change`
+  decision; preregistration and outcome access are prohibited.
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
   feasibility specification are implemented.
-- AI-assisted question review is complete and advisory; founder review is pending.
+- AI-assisted question review is advisory; the founder Phase 0 decision is recorded,
+  while the revised scientific, molecular, and statistical reviews remain pending.
 - The search and source-feasibility specifications are locked. Literature retrieval
   and non-outcome source assessment are authorized; outcome access is disabled.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
@@ -54,51 +55,79 @@ Current gate state:
 - Deterministic prioritization `1.0.0` ranked all 452 initially pending records
   locally. The 29-record core tier is fully founder-reviewed. Supporting/context
   safety screening and full-text eligibility and quality appraisal remain required.
-- TCGA/GDC is the proposed discovery source; the candidate independent validation
-  source is unassessed and not approved in the source registry.
+- TCGA/GDC is approved as the proposed discovery source. Processed SCAN-B GSE96058
+  is now registered and approved as the external-validation candidate; PAM50 gene
+  coverage and cross-platform transformations still require metadata verification.
 - Full-text progress is now mechanically reconciled: 8 of 27 founder inclusions have
   verified full text and completed appraisals. Roles are 3 supporting and 5 context-only;
   4 additional papers are access-restricted or non-open-access. No anchor
-  study or scientific conclusion exists yet.
+  study or scientific conclusion exists yet. One Research Square preprint is
+  durably linked to its already-appraised peer-reviewed version and is not double-counted.
+- The structured evidence matrix, novelty/no-go memorandum, field-level source
+  feasibility assessment, governed GSE96058 registration, and Phase 0 gate decision
+  are complete. The locked evidence stopping rule was not claimed as satisfied:
+  review terminated through an explicit no-go trigger.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
   a pending founder results/remediation decision.
 
 ## Next implementation queue
 
-1. Resolve lawful full-text access and appraise the population-based
-   `Perturbation and stability of PAM50 subtyping` study, prioritizing it because
-   it directly tests the proposed classification-stability question.
-2. Review supporting records and citation chains until the locked stopping rule is
-   satisfied; preserve eligible contradictory and null evidence regardless of rank.
-3. Complete founder decisions, populate the evidence matrix, and produce a novelty
-   memo with an explicit no-go test.
-4. Complete discovery and validation source feasibility, including exact variable
-   mappings, terms, compatibility, independence, overlap, and source-registry review.
-5. Decide `go`, `change`, `hold`, or `reject`; preregister a full analysis plan only
-   after a documented `go` decision.
-6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+1. Draft question version `0.3.0` around a fixed single-sample reliability,
+   calibration, and abstention layer.
+2. Define the minimum PAM50 implementation and perturbation set without using
+   molecular or outcome results.
+3. Define patient-level margin, stability, uncertainty, and abstention outputs,
+   including failure and unclassifiable states.
+4. Complete the revised high-quality evidence review and its two-pass
+   citation-chain stopping rule.
+5. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+   GSE96058 through logged metadata-only queries.
+6. Complete the founder scientific/product, molecular/pathology, and statistical
+   reviews for question `0.3.0`, then record a new gate decision.
+7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-8. Implement persisted evidence claims, citations, provenance, contradictory
+9. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-10. Expand the screening model gateway into general evidence reasoning with
+11. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-11. Build evaluation suites for retrieval, citation validity, numerical
+12. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-12. Generate an immutable research release containing the protocol, dataset
+13. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-13. Generate a reviewable white-paper draft whose substantive claims trace to
+14. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-14. Build the internal workbench for projects, protocols, datasets, runs,
+15. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-15. Complete repeated internal oncology pilots before selecting the first
+16. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-23 — Phase 0 triggers a disciplined question change
+
+Resolved the planned PAM50-stability target as the Research Square preprint of
+already-appraised `PMC10587090`, preventing one study from being counted twice.
+The eight completed appraisals now populate the structured evidence matrix. The
+novelty memorandum records an early no-go trigger—not search saturation and not a
+novelty claim—because the 6,233-tumor SCAN-B paper already performs much of the
+broad perturbation, nearest/second-nearest subtype, clinical-subgroup, and
+exploratory outcome work proposed in version `0.2.0`.
+
+Completed field-level feasibility for TCGA discovery and processed SCAN-B GSE96058
+validation, registered GSE96058 under public/open governance, rejected METABRIC for
+this version because exact lawful access and platform compatibility were unresolved,
+and recorded the founder-authorized gate decision as `change`. No preregistration or
+outcome access was authorized. The next question must specify a fixed single-sample
+reliability, calibration, and abstention layer.
+
+Validation: Phase 0 artifact contracts, duplicate reconciliation, source governance,
+question and study lifecycle validation, Ruff, strict MyPy across 54 source files,
+and all 154 tests passed.
 
 ### 2026-07-22 — Ki67 measurement variability added as context evidence
 
@@ -164,34 +193,17 @@ restricted, 3 supporting, 2 context-only, and 0 anchor.
 Validation: receipt identity, license/checksum binding, appraisal schema, ledger
 reconciliation, Ruff, strict MyPy across 54 source files, and all 143 tests passed.
 
-### 2026-07-22 — Large multi-cohort classification study appraised as supporting
-
-Retrieved `PMC4166472` under CC BY 4.0 as 121,641 bytes with SHA-256
-`de6a84bd…5014` and completed its section-located appraisal. The study spans 42 public
-cohorts, actively detects duplicate records, applies trained outcome coefficients to
-external datasets, compares IntClust with PAM50 and SCMGENE, responds to proportional-
-hazards violations, and publishes iC10 plus annotated analysis code. It is the strongest
-external-scale validation appraised so far, but remains `supporting` rather than anchor
-evidence because it validates a feature-adaptive IntClust research implementation across
-heterogeneous retrospective cohorts, not a fixed PAM50 assay or clinical-use workflow.
-The ledger now records 4 retrieved, 4 appraised, 2 restricted, 2 supporting, 2 context-
-only, and 0 anchor.
-
-Validation: exact receipt and appraisal identity, checksum/license binding, schema and
-ledger reconciliation, Ruff, strict MyPy across 54 source files, and all 141 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
   Compose services have been syntax-validated but not started locally.
 - Paid AI advisory screening is intentionally inactive under founder policy `1.0.2`;
   the active deterministic Phase 0 workflow requires no API credential.
-- `NAS-BRCA-002` remains unselected pending founder scientific/product,
-  molecular/pathology, and statistical self-review. Its bounded Phase 0 audit is
-  authorized, but outcome work and formal question selection are not.
-- The independent external validation source for `NAS-BRCA-002` has not been
-  selected or approved. Its license, compatible variables, cohort overlap, and
-  export terms must be established before preregistration.
+- `NAS-BRCA-002` version `0.2.0` received a `change` decision. A revised question,
+  complete evidence stopping rule, and founder scientific/product,
+  molecular/pathology, and statistical reviews are required before selection.
+- GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
+  coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
 - NAS-BRCA-001 public release is blocked by pending founder results review, a

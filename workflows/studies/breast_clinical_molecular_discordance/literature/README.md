@@ -8,10 +8,10 @@ Required artifacts:
 Completion gate: Search protocol is locked before evidence retrieval.
 
 Current state: the founder authorized the bounded Phase 0 audit on 2026-07-22,
-and the search strategy is locked for execution. The empty evidence matrix defines
-the required extraction structure but contains no screening decisions or scientific
-evidence yet. No novelty conclusion may be drawn from an empty or partially
-screened matrix.
+and the search strategy is locked for execution. The evidence matrix now contains
+the eight completed appraisals. It supports an early `change` decision because a
+direct prior study substantially overlaps the broad thesis; it does not support an
+affirmative novelty claim because the locked stopping rule was not satisfied.
 
 The governed PubMed/Europe PMC retrieval runner and both source registrations are
 implemented. Locked strategy `0.1.1` produced replacement execution `83d33fb2…4434`:
@@ -25,8 +25,10 @@ The earlier execution and queue were retained but not approved for screening aft
 the queue QA exposed 334 missing PubMed abstracts. See
 [`ABSTRACT_COVERAGE_REMEDIATION.md`](ABSTRACT_COVERAGE_REMEDIATION.md).
 
-Screening has not started, the evidence matrix is still empty, and no novelty or
-scientific conclusion has been drawn.
+Core-priority screening and eight full-text appraisals are complete. The broader
+queue remains partially screened, so the evidence review is explicitly marked
+`terminated_by_no_go`, not saturated. No novelty claim or outcome-bearing
+scientific analysis has been authorized.
 
 The screening-queue engine is implemented with typed pending/include/exclude/unclear
 states and mandatory human provenance for every decision. Verified queue
@@ -120,6 +122,13 @@ selected hotspot score and 66.3% using global Ki67. The study does not identify 
 correct discordant label, evaluates 22 hotspot methods without a prespecified
 multiplicity strategy, and has no external validation; these results support the
 measurement-variability rationale but not a clinical-reliability claim.
+The apparent next stability record was the Research Square preprint of
+`PMC10587090`, not a distinct study. A founder-authorized duplicate/version
+decision links it to the peer-reviewed record so it is not retrieved or counted
+twice. The Phase 0 [`novelty_memorandum.yaml`](novelty_memorandum.yaml) therefore
+recommends `change`: question `0.2.0` is too broadly framed around work already
+performed in 6,233 SCAN-B tumors. The candidate revision must focus on a fixed
+single-sample reliability, calibration, and abstention layer.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The

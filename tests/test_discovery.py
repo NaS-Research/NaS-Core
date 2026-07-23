@@ -1,3 +1,4 @@
+import csv
 import json
 from copy import deepcopy
 from pathlib import Path
@@ -7,8 +8,11 @@ import yaml
 from pydantic import ValidationError
 
 from nas_core.domain.discovery import (
+    DataFeasibilityAssessment,
     DataFeasibilitySpecification,
     LiteratureSearchStrategy,
+    NoveltyMemorandum,
+    PhaseZeroGateDecision,
     PhaseZeroPlan,
     load_phase_zero_artifacts,
 )
@@ -21,6 +25,10 @@ FEASIBILITY_PATH = STUDY_ROOT / "ingestion" / "data_feasibility.yaml"
 PLAN_SCHEMA_PATH = ROOT / "workflows" / "phase_zero_plan.schema.json"
 SEARCH_SCHEMA_PATH = ROOT / "workflows" / "literature_search.schema.json"
 FEASIBILITY_SCHEMA_PATH = ROOT / "workflows" / "data_feasibility.schema.json"
+NOVELTY_PATH = STUDY_ROOT / "literature" / "novelty_memorandum.yaml"
+SOURCE_ASSESSMENT_PATH = STUDY_ROOT / "ingestion" / "source_feasibility_assessment.yaml"
+GATE_DECISION_PATH = STUDY_ROOT / "reviews" / "FOUNDER_PHASE_ZERO_GATE_DECISION_v0.2.0.yaml"
+EVIDENCE_MATRIX_PATH = STUDY_ROOT / "literature" / "evidence_matrix.csv"
 
 
 def test_checked_in_phase_zero_package_is_typed_and_bound() -> None:
@@ -31,12 +39,13 @@ def test_checked_in_phase_zero_package_is_typed_and_bound() -> None:
     )
 
     assert plan.study_id == "NAS-BRCA-002"
-    assert plan.status == "in_progress"
+    assert plan.status == "changes_requested"
     assert search.status == "locked"
     assert search.retrieval_authorized is True
     assert plan.authorization is not None
     assert plan.authorization.decision == "approved"
     assert feasibility.outcome_data_access_authorized is False
+    assert feasibility.status == "complete"
 
 
 def test_checked_in_discovery_schemas_match_runtime_models() -> None:
@@ -96,3 +105,49 @@ def test_phase_zero_never_authorizes_outcome_data_access(tmp_path: Path) -> None
 
     with pytest.raises(ValueError, match="cannot authorize outcome-bearing data access"):
         load_phase_zero_artifacts(PLAN_PATH, SEARCH_PATH, authorized)
+
+
+def test_checked_in_phase_zero_outputs_preserve_no_go_boundary() -> None:
+    novelty = NoveltyMemorandum.model_validate(
+        yaml.safe_load(NOVELTY_PATH.read_text())
+    )
+    feasibility = DataFeasibilityAssessment.model_validate(
+        yaml.safe_load(SOURCE_ASSESSMENT_PATH.read_text())
+    )
+    decision = PhaseZeroGateDecision.model_validate(
+        yaml.safe_load(GATE_DECISION_PATH.read_text())
+    )
+
+    assert novelty.evidence_review.review_disposition == "terminated_by_no_go"
+    assert novelty.novelty_claim_authorized is False
+    assert feasibility.metadata_only is True
+    assert feasibility.outcome_data_accessed is False
+    assert decision.decision == "change"
+    assert decision.preregistration_authorized is False
+    assert decision.outcome_data_access_authorized is False
+
+
+def test_change_decision_cannot_authorize_preregistration() -> None:
+    payload = yaml.safe_load(GATE_DECISION_PATH.read_text())
+    payload["preregistration_authorized"] = True
+
+    with pytest.raises(ValidationError, match="only a go"):
+        PhaseZeroGateDecision.model_validate(payload)
+
+
+def test_evidence_matrix_contains_each_completed_appraisal_once() -> None:
+    with EVIDENCE_MATRIX_PATH.open(newline="", encoding="utf-8") as source:
+        rows = list(csv.DictReader(source))
+
+    assert len(rows) == 8
+    assert {row["citation_id"] for row in rows} == {
+        "PMC10587090",
+        "PMC1468408",
+        "PMC3275466",
+        "PMC3413822",
+        "PMC4166472",
+        "PMC5001207",
+        "PMC7376512",
+        "PMC7442834",
+    }
+    assert all(row["screening_status"].startswith("included_") for row in rows)

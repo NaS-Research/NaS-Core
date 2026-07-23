@@ -133,6 +133,24 @@ def _access_decision_payload() -> dict[str, object]:
     }
 
 
+def _duplicate_decision_payload() -> dict[str, object]:
+    return {
+        "decision_version": "1.0.0",
+        "study_id": "NAS-BRCA-002",
+        "screening_id": "d" * 64,
+        "title": "Two",
+        "relationship": "preprint_of",
+        "canonical_screening_id": "c" * 64,
+        "canonical_title": "One",
+        "matching_identifiers": ["doi:10.1/preprint", "doi:10.1/version"],
+        "rationale": "Synthetic preprint and version-of-record pair.",
+        "reviewer_id": "dalron-j-robertson",
+        "reviewer_name": "Dalron J. Robertson",
+        "founder_authorized": True,
+        "decided_at": "2026-07-23T00:00:00Z",
+    }
+
+
 def test_progress_reconciles_retrieval_and_appraisal(tmp_path: Path) -> None:
     receipt = _write_yaml(tmp_path / "receipt.yaml", _receipt_payload())
     appraisal = _write_yaml(tmp_path / "appraisal.yaml", _appraisal_payload())
@@ -195,3 +213,23 @@ def test_progress_rejects_restricted_and_retrieved_conflict(tmp_path: Path) -> N
             appraisal_paths=[],
             access_decision_paths=[decision],
         )
+
+
+def test_progress_resolves_preprint_without_double_counting_evidence(
+    tmp_path: Path,
+) -> None:
+    receipt = _write_yaml(tmp_path / "receipt.yaml", _receipt_payload())
+    appraisal = _write_yaml(tmp_path / "appraisal.yaml", _appraisal_payload())
+    duplicate = _write_yaml(tmp_path / "duplicate.yaml", _duplicate_decision_payload())
+
+    progress = FullTextAppraisalProgressService().build(
+        _inventory(),
+        retrieval_receipt_paths=[receipt],
+        appraisal_paths=[appraisal],
+        duplicate_decision_paths=[duplicate],
+    )
+
+    assert progress.appraisals_completed == 1
+    assert progress.duplicate_resolved_count == 1
+    assert progress.records[1].status == "duplicate_resolved"
+    assert progress.records[1].canonical_screening_id == "c" * 64

@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 9ec9ff60437a2b13cce16d71f6fd256b9b151d6e0f1748d232cea5641fd976ba
+title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer
+relationship: preprint_of
+canonical_screening_id: 0ffb04676d622758119fa9460e3e0c03be1ab53e6fef5c26c7800b4f5bae5103
+canonical_title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
+matching_identifiers:
+  - preprint-doi:10.21203/rs.3.rs-2832948/v1
+  - version-of-record-doi:10.1038/s41523-023-00589-0
+  - version-of-record-pmid:37857634
+  - version-of-record-pmcid:PMC10587090
+rationale: >-
+  The records have the same title, cohort size of 6,233, authors, perturbation
+  design, and substantive abstract. The Research Square DOI identifies the preprint;
+  PMID 37857634 and PMCID PMC10587090 identify the later peer-reviewed version of
+  record already retrieved and appraised. Counting both would duplicate one study.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+founder_authorized: true
+decided_at: 2026-07-23T00:20:00-05:00
+scientific_conclusions_drawn: false

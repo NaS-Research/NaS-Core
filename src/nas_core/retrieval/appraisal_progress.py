@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -13,10 +13,12 @@ from nas_core.domain.appraisal import (
     FullTextAppraisal,
     FullTextAppraisalProgress,
     FullTextAppraisalProgressRecord,
+    FullTextDuplicateDecision,
     FullTextInventory,
     FullTextRetrievalReceipt,
     load_full_text_access_decision,
     load_full_text_appraisal,
+    load_full_text_duplicate_decision,
     load_full_text_retrieval_receipt,
 )
 
@@ -36,14 +38,21 @@ class FullTextAppraisalProgressService:
         retrieval_receipt_paths: Sequence[Path],
         appraisal_paths: Sequence[Path],
         access_decision_paths: Sequence[Path] = (),
+        duplicate_decision_paths: Sequence[Path] = (),
     ) -> FullTextAppraisalProgress:
         inventory_by_id = {item.screening_id: item for item in inventory.records}
         receipts = self._load_unique_receipts(retrieval_receipt_paths)
         appraisals = self._load_unique_appraisals(appraisal_paths)
         access_decisions = self._load_unique_access_decisions(access_decision_paths)
-        unknown = (set(receipts) | set(appraisals) | set(access_decisions)) - set(
-            inventory_by_id
+        duplicate_decisions = self._load_unique_duplicate_decisions(
+            duplicate_decision_paths
         )
+        unknown = (
+            set(receipts)
+            | set(appraisals)
+            | set(access_decisions)
+            | set(duplicate_decisions)
+        ) - set(inventory_by_id)
         if unknown:
             raise AppraisalProgressError("artifact exists outside current founder inclusions")
 
@@ -52,9 +61,17 @@ class FullTextAppraisalProgressService:
             receipt = receipts.get(screening_id)
             appraisal = appraisals.get(screening_id)
             access_decision = access_decisions.get(screening_id)
+            duplicate_decision = duplicate_decisions.get(screening_id)
             if receipt is not None and access_decision is not None:
                 raise AppraisalProgressError(
                     "record cannot be both access-restricted and retrieved"
+                )
+            if sum(
+                value is not None
+                for value in (receipt, access_decision, duplicate_decision)
+            ) > 1:
+                raise AppraisalProgressError(
+                    "record cannot combine duplicate resolution with retrieval or restriction"
                 )
             if receipt is None and appraisal is not None:
                 raise AppraisalProgressError("appraisal lacks a verified full-text receipt")
@@ -77,6 +94,11 @@ class FullTextAppraisalProgressService:
             if access_decision is not None:
                 self._verify_access_decision(inventory, item.title, item.pmcid, access_decision)
                 status = AppraisalCompletionStatus.ACCESS_RESTRICTED
+            if duplicate_decision is not None:
+                self._verify_duplicate_decision(
+                    inventory, item.title, inventory_by_id, duplicate_decision
+                )
+                status = AppraisalCompletionStatus.DUPLICATE_RESOLVED
             if receipt is not None:
                 status = AppraisalCompletionStatus.READY_FOR_APPRAISAL
             if appraisal is not None:
@@ -94,6 +116,14 @@ class FullTextAppraisalProgressService:
                     observed_license=(
                         access_decision.observed_license if access_decision else None
                     ),
+                    canonical_screening_id=(
+                        duplicate_decision.canonical_screening_id
+                        if duplicate_decision
+                        else None
+                    ),
+                    duplicate_relationship=(
+                        duplicate_decision.relationship if duplicate_decision else None
+                    ),
                 )
             )
 
@@ -106,6 +136,7 @@ class FullTextAppraisalProgressService:
             full_texts_retrieved=len(receipts),
             appraisals_completed=len(appraisals),
             access_restricted_count=len(access_decisions),
+            duplicate_resolved_count=len(duplicate_decisions),
             anchor_count=self._role_count(progress_records, EvidenceRole.ANCHOR),
             supporting_count=self._role_count(progress_records, EvidenceRole.SUPPORTING),
             context_only_count=self._role_count(progress_records, EvidenceRole.CONTEXT_ONLY),
@@ -148,6 +179,18 @@ class FullTextAppraisalProgressService:
         return decisions
 
     @staticmethod
+    def _load_unique_duplicate_decisions(
+        paths: Sequence[Path],
+    ) -> dict[str, FullTextDuplicateDecision]:
+        decisions: dict[str, FullTextDuplicateDecision] = {}
+        for path in paths:
+            decision = load_full_text_duplicate_decision(path)
+            if decision.screening_id in decisions:
+                raise AppraisalProgressError("duplicate full-text duplicate decision")
+            decisions[decision.screening_id] = decision
+        return decisions
+
+    @staticmethod
     def _verify_access_decision(
         inventory: FullTextInventory,
         expected_title: str,
@@ -162,6 +205,22 @@ class FullTextAppraisalProgressService:
             or decision.scientific_conclusions_drawn
         ):
             raise AppraisalProgressError("access decision failed progress reconciliation")
+
+    @staticmethod
+    def _verify_duplicate_decision(
+        inventory: FullTextInventory,
+        expected_title: str,
+        inventory_by_id: Mapping[str, object],
+        decision: FullTextDuplicateDecision,
+    ) -> None:
+        if (
+            decision.study_id != inventory.study_id
+            or decision.title != expected_title
+            or decision.canonical_screening_id not in inventory_by_id
+            or not decision.founder_authorized
+            or decision.scientific_conclusions_drawn
+        ):
+            raise AppraisalProgressError("duplicate decision failed progress reconciliation")
 
     @staticmethod
     def _verify_receipt(
