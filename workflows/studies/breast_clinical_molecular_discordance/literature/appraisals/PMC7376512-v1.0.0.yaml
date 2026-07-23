@@ -1,0 +1,136 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 8555697bf1099a0de854e0c5e12405dd9b256c8f41bcc018efdfaae811b9035c
+title: 'Prognostic potential of automated Ki67 evaluation in breast cancer: different hot spot definitions versus true global score.'
+pmid: '32572716'
+doi: 10.1007/s10549-020-05752-w
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7376512/fullTextXML
+full_text_sha256: 67c85e05b5b8c1a6bd04b17d54bfe72c31f34e36d512f367cc8ff914a93c99ef
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: observational_concordance
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The retrospective Stockholm cohort drew tumors diagnosed during 2002–2009 and
+      2012 from two hospitals. Of 217 tumors available for digital image analysis,
+      prognostic comparisons were restricted to 139 ER-positive/HER2-negative tumors,
+      and PAM50 data were available for only 111. The exclusions and incomplete
+      molecular-subtype subset may select a nonrepresentative analysis population.
+    evidence_locations:
+      - Materials and methods — Breast cancer study cohort
+      - Materials and methods — Ki67 cut-offs and surrogate subtype classification
+      - Results — Surrogate subtypes compared with molecular subtypes
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Ki67 and cytokeratin were measured in serial FFPE sections from an accredited
+      laboratory, with whole-slide digital analysis and pathologist quality control.
+      However, the study itself demonstrates that the Ki67 value changes with hotspot
+      size, shape, location, and number of counted cells, and virtual dual staining
+      depends on successful alignment of adjacent tissue sections.
+    evidence_locations:
+      - Materials and methods — Immunohistochemistry
+      - Materials and methods — Digital image analysis
+      - Results — Ki67 hot spot scoring
+      - Discussion
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Luminal surrogate labels follow a stated St Gallen 2013 rule using ER, PR,
+      HER2, and a fixed 20% Ki67 threshold, and digital methods are described.
+      Nonetheless, 22 candidate hotspot applications were constructed, the global
+      QuPath algorithm was trained in a separate 30-tumor ER-positive cohort, and
+      the proprietary application artifacts are not supplied as a frozen,
+      independently executable classifier.
+    evidence_locations:
+      - Materials and methods — Ki67 cut-offs and surrogate subtype classification
+      - Materials and methods — Digital image analysis
+      - Results — Optimization of hot spot scoring
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      PAM50 subtype calls from previously generated snap-frozen RNA measurements
+      provide a molecular comparator for 111 tumors. PAM50 is not an independent
+      biological gold standard, the molecular assay was not repeated in this study,
+      and tissue preparation differs from the FFPE sections used for IHC. Agreement
+      therefore quantifies discordance between methods without identifying the
+      correct patient-level label.
+    evidence_locations:
+      - Materials and methods — PAM50 gene expression-based subtypes
+      - Results — Surrogate subtypes compared with molecular subtypes
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The paper reports ICC, Bland–Altman, survival, Cox, McNemar, and kappa analyses,
+      but evaluates 22 hotspot definitions and highlights the application with the
+      strongest prognostic performance without a prespecified multiplicity strategy.
+      The PAM50 comparison is small, confidence intervals are very wide, category
+      counts are limited, and the authors explicitly state that the study is
+      underpowered for some subgroup analyses.
+    evidence_locations:
+      - Materials and methods — Statistical analysis
+      - Results — Optimization of hot spot scoring
+      - Results — Prognostic potential
+      - Discussion
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      All principal results arise from one retrospective regional cohort, with no
+      external validation of the selected hotspot application, global algorithm,
+      cutoff, surrogate classification, or survival associations. PAM50 was available
+      only for a subset, and the authors require confirmation in a larger cohort
+      before clinical implementation. The results do not establish transportability
+      across laboratories, platforms, populations, or patient-decision settings.
+    evidence_locations:
+      - Results — Surrogate subtypes compared with molecular subtypes
+      - Discussion
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The cohort, stains, scoring variants, software, cutoffs, statistical tests,
+      ethics, funding, conflicts, and principal numerical results are reported, and
+      supplementary material is identified. Reproduction is limited by absent
+      executable analysis code, no frozen environment or immutable data release,
+      proprietary Visiopharm applications, and no located data-availability statement.
+    evidence_locations:
+      - Materials and methods
+      - Electronic supplementary material
+      - Author contributions
+      - Funding
+      - Conflict of interest
+evidence_role: context_only
+key_strengths:
+  - Directly compares multiple automated hotspot definitions with global Ki67 scoring.
+  - Uses PAM50 calls to quantify disagreement with IHC-based Luminal A/B surrogate labels.
+  - Reports agreement, prognostic effect estimates, confidence intervals, and multivariable models.
+  - Explicitly acknowledges measurement variability, limited power, and the need for larger validation.
+key_limitations:
+  - Single retrospective regional cohort with PAM50 available for only 111 tumors.
+  - Twenty-two hotspot methods were evaluated without a prespecified multiplicity correction.
+  - No external validation of the selected scoring method, cutoff, subtype labels, or outcomes.
+  - Neither PAM50 nor the IHC surrogate establishes the biologically correct discordant label.
+  - No prospective clinical utility, calibration, decision-impact, or abstention evaluation.
+conflicts_and_funding: >-
+  The study was funded by the Swedish Cancer Society, MedTechLabs, Region Stockholm,
+  Cancer Society in Stockholm, Swedish Breast Cancer Association, and Swedish Society
+  for Medical Research, with open-access funding from Karolinska Institutet.
+  Visiopharm supplied technical support and software use without financial support or
+  incentives. JH disclosed a former Visiopharm advisory role, industry honoraria and
+  advisory remuneration, institutional grants, and co-founder/shareholder status in
+  Stratipath AB; ML was a Visiopharm employee. SR and BA declared no conflict.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable
+  for the locked eligibility and evidence-role decision. No model generated a
+  scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T22:50:00-05:00
+scientific_conclusions_drawn: false

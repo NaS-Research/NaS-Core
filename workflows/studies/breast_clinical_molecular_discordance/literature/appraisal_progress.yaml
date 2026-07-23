@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
-generated_at: '2026-07-23T03:02:29.044999Z'
+generated_at: '2026-07-23T03:35:47.743672Z'
 provisional_inclusion_count: 27
-full_texts_retrieved: 7
-appraisals_completed: 7
+full_texts_retrieved: 8
+appraisals_completed: 8
 access_restricted_count: 4
 anchor_count: 0
 supporting_count: 3
-context_only_count: 4
+context_only_count: 5
 excluded_count: 0
 records:
 - screening_id: c69ed60b1fe2c0073fd6f87ab23247dcb3f93770da497960e5b10cf0a7a8acff
@@ -95,7 +95,11 @@ records:
   title: 'Prognostic potential of automated Ki67 evaluation in breast cancer: different hot spot definitions
     versus true global score.'
   pmcid: PMC7376512
-  status: awaiting_full_text
+  status: completed
+  retrieval_id: f5c8b498d29ca53c208aeed25de3d7499d846651ce43ab1618e28fd04731450e
+  full_text_sha256: 67c85e05b5b8c1a6bd04b17d54bfe72c31f34e36d512f367cc8ff914a93c99ef
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: bee906ecbd8ca279b662c162d9b739afeb6acd6879a2e892a04a87b4bfa4be71
   title: An approach for normalization and quality control for NanoString RNA expression data.
   pmcid: PMC8138885

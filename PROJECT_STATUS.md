@@ -56,8 +56,8 @@ Current gate state:
   safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
-- Full-text progress is now mechanically reconciled: 7 of 27 founder inclusions have
-  verified full text and completed appraisals. Roles are 3 supporting and 4 context-only;
+- Full-text progress is now mechanically reconciled: 8 of 27 founder inclusions have
+  verified full text and completed appraisals. Roles are 3 supporting and 5 context-only;
   4 additional papers are access-restricted or non-open-access. No anchor
   study or scientific conclusion exists yet.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
@@ -65,9 +65,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Retrieve and appraise the next high-value lawful full text, prioritizing the
-   automated Ki67/proliferation robustness study `PMC7376512` if its exact
-   identity and item-level license pass the governed checks.
+1. Resolve lawful full-text access and appraise the population-based
+   `Perturbation and stability of PAM50 subtyping` study, prioritizing it because
+   it directly tests the proposed classification-stability question.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
 3. Complete founder decisions, populate the evidence matrix, and produce a novelty
@@ -99,6 +99,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Ki67 measurement variability added as context evidence
+
+Retrieved `PMC7376512` as 180,098 bytes of official Europe PMC XML under CC BY 4.0
+with SHA-256 `67c85e05…c99ef` and completed its section-located appraisal. In the
+limited molecular-subtype subset, IHC surrogate Luminal A/B labels agreed with PAM50
+for 55.8% of tumors using the selected hotspot score and 66.3% using global Ki67.
+This is relevant evidence that measurement choices can affect clinical-versus-
+molecular labeling, but it is locked as `context_only`: PAM50 was available for only
+111 tumors, 22 hotspot methods were evaluated without a prespecified multiplicity
+strategy, neither comparator establishes the correct discordant label, and there was
+no external validation. The ledger now records 8 retrieved, 8 appraised, 4 restricted,
+3 supporting, 5 context-only, and 0 anchor.
+
+Validation: receipt identity, license/checksum binding, appraisal schema, ledger
+reconciliation, Ruff, strict MyPy across 54 source files, and all 149 tests passed.
 
 ### 2026-07-22 — Cross-condition classifier exposes the single-patient gap
 
@@ -163,23 +179,6 @@ only, and 0 anchor.
 
 Validation: exact receipt and appraisal identity, checksum/license binding, schema and
 ledger reconciliation, Ruff, strict MyPy across 54 source files, and all 141 tests passed.
-
-### 2026-07-22 — Cross-platform paper appraised and restricted access made durable
-
-The planned `PMC10052604` retrieval failed closed because its CC BY-NC 4.0 license
-does not authorize NaS company reuse under current policy; `PMC12789466` was likewise
-rejected under CC BY-NC-ND 4.0. Neither full text was durably stored. Implemented typed,
-reconciled restricted-access decisions and retrieval blocking so these records are not
-silently retried. Advanced to permissively licensed `PMC1468408`, retrieved 117,749
-bytes under CC BY 2.0 with SHA-256 `6e8f968d…4634`, and completed its appraisal. The
-foundational cross-platform study is `context_only` because the nominal validation set
-also contributed to SSP centroid construction, DWD is dataset-dependent, and legacy
-microarrays do not directly validate modern PAM50. The ledger now records 3 retrieved,
-3 appraised, 2 access-restricted, 1 supporting, 2 context-only, and 0 anchor.
-
-Validation: access-state conflicts, no-storage boundaries, real appraisal identity,
-schema validation, ledger reconciliation, Ruff, strict MyPy across 54 source files,
-and all 139 tests passed.
 
 ## Current blockers
 

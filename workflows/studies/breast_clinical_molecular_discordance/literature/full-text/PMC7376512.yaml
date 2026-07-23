@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: f5c8b498d29ca53c208aeed25de3d7499d846651ce43ab1618e28fd04731450e
+study_id: NAS-BRCA-002
+queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
+progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
+screening_id: 8555697bf1099a0de854e0c5e12405dd9b256c8f41bcc018efdfaae811b9035c
+pmcid: PMC7376512
+title: 'Prognostic potential of automated Ki67 evaluation in breast cancer: different hot spot definitions
+  versus true global score.'
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7376512/fullTextXML
+retrieved_at: '2026-07-23T03:30:20.677306Z'
+code_revision: 5f8f7b6
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2020"
+manifest_object_key: full-text/NAS-BRCA-002/8555697bf1099a0de854e0c5e12405dd9b256c8f41bcc018efdfaae811b9035c/f5c8b498d29ca53c208aeed25de3d7499d846651ce43ab1618e28fd04731450e/manifest.json
+manifest_sha256: afffd57fd0ccb83bf31cd5fffb0c90aa1ab5b1bd4302b13a775944af3d2114c6
+full_text_object_key: full-text/NAS-BRCA-002/8555697bf1099a0de854e0c5e12405dd9b256c8f41bcc018efdfaae811b9035c/f5c8b498d29ca53c208aeed25de3d7499d846651ce43ab1618e28fd04731450e/article.xml
+full_text_sha256: 67c85e05b5b8c1a6bd04b17d54bfe72c31f34e36d512f367cc8ff914a93c99ef
+full_text_size_bytes: 180098
+verified_at: '2026-07-23T03:30:20.712629Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

@@ -85,8 +85,8 @@ CC BY 4.0 metadata. The aggregate receipt is
 appraisal is eligible with a `supporting` role: it is useful evidence about PAM50
 stability, but is not independent anchor evidence. This is a methodological evidence
 designation, not a scientific conclusion. The reconciled
-[`appraisal_progress.yaml`](appraisal_progress.yaml) records 7 of 27 appraisals
-complete, 7 verified full texts retrieved, 4 access-restricted records, and fails
+[`appraisal_progress.yaml`](appraisal_progress.yaml) records 8 of 27 appraisals
+complete, 8 verified full texts retrieved, 4 access-restricted records, and fails
 closed on identity, checksum, license, or provenance mismatches. `PMC3275466` is
 eligible as `context_only` evidence because
 its sample-level uncertainty is simulated from a sparse, laboratory-specific error
@@ -114,6 +114,12 @@ patient-level subtype or directly test reference stability.
 (CrossLink) is context-only: it recognizes cross-condition transportability, but its
 cohort-level k-means procedure cannot classify an individual patient independently
 and its strongest cross-platform PAM50 evaluation lacks true subtype labels.
+`PMC7376512` is context-only measurement evidence: in its limited PAM50 subset,
+IHC surrogate Luminal A/B labels agreed with PAM50 for 55.8% of tumors using the
+selected hotspot score and 66.3% using global Ki67. The study does not identify the
+correct discordant label, evaluates 22 hotspot methods without a prespecified
+multiplicity strategy, and has no external validation; these results support the
+measurement-variability rationale but not a clinical-reliability claim.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The
