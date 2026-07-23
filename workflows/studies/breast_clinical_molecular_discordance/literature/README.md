@@ -62,11 +62,12 @@ The verified access inventory derives directly from founder progress state
 repository identifiers and 11 require separate lawful-access checks. A PMCID is
 treated only as a repository candidate, not proof of reuse rights. The first
 candidate (`PMC10587090`) was checked against official Europe PMC XML and declares
-CC BY 4.0; durable governed retrieval remains the next step.
+CC BY 4.0 and has been durably retrieved and appraised.
 
 Immutable full-text retrieval `1.0.0` is implemented for one current founder-
 included record at a time through the official Europe PMC endpoint. It verifies
-PMCID, PMID, DOI, exact title, and an allowlisted item-level CC BY 4.0 declaration;
+PMCID, PMID, DOI, exact title, and an allowlisted item-level CC BY 2.0, 2.5, 3.0,
+or 4.0 declaration;
 stores raw XML and its manifest outside Git; independently reloads and revalidates
 both artifacts; and emits only a concise receipt to Git. Missing, ambiguous, or
 unapproved licenses fail closed. Real retrieval awaits the pushed engine revision.
@@ -85,7 +86,9 @@ appraisal is eligible with a `supporting` role: it is useful evidence about PAM5
 stability, but is not independent anchor evidence. This is a methodological evidence
 designation, not a scientific conclusion. The reconciled
 [`appraisal_progress.yaml`](appraisal_progress.yaml) records 1 of 27 appraisals
-complete and fails closed on identity, checksum, or provenance mismatches.
+complete, 2 verified full texts retrieved, and fails closed on identity, checksum,
+or provenance mismatches. `PMC3275466` is ready for the next appraisal; retrieval
+does not assign it a quality role.
 
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The

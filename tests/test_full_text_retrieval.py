@@ -23,6 +23,7 @@ REAL_RECEIPT = (
     / "full-text"
     / "PMC10587090.yaml"
 )
+SECOND_RECEIPT = REAL_RECEIPT.with_name("PMC3275466.yaml")
 
 
 def _xml(
@@ -185,6 +186,24 @@ def test_first_checked_in_full_text_receipt_is_verified_and_non_conclusive() -> 
     assert receipt.license.spdx_identifier == "CC-BY-4.0"
     assert receipt.full_text_sha256 == (
         "2ca3db6fae40accbc47d98f6b0ff4aedbdb976d8cdde7cda059d6abbf4520e2a"
+    )
+    assert receipt.manifest_checksum_verified is True
+    assert receipt.full_text_checksum_verified is True
+    assert receipt.article_identity_verified is True
+    assert receipt.license_verified is True
+    assert receipt.scientific_conclusions_drawn is False
+
+
+def test_second_checked_in_full_text_receipt_is_verified_and_non_conclusive() -> None:
+    receipt = FullTextRetrievalReceipt.model_validate(
+        yaml.safe_load(SECOND_RECEIPT.read_text())
+    )
+
+    assert receipt.pmcid == "PMC3275466"
+    assert receipt.code_revision == "967b94c"
+    assert receipt.license.spdx_identifier == "CC-BY-2.0"
+    assert receipt.full_text_sha256 == (
+        "a09221f7fa1a951709ad348c5e376b963abb4291e47897d2ac8238866fb2481e"
     )
     assert receipt.manifest_checksum_verified is True
     assert receipt.full_text_checksum_verified is True

@@ -56,17 +56,17 @@ Current gate state:
   safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
-- Full-text progress is now mechanically reconciled: 1 of 27 founder inclusions has
-  a verified full text and completed appraisal. `PMC10587090` is eligible as
-  supporting—not anchor—evidence; no scientific conclusion was drawn.
+- Full-text progress is now mechanically reconciled: 2 of 27 founder inclusions have
+  verified full text and 1 has a completed appraisal. `PMC10587090` is eligible as
+  supporting—not anchor—evidence; `PMC3275466` is ready for appraisal. No scientific
+  conclusion was drawn.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
   a pending founder results/remediation decision.
 
 ## Next implementation queue
 
-1. Retrieve and appraise the next highest-value lawful full text, prioritizing the
-   direct PAM50 classification-uncertainty record `PMC3275466` if its item-level
-   license passes the allowlist.
+1. Complete the section-located founder appraisal of the retrieved direct PAM50
+   classification-uncertainty record `PMC3275466` and lock its evidence role.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
 3. Complete founder decisions, populate the evidence matrix, and produce a novelty
@@ -98,6 +98,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Second verified full text and version-aware CC BY policy
+
+The next direct classification-uncertainty paper, `PMC3275466`, declared CC BY 2.0
+rather than CC BY 4.0, so the first governed attempt failed closed and stored no
+artifact. Expanded the explicit allowlist to standard CC BY 2.0, 2.5, 3.0, and 4.0
+licenses, with canonical SPDX identifiers and URLs; restrictive or ambiguous licenses
+remain rejected. After tests and push of revision `967b94c`, retrieved and independently
+verified the 72,003-byte article with SHA-256 `a09221f7…2481e`. The progress ledger now
+records 2 full texts retrieved and 1 of 27 appraisals complete. No evidence role or
+scientific conclusion was assigned to the second paper.
+
+Validation: Ruff, strict MyPy across 54 source files, all 135 tests, the checked-in
+receipt contract, and reconciled progress passed.
 
 ### 2026-07-22 — First full-text appraisal and resumable progress ledger
 
@@ -160,22 +174,6 @@ yet represented as a durable artifact.
 
 Validation: inclusion-ledger selection, inventory/count reconciliation, downstream-
 completion and no-conclusion boundaries, Ruff, strict MyPy, and all 124 tests passed.
-
-### 2026-07-22 — Governed full-text quality-appraisal gate
-
-Implemented a typed, design-aware full-text appraisal contract and validation
-command for the 27 provisional inclusions. Every locked appraisal must bind to an
-exact full-text checksum and lawful access basis; cite page/section evidence across
-population, specimen, classifier, comparator, statistics, validation, and
-reproducibility domains; and record funding, conflicts, strengths, limitations, and
-founder provenance. Anchor evidence cannot contain high or unclear domains and
-requires low-risk analysis and validation. High-risk evidence cannot be promoted to
-supporting or anchor status. Reporting completeness is not treated as proof of low
-bias, and favorable, contradictory, and null results use identical standards. No
-real paper has been appraised or assigned an evidence role.
-
-Validation: anchor, high-risk, incomplete-domain, and no-conclusion invariants;
-Ruff, strict MyPy, study-contract validation, and all 123 tests passed.
 
 ## Current blockers
 
