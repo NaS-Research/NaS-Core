@@ -25,7 +25,11 @@ REAL_RECEIPT = (
 )
 
 
-def _xml(*, license_url: str = "https://creativecommons.org/licenses/by/4.0/") -> bytes:
+def _xml(
+    *,
+    license_url: str = "https://creativecommons.org/licenses/by/4.0/",
+    license_text: str = "Creative Commons Attribution 4.0 International License",
+) -> bytes:
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <article xmlns:xlink="http://www.w3.org/1999/xlink">
   <front><article-meta>
@@ -36,7 +40,7 @@ def _xml(*, license_url: str = "https://creativecommons.org/licenses/by/4.0/") -
     <permissions>
       <copyright-statement>© Synthetic authors 2026</copyright-statement>
       <license xlink:href="{license_url}">
-        <license-p>Creative Commons Attribution 4.0 International License</license-p>
+        <license-p>{license_text}</license-p>
       </license>
     </permissions>
   </article-meta></front>
@@ -87,6 +91,32 @@ def test_retrieves_and_independently_verifies_cc_by_full_text() -> None:
     assert receipt.article_identity_verified is True
     assert receipt.license_verified is True
     assert receipt.scientific_conclusions_drawn is False
+
+
+def test_retrieves_legacy_cc_by_2_full_text() -> None:
+    service = FullTextRetrievalService(
+        store=InMemoryObjectStore(),
+        transport=FakeTransport(
+            _xml(
+                license_url="http://creativecommons.org/licenses/by/2.0",
+                license_text="Creative Commons Attribution License 2.0",
+            )
+        ),
+        clock=lambda: NOW,
+    )
+
+    receipt = service.verify(
+        service.retrieve(
+            _record(),
+            study_id="NAS-BRCA-002",
+            queue_id="b" * 64,
+            progress_id="c" * 64,
+            code_revision="f9f1f46",
+        )
+    )
+
+    assert receipt.license.spdx_identifier == "CC-BY-2.0"
+    assert receipt.license.url == "https://creativecommons.org/licenses/by/2.0/"
 
 
 def test_rejects_article_without_approved_license() -> None:

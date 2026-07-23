@@ -37,9 +37,23 @@ EUROPE_PMC_FULL_TEXT_URL = (
 )
 XML_MEDIA_TYPE = "application/xml"
 JSON_MEDIA_TYPE = "application/json"
-CC_BY_4_URLS = {
-    "http://creativecommons.org/licenses/by/4.0/",
-    "https://creativecommons.org/licenses/by/4.0/",
+CC_BY_LICENSES = {
+    "https://creativecommons.org/licenses/by/2.0/": (
+        "Creative Commons Attribution 2.0 Generic",
+        "CC-BY-2.0",
+    ),
+    "https://creativecommons.org/licenses/by/2.5/": (
+        "Creative Commons Attribution 2.5 Generic",
+        "CC-BY-2.5",
+    ),
+    "https://creativecommons.org/licenses/by/3.0/": (
+        "Creative Commons Attribution 3.0 Unported",
+        "CC-BY-3.0",
+    ),
+    "https://creativecommons.org/licenses/by/4.0/": (
+        "Creative Commons Attribution 4.0 International",
+        "CC-BY-4.0",
+    ),
 }
 
 
@@ -261,9 +275,11 @@ class FullTextRetrievalService:
                     "{http://www.w3.org/1999/xlink}href",
                     "",
                 )
+        normalized_license_url = license_url.replace("http://", "https://").rstrip("/") + "/"
         license_text = " ".join("".join(license_node.itertext()).split())
-        if license_url not in CC_BY_4_URLS or "Attribution 4.0" not in license_text:
-            raise FullTextRetrievalError("article license is not in the approved CC BY 4.0 set")
+        license_identity = CC_BY_LICENSES.get(normalized_license_url)
+        if license_identity is None or "Attribution" not in license_text:
+            raise FullTextRetrievalError("article license is not in the approved CC BY set")
         copyright_text = " ".join("".join(copyright_node.itertext()).split())
         identity = {
             "pmcid": article_id("pmcid"),
@@ -274,9 +290,9 @@ class FullTextRetrievalService:
         if identity["pmcid"] is None or not title:
             raise FullTextRetrievalError("article identity metadata is incomplete")
         return identity, FullTextLicense(
-            name="Creative Commons Attribution 4.0 International",
-            spdx_identifier="CC-BY-4.0",
-            url="https://creativecommons.org/licenses/by/4.0/",
+            name=license_identity[0],
+            spdx_identifier=license_identity[1],
+            url=normalized_license_url,
             copyright_statement=copyright_text,
         )
 

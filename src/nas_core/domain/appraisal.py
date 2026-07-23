@@ -122,7 +122,7 @@ class FullTextInventory(AppraisalModel):
 
 class FullTextLicense(AppraisalModel):
     name: str = Field(min_length=1)
-    spdx_identifier: str = Field(pattern=r"^CC-BY-4\.0$")
+    spdx_identifier: str = Field(pattern=r"^CC-BY-(?:2\.0|2\.5|3\.0|4\.0)$")
     url: str = Field(min_length=1)
     copyright_statement: str = Field(min_length=1)
 
