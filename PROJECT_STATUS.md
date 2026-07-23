@@ -56,9 +56,9 @@ Current gate state:
   safety screening and full-text eligibility and quality appraisal remain required.
 - TCGA/GDC is the proposed discovery source; the candidate independent validation
   source is unassessed and not approved in the source registry.
-- Full-text progress is now mechanically reconciled: 5 of 27 founder inclusions have
-  verified full text and completed appraisals. Roles are 3 supporting and 2 context-only;
-  2 additional papers are access-restricted under noncommercial licenses. No anchor
+- Full-text progress is now mechanically reconciled: 6 of 27 founder inclusions have
+  verified full text and completed appraisals. Roles are 3 supporting and 3 context-only;
+  3 additional papers are access-restricted or non-open-access. No anchor
   study or scientific conclusion exists yet.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
   a pending founder results/remediation decision.
@@ -66,7 +66,7 @@ Current gate state:
 ## Next implementation queue
 
 1. Retrieve and appraise the next high-value lawful full text, prioritizing the
-   alternative three-gene intrinsic-subtyping study `PMC3283537` if its exact
+   NanoString normalization and quality-control study `PMC8138885` if its exact
    identity and item-level license pass the governed checks.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
@@ -99,6 +99,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — Three-gene comparison appraised; source paper marked non-open
+
+The planned `PMC3283537` retrieval returned 404 from Europe PMC, and official NCBI
+OA metadata explicitly reported `idIsNotOpenAccess`; no full text was stored and a
+machine-readable restriction now prevents retries. Advanced to the directly related
+`PMC3413822`, retrieved 87,244 bytes under CC BY 4.0 with SHA-256 `8d6fbf32…c63c2`,
+and completed its appraisal. The head-to-head PAM50/SCMGENE reanalysis is useful for
+classifier-comparison context but cannot resolve which discordant patient-level call
+is biologically correct, uses heterogeneous retrospective microarrays, and discloses
+PAM50 stock/patent interests. It is locked as `context_only`. The ledger now records
+6 retrieved, 6 appraised, 3 restricted, 3 supporting, 3 context-only, and 0 anchor.
+
+Validation: restriction provenance, receipt identity, license/checksum binding,
+appraisal schema, ledger reconciliation, Ruff, strict MyPy across 54 source files,
+and all 145 tests passed.
 
 ### 2026-07-22 — RNA-seq PAM50 reference-sensitivity study appraised as supporting
 
@@ -162,20 +178,6 @@ reconciles 2 retrieved and 2 appraised papers: 1 supporting, 1 context-only, 0 a
 
 Validation: exact full-text identity and checksum binding, appraisal schema validation,
 ledger reconciliation, Ruff, strict MyPy across 54 source files, and all 136 tests passed.
-
-### 2026-07-22 — Second verified full text and version-aware CC BY policy
-
-The next direct classification-uncertainty paper, `PMC3275466`, declared CC BY 2.0
-rather than CC BY 4.0, so the first governed attempt failed closed and stored no
-artifact. Expanded the explicit allowlist to standard CC BY 2.0, 2.5, 3.0, and 4.0
-licenses, with canonical SPDX identifiers and URLs; restrictive or ambiguous licenses
-remain rejected. After tests and push of revision `967b94c`, retrieved and independently
-verified the 72,003-byte article with SHA-256 `a09221f7…2481e`. The progress ledger now
-records 2 full texts retrieved and 1 of 27 appraisals complete. No evidence role or
-scientific conclusion was assigned to the second paper.
-
-Validation: Ruff, strict MyPy across 54 source files, all 135 tests, the checked-in
-receipt contract, and reconciled progress passed.
 
 ## Current blockers
 

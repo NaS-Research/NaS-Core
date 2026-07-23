@@ -147,3 +147,13 @@ def test_rnaseq_pam50_appraisal_is_supporting_and_non_conclusive() -> None:
     assert all(judgment != "high" for judgment in judgments.values())
     assert judgments[AppraisalDomainName.REPORTING_AND_REPRODUCIBILITY] == "low"
     assert appraisal.scientific_conclusions_drawn is False
+
+
+def test_three_gene_comparison_appraisal_is_context_only() -> None:
+    path = REAL_APPRAISAL_DIR / "PMC3413822-v1.0.0.yaml"
+    appraisal = FullTextAppraisal.model_validate(yaml.safe_load(path.read_text()))
+
+    assert appraisal.pmid == "22752290"
+    assert appraisal.doi == "10.1007/s10549-012-2143-0"
+    assert appraisal.evidence_role == "context_only"
+    assert appraisal.scientific_conclusions_drawn is False

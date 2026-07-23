@@ -1,0 +1,121 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: d6189496139983bdb9dfa4163898b6150207a979cccaaa3b7d62f9a70c19fc17
+title: PAM50 assay and the three-gene model for identifying the major and clinically relevant molecular subtypes of breast cancer.
+pmid: '22752290'
+doi: 10.1007/s10549-012-2143-0
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3413822/fullTextXML
+full_text_sha256: 8d6fbf3299b3b844dfe40cc8aa08fbb195726ecbab002fe5b54d34836f8c63c2
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Survival analyses pooled 13 public cohorts, chemotherapy response used 226 evaluable
+      MAQC2 pretreatment tumors, and biological-diversity analysis combined 18 datasets.
+      Predictor derivation samples were excluded, which is a strength, but cohort eligibility,
+      treatment, follow-up, missingness, and assay availability are heterogeneous. Only selected
+      datasets with an ER-positive proportion between 50% and 90% entered the combined analysis.
+    evidence_locations:
+      - Materials and methods — Clinical and gene expression data
+      - Materials and methods — Combined microarray dataset
+      - Results — Outcome prediction
+      - Results — Chemotherapy response prediction
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The analysis uses preprocessed Affymetrix and Agilent data from prior studies, averages
+      probes mapped to the same Entrez gene, and centers and standardizes within cohorts.
+      Specimens and laboratory procedures were not centrally controlled, and the authors note
+      that only 12 of 36 evaluated datasets contained every PAM50 gene, creating platform and
+      feature-availability concerns.
+    evidence_locations:
+      - Materials and methods — Clinical and gene expression data
+      - Materials and methods — Combined microarray dataset
+      - Discussion
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Research PAM50 and three-gene SCMGENE assignments were obtained from the prior compiled
+      analysis and compared on identical data. Exact executable implementations and frozen
+      classifier artifacts are not supplied here, and post hoc median gene centering improved
+      some PAM50 survival and response classifications, demonstrating preprocessing sensitivity.
+    evidence_locations:
+      - Introduction
+      - Materials and methods — Clinical and gene expression data
+      - Results — Chemotherapy response prediction
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      PAM50 and SCMGENE are compared directly against distant metastasis-free survival,
+      pathological complete response, and genome-wide principal components. Neither classifier
+      is a gold standard for intrinsic biological truth or clinical utility, and the outcome
+      comparisons do not resolve which discordant subtype call is correct for an individual tumor.
+    evidence_locations:
+      - Introduction
+      - Results — Outcome prediction
+      - Results — Chemotherapy response prediction
+      - Results — Capturing the main biological diversity
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Cox and logistic models include clinical covariates, predictor-specific likelihood-ratio
+      tests, and analyses of untreated and tamoxifen-only subsets. However, the report does not
+      describe missing-data handling, proportional-hazards diagnostics, dataset-level random
+      effects or stratification in the primary models, calibration, or a study-wide multiplicity
+      approach. Chemotherapy-response subtype estimates are sparse with wide intervals.
+    evidence_locations:
+      - Materials and methods — Statistical analyses
+      - Results — Outcome prediction
+      - Results — Chemotherapy response prediction
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      The analyzed samples were not used to derive PAM50 or SCMGENE and span multiple external
+      cohorts and platforms. Nonetheless, this is a retrospective reanalysis of datasets already
+      assembled by the compared three-gene study, not a prospectively collected or independently
+      assayed head-to-head validation. It evaluates research classifiers rather than fixed clinical
+      tests and does not test patient-level treatment utility.
+    evidence_locations:
+      - Materials and methods — Clinical and gene expression data
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Clinical and expression sources, cohort names, endpoints, transformations, statistical
+      models, R version, and supplemental results are reported. Complete analysis code, exact
+      predictor implementations, software environment, missing-data flow, and a frozen combined
+      dataset manifest are not provided in this article.
+    evidence_locations:
+      - Materials and methods — Clinical and gene expression data
+      - Materials and methods — Combined microarray dataset
+      - Materials and methods — Statistical analyses
+evidence_role: context_only
+key_strengths:
+  - Direct head-to-head comparison of PAM50 and a simpler three-gene subtype classifier.
+  - Uses samples external to both predictor-development datasets.
+  - Evaluates prognosis, chemotherapy response, and captured transcriptomic variation.
+  - Adjusts outcome analyses for major clinicopathological factors and treatment.
+key_limitations:
+  - Does not determine the biological truth of discordant patient-level subtype calls.
+  - Retrospective cohorts, platforms, treatments, and endpoint availability are heterogeneous.
+  - PAM50 preprocessing choices materially affect some reported classifications.
+  - Statistical diagnostics, missing-data handling, and multiplicity control are incomplete.
+  - Authors disclose stock ownership and a patent interest connected to PAM50.
+conflicts_and_funding: >-
+  Charles M. Perou disclosed stock ownership in BioClassifier LLC. Perou and Joel S.
+  Parker disclosed a filed patent on the PAM50 assay; the other authors declared no
+  conflicts. No funding statement was located in the full-text article.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable for
+  the locked eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-22T22:05:00-05:00
+scientific_conclusions_drawn: false

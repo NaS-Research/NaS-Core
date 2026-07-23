@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
 progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
-generated_at: '2026-07-23T02:25:31.256862Z'
+generated_at: '2026-07-23T02:31:58.330046Z'
 provisional_inclusion_count: 27
-full_texts_retrieved: 5
-appraisals_completed: 5
-access_restricted_count: 2
+full_texts_retrieved: 6
+appraisals_completed: 6
+access_restricted_count: 3
 anchor_count: 0
 supporting_count: 3
-context_only_count: 2
+context_only_count: 3
 excluded_count: 0
 records:
 - screening_id: c69ed60b1fe2c0073fd6f87ab23247dcb3f93770da497960e5b10cf0a7a8acff
@@ -49,12 +49,17 @@ records:
 - screening_id: 7e3e9e29f9e33fed8c7c77c08fc1074d042c6ce37238b9de22462d9ca8f9e822
   title: A three-gene model to robustly identify breast cancer molecular subtypes.
   pmcid: PMC3283537
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: NO-OPEN-LICENSE
 - screening_id: d6189496139983bdb9dfa4163898b6150207a979cccaaa3b7d62f9a70c19fc17
   title: PAM50 assay and the three-gene model for identifying the major and clinically relevant molecular
     subtypes of breast cancer.
   pmcid: PMC3413822
-  status: awaiting_full_text
+  status: completed
+  retrieval_id: b71f47510279f9d78260668a467bf58e8f6e0adde25d2a5b36fb7caa07bdba4a
+  full_text_sha256: 8d6fbf3299b3b844dfe40cc8aa08fbb195726ecbab002fe5b54d34836f8c63c2
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 4f3f0d10147a78169280a6357e0c45a8e1433138ba9e114ea76178c887c76698
   title: Genome-driven integrated classification of breast cancer validated in over 7,500 samples.
   pmcid: PMC4166472

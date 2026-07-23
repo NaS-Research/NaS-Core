@@ -26,6 +26,7 @@ REAL_RECEIPT = (
 SECOND_RECEIPT = REAL_RECEIPT.with_name("PMC3275466.yaml")
 MULTICOHORT_RECEIPT = REAL_RECEIPT.with_name("PMC4166472.yaml")
 RNASEQ_RECEIPT = REAL_RECEIPT.with_name("PMC7442834.yaml")
+THREE_GENE_COMPARISON_RECEIPT = REAL_RECEIPT.with_name("PMC3413822.yaml")
 
 
 def _xml(
@@ -242,6 +243,24 @@ def test_rnaseq_full_text_receipt_is_verified_and_non_conclusive() -> None:
     assert receipt.license.spdx_identifier == "CC-BY-4.0"
     assert receipt.full_text_sha256 == (
         "186a84b2285043a611853488490a17a557716aa7ccc0324e8a6798115d136518"
+    )
+    assert receipt.manifest_checksum_verified is True
+    assert receipt.full_text_checksum_verified is True
+    assert receipt.article_identity_verified is True
+    assert receipt.license_verified is True
+    assert receipt.scientific_conclusions_drawn is False
+
+
+def test_three_gene_comparison_receipt_is_verified_and_non_conclusive() -> None:
+    receipt = FullTextRetrievalReceipt.model_validate(
+        yaml.safe_load(THREE_GENE_COMPARISON_RECEIPT.read_text())
+    )
+
+    assert receipt.pmcid == "PMC3413822"
+    assert receipt.code_revision == "d35346f"
+    assert receipt.license.spdx_identifier == "CC-BY-4.0"
+    assert receipt.full_text_sha256 == (
+        "8d6fbf3299b3b844dfe40cc8aa08fbb195726ecbab002fe5b54d34836f8c63c2"
     )
     assert receipt.manifest_checksum_verified is True
     assert receipt.full_text_checksum_verified is True

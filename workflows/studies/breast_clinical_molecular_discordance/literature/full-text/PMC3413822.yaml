@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: b71f47510279f9d78260668a467bf58e8f6e0adde25d2a5b36fb7caa07bdba4a
+study_id: NAS-BRCA-002
+queue_id: b02c2abfab2276f6042889bd8e5d0c65b5c01469dd39f2df2222a53e36b5f042
+progress_id: dd27a686d913994447b5a66ded08b22519837fbe656a1b57e998e94fd015ac21
+screening_id: d6189496139983bdb9dfa4163898b6150207a979cccaaa3b7d62f9a70c19fc17
+pmcid: PMC3413822
+title: PAM50 assay and the three-gene model for identifying the major and clinically relevant molecular
+  subtypes of breast cancer.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3413822/fullTextXML
+retrieved_at: '2026-07-23T02:29:38.196287Z'
+code_revision: d35346f
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2012"
+manifest_object_key: full-text/NAS-BRCA-002/d6189496139983bdb9dfa4163898b6150207a979cccaaa3b7d62f9a70c19fc17/b71f47510279f9d78260668a467bf58e8f6e0adde25d2a5b36fb7caa07bdba4a/manifest.json
+manifest_sha256: 9b6381679e31f67ca4224597fd01b2385244137258468dfe2c3a593fc5fd5f05
+full_text_object_key: full-text/NAS-BRCA-002/d6189496139983bdb9dfa4163898b6150207a979cccaaa3b7d62f9a70c19fc17/b71f47510279f9d78260668a467bf58e8f6e0adde25d2a5b36fb7caa07bdba4a/article.xml
+full_text_sha256: 8d6fbf3299b3b844dfe40cc8aa08fbb195726ecbab002fe5b54d34836f8c63c2
+full_text_size_bytes: 87244
+verified_at: '2026-07-23T02:29:38.205552Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

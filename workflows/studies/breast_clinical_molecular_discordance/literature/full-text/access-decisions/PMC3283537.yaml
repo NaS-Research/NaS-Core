@@ -1,0 +1,18 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 7e3e9e29f9e33fed8c7c77c08fc1074d042c6ce37238b9de22462d9ca8f9e822
+pmcid: PMC3283537
+title: A three-gene model to robustly identify breast cancer molecular subtypes.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3283537/fullTextXML
+observed_license: NO-OPEN-LICENSE
+license_url: https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC3283537
+outcome: restricted
+policy_reason: >-
+  Europe PMC identifies the article as non-open-access and its full-text XML endpoint
+  returned 404. The official NCBI OA service returned idIsNotOpenAccess. Current policy
+  does not authorize durable full-text ingestion without an open license or separate
+  permission.
+checked_at: 2026-07-23T02:28:55Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false
