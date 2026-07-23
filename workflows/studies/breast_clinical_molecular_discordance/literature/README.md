@@ -75,6 +75,13 @@ period difference in titles; PMCID, PMID, and DOI must match exactly. This bound
 rule addresses punctuation differences between bibliographic and repository records
 without permitting fuzzy article matching.
 
+The first durable retrieval is complete. `PMC10587090` was fetched by pushed engine
+revision `42d9752`, stored as 137,087 bytes of official Europe PMC XML outside Git,
+and independently verified against SHA-256 `2ca3db6f…0e2a`, article identity, and
+CC BY 4.0 metadata. The aggregate receipt is
+[`full-text/PMC10587090.yaml`](full-text/PMC10587090.yaml). Retrieval makes no
+eligibility, quality, or scientific claim.
+
 AI advisory policy `1.0.2` and its prompt remain available but live provider use is
 disabled following the founder's zero-API Phase 0 decision. The
 provider-neutral gateway records structured recommendations, confidence, matched

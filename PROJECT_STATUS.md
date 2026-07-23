@@ -61,8 +61,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Implement immutable, license-recorded full-text retrieval; persist and verify
-   `PMC10587090`, then complete its first founder appraisal with section evidence.
+1. Complete the founder appraisal of `PMC10587090` with section-located evidence,
+   then lock its eligibility and `anchor`, `supporting`, or `context_only` role.
 2. Review supporting records and citation chains until the locked stopping rule is
    satisfied; preserve eligible contradictory and null evidence regardless of rank.
 3. Complete founder decisions, populate the evidence matrix, and produce a novelty
@@ -94,6 +94,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-22 — First verified licensed full-text artifact
+
+Retrieved `PMC10587090`, “Perturbation and stability of PAM50 subtyping in
+population-based primary invasive breast cancer,” from the official Europe PMC XML
+endpoint using pushed engine revision `42d9752`. Item-level metadata explicitly
+declares CC BY 4.0. The 137,087-byte XML and hashed manifest are immutable outside
+Git; the aggregate receipt records SHA-256 `2ca3db6f…0e2a`. Independent verification
+reloaded both artifacts and rechecked size, checksum, PMCID, PMID, DOI, bounded title
+normalization, license URL/text, copyright, and the no-conclusion boundary. Two
+failed attempts—incorrect Accept header and terminal-title punctuation—stored no
+artifact and prompted tested, pushed fixes before retry. No quality role or
+scientific conclusion was assigned.
+
+Validation: checked-in receipt contract, immutable artifact verification, Ruff,
+strict MyPy, study validation, and all 129 tests passed.
 
 ### 2026-07-22 — License-enforced immutable full-text retriever
 
@@ -153,19 +169,6 @@ it is not a quality judgment or evidence conclusion.
 Validation: exact prior-state binding, queue membership, reviewer provenance,
 exclusion taxonomy, event-chain and artifact hashes, reconciled cumulative counts,
 and human-only boundary independently verified.
-
-### 2026-07-22 — Third founder title/abstract decision batch
-
-Recorded and independently verified ten explicit founder decisions from the second
-deterministic core-priority batch: seven inclusions and three protocol-based
-exclusions. The cumulative immutable state is 25 of 457 records decided: 19
-included, 6 excluded, 432 pending, zero unclear, and zero AI decisions. Nine records
-remain in the locked core-priority tier. No quality judgment or scientific
-conclusion was drawn.
-
-Validation: exact prior-state binding, queue membership, reviewer provenance,
-exclusion taxonomy, event-chain and artifact hashes, reconciled cumulative counts,
-and the human-only boundary independently verified.
 
 ## Current blockers
 

@@ -1,8 +1,10 @@
 from datetime import UTC, datetime
+from pathlib import Path
 
 import pytest
+import yaml
 
-from nas_core.domain.appraisal import FullTextInventoryRecord
+from nas_core.domain.appraisal import FullTextInventoryRecord, FullTextRetrievalReceipt
 from nas_core.ingestion.gdc import HTTPResponse
 from nas_core.retrieval.full_text_retrieval import (
     FullTextRetrievalError,
@@ -11,6 +13,16 @@ from nas_core.retrieval.full_text_retrieval import (
 from nas_core.storage.object_store import InMemoryObjectStore
 
 NOW = datetime(2026, 7, 22, 23, 0, tzinfo=UTC)
+ROOT = Path(__file__).parents[1]
+REAL_RECEIPT = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "breast_clinical_molecular_discordance"
+    / "literature"
+    / "full-text"
+    / "PMC10587090.yaml"
+)
 
 
 def _xml(*, license_url: str = "https://creativecommons.org/licenses/by/4.0/") -> bytes:
@@ -133,3 +145,19 @@ def test_verification_detects_tampered_full_text() -> None:
 
     with pytest.raises(FullTextRetrievalError, match="checksum"):
         service.verify(manifest)
+
+
+def test_first_checked_in_full_text_receipt_is_verified_and_non_conclusive() -> None:
+    receipt = FullTextRetrievalReceipt.model_validate(yaml.safe_load(REAL_RECEIPT.read_text()))
+
+    assert receipt.pmcid == "PMC10587090"
+    assert receipt.code_revision == "42d9752"
+    assert receipt.license.spdx_identifier == "CC-BY-4.0"
+    assert receipt.full_text_sha256 == (
+        "2ca3db6fae40accbc47d98f6b0ff4aedbdb976d8cdde7cda059d6abbf4520e2a"
+    )
+    assert receipt.manifest_checksum_verified is True
+    assert receipt.full_text_checksum_verified is True
+    assert receipt.article_identity_verified is True
+    assert receipt.license_verified is True
+    assert receipt.scientific_conclusions_drawn is False
