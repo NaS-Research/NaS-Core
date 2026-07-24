@@ -9,6 +9,8 @@ The current reliability-focused review is governed by:
 - [`revised_priority_evidence.yaml`](revised_priority_evidence.yaml)
 - [`revised_evidence_review_progress.yaml`](revised_evidence_review_progress.yaml)
 - [`REVISED_SCREENING_WORKFLOW.md`](REVISED_SCREENING_WORKFLOW.md)
+- [`REVISED_SCREENING_PROTOCOL.md`](REVISED_SCREENING_PROTOCOL.md)
+- [`FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md`](FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md)
 
 Search strategy `0.2.4` is locked after coverage QA repaired a pre-screening gap in
 version `0.2.3`. Count-only feasibility returned 56 PubMed and 99 Europe PMC hits.
@@ -24,6 +26,11 @@ transferred. Raw records and detailed reconciliation mappings remain outside Git
 The progress ledger cannot claim completion until founder screening, appraisal
 accounting, and two consecutive zero-yield backward-plus-forward citation passes
 all reconcile.
+
+Screening protocol `1.1.0` is locked to the replacement queue. The first advisory
+packet recommends advancing all 13 mandatory direct-priority records to full-text
+review. No append-only decision event will be stored until the founder explicitly
+confirms or changes those recommendations.
 
 Required artifacts:
 

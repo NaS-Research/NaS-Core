@@ -38,6 +38,13 @@ Final include, exclude, or unclear decisions require Dalron J. Robertson. Use th
 append-only batch format in `SCREENING_WORKFLOW.md`, substituting the revised queue
 receipt and queue ID. AI may prioritize and advise but cannot submit decisions.
 
+The title/abstract rules are locked in
+[`REVISED_SCREENING_PROTOCOL.md`](REVISED_SCREENING_PROTOCOL.md). The first
+advisory packet is
+[`FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md`](FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md).
+It recommends including all 13 direct-priority records for full-text review and
+awaits explicit founder confirmation before any append-only decision event is stored.
+
 ## Boundaries
 
 This phase selects methodological evidence. It does not establish novelty, produce

@@ -1,4 +1,5 @@
 import json
+import re
 from copy import deepcopy
 from pathlib import Path
 
@@ -22,6 +23,12 @@ PROGRESS_PATH = STUDY_ROOT / "literature" / "revised_evidence_review_progress.ya
 SEARCH_PATH = STUDY_ROOT / "literature" / "search_strategy_v0.3.0.yaml"
 PRIORITY_SCHEMA_PATH = ROOT / "workflows" / "priority_evidence_set.schema.json"
 PROGRESS_SCHEMA_PATH = ROOT / "workflows" / "evidence_review_progress.schema.json"
+REVISED_SCREENING_PROTOCOL_PATH = (
+    STUDY_ROOT / "literature" / "REVISED_SCREENING_PROTOCOL.md"
+)
+PRIORITY_PACKET_PATH = (
+    STUDY_ROOT / "literature" / "FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md"
+)
 
 
 def load_progress_payload() -> dict[str, object]:
@@ -91,6 +98,32 @@ def test_checked_in_evidence_review_schemas_match_runtime_models() -> None:
     assert json.loads(PROGRESS_SCHEMA_PATH.read_text(encoding="utf-8")) == (
         EvidenceReviewProgress.model_json_schema()
     )
+
+
+def test_founder_priority_packet_is_complete_and_nondecisional() -> None:
+    protocol = REVISED_SCREENING_PROTOCOL_PATH.read_text(encoding="utf-8")
+    packet = PRIORITY_PACKET_PATH.read_text(encoding="utf-8")
+
+    assert "Version: `1.1.0`" in protocol
+    assert "af08a334…8a2a3" in protocol
+    assert "Each of the 100 records" in protocol
+    assert "Status: **Awaiting founder decisions**" in packet
+    assert "No immutable decisions have been recorded" in packet
+    assert set(re.findall(r"^\| (\d{8}) \|", packet, flags=re.MULTILINE)) == {
+        "19204204",
+        "28062443",
+        "22196354",
+        "25479802",
+        "33255759",
+        "35974007",
+        "37008073",
+        "32826944",
+        "37857634",
+        "41064593",
+        "41390542",
+        "25788628",
+        "25849221",
+    }
 
 
 def test_cli_validates_bound_evidence_review_artifacts(

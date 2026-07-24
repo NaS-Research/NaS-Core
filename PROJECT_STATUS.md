@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-23
+Last updated: 2026-07-24
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -8,14 +8,14 @@ and what comes next?
 
 ## Current focus
 
-### Founder-screen the NAS-BRCA-002 direct priority evidence
+### Confirm the NAS-BRCA-002 founder priority screening packet
 
-The question-`0.3.0` review is authorized and active. Coverage-repaired strategy
-`0.2.4`, its 100-record all-pending queue, and its prior-inventory reconciliation
-are independently verified. Founder-adjudicate the 13 direct-priority records first,
-confirm the five author-year-only links, screen the remaining candidates, and then
-complete sequential backward-plus-forward citation passes. Preserve the
-metadata-only, nonclinical boundary until founder review supports a new decision.
+The question-`0.3.0` review is authorized and active. Screening protocol `1.1.0`
+is locked to the verified 100-record queue. The first advisory packet recommends
+advancing all 13 direct-priority records to full-text review and now awaits Dalron
+J. Robertson's explicit include, exclude, or unclear decisions. After recording
+that batch, confirm the five author-year-only links, screen the remaining candidates,
+and complete sequential backward-plus-forward citation passes.
 
 Definition of done:
 
@@ -59,6 +59,9 @@ Current gate state:
 - Reconciliation `075aa083…397891` classifies all 100 records against the prior
   inventory: 55 exact matches, 5 author-year-only candidates, and 40 new candidates.
   No previous screening decision was transferred.
+- Question-`0.3.0` title/abstract protocol `1.1.0` is locked. The founder priority
+  packet contains all 13 direct records, recommends `include` for each with high
+  confidence, and records no final decisions while founder confirmation is pending.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -90,8 +93,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Screen and appraise the 13-record direct priority set, beginning with the
-   single-subject uncertainty, AIMS, MiniABS, SSP, MPAM50, and BreastSubtypeR reports.
+1. Obtain Dalron J. Robertson's explicit decision on the 13-record priority packet,
+   record the append-only batch, and independently verify the progress receipt.
 2. Founder-confirm or reject the five author-year-only inventory links, then screen
    every remaining record in the 100-record revised queue.
 3. Execute sequential backward-plus-forward Europe PMC citation passes until two
@@ -127,6 +130,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Revised founder-screening packet prepared
+
+Locked question-`0.3.0` screening protocol `1.1.0` to the verified 100-record queue
+before any title/abstract decision. The protocol replaces the superseded
+question-`0.2.0` screening boundary with explicit criteria for single-sample
+classifiers, patient-level uncertainty and abstention, technical error and
+repeatability, centering and test-set bias, external transport, and executable
+implementation artifacts.
+
+Reviewed the metadata and abstracts for all 13 mandatory priority records. Each
+directly satisfies at least one locked criterion, so the advisory packet recommends
+`include` for full-text review with high confidence. Inclusion is only a sensitive
+screening decision—not endorsement, quality appraisal, scientific synthesis, or
+clinical validation. No founder or AI decision event was stored.
 
 ### 2026-07-23 — Revised screening corpus verified and reconciled
 
@@ -197,24 +215,6 @@ outcome- or validation-guided tuning.
 Validation: checked-in schema parity, CLI validation, focused contract and invariant
 tests, Ruff, strict MyPy, and the full test suite.
 
-### 2026-07-23 — Question v0.3.0 narrows the study to reliability and abstention
-
-Preserved question `0.2.0` and its review packet as immutable versioned history,
-then drafted active question `0.3.0`. The new primary object is a frozen,
-patient-independent research procedure that returns the subtype and runner-up
-scores, margin, perturbation repeatability, data-quality state, reliability state,
-and an explicit abstention reason. The primary estimands are analytical reliability
-and repeatability—not biological truth, prognosis, treatment response, or clinical
-utility.
-
-The v0.3.0 change-resolution trace maps every Phase 0 requirement to a resolved or
-pending state. The founder and AI review states reset to `pending`; prior v0.2.0
-work is not carried forward as approval. No preregistration, ingestion, molecular
-analysis, outcome access, or clinical use was authorized.
-
-Validation: active and archived question validation, version-history tests, Ruff,
-strict MyPy across 54 source files, and all 156 tests passed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -229,6 +229,8 @@ strict MyPy across 54 source files, and all 156 tests passed.
 - Revised search strategy `0.2.4`, its queue, and prior-inventory reconciliation are
   complete. Founder screening, full-text appraisal, and the citation-chain stopping
   rule remain incomplete.
+- The 13-record priority batch cannot be stored as founder decisions until Dalron
+  J. Robertson explicitly confirms or changes the advisory recommendations.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
