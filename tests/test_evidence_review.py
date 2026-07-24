@@ -69,7 +69,8 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert priority.question_version == "0.3.0"
     assert len(priority.candidates) == 13
     assert priority.maximum_final_evidence_count == 30
-    assert all(not item.founder_decision_recorded for item in priority.candidates)
+    assert all(item.founder_decision_recorded for item in priority.candidates)
+    assert all(item.review_state == "eligible" for item in priority.candidates)
     assert search.status == "locked"
     assert search.retrieval_authorized is True
     assert progress.review_status == "active"
@@ -84,7 +85,13 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
         progress.screening_queue_id
         == "af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3"
     )
-    assert progress.pending_candidate_count == 100
+    assert (
+        progress.screening_progress_id
+        == "b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f"
+    )
+    assert progress.eligible_evidence_count == 13
+    assert progress.access_restricted_count == 4
+    assert progress.pending_candidate_count == 87
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False
     assert progress.molecular_data_access_authorized is False
@@ -107,8 +114,8 @@ def test_founder_priority_packet_is_complete_and_nondecisional() -> None:
     assert "Version: `1.1.0`" in protocol
     assert "af08a334…8a2a3" in protocol
     assert "Each of the 100 records" in protocol
-    assert "Status: **Awaiting founder decisions**" in packet
-    assert "No immutable decisions have been recorded" in packet
+    assert "Status: **Founder confirmed; append-only batch recorded**" in packet
+    assert "records 13 inclusions and 87 pending records" in packet
     assert set(re.findall(r"^\| (\d{8}) \|", packet, flags=re.MULTILINE)) == {
         "19204204",
         "28062443",
@@ -150,7 +157,7 @@ def test_priority_set_cannot_make_autonomous_decisions() -> None:
 def test_final_candidate_state_requires_founder_decision() -> None:
     payload = load_priority_payload()
     candidates = payload["candidates"]  # type: ignore[assignment]
-    candidates[0]["review_state"] = "eligible"  # type: ignore[index]
+    candidates[0]["founder_decision_recorded"] = False  # type: ignore[index]
 
     with pytest.raises(ValidationError, match="founder decision"):
         PriorityEvidenceSet.model_validate(payload)
@@ -159,9 +166,9 @@ def test_final_candidate_state_requires_founder_decision() -> None:
 def test_reappraisal_candidate_requires_prior_artifact() -> None:
     payload = load_priority_payload()
     candidates = payload["candidates"]  # type: ignore[assignment]
-    candidate = next(  # type: ignore[call-overload]
-        item for item in candidates if item["review_state"] == "pending_reappraisal"
-    )
+    candidate = candidates[0]  # type: ignore[index]
+    candidate["review_state"] = "pending_reappraisal"
+    candidate["founder_decision_recorded"] = False
     candidate["prior_artifact"] = None
 
     with pytest.raises(ValidationError, match="requires the prior appraisal"):
@@ -200,6 +207,14 @@ def test_deduplication_requires_queue_and_reconciliation_receipts() -> None:
     payload["inventory_reconciliation_receipt_path"] = None
 
     with pytest.raises(ValidationError, match="queue and inventory-reconciliation"):
+        EvidenceReviewProgress.model_validate(payload)
+
+
+def test_partial_screening_progress_requires_id_and_receipt() -> None:
+    payload = load_progress_payload()
+    payload["screening_progress_receipt_path"] = None
+
+    with pytest.raises(ValidationError, match="both a progress ID and receipt path"):
         EvidenceReviewProgress.model_validate(payload)
 
 
@@ -272,4 +287,4 @@ def test_progress_payload_copy_is_independent() -> None:
     copied = deepcopy(payload)
     copied["pending_candidate_count"] = 0
 
-    assert payload["pending_candidate_count"] == 100
+    assert payload["pending_candidate_count"] == 87

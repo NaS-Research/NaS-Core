@@ -1,0 +1,17 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
+pmcid: PMC2667820
+title: Supervised risk predictor of breast cancer based on intrinsic subtypes.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2667820/fullTextXML
+observed_license: No full-text XML available from the approved Europe PMC endpoint
+license_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC2667820/fullTextXML
+outcome: restricted
+policy_reason: >-
+  The approved repository endpoint returned HTTP 404, so NaS cannot verify an
+  article-level reuse license or durably ingest the full text. Retain metadata and
+  abstract evidence while pursuing a lawful alternative.
+checked_at: 2026-07-24T12:41:01-05:00
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

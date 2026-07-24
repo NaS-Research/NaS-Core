@@ -27,10 +27,15 @@ The progress ledger cannot claim completion until founder screening, appraisal
 accounting, and two consecutive zero-yield backward-plus-forward citation passes
 all reconcile.
 
-Screening protocol `1.1.0` is locked to the replacement queue. The first advisory
-packet recommends advancing all 13 mandatory direct-priority records to full-text
-review. No append-only decision event will be stored until the founder explicitly
-confirms or changes those recommendations.
+Screening protocol `1.1.0` is locked to the replacement queue. The founder confirmed
+all 13 mandatory direct-priority records for full-text review. Verified progress
+`b0c31f7e…00945f` records 13 inclusions, 87 pending, zero exclusions, zero unclear,
+and zero AI decisions.
+
+The revised access ledger contains seven independently verified CC-BY full texts,
+four restricted or repository-unavailable records, and two records requiring a
+lawful alternative source. No restricted full text was stored. Full-text appraisal
+of the seven accessible records is next.
 
 Required artifacts:
 

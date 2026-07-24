@@ -8,7 +8,7 @@ Protocol: `REVISED_SCREENING_PROTOCOL.md` version `1.1.0`
 
 Queue: `af08a334…8a2a3`
 
-Status: **Awaiting founder decisions**
+Status: **Founder confirmed; append-only batch recorded**
 
 ## Advisory recommendation
 
@@ -42,7 +42,9 @@ Dalron J. Robertson must either:
 - identify any PMID that should be `exclude` and select one protocol reason; or
 - identify any PMID that should be `unclear`.
 
-No immutable decisions have been recorded from this packet.
+The founder confirmed the recommended batch on 2026-07-24. Verified progress
+`b0c31f7e…00945f` records 13 inclusions and 87 pending records with zero exclusions,
+zero unclear decisions, and zero AI decisions.
 
 ## Boundary
 

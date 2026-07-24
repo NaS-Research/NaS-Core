@@ -472,6 +472,17 @@ def load_full_text_duplicate_decision(path: Path) -> FullTextDuplicateDecision:
     )
 
 
+def write_full_text_inventory(path: Path, inventory: FullTextInventory) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        inventory.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
 def write_full_text_appraisal_progress(
     path: Path, progress: FullTextAppraisalProgress
 ) -> None:

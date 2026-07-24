@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: b2657bfc946ddd5664b19933f76de52ebda4ffd5b1c23dce0b3289417f3e3a92
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: 7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d
+pmcid: PMC9381586
+title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence for clinical
+  assessment of early-stage breast cancer.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9381586/fullTextXML
+retrieved_at: '2026-07-24T17:35:45.236177Z'
+code_revision: d6d8d63
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2022"
+manifest_object_key: full-text/NAS-BRCA-002/7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d/b2657bfc946ddd5664b19933f76de52ebda4ffd5b1c23dce0b3289417f3e3a92/manifest.json
+manifest_sha256: d8a49ee1734585c1e958a6dcdb7f4866776dafa3cd8c32d5f71e9dec8c320f17
+full_text_object_key: full-text/NAS-BRCA-002/7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d/b2657bfc946ddd5664b19933f76de52ebda4ffd5b1c23dce0b3289417f3e3a92/article.xml
+full_text_sha256: 06494384535ca60452e494b5ffc24f9b2e8cf9002d840731f80ec1c0cc1b68cc
+full_text_size_bytes: 183269
+verified_at: '2026-07-24T17:35:45.244719Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

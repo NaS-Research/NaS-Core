@@ -14,11 +14,13 @@ screening_queue_receipt_path: literature/screening_queue_receipt_v0.3.1.yaml
 inventory_reconciliation_id: 075aa08301a96fd9ea9f672e9c1f72a0956a8e7730d70f317ba686eafb397891
 inventory_reconciliation_receipt_path: literature/inventory_reconciliation_v0.3.1.yaml
 deduplication_complete: true
+screening_progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_progress_receipt_path: literature/revised-screening-progress/batch-0001.yaml
 primary_screening_complete: false
-eligible_evidence_count: 0
+eligible_evidence_count: 13
 completed_appraisal_count: 0
-access_restricted_count: 0
-pending_candidate_count: 100
+access_restricted_count: 4
+pending_candidate_count: 87
 citation_passes: []
 unresolved_claims:
   - >-

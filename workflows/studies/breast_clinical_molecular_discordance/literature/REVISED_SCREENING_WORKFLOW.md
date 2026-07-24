@@ -42,8 +42,17 @@ The title/abstract rules are locked in
 [`REVISED_SCREENING_PROTOCOL.md`](REVISED_SCREENING_PROTOCOL.md). The first
 advisory packet is
 [`FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md`](FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md).
-It recommends including all 13 direct-priority records for full-text review and
-awaits explicit founder confirmation before any append-only decision event is stored.
+It recommends including all 13 direct-priority records for full-text review. The
+founder confirmed the packet, and verified progress receipt
+[`revised-screening-progress/batch-0001.yaml`](revised-screening-progress/batch-0001.yaml)
+records the append-only decisions.
+
+The derived access inventory is
+[`revised-full-text/inventory/access_inventory.yaml`](revised-full-text/inventory/access_inventory.yaml).
+Seven papers have verified CC-BY full text, four are access-restricted or unavailable
+through the approved repository endpoint, and two require a lawful alternative
+source. [`revised_appraisal_progress.yaml`](revised_appraisal_progress.yaml) is the
+current appraisal ledger.
 
 ## Boundaries
 

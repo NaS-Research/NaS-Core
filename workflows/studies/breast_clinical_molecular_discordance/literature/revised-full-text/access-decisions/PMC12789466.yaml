@@ -1,0 +1,17 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
+pmcid: PMC12789466
+title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12789466/fullTextXML
+observed_license: CC-BY-NC-ND-4.0
+license_url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+outcome: restricted
+policy_reason: >-
+  The item-level license limits reuse to non-commercial purposes and prohibits
+  distribution of adapted material. NaS is a company, so current policy does not
+  authorize durable full-text ingestion or redistribution without permission.
+checked_at: 2026-07-24T12:41:01-05:00
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

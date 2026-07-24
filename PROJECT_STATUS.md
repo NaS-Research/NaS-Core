@@ -8,14 +8,14 @@ and what comes next?
 
 ## Current focus
 
-### Confirm the NAS-BRCA-002 founder priority screening packet
+### Appraise the accessible NAS-BRCA-002 priority evidence
 
-The question-`0.3.0` review is authorized and active. Screening protocol `1.1.0`
-is locked to the verified 100-record queue. The first advisory packet recommends
-advancing all 13 direct-priority records to full-text review and now awaits Dalron
-J. Robertson's explicit include, exclude, or unclear decisions. After recording
-that batch, confirm the five author-year-only links, screen the remaining candidates,
-and complete sequential backward-plus-forward citation passes.
+The question-`0.3.0` review is authorized and active. Founder batch
+`b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
+Seven have verified CC-BY full text, four are restricted or unavailable through
+the approved endpoint, and two require a lawful alternative source. Complete
+question-specific appraisal of the seven accessible papers, resolve access where
+possible, then screen the remaining 87 candidates.
 
 Definition of done:
 
@@ -60,8 +60,11 @@ Current gate state:
   inventory: 55 exact matches, 5 author-year-only candidates, and 40 new candidates.
   No previous screening decision was transferred.
 - Question-`0.3.0` title/abstract protocol `1.1.0` is locked. The founder priority
-  packet contains all 13 direct records, recommends `include` for each with high
-  confidence, and records no final decisions while founder confirmation is pending.
+  packet contains all 13 direct records. Verified founder progress records 13
+  inclusions, 87 pending, zero exclusions, zero unclear, and zero AI decisions.
+- The priority access inventory reconciles all 13 inclusions: 7 verified CC-BY full
+  texts, 4 restricted or repository-unavailable records, and 2 records without a
+  verified lawful full-text source. No restricted text was stored.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -93,43 +96,60 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain Dalron J. Robertson's explicit decision on the 13-record priority packet,
-   record the append-only batch, and independently verify the progress receipt.
-2. Founder-confirm or reject the five author-year-only inventory links, then screen
+1. Complete question-`0.3.0` full-text appraisal of the seven verified CC-BY
+   priority papers, beginning with measurement uncertainty, centering, and
+   single-sample classifier alternatives.
+2. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
+   method (PMID `28062443`) without paywall circumvention or unlicensed storage.
+3. Founder-confirm or reject the five author-year-only inventory links, then screen
    every remaining record in the 100-record revised queue.
-3. Execute sequential backward-plus-forward Europe PMC citation passes until two
+4. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-4. Resolve and approve the exact centroid and external-reference artifacts,
+5. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-5. Define an independently calibrated technical-error model and lock the margin
+6. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-7. Complete the founder scientific/product, molecular/pathology, and statistical
+8. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-10. Implement persisted evidence claims, citations, provenance, contradictory
+11. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-12. Expand the screening model gateway into general evidence reasoning with
+13. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-13. Build evaluation suites for retrieval, citation validity, numerical
+14. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-14. Generate an immutable research release containing the protocol, dataset
+15. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-15. Generate a reviewable white-paper draft whose substantive claims trace to
+16. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-16. Build the internal workbench for projects, protocols, datasets, runs,
+17. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-17. Complete repeated internal oncology pilots before selecting the first
+18. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Founder priority batch and lawful-access inventory completed
+
+Recorded and independently verified the first question-`0.3.0` append-only founder
+batch: 13 direct-priority inclusions, 87 pending records, zero exclusions, zero
+unclear, and zero AI decisions. Updated the typed priority set and evidence-review
+ledger without carrying forward question-`0.2.0` decisions.
+
+Built and persisted the 13-paper access inventory. Seven Europe PMC full texts
+passed exact article identity, approved CC-BY license, checksum, and size
+verification. Four records are restricted or unavailable through the approved
+endpoint, and two have no verified repository full text. Restricted material was
+not stored. The reconciled appraisal ledger reports 7 retrieved, 4 restricted,
+2 awaiting lawful access, and 0 question-specific appraisals complete.
 
 ### 2026-07-24 — Revised founder-screening packet prepared
 
@@ -195,26 +215,6 @@ decisions, and the phase cannot authorize novelty, molecular data, or outcomes.
 Validation: checked-in schema parity, CLI binding, false-saturation and founder-
 authority invariants, focused tests, Ruff, strict MyPy, and the full test suite.
 
-### 2026-07-23 — Single-sample reliability method contract implemented
-
-Implemented typed method specification `0.1.0` for NAS-BRCA-002 question `0.3.0`.
-It fixes the historical PAM50 50-gene panel and aliases, one-tumor input boundary,
-five-centroid Spearman score, runner-up and margin formulas, deterministic 50-run
-leave-one-gene-out panel, and the governed boundary for an independent technical-
-error sensitivity panel. The patient-level contract now preserves all quality
-failures, canonical and runner-up scores, margin, perturbation validity, label
-retention, reliability state, reason codes, provenance, and limitations.
-
-Only a `reliable` state may report a research subtype. Unstable, unclassifiable,
-and insufficient-data results must abstain. Exact centroids, external reference,
-platform transforms, technical-error calibration, numerical tolerances, and margin
-and retention thresholds remain explicit unresolved dependencies. The typed
-validator prohibits a draft from authorizing molecular execution and prohibits
-outcome- or validation-guided tuning.
-
-Validation: checked-in schema parity, CLI validation, focused contract and invariant
-tests, Ruff, strict MyPy, and the full test suite.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -229,8 +229,8 @@ tests, Ruff, strict MyPy, and the full test suite.
 - Revised search strategy `0.2.4`, its queue, and prior-inventory reconciliation are
   complete. Founder screening, full-text appraisal, and the citation-chain stopping
   rule remain incomplete.
-- The 13-record priority batch cannot be stored as founder decisions until Dalron
-  J. Robertson explicitly confirms or changes the advisory recommendations.
+- AIMS and the single-subject PAM50 uncertainty paper do not have a verified PMCID
+  in the locked snapshot. Lawful full-text access remains unresolved.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is

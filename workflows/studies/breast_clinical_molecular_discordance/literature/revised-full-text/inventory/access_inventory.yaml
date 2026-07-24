@@ -1,0 +1,170 @@
+schema_version: 1.0.0
+inventory_version: 1.0.0
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+provisional_inclusion_count: 13
+repository_candidate_count: 11
+access_check_required_count: 2
+records:
+- screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
+  record_key: pmid:19204204
+  title: Supervised risk predictor of breast cancer based on intrinsic subtypes.
+  publication_year: 2009
+  journal: 'Journal of clinical oncology : official journal of the American Society of Clinical Oncology'
+  pmid: '19204204'
+  pmcid: PMC2667820
+  doi: 10.1200/JCO.2008.18.1370
+  bibliographic_open_access_flag: false
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: bfd73615047f4e33896b3be73b4b28b6933f40fe4e40aa593c5fdf4247d92e0a
+  record_key: pmid:22196354
+  title: 'Characterization of uncertainty in the classification of multivariate assays: application to
+    PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
+  publication_year: 2011
+  journal: Journal of clinical bioinformatics
+  pmid: '22196354'
+  pmcid: PMC3275466
+  doi: 10.1186/2043-9113-1-37
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 678644a4c0bf2a9ee4697c71f84fa34d5d2b976697e1efd709ae452fc12102ba
+  record_key: pmid:25479802
+  title: Absolute assignment of breast cancer intrinsic molecular subtype.
+  publication_year: 2015
+  journal: Journal of the National Cancer Institute
+  pmid: '25479802'
+  doi: 10.1093/jnci/dju357
+  bibliographic_open_access_flag: false
+  access_status: access_check_required
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: d056d1f0a4bda238c21307b4498066d3a8fb5792892885664e2673d36c50b301
+  record_key: pmid:25788628
+  title: Test set bias affects reproducibility of gene signatures.
+  publication_year: 2015
+  journal: Bioinformatics (Oxford, England)
+  pmid: '25788628'
+  pmcid: PMC4495301
+  doi: 10.1093/bioinformatics/btv157
+  bibliographic_open_access_flag: false
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0
+  record_key: pmid:25849221
+  title: Molecular subtyping for clinically defined breast cancer subgroups.
+  publication_year: 2015
+  journal: 'Breast cancer research : BCR'
+  pmid: '25849221'
+  pmcid: PMC4365540
+  doi: 10.1186/s13058-015-0520-4
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 31f863db0452d24f3534598789d0bff73163009c4e71162cd3b55da28b5808cc
+  record_key: pmid:28062443
+  title: 'A novel non-parametric method for uncertainty evaluation of correlation-based molecular signatures:
+    its application on PAM50 algorithm.'
+  publication_year: 2017
+  journal: Bioinformatics (Oxford, England)
+  pmid: '28062443'
+  doi: 10.1093/bioinformatics/btw704
+  bibliographic_open_access_flag: false
+  access_status: access_check_required
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 6684c1bbe395bbe4001317d1be9a3ced57e69cc25c0fb9ba3c809a7e8e4d5f5b
+  record_key: pmid:32826944
+  title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
+  publication_year: 2020
+  journal: Scientific reports
+  pmid: '32826944'
+  pmcid: PMC7442834
+  doi: 10.1038/s41598-020-70832-2
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
+  record_key: pmid:33255759
+  title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier.
+  publication_year: 2020
+  journal: Cancers
+  pmid: '33255759'
+  pmcid: PMC7761033
+  doi: 10.3390/cancers12123506
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d
+  record_key: pmid:35974007
+  title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence for
+    clinical assessment of early-stage breast cancer.
+  publication_year: 2022
+  journal: NPJ breast cancer
+  pmid: '35974007'
+  pmcid: PMC9381586
+  doi: 10.1038/s41523-022-00465-3
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: b6523b6e596cc30c5aefa9dbf194f56e115dceb1356853536901308d4a67c4cb
+  record_key: pmid:37008073
+  title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
+  publication_year: 2023
+  journal: Cancer informatics
+  pmid: '37008073'
+  pmcid: PMC10052604
+  doi: 10.1177/11769351231159893
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd
+  record_key: pmid:37857634
+  title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
+  publication_year: 2023
+  journal: NPJ breast cancer
+  pmid: '37857634'
+  pmcid: PMC10587090
+  doi: 10.1038/s41523-023-00589-0
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341
+  record_key: pmid:41064593
+  title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping in breast
+    cancer research.'
+  publication_year: 2025
+  journal: NAR genomics and bioinformatics
+  pmid: '41064593'
+  pmcid: PMC12501779
+  doi: 10.1093/nargab/lqaf131
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
+  record_key: pmid:41390542
+  title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
+  publication_year: 2025
+  journal: Scientific reports
+  pmid: '41390542'
+  pmcid: PMC12789466
+  doi: 10.1038/s41598-025-30752-5
+  bibliographic_open_access_flag: true
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+full_texts_retrieved: 0
+appraisals_completed: 0
+scientific_conclusions_drawn: false

@@ -167,6 +167,8 @@ class EvidenceReviewProgress(EvidenceReviewModel):
     )
     inventory_reconciliation_receipt_path: str | None = None
     deduplication_complete: bool
+    screening_progress_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    screening_progress_receipt_path: str | None = None
     primary_screening_complete: bool
     eligible_evidence_count: int = Field(ge=0, le=30)
     completed_appraisal_count: int = Field(ge=0, le=30)
@@ -205,6 +207,12 @@ class EvidenceReviewProgress(EvidenceReviewModel):
         if self.deduplication_complete != reconciliation_bound:
             raise ValueError(
                 "deduplication state requires a queue and inventory-reconciliation receipt"
+            )
+        if (self.screening_progress_id is None) != (
+            self.screening_progress_receipt_path is None
+        ):
+            raise ValueError(
+                "screening progress requires both a progress ID and receipt path"
             )
         if self.novelty_claim_authorized and not self.stopping_rule_satisfied:
             raise ValueError("novelty cannot be authorized before the stopping rule is satisfied")

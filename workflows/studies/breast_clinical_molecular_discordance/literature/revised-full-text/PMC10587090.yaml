@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: 18b91d8f47e661a06c3564cb6af7bf07b1e898140bb83b8b8f31a463eeb3b86e
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: 176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd
+pmcid: PMC10587090
+title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10587090/fullTextXML
+retrieved_at: '2026-07-24T17:35:47.925300Z'
+code_revision: d6d8d63
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2023"
+manifest_object_key: full-text/NAS-BRCA-002/176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd/18b91d8f47e661a06c3564cb6af7bf07b1e898140bb83b8b8f31a463eeb3b86e/manifest.json
+manifest_sha256: 47d1b61d79c10e866137deea232236ff04fe253d94dd7244f68cb7ad46e2a045
+full_text_object_key: full-text/NAS-BRCA-002/176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd/18b91d8f47e661a06c3564cb6af7bf07b1e898140bb83b8b8f31a463eeb3b86e/article.xml
+full_text_sha256: 2ca3db6fae40accbc47d98f6b0ff4aedbdb976d8cdde7cda059d6abbf4520e2a
+full_text_size_bytes: 137087
+verified_at: '2026-07-24T17:35:47.932005Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

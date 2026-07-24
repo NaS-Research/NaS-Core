@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: 84b4dfe009b0a0a5efb97ebbbc9103d57f62dd30d6cfb1ca2ba13f7e2e439d02
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
+pmcid: PMC7761033
+title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7761033/fullTextXML
+retrieved_at: '2026-07-24T17:35:42.567054Z'
+code_revision: d6d8d63
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 2020 by the authors."
+manifest_object_key: full-text/NAS-BRCA-002/dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392/84b4dfe009b0a0a5efb97ebbbc9103d57f62dd30d6cfb1ca2ba13f7e2e439d02/manifest.json
+manifest_sha256: 804ea3e1d1b281aadcff56d596b94e646e74bb4b34c3cba976ddc364355b218f
+full_text_object_key: full-text/NAS-BRCA-002/dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392/84b4dfe009b0a0a5efb97ebbbc9103d57f62dd30d6cfb1ca2ba13f7e2e439d02/article.xml
+full_text_sha256: bab950f09f9e8b9844d24306353aa61759d6de8e7142e22ead20098d1f8be456
+full_text_size_bytes: 117271
+verified_at: '2026-07-24T17:35:42.575878Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

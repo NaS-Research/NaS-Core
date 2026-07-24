@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: 68f635469b659b051ea5887ed9100d2a897e22a17fe23036985478e1e0ce7ba5
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0
+pmcid: PMC4365540
+title: Molecular subtyping for clinically defined breast cancer subgroups.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4365540/fullTextXML
+retrieved_at: '2026-07-24T17:35:37.045562Z'
+code_revision: d6d8d63
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 Zhao et al.; licensee BioMed Central. 2015"
+manifest_object_key: full-text/NAS-BRCA-002/afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0/68f635469b659b051ea5887ed9100d2a897e22a17fe23036985478e1e0ce7ba5/manifest.json
+manifest_sha256: fad01564b5d7fc778590d15217032fd0bec29adbab85f50b526d6df0de04ecd5
+full_text_object_key: full-text/NAS-BRCA-002/afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0/68f635469b659b051ea5887ed9100d2a897e22a17fe23036985478e1e0ce7ba5/article.xml
+full_text_sha256: 6e75edfe0caf53efbb4282d626e10ee2781c6a6bf4e698dfac6ac2dfd11eef9d
+full_text_size_bytes: 78749
+verified_at: '2026-07-24T17:35:37.050492Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: af9d95d5b954b792d282c354c7d3d42ced375525fa2166d0edca69a1d7b1faf2
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: 045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341
+pmcid: PMC12501779
+title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping in breast cancer
+  research.'
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12501779/fullTextXML
+retrieved_at: '2026-07-24T17:35:50.638240Z'
+code_revision: d6d8d63
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2025. Published by Oxford University Press."
+manifest_object_key: full-text/NAS-BRCA-002/045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341/af9d95d5b954b792d282c354c7d3d42ced375525fa2166d0edca69a1d7b1faf2/manifest.json
+manifest_sha256: 5eb73c614115b1c1b323e7e06a7415ed5a39798d551609f35e65f989575d3d64
+full_text_object_key: full-text/NAS-BRCA-002/045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341/af9d95d5b954b792d282c354c7d3d42ced375525fa2166d0edca69a1d7b1faf2/article.xml
+full_text_sha256: c3231678890ecc0def1770c33863ecef7c4a4781a084b79a90ebe5660921a8ee
+full_text_size_bytes: 72560
+verified_at: '2026-07-24T17:35:50.643201Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

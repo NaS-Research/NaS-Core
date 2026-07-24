@@ -212,6 +212,31 @@
       "title": "Schema Version",
       "type": "string"
     },
+    "screening_progress_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Screening Progress Id"
+    },
+    "screening_progress_receipt_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Screening Progress Receipt Path"
+    },
     "screening_queue_id": {
       "anyOf": [
         {

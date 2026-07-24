@@ -17,6 +17,7 @@ from nas_core.domain.appraisal import (
     load_full_text_access_decision,
     load_full_text_appraisal,
     write_full_text_appraisal_progress,
+    write_full_text_inventory,
     write_full_text_retrieval_receipt,
 )
 from nas_core.domain.cohorts import (
@@ -400,6 +401,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     full_text_inventory.add_argument(
         "progress_receipt", type=Path, help="Latest verified founder progress receipt"
+    )
+    full_text_inventory.add_argument(
+        "--output-path",
+        type=Path,
+        help="New path for the typed access inventory YAML",
     )
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
@@ -958,6 +964,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             queue_receipt,
             progress_receipt,
         )
+        if args.output_path is not None:
+            write_full_text_inventory(args.output_path, inventory)
+            print(f"Wrote verified access inventory: {args.output_path}")
         print(json.dumps(inventory.model_dump(mode="json", exclude_none=True), indent=2))
         return 0
 
