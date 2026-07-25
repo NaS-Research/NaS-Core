@@ -18,14 +18,14 @@ screening_progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f
 screening_progress_receipt_path: literature/revised-screening-progress/batch-0001.yaml
 primary_screening_complete: false
 eligible_evidence_count: 13
-completed_appraisal_count: 2
+completed_appraisal_count: 3
 access_restricted_count: 4
 pending_candidate_count: 87
 citation_passes: []
 unresolved_claims:
   - >-
-    Whether a patient-independent PAM50 implementation with lawfully reusable fixed
-    centroids and reference values is sufficiently specified for unchanged execution.
+    Whether the published AWCA artifacts provide lawfully reusable, sufficiently frozen
+    centroids, reference values, and transformations for unchanged NaS execution.
   - >-
     Whether an existing single-subject uncertainty or Not Assigned method already
     resolves the proposed NaS margin, reliability, and abstention contribution.

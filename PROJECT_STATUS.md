@@ -12,9 +12,9 @@ and what comes next?
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-Seven have verified CC-BY full text; two question-specific appraisals are
+Seven have verified CC-BY full text; three question-specific appraisals are
 complete. Four are restricted or unavailable through the approved endpoint, and
-two require a lawful alternative source. Appraise the remaining five accessible
+two require a lawful alternative source. Appraise the remaining four accessible
 papers, resolve access where possible, then screen the remaining 87 candidates.
 
 Definition of done:
@@ -74,8 +74,14 @@ Current gate state:
   that cohort composition can radically change PAM50 calls, but its proposed fix
   uses the study cohort's clinical composition and explicitly cannot classify one
   patient independently. It supports—not resolves—the fixed-reference requirement.
-- Living manuscript `0.1.0-working` is initialized with traceable Phase 0 methods,
-  the two completed appraisals, an evidence-to-text ledger, explicit interpretation
+- The RNA-seq reference-sensitivity paper `PMC7442834` is `supporting`. Across
+  4,731 tumors, it demonstrates reference-subset sensitivity, materially improves
+  within-method stability with AWCA, and tests preprocessing-matched external
+  references and regularized classifiers. Published PAM50 calls remain a technical
+  target rather than biological truth, transport is normalization-specific, and
+  clinical validity is unproven, so it is not anchor evidence.
+- Living manuscript `0.2.0-working` contains traceable Phase 0 methods,
+  the three completed appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
@@ -108,9 +114,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-`0.3.0` full-text appraisal of the five remaining verified
-   CC-BY priority papers, next addressing RNA-seq reference sensitivity and
-   single-sample alternatives.
+1. Complete question-`0.3.0` full-text appraisal of the four remaining verified
+   CC-BY priority papers, next addressing the improved absolute single-sample
+   classifier (`PMC7761033`).
 2. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
 3. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
@@ -150,6 +156,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — RNA-seq reference sensitivity appraised
+
+Completed the question-specific appraisal of verified CC-BY paper `PMC7442834`
+as `supporting` evidence. In 4,731 public RNA-seq tumors, the study directly
+demonstrates dependence of standard PAM50 calls on reference construction,
+reports substantially higher pairwise stability from AWCA centering, and tests
+precomputed RSEM- and FPKM-matched references plus regularized multiclass
+logistic-regression classifiers on additional datasets.
+
+The study is not anchor evidence. Published PAM50 labels are a technical
+benchmark rather than a biological gold standard, possible TCGA/PanCancer
+sample overlap is unresolved, reference transport remains preprocessing-specific,
+and small exploratory prognostic comparisons do not establish clinical validity
+or utility. The living manuscript and evidence ledger now preserve both the
+positive implementation evidence and those limitations.
 
 ### 2026-07-24 — Governed living manuscript initialized
 
@@ -208,21 +230,6 @@ verification. Four records are restricted or unavailable through the approved
 endpoint, and two have no verified repository full text. Restricted material was
 not stored. The reconciled appraisal ledger reports 7 retrieved, 4 restricted,
 2 awaiting lawful access, and 0 question-specific appraisals complete.
-
-### 2026-07-24 — Revised founder-screening packet prepared
-
-Locked question-`0.3.0` screening protocol `1.1.0` to the verified 100-record queue
-before any title/abstract decision. The protocol replaces the superseded
-question-`0.2.0` screening boundary with explicit criteria for single-sample
-classifiers, patient-level uncertainty and abstention, technical error and
-repeatability, centering and test-set bias, external transport, and executable
-implementation artifacts.
-
-Reviewed the metadata and abstracts for all 13 mandatory priority records. Each
-directly satisfies at least one locked criterion, so the advisory packet recommends
-`include` for full-text review with high confidence. Inclusion is only a sensitive
-screening decision—not endorsement, quality appraisal, scientific synthesis, or
-clinical validation. No founder or AI decision event was stored.
 
 ## Current blockers
 

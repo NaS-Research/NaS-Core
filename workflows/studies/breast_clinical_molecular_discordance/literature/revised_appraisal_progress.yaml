@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
 progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
-generated_at: '2026-07-25T03:20:38.890571Z'
+generated_at: '2026-07-25T03:31:43.030738Z'
 provisional_inclusion_count: 13
 full_texts_retrieved: 7
-appraisals_completed: 2
+appraisals_completed: 3
 access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
-supporting_count: 0
+supporting_count: 1
 context_only_count: 2
 excluded_count: 0
 records:
@@ -50,9 +50,11 @@ records:
 - screening_id: 6684c1bbe395bbe4001317d1be9a3ced57e69cc25c0fb9ba3c809a7e8e4d5f5b
   title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
   pmcid: PMC7442834
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 423e3b117cb12be7e0e9b096bc75288e1d7ee8093dfc68c00bdd51e779ddb44d
   full_text_sha256: 186a84b2285043a611853488490a17a557716aa7ccc0324e8a6798115d136518
+  appraisal_version: 1.0.0
+  evidence_role: supporting
 - screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
   title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier.
   pmcid: PMC7761033

@@ -116,10 +116,15 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     assert progress.full_texts_retrieved == 7
     assert progress.access_restricted_count == 4
     assert sum(item.status == "awaiting_full_text" for item in progress.records) == 2
-    assert progress.appraisals_completed == 2
+    assert progress.appraisals_completed == 3
+    assert progress.supporting_count == 1
     assert progress.context_only_count == 2
     completed = [item for item in progress.records if item.status == "completed"]
-    assert {item.pmcid for item in completed} == {"PMC3275466", "PMC4365540"}
+    assert {item.pmcid for item in completed} == {
+        "PMC3275466",
+        "PMC4365540",
+        "PMC7442834",
+    }
 
     appraisals = [
         FullTextAppraisal.model_validate(yaml.safe_load(path.read_text()))
@@ -133,7 +138,11 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     } == {
         (item.screening_id, item.full_text_sha256) for item in completed
     }
-    assert all(
-        item.evidence_role == "context_only" and item.founder_authorized
-        for item in appraisals
-    )
+    assert all(item.founder_authorized for item in appraisals)
+    assert {
+        item.pmid: item.evidence_role for item in appraisals
+    } == {
+        "22196354": "context_only",
+        "25849221": "context_only",
+        "32826944": "supporting",
+    }

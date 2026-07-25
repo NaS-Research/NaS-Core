@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.1.0-working`
+Manuscript version: `0.2.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -28,9 +28,11 @@ Gene-expression intrinsic subtyping is widely used in breast cancer research, wi
 PAM50 assigning a tumor to the most correlated subtype centroid. Published methods
 show that an individual assignment may depend not only on the tumor’s expression
 profile but also on measurement error, preprocessing, and the composition of other
-samples used for gene centering. These dependencies complicate reproducible
-interpretation when a classifier is expected to operate on one patient independently.
-[PMID:22196354; PMID:25849221]
+samples used for gene centering. RNA-seq implementations have reproduced this
+reference sensitivity and shown that calls also depend on matching the reference to
+the expression summarization and normalization family. These dependencies complicate
+reproducible interpretation when a classifier is expected to operate on one patient
+independently. [PMID:22196354; PMID:25849221; PMID:32826944]
 
 Two distinct problems are relevant. First, laboratory measurement uncertainty can
 perturb gene-expression values and change a non-archetypal tumor’s assigned subtype.
@@ -39,8 +41,12 @@ distribution can produce materially different calls from those obtained in a
 representative training population. Existing solutions demonstrate the importance
 of both problems, but the reviewed implementations do not yet provide an independently
 calibrated, fixed, cross-platform reliability rule that can be executed for one
-patient without adapting to a test cohort. [Appraisals: PMC3275466-v1.0.0;
-PMC4365540-v1.0.0]
+patient without adapting to a test cohort. A published average-of-within-class-
+averages strategy does permit precomputed, single-sample RNA-seq centering, but the
+reference must remain matched to the preprocessing family and its validation target
+was primarily agreement with prior PAM50 calls rather than biological truth.
+[Appraisals: PMC3275466-v1.0.0; PMC4365540-v1.0.0;
+PMC7442834-v1.0.0]
 
 This study is therefore evaluating a narrower methodological question: whether a
 fully specified, patient-independent research implementation can report the leading
@@ -76,7 +82,7 @@ All 100 records had abstracts and were reset to pending under question `0.3.0`.
 The founder included all 13 direct-priority records for full-text review. Seven
 had verified CC-BY full text, four were restricted or unavailable through the
 approved repository endpoint, and two required a lawful alternative source.
-Restricted full text was not stored. At this manuscript version, 2 of the 13
+Restricted full text was not stored. At this manuscript version, 3 of the 13
 priority records have completed question-specific appraisal.
 [revised-screening-progress/batch-0001.yaml; revised_appraisal_progress.yaml]
 
@@ -136,6 +142,31 @@ it is unsuitable for a one-patient dataset. The evidence is `context_only`: it
 supports the need for a fixed patient-independent reference but cannot serve as one.
 [PMID:25849221; revised appraisal PMC4365540-v1.0.0]
 
+### RNA-seq reference construction and single-sample classification
+
+Cascianelli and colleagues evaluated standard PAM50 centering across 4,731 tumors from
+four public RNA-seq datasets. In TCGA-BRCA, ten randomly constructed references with
+a 60:40 ER-positive/ER-negative composition reproduced published calls at a mean
+85.52%, whereas reconstructing the reference from the same source sample set used
+by the prior analysis reached 99.27%. Their average-of-within-class-averages (AWCA)
+procedure reduced dependence on the initially selected reference subset: ten
+AWCA-based classifications agreed with one another at a mean 99.13%, and precomputed
+RSEM- and FPKM-matched references reproduced published calls above 96% in the
+corresponding external datasets. Cross-applying RSEM and FPKM references reduced
+concordance to 80–87%, demonstrating that a fixed reference is not automatically
+cross-preprocessing portable.
+
+Regularized multiclass logistic-regression models also achieved approximately
+87–92% external agreement with published calls, depending on the feature set and
+normalization family. These labels were themselves PAM50-derived and the authors
+explicitly described them as a benchmark rather than a gold standard. Potential
+TCGA/PanCancer sample overlap was not resolved, the model survey was exploratory,
+and prognostic comparisons involved very few discordant cases. The evidence is
+therefore `supporting`: it directly supports reference sensitivity and the
+feasibility of preprocessing-matched single-sample execution, but it does not
+establish biological correctness, clinical validity, or clinical utility.
+[PMID:32826944; revised appraisal PMC7442834-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -147,12 +178,15 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The first two appraisals suggest that the broad problem is established: PAM50 calls
-can be sensitive to technical error and cohort-dependent centering. The remaining
-research gap is narrower. A defensible NaS contribution would need to predefine
-every artifact and transformation, operate on one patient without consulting the
-test cohort, calibrate perturbations from independent technical evidence, and
-abstain when the resulting assignment is not analytically reliable.
+The first three appraisals suggest that the broad problem is established: PAM50
+calls can be sensitive to technical error, cohort-dependent centering, and
+preprocessing-specific RNA-seq references. They also show that fixed external
+references and supervised classifiers can support single-sample execution, which
+narrows the remaining research gap. A defensible NaS contribution would need to
+predefine every artifact and transformation, operate on one patient without
+consulting the test cohort, calibrate perturbations from independent technical
+evidence, distinguish analytical reliability from label agreement, and abstain
+when the resulting assignment is not analytically reliable.
 
 This interpretation may change after appraisal of absolute single-sample
 classifiers, RNA-seq implementations, uncertainty methods, and software packages.
@@ -163,7 +197,7 @@ It is not an authorized novelty conclusion.
 Status: `working`
 
 - The primary evidence review and citation chaining are incomplete.
-- Only 2 of 13 priority records have completed question-specific appraisal.
+- Only 3 of 13 priority records have completed question-specific appraisal.
 - Several priority full texts are restricted or lack a verified lawful source.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
 - No molecular or outcome data have been accessed for question `0.3.0`.
@@ -187,24 +221,29 @@ checks, and internal reviews are complete.
 2. Zhao X, et al. Molecular subtyping for clinically defined breast cancer
    subgroups. *Breast Cancer Res.* 2015;17:29.
    PMID:25849221. DOI:10.1186/s13058-015-0520-4.
+3. Cascianelli S, et al. Machine learning for RNA sequencing-based intrinsic
+   subtyping of breast cancer. *Sci Rep.* 2020;10:14071.
+   PMID:32826944. DOI:10.1038/s41598-020-70832-2.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–2 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml` | supported, evidence review incomplete |
+| Introduction ¶1–2 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml` | supported, evidence review incomplete |
 | Introduction ¶3 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions and access | founder progress receipt; `revised_appraisal_progress.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—centering | External evidence appraisal | `revised-appraisals/PMC4365540-v1.0.0.yaml` | context only |
+| Results—RNA-seq reference | External evidence appraisal | `revised-appraisals/PMC7442834-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | two completed appraisals | provisional |
+| Discussion ¶1–2 | Explicit interpretation | three completed appraisals | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.2.0-working | 2026-07-24 | Added the supporting RNA-seq reference-sensitivity appraisal and narrowed the fixed-reference contribution. |
 | 0.1.0-working | 2026-07-24 | Created governed manuscript; seeded Phase 0 methods and the first two question-specific appraisals. |

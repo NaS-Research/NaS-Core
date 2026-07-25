@@ -34,11 +34,13 @@ and zero AI decisions.
 
 The revised access ledger contains seven independently verified CC-BY full texts,
 four restricted or repository-unavailable records, and two records requiring a
-lawful alternative source. No restricted full text was stored. Question-specific
-appraisals of `PMC3275466` and `PMC4365540` are complete as `context_only`; five
-accessible records remain. The centering paper demonstrates severe cohort-composition
-dependence but explicitly requires a cohort and is unsuitable for one patient. It
-supports the need for a fixed external reference rather than supplying one.
+lawful alternative source. No restricted full text was stored. Three
+question-specific appraisals are complete: `PMC3275466` and `PMC4365540` are
+`context_only`, while `PMC7442834` is `supporting`; four accessible records remain.
+The RNA-seq study confirms strong reference-construction sensitivity and supports
+preprocessing-matched single-sample execution, but its PAM50-derived benchmark
+labels, unresolved cohort independence, and absence of clinical validation prevent
+an anchor role.
 
 Required artifacts:
 
