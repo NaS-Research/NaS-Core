@@ -8,13 +8,16 @@ and what comes next?
 
 ## Current focus
 
-### Screen the remaining NAS-BRCA-002 revised evidence queue
+### Founder-confirm the NAS-BRCA-002 remaining-queue screening packet
 
 The question-`0.3.0` review is authorized and active. All 13 direct-priority
 records now have a terminal access state: 12 completed appraisals and one
 identity-verified subscription restriction. The next evidence task is founder
 screening of the remaining 87 revised-queue records, followed by sequential
 backward and forward citation chaining to the locked two-zero-pass stopping rule.
+The advisory pass is complete: 17 inclusions and 70 exclusions are proposed, and
+all five author-year-only candidate links are recommended for rejection. These
+recommendations remain nonbinding until the founder confirms or edits the packet.
 
 Definition of done:
 
@@ -124,6 +127,11 @@ Current gate state:
 - Living manuscript `0.8.0-working` contains traceable Phase 0 methods,
   all 12 completed appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
+- The remaining-queue founder packet covers every one of the 87 pending records
+  exactly once. It proposes 17 inclusions and 70 exclusions, preserving the
+  30-record evidence cap when combined with the 13 priority records. Five
+  author-year-only reconciliation candidates are documented as false-positive
+  identity links. No recommendation has been submitted as a founder decision.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -155,8 +163,10 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Founder-confirm or reject the five author-year-only inventory links, then screen
-   every remaining record in the 100-record revised queue.
+1. Founder-confirm or edit
+   `literature/FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md`, including the five
+   rejected author-year links, 17 proposed inclusions, and 70 proposed exclusions;
+   then submit and verify the append-only decision batch.
 2. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
 3. Update the living manuscript and its evidence-to-text ledger after every material
@@ -192,6 +202,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Remaining 87 records screened for founder review
+
+Completed a protocol-grounded advisory title/abstract pass for every pending record
+in the revised 100-record queue. The founder packet proposes 17 inclusions and 70
+exclusions, covers record numbers 1 through 87 exactly once, and documents a
+primary exclusion reason for every exclusion. Combined with the 13 priority
+inclusions, the recommendation preserves the locked 30-study evidence cap.
+
+The packet also recommends rejecting all five author-year-only prior-inventory
+links because their PMIDs and titles differ and the match signal is only a common
+surname and year. The packet is deliberately nonbinding: no immutable founder
+decision event was written, and tests mechanically prevent incomplete record
+coverage from passing unnoticed.
 
 ### 2026-07-24 — Direct-priority evidence set terminally resolved
 
@@ -255,22 +279,6 @@ biological modules rather than model independently measured technical error, the
 refined method lacks independent replication, and no calibrated reliability
 probability or prespecified abstention threshold is validated.
 
-### 2026-07-24 — Single-sample subtype and recurrence-risk predictor appraised
-
-Completed the question-specific appraisal of verified CC-BY paper `PMC9381586`
-as `supporting` evidence. The SCAN-B study uses a fully non-overlapping
-2,412-patient population-based test set, long registry follow-up, adjusted survival
-models, two external Prosigna series, publicly accessible processed data, and an
-executable R package.
-
-This is the strongest reviewed validation so far, but it further narrows NaS
-novelty: single-sample RNA-seq subtype prediction, recurrence-risk stratification,
-and group-level prognostic validation already exist. The primary target reproduces
-a research nearest-centroid method, exact 20-bin risk agreement is only 17%,
-external clinical series are small, and projected chemotherapy changes are
-retrospective rather than prospective clinical-utility evidence. No patient-level
-uncertainty, perturbation repeatability, or abstention rule is validated.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -283,8 +291,9 @@ uncertainty, perturbation repeatability, or abstention rule is validated.
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
 - Revised search strategy `0.2.4`, its queue, and prior-inventory reconciliation are
-  complete. Founder screening, full-text appraisal, and the citation-chain stopping
-  rule remain incomplete.
+  complete. The remaining 87-record advisory screen awaits founder confirmation;
+  full-text appraisal of new inclusions and the citation-chain stopping rule remain
+  incomplete.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.
