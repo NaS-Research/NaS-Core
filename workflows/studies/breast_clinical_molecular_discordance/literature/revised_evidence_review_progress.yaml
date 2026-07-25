@@ -3,6 +3,7 @@ progress_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.3.0
+protocol_version: 0.2.4
 review_status: active
 search_strategy_version: 0.2.4
 priority_set_version: 1.0.0
@@ -21,6 +22,8 @@ eligible_evidence_count: 30
 completed_appraisal_count: 12
 access_restricted_count: 1
 pending_candidate_count: 0
+uncapped_saturation_inventory_active: false
+core_synthesis_maximum: 30
 citation_passes: []
 unresolved_claims:
   - >-

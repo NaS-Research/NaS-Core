@@ -153,6 +153,7 @@ class EvidenceReviewProgress(EvidenceReviewModel):
     study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
     question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
     question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    protocol_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     review_status: ReviewStatus
     search_strategy_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     priority_set_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
@@ -170,10 +171,16 @@ class EvidenceReviewProgress(EvidenceReviewModel):
     screening_progress_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     screening_progress_receipt_path: str | None = None
     primary_screening_complete: bool
-    eligible_evidence_count: int = Field(ge=0, le=30)
-    completed_appraisal_count: int = Field(ge=0, le=30)
-    access_restricted_count: int = Field(ge=0, le=30)
+    eligible_evidence_count: int = Field(ge=0)
+    completed_appraisal_count: int = Field(ge=0)
+    access_restricted_count: int = Field(ge=0)
     pending_candidate_count: int = Field(ge=0)
+    uncapped_saturation_inventory_active: bool
+    core_synthesis_maximum: int = Field(ge=1, le=30)
+    amendment_activation_id: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
+    amendment_activation_receipt_path: str | None = None
     citation_passes: list[CitationChainPass]
     unresolved_claims: list[str] = Field(min_length=1)
     stopping_rule_satisfied: bool
@@ -190,6 +197,16 @@ class EvidenceReviewProgress(EvidenceReviewModel):
             raise ValueError("citation-pass numbers must be unique")
         if self.completed_appraisal_count > self.eligible_evidence_count:
             raise ValueError("completed appraisals cannot exceed eligible evidence")
+        amendment_bound = (
+            self.amendment_activation_id is not None
+            and self.amendment_activation_receipt_path is not None
+        )
+        if self.uncapped_saturation_inventory_active != amendment_bound:
+            raise ValueError(
+                "uncapped saturation inventory requires an amendment activation receipt"
+            )
+        if self.uncapped_saturation_inventory_active and self.protocol_version != "0.2.5":
+            raise ValueError("active evidence-cap amendment requires protocol 0.2.5")
         if self.locked_search_executed != (
             self.search_execution_id is not None and self.search_receipt_path is not None
         ):

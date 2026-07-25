@@ -1,0 +1,17 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+prior_protocol_version: 0.2.4
+amendment_version: 0.2.5
+amendment_sha256: 4aeb5ef4057f44b4be02fdb02c1cbcdcece9487d8b7e5f47068cf8cc0165d507
+reconciliation_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+reconciliation_receipt_sha256: 6d7f34e3490b50307135d9b2343a8ce1e2505b35e31d970d84fa7857d964f61d
+approval_statement: I approve evidence-cap amendment 0.2.5 as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+approved_at: '2026-07-25T19:53:38Z'
+founder_authorized: true
+uncapped_saturation_inventory_authorized: true
+core_synthesis_maximum: 30
+molecular_data_access_authorized: false
+outcome_data_access_authorized: false
+scientific_conclusions_drawn: false

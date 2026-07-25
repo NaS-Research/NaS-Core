@@ -44,6 +44,7 @@ from nas_core.domain.citation_confirmation import (
     write_citation_decision_ledger_receipt,
 )
 from nas_core.domain.citation_reconciliation import (
+    load_citation_inclusion_reconciliation_receipt,
     write_citation_inclusion_reconciliation_receipt,
 )
 from nas_core.domain.cohorts import (
@@ -52,6 +53,10 @@ from nas_core.domain.cohorts import (
     write_cohort_schemas,
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
+from nas_core.domain.evidence_amendment import (
+    load_evidence_cap_amendment_approval,
+    write_evidence_cap_amendment_activation_receipt,
+)
 from nas_core.domain.evidence_review import (
     load_evidence_review_progress,
     load_priority_evidence_set,
@@ -96,6 +101,9 @@ from nas_core.retrieval.citation_reconciliation import (
     CitationInclusionReconciliationService,
 )
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
+from nas_core.retrieval.evidence_amendment import (
+    EvidenceCapAmendmentActivationService,
+)
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
 from nas_core.retrieval.licensed_pdf import LicensedPdfImportService
@@ -390,6 +398,20 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Persist the checksum-verified inclusion reconciliation",
+    )
+    activate_cap = evidence_review_commands.add_parser(
+        "activate-cap-amendment",
+        help="Activate a checksum-bound founder-approved evidence-cap amendment",
+    )
+    activate_cap.add_argument("approval", type=Path)
+    activate_cap.add_argument("amendment", type=Path)
+    activate_cap.add_argument("reconciliation_receipt", type=Path)
+    activate_cap.add_argument("--code-revision", required=True)
+    activate_cap.add_argument("--receipt-output", required=True, type=Path)
+    activate_cap.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the governed citation appraisal queue and activation receipt",
     )
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
@@ -1207,6 +1229,43 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{reconciliation.net_new_count} net new"
         )
         print(f"Wrote reconciliation receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "activate-cap-amendment"
+    ):
+        amendment_approval = load_evidence_cap_amendment_approval(args.approval)
+        inclusion_reconciliation = load_citation_inclusion_reconciliation_receipt(
+            args.reconciliation_receipt
+        )
+        if not args.execute:
+            print(
+                f"Evidence-cap amendment {amendment_approval.amendment_version} "
+                f"ready for activation by founder {amendment_approval.founder_name}"
+            )
+            print("Dry run only; no appraisal queue was stored.")
+            return 0
+        amendment_service = EvidenceCapAmendmentActivationService(
+            store=get_object_store()
+        )
+        activation = amendment_service.activate(
+            amendment_approval,
+            inclusion_reconciliation,
+            amendment_path=args.amendment,
+            reconciliation_receipt_path=args.reconciliation_receipt,
+            code_revision=args.code_revision,
+        )
+        write_evidence_cap_amendment_activation_receipt(
+            args.receipt_output, activation
+        )
+        print(
+            f"Activated evidence protocol {activation.active_protocol_version}: "
+            f"{activation.repository_candidate_count} repository candidates, "
+            f"{activation.access_check_required_count} access checks, "
+            f"{activation.prior_appraisal_reuse_count} prior appraisals"
+        )
+        print(f"Wrote amendment activation receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

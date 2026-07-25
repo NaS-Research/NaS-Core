@@ -106,10 +106,34 @@
   "additionalProperties": false,
   "properties": {
     "access_restricted_count": {
-      "maximum": 30,
       "minimum": 0,
       "title": "Access Restricted Count",
       "type": "integer"
+    },
+    "amendment_activation_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Amendment Activation Id"
+    },
+    "amendment_activation_receipt_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Amendment Activation Receipt Path"
     },
     "citation_passes": {
       "items": {
@@ -119,9 +143,14 @@
       "type": "array"
     },
     "completed_appraisal_count": {
-      "maximum": 30,
       "minimum": 0,
       "title": "Completed Appraisal Count",
+      "type": "integer"
+    },
+    "core_synthesis_maximum": {
+      "maximum": 30,
+      "minimum": 1,
+      "title": "Core Synthesis Maximum",
       "type": "integer"
     },
     "deduplication_complete": {
@@ -129,7 +158,6 @@
       "type": "boolean"
     },
     "eligible_evidence_count": {
-      "maximum": 30,
       "minimum": 0,
       "title": "Eligible Evidence Count",
       "type": "integer"
@@ -192,6 +220,11 @@
     "progress_version": {
       "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
       "title": "Progress Version",
+      "type": "string"
+    },
+    "protocol_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Protocol Version",
       "type": "string"
     },
     "question_id": {
@@ -301,6 +334,10 @@
       "title": "Study Id",
       "type": "string"
     },
+    "uncapped_saturation_inventory_active": {
+      "title": "Uncapped Saturation Inventory Active",
+      "type": "boolean"
+    },
     "unresolved_claims": {
       "items": {
         "type": "string"
@@ -315,6 +352,7 @@
     "study_id",
     "question_id",
     "question_version",
+    "protocol_version",
     "review_status",
     "search_strategy_version",
     "priority_set_version",
@@ -325,6 +363,8 @@
     "completed_appraisal_count",
     "access_restricted_count",
     "pending_candidate_count",
+    "uncapped_saturation_inventory_active",
+    "core_synthesis_maximum",
     "citation_passes",
     "unresolved_claims",
     "stopping_rule_satisfied",

@@ -116,3 +116,11 @@ def write_citation_inclusion_reconciliation_receipt(
     )
     with path.open("x", encoding="utf-8") as destination:
         destination.write(payload)
+
+
+def load_citation_inclusion_reconciliation_receipt(
+    path: Path,
+) -> CitationInclusionReconciliationReceipt:
+    return CitationInclusionReconciliationReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
