@@ -23,6 +23,7 @@ from nas_core.domain.appraisal import (
     write_full_text_inventory,
     write_full_text_retrieval_receipt,
 )
+from nas_core.domain.citation_access import write_repository_access_batch_receipt
 from nas_core.domain.citation_chain import (
     CitationSeed,
     load_citation_chain_receipt,
@@ -88,6 +89,7 @@ from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
+from nas_core.retrieval.citation_access import CitationRepositoryAccessService
 from nas_core.retrieval.citation_adjudication import (
     CitationUnclearAdjudicationService,
     load_citation_adjudication_policy,
@@ -639,6 +641,21 @@ def build_parser() -> argparse.ArgumentParser:
     )
     citation_access_inventory.add_argument("activation_receipt", type=Path)
     citation_access_inventory.add_argument("--output-path", required=True, type=Path)
+    citation_full_text_batch = literature_commands.add_parser(
+        "citation-full-text-batch",
+        help="Retrieve licensed repository candidates and account for every failure",
+    )
+    citation_full_text_batch.add_argument("inventory", type=Path)
+    citation_full_text_batch.add_argument("--code-revision", required=True)
+    citation_full_text_batch.add_argument("--receipt-dir", required=True, type=Path)
+    citation_full_text_batch.add_argument(
+        "--batch-receipt-output", required=True, type=Path
+    )
+    citation_full_text_batch.add_argument(
+        "--execute",
+        action="store_true",
+        help="Contact Europe PMC and store only identity-verified CC BY full texts",
+    )
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
         help="Retrieve and verify one explicitly licensed Europe PMC full text",
@@ -1663,6 +1680,42 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"candidates, {inventory.access_check_required_count} access checks"
         )
         print(f"Inventory path: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-full-text-batch"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        if not args.execute:
+            print(
+                f"Citation full-text batch ready: "
+                f"{inventory.repository_candidate_count} repository candidates, "
+                f"code {args.code_revision}"
+            )
+            print("Dry run only; Europe PMC was not contacted and nothing was stored.")
+            return 0
+        service = CitationRepositoryAccessService(
+            retrieval_service=FullTextRetrievalService(store=get_object_store())
+        )
+        batch, retrieval_receipts = service.assess(
+            inventory,
+            code_revision=args.code_revision,
+            receipt_directory=str(args.receipt_dir),
+        )
+        args.receipt_dir.mkdir(parents=True, exist_ok=True)
+        for receipt in retrieval_receipts:
+            write_full_text_retrieval_receipt(
+                args.receipt_dir / f"{receipt.pmcid}.yaml",
+                receipt,
+            )
+        write_repository_access_batch_receipt(args.batch_receipt_output, batch)
+        print(
+            f"Assessed {batch.repository_candidate_count} repository candidates: "
+            f"{batch.retrieved_count} licensed full texts retrieved, "
+            f"{batch.access_check_required_count} routed to access checks"
+        )
+        print(f"Wrote repository access batch: {args.batch_receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-fetch":
