@@ -18,9 +18,12 @@ identifiers and four required separate lawful-access checks. Reconciliation now
 records 19 durable CC BY retrievals, nine governed read-only reviews, 28 completed
 appraisals, zero records ready for appraisal, and two access restrictions. No
 restricted text was stored. All lawfully accessible records are appraised. The next
-task is founder-confirmed screening of citation pass 1. Both citation directions
-have been retrieved for all 30 seeds; the verified deduplication inventory retains
-every linked record and reduces the new screening workload without making decisions.
+task is the separately governed evidence-cap decision. Citation pass 1 now has a
+checksum-bound founder ledger containing 32 inclusions and 4,463 exclusions, with
+zero unclear and zero AI decisions. Exact-identifier reconciliation found no overlap
+with the active 30-record inventory, three previously appraised studies, and 29
+net-new records requiring lawful-access accounting and appraisal if amendment
+`0.2.5` is approved.
 
 Definition of done:
 
@@ -169,11 +172,15 @@ Current gate state:
   additional includes and 239 exclusions. Combined coverage is exactly 4,495
   unique records: 32 proposed includes, 4,463 proposed exclusions, and zero
   unclear. Both packet pairs remain advisory and record zero founder decisions.
-- The combined-confirmation engine is implemented and integration-tested against
-  the real packet pair. It rejects standing authorization, wrong statements,
-  changed bytes, stale hashes, incomplete second-stage coverage, duplicates, and
-  remaining unclear records. After exact confirmation it can freeze a 4,495-record
-  founder ledger with 32 includes, 4,463 excludes, and zero AI decisions.
+- Exact founder confirmation froze decision ledger `1ca4b716…281caf` across all
+  4,495 citation candidates: 32 include, 4,463 exclude, zero unclear, and zero AI
+  decisions. Packet bytes, appendix bytes, coverage, authority, and the stored
+  2,391,610-byte ledger checksum all verified.
+- Inclusion reconciliation `0a6d4893…580b4` verified the founder ledger against
+  the active 30-record inventory and 36 unique prior appraisals. It found zero
+  active-inventory matches, three exact prior-appraisal matches (PMIDs 22752290,
+  27556419, and 16643655), and 29 net-new records. No founder decision changed and
+  no title-only or fuzzy identity match was used.
 - Draft protocol amendment `0.2.5` separates an uncapped saturation inventory from
   a quality-selected core synthesis set. It prevents the existing 30-study cap
   from becoming an arbitrary exclusion rule, but remains inactive pending separate
@@ -213,11 +220,11 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain the single combined founder confirmation for all 4,495 citation-pass
-   recommendations, then write and independently verify the append-only decision
-   ledger.
-2. Review and authorize, revise, hold, or reject evidence-cap amendment `0.2.5`.
-3. Add and appraise any newly eligible methodological or external-transport studies,
+1. Review and separately authorize, revise, hold, or reject evidence-cap amendment
+   `0.2.5`; citation-screening confirmation did not activate it.
+2. If approved, perform lawful-access accounting for the 29 net-new records and
+   reuse—but do not double-count—the three exact prior appraisals.
+3. Appraise every accessible newly eligible methodological or external-transport study,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
 4. Update the living manuscript and its evidence-to-text ledger after every material
@@ -253,6 +260,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation pass 1 founder ledger frozen and reconciled
+
+The founder supplied the exact statement bound to both packet and appendix checksum
+pairs. Immutable decision ledger `1ca4b716…281caf` records complete, unique coverage
+of 4,495 candidates: 32 inclusions, 4,463 exclusions, zero unclear records, and zero
+AI decisions. The external ledger checksum is `e9779f63…fefd`.
+
+A new typed reconciliation engine independently reloads and verifies that ledger,
+normalizes only PMID, PMCID, and DOI identifiers, and routes every inclusion without
+changing its decision. Production reconciliation `0a6d4893…580b4` found 29 net-new
+records, three exact prior-appraisal matches, and no match to the active 30-paper
+inventory. Versioned appraisal histories resolve deterministically to the latest
+locked appraisal. Evidence-cap amendment `0.2.5` remains a separate founder decision.
 
 ### 2026-07-25 — Citation confirmation and cap-amendment paths prepared
 

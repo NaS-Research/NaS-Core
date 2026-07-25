@@ -8,10 +8,11 @@ Status: **Draft only—cannot govern research until founder approval**
 
 Protocol `0.2.4` capped the final evidence set at 30 studies unless a versioned
 amendment demonstrated that the stopping rule could not otherwise be assessed.
-Citation pass 1 now has 32 proposed new inclusions after complete screening of
-4,495 candidates. If founder-confirmed, the cumulative provisionally eligible
-inventory would exceed the fixed cap before full-text eligibility and quality
-appraisal.
+Citation pass 1 now has 32 founder-confirmed inclusions after complete screening of
+4,495 candidates. Exact-identifier reconciliation found no match to the active
+30-record inventory, three matches to locked prior appraisals, and 29 net-new
+records. The cumulative provisionally eligible inventory therefore exceeds the
+fixed cap before full-text eligibility and quality appraisal.
 
 Excluding a directly eligible method merely because the current inventory already
 contains 30 studies would violate the locked eligibility criteria and could create

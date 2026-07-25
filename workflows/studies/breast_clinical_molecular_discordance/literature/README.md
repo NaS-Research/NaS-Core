@@ -71,13 +71,18 @@ prove exact, non-overlapping coverage of all 4,495 records: 32 proposed includes
 review artifact allows one exact founder confirmation while retaining both packet
 boundaries.
 
-The combined-confirmation service is ready but has not been executed. Its integration
-test uses the real packet files and verifies the prospective 4,495-record ledger,
-32 includes, 4,463 excludes, zero unclear, and zero AI decisions. It deliberately
-rejects standing project authorization in place of the exact checksum-bound founder
-statement. Draft evidence-cap amendment `0.2.5` is also prepared but inactive; it
-would separate the complete saturation inventory from a concise quality-selected
-core synthesis.
+The founder supplied the exact checksum-bound confirmation statement. Decision
+ledger `1ca4b716…281caf` now freezes all 4,495 records: 32 inclusions, 4,463
+exclusions, zero unclear, and zero AI decisions. The stored 2,391,610-byte ledger
+has SHA-256 `e9779f63…fefd`; confirmation changed no packet or appendix bytes.
+
+Exact-identifier reconciliation `0a6d4893…580b4` compared all 32 inclusions with
+the active 30-record inventory and 36 unique prior appraisals. No inclusion was
+already in the active inventory. Three have reusable locked appraisals (PMIDs
+22752290, 27556419, and 16643655), leaving 29 net-new records. Reconciliation
+used only PMID, PMCID, and normalized DOI equality; it made no founder decision
+and drew no scientific conclusion. Draft evidence-cap amendment `0.2.5` remains
+inactive pending a separate founder decision.
 
 Required artifacts:
 

@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.21.0-working`
+Manuscript version: `0.22.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -170,26 +170,32 @@ All 4,495 unscreened citation candidates then received transparent title-based
 review priority without an eligibility decision: 80 direct, 400 supporting, and
 4,015 context. A full batched Europe PMC enrichment matched every record and
 retrieved 4,402 abstracts; 93 records remain metadata-only and cannot be excluded
-solely for missing abstracts. Founder screening of this inventory is pending.
+solely for missing abstracts.
 [citation-chain/pass-0001-prioritization.yaml;
 citation-chain/pass-0001-full-enrichment.yaml]
 
 Conservative abstract-informed advisory rules then produced 15 include and 4,224
 exclude recommendations while holding 256 records for individual adjudication.
-These recommendations are frozen in a checksum-bound founder packet and complete
-row-level appendix. They remain advisory: no citation-pass founder decision has
-been recorded, and pass 1 is not complete.
+These recommendations were frozen in a checksum-bound founder packet and complete
+row-level appendix.
 [citation-chain/pass-0001-recommendations.yaml;
 citation-chain/pass-0001-founder-packet.yaml]
 
-Second-stage title-and-abstract adjudication of the 256 held records recommends 17
-additional includes and 239 exclusions. Combined packet coverage is 4,495 unique
-records exactly once: 32 proposed includes, 4,463 proposed exclusions, and zero
-unclear. These remain recommendations pending one checksum-bound founder
-confirmation; citation pass 1 is therefore still incomplete.
+Second-stage title-and-abstract adjudication of the 256 held records recommended 17
+additional includes and 239 exclusions. The founder then supplied the exact
+statement bound to both packet and appendix checksum pairs. Immutable decision
+ledger `1ca4b716…281caf` records all 4,495 unique records exactly once: 32
+inclusions, 4,463 exclusions, zero unclear, and zero AI decisions. Identifier-only
+reconciliation found no overlap with the active 30-study inventory, three exact
+matches to locked prior appraisals (PMIDs 22752290, 27556419, and 16643655), and
+29 net-new records. Citation-pass screening is complete; the pass is not yet
+appraisal-complete, and protocol amendment `0.2.5` remains separately pending.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
-FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md]
+FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
+FOUNDER_CITATION_PASS_0001_CONFIRMATION_v1.0.0.yaml;
+citation-chain/pass-0001-decision-ledger.yaml;
+citation-chain/pass-0001-inclusion-reconciliation.yaml]
 
 ### Quality appraisal
 
@@ -789,8 +795,10 @@ novelty conclusion.
 
 Status: `working`
 
-- Primary title-and-abstract screening and all 28 lawfully accessible appraisals
-  are complete; sequential citation chaining is incomplete.
+- Primary and citation-pass-1 title-and-abstract screening and all 28 currently
+  accessible appraisals are complete. Pass 1 has 29 net-new records awaiting
+  lawful-access accounting and appraisal behind a separate protocol-amendment gate;
+  sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -895,6 +903,7 @@ checks, and internal reviews are complete.
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
+| Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
