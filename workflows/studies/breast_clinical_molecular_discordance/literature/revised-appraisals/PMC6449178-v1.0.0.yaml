@@ -1,0 +1,124 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 3737756d7c6bb626ba29c86d7accaa2e53cdba801e3b28978dce84ddf6ad3907
+title: PAM50 Molecular Intrinsic Subtypes in the Nurses' Health Study Cohorts.
+pmid: '30591591'
+doi: 10.1158/1055-9965.EPI-18-0863
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6449178/
+full_text_sha256: d41f774b24402805a08024592b7b9f49bdc142e8724bfeafe1ba20174b76bdca
+access_basis: >-
+  Lawful ephemeral review of the complete NIH Public Access author manuscript;
+  no durable commercial corpus storage, article adaptation, or redistribution.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The analysis includes 954 women contributing 882 invasive tumors and 695
+      adjacent tissues from two large prospective cohorts. The assayed subset was
+      generally representative of cohort breast cancers, but archival block
+      availability selected cases and participants were predominantly White US
+      nurses, limiting population transport.
+    evidence_locations:
+      - Materials and Methods — Study population
+      - Results — cohort characteristics
+      - Discussion
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Archival FFPE material was profiled in two periods using pre-release HTA 3.0
+      and HTA 2.0 microarrays after RMA processing. Tumor and adjacent tissue were
+      analyzed separately, but gene-adjustment factors for adjacent samples were
+      estimated from tumors and no technical-repeat or cross-platform experiment
+      directly quantifies measurement error.
+    evidence_locations:
+      - Materials and Methods — Gene expression data
+      - Materials and Methods — Molecular subtyping by PAM50
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      Both modified-median gene centering and subgroup-specific gene centering use
+      the study collection rather than a frozen external patient-independent
+      reference. The two methods agreed for 86% of tumors (kappa 0.81), leaving
+      material method-dependent calls, including 44 Luminal B-to-A and 36 additional
+      Normal-like assignments under modified-median centering.
+    evidence_locations:
+      - Materials and Methods — Molecular subtyping by PAM50
+      - Results — Comparing the two pre-processing methods
+      - Figure 1
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      IHC surrogates are not intrinsic-subtype truth and agreed poorly with four-
+      class PAM50 calls (accuracy about 0.53–0.54; kappa 0.32). Ki-67 was missing
+      for 545 tumors and was replaced by histologic grade, which the authors
+      identify as a possible source of IHC misclassification.
+    evidence_locations:
+      - Materials and Methods — Molecular subtyping using IHC surrogates
+      - Results — Comparing PAM50 and IHC
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Concordance metrics, adjusted Cox models, prespecified five- and ten-year
+      horizons, and Schoenfeld-residual checks are strengths. Recurrences were
+      self-reported without record verification, multiple subtype, tissue, score,
+      horizon, and era comparisons lack a study-wide multiplicity plan, and
+      ROR-PT was prognostic only in crude analyses.
+    evidence_locations:
+      - Materials and Methods — Breast cancer recurrence
+      - Materials and Methods — Statistical methods
+      - Results — prognosis
+      - Discussion
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      The report is a large application in an epidemiologic cohort, not an
+      unchanged external validation of either centering algorithm. Both methods
+      adapt to this cohort; no patient-only execution, technical-repeat calibration,
+      independent minority-population validation, or prospective decision study is
+      shown.
+    evidence_locations:
+      - Results
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Cohort definitions, GEO accession GSE115577, preprocessing comparison,
+      covariates, event counts, software versions, and limitations are reported.
+      Complete frozen classifier coefficients, centering artifacts, code, seeds,
+      and an immutable executable environment are not supplied.
+    evidence_locations:
+      - Materials and Methods
+      - Supplementary methods
+      - Funding and disclosures
+evidence_role: context_only
+key_strengths:
+  - Evaluates two PAM50 centering strategies in 882 archival tumors.
+  - Reports method-dependent subtype shifts and continuous-score correlation.
+  - Includes 112 recurrence and 85 distant-recurrence events at ten years.
+  - Tests proportional-hazards assumptions and adjusts for major clinical factors.
+  - Publicly identifies the expression dataset.
+key_limitations:
+  - Both preprocessing methods depend on the study cohort.
+  - Four-class PAM50 and IHC agreement is poor, with no biological truth standard.
+  - Most participants are White US nurses and minority transport is untested.
+  - Recurrence is self-reported without medical-record confirmation.
+  - No technical-repeat, patient-independent, or prospective validation is provided.
+conflicts_and_funding: >-
+  Joel S. Parker disclosed consulting for NanoString; all other authors declared
+  no competing interests. The study reports NIH, Susan G. Komen, Klarman Family
+  Foundation, and related institutional support.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex lawfully reviewed the article ephemerally, extracted section-located
+  methodological evidence, and proposed domain judgments under the founder's
+  standing authorization. The founder remains accountable for the locked
+  eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T10:52:00-05:00
+scientific_conclusions_drawn: false

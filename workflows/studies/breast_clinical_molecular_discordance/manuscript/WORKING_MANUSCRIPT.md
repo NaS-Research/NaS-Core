@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.14.0-working`
+Manuscript version: `0.15.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -144,7 +144,7 @@ stored or appraised. Read-only receipts retain source identity, rights observati
 and ephemeral checksums rather than article content.
 [revised-screening-progress/batch-0002.yaml;
 FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md;
-revised_appraisal_progress_v0.3.7.yaml]
+revised_appraisal_progress_v0.3.8.yaml]
 
 Eleven of the 17 newly included records now have article identity and an approved
 CC BY license independently verified through official Europe PMC XML. Four more
@@ -152,7 +152,7 @@ were lawfully reviewed through governed ephemeral sessions because their rights 
 not authorize durable commercial corpus storage. The IOP article is abstract-only
 and subscription-restricted. The remaining IEEE article is confirmed open access
 under CC BY but awaits full-text retrieval after scheduled publisher maintenance.
-Nine of those 15 records have completed appraisal and six remain ready. No failed
+Twelve of those 15 records have completed appraisal and three remain ready. No failed
 or restricted retrieval stored article content.
 
 ### Quality appraisal
@@ -594,6 +594,57 @@ spatial profiling as necessary to resolve that construct. The prognostic
 association is hypothesis-generating and does not establish treatment utility.
 [PMID:37209182; revised appraisal PMC10241706-v1.0.0]
 
+### Population-cohort centering sensitivity
+
+The Nurses’ Health Study and NHSII evaluated modified-median and subgroup-specific
+gene centering in 882 archival tumors. Calls agreed in 86% of tumors (kappa 0.81),
+but modified-median centering changed 44 tumors from Luminal B to Luminal A and
+produced 36 additional Normal-like calls relative to subgroup-specific centering.
+Four-class agreement with IHC surrogates was poor (kappa 0.32), improving only
+after Luminal A and B were collapsed.
+
+This large epidemiologic application is `context_only` for the NaS method.
+Both centering strategies depend on the study cohort, the IHC comparator is not
+intrinsic-subtype truth, and Ki-67 was missing for 545 tumors and replaced by
+histologic grade. Recurrences were self-reported, ROR-PT was prognostic only in
+crude analyses, and population transport beyond predominantly White US nurses
+remains untested. [PMID:30591591; revised appraisal PMC6449178-v1.0.0]
+
+### NanoString normalization and low-margin discordance
+
+A four-dataset NanoString study compared an iterative RUVSeq workflow with
+nSolver, NanoStringDiff, and RCRnorm. In the 1,649-sample Carolina Breast Cancer
+Study, RUVSeq removed more study-phase structure while retaining ER-associated
+biology. PAM50 calls from RUVSeq and nSolver agreed in 91% of tumors
+(kappa 0.87; 95% CI 0.85–0.90). Approximately half of discordant calls had low
+algorithm confidence, and half had competing-centroid correlation differences
+below 0.1.
+
+This is `supporting` evidence that preprocessing error and classifier-margin
+uncertainty interact. It also supplies explicit below-limit-of-detection and
+housekeeping-gene QC, public code, and cross-dataset checks. The normalization
+workflow is intentionally retuned using each dataset’s technical and biological
+structure, so it cannot itself be the frozen patient-independent preprocessing
+contract. [PMID:32789507; revised appraisal PMC8138885-v1.0.0]
+
+### Fixed stable-reference single-sample scoring
+
+The stingscore method derives a stable-gene reference from TCGA carcinomas and
+CCLE carcinoma cell lines and computes rank-based signature scores for one sample
+without an accompanying cohort. Stable-gene behavior was evaluated across 14
+datasets with approximately 13,000 samples, and reduced-panel accuracy was tested
+for 3,009 signatures across 75,012 perturbation measurements. The implementation
+and fixed stable-gene list are available in Bioconductor.
+
+This is `supporting` prior art for true single-sample, fixed-reference scoring.
+It materially supports the feasibility of the NaS architecture while preventing
+single-sample rank scoring from being claimed as novel. Stability was poor in
+blood, most targeted-panel checks were down-sampled from transcriptomes, targeted
+and whole-transcriptome scores retained offsets, and a docetaxel example had only
+24 patients without an independent holdout. It does not calibrate PAM50 call
+reliability or abstention. [PMID:32997146; revised appraisal
+PMC7641762-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -605,7 +656,7 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 21 completed appraisals show that the broad problem is established: PAM50
+The 24 completed appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
@@ -624,7 +675,7 @@ from independent technical evidence, define a reliability estimand and threshold
 without outcome tuning, validate transport in an independent cohort, and abstain
 prospectively when the assignment is not analytically reliable.
 
-This interpretation may change after appraisal of the six remaining accessible
+This interpretation may change after appraisal of the three remaining accessible
 records, resolution of the open IEEE retrieval, and sequential citation chaining.
 AIMS and the IOP article remain identified but unappraised access-restricted
 sources. This is not an authorized novelty conclusion.
@@ -633,7 +684,7 @@ sources. This is not an authorized novelty conclusion.
 
 Status: `working`
 
-- Primary title-and-abstract screening is complete; six accessible appraisals, one
+- Primary title-and-abstract screening is complete; three accessible appraisals, one
   open IEEE retrieval, and citation chaining are incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -705,17 +756,26 @@ checks, and internal reviews are complete.
 15. Kannan N, et al. Quantification of subtype purity in Luminal A breast cancer
     predicts clinical characteristics and survival. *Breast Cancer Res Treat.*
     2023;200:239–253. PMID:37209182. DOI:10.1007/s10549-023-06961-9.
+16. Kensler KH, et al. PAM50 molecular intrinsic subtypes in the Nurses' Health
+    Study cohorts. *Cancer Epidemiol Biomarkers Prev.* 2019.
+    PMID:30591591. DOI:10.1158/1055-9965.EPI-18-0863.
+17. Bhattacharya A, et al. An approach for normalization and quality control for
+    NanoString RNA expression data. *Brief Bioinform.* 2021.
+    PMID:32789507. DOI:10.1093/bib/bbaa163.
+18. Foroutan M, et al. Stable gene expression for normalisation and single-sample
+    scoring. *Nucleic Acids Res.* 2020.
+    PMID:32997146. DOI:10.1093/nar/gkaa802.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–9 | External methodological evidence | 21 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
+| Introduction ¶1–9 | External methodological evidence | 24 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
-| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.7.yaml` | verified, incomplete |
+| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.8.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
 | Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |
@@ -737,14 +797,18 @@ checks, and internal reviews are complete.
 | Results—ambiguous/unclassifiable states | External evidence appraisal | `revised-appraisals/PMC3893734-v1.0.0.yaml` | context only |
 | Results—clinical-concordance optimization | External evidence appraisal | `revised-appraisals/PMC6538748-v1.0.0.yaml` | context only |
 | Results—whole-transcriptome purity | External evidence appraisal | `revised-appraisals/PMC10241706-v1.0.0.yaml` | context only |
+| Results—population-cohort centering | External evidence appraisal | `revised-appraisals/PMC6449178-v1.0.0.yaml` | context only |
+| Results—NanoString normalization | External evidence appraisal | `revised-appraisals/PMC8138885-v1.0.0.yaml` | supporting |
+| Results—stable-reference scoring | External evidence appraisal | `revised-appraisals/PMC7641762-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | 21 completed appraisals, two access-restricted records, and one pending open-access retrieval | provisional |
+| Discussion ¶1–2 | Explicit interpretation | 24 completed appraisals, two access-restricted records, and one pending open-access retrieval | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.15.0-working | 2026-07-25 | Added NHS cohort-centering, NanoString QC/normalization, and fixed stable-reference single-sample scoring appraisals; 24 of 30 records are now appraised. |
 | 0.14.0-working | 2026-07-25 | Added explicit ambiguous/unclassifiable PLS states, cohort-adaptive PCA-PAM50, and whole-transcriptome ssNMF subtype-purity appraisals; 21 of 30 records are now appraised. |
 | 0.13.0-working | 2026-07-25 | Added non-neoplastic contamination, Han Chinese preprocessing consistency, and clinical-grade Prosigna analytical-validation appraisals; 18 of 30 records are now appraised. |
 | 0.12.0-working | 2026-07-25 | Added OPTIMA commercial-assay discordance, PAM50 technical/spatial reproducibility, and cohort-adaptive Luminal A ambiguity appraisals; 15 of 30 records are now appraised. |

@@ -1,0 +1,123 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 1ce286a49630b0b8be69f3e46804f875196aa98dc4c185f22b3ab2df661729b4
+title: An approach for normalization and quality control for NanoString RNA expression data.
+pmid: '32789507'
+doi: 10.1093/bib/bbaa163
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8138885/
+full_text_sha256: 577cadc1125bdfe06e348a8cb68e9e19cafd2c81d4e6d473db11cedfb18b51e9
+access_basis: >-
+  Lawful ephemeral review of the complete article under the Oxford University
+  Press Standard Journals Publication Model; no durable commercial corpus storage,
+  article adaptation, or redistribution.
+study_design: methods_normalization
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Four real NanoString datasets span 1,649 archival breast tumors, two bladder
+      cohorts, 359 kidney tumors, and a 12-sample public dataset. This diversity
+      supports methodological comparison, but datasets were selected for known
+      technical structures and biological checks rather than through a prospective
+      validation protocol.
+    evidence_locations:
+      - Materials and methods — Data collection
+      - Materials and methods — cohort-specific data
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The study explicitly models FFPE age, study phase, site, limit-of-detection
+      behavior, housekeeping-gene quality, and assay QC flags across custom panels.
+      It does not include a universal reference measurement or systematic technical
+      replicates that establish which normalized value is closest to truth.
+    evidence_locations:
+      - Materials and methods — Technical QC flags
+      - Materials and methods — Below LOD QC
+      - Materials and methods — Housekeeping gene assessment
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      The iterative RUVSeq workflow, QC logic, and code are available, and PAM50
+      comparison reports 91% agreement with nSolver (kappa 0.87, 95% CI 0.85–0.90).
+      Housekeeping selection, unwanted-factor dimensions, sample exclusions, and
+      biological validation are deliberately re-evaluated per dataset, so this is
+      not a frozen patient-only preprocessing contract.
+    evidence_locations:
+      - Materials and methods — QC and normalization
+      - Results — Genomic analyses and expression profiles
+      - Availability
+  - domain: reference_comparator
+    judgment: not_applicable
+    rationale: >-
+      The primary aim compares residual technical structure and preservation of
+      expected biology across normalization methods rather than diagnostic accuracy.
+      PAM50 concordance is a downstream robustness check; neither set of calls is
+      presented as biological truth.
+    evidence_locations:
+      - Results — Evaluation of normalization methods
+      - Results — Genomic analyses and expression profiles
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The report compares four methods using principal components, silhouette
+      widths, differential expression, eQTL behavior, cross-platform correlations,
+      and PAM50 agreement with a confidence interval. Several validation criteria
+      are selected iteratively using known technical and biological variables, and
+      suspected spurious trans-eQTLs cannot be confirmed from the eQTL analysis alone.
+    evidence_locations:
+      - Materials and methods — Visualization and biological validation
+      - Results — Evaluation of normalization methods
+      - Results — Genomic analyses and expression profiles
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      RUVSeq removed technical structure more effectively in three of four datasets,
+      while PAM50 remained comparatively robust. Cross-cancer, multi-panel replication
+      is a strength, but the authors state that one normalization procedure is not
+      applicable to every dataset and must be retuned; prospective cross-laboratory
+      and patient-level decision validation are absent.
+    evidence_locations:
+      - Results
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      The pipeline, QC definitions, biological checks, public accession GSE130286,
+      sample accounting, package code, tutorials, and eQTL summaries are reported.
+      NanoNormIter and analysis repositories provide executable reuse, although a
+      single immutable environment snapshot is not bound to the paper.
+    evidence_locations:
+      - Materials and methods
+      - Availability
+      - Key Points
+evidence_role: supporting
+key_strengths:
+  - Evaluates normalization in four datasets with distinct tissues, panels, and technical structures.
+  - Defines explicit assay and below-limit-of-detection QC checks.
+  - Tests housekeeping genes against biological variables before using them as controls.
+  - Reports 91% PAM50 agreement and identifies low-margin calls among discordances.
+  - Supplies reusable R code, a package, tutorials, and public data resources.
+key_limitations:
+  - Iterative tuning uses each dataset's known technical and biological structure.
+  - No universal expression truth or systematic replicate benchmark is available.
+  - Sample exclusions differ across normalization procedures in the largest cohort.
+  - The paper supports preprocessing robustness, not calibrated subtype reliability.
+  - Patient-independent and prospective clinical transport are not evaluated.
+conflicts_and_funding: >-
+  No relevant competing-interest statement was identified in the article text.
+  Funding included Susan G. Komen, NIH/NCI, NIGMS, institutional cancer-center,
+  and intramural NCI support; the authors state that funders had no role in the
+  study or publication decision.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex lawfully reviewed the article ephemerally, extracted section-located
+  methodological evidence, and proposed domain judgments under the founder's
+  standing authorization. The founder remains accountable for the locked
+  eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T10:52:00-05:00
+scientific_conclusions_drawn: false

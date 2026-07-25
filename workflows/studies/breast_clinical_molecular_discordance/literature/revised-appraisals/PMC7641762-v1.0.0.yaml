@@ -1,0 +1,122 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 043a74126c981b2da720e14df3a4ca17954173dd049263ce9c0fecb9a8e0115c
+title: Stable gene expression for normalisation and single-sample scoring.
+pmid: '32997146'
+doi: 10.1093/nar/gkaa802
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7641762/fullTextXML
+full_text_sha256: 0bf9ac206f626822519c0cabda0fb8bb21d9805043386893a5eb0ea27498b0eb
+access_basis: >-
+  Identity-, checksum-, and CC-BY-4.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: methods_normalization
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Stable genes were derived from TCGA carcinomas and CCLE carcinoma cell lines,
+      then evaluated across 14 datasets comprising approximately 13,000 samples.
+      The breadth is substantial, but it intentionally favors solid-tumor contexts
+      and performs poorly in blood, limiting domain-general transport.
+    evidence_locations:
+      - Materials and Methods — Pre-processing datasets
+      - Results — Selecting stably expressed genes
+      - Discussion
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Evaluation spans RNA-seq pipelines, RT-qPCR, microarrays, normal tissues,
+      tumors, cell lines, and perturbation data. Most targeted-panel comparisons
+      are down-sampled from whole-transcriptome measurements; matched RNA-seq and
+      RT-qPCR validation uses only four SEQC reference mixtures rather than
+      independent clinical specimens.
+    evidence_locations:
+      - Materials and Methods — Pre-processing datasets
+      - Results — Computing gene expression signature scores
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      stingscore uses fixed stable-gene lists and within-sample ranks, requires no
+      accompanying patient cohort, and is implemented in versioned Bioconductor
+      functions. The method therefore establishes executable single-sample,
+      reduced-panel scoring prior art.
+    evidence_locations:
+      - Materials and Methods — Computing gene set scores using stable genes
+      - Results — Relative ranks of stable genes
+      - Data availability
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Whole-transcriptome singscore serves as the principal comparator for reduced-
+      panel stingscore, and expected mixture ordering provides a useful construct
+      check. Neither is a clinical truth standard; the 24-patient docetaxel example
+      is a small retrospective discrimination exercise, not a validated predictive
+      biomarker comparison.
+    evidence_locations:
+      - Results — Computing gene expression signature scores using a reduced number of measurements
+      - Figure 4
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Eight stability rankings, product-of-ranks aggregation, rank-consistency,
+      mean absolute error across 3,009 signatures and 75,012 measurements, and
+      cross-platform checks form a broad methods assessment. The docetaxel
+      signature is derived from MCF7 perturbations and tested in only 24 patients
+      with t tests and AUCs, without an independent holdout or multiplicity plan.
+    evidence_locations:
+      - Materials and Methods — Computing metrics of variability
+      - Materials and Methods — Deriving a docetaxel gene signature
+      - Results — Computing gene expression signature scores
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Stable-gene behavior is replicated across diverse independent datasets and
+      platforms, and the algorithm is patient-independent. Score offsets remain
+      between full-transcriptome and targeted implementations, stability is poor
+      in blood, and no unchanged PAM50-specific or prospective clinical validation
+      is performed.
+    evidence_locations:
+      - Results — Comparison against other lists of stable genes
+      - Results — Relative ranks of stable genes
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      Public accessions, preprocessing, metrics, package versions, supplementary
+      code, the complete stable-gene list, and R/Bioconductor implementation are
+      reported under CC BY. The study is unusually reproducible for a methods
+      paper, although not distributed as one immutable environment image.
+    evidence_locations:
+      - Materials and Methods
+      - Data availability
+      - Supplementary data
+evidence_role: supporting
+key_strengths:
+  - Implements fixed, patient-independent single-sample signature scoring.
+  - Reduces measurement requirements from whole transcriptomes to signature genes plus stable controls.
+  - Evaluates stability across approximately 13,000 samples and 14 datasets.
+  - Tests 3,009 signatures across 75,012 perturbation measurements.
+  - Provides a public Bioconductor implementation and stable-gene list.
+key_limitations:
+  - Stable genes were optimized for solid-tumor contexts and perform inconsistently in blood.
+  - Most targeted-panel validation is simulated by down-sampling transcriptome data.
+  - Targeted and whole-transcriptome scores retain variable offsets.
+  - The docetaxel clinical example contains only 24 patients and no independent holdout.
+  - The work does not calibrate PAM50 call reliability or abstention.
+conflicts_and_funding: >-
+  The authors declared no conflicts of interest. Support included Australian
+  NHMRC, Cancer Council Victoria, National Breast Cancer Foundation, Cure Brain
+  Cancer Foundation, fellowships, and government research infrastructure.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments under the founder's standing authorization. The founder remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T10:52:00-05:00
+scientific_conclusions_drawn: false
