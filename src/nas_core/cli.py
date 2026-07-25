@@ -41,6 +41,7 @@ from nas_core.domain.literature import (
     write_inventory_reconciliation_schema,
     write_literature_schemas,
     write_literature_search_receipt,
+    write_screening_decision_batch,
     write_screening_progress_receipt,
     write_screening_queue_receipt,
     write_screening_review_schemas,
@@ -50,6 +51,7 @@ from nas_core.domain.reliability import (
     load_reliability_specification,
     write_reliability_schema,
 )
+from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
@@ -65,6 +67,7 @@ from nas_core.retrieval.prioritization import DeterministicPrioritizationService
 from nas_core.retrieval.reconciliation import InventoryReconciliationService
 from nas_core.retrieval.review import ScreeningReviewService
 from nas_core.retrieval.screening import ScreeningQueueService
+from nas_core.retrieval.screening_confirmation import ScreeningConfirmationService
 from nas_core.storage.layout import DataLayout
 from nas_core.storage.object_store import get_object_store
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
@@ -339,6 +342,34 @@ def build_parser() -> argparse.ArgumentParser:
     )
     screening_record.add_argument(
         "--execute", action="store_true", help="Persist decision events and verify progress"
+    )
+    screening_confirm = literature_commands.add_parser(
+        "screening-confirm",
+        help="Build a founder decision batch from an exact checksum-bound review packet",
+    )
+    screening_confirm.add_argument(
+        "receipt", type=Path, help="Verified screening_queue_receipt.yaml"
+    )
+    screening_confirm.add_argument(
+        "progress_receipt", type=Path, help="Latest verified screening progress receipt"
+    )
+    screening_confirm.add_argument("packet", type=Path, help="Founder review packet Markdown")
+    screening_confirm.add_argument(
+        "confirmation", type=Path, help="Explicit founder confirmation YAML"
+    )
+    screening_confirm.add_argument("output_path", type=Path, help="New decision-batch YAML")
+    screening_confirm_preview = literature_commands.add_parser(
+        "screening-confirm-preview",
+        help="Verify a review packet against immutable pending records without authorizing it",
+    )
+    screening_confirm_preview.add_argument(
+        "receipt", type=Path, help="Verified screening_queue_receipt.yaml"
+    )
+    screening_confirm_preview.add_argument(
+        "progress_receipt", type=Path, help="Latest verified screening progress receipt"
+    )
+    screening_confirm_preview.add_argument(
+        "packet", type=Path, help="Founder review packet Markdown"
     )
     screening_review_schema = literature_commands.add_parser(
         "screening-review-schema", help="Write founder-review JSON Schemas"
@@ -866,6 +897,42 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{progress.summary.total_record_count} records decided"
         )
         print(f"Wrote verified aggregate receipt: {args.receipt_output}")
+        return 0
+
+    if args.command == "literature" and args.literature_command == "screening-confirm":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = load_screening_progress_receipt(args.progress_receipt)
+        confirmation = load_screening_confirmation(args.confirmation)
+        batch = ScreeningConfirmationService(
+            review_service=ScreeningReviewService(store=get_object_store())
+        ).build_decision_batch(
+            queue_receipt=queue_receipt,
+            progress_receipt=progress_receipt,
+            packet_path=args.packet,
+            confirmation=confirmation,
+        )
+        write_screening_decision_batch(args.output_path, batch)
+        print(
+            f"Built founder decision batch for {len(batch.decisions)} records from "
+            f"packet {confirmation.packet_sha256}"
+        )
+        print("No decisions were stored; use screening-record to validate and execute.")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "screening-confirm-preview"
+    ):
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = load_screening_progress_receipt(args.progress_receipt)
+        preview = ScreeningConfirmationService(
+            review_service=ScreeningReviewService(store=get_object_store())
+        ).preview_packet(
+            queue_receipt=queue_receipt,
+            progress_receipt=progress_receipt,
+            packet_path=args.packet,
+        )
+        print(json.dumps(preview.model_dump(mode="json"), indent=2))
         return 0
 
     if args.command == "literature" and args.literature_command == "screening-review-schema":

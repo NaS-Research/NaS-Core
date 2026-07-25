@@ -18,6 +18,9 @@ backward and forward citation chaining to the locked two-zero-pass stopping rule
 The advisory pass is complete: 17 inclusions and 70 exclusions are proposed, and
 all five author-year-only candidate links are recommended for rejection. These
 recommendations remain nonbinding until the founder confirms or edits the packet.
+Read-only preview `210a4d8e…4304aa` verifies complete coverage and exact identity
+against all 87 immutable pending records without creating a decision batch or
+claiming founder authorization.
 
 Definition of done:
 
@@ -132,6 +135,13 @@ Current gate state:
   30-record evidence cap when combined with the 13 priority records. Five
   author-year-only reconciliation candidates are documented as false-positive
   identity links. No recommendation has been submitted as a founder decision.
+- A checksum-bound confirmation workflow now converts only the exact reviewed
+  packet and exact current progress state into a typed decision batch. The command
+  rejects changed packet bytes, stale queue state, missing records, duplicate
+  ordinals, identifier drift, incomplete authority, and unresolved author-year
+  links. Its preview mode verified packet SHA-256
+  `210a4d8ef80fc90aeee194ad3d3c299c4e70570a9a0bb1804f2ac385224304aa`
+  while explicitly retaining `founder_authorized: false`.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -203,6 +213,19 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-24 — Checksum-bound founder confirmation implemented
+
+Implemented a fail-closed bridge from the advisory Markdown packet to the existing
+append-only founder decision ledger. A valid confirmation must bind the exact
+packet checksum, queue ID, current progress ID, founder identity, timestamp, exact
+confirmation statement, and rejection of all five author-year candidate links.
+Changed packet bytes or stale progress cannot produce a decision batch.
+
+A separate read-only preview validates packet coverage and record identities
+without claiming authorization. The real packet reconciles to all 87 immutable
+pending records, with 17 proposed inclusions and 70 proposed exclusions, under
+SHA-256 `210a4d8e…4304aa`. No decision was stored.
+
 ### 2026-07-24 — Remaining 87 records screened for founder review
 
 Completed a protocol-grounded advisory title/abstract pass for every pending record
@@ -263,21 +286,6 @@ NaS novelty claims. AUTO depends on cohort composition, its thresholds are devel
 substantially within SCAN-B, and entropy is not calibrated to patient-level error
 or abstention. Across the seven appraisals, five records are supporting, two are
 context-only, and none qualifies as anchor evidence.
-
-### 2026-07-24 — Population-scale PAM50 stability appraised
-
-Completed the question-specific appraisal of verified CC-BY paper `PMC10587090`
-as `supporting` evidence. In 6,233 SCAN-B tumors, the study directly analyzes the
-leading-versus-runner-up correlation delta, removes seven co-expression modules
-one at a time, identifies perturbation-stable tumors, and derives refined
-single-sample centroids from stable cases.
-
-This substantially overlaps the NaS proposal. Margin reporting, perturbation
-testing, and stable/prototypical labeling cannot be claimed as novel alone. The
-remaining distinction is narrow but testable: published perturbations remove
-biological modules rather than model independently measured technical error, the
-refined method lacks independent replication, and no calibrated reliability
-probability or prespecified abstention threshold is validated.
 
 ## Current blockers
 

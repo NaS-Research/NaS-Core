@@ -481,6 +481,10 @@ def load_screening_decision_batch(path: Path) -> ScreeningDecisionBatch:
     return ScreeningDecisionBatch.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
 
+def write_screening_decision_batch(path: Path, batch: ScreeningDecisionBatch) -> None:
+    _write_exclusive_yaml(path, batch)
+
+
 def write_screening_progress_receipt(path: Path, receipt: ScreeningProgressReceipt) -> None:
     _write_exclusive_yaml(path, receipt)
 

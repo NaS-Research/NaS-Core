@@ -47,6 +47,41 @@ founder confirmed the packet, and verified progress receipt
 [`revised-screening-progress/batch-0001.yaml`](revised-screening-progress/batch-0001.yaml)
 records the append-only decisions.
 
+The remaining 87 recommendations are in
+[`FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md`](FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md).
+They are advisory until the founder confirms the exact packet. After confirmation,
+record a temporary confirmation YAML outside Git whose `packet_sha256` is the
+SHA-256 of the reviewed Markdown and whose `confirmation_statement` is exactly
+`I confirm the screening packet as written.` The confirmation must also bind the
+queue ID, current progress ID, founder identity, confirmation time, and rejection
+of all five author-year candidate links.
+
+Generate the typed decision batch without storing decisions:
+
+```bash
+uv run nas-core literature screening-confirm \
+  workflows/studies/breast_clinical_molecular_discordance/literature/screening_queue_receipt_v0.3.1.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/literature/revised-screening-progress/batch-0001.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/literature/FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md \
+  /path/to/temporary/founder-confirmation.yaml \
+  /path/to/temporary/decision-batch.yaml
+```
+
+The command fails closed if the packet checksum, queue, progress state, record
+ordering, displayed identifiers, coverage, or founder authority differs. Use the
+existing `screening-record` dry run and execute steps only after this command
+succeeds.
+
+Before founder confirmation, validate packet coverage and immutable record
+identities without creating a decision batch:
+
+```bash
+uv run nas-core literature screening-confirm-preview \
+  workflows/studies/breast_clinical_molecular_discordance/literature/screening_queue_receipt_v0.3.1.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/literature/revised-screening-progress/batch-0001.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/literature/FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md
+```
+
 The derived access inventory is
 [`revised-full-text/inventory/access_inventory.yaml`](revised-full-text/inventory/access_inventory.yaml).
 Seven papers have verified CC-BY full text, four are access-restricted or unavailable
