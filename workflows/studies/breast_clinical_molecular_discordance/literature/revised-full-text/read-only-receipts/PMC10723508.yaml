@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: c6d3ac0e5eafcfc77e939a0210eb9c83def45110f69ae59bec5bf88b03f9e7b3
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 5d5446e955e8d287dcb192229ab19a244f70cd2397cdf95a90f4870fba4a5d11
+pmcid: PMC10723508
+pmid: '38105959'
+doi: 10.1101/2023.12.05.23299341
+title: Multiplexed RNA-FISH-guided Laser Capture Microdissection RNA Sequencing Improves Breast Cancer Molecular Subtyping, Prognostic Classification, and Predicts Response to Antibody Drug Conjugates.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10723508/
+access_mode: read_only_ephemeral
+access_basis: >-
+  The complete preprint was lawfully viewable through PubMed Central under
+  CC-BY-NC-ND-4.0. Because NaS is a commercial company and the license restricts
+  commercial and derivative reuse, NaS reviewed the article without retaining or
+  redistributing its text.
+observed_rights: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.
+rights_url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+content_sha256: 395e2f7f4d2ba56bd858c505f7fbfa7f80e1dd6daa84504fc4198e71a50e9e5e
+content_size_bytes: 114012
+accessed_at: 2026-07-25T13:33:15.635Z
+verified_at: 2026-07-25T13:33:15.635Z
+code_revision: 86f45400f630e00688ce68409940c79bb46ed098
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

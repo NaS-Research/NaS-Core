@@ -1,0 +1,19 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 0bd9b3df343485cbd77f626899d54f7d4a3822d8c204c8fde64babb188f46bc9
+pmcid: PMC5939629
+pmid: '27130929'
+doi: 10.1093/jnci/djw050
+title: 'Comparing Breast Cancer Multiparameter Tests in the OPTIMA Prelim Trial: No Test Is More Equal Than the Others.'
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5939629/
+observed_license: Oxford University Press; all rights reserved
+license_url: https://pmc.ncbi.nlm.nih.gov/about/copyright/
+outcome: restricted
+policy_reason: >-
+  The complete article is lawfully viewable, but no license authorizes durable
+  commercial corpus storage or redistribution. Review is therefore limited to a
+  governed ephemeral session.
+checked_at: 2026-07-25T13:27:49.827Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

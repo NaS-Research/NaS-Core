@@ -1,0 +1,18 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 3737756d7c6bb626ba29c86d7accaa2e53cdba801e3b28978dce84ddf6ad3907
+pmcid: PMC6449178
+pmid: '30591591'
+doi: 10.1158/1055-9965.EPI-18-0863
+title: PAM50 Molecular Intrinsic Subtypes in the Nurses' Health Study Cohorts.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6449178/
+observed_license: NIH Public Access author manuscript; no open reuse license displayed
+license_url: https://pmc.ncbi.nlm.nih.gov/about/copyright/
+outcome: restricted
+policy_reason: >-
+  Public read access does not itself authorize durable commercial corpus storage
+  or redistribution. Review is therefore limited to a governed ephemeral session.
+checked_at: 2026-07-25T13:28:46.440Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

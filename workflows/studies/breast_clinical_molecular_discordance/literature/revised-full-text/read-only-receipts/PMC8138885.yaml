@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 8b04f2397e07a5223c291bd89fa29a8dd1a2af13e50d5ea2061f79309a05fe08
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 1ce286a49630b0b8be69f3e46804f875196aa98dc4c185f22b3ab2df661729b4
+pmcid: PMC8138885
+pmid: '32789507'
+doi: 10.1093/bib/bbaa163
+title: An approach for normalization and quality control for NanoString RNA expression data.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8138885/
+access_mode: read_only_ephemeral
+access_basis: >-
+  The complete article was lawfully viewable through PubMed Central. Oxford
+  University Press applies its Standard Journals Publication Model and reserves
+  reuse rights, so NaS reviewed the article without retaining or redistributing
+  its text.
+observed_rights: © The Author(s) 2020. Published by Oxford University Press. All rights reserved.
+rights_url: https://pmc.ncbi.nlm.nih.gov/about/copyright/
+content_sha256: 577cadc1125bdfe06e348a8cb68e9e19cafd2c81d4e6d473db11cedfb18b51e9
+content_size_bytes: 60444
+accessed_at: 2026-07-25T13:29:25.316Z
+verified_at: 2026-07-25T13:29:25.316Z
+code_revision: 86f45400f630e00688ce68409940c79bb46ed098
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

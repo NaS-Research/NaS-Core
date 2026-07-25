@@ -36,13 +36,13 @@ authorizes lawful full-text assessment; it is not a quality designation or
 scientific endorsement.
 
 The 30-record access inventory contains 26 repository candidates and four records
-requiring separate lawful-access checks. It preserves seven independently verified
-CC-BY full texts, five governed read-only reviews, and one subscription restriction
-from the priority phase. No restricted full text was stored. Twelve appraisals are
+requiring separate lawful-access checks. Reconciled progress now records 18
+independently verified CC-BY full texts, nine governed read-only reviews, two
+access restrictions, and one open-access IEEE paper pending retrieval after
+publisher maintenance. No restricted full text was stored. Twelve appraisals are
 complete: nine are `supporting`, three are `context_only`, and none is anchor
-evidence. Eight newly included records now have identity- and license-verified CC
-BY full text and are ready for appraisal; nine records still require access
-resolution. Sequential citation chaining follows full-text adjudication.
+evidence. Fifteen accessible records are ready for appraisal. Sequential citation
+chaining follows full-text adjudication.
 
 Required artifacts:
 

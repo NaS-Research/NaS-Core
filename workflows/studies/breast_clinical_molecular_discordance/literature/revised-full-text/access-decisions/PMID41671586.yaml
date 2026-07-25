@@ -1,0 +1,18 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: a0e913a2432f4c5569b673614d206e22002181c614063624e852c1a2d411d5c3
+pmid: '41671586'
+doi: 10.1088/1873-4030/ae449b
+title: Selective multimodal deep learning for reliable breast cancer subtype classification from histopathology and genomic data.
+source_url: https://iopscience.iop.org/article/10.1088/1873-4030/ae449b
+observed_license: Institute of Physics and Engineering in Medicine; all rights reserved
+license_url: https://iopscience.iop.org/article/10.1088/1873-4030/ae449b
+outcome: restricted
+policy_reason: >-
+  The publisher exposes the abstract but requires subscription or purchase for
+  the article and explicitly reserves text-and-data-mining and AI-training rights.
+  No paywall was bypassed and no full text was stored or appraised.
+checked_at: 2026-07-25T13:33:15.635Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

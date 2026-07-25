@@ -8,20 +8,19 @@ and what comes next?
 
 ## Current focus
 
-### Appraise eight new CC BY papers and resolve nine access failures
+### Complete 15 expanded-set appraisals and retrieve one open IEEE paper
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
 and zero AI decisions. All five fuzzy author-year identity links were rejected.
 The expanded access inventory is complete: 26 of the 30 inclusions have repository
-identifiers and four require separate lawful-access checks. The reconciled ledger
-preserves 12 completed appraisals and one subscription restriction while exposing
-exactly 17 new access tasks. The first official Europe PMC pass retrieved and
-verified eight new CC BY articles. Three records failed on bounded identity
-normalization, three returned no approved XML, and one lacked explicit license
-metadata; two non-PMC records require separate access checks. The next tasks are
-appraisal of the eight verified papers and documented resolution of the remaining
-nine records, followed by sequential citation chaining.
+identifiers and four required separate lawful-access checks. Reconciliation now
+records 18 durable CC BY retrievals, nine governed read-only reviews, 12 completed
+appraisals, 15 records ready for appraisal, two access restrictions, and one
+temporarily unresolved open-access IEEE retrieval. No restricted text was stored.
+The next tasks are question-specific appraisal of all 15 accessible records,
+retrieval of the IEEE CC BY paper after publisher maintenance, and sequential
+citation chaining.
 
 Definition of done:
 
@@ -144,14 +143,14 @@ Current gate state:
   `7b90c37a…63218c` and contains all 30 current inclusions: 26 repository
   candidates and four separate access checks. Prior verified receipts remain valid
   only for records that retain exact identity and inclusion in the current queue.
-- Reconciled appraisal progress now records 15 durable CC BY retrievals, five
-  governed read-only reviews, 12 completed appraisals, eight records ready for
-  appraisal, one subscription restriction, and nine unresolved access tasks.
-- Eight newly included repository records now have immutable, independently
-  verified CC BY receipts. The engine rejected seven other repository attempts
-  before storage. Official metadata showed three rejections were caused solely by
-  case differences in titles or DOI strings, so identity normalization now
-  case-folds only those two fields while preserving exact PMID and PMCID matching.
+- Reconciled appraisal progress `revised_appraisal_progress_v0.3.4.yaml` records
+  18 durable CC BY retrievals, nine governed read-only reviews, 12 completed
+  appraisals, 15 records ready for appraisal, two access restrictions, and one
+  open-access IEEE paper pending retrieval after publisher maintenance.
+- Eleven newly included repository records now have immutable, independently
+  verified CC BY receipts. Four more were lawfully reviewed without storage under
+  rights that do not authorize a NaS commercial corpus. One IOP article is
+  abstract-only and paywalled; no appraisal was inferred from its abstract.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -183,9 +182,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-specific appraisals of the eight newly retrieved CC BY papers.
-2. Retry the three official identity matches under the bounded normalization rule
-   and record lawful access decisions for every remaining unresolved inclusion.
+1. Complete question-specific appraisals of the 15 accessible expanded-set papers.
+2. Retrieve and verify the IEEE CC BY paper after scheduled publisher maintenance,
+   or record a temporary retrieval limitation without treating it as restricted.
 3. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
 4. Update the living manuscript and its evidence-to-text ledger after every material
@@ -221,6 +220,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Expanded full-text access resolved for 29 of 30 records
+
+Retried three case-only identity mismatches under the bounded normalization rule;
+all passed exact PMID and PMCID identity, approved CC BY licensing, immutable
+external storage, and independent checksum verification. Browser-based lawful
+access review resolved four additional PMC records through governed ephemeral
+receipts and recorded their noncommercial or reserved reuse terms without storing
+article content.
+
+The IOP article is abstract-only and paywalled, while the IEEE article is confirmed
+open access under CC BY but its PDF endpoint was unavailable during scheduled
+publisher maintenance. Reconciled progress now records 18 durable full texts, nine
+read-only reviews, 15 papers ready for appraisal, two access restrictions, one
+temporary open-access retrieval task, and no scientific conclusions.
 
 ### 2026-07-25 — Eight new CC BY full texts retrieved
 
@@ -277,20 +291,6 @@ without claiming authorization. The real packet reconciles to all 87 immutable
 pending records, with 17 proposed inclusions and 70 proposed exclusions, under
 SHA-256 `210a4d8e…4304aa`. No decision was stored.
 
-### 2026-07-24 — Remaining 87 records screened for founder review
-
-Completed a protocol-grounded advisory title/abstract pass for every pending record
-in the revised 100-record queue. The founder packet proposes 17 inclusions and 70
-exclusions, covers record numbers 1 through 87 exactly once, and documents a
-primary exclusion reason for every exclusion. Combined with the 13 priority
-inclusions, the recommendation preserves the locked 30-study evidence cap.
-
-The packet also recommends rejecting all five author-year-only prior-inventory
-links because their PMIDs and titles differ and the match signal is only a common
-surname and year. The packet is deliberately nonbinding: no immutable founder
-decision event was written, and tests mechanically prevent incomplete record
-coverage from passing unnoticed.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -303,8 +303,8 @@ coverage from passing unnoticed.
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
 - Revised search strategy `0.2.4`, its queue, prior-inventory reconciliation, and
-  founder screening are complete. Lawful-access assessment and appraisal of 17 new
-  inclusions and the citation-chain stopping rule remain incomplete.
+  founder screening are complete. Fifteen expanded-set appraisals, one temporary
+  IEEE retrieval task, and the citation-chain stopping rule remain incomplete.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.

@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: ee2bd741bbd507d6673bbcee2e697183516788c28f305ff0210198e8959fa398
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 1bdfeeb3dd98f2307de5885f6924f063de53909635b8c1ef5a93868a97072d49
+pmcid: PMC3445863
+title: Prediction consistency and clinical presentations of breast cancer molecular subtypes for Han Chinese
+  population.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3445863/fullTextXML
+retrieved_at: '2026-07-25T13:26:04.553141Z'
+code_revision: 86f45400f630e00688ce68409940c79bb46ed098
+license:
+  name: Creative Commons Attribution 2.0 Generic
+  spdx_identifier: CC-BY-2.0
+  url: https://creativecommons.org/licenses/by/2.0/
+  copyright_statement: "Copyright \xA92012 Huang et al; licensee BioMed Central Ltd."
+manifest_object_key: full-text/NAS-BRCA-002/1bdfeeb3dd98f2307de5885f6924f063de53909635b8c1ef5a93868a97072d49/ee2bd741bbd507d6673bbcee2e697183516788c28f305ff0210198e8959fa398/manifest.json
+manifest_sha256: 91ddb1e6213475fea5454d14cfc78df1cac7495243bc8ab7b94fb33f51f5902a
+full_text_object_key: full-text/NAS-BRCA-002/1bdfeeb3dd98f2307de5885f6924f063de53909635b8c1ef5a93868a97072d49/ee2bd741bbd507d6673bbcee2e697183516788c28f305ff0210198e8959fa398/article.xml
+full_text_sha256: 1719e78cad40bcbaed4c07a0356d9e5aa8b7f76922b4dbd74180636ca627b3bb
+full_text_size_bytes: 82789
+verified_at: '2026-07-25T13:26:04.558586Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

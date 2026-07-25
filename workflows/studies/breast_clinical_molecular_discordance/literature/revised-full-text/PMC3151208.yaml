@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: 29171606a68953378c969a908a6d0556245429017c0f6ce86cf7c3fe493da920
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 7fffe06a6fc330fe2419e914bf1900df91706c162578ae0269ee1b4a23214c2b
+pmcid: PMC3151208
+title: Systematic bias in genomic classification due to contaminating non-neoplastic tissue in breast
+  tumor samples.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3151208/fullTextXML
+retrieved_at: '2026-07-25T13:26:02.660413Z'
+code_revision: 86f45400f630e00688ce68409940c79bb46ed098
+license:
+  name: Creative Commons Attribution 2.0 Generic
+  spdx_identifier: CC-BY-2.0
+  url: https://creativecommons.org/licenses/by/2.0/
+  copyright_statement: "Copyright \xA92011 Elloumi et al; licensee BioMed Central Ltd."
+manifest_object_key: full-text/NAS-BRCA-002/7fffe06a6fc330fe2419e914bf1900df91706c162578ae0269ee1b4a23214c2b/29171606a68953378c969a908a6d0556245429017c0f6ce86cf7c3fe493da920/manifest.json
+manifest_sha256: 333bcc588c1016b9725767156b3dac52971c69a5672b5b7b3639b8f62020661f
+full_text_object_key: full-text/NAS-BRCA-002/7fffe06a6fc330fe2419e914bf1900df91706c162578ae0269ee1b4a23214c2b/29171606a68953378c969a908a6d0556245429017c0f6ce86cf7c3fe493da920/article.xml
+full_text_sha256: cc1ea270ce7b24d4ba44babd541abdb195ee93c922deba3ac1687b38350c6285
+full_text_size_bytes: 113674
+verified_at: '2026-07-25T13:26:02.667727Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false
