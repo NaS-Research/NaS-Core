@@ -8,17 +8,17 @@ and what comes next?
 
 ## Current focus
 
-### Complete 15 expanded-set appraisals and retrieve one open IEEE paper
+### Complete 12 remaining expanded-set appraisals and retrieve one open IEEE paper
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
 and zero AI decisions. All five fuzzy author-year identity links were rejected.
 The expanded access inventory is complete: 26 of the 30 inclusions have repository
 identifiers and four required separate lawful-access checks. Reconciliation now
-records 18 durable CC BY retrievals, nine governed read-only reviews, 12 completed
-appraisals, 15 records ready for appraisal, two access restrictions, and one
+records 18 durable CC BY retrievals, nine governed read-only reviews, 15 completed
+appraisals, 12 records ready for appraisal, two access restrictions, and one
 temporarily unresolved open-access IEEE retrieval. No restricted text was stored.
-The next tasks are question-specific appraisal of all 15 accessible records,
+The next tasks are question-specific appraisal of the 12 remaining accessible records,
 retrieval of the IEEE CC BY paper after publisher maintenance, and sequential
 citation chaining.
 
@@ -143,9 +143,9 @@ Current gate state:
   `7b90c37a…63218c` and contains all 30 current inclusions: 26 repository
   candidates and four separate access checks. Prior verified receipts remain valid
   only for records that retain exact identity and inclusion in the current queue.
-- Reconciled appraisal progress `revised_appraisal_progress_v0.3.4.yaml` records
-  18 durable CC BY retrievals, nine governed read-only reviews, 12 completed
-  appraisals, 15 records ready for appraisal, two access restrictions, and one
+- Reconciled appraisal progress `revised_appraisal_progress_v0.3.5.yaml` records
+  18 durable CC BY retrievals, nine governed read-only reviews, 15 completed
+  appraisals, 12 records ready for appraisal, two access restrictions, and one
   open-access IEEE paper pending retrieval after publisher maintenance.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
@@ -182,7 +182,7 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-specific appraisals of the 15 accessible expanded-set papers.
+1. Complete question-specific appraisals of the 12 remaining accessible papers.
 2. Retrieve and verify the IEEE CC BY paper after scheduled publisher maintenance,
    or record a temporary retrieval limitation without treating it as restricted.
 3. Execute sequential backward-plus-forward Europe PMC citation passes until two
@@ -220,6 +220,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — First expanded appraisal batch completed
+
+Completed founder-authorized, question-specific appraisals for the OPTIMA Prelim
+direct commercial-assay comparison, the PAM50 technical/spatial reproducibility
+study, and the METABRIC/TCGA Luminal A ambiguity study. OPTIMA and the replicate
+study are `supporting`; the outcome-tuned, cohort-adaptive ambiguity method is
+`context_only`.
+
+The evidence materially strengthens the measurement rationale: actual commercial
+assays disagreed on subtype for 40.7% of tumors; research PAM50 calls agreed in 90%
+of same-RNA technical replicates and 76% of deliberately heterogeneous spatial
+replicates. It does not supply the needed fixed, independently calibrated
+patient-level reliability or abstention rule.
 
 ### 2026-07-25 — Expanded full-text access resolved for 29 of 30 records
 
@@ -278,19 +292,6 @@ withholds scientific conclusions, novelty, molecular access, outcome access, and
 clinical use. The living manuscript and machine-readable evidence progress now
 reflect completed primary screening.
 
-### 2026-07-24 — Checksum-bound founder confirmation implemented
-
-Implemented a fail-closed bridge from the advisory Markdown packet to the existing
-append-only founder decision ledger. A valid confirmation must bind the exact
-packet checksum, queue ID, current progress ID, founder identity, timestamp, exact
-confirmation statement, and rejection of all five author-year candidate links.
-Changed packet bytes or stale progress cannot produce a decision batch.
-
-A separate read-only preview validates packet coverage and record identities
-without claiming authorization. The real packet reconciles to all 87 immutable
-pending records, with 17 proposed inclusions and 70 proposed exclusions, under
-SHA-256 `210a4d8e…4304aa`. No decision was stored.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -303,7 +304,7 @@ SHA-256 `210a4d8e…4304aa`. No decision was stored.
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
 - Revised search strategy `0.2.4`, its queue, prior-inventory reconciliation, and
-  founder screening are complete. Fifteen expanded-set appraisals, one temporary
+  founder screening are complete. Twelve expanded-set appraisals, one temporary
   IEEE retrieval task, and the citation-chain stopping rule remain incomplete.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the

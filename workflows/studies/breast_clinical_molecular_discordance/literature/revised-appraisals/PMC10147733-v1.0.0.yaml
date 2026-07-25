@@ -1,0 +1,124 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 4be62d6ac3907ce0d68fa3600137fc3e603ff3456526cf7267d95dc1e5d7aca0
+title: Reproducibility and intratumoral heterogeneity of the PAM50 breast cancer assay.
+pmid: '36892725'
+doi: 10.1007/s10549-023-06888-1
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10147733/fullTextXML
+full_text_sha256: 1b7f5c6db4ec9483de2f6e9261d74ac30d3dd56f4c4c49cd162f609ae9a92fbb
+access_basis: >-
+  Identity-, checksum-, and CC-BY-4.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: analytical_validation
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Technical replicates came from 144 FFPE tumors in the UNC Normal Breast
+      Study and Carolina Breast Cancer Study. The 40 spatial comparisons
+      deliberately oversampled histologically distinct regions, which is useful
+      as a challenge design but may overstate discordance in routine sampling.
+    evidence_locations:
+      - Methods — Study population
+      - Methods — Tumor samples
+      - Results
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Duplicate assays on the same RNA isolate cleanly estimate a technical
+      component, while pathologist-selected spatial cores estimate combined
+      sampling and biological heterogeneity. The research probes differ slightly
+      from the commercial assay and the study does not include cross-laboratory,
+      batch, operator, or independent re-extraction replication.
+    evidence_locations:
+      - Methods — Tumor samples
+      - Results
+      - Discussion — strengths and limitations
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      The analysis uses the same PAM50 genes and algorithm as Prosigna and reports
+      subtype, ROR-P group, confidence, and expression-space distances. Exact
+      centroids, normalization constants, software version, and executable code
+      are not pinned to the report, limiting independent reconstruction.
+    evidence_locations:
+      - Methods — Tumor samples
+      - Results
+      - Discussion
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Same-RNA technical replicates provide a valid repeatability comparator and
+      spatial pairs directly address sampling heterogeneity. Neither measurement
+      is a biological gold standard, so discordant pairs cannot identify which
+      subtype is correct or whether a changed category improves care.
+    evidence_locations:
+      - Methods
+      - Results
+      - Discussion — limitations
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The study reports paired categorical agreement and expression/ROR-P
+      distances and uses Wilcoxon tests for distance differences. It does not
+      report confidence intervals for agreement, kappa, a prespecified acceptable
+      reproducibility threshold, multiplicity control, or calibrated error
+      probabilities; the spatial sample is small.
+    evidence_locations:
+      - Methods — Statistical analysis
+      - Results
+      - Table 1
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Results are internally informative but are not validated in a held-out
+      laboratory or population. The study does not convert replicate discordance
+      into a transportable patient-level reliability score, unchanged threshold,
+      or abstention rule and does not test decision or outcome effects.
+    evidence_locations:
+      - Results
+      - Discussion — strengths and limitations
+      - Conclusion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Sampling, replicate counts, agreement results, distance summaries,
+      histopathology features, and limitations are clearly reported under CC BY.
+      Patient-level data and a fully pinned executable implementation are not
+      supplied with the article.
+    evidence_locations:
+      - Methods
+      - Tables 1–2
+      - Data availability
+evidence_role: supporting
+key_strengths:
+  - Separates same-RNA technical repeatability from spatial intratumoral variation.
+  - Includes 144 technical replicate pairs and a pathologist-directed spatial challenge set.
+  - Reports 90% technical and 76% spatial agreement for PAM50 subtype.
+  - Shows that roughly half of technical subtype discordance is Luminal A versus Luminal B.
+  - Compares continuous expression and ROR-P distances for concordant and discordant pairs.
+key_limitations:
+  - The spatial challenge contains only 40 tumors and deliberately samples heterogeneous regions.
+  - Agreement lacks confidence intervals and no acceptable reliability threshold was prespecified.
+  - The research assay is not an exact locked commercial Prosigna implementation.
+  - No independent laboratory, external cohort, outcome analysis, or clinical decision evaluation is included.
+  - The work does not provide a calibrated patient-level error probability or abstention rule.
+conflicts_and_funding: >-
+  UNC Chapel Hill disclosed licensed intellectual-property interests in
+  GeneCentric Diagnostics and BioClassifier, LLC, from which the university may
+  benefit; its conflict program reviewed the arrangement. Funding included UNC
+  Lineberger/University Cancer Research Fund, Susan G. Komen Foundation, and NIH/NCI
+  P01CA151135, P50-CA058223, and P30CA016086 support.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder's standing authorization covers this confirmed
+  screening set and he remains accountable for the locked eligibility and
+  evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T08:46:00-05:00
+scientific_conclusions_drawn: false

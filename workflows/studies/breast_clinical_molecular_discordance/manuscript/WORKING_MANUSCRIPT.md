@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.11.0-working`
+Manuscript version: `0.12.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -144,7 +144,7 @@ stored or appraised. Read-only receipts retain source identity, rights observati
 and ephemeral checksums rather than article content.
 [revised-screening-progress/batch-0002.yaml;
 FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md;
-revised_appraisal_progress_v0.3.4.yaml]
+revised_appraisal_progress_v0.3.5.yaml]
 
 Eleven of the 17 newly included records now have article identity and an approved
 CC BY license independently verified through official Europe PMC XML. Four more
@@ -152,8 +152,8 @@ were lawfully reviewed through governed ephemeral sessions because their rights 
 not authorize durable commercial corpus storage. The IOP article is abstract-only
 and subscription-restricted. The remaining IEEE article is confirmed open access
 under CC BY but awaits full-text retrieval after scheduled publisher maintenance.
-Together, 15 records are ready for appraisal. No failed or restricted retrieval
-stored article content.
+Three of those 15 records have completed appraisal and 12 remain ready. No failed
+or restricted retrieval stored article content.
 
 ### Quality appraisal
 
@@ -446,6 +446,53 @@ to an independently estimated technical-error model, prespecified reliability
 estimand, and unchanged external validation. [PMID:28062443; revised appraisal
 PMID28062443-v1.0.0]
 
+### Direct commercial-assay discordance
+
+OPTIMA Prelim applied actual commercial and laboratory assays to the same 302
+ER-positive/HER2-negative early breast cancers. Although each of three subtype
+tests assigned a similar population proportion to Luminal A, only 121 tumors
+(40.1%) received a unanimous Luminal A call and 123 (40.7%) had discordant subtype
+assignments. Across five risk tests, 183 tumors (60.6%) were placed in different
+risk categories. This eliminates in-silico reconstruction as a sufficient
+explanation for patient-level disagreement.
+
+The study has no outcome data and no independent reference that identifies which
+discordant assay is correct. Its result supports non-interchangeability and the
+need to disclose assay dependence; it cannot calibrate technical reliability or
+authorize a treatment decision. [PMID:27130929; revised appraisal
+PMC5939629-v1.0.0]
+
+### Technical repeatability and spatial heterogeneity
+
+A replicate study separated duplicate NanoString runs on the same RNA from
+pathologist-selected spatial sampling. PAM50 subtype agreed in 127 of 144
+same-RNA pairs (90%) and in 29 of 40 spatial pairs (76%); approximately half of
+the technical discordance was Luminal A versus Luminal B. ROR-P group agreement
+was 93% and 81%, respectively. Discordant spatial pairs had larger continuous
+distances, especially for ROR-P, but distributions overlapped.
+
+This is the most direct reviewed evidence so far that a reliability layer should
+distinguish assay repeatability from tumor sampling heterogeneity. The spatial
+set is small and intentionally enriched for histologic difference, agreement
+confidence intervals and acceptance thresholds were not prespecified, and no
+external laboratory or clinical decision validation was performed. [PMID:36892725;
+revised appraisal PMC10147733-v1.0.0]
+
+### Cohort-adaptive Luminal A ambiguity
+
+An analysis of 674 METABRIC and 509 TCGA Luminal A tumors quantified distance to
+assigned and competing subtype centroids. Luminal A/Luminal B overlap predominated,
+and the most admixed groups had worse clinicopathologic features and survival.
+The report also retained important null findings for mutation load and MATH score.
+
+The categorical threshold was selected using METABRIC survival and changed in
+TCGA; the continuous ratio still depends on cohort-derived centroids, covariance,
+and tertiles. METABRIC lacked three PAM50 genes and used random value replacement.
+The method is therefore `context_only`: it reinforces ambiguity as a biological
+and prognostic signal but cannot serve as a fixed patient-independent reliability
+algorithm or unchanged external validation. [PMID:30849944; revised appraisal
+PMC6408846-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -457,14 +504,15 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 12 completed priority appraisals show that the broad problem is established: PAM50
+The 15 completed appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
 single-sample execution, recurrence-risk stratification, group-level prognostic
 separation, runner-up margins, perturbation-stability labeling, multi-method
-comparison, discordance entropy, empirical permutation confidence, and explicit
-Ambiguous or Not Assigned states. A defensible NaS contribution cannot therefore
+comparison, discordance entropy, empirical permutation confidence, explicit
+Ambiguous or Not Assigned states, direct commercial-assay discordance, and
+technical-versus-spatial repeatability differences. A defensible NaS contribution cannot therefore
 be merely a classifier, risk predictor, margin, perturbation experiment,
 ensemble-disagreement score, uncertainty test, or abstention label. It would need
 to reproduce a fixed classifier unchanged, calibrate perturbations from independent
@@ -472,16 +520,17 @@ technical evidence, define a reliability estimand and thresholds without outcome
 tuning, validate transport in an independent cohort, and abstain prospectively when
 the assignment is not analytically reliable.
 
-This interpretation may change after appraisal of the 17 newly included records
-and sequential citation chaining. AIMS remains an identified but unappraised
-access-restricted prior-art source. This is not an authorized novelty conclusion.
+This interpretation may change after appraisal of the 12 remaining accessible
+records, resolution of the open IEEE retrieval, and sequential citation chaining.
+AIMS and the IOP article remain identified but unappraised access-restricted
+sources. This is not an authorized novelty conclusion.
 
 ## Limitations
 
 Status: `working`
 
-- Primary title-and-abstract screening is complete; full-text assessment of 17
-  newly included records and citation chaining are incomplete.
+- Primary title-and-abstract screening is complete; 12 accessible appraisals, one
+  open IEEE retrieval, and citation chaining are incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -551,7 +600,7 @@ checks, and internal reviews are complete.
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
-| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.4.yaml` | verified, incomplete |
+| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.5.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
 | Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |
@@ -564,6 +613,9 @@ checks, and internal reviews are complete.
 | Results—multi-method software | External evidence appraisal | `revised-appraisals/PMC12501779-v1.0.0.yaml` | supporting |
 | Results—PCA-PAM50 software | External evidence appraisal | `revised-appraisals/PMC12789466-v1.0.0.yaml` | context only |
 | Results—single-subject uncertainty | External evidence appraisal | `revised-appraisals/PMID28062443-v1.0.0.yaml` | supporting |
+| Results—commercial-assay discordance | External evidence appraisal | `revised-appraisals/PMC5939629-v1.0.0.yaml` | supporting |
+| Results—technical and spatial reproducibility | External evidence appraisal | `revised-appraisals/PMC10147733-v1.0.0.yaml` | supporting |
+| Results—Luminal A ambiguity | External evidence appraisal | `revised-appraisals/PMC6408846-v1.0.0.yaml` | context only |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
 | Discussion ¶1–2 | Explicit interpretation | 12 completed appraisals plus one access-restricted priority record | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
@@ -572,6 +624,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.12.0-working | 2026-07-25 | Added OPTIMA commercial-assay discordance, PAM50 technical/spatial reproducibility, and cohort-adaptive Luminal A ambiguity appraisals; 15 of 30 records are now appraised. |
 | 0.11.0-working | 2026-07-25 | Reconciled expanded lawful-access review: 27 full texts are verified, 15 expanded-set papers are ready for appraisal, two records are restricted, and one open IEEE retrieval remains. |
 | 0.8.0-working | 2026-07-24 | Added the PBCMC single-subject uncertainty appraisal, recorded AIMS as subscription-restricted, and narrowed the candidate contribution beyond uncertainty and abstention alone. |
 | 0.7.0-working | 2026-07-24 | Added four governed read-only appraisals: foundational PAM50, test-set bias, MPAM50, and PCAPAM50; priority appraisal is now 11 of 13. |

@@ -124,7 +124,7 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         yaml.safe_load(
             (
                 REVISED_FULL_TEXT_ROOT.parent
-                / "revised_appraisal_progress_v0.3.4.yaml"
+                / "revised_appraisal_progress_v0.3.5.yaml"
             ).read_text()
         )
     )
@@ -133,11 +133,11 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     assert progress.full_texts_retrieved == 18
     assert progress.read_only_full_texts_reviewed == 9
     assert progress.access_restricted_count == 2
-    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 15
+    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 12
     assert sum(item.status == "awaiting_full_text" for item in progress.records) == 1
-    assert progress.appraisals_completed == 12
-    assert progress.supporting_count == 9
-    assert progress.context_only_count == 3
+    assert progress.appraisals_completed == 15
+    assert progress.supporting_count == 11
+    assert progress.context_only_count == 4
     completed = [item for item in progress.records if item.status == "completed"]
     assert {item.pmcid for item in completed} == {
         "PMC3275466",
@@ -149,7 +149,10 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         "PMC12501779",
         "PMC2667820",
         "PMC4495301",
+        "PMC5939629",
+        "PMC6408846",
         "PMC10052604",
+        "PMC10147733",
         "PMC12789466",
         None,
     }
@@ -182,4 +185,7 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         "28062443": "supporting",
         "37008073": "supporting",
         "41390542": "context_only",
+        "27130929": "supporting",
+        "30849944": "context_only",
+        "36892725": "supporting",
     }

@@ -1,0 +1,121 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: b6b226287390277b87a5ddc6ea5d2668587a8272021bbb3375b9590062511660
+title: Quantification of intrinsic subtype ambiguity in Luminal A breast cancer and its relationship to clinical outcomes.
+pmid: '30849944'
+doi: 10.1186/s12885-019-5392-z
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6408846/fullTextXML
+full_text_sha256: 889e752286f338c4bb871d1f6a93a49388ac49bde0c025338523b8a7c679fac6
+access_basis: >-
+  Identity-, checksum-, and CC-BY-4.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: outcome_association
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Development used 674 PAM50 Luminal A tumors from historical METABRIC and
+      validation used 509 TCGA Luminal A tumors. These large public cohorts
+      support replication but reflect selected retrospective cases and older
+      treatment patterns, including incomplete endocrine and anti-HER2 therapy.
+    evidence_locations:
+      - Methods — Study populations and data sources
+      - Results
+      - Discussion — limitations
+  - domain: specimen_and_measurement
+    judgment: high
+    rationale: >-
+      METABRIC and TCGA used different expression platforms and preprocessing;
+      METABRIC lacked three PAM50 genes and replaced missing, zero, or negative
+      values with random uniform draws. Bulk profiles cannot distinguish true
+      spatial admixture from sampling, purity, or processing effects.
+    evidence_locations:
+      - Methods — Study populations and data sources
+      - Methods — Data representation
+      - Discussion — limitations
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      Subtype centroids and covariance matrices are estimated within each cohort.
+      The categorical MDC threshold was selected using survival in METABRIC and
+      re-estimated as a different percentile in TCGA; the authors state that it is
+      not a fixed validation algorithm. DRC uses cohort-specific distance tertiles
+      and therefore is not patient-independent.
+    evidence_locations:
+      - Methods — Subtype admixture metrics
+      - Methods — Distance ratio criteria
+      - Discussion
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      PAM50 calls, clinical surrogates, mutation features, PyClone, and outcomes
+      provide convergent context but none is a direct truth standard for subtype
+      admixture. The central premise that an ambiguous bulk profile represents
+      spatially coexisting subtypes remains explicitly unverified.
+    evidence_locations:
+      - Methods — Associations with clinical features, molecular characteristics and survival
+      - Results — Validation on TCGA cohort
+      - Discussion — future directions
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The analysis includes adjusted Cox models and external-cohort replication,
+      but outcome-guided threshold selection creates optimism, numerous clinical,
+      genomic, mutation, and survival comparisons lack a study-wide multiplicity
+      plan, proportional-hazards diagnostics are not reported, and treatment-era
+      confounding remains.
+    evidence_locations:
+      - Methods — Subtype admixture metrics
+      - Methods — Associations with clinical features, molecular characteristics and survival
+      - Tables 2–6
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Directionally similar clinical, molecular, clonality, and survival findings
+      in TCGA are a meaningful external check. The implementation changes with the
+      cohort, TCGA overall-survival precision is limited, and no unchanged
+      patient-level reliability or decision threshold is transported.
+    evidence_locations:
+      - Results — Validation on TCGA cohort
+      - Table 6
+      - Discussion — limitations
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Cohorts, formulas, thresholds, comparisons, public source data, and major
+      limitations are reported under CC BY. Random replacement of expression
+      values is not tied to a seed and no fully pinned executable environment or
+      immutable analysis release accompanies the report.
+    evidence_locations:
+      - Methods
+      - Availability of data and materials
+      - Additional files
+evidence_role: context_only
+key_strengths:
+  - Quantifies proximity to competing subtype centroids rather than retaining only the winning label.
+  - Uses large METABRIC development and TCGA validation cohorts.
+  - Finds Luminal A/Luminal B ambiguity to be the predominant overlap.
+  - Replicates associations with adverse features, clonality, and survival direction across cohorts.
+  - Retains null findings for mutation load and MATH score.
+key_limitations:
+  - MDC is explicitly outcome-tuned and not a fixed validation algorithm.
+  - DRC relies on cohort-derived centroids, covariance, and tertiles rather than one-patient execution.
+  - METABRIC lacked three PAM50 genes and used random replacement for problematic values.
+  - Bulk-expression ambiguity is assumed, not proven, to represent spatial subtype admixture.
+  - Historical treatment, multiple testing, and unreported proportional-hazards diagnostics limit causal interpretation.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Public METABRIC and TCGA resources
+  supplied the data; institutional and grant support is described in the article.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder's standing authorization covers this confirmed
+  screening set and he remains accountable for the locked eligibility and
+  evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T08:47:00-05:00
+scientific_conclusions_drawn: false

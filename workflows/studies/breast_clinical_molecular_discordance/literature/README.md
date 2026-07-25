@@ -39,10 +39,10 @@ The 30-record access inventory contains 26 repository candidates and four record
 requiring separate lawful-access checks. Reconciled progress now records 18
 independently verified CC-BY full texts, nine governed read-only reviews, two
 access restrictions, and one open-access IEEE paper pending retrieval after
-publisher maintenance. No restricted full text was stored. Twelve appraisals are
-complete: nine are `supporting`, three are `context_only`, and none is anchor
-evidence. Fifteen accessible records are ready for appraisal. Sequential citation
-chaining follows full-text adjudication.
+publisher maintenance. No restricted full text was stored. Fifteen appraisals are
+complete: 11 are `supporting`, four are `context_only`, and none is anchor
+evidence. Twelve accessible records remain ready for appraisal. Sequential
+citation chaining follows full-text adjudication.
 
 Required artifacts:
 

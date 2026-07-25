@@ -1,0 +1,127 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 0bd9b3df343485cbd77f626899d54f7d4a3822d8c204c8fde64babb188f46bc9
+title: 'Comparing Breast Cancer Multiparameter Tests in the OPTIMA Prelim Trial: No Test Is More Equal Than the Others.'
+pmid: '27130929'
+doi: 10.1093/jnci/djw050
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5939629/
+full_text_sha256: da2dfa44e02a6982877990ba4e4e06c91122201ab9e5630c645b11c6729cb560
+access_basis: >-
+  Lawful ephemeral review of the complete PubMed Central article under
+  publisher-reserved rights; no durable commercial corpus storage or article
+  redistribution.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The multicenter UK cohort included 302 evaluable women aged at least 40 years
+      with ER-positive, HER2-negative early breast cancer selected for nodal
+      involvement or large node-negative tumors. This clinically relevant but
+      deliberately higher-risk population does not represent all patients who
+      receive molecular testing.
+    evidence_locations:
+      - Methods — Recruitment and Patient Samples
+      - Results — Patients
+      - Table 1
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Actual commercial assays were run by the relevant laboratories on centrally
+      handled residual tumor material, avoiding in-silico reconstruction. Assays
+      used different technologies and preparations, and IHC4-AQUA used tissue
+      microarrays for convenience, so discordance combines biological target,
+      platform, specimen, and implementation differences.
+    evidence_locations:
+      - Methods — Recruitment and Patient Samples
+      - Supplementary Table 2
+      - Discussion
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Prosigna, Oncotype DX, MammaPrint/BluePrint, MammaTyper, IHC4, and
+      IHC4-AQUA were executed as diagnostic tests rather than reconstructed from
+      public expression data. Several algorithms are proprietary, their internal
+      transformations are not reproduced in the article, and the comparison uses
+      each test's own categories rather than one common fixed classifier.
+    evidence_locations:
+      - Methods — Recruitment and Patient Samples
+      - Supplementary Tables 1–2
+      - Discussion
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      The study compares tests with one another but has no independent biological
+      truth for subtype and no outcome data with which to identify a correct risk
+      category. Agreement therefore establishes non-interchangeability, not which
+      assay produced the clinically preferable result.
+    evidence_locations:
+      - Methods — Recruitment and Patient Samples
+      - Results
+      - Discussion — limitations
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The target sample size was justified for kappa precision, agreement was
+      reported with 95% confidence intervals, and logistic regression explored
+      predictors of discordance. Numerous pairwise and category comparisons were
+      made without a study-wide multiplicity strategy, stepwise regression was
+      used, and agreement-at-extremes analysis was explicitly post hoc.
+    evidence_locations:
+      - Methods — Statistical Analysis
+      - Results
+      - Supplementary Tables
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Direct same-cohort testing is a strong internal comparison, but there is no
+      external replication, prospective outcome comparison, repeat-measure
+      reliability calibration, or prespecified abstention rule. The selected UK
+      ER-positive/HER2-negative population limits transport to other disease
+      settings and subtypes.
+    evidence_locations:
+      - Methods — Recruitment and Patient Samples
+      - Discussion
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Eligibility, laboratory routing, test categories, software versions,
+      agreement methods, and aggregate results are reported. Proprietary assay
+      internals and patient-level results are not reproducible from the article,
+      and publisher rights do not authorize a durable NaS commercial corpus.
+    evidence_locations:
+      - Methods
+      - Supplementary Material
+      - Copyright and License information
+evidence_role: supporting
+key_strengths:
+  - Directly compares actual diagnostic assays rather than in-silico reconstructions.
+  - Applies all tests to the same clinically relevant early-breast-cancer cohort.
+  - Shows 40.7% subtype discordance and only 40.1% unanimous Luminal A assignment.
+  - Prespecifies a sample size for agreement precision and reports kappa confidence intervals.
+key_limitations:
+  - No patient outcome data were available for this comparison.
+  - No independent reference identifies the correct result when assays disagree.
+  - Discordance mixes platform, gene-panel, specimen, threshold, and biological differences.
+  - Proprietary assay implementations are not independently reproducible.
+  - No external validation, technical-error calibration, or abstention rule is evaluated.
+conflicts_and_funding: >-
+  The National Institute for Health Research Health Technology Assessment
+  programme funded the study. Agendia, NanoString, Stratifyer/BioNTech
+  Diagnostics, and Genoptix supplied reagents or test results without charge.
+  Those contributions are material to interpretation even though the publication
+  describes the research as independently commissioned.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder's standing authorization covers this confirmed
+  screening set and he remains accountable for the locked eligibility and
+  evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T08:45:00-05:00
+scientific_conclusions_drawn: false
