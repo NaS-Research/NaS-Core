@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.17.0-working`
+Manuscript version: `0.18.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -154,6 +154,17 @@ and subscription-restricted. The IEEE author manuscript was retrieved from the
 publisher, verified as CC BY 4.0, and stored immutably through the governed
 publisher-PDF import path. All 16 lawfully accessible expanded-set records have
 completed appraisal. No failed or restricted retrieval stored article content.
+
+The first citation-chain pass queried backward references and forward citations
+for all 30 eligible seeds through the official Europe PMC endpoints. It retrieved
+981 backward and 4,639 forward links, deduplicated to 4,628 non-seed source
+records. Reconciliation against the completed direct-search inventory and within
+the citation set classified 42 records as already screened and 91 as exact
+normalized-title duplicates, leaving 4,495 records for advisory triage and founder
+screening. These workload classifications contain zero new eligibility decisions
+and no scientific conclusion.
+[citation-chain/pass-0001-retrieval.yaml;
+citation-chain/pass-0001-screening-preparation.yaml]
 
 ### Quality appraisal
 

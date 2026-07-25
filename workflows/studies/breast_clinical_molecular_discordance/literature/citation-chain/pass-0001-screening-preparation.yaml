@@ -1,0 +1,32 @@
+schema_version: 1.0.0
+preparation_id: 2520020f821a162e44d0661c8a2d963cf11fb56db9400bd69922fbe4f1419087
+study_id: NAS-BRCA-002
+pass_number: 1
+citation_execution_id: ce9df03b47a44930451e8099c3b33a3e92df59d692ee39323dc7f9018333b9f6
+prior_search_execution_id: a2500aba7ae0277cdd0c572553b74d53622b2d9c8bf011b87bb55fe4f2f1ea9f
+code_revision: 53d8de97d2785210693f9b74726303f9362b11ef
+created_at: '2026-07-25T15:07:28.743472Z'
+verified_at: '2026-07-25T15:07:28.917711Z'
+input_candidate_count: 4628
+already_screened_count: 42
+duplicate_candidate_count: 91
+requires_screening_count: 4495
+inventory_object:
+  object_key: citation-screening/NAS-BRCA-002/pass-0001/2520020f821a162e44d0661c8a2d963cf11fb56db9400bd69922fbe4f1419087/deduplication-inventory.json
+  media_type: application/json
+  size_bytes: 1938450
+  sha256: 77ac3ea55c87fde0a1e227968a04078d81e33ad4c0de1cbbc3c1d7725c0e7df5
+  record_ids: []
+  file_ids: []
+screening_candidates_object:
+  object_key: citation-screening/NAS-BRCA-002/pass-0001/2520020f821a162e44d0661c8a2d963cf11fb56db9400bd69922fbe4f1419087/screening-candidates.json
+  media_type: application/json
+  size_bytes: 1964952
+  sha256: 7675854418f2bb87f4bd2e52dd0c7ae60975e67ab3cd266f5b9b79c38f40348b
+  record_ids: []
+  file_ids: []
+input_checksums_verified: true
+output_checksums_verified: true
+count_invariants_verified: true
+final_screening_decisions_recorded: 0
+scientific_conclusions_drawn: false

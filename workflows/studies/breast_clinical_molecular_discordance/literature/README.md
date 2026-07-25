@@ -36,14 +36,20 @@ authorizes lawful full-text assessment; it is not a quality designation or
 scientific endorsement.
 
 The 30-record access inventory contains 26 repository candidates and four records
-requiring separate lawful-access checks. Reconciled progress now records 18
-independently verified CC-BY full texts, nine governed read-only reviews, two
-access restrictions, and one open-access IEEE paper pending retrieval after
-publisher maintenance. No restricted full text was stored. All 27 lawfully
-accessible records are appraised: 15 are `supporting`, 12 are `context_only`, and
-none is anchor evidence. The remaining records are two access restrictions and one
-open-access IEEE retrieval. Sequential citation chaining follows full-text
-adjudication.
+requiring separate lawful-access checks. Reconciled progress now records 19
+independently verified CC-BY full texts, nine governed read-only reviews, and two
+access restrictions. No restricted full text was stored. All 28 lawfully accessible
+records are appraised: 15 are `supporting`, 13 are `context_only`, and none is
+anchor evidence.
+
+Citation pass 1 queried both official Europe PMC directions for every eligible
+seed. The verified receipt records 981 backward and 4,639 forward links and 4,628
+unique non-seed records. Its separate screening-preparation inventory reconciles
+all 4,628: 42 were already present in the completed direct-search inventory, 91
+are normalized-title duplicates within the citation set, and 4,495 require
+screening. These are workload dispositions, not autonomous eligibility decisions.
+Raw responses, candidate metadata, and the full deduplication ledger remain in
+checksummed external object storage; aggregate receipts are in `citation-chain/`.
 
 Required artifacts:
 

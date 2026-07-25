@@ -17,10 +17,17 @@ from nas_core.domain.appraisal import (
     FullTextLicense,
     load_full_text_access_decision,
     load_full_text_appraisal,
+    load_full_text_inventory,
     load_full_text_read_only_review_receipt,
     write_full_text_appraisal_progress,
     write_full_text_inventory,
     write_full_text_retrieval_receipt,
+)
+from nas_core.domain.citation_chain import (
+    CitationSeed,
+    load_citation_chain_receipt,
+    write_citation_chain_receipt,
+    write_citation_screening_preparation_receipt,
 )
 from nas_core.domain.cohorts import (
     load_cohort_receipt,
@@ -58,6 +65,8 @@ from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
+from nas_core.retrieval.citation_chain import CitationChainRetrievalService
+from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
 from nas_core.retrieval.licensed_pdf import LicensedPdfImportService
@@ -228,6 +237,30 @@ def build_parser() -> argparse.ArgumentParser:
     )
     evidence_review_schema.add_argument("priority_path", type=Path)
     evidence_review_schema.add_argument("progress_path", type=Path)
+    citation_retrieve = evidence_review_commands.add_parser(
+        "citation-retrieve",
+        help="Retrieve and verify one backward-plus-forward Europe PMC citation pass",
+    )
+    citation_retrieve.add_argument("inventory_path", type=Path)
+    citation_retrieve.add_argument("--pass-number", required=True, type=int)
+    citation_retrieve.add_argument("--code-revision", required=True)
+    citation_retrieve.add_argument("--receipt-output", required=True, type=Path)
+    citation_retrieve.add_argument(
+        "--execute", action="store_true", help="Contact Europe PMC and persist the pass"
+    )
+    citation_prepare = evidence_review_commands.add_parser(
+        "citation-screening-prepare",
+        help="Deduplicate a verified citation pass before founder screening",
+    )
+    citation_prepare.add_argument("citation_receipt", type=Path)
+    citation_prepare.add_argument("prior_search_receipt", type=Path)
+    citation_prepare.add_argument("--code-revision", required=True)
+    citation_prepare.add_argument("--receipt-output", required=True, type=Path)
+    citation_prepare.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the verified deduplication inventory and screening candidate set",
+    )
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
     literature_commands = literature.add_subparsers(dest="literature_command", required=True)
@@ -714,6 +747,83 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             f"Wrote evidence-review schemas: {args.priority_path}, {args.progress_path}"
         )
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-retrieve"
+    ):
+        inventory = load_full_text_inventory(args.inventory_path)
+        seeds = [
+            CitationSeed(
+                evidence_id=f"PMID:{record.pmid}",
+                pmid=record.pmid,
+                title=record.title,
+            )
+            for record in inventory.records
+            if record.pmid is not None
+        ]
+        if len(seeds) != inventory.provisional_inclusion_count:
+            raise SystemExit("every included citation seed requires a PMID")
+        if not args.execute:
+            print(
+                f"Citation pass {args.pass_number} ready: {len(seeds)} seeds, "
+                f"code {args.code_revision}"
+            )
+            print("Dry run only; Europe PMC was not contacted and nothing was stored.")
+            return 0
+        service = CitationChainRetrievalService(store=get_object_store())
+        citation_snapshot = service.retrieve(
+            seeds,
+            study_id=inventory.study_id,
+            pass_number=args.pass_number,
+            code_revision=args.code_revision,
+        )
+        citation_receipt = service.verify(citation_snapshot)
+        write_citation_chain_receipt(args.receipt_output, citation_receipt)
+        print(
+            f"Retrieved citation pass {citation_receipt.pass_number}: "
+            f"{citation_receipt.backward_candidate_count} backward links, "
+            f"{citation_receipt.forward_candidate_count} forward links, "
+            f"{citation_receipt.unique_candidate_count} unique non-seed candidates"
+        )
+        print(f"Wrote verified citation receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-screening-prepare"
+    ):
+        citation_receipt = load_citation_chain_receipt(args.citation_receipt)
+        prior_search_receipt = load_literature_search_receipt(
+            args.prior_search_receipt
+        )
+        if not args.execute:
+            print(
+                f"Citation screening preparation ready: pass "
+                f"{citation_receipt.pass_number}, "
+                f"{citation_receipt.unique_candidate_count} candidates"
+            )
+            print("Dry run only; no deduplication artifacts were stored.")
+            return 0
+        preparation_service = CitationScreeningPreparationService(
+            store=get_object_store()
+        )
+        preparation = preparation_service.prepare(
+            citation_receipt,
+            prior_search_receipt,
+            code_revision=args.code_revision,
+        )
+        write_citation_screening_preparation_receipt(
+            args.receipt_output, preparation
+        )
+        print(
+            f"Prepared citation screening pass {preparation.pass_number}: "
+            f"{preparation.already_screened_count} already screened, "
+            f"{preparation.duplicate_candidate_count} duplicate candidates, "
+            f"{preparation.requires_screening_count} requiring founder screening"
+        )
+        print(f"Wrote verified preparation receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

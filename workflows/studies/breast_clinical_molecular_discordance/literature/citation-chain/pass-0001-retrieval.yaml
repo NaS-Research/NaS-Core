@@ -1,0 +1,93 @@
+schema_version: 1.0.0
+execution_id: ce9df03b47a44930451e8099c3b33a3e92df59d692ee39323dc7f9018333b9f6
+study_id: NAS-BRCA-002
+pass_number: 1
+code_revision: 53d8de97d2785210693f9b74726303f9362b11ef
+retrieved_at: '2026-07-25T15:00:27.882510Z'
+verified_at: '2026-07-25T15:01:04.384956Z'
+seed_evidence_ids:
+- PMID:19204204
+- PMID:21718502
+- PMID:22196354
+- PMID:23046482
+- PMID:24490149
+- PMID:24625003
+- PMID:25479802
+- PMID:25788628
+- PMID:25849221
+- PMID:27130929
+- PMID:28062443
+- PMID:30591591
+- PMID:30849944
+- PMID:31138829
+- PMID:32789507
+- PMID:32826944
+- PMID:32997146
+- PMID:33255759
+- PMID:34387660
+- PMID:35361119
+- PMID:35974007
+- PMID:36892725
+- PMID:37008073
+- PMID:37209182
+- PMID:37857634
+- PMID:38105959
+- PMID:41064593
+- PMID:41390542
+- PMID:41671586
+- PMID:42172162
+backward_candidate_count: 981
+forward_candidate_count: 4639
+unique_candidate_count: 4628
+endpoint_request_count: 63
+manifest_object_key: citation-chain/NAS-BRCA-002/pass-0001/ce9df03b47a44930451e8099c3b33a3e92df59d692ee39323dc7f9018333b9f6/manifest.json
+manifest_sha256: 055d74f8ecbdcc83738e17c8d3a0780bd48b9263539c1d58fc2dd0fd9ee0db6b
+raw_responses_object:
+  object_key: citation-chain/NAS-BRCA-002/pass-0001/ce9df03b47a44930451e8099c3b33a3e92df59d692ee39323dc7f9018333b9f6/raw-responses.json
+  media_type: application/json
+  size_bytes: 2711913
+  sha256: 91969f0a16fa1680118750f6201e2ec34550e6b60942d900c70446cc66bb2eba
+  record_ids:
+  - PMID:19204204
+  - PMID:21718502
+  - PMID:22196354
+  - PMID:23046482
+  - PMID:24490149
+  - PMID:24625003
+  - PMID:25479802
+  - PMID:25788628
+  - PMID:25849221
+  - PMID:27130929
+  - PMID:28062443
+  - PMID:30591591
+  - PMID:30849944
+  - PMID:31138829
+  - PMID:32789507
+  - PMID:32826944
+  - PMID:32997146
+  - PMID:33255759
+  - PMID:34387660
+  - PMID:35361119
+  - PMID:35974007
+  - PMID:36892725
+  - PMID:37008073
+  - PMID:37209182
+  - PMID:37857634
+  - PMID:38105959
+  - PMID:41064593
+  - PMID:41390542
+  - PMID:41671586
+  - PMID:42172162
+  file_ids: []
+candidates_object:
+  object_key: citation-chain/NAS-BRCA-002/pass-0001/ce9df03b47a44930451e8099c3b33a3e92df59d692ee39323dc7f9018333b9f6/candidates.json
+  media_type: application/json
+  size_bytes: 2022706
+  sha256: daf2e3151f1e98b30fa04aa7bbb30b704b9bea16e04c5b06e81b19641764ed3f
+  record_ids: []
+  file_ids: []
+manifest_checksum_verified: true
+object_checksums_verified: true
+endpoint_counts_verified: true
+candidate_count_verified: true
+scientific_conclusions_drawn: false

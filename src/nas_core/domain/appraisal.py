@@ -518,6 +518,12 @@ def load_full_text_appraisal(path: Path) -> FullTextAppraisal:
     return FullTextAppraisal.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
 
+def load_full_text_inventory(path: Path) -> FullTextInventory:
+    return FullTextInventory.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def load_full_text_retrieval_receipt(path: Path) -> FullTextRetrievalReceipt:
     return FullTextRetrievalReceipt.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))

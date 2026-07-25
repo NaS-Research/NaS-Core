@@ -18,8 +18,9 @@ identifiers and four required separate lawful-access checks. Reconciliation now
 records 19 durable CC BY retrievals, nine governed read-only reviews, 28 completed
 appraisals, zero records ready for appraisal, and two access restrictions. No
 restricted text was stored. All lawfully accessible records are appraised. The next
-task is sequential backward and forward citation chaining until two consecutive
-complete passes add zero eligible methods or external validations.
+task is founder-confirmed screening of citation pass 1. Both citation directions
+have been retrieved for all 30 seeds; the verified deduplication inventory retains
+every linked record and reduces the new screening workload without making decisions.
 
 Definition of done:
 
@@ -149,6 +150,12 @@ Current gate state:
   `context_only`. Its internal held-out accuracy arithmetic and zero-shot
   METABRIC estimates do not reconcile, its external evaluation is fine-tuned,
   and its modality-disjoint cohorts lack patient-level multimodal correspondence.
+- Citation pass 1 queried both official Europe PMC directions for all 30 eligible
+  seeds. It retrieved 981 backward and 4,639 forward links, yielding 4,628 unique
+  non-seed source records. Verified preparation reconciles every record: 42 match
+  the completed direct-search inventory, 91 are exact normalized-title duplicates
+  within the citation set, and 4,495 require screening. No citation candidate has
+  received an autonomous inclusion or exclusion.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -184,41 +191,58 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Execute sequential backward-plus-forward Europe PMC citation passes until two
-   consecutive complete passes add zero eligible methods or external validations.
-2. Update the living manuscript and its evidence-to-text ledger after every material
+1. Enrich and deterministically prioritize the 4,495 citation-pass candidates,
+   produce a checksum-bound founder screening packet, and record final decisions
+   without autonomous exclusions.
+2. Add and appraise any newly eligible methodological or external-transport studies,
+   then execute sequential citation passes until two consecutive fully screened
+   passes add zero eligible evidence.
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-3. Resolve and approve the exact centroid and external-reference artifacts,
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-4. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-5. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-6. Complete the founder scientific/product, molecular/pathology, and statistical
+7. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-9. Implement persisted evidence claims, citations, provenance, contradictory
+10. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-11. Expand the screening model gateway into general evidence reasoning with
+12. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-12. Build evaluation suites for retrieval, citation validity, numerical
+13. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-13. Generate an immutable research release containing the protocol, dataset
+14. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-14. Generate a reviewable white-paper draft whose substantive claims trace to
+15. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-15. Build the internal workbench for projects, protocols, datasets, runs,
+16. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-16. Complete repeated internal oncology pilots before selecting the first
+17. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation pass 1 retrieved and prepared for screening
+
+Implemented immutable backward-plus-forward citation retrieval from the official
+Europe PMC endpoints and a separate verified screening-preparation boundary. The
+pass covers all 30 eligible seeds, persists raw responses and normalized candidates
+outside Git, and emits concise checksum-bound receipts.
+
+Pass 1 contains 4,628 unique non-seed records from 981 backward and 4,639 forward
+links. Exact PMID and normalized-title reconciliation found 42 records already
+screened in the completed direct inventory and 91 duplicate candidate identities,
+leaving 4,495 for advisory triage and founder screening. The preparation layer
+records zero final decisions and draws no scientific conclusion.
 
 ### 2026-07-25 — Publisher-PDF evidence path and IEEE appraisal completed
 
