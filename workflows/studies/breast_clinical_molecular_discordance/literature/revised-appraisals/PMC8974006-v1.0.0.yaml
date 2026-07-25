@@ -1,0 +1,118 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 80d2e0fcb88556b59a619f5d8559eecfe6a1ce5d2e386b2f93a576927a23ee33
+title: classifieR a flexible interactive cloud-application for functional annotation of cancer transcriptomes.
+pmid: '35361119'
+doi: 10.1186/s12859-022-04641-x
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8974006/fullTextXML
+full_text_sha256: 76e9f408053428ea101584bbd1dd43023f3d51bb4e21f0b25c95a7cd9da93c03
+access_basis: >-
+  Identity-, checksum-, and CC-BY-4.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: high
+    rationale: >-
+      The paper demonstrates interface behavior primarily with one 156-sample
+      colorectal dataset. It does not report a defined independent breast-cancer
+      validation cohort for classifieRb, patient selection, subtype distribution,
+      or exclusions.
+    evidence_locations:
+      - Implementation
+      - Results
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The application accepts raw counts and normalized matrices from RNA-seq,
+      Affymetrix, and TempO-Seq platforms and maps identifiers automatically.
+      No paired breast specimens, platform bridge, technical repeats, or specimen-
+      quality experiment verifies that those inputs produce equivalent annotations.
+    evidence_locations:
+      - Implementation
+      - Results — Data Input
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      classifieRb wraps genefu PAM50 and inferred OncotypeDX, while internal
+      packages were modified for speed and many settings are hidden. Inputs may
+      be normalized inside or outside the app, settings can be changed after
+      analysis, and hosted updates occur automatically. No immutable breast
+      classifier release, locked preprocessing contract, or unchanged checksum-
+      bound result path is evaluated.
+    evidence_locations:
+      - Implementation
+      - Results
+      - Availability and requirements
+  - domain: reference_comparator
+    judgment: not_applicable
+    rationale: >-
+      The report demonstrates integration and usability rather than classifier
+      accuracy. No independent biological or clinical truth standard is claimed
+      for the breast annotations.
+    evidence_locations:
+      - Results
+      - Conclusions
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Performance reporting is limited to computational speed and memory use for
+      a 156-sample example. There are no breast-cancer accuracy, concordance,
+      calibration, uncertainty, abstention, or outcome analyses and no statistical
+      validation plan for the claims of prognostic or treatment insight.
+    evidence_locations:
+      - Results
+      - Conclusions
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Multi-platform acceptance is asserted from input flexibility rather than
+      demonstrated through unchanged external breast cohorts. No patient-only
+      reliability, cross-laboratory validation, prospective evaluation, or
+      decision-impact study is reported.
+    evidence_locations:
+      - Implementation
+      - Results
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: high
+    rationale: >-
+      R and package names, interface behavior, and a hosted demonstration are
+      described under CC BY. The web server has no software license, is restricted
+      to research use, updates automatically, and the paper does not provide a
+      pinned source release or complete environment sufficient to reproduce the
+      breast workflow immutably.
+    evidence_locations:
+      - Implementation
+      - Availability and requirements
+evidence_role: context_only
+key_strengths:
+  - Integrates multiple cancer annotation tools behind an accessible interface.
+  - Accepts several expression platforms and raw or normalized inputs.
+  - Exposes PAM50, inferred OncotypeDX, cell composition, pathways, and regulons.
+  - Reports substantial speed and memory improvements for one example workflow.
+key_limitations:
+  - No defined breast-cancer validation population is reported.
+  - No breast subtype accuracy, agreement, calibration, or outcome validation is shown.
+  - Backend packages are modified and hosted releases update automatically.
+  - Preprocessing can vary and settings can change after analysis.
+  - Source, licensing, and immutable environment details are insufficient for a governed clinical pipeline.
+conflicts_and_funding: >-
+  The authors declared no competing interests while disclosing that one author
+  was employed by BioSpyder Technologies and another by BioClavis; they state
+  those roles did not influence the work or create financial gain. Support came
+  from DfE/MRC, Cancer Research UK, HDR-UK, ECMC, BBSRC, and unrelated industrial
+  partner support.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments under the founder's standing authorization. The founder remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T11:19:00-05:00
+scientific_conclusions_drawn: false

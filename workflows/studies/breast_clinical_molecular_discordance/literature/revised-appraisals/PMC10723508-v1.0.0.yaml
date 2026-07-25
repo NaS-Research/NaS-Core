@@ -1,0 +1,133 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 5d5446e955e8d287dcb192229ab19a244f70cd2397cdf95a90f4870fba4a5d11
+title: Multiplexed RNA-FISH-guided Laser Capture Microdissection RNA Sequencing Improves Breast Cancer Molecular Subtyping, Prognostic Classification, and Predicts Response to Antibody Drug Conjugates.
+pmid: '38105959'
+doi: 10.1101/2023.12.05.23299341
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10723508/
+full_text_sha256: 395e2f7f4d2ba56bd858c505f7fbfa7f80e1dd6daa84504fc4198e71a50e9e5e
+access_basis: >-
+  Lawful ephemeral review of the complete preprint under CC-BY-NC-ND-4.0;
+  no durable commercial corpus storage, article adaptation, or redistribution.
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The retrospective cohort contains 1,082 archived FFPE tumors from two
+      biobanks, one hospital, and two commercial sources with detailed clinical
+      data. Sources and eligibility are described, but selection requires available
+      tissue, consent, treatment, and survival data and spans heterogeneous care
+      settings without a prospective sampling frame.
+    evidence_locations:
+      - Methods — Study Design
+      - Results — Study design and cohorts
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Adjacent sections, H&E review, four-marker RNA-FISH, guided LCM, tumor/stroma
+      segmentation, RNA quality thresholds, blinded processing, spike-ins, and
+      batch controls are major strengths. Regions were nevertheless chosen
+      qualitatively with emphasis on biomarker hotspots and margins, most cases
+      lack an unguided paired comparator, and IHC itself is variable at low
+      expression.
+    evidence_locations:
+      - Methods — Tissue processing and H&E staining
+      - Methods — Whole-slide imaging, image annotation, and image analysis
+      - Methods — Laser capture microdissection
+      - Results — Concordance with biobank IHC status
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      The 293-gene classifier was derived through differential expression and
+      semi-supervised clustering in the same cohort used for subtype and survival
+      evaluation. Consensus labels vote across mFISHseq, PAM50, and AIMS, which are
+      not independent truth sources, and full-dataset outcome patterns are used to
+      argue that reclassification is improved. No frozen external patient-level
+      classifier or abstention rule is validated unchanged.
+    evidence_locations:
+      - Results — Benchmarking molecular subtypes
+      - Results — Consensus subtyping
+      - Methods — Study Design
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      Biobank IHC, PAM50, AIMS, and survival provide convergent context but none is
+      biological subtype truth. Moderate single-sample agreement with IHC and
+      between multigene methods is partly resolved by majority vote, which cannot
+      establish that the winning consensus is correct.
+    evidence_locations:
+      - Results — Concordance with biobank immunohistochemistry
+      - Results — Benchmarking molecular subtypes
+      - Results — Consensus subtyping
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      A 70:30 split is used only for IHC biomarker thresholds; consensus subtyping,
+      the 293-gene model, 92 genes, 110 signatures, subtype-specific survival,
+      prognostic ensembles, and treatment-response exploration use the full data.
+      The extensive adaptive comparisons and outcome-based interpretation create
+      optimism despite FDR procedures. The 19-feature T-DM1 model reports AUC 0.96
+      in only 52 I-SPY2 patients and requires independent prespecified validation.
+    evidence_locations:
+      - Methods — Study Design
+      - Methods — Statistical Methods
+      - Results
+      - Discussion — ADC response
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Analytical biomarker thresholds are tested after a stratified split, but the
+      subtype, consensus, prognostic, and ADC claims lack an unchanged independent
+      external cohort. The preprint reports research-use-only deployment in 26
+      patients without a prospective comparator, decision-impact design, or
+      peer-reviewed clinical validation.
+    evidence_locations:
+      - Results
+      - Discussion
+      - Methods — Study Design
+  - domain: reporting_and_reproducibility
+    judgment: high
+    rationale: >-
+      The workflow, controls, many analyses, supplementary results, and conflicts
+      are described, but underlying data and custom code are available only by
+      request. The report is a non-peer-reviewed preprint, the commercial license
+      restricts reuse, and no immutable executable release or complete patient-
+      level validation artifact is public.
+    evidence_locations:
+      - Footnotes — Competing interests
+      - Code and Data Availability
+      - Preprint notice
+evidence_role: context_only
+key_strengths:
+  - Integrates spatial biomarker imaging, tumor-guided microdissection, and RNA sequencing.
+  - Includes 1,082 archival tumors with batch controls and blinded processing.
+  - Separates tumor-rich regions from stroma and adjacent benign tissue.
+  - Reports transparent classifier disagreement and low-margin behavior.
+  - Retains extensive biomarker, subtype, prognostic, and treatment-response analyses.
+key_limitations:
+  - The 293-gene and consensus subtype analyses are developed and evaluated in the same cohort.
+  - Majority voting among correlated classifiers is not a biological truth standard.
+  - Most subtype and outcome analyses do not use the analytical 70:30 holdout.
+  - The T-DM1 model uses only 52 patients and lacks external prespecified validation.
+  - Code and patient-level data are not publicly released.
+  - The report is a commercially conflicted, non-peer-reviewed preprint.
+conflicts_and_funding: >-
+  Numerous authors are current or former MultiplexDX employees; two are inventors
+  on related patent applications assigned to MultiplexDX, and two are scientific
+  advisers. The company is developing the Multiplex8+ test described. The article
+  states that funding sources did not influence design, analysis, interpretation,
+  writing, or submission.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex lawfully reviewed the preprint ephemerally, extracted section-located
+  methodological evidence, and proposed domain judgments under the founder's
+  standing authorization. The founder remains accountable for the locked
+  eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T11:19:00-05:00
+scientific_conclusions_drawn: false

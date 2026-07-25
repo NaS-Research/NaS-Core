@@ -1,0 +1,120 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 31ff2895b1d10f61aa9a81947f5d0b79032017cc90e5d7667e0565351cd2f91c
+title: Molecular subtyping of breast cancer intrinsic taxonomy with oligonucleotide microarray and NanoString nCounter.
+pmid: '34387660'
+doi: 10.1042/BSR20211428
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8385191/fullTextXML
+full_text_sha256: 4cee5172a4b84a2706c0399a55c0df414af181dbfed0f4505d0cc64b39ca7301
+access_basis: >-
+  Identity-, checksum-, and CC-BY-4.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The study enrolled Taiwanese surgical patients from 2010–2014 and enriched
+      the NanoString cohort for cases previously profiled by microarray. The
+      64-patient paired-platform subset is directly relevant but modest and
+      excludes tumors with 1–9% ER/PR staining, limiting representativeness.
+    evidence_locations:
+      - Materials and methods — Breast cancer samples recruitment
+      - Results — Comparison of subtype prediction
+      - Discussion — limitations
+  - domain: specimen_and_measurement
+    judgment: high
+    rationale: >-
+      The two platforms were not run synchronously on the same RNA or equivalent
+      specimen. Microarrays used fresh-frozen tissue, whereas nCounter used later
+      archived FFPE tumor-enriched sections. Spatial sampling, tumor composition,
+      preservation, probe design, and housekeeping genes therefore differ together
+      with platform and cannot be separated as causes of discordance.
+    evidence_locations:
+      - Materials and methods — Nucleic acid extraction
+      - Materials and methods — GE profiling with NanoString nCounter
+      - Materials and methods — Microarray experiments
+      - Discussion — limitations
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      Both implementations use published centroids and a 0.1 correlation threshold,
+      but gene centering and normalization were performed independently within
+      each platform cohort. Microarray data additionally received DWD adjustment,
+      prototype missing values were imputed, and different housekeeping panels
+      were used, so the comparison does not hold a fixed patient-independent
+      classifier constant.
+    evidence_locations:
+      - Materials and methods — Single sample prediction
+      - Discussion
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      NanoString calls are labeled the gold standard without an independent
+      biological truth standard. The observed 65% agreement (kappa 0.60) proves
+      non-equivalence of these workflows but cannot determine which discordant
+      call is correct or attribute error to one platform.
+    evidence_locations:
+      - Results — Comparison of subtype prediction
+      - Table 4
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The paper reports a full cross-tabulation, kappa, subtype-specific agreement,
+      event counts, and survival curves. Precision intervals for agreement are
+      absent, multiple IHC and survival comparisons lack a study-wide multiplicity
+      plan, and only 64 paired patients limit subtype-specific precision.
+    evidence_locations:
+      - Results
+      - Tables 1–4
+      - Figure 2
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      There is no independent repeat of the full platform comparison, no same-RNA
+      technical bridge, and no unchanged external-reference pipeline. The authors
+      explicitly identify the modest intersection, specimen differences, and
+      housekeeping mismatch as threats to external validation.
+    evidence_locations:
+      - Discussion
+      - Discussion — limitations
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Laboratory procedures, software, thresholds, cross-tabulations, limitations,
+      GEO accessions, and supplementary data are reported under CC BY. Exact
+      expression matrices are only partially deposited, and a frozen executable
+      environment with all centering, imputation, and DWD artifacts is absent.
+    evidence_locations:
+      - Materials and methods
+      - Data Availability
+evidence_role: context_only
+key_strengths:
+  - Directly compares PAM50 calls in 64 patients assessed by both platforms.
+  - Reports the complete subtype confusion matrix and an unclassified case.
+  - Identifies especially poor Luminal A and basal-like cross-platform agreement.
+  - Transparently reports non-synchronous sampling and housekeeping-gene differences.
+key_limitations:
+  - Platforms used different specimens, preservation, and sampling regions.
+  - Each platform was centered and normalized within a different cohort.
+  - NanoString is assumed to be the gold standard without biological adjudication.
+  - The paired subset is only 64 patients and lacks an external replication.
+  - The design cannot isolate platform error from preanalytic and algorithmic differences.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Funding came from Taiwan's Ministry
+  of Science and Technology under grants MOST 107-2314-B-075-073-MY3 and
+  110-2314-B-075-074.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments under the founder's standing authorization. The founder remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T11:19:00-05:00
+scientific_conclusions_drawn: false

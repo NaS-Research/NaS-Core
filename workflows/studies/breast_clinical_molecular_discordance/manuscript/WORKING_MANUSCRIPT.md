@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.15.0-working`
+Manuscript version: `0.16.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -144,7 +144,7 @@ stored or appraised. Read-only receipts retain source identity, rights observati
 and ephemeral checksums rather than article content.
 [revised-screening-progress/batch-0002.yaml;
 FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md;
-revised_appraisal_progress_v0.3.8.yaml]
+revised_appraisal_progress_v0.3.9.yaml]
 
 Eleven of the 17 newly included records now have article identity and an approved
 CC BY license independently verified through official Europe PMC XML. Four more
@@ -152,7 +152,7 @@ were lawfully reviewed through governed ephemeral sessions because their rights 
 not authorize durable commercial corpus storage. The IOP article is abstract-only
 and subscription-restricted. The remaining IEEE article is confirmed open access
 under CC BY but awaits full-text retrieval after scheduled publisher maintenance.
-Twelve of those 15 records have completed appraisal and three remain ready. No failed
+All 15 lawfully accessible expanded-set records have completed appraisal. No failed
 or restricted retrieval stored article content.
 
 ### Quality appraisal
@@ -645,6 +645,56 @@ and whole-transcriptome scores retained offsets, and a docetaxel example had onl
 reliability or abstention. [PMID:32997146; revised appraisal
 PMC7641762-v1.0.0]
 
+### Confounded microarray–NanoString platform discordance
+
+A Taiwanese study compared PAM50 calls for 64 patients profiled by both Affymetrix
+microarray and NanoString nCounter workflows. Only 41 patients (65%) received the
+same subtype (kappa 0.60); agreement relative to nCounter was 25% for Luminal A,
+43% for basal-like, 81% for HER2-enriched, and 100% for Luminal B.
+
+This is `context_only`, not a clean platform-accuracy estimate. Microarray used
+fresh-frozen tissue and NanoString used later archived FFPE tumor-enriched
+sections; each platform was centered within a different cohort, and DWD,
+housekeeping genes, probe regions, and preprocessing also differed. Treating
+nCounter as a gold standard cannot identify which discordant call is correct.
+The result demonstrates workflow non-equivalence while leaving assay, specimen,
+spatial, and algorithmic effects inseparable. [PMID:34387660; revised appraisal
+PMC8385191-v1.0.0]
+
+### Integrated annotation software without breast validation
+
+classifieR wraps PAM50, inferred OncotypeDX, cell-composition, pathway, and
+transcription-factor tools in an R/Shiny interface accepting several expression
+platforms. The report shows a 78% speed improvement and 46% lower memory use for
+one 156-sample example.
+
+The software is `context_only` for the research question. It does not report a
+defined breast validation population, PAM50 agreement, calibration, uncertainty,
+abstention, or clinical outcomes. Backend packages were modified, many settings
+are hidden, hosted versions update automatically, and the web server is
+research-use-only without a pinned source release. It establishes that integrated
+annotation interfaces exist, not that their breast predictions are reliable.
+[PMID:35361119; revised appraisal PMC8974006-v1.0.0]
+
+### Spatially guided mFISHseq and consensus subtyping
+
+The mFISHseq preprint combines four-marker RNA-FISH, annotated laser-capture
+microdissection, and total RNA sequencing in 1,082 archival tumors. Its IHC
+biomarker thresholds were evaluated with a 70:30 split. Among 1,013 tumors used
+for subtype analysis, single-sample agreement between multigene classifiers was
+substantial but imperfect; a three-classifier vote reclassified 305 tumors (30%)
+relative to IHC surrogates and produced outcome-separated groups.
+
+This is promising preanalytic and spatial `context_only` evidence. The 293-gene
+classifier, consensus scheme, extensive survival analyses, and treatment-response
+exploration used the full cohort rather than an unchanged external subtype holdout.
+Majority voting among correlated classifiers is not a truth standard. A reported
+T-DM1 model with AUC 0.96 used only 52 trial patients and awaits independent
+prespecified validation. The work is a non-peer-reviewed preprint; numerous
+authors are employees, inventors, or advisers of the company developing the test,
+and code and patient-level data are available only by request. [PMID:38105959;
+revised appraisal PMC10723508-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -656,7 +706,7 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 24 completed appraisals show that the broad problem is established: PAM50
+The 27 completed accessible-record appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
@@ -675,17 +725,17 @@ from independent technical evidence, define a reliability estimand and threshold
 without outcome tuning, validate transport in an independent cohort, and abstain
 prospectively when the assignment is not analytically reliable.
 
-This interpretation may change after appraisal of the three remaining accessible
-records, resolution of the open IEEE retrieval, and sequential citation chaining.
-AIMS and the IOP article remain identified but unappraised access-restricted
-sources. This is not an authorized novelty conclusion.
+This interpretation may change after resolution and appraisal of the open IEEE
+retrieval and sequential citation chaining. AIMS and the IOP article remain
+identified but unappraised access-restricted sources. This is not an authorized
+novelty conclusion.
 
 ## Limitations
 
 Status: `working`
 
-- Primary title-and-abstract screening is complete; three accessible appraisals, one
-  open IEEE retrieval, and citation chaining are incomplete.
+- Primary title-and-abstract screening and all 27 lawfully accessible appraisals
+  are complete; one open IEEE retrieval and citation chaining are incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -765,17 +815,28 @@ checks, and internal reviews are complete.
 18. Foroutan M, et al. Stable gene expression for normalisation and single-sample
     scoring. *Nucleic Acids Res.* 2020.
     PMID:32997146. DOI:10.1093/nar/gkaa802.
+19. Horng CC, et al. Molecular subtyping of breast cancer intrinsic taxonomy with
+    oligonucleotide microarray and NanoString nCounter. *Biosci Rep.* 2021.
+    PMID:34387660. DOI:10.1042/BSR20211428.
+20. Quinn GP, et al. classifieR: a flexible interactive cloud-application for
+    functional annotation of cancer transcriptomes. *BMC Bioinformatics.*
+    2022;23:114. PMID:35361119. DOI:10.1186/s12859-022-04641-x.
+21. Paul ED, et al. Multiplexed RNA-FISH-guided laser capture microdissection RNA
+    sequencing improves breast cancer molecular subtyping, prognostic
+    classification, and predicts response to antibody drug conjugates.
+    *medRxiv* [preprint]. 2023. PMID:38105959.
+    DOI:10.1101/2023.12.05.23299341.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–9 | External methodological evidence | 24 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
+| Introduction ¶1–9 | External methodological evidence | 27 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
-| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.8.yaml` | verified, incomplete |
+| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.9.yaml` | verified, IEEE retrieval incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
 | Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |
@@ -800,14 +861,18 @@ checks, and internal reviews are complete.
 | Results—population-cohort centering | External evidence appraisal | `revised-appraisals/PMC6449178-v1.0.0.yaml` | context only |
 | Results—NanoString normalization | External evidence appraisal | `revised-appraisals/PMC8138885-v1.0.0.yaml` | supporting |
 | Results—stable-reference scoring | External evidence appraisal | `revised-appraisals/PMC7641762-v1.0.0.yaml` | supporting |
+| Results—cross-platform discordance | External evidence appraisal | `revised-appraisals/PMC8385191-v1.0.0.yaml` | context only |
+| Results—integrated annotation software | External evidence appraisal | `revised-appraisals/PMC8974006-v1.0.0.yaml` | context only |
+| Results—spatially guided mFISHseq | External evidence appraisal | `revised-appraisals/PMC10723508-v1.0.0.yaml` | context only |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | 24 completed appraisals, two access-restricted records, and one pending open-access retrieval | provisional |
+| Discussion ¶1–2 | Explicit interpretation | 27 completed appraisals, two access-restricted records, and one pending open-access retrieval | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.16.0-working | 2026-07-25 | Added cross-platform microarray/nCounter discordance, classifieR, and spatially guided mFISHseq appraisals; all 27 lawfully accessible records are now appraised. |
 | 0.15.0-working | 2026-07-25 | Added NHS cohort-centering, NanoString QC/normalization, and fixed stable-reference single-sample scoring appraisals; 24 of 30 records are now appraised. |
 | 0.14.0-working | 2026-07-25 | Added explicit ambiguous/unclassifiable PLS states, cohort-adaptive PCA-PAM50, and whole-transcriptome ssNMF subtype-purity appraisals; 21 of 30 records are now appraised. |
 | 0.13.0-working | 2026-07-25 | Added non-neoplastic contamination, Han Chinese preprocessing consistency, and clinical-grade Prosigna analytical-validation appraisals; 18 of 30 records are now appraised. |

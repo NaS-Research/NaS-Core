@@ -8,19 +8,19 @@ and what comes next?
 
 ## Current focus
 
-### Complete three remaining expanded-set appraisals and retrieve one open IEEE paper
+### Retrieve the open IEEE paper and execute citation chaining
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
 and zero AI decisions. All five fuzzy author-year identity links were rejected.
 The expanded access inventory is complete: 26 of the 30 inclusions have repository
 identifiers and four required separate lawful-access checks. Reconciliation now
-records 18 durable CC BY retrievals, nine governed read-only reviews, 24 completed
-appraisals, three records ready for appraisal, two access restrictions, and one
+records 18 durable CC BY retrievals, nine governed read-only reviews, 27 completed
+appraisals, zero records ready for appraisal, two access restrictions, and one
 temporarily unresolved open-access IEEE retrieval. No restricted text was stored.
-The next tasks are question-specific appraisal of the three remaining accessible records,
-retrieval of the IEEE CC BY paper after publisher maintenance, and sequential
-citation chaining.
+All lawfully accessible records are appraised. The next tasks are retrieval and
+appraisal of the IEEE CC BY paper after publisher maintenance, followed by
+sequential citation chaining.
 
 Definition of done:
 
@@ -143,9 +143,9 @@ Current gate state:
   `7b90c37a…63218c` and contains all 30 current inclusions: 26 repository
   candidates and four separate access checks. Prior verified receipts remain valid
   only for records that retain exact identity and inclusion in the current queue.
-- Reconciled appraisal progress `revised_appraisal_progress_v0.3.8.yaml` records
-  18 durable CC BY retrievals, nine governed read-only reviews, 24 completed
-  appraisals, three records ready for appraisal, two access restrictions, and one
+- Reconciled appraisal progress `revised_appraisal_progress_v0.3.9.yaml` records
+  18 durable CC BY retrievals, nine governed read-only reviews, 27 completed
+  appraisals, zero records ready for appraisal, two access restrictions, and one
   open-access IEEE paper pending retrieval after publisher maintenance.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
@@ -182,44 +182,56 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-specific appraisals of the three remaining accessible papers.
-2. Retrieve and verify the IEEE CC BY paper after scheduled publisher maintenance,
+1. Retrieve and verify the IEEE CC BY paper after scheduled publisher maintenance,
    or record a temporary retrieval limitation without treating it as restricted.
-3. Execute sequential backward-plus-forward Europe PMC citation passes until two
+2. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-4. Update the living manuscript and its evidence-to-text ledger after every material
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-5. Resolve and approve the exact centroid and external-reference artifacts,
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-6. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-8. Complete the founder scientific/product, molecular/pathology, and statistical
+7. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-11. Implement persisted evidence claims, citations, provenance, contradictory
+10. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-13. Expand the screening model gateway into general evidence reasoning with
+12. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-14. Build evaluation suites for retrieval, citation validity, numerical
+13. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-15. Generate an immutable research release containing the protocol, dataset
+14. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-16. Generate a reviewable white-paper draft whose substantive claims trace to
+15. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-17. Build the internal workbench for projects, protocols, datasets, runs,
+16. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-18. Complete repeated internal oncology pilots before selecting the first
+17. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — All accessible evidence appraised
+
+Completed the microarray-versus-NanoString, classifieR, and mFISHseq appraisals.
+All 27 lawfully accessible records are now complete: 15 `supporting`, 12
+`context_only`, and zero anchor records. Two sources remain explicitly restricted
+and one confirmed-open IEEE paper awaits retrieval.
+
+The last batch prevents three overclaims. Cross-platform disagreement cannot be
+attributed to the assay when specimen and preprocessing also differ; an integrated
+interface does not establish predictive validity; and spatially guided tumor
+enrichment plus consensus voting does not validate a classifier when development
+and outcome interpretation share the same cohort.
 
 ### 2026-07-25 — Population transport and stable-reference scoring appraised
 
@@ -272,21 +284,6 @@ of same-RNA technical replicates and 76% of deliberately heterogeneous spatial
 replicates. It does not supply the needed fixed, independently calibrated
 patient-level reliability or abstention rule.
 
-### 2026-07-25 — Expanded full-text access resolved for 29 of 30 records
-
-Retried three case-only identity mismatches under the bounded normalization rule;
-all passed exact PMID and PMCID identity, approved CC BY licensing, immutable
-external storage, and independent checksum verification. Browser-based lawful
-access review resolved four additional PMC records through governed ephemeral
-receipts and recorded their noncommercial or reserved reuse terms without storing
-article content.
-
-The IOP article is abstract-only and paywalled, while the IEEE article is confirmed
-open access under CC BY but its PDF endpoint was unavailable during scheduled
-publisher maintenance. Reconciled progress now records 18 durable full texts, nine
-read-only reviews, 15 papers ready for appraisal, two access restrictions, one
-temporary open-access retrieval task, and no scientific conclusions.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -298,9 +295,9 @@ temporary open-access retrieval task, and no scientific conclusions.
   numerical tolerances, and thresholds are resolved. The complete evidence stopping
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
-- Revised search strategy `0.2.4`, its queue, prior-inventory reconciliation, and
-  founder screening are complete. Three expanded-set appraisals, one temporary
-  IEEE retrieval task, and the citation-chain stopping rule remain incomplete.
+- Revised search strategy `0.2.4`, its queue, prior-inventory reconciliation,
+  founder screening, and all 27 accessible appraisals are complete. One temporary
+  IEEE retrieval task and the citation-chain stopping rule remain incomplete.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.
