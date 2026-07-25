@@ -36,7 +36,8 @@ clinical claims remain prohibited until a revised question passes review.
 
 Question `0.3.0` now has a governed
 [living manuscript](manuscript/WORKING_MANUSCRIPT.md). It contains traceable Phase 0
-methods and evidence-appraisal text only. Five of 13 priority papers are appraised:
-two are context-only, and three RNA-seq and single-sample studies are supporting
-evidence. Unsupported analysis, results, and conclusions remain explicit
-placeholders and may not be promoted to a release.
+methods and evidence-appraisal text only. Six of 13 priority papers are appraised:
+two are context-only and four are supporting. The population-scale perturbation
+study directly overlaps the proposed margin-and-stability concept, leaving only a
+narrow technical-calibration and abstention question. Unsupported analysis,
+results, and conclusions remain explicit placeholders and may not be promoted.

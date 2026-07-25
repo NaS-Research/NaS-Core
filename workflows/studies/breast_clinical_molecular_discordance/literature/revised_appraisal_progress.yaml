@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
 progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
-generated_at: '2026-07-25T03:47:59.770428Z'
+generated_at: '2026-07-25T03:53:06.266646Z'
 provisional_inclusion_count: 13
 full_texts_retrieved: 7
-appraisals_completed: 5
+appraisals_completed: 6
 access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
-supporting_count: 3
+supporting_count: 4
 context_only_count: 2
 excluded_count: 0
 records:
@@ -80,9 +80,11 @@ records:
 - screening_id: 176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd
   title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
   pmcid: PMC10587090
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 18b91d8f47e661a06c3564cb6af7bf07b1e898140bb83b8b8f31a463eeb3b86e
   full_text_sha256: 2ca3db6fae40accbc47d98f6b0ff4aedbdb976d8cdde7cda059d6abbf4520e2a
+  appraisal_version: 1.0.0
+  evidence_role: supporting
 - screening_id: 045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341
   title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping in breast
     cancer research.'

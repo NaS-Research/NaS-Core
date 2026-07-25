@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.4.0-working`
+Manuscript version: `0.5.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -61,6 +61,12 @@ prognostic feasibility, but it does not validate patient-level uncertainty or pr
 that retrospective changes in emulated treatment recommendations improve outcomes.
 [PMID:35974007]
 
+Population-scale perturbation work has also examined the difference between the
+leading and runner-up PAM50 correlations, systematically removed co-expressed gene
+modules, identified stable/prototypical tumors, and derived new single-sample
+centroids from perturbation-stable cases. Therefore, neither a score margin nor
+perturbation-stability labeling is novel by itself. [PMID:37857634]
+
 This study is therefore evaluating a narrower methodological question: whether a
 fully specified, patient-independent research implementation can report the leading
 and runner-up subtype scores, their margin, perturbation repeatability, data-quality
@@ -96,7 +102,7 @@ All 100 records had abstracts and were reset to pending under question `0.3.0`.
 The founder included all 13 direct-priority records for full-text review. Seven
 had verified CC-BY full text, four were restricted or unavailable through the
 approved repository endpoint, and two required a lawful alternative source.
-Restricted full text was not stored. At this manuscript version, 5 of the 13
+Restricted full text was not stored. At this manuscript version, 6 of the 13
 priority records have completed question-specific appraisal.
 [revised-screening-progress/batch-0001.yaml; revised_appraisal_progress.yaml]
 
@@ -232,6 +238,36 @@ agreement is limited, and no prospective decision impact, patient-level
 uncertainty, repeatability, or abstention rule was validated.
 [PMID:35974007; revised appraisal PMC9381586-v1.0.0]
 
+### Population-scale margin and perturbation stability
+
+Veerla and colleagues analyzed 6,233 population-based SCAN-B tumors using a
+repeated-reference PAM50 nearest-centroid implementation. They retained the
+second-best subtype and calculated the correlation difference between the leading
+and runner-up centroids. Basal-like tumors generally had the greatest separation,
+Normal-like tumors the least, and Luminal A versus Luminal B formed a continuum
+rather than two cleanly separated classes.
+
+The investigators then grouped PAM50 genes into seven co-expression modules and
+reclassified every tumor after removing one module at a time. Classification
+stability varied strongly by subtype, receptor-defined subgroup, and removed
+module. More than 80% of prototypical Basal-like triple-negative and HER2-enriched
+ER-negative/HER2-positive tumors remained unchanged across all perturbations,
+whereas Normal-like and luminal assignments were substantially less stable. Among
+Luminal-B tumors, removing the proliferation or basal-keratin module caused more
+than 40% to switch subtype. When a switch occurred, it often moved to the original
+runner-up label.
+
+The paper also defined 1,934 perturbation-stable ER-positive/HER2-negative tumors,
+derived new subtype centroids from them, and used those centroids for uncentered
+single-sample classification. Outcome and metagene analyses were exploratory and
+the refined method was developed and evaluated in the same SCAN-B population.
+Gene-module deletion is a structural sensitivity analysis rather than a calibrated
+model of laboratory measurement error. No independently validated reliability
+probability or prespecified abstention threshold was provided. The evidence is
+`supporting`, but it removes best-runner-up margin, perturbation testing, stable-case
+labeling, and refined single-sample centroids as standalone NaS novelty claims.
+[PMID:37857634; revised appraisal PMC10587090-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -243,17 +279,18 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The first five appraisals suggest that the broad problem is established: PAM50
+The first six appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
-single-sample execution, recurrence-risk stratification, and group-level prognostic
-separation. A defensible NaS contribution cannot therefore be merely “a
-single-sample classifier” or “an RNA-seq risk predictor.” It would need to predefine
-every artifact and transformation, reproduce a fixed classifier unchanged,
-calibrate perturbations from independent technical evidence, distinguish
-analytical reliability from label agreement, expose ambiguity rather than conceal
-it in a hard label, and abstain when the assignment is not analytically reliable.
+single-sample execution, recurrence-risk stratification, group-level prognostic
+separation, runner-up margins, and perturbation-stability labeling. A defensible
+NaS contribution cannot therefore be merely a classifier, risk predictor, margin,
+or perturbation experiment. It would need to reproduce a fixed classifier
+unchanged, calibrate perturbations from independent technical evidence, define a
+reliability estimand and thresholds without outcome tuning, validate transport in
+an independent cohort, and abstain prospectively when the assignment is not
+analytically reliable.
 
 This interpretation may change after appraisal of absolute single-sample
 classifiers, RNA-seq implementations, uncertainty methods, and software packages.
@@ -264,7 +301,7 @@ It is not an authorized novelty conclusion.
 Status: `working`
 
 - The primary evidence review and citation chaining are incomplete.
-- Only 5 of 13 priority records have completed question-specific appraisal.
+- Only 6 of 13 priority records have completed question-specific appraisal.
 - Several priority full texts are restricted or lack a verified lawful source.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
 - No molecular or outcome data have been accessed for question `0.3.0`.
@@ -298,13 +335,16 @@ checks, and internal reviews are complete.
    subtype and risk of recurrence for clinical assessment of early-stage breast
    cancer. *NPJ Breast Cancer.* 2022;8:94.
    PMID:35974007. DOI:10.1038/s41523-022-00465-3.
+6. Veerla S, et al. Perturbation and stability of PAM50 subtyping in
+   population-based primary invasive breast cancer. *NPJ Breast Cancer.*
+   2023;9:83. PMID:37857634. DOI:10.1038/s41523-023-00589-0.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–4 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml`; `revised-appraisals/PMC7761033-v1.0.0.yaml`; `revised-appraisals/PMC9381586-v1.0.0.yaml` | supported, evidence review incomplete |
-| Introduction ¶5 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
+| Introduction ¶1–5 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml`; `revised-appraisals/PMC7761033-v1.0.0.yaml`; `revised-appraisals/PMC9381586-v1.0.0.yaml`; `revised-appraisals/PMC10587090-v1.0.0.yaml` | supported, evidence review incomplete |
+| Introduction ¶6 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions and access | founder progress receipt; `revised_appraisal_progress.yaml` | verified, incomplete |
@@ -313,14 +353,16 @@ checks, and internal reviews are complete.
 | Results—RNA-seq reference | External evidence appraisal | `revised-appraisals/PMC7442834-v1.0.0.yaml` | supporting |
 | Results—absolute single sample | External evidence appraisal | `revised-appraisals/PMC7761033-v1.0.0.yaml` | supporting |
 | Results—subtype and recurrence risk | External evidence appraisal | `revised-appraisals/PMC9381586-v1.0.0.yaml` | supporting |
+| Results—margin and perturbation | External evidence appraisal | `revised-appraisals/PMC10587090-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | five completed appraisals | provisional |
+| Discussion ¶1–2 | Explicit interpretation | six completed appraisals | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.5.0-working | 2026-07-24 | Added population-scale margin and perturbation evidence; restricted the candidate contribution to independently calibrated and externally validated reliability and abstention. |
 | 0.4.0-working | 2026-07-24 | Added SCAN-B subtype and recurrence-risk evidence; excluded generic RNA-seq risk prediction from the candidate novelty claim. |
 | 0.3.0-working | 2026-07-24 | Added MiniABS appraisal; removed any implied novelty claim for single-sample classification and isolated reliability and abstention as the candidate contribution. |
 | 0.2.0-working | 2026-07-24 | Added the supporting RNA-seq reference-sensitivity appraisal and narrowed the fixed-reference contribution. |

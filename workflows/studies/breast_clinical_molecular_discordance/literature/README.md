@@ -34,13 +34,14 @@ and zero AI decisions.
 
 The revised access ledger contains seven independently verified CC-BY full texts,
 four restricted or repository-unavailable records, and two records requiring a
-lawful alternative source. No restricted full text was stored. Five
+lawful alternative source. No restricted full text was stored. Six
 question-specific appraisals are complete: `PMC3275466` and `PMC4365540` are
 `context_only`, while `PMC7442834`, `PMC7761033`, and `PMC9381586` are
-`supporting`; two accessible records remain. The SCAN-B SSP study is the strongest
-reviewed validation of single-sample subtype and recurrence-risk prediction, but
-its primary targets reproduce a research nearest-centroid method and its
-retrospective treatment-impact emulation does not establish clinical utility.
+joined by `PMC10587090` as `supporting`; one accessible record remains. The
+population-scale stability study already evaluates best-runner-up margins,
+gene-cluster perturbation, stable/prototypical calls, and refined single-sample
+centroids. It lacks independent validation, technical-error calibration, and a
+prespecified abstention rule.
 
 Required artifacts:
 

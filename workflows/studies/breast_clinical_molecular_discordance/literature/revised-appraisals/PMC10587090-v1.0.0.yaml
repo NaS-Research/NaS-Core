@@ -1,0 +1,130 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd
+title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
+pmid: '37857634'
+doi: 10.1038/s41523-023-00589-0
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10587090/fullTextXML
+full_text_sha256: 2ca3db6fae40accbc47d98f6b0ff4aedbdb976d8cdde7cda059d6abbf4520e2a
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The population-based SCAN-B cohort is large and reported as representative of
+      primary invasive breast cancer in its South Sweden healthcare region. This
+      analysis uses 6,233 complete cases, representing 93.6% of a previously defined
+      6,660-patient early-stage cohort. Detailed eligibility and the effect of
+      omitting incomplete cases are deferred to the parent report, and all primary
+      stability analyses come from one regional population.
+    evidence_locations:
+      - Methods — Unselected population-based breast cancer cohort
+      - Discussion — first paragraph
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Curated RNA sequencing and registry-derived ER, PR, and HER2 data support
+      clinically stratified analysis. Key laboratory and preprocessing details are
+      incorporated from the parent SCAN-B report, and the authors explicitly state
+      that bulk-tissue sampling, tissue heterogeneity, and cellularity could not be
+      resolved even though each can alter PAM50 assignment.
+    evidence_locations:
+      - Methods — Unselected population-based breast cancer cohort
+      - Discussion — limitations paragraph beginning “A limitation of the current study”
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      The study defines a repeated-reference PAM50 nearest-centroid implementation,
+      best and second-best centroid correlations, seven co-expression clusters,
+      leave-one-cluster-out reclassification, 100 classifications per perturbation,
+      majority voting, and the threshold used to call a subtype switch. These details
+      make the perturbation logic explicit and distinguish it from technical
+      measurement-error simulation.
+    evidence_locations:
+      - Results — Overall impact of the leave-oneGeneCluster-out centroid perturbation strategy on PAM50 classification
+      - Methods — PAM50 gene set clustering
+      - Methods — PAM50 reclassification following a leave-oneGeneCluster-out strategy
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Original repeated-reference PAM50 calls and registry ER, PR, and HER2 groups
+      are appropriate technical and clinical comparators for the stated question.
+      Neither establishes biological truth for discordant subtypes, and the article
+      does not fully report clinical assay methods, thresholds, or adjudication.
+      The refined centroids are derived and assessed within the same SCAN-B resource.
+    evidence_locations:
+      - Results — PAM50 classification correlation strength and second-best subtype vary between clinical subgroups
+      - Results — Samples that were stable during leave-oneGeneCluster-out perturbation as basis for a refined true single sample PAM50 subtype classification in ERpHER2n tumors
+      - Methods — Unselected population-based breast cancer cohort
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The analysis systematically enumerates gene-cluster removals, retains the
+      runner-up correlation and correlation delta, stratifies by prespecified
+      receptor groups, and reports two-sided tests, Kaplan-Meier estimates,
+      log-rank tests, and Cox models. However, no study-wide multiplicity plan,
+      covariate-adjustment plan, proportional-hazards diagnostics, or complete
+      missing-data strategy is reported for numerous subgroup, perturbation,
+      metagene, and survival comparisons. Several outcome findings are explicitly
+      nonsignificant trends.
+    evidence_locations:
+      - Results — Evaluating the prognostic value of the second-best PAM50 subtype in adjuvant endocrine-treated lymph node-negative ERpHER2n patients
+      - Results — Impact of the leave-oneGeneCluster-out strategy on PAM50 classification with respect to prognosis
+      - Methods — Statistical methods
+      - Methods — Survival analysis
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      The large population-based cohort provides strong internal precision, and
+      selected TCGA gene-correlation checks support interpretation. The complete
+      margin, perturbation-stability, prognostic, and refined-centroid findings were
+      not independently replicated; refined centroids were developed and evaluated
+      in SCAN-B; and transport beyond the Swedish research RNA-seq workflow remains
+      unestablished. The authors call for larger validation before clinical use.
+    evidence_locations:
+      - Discussion
+      - Results — Samples that were stable during leave-oneGeneCluster-out perturbation as basis for a refined true single sample PAM50 subtype classification in ERpHER2n tumors
+      - Methods — cBioPortal analyses
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Processed RNA-sequencing and clinical data are linked to an open repository,
+      the main software versions are reported, and SRIQ clustering code is public.
+      A complete end-to-end executable analysis, locked environment, exact reference
+      matrices, and article-linked immutable code revision are not supplied.
+    evidence_locations:
+      - Methods — Statistical methods
+      - Methods — Survival analysis
+      - Data availability
+      - Code availability
+evidence_role: supporting
+key_strengths:
+  - Directly evaluates best-versus-second-best PAM50 correlation margins in 6,233 tumors.
+  - Applies systematic leave-one-gene-cluster-out perturbation across seven biological modules.
+  - Identifies stable and unstable classifications across subtype and receptor-defined groups.
+  - Relates runner-up labels and perturbation switches to biological programs and outcomes.
+  - Proposes fixed single-sample centroids derived from perturbation-stable tumors.
+key_limitations:
+  - Perturbations remove biological gene modules rather than model independently measured technical error.
+  - No independent end-to-end validation of margin, stability, or refined-centroid findings.
+  - Refined centroids are developed and evaluated within the same SCAN-B population.
+  - No study-wide multiplicity framework or fully adjusted prognostic analysis is reported.
+  - Bulk-tissue heterogeneity, sampling, and cellularity remain unresolved.
+  - No calibrated patient-level reliability probability or prespecified abstention threshold is validated.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Open-access funding was provided by
+  Lund University; additional funders are listed in the article acknowledgements.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable
+  for the locked eligibility and evidence-role decision. No model generated a
+  scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T22:51:55-05:00
+scientific_conclusions_drawn: false

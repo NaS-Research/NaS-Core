@@ -12,9 +12,9 @@ and what comes next?
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-Seven have verified CC-BY full text; five question-specific appraisals are
+Seven have verified CC-BY full text; six question-specific appraisals are
 complete. Four are restricted or unavailable through the approved endpoint, and
-two require a lawful alternative source. Appraise the remaining two accessible
+two require a lawful alternative source. Appraise the remaining accessible
 papers, resolve access where possible, then screen the remaining 87 candidates.
 
 Definition of done:
@@ -92,8 +92,14 @@ Current gate state:
   and executable code. It also establishes that subtype and recurrence-risk
   prediction already exist; retrospective treatment emulation and absent
   patient-level uncertainty prevent anchor or clinical-utility claims.
-- Living manuscript `0.4.0-working` contains traceable Phase 0 methods,
-  the five completed appraisals, an evidence-to-text ledger, explicit interpretation
+- Population-scale stability paper `PMC10587090` is `supporting` and directly
+  overlaps the proposed contribution: it evaluates runner-up correlation margins,
+  leave-one-gene-cluster-out stability, stable/prototypical labels, and refined
+  single-sample centroids in 6,233 tumors. Its perturbations are biological-module
+  deletions rather than calibrated technical error, and the method lacks independent
+  validation and a prespecified abstention rule.
+- Living manuscript `0.5.0-working` contains traceable Phase 0 methods,
+  the six completed appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
@@ -126,9 +132,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-`0.3.0` full-text appraisal of the two remaining verified
-   CC-BY priority papers, next addressing population-scale PAM50 perturbation and
-   stability (`PMC10587090`).
+1. Complete question-`0.3.0` full-text appraisal of the final verified CC-BY
+   priority paper, the BreastSubtypeR unified implementation (`PMC12501779`).
 2. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
 3. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
@@ -168,6 +173,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Population-scale PAM50 stability appraised
+
+Completed the question-specific appraisal of verified CC-BY paper `PMC10587090`
+as `supporting` evidence. In 6,233 SCAN-B tumors, the study directly analyzes the
+leading-versus-runner-up correlation delta, removes seven co-expression modules
+one at a time, identifies perturbation-stable tumors, and derives refined
+single-sample centroids from stable cases.
+
+This substantially overlaps the NaS proposal. Margin reporting, perturbation
+testing, and stable/prototypical labeling cannot be claimed as novel alone. The
+remaining distinction is narrow but testable: published perturbations remove
+biological modules rather than model independently measured technical error, the
+refined method lacks independent replication, and no calibrated reliability
+probability or prespecified abstention threshold is validated.
 
 ### 2026-07-24 — Single-sample subtype and recurrence-risk predictor appraised
 
@@ -229,21 +249,6 @@ placeholders because molecular and outcome access, method lock, preregistration,
 analysis, and review are incomplete. The manuscript rulebook requires an update
 after each material appraisal or research artifact and permits publication only
 from a frozen research release.
-
-### 2026-07-24 — Subgroup-specific centering appraised
-
-Completed the question-specific appraisal of verified CC-BY paper `PMC4365540`.
-The method directly shows that standard cohort median centering can produce radically
-different PAM50 assignments when a study cohort is clinically skewed. Its proposed
-percentile correction improved agreement within selected UNC subgroups and shifted
-two small external cohorts toward clinically expected subtype proportions.
-
-The paper is `context_only`. Development and most accuracy testing reuse the PAM50
-training resource, external comparators do not establish independent molecular
-truth, and the method requires clinicopathological composition plus sufficient
-cohort size. The authors explicitly state it is unsuitable for a one-patient
-dataset. It strengthens the rationale for a patient-independent external reference
-but cannot serve as that reference or validate the NaS procedure.
 
 ## Current blockers
 
