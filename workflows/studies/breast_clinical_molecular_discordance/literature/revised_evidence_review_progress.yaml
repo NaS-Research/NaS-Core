@@ -18,7 +18,7 @@ screening_progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f
 screening_progress_receipt_path: literature/revised-screening-progress/batch-0001.yaml
 primary_screening_complete: false
 eligible_evidence_count: 13
-completed_appraisal_count: 6
+completed_appraisal_count: 7
 access_restricted_count: 4
 pending_candidate_count: 87
 citation_passes: []
@@ -53,6 +53,10 @@ unresolved_claims:
   - >-
     Whether the exact question 0.3.0 contribution remains differentiated after current
     single-sample classifiers, uncertainty methods, and reproducible software are appraised.
+  - >-
+    Whether BreastSubtypeR inter-method entropy can be frozen and calibrated to
+    patient-level analytical error or abstention without using cohort-aware AUTO
+    selection or validation outcomes.
 stopping_rule_satisfied: false
 novelty_claim_authorized: false
 molecular_data_access_authorized: false

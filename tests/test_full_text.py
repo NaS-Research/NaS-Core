@@ -116,8 +116,8 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     assert progress.full_texts_retrieved == 7
     assert progress.access_restricted_count == 4
     assert sum(item.status == "awaiting_full_text" for item in progress.records) == 2
-    assert progress.appraisals_completed == 6
-    assert progress.supporting_count == 4
+    assert progress.appraisals_completed == 7
+    assert progress.supporting_count == 5
     assert progress.context_only_count == 2
     completed = [item for item in progress.records if item.status == "completed"]
     assert {item.pmcid for item in completed} == {
@@ -127,6 +127,7 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         "PMC7761033",
         "PMC9381586",
         "PMC10587090",
+        "PMC12501779",
     }
 
     appraisals = [
@@ -151,4 +152,5 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         "33255759": "supporting",
         "35974007": "supporting",
         "37857634": "supporting",
+        "41064593": "supporting",
     }

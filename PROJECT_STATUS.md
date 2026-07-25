@@ -8,14 +8,14 @@ and what comes next?
 
 ## Current focus
 
-### Appraise the remaining accessible NAS-BRCA-002 priority evidence
+### Complete the remaining NAS-BRCA-002 Phase 0 evidence review
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-Seven have verified CC-BY full text; six question-specific appraisals are
-complete. Four are restricted or unavailable through the approved endpoint, and
-two require a lawful alternative source. Appraise the remaining accessible
-papers, resolve access where possible, then screen the remaining 87 candidates.
+All seven verified CC-BY full texts have completed question-specific appraisal.
+Four are restricted or unavailable through the approved endpoint, and two require
+a lawful alternative source. Resolve lawful access where possible, screen the
+remaining 87 candidates, and complete sequential citation chaining.
 
 Definition of done:
 
@@ -98,8 +98,14 @@ Current gate state:
   single-sample centroids in 6,233 tumors. Its perturbations are biological-module
   deletions rather than calibrated technical error, and the method lacks independent
   validation and a prespecified abstention rule.
-- Living manuscript `0.5.0-working` contains traceable Phase 0 methods,
-  the six completed appraisals, an evidence-to-text ledger, explicit interpretation
+- BreastSubtypeR paper `PMC12501779` is `supporting`. It unifies ten classifiers,
+  reproduces original outputs, computes inter-method entropy, and performs
+  cohort-aware method selection. AUTO is not patient-independent, and entropy is
+  not calibrated to classification error or abstention.
+- All seven retrieved CC-BY priority papers are now appraised: five supporting,
+  two context-only, and zero anchor studies.
+- Living manuscript `0.6.0-working` contains traceable Phase 0 methods,
+  all seven accessible appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
@@ -132,47 +138,60 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-`0.3.0` full-text appraisal of the final verified CC-BY
-   priority paper, the BreastSubtypeR unified implementation (`PMC12501779`).
-2. Update the living manuscript and its evidence-to-text ledger after every material
-   appraisal, protocol decision, executed analysis, figure, and review decision.
-3. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
-   method (PMID `28062443`) without paywall circumvention or unlicensed storage.
-4. Founder-confirm or reject the five author-year-only inventory links, then screen
+1. Pursue lawful access for AIMS (PMID `25479802`), the single-subject uncertainty
+   method (PMID `28062443`), and the four restricted priority records without
+   paywall circumvention or unlicensed storage.
+2. Founder-confirm or reject the five author-year-only inventory links, then screen
    every remaining record in the 100-record revised queue.
-5. Execute sequential backward-plus-forward Europe PMC citation passes until two
+3. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-6. Resolve and approve the exact centroid and external-reference artifacts,
+4. Update the living manuscript and its evidence-to-text ledger after every material
+   appraisal, protocol decision, executed analysis, figure, and review decision.
+5. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-7. Define an independently calibrated technical-error model and lock the margin
+6. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-8. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-9. Complete the founder scientific/product, molecular/pathology, and statistical
+8. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-10. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-11. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-12. Implement persisted evidence claims, citations, provenance, contradictory
+11. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-13. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-14. Expand the screening model gateway into general evidence reasoning with
+13. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-15. Build evaluation suites for retrieval, citation validity, numerical
+14. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-16. Generate an immutable research release containing the protocol, dataset
+15. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-17. Generate a reviewable white-paper draft whose substantive claims trace to
+16. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-18. Build the internal workbench for projects, protocols, datasets, runs,
+17. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-19. Complete repeated internal oncology pilots before selecting the first
+18. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — All accessible priority evidence appraised
+
+Completed the question-specific appraisal of verified CC-BY paper `PMC12501779`
+as `supporting` evidence, bringing the accessible priority set to seven of seven
+complete. BreastSubtypeR unifies ten published classifiers, reproduces original
+implementations, exposes separate calls and inter-method entropy, and provides
+cohort-aware method selection through a versioned Bioconductor package.
+
+This removes generic multi-method comparison and discordance entropy as standalone
+NaS novelty claims. AUTO depends on cohort composition, its thresholds are developed
+substantially within SCAN-B, and entropy is not calibrated to patient-level error
+or abstention. Across the seven appraisals, five records are supporting, two are
+context-only, and none qualifies as anchor evidence.
 
 ### 2026-07-24 — Population-scale PAM50 stability appraised
 
@@ -235,20 +254,6 @@ sample overlap is unresolved, reference transport remains preprocessing-specific
 and small exploratory prognostic comparisons do not establish clinical validity
 or utility. The living manuscript and evidence ledger now preserve both the
 positive implementation evidence and those limitations.
-
-### 2026-07-24 — Governed living manuscript initialized
-
-Created the dedicated NAS-BRCA-002 manuscript workspace and seeded working version
-`0.1.0` with the study boundary, Phase 0 literature methods, the first two completed
-appraisals, limitations, references, and an evidence-to-text ledger. The draft
-strictly separates external literature from NaS-generated results and labels the
-current discussion as provisional interpretation.
-
-Abstract, NaS analytical results, and conclusions remain explicit prohibited
-placeholders because molecular and outcome access, method lock, preregistration,
-analysis, and review are incomplete. The manuscript rulebook requires an update
-after each material appraisal or research artifact and permits publication only
-from a frozen research release.
 
 ## Current blockers
 

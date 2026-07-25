@@ -1,0 +1,139 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341
+title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping in breast cancer research.'
+pmid: '41064593'
+doi: 10.1093/nargab/lqaf131
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12501779/fullTextXML
+full_text_sha256: c3231678890ecc0def1770c33863ecef7c4a4781a084b79a90ebe5660921a8ee
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Wrapper fidelity and AUTO-mode development relied mainly on 4,606 filtered
+      SCAN-B patients, with smaller ABiM100 and OSLO2-EMIT0 series used for selected
+      external scenarios. SCAN-B offers a large population-based source, but the
+      evaluation subset required complete IHC, nearest-centroid, follow-up, and
+      specimen information, and the two external cohorts were too small to evaluate
+      all simulated cohort compositions.
+    evidence_locations:
+      - Materials and methods — Wrapper fidelity check
+      - Materials and methods — Comparative performance
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The package supports raw RNA-seq counts, precomputed FPKM, microarray, and
+      nCounter inputs with method-specific transformations and Entrez-based gene
+      mapping. These conveniences expose assumptions rather than eliminating them:
+      microarray and nCounter inputs are assumed to be correctly background
+      corrected and normalized, back-transformation may not reconstruct raw-scale
+      measurements, and the authors acknowledge platform-specific performance and
+      lack of normalization consensus.
+    evidence_locations:
+      - Materials and methods — Data input and normalization pipeline
+      - Materials and methods — Optimized gene mapping
+      - Materials and methods — Limitations
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      BreastSubtypeR exposes ten published nearest-centroid and single-sample
+      classifiers through one API, documents AUTO decision logic, returns separate
+      method outputs without forced consensus, computes inter-method Shannon entropy,
+      provides a Shiny interface, and reproduces original implementations with kappa
+      1.00 in the reported SCAN-B fidelity check. The GPL-3 package, tests,
+      vignettes, and versioned Bioconductor source are publicly available.
+    evidence_locations:
+      - "Materials and methods — Multi-method subtyping: one-step analysis"
+      - Materials and methods — AUTO mode feature
+      - Materials and methods — Wrapper fidelity check
+      - Results — Wrapper fidelity
+      - Conclusions
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Fidelity is compared with each original software implementation, which is
+      appropriate for wrapper verification. Comparative accuracy is measured mainly
+      against SCAN-B NCN-PAM50 calls and IHC-defined subtypes. These are useful
+      technical comparators but not patient-level biological truth, and the authors
+      explicitly report that BreastSubtypeR has not been validated against the
+      clinical Prosigna assay.
+    evidence_locations:
+      - Materials and methods — Wrapper fidelity check
+      - Materials and methods — Comparative performance
+      - Materials and methods — Limitations
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The study uses exact wrapper comparisons, Cohen kappa, accuracy, 100 resampled
+      SCAN-B subcohorts, explicit ER-prevalence scenarios, external cohorts, and
+      entropy-based inter-classifier concordance. However, AUTO thresholds were
+      derived from SCAN-B simulations and evaluated again in SCAN-B-derived
+      scenarios, multiple methods and cohort conditions lack a study-wide
+      multiplicity framework, and comparisons average heterogeneous selected
+      methods rather than validate a prespecified patient-level decision rule.
+    evidence_locations:
+      - Materials and methods — AUTO mode feature
+      - Materials and methods — Comparative performance
+      - Results — Comparative performance
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Perfect wrapper fidelity, large SCAN-B simulations, and selected ABiM100 and
+      OSLO2-EMIT0 scenarios support software correctness and cohort-aware method
+      selection. Transport remains uncertain because external cohorts are small,
+      no direct Prosigna validation or outcome analysis is reported, AUTO uses
+      cohort composition and minimum group sizes rather than one-patient state, and
+      inter-method entropy is not calibrated to classification error or abstention.
+    evidence_locations:
+      - Results — Wrapper fidelity
+      - Results — Comparative performance
+      - Materials and methods — AUTO mode feature
+      - Materials and methods — Limitations
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      The article documents supported inputs, preprocessing defaults, decision
+      logic, wrapper functions, comparators, scenarios, and limitations. The package
+      is distributed under GPL-3 through Bioconductor with source code, tests,
+      vignettes, a Shiny interface, dependency metadata, and version history,
+      providing a strong reproducibility surface for research use.
+    evidence_locations:
+      - Materials and methods
+      - Results — Wrapper fidelity
+      - Conclusions
+evidence_role: supporting
+key_strengths:
+  - Unifies ten published breast-cancer subtyping implementations under one tested API.
+  - Reports perfect wrapper fidelity against original implementations in 4,606 SCAN-B cases.
+  - Makes method-selection assumptions explicit through documented cohort-aware AUTO logic.
+  - Provides per-method outputs and inter-method Shannon entropy without forcing consensus.
+  - Distributes versioned GPL-3 software, tests, vignettes, and a graphical interface through Bioconductor.
+key_limitations:
+  - AUTO depends on cohort composition and minimum subgroup size rather than patient-only information.
+  - AUTO thresholds are developed and substantially evaluated using the same SCAN-B resource.
+  - Main comparators are research NCN-PAM50 calls and IHC groups rather than biological truth.
+  - No direct Prosigna, patient-outcome, prospective decision-impact, or clinical-utility validation is reported.
+  - Inter-method entropy is not calibrated to error probability or an abstention threshold.
+  - Platform transformations and normalization defaults remain assumption-dependent.
+conflicts_and_funding: >-
+  Funding came from the Swedish Cancer Society, Cancer Research Funds of
+  Radiumhemmet, Swedish Breast Cancer Association, China Scholarship Council, and
+  Karolinska Institutet open-access support. Johan Hartman disclosed industry
+  honoraria, advisory remuneration, institutional research support, and co-founder
+  and shareholder status in Stratipath AB. Qiao Yang and Emmanouil G. Sifakis
+  declared no conflicts.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable
+  for the locked eligibility and evidence-role decision. No model generated a
+  scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T22:56:49-05:00
+scientific_conclusions_drawn: false

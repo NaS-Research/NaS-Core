@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
 progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
-generated_at: '2026-07-25T03:53:06.266646Z'
+generated_at: '2026-07-25T03:58:40.073854Z'
 provisional_inclusion_count: 13
 full_texts_retrieved: 7
-appraisals_completed: 6
+appraisals_completed: 7
 access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
-supporting_count: 4
+supporting_count: 5
 context_only_count: 2
 excluded_count: 0
 records:
@@ -89,9 +89,11 @@ records:
   title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping in breast
     cancer research.'
   pmcid: PMC12501779
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: af9d95d5b954b792d282c354c7d3d42ced375525fa2166d0edca69a1d7b1faf2
   full_text_sha256: c3231678890ecc0def1770c33863ecef7c4a4781a084b79a90ebe5660921a8ee
+  appraisal_version: 1.0.0
+  evidence_role: supporting
 - screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
   title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
   pmcid: PMC12789466

@@ -34,14 +34,14 @@ and zero AI decisions.
 
 The revised access ledger contains seven independently verified CC-BY full texts,
 four restricted or repository-unavailable records, and two records requiring a
-lawful alternative source. No restricted full text was stored. Six
+lawful alternative source. No restricted full text was stored. All seven
 question-specific appraisals are complete: `PMC3275466` and `PMC4365540` are
 `context_only`, while `PMC7442834`, `PMC7761033`, and `PMC9381586` are
-joined by `PMC10587090` as `supporting`; one accessible record remains. The
-population-scale stability study already evaluates best-runner-up margins,
-gene-cluster perturbation, stable/prototypical calls, and refined single-sample
-centroids. It lacks independent validation, technical-error calibration, and a
-prespecified abstention rule.
+joined by `PMC10587090` and `PMC12501779` as `supporting`. No verified retrieved
+full text remains unappraised. BreastSubtypeR already unifies ten methods, exposes
+per-method calls and inter-method entropy, and performs cohort-aware method
+selection. Its entropy is not calibrated to patient-level error or abstention, and
+AUTO is not patient-independent.
 
 Required artifacts:
 

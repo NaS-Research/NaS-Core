@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.5.0-working`
+Manuscript version: `0.6.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -67,6 +67,12 @@ modules, identified stable/prototypical tumors, and derived new single-sample
 centroids from perturbation-stable cases. Therefore, neither a score margin nor
 perturbation-stability labeling is novel by itself. [PMID:37857634]
 
+Unified research software now executes ten published subtype methods, reports
+method-specific calls and inter-method Shannon entropy, and uses cohort composition
+to disable methods whose assumptions are likely violated. Thus, multi-method
+comparison and discordance quantification also exist, although the published
+entropy is not calibrated to patient-level error or abstention. [PMID:41064593]
+
 This study is therefore evaluating a narrower methodological question: whether a
 fully specified, patient-independent research implementation can report the leading
 and runner-up subtype scores, their margin, perturbation repeatability, data-quality
@@ -102,8 +108,9 @@ All 100 records had abstracts and were reset to pending under question `0.3.0`.
 The founder included all 13 direct-priority records for full-text review. Seven
 had verified CC-BY full text, four were restricted or unavailable through the
 approved repository endpoint, and two required a lawful alternative source.
-Restricted full text was not stored. At this manuscript version, 6 of the 13
-priority records have completed question-specific appraisal.
+Restricted full text was not stored. At this manuscript version, all seven
+verified CC-BY records have completed question-specific appraisal; four priority
+records remain access-restricted and two require a verified lawful source.
 [revised-screening-progress/batch-0001.yaml; revised_appraisal_progress.yaml]
 
 ### Quality appraisal
@@ -268,6 +275,32 @@ probability or prespecified abstention threshold was provided. The evidence is
 labeling, and refined single-sample centroids as standalone NaS novelty claims.
 [PMID:37857634; revised appraisal PMC10587090-v1.0.0]
 
+### Unified multi-method software and inter-method discordance
+
+Yang and colleagues introduced BreastSubtypeR, an R/Bioconductor package that
+harmonizes ten published nearest-centroid and single-sample subtype methods. Its
+wrapper outputs reproduced the original implementations with kappa 1.00 in 4,606
+SCAN-B cases. The package preserves separate method calls, calculates Shannon
+entropy to describe inter-method concordance, and deliberately does not force a
+consensus label.
+
+BreastSubtypeR also implements AUTO, which examines cohort ER/HER2 prevalence,
+subtype composition, and subgroup size to disable methods whose assumptions are
+likely violated. In simulated SCAN-B cohorts with extreme ER-positive prevalence,
+selected-method accuracy exceeded excluded-method accuracy by approximately
+18–19 percentage points. Across subtype-specific SCAN-B, ABiM100, and OSLO2-EMIT0
+scenarios, improvements ranged from approximately 14 to 36 percentage points,
+depending on comparator and cohort.
+
+The package is a strong reproducible research implementation, distributed under
+GPL-3 through Bioconductor with source, tests, vignettes, and a Shiny interface.
+It remains `supporting` evidence rather than clinical or reliability validation:
+AUTO thresholds were developed and substantially evaluated in SCAN-B, selection
+depends on cohort composition rather than patient-only state, primary comparators
+were research PAM50 or IHC labels, no direct Prosigna or outcome validation was
+performed, and entropy was not calibrated to error probability or abstention.
+[PMID:41064593; revised appraisal PMC12501779-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -279,14 +312,15 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The first six appraisals show that the broad problem is established: PAM50
+The seven accessible priority appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
 single-sample execution, recurrence-risk stratification, group-level prognostic
-separation, runner-up margins, and perturbation-stability labeling. A defensible
-NaS contribution cannot therefore be merely a classifier, risk predictor, margin,
-or perturbation experiment. It would need to reproduce a fixed classifier
+separation, runner-up margins, perturbation-stability labeling, multi-method
+comparison, and discordance entropy. A defensible NaS contribution cannot therefore
+be merely a classifier, risk predictor, margin, perturbation experiment, or
+ensemble-disagreement score. It would need to reproduce a fixed classifier
 unchanged, calibrate perturbations from independent technical evidence, define a
 reliability estimand and thresholds without outcome tuning, validate transport in
 an independent cohort, and abstain prospectively when the assignment is not
@@ -301,7 +335,8 @@ It is not an authorized novelty conclusion.
 Status: `working`
 
 - The primary evidence review and citation chaining are incomplete.
-- Only 6 of 13 priority records have completed question-specific appraisal.
+- Seven of 13 priority records have completed question-specific appraisal; these
+  comprise all currently verified CC-BY full texts.
 - Several priority full texts are restricted or lack a verified lawful source.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
 - No molecular or outcome data have been accessed for question `0.3.0`.
@@ -338,13 +373,17 @@ checks, and internal reviews are complete.
 6. Veerla S, et al. Perturbation and stability of PAM50 subtyping in
    population-based primary invasive breast cancer. *NPJ Breast Cancer.*
    2023;9:83. PMID:37857634. DOI:10.1038/s41523-023-00589-0.
+7. Yang Q, Hartman J, Sifakis EG. BreastSubtypeR: a unified R/Bioconductor
+   package for intrinsic molecular subtyping in breast cancer research.
+   *NAR Genom Bioinform.* 2025;7(4):lqaf131.
+   PMID:41064593. DOI:10.1093/nargab/lqaf131.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–5 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml`; `revised-appraisals/PMC7761033-v1.0.0.yaml`; `revised-appraisals/PMC9381586-v1.0.0.yaml`; `revised-appraisals/PMC10587090-v1.0.0.yaml` | supported, evidence review incomplete |
-| Introduction ¶6 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
+| Introduction ¶1–6 | External methodological evidence | seven records in `literature/revised-appraisals/` | supported, evidence review incomplete |
+| Introduction ¶7 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions and access | founder progress receipt; `revised_appraisal_progress.yaml` | verified, incomplete |
@@ -354,14 +393,16 @@ checks, and internal reviews are complete.
 | Results—absolute single sample | External evidence appraisal | `revised-appraisals/PMC7761033-v1.0.0.yaml` | supporting |
 | Results—subtype and recurrence risk | External evidence appraisal | `revised-appraisals/PMC9381586-v1.0.0.yaml` | supporting |
 | Results—margin and perturbation | External evidence appraisal | `revised-appraisals/PMC10587090-v1.0.0.yaml` | supporting |
+| Results—multi-method software | External evidence appraisal | `revised-appraisals/PMC12501779-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | six completed appraisals | provisional |
+| Discussion ¶1–2 | Explicit interpretation | seven completed appraisals | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.6.0-working | 2026-07-24 | Completed all seven accessible priority appraisals; added BreastSubtypeR and excluded generic multi-method discordance from the candidate novelty claim. |
 | 0.5.0-working | 2026-07-24 | Added population-scale margin and perturbation evidence; restricted the candidate contribution to independently calibrated and externally validated reliability and abstention. |
 | 0.4.0-working | 2026-07-24 | Added SCAN-B subtype and recurrence-risk evidence; excluded generic RNA-seq risk prediction from the candidate novelty claim. |
 | 0.3.0-working | 2026-07-24 | Added MiniABS appraisal; removed any implied novelty claim for single-sample classification and isolated reliability and abstention as the candidate contribution. |
