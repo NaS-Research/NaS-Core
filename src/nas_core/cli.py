@@ -26,7 +26,11 @@ from nas_core.domain.appraisal import (
 from nas_core.domain.citation_chain import (
     CitationSeed,
     load_citation_chain_receipt,
+    load_citation_prioritization_receipt,
+    load_citation_screening_preparation_receipt,
     write_citation_chain_receipt,
+    write_citation_enrichment_receipt,
+    write_citation_prioritization_receipt,
     write_citation_screening_preparation_receipt,
 )
 from nas_core.domain.cohorts import (
@@ -66,6 +70,8 @@ from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.citation_chain import CitationChainRetrievalService
+from nas_core.retrieval.citation_enrichment import CitationEnrichmentService
+from nas_core.retrieval.citation_prioritization import CitationPrioritizationService
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
@@ -260,6 +266,35 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Persist the verified deduplication inventory and screening candidate set",
+    )
+    citation_prioritize = evidence_review_commands.add_parser(
+        "citation-prioritize",
+        help="Rank every unscreened citation candidate using transparent title signals",
+    )
+    citation_prioritize.add_argument("preparation_receipt", type=Path)
+    citation_prioritize.add_argument("--code-revision", required=True)
+    citation_prioritize.add_argument("--receipt-output", required=True, type=Path)
+    citation_prioritize.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the complete advisory ranking without screening decisions",
+    )
+    citation_enrich = evidence_review_commands.add_parser(
+        "citation-enrich",
+        help="Retrieve Europe PMC abstracts for direct and supporting citation candidates",
+    )
+    citation_enrich.add_argument("prioritization_receipt", type=Path)
+    citation_enrich.add_argument("--code-revision", required=True)
+    citation_enrich.add_argument("--receipt-output", required=True, type=Path)
+    citation_enrich.add_argument(
+        "--include-context",
+        action="store_true",
+        help="Enrich every retained candidate, including the title-only context tier",
+    )
+    citation_enrich.add_argument(
+        "--execute",
+        action="store_true",
+        help="Contact Europe PMC and persist verified enrichment artifacts",
     )
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
@@ -824,6 +859,78 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{preparation.requires_screening_count} requiring founder screening"
         )
         print(f"Wrote verified preparation receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-prioritize"
+    ):
+        preparation = load_citation_screening_preparation_receipt(
+            args.preparation_receipt
+        )
+        if not args.execute:
+            print(
+                f"Citation prioritization ready: "
+                f"{preparation.requires_screening_count} candidates"
+            )
+            print("Dry run only; no ranking artifact was stored.")
+            return 0
+        prioritization_service = CitationPrioritizationService(
+            store=get_object_store()
+        )
+        prioritization = prioritization_service.prioritize(
+            preparation,
+            code_revision=args.code_revision,
+        )
+        write_citation_prioritization_receipt(
+            args.receipt_output, prioritization
+        )
+        print(
+            f"Prioritized citation pass {prioritization.pass_number}: "
+            f"{prioritization.direct_priority_count} direct, "
+            f"{prioritization.supporting_priority_count} supporting, "
+            f"{prioritization.context_priority_count} context"
+        )
+        print("Advisory ranking only; zero final screening decisions were recorded.")
+        print(f"Wrote verified prioritization receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-enrich"
+    ):
+        prioritization = load_citation_prioritization_receipt(
+            args.prioritization_receipt
+        )
+        requested = (
+            prioritization.candidate_count
+            if args.include_context
+            else (
+                prioritization.direct_priority_count
+                + prioritization.supporting_priority_count
+            )
+        )
+        if not args.execute:
+            print(
+                f"Citation enrichment ready: {requested} direct/supporting candidates"
+            )
+            print("Dry run only; Europe PMC was not contacted.")
+            return 0
+        enrichment_service = CitationEnrichmentService(store=get_object_store())
+        enrichment = enrichment_service.enrich(
+            prioritization,
+            code_revision=args.code_revision,
+            include_context=args.include_context,
+        )
+        write_citation_enrichment_receipt(args.receipt_output, enrichment)
+        print(
+            f"Enriched citation pass {enrichment.pass_number}: "
+            f"{enrichment.metadata_match_count}/{enrichment.requested_candidate_count} "
+            f"metadata matches, {enrichment.abstract_count} abstracts, "
+            f"{enrichment.unresolved_metadata_count} unresolved"
+        )
+        print("Metadata only; zero final screening decisions were recorded.")
+        print(f"Wrote verified enrichment receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

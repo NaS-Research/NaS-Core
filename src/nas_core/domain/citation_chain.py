@@ -136,6 +136,145 @@ class CitationScreeningPreparationReceipt(CitationChainModel):
         return self
 
 
+class CitationPriorityTier(StrEnum):
+    DIRECT = "direct"
+    SUPPORTING = "supporting"
+    CONTEXT = "context"
+
+
+class CitationPriorityRecord(CitationChainModel):
+    rank: int = Field(ge=1)
+    score: int
+    tier: CitationPriorityTier
+    positive_signals: list[str]
+    caution_signals: list[str]
+    candidate: CitationCandidate
+
+
+class CitationPrioritizationReceipt(CitationChainModel):
+    schema_version: str = "1.0.0"
+    prioritization_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    pass_number: int = Field(ge=1)
+    preparation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    algorithm_version: str = Field(min_length=1)
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    created_at: datetime
+    verified_at: datetime
+    candidate_count: int = Field(ge=0)
+    direct_priority_count: int = Field(ge=0)
+    supporting_priority_count: int = Field(ge=0)
+    context_priority_count: int = Field(ge=0)
+    ranking_object: StoredObject
+    input_checksum_verified: bool
+    output_checksum_verified: bool
+    rank_invariants_verified: bool
+    final_screening_decisions_recorded: int = Field(default=0, ge=0)
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_prioritization(self) -> CitationPrioritizationReceipt:
+        if (
+            self.direct_priority_count
+            + self.supporting_priority_count
+            + self.context_priority_count
+            != self.candidate_count
+        ):
+            raise ValueError("citation priority tiers must cover every candidate")
+        if not all(
+            (
+                self.input_checksum_verified,
+                self.output_checksum_verified,
+                self.rank_invariants_verified,
+            )
+        ):
+            raise ValueError("citation prioritization requires verified invariants")
+        if self.final_screening_decisions_recorded or self.scientific_conclusions_drawn:
+            raise ValueError("citation prioritization cannot make final decisions")
+        return self
+
+
+class EnrichedCitationCandidate(CitationChainModel):
+    record_key: str = Field(pattern=r"^[A-Z]+:.+$")
+    source: str = Field(pattern=r"^[A-Z]+$")
+    external_id: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    author_string: str | None = None
+    journal: str | None = None
+    publication_year: int | None = Field(default=None, ge=1800, le=2100)
+    pmid: str | None = None
+    pmcid: str | None = None
+    doi: str | None = None
+    abstract: str | None = None
+    is_open_access: bool | None = None
+    rank: int = Field(ge=1)
+    score: int
+    tier: CitationPriorityTier
+    positive_signals: list[str]
+    caution_signals: list[str]
+    metadata_match_found: bool
+    directions: list[CitationDirection] = Field(min_length=1, max_length=2)
+    seed_evidence_ids: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_enrichment(self) -> EnrichedCitationCandidate:
+        if not self.metadata_match_found and any(
+            (self.pmid, self.pmcid, self.doi, self.abstract, self.is_open_access)
+        ):
+            raise ValueError("unmatched citation candidates cannot claim enriched metadata")
+        return self
+
+
+class CitationEnrichmentScope(StrEnum):
+    DIRECT_AND_SUPPORTING = "direct_and_supporting"
+    ALL_CANDIDATES = "all_candidates"
+
+
+class CitationEnrichmentReceipt(CitationChainModel):
+    schema_version: str = "1.0.0"
+    enrichment_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    pass_number: int = Field(ge=1)
+    prioritization_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    selection_scope: CitationEnrichmentScope
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    created_at: datetime
+    verified_at: datetime
+    requested_candidate_count: int = Field(ge=0)
+    metadata_match_count: int = Field(ge=0)
+    abstract_count: int = Field(ge=0)
+    unresolved_metadata_count: int = Field(ge=0)
+    request_count: int = Field(ge=0)
+    raw_responses_object: StoredObject
+    enriched_candidates_object: StoredObject
+    input_checksum_verified: bool
+    output_checksums_verified: bool
+    record_coverage_verified: bool
+    final_screening_decisions_recorded: int = Field(default=0, ge=0)
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_enrichment(self) -> CitationEnrichmentReceipt:
+        if (
+            self.metadata_match_count + self.unresolved_metadata_count
+            != self.requested_candidate_count
+        ):
+            raise ValueError("citation enrichment must account for every requested record")
+        if self.abstract_count > self.metadata_match_count:
+            raise ValueError("citation abstracts cannot exceed metadata matches")
+        if not all(
+            (
+                self.input_checksum_verified,
+                self.output_checksums_verified,
+                self.record_coverage_verified,
+            )
+        ):
+            raise ValueError("citation enrichment requires verified invariants")
+        if self.final_screening_decisions_recorded or self.scientific_conclusions_drawn:
+            raise ValueError("citation enrichment cannot make final decisions")
+        return self
+
+
 class CitationChainSnapshot(CitationChainModel):
     schema_version: str = "1.0.0"
     execution_id: str = Field(pattern=r"^[a-f0-9]{64}$")
@@ -264,5 +403,45 @@ def load_citation_screening_preparation_receipt(
     path: Path,
 ) -> CitationScreeningPreparationReceipt:
     return CitationScreeningPreparationReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_citation_prioritization_receipt(
+    path: Path,
+    receipt: CitationPrioritizationReceipt,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def load_citation_prioritization_receipt(path: Path) -> CitationPrioritizationReceipt:
+    return CitationPrioritizationReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_citation_enrichment_receipt(
+    path: Path,
+    receipt: CitationEnrichmentReceipt,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def load_citation_enrichment_receipt(path: Path) -> CitationEnrichmentReceipt:
+    return CitationEnrichmentReceipt.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )

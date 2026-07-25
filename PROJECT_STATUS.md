@@ -156,6 +156,11 @@ Current gate state:
   the completed direct-search inventory, 91 are exact normalized-title duplicates
   within the citation set, and 4,495 require screening. No citation candidate has
   received an autonomous inclusion or exclusion.
+- Transparent title prioritization retains all 4,495 candidates while routing 80
+  to `direct`, 400 to `supporting`, and 4,015 to `context` review priority. A
+  pre-decision calibration lowered the supporting threshold so known single-sample
+  scoring methods were not buried. Full official Europe PMC enrichment matched all
+  4,495 records and supplied 4,402 abstracts; the remaining 93 stay metadata-only.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -230,6 +235,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Full citation metadata enrichment completed
+
+Implemented transparent, zero-cost title prioritization and batched Europe PMC
+metadata enrichment. The ranking writes no eligibility decision and retains every
+candidate. Calibration occurred before screening and is versioned as
+`citation-title-priority-1.0.1`.
+
+The final ranking contains 80 direct-, 400 supporting-, and 4,015 context-priority
+records. Ninety bounded official API requests matched all 4,495 identities and
+returned 4,402 abstracts. The 93 abstract-unavailable records remain in the
+screening inventory; none was excluded because an abstract was missing.
 
 ### 2026-07-25 — Citation pass 1 retrieved and prepared for screening
 

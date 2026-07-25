@@ -50,6 +50,11 @@ are normalized-title duplicates within the citation set, and 4,495 require
 screening. These are workload dispositions, not autonomous eligibility decisions.
 Raw responses, candidate metadata, and the full deduplication ledger remain in
 checksummed external object storage; aggregate receipts are in `citation-chain/`.
+Transparent title prioritization version `1.0.1` ranks—but does not decide—all
+4,495 candidates: 80 direct, 400 supporting, and 4,015 context. Full official
+Europe PMC enrichment matched every candidate and returned 4,402 abstracts through
+90 batched requests. Ninety-three metadata-only records remain explicitly visible.
+The next artifact is an abstract-informed advisory packet covering every record.
 
 Required artifacts:
 

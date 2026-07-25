@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.18.0-working`
+Manuscript version: `0.19.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -165,6 +165,14 @@ screening. These workload classifications contain zero new eligibility decisions
 and no scientific conclusion.
 [citation-chain/pass-0001-retrieval.yaml;
 citation-chain/pass-0001-screening-preparation.yaml]
+
+All 4,495 unscreened citation candidates then received transparent title-based
+review priority without an eligibility decision: 80 direct, 400 supporting, and
+4,015 context. A full batched Europe PMC enrichment matched every record and
+retrieved 4,402 abstracts; 93 records remain metadata-only and cannot be excluded
+solely for missing abstracts. Founder screening of this inventory is pending.
+[citation-chain/pass-0001-prioritization.yaml;
+citation-chain/pass-0001-full-enrichment.yaml]
 
 ### Quality appraisal
 
