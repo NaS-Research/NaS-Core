@@ -1,0 +1,124 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 7fffe06a6fc330fe2419e914bf1900df91706c162578ae0269ee1b4a23214c2b
+title: Systematic bias in genomic classification due to contaminating non-neoplastic tissue in breast tumor samples.
+pmid: '21718502'
+doi: 10.1186/1755-8794-4-54
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3151208/fullTextXML
+full_text_sha256: cc1ea270ce7b24d4ba44babd541abdb195ee93c922deba3ac1687b38350c6285
+access_basis: >-
+  Identity-, checksum-, and CC-BY-2.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: methods_normalization
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The core contamination experiment uses 55 UNC tumor-adjacent-normal pairs
+      and 24 additional tumors with pathologist-estimated cellularity. Four public
+      retrospective microarray cohorts broaden context, but their eligibility,
+      tumor-purity criteria, follow-up, and clinical composition differ.
+    evidence_locations:
+      - Methods — Samples and clinical data
+      - Table 2
+      - Results and Discussion
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Paired tumor and adjacent benign tissue directly model an important
+      specimen contaminant, and linear mixing was checked experimentally in
+      epithelial-stromal coculture. Simulated expression mixtures are not
+      independent physical extractions at each purity level, adjacent tissue may
+      differ from generic benign tissue, and most public samples lack individual
+      measured purity.
+    evidence_locations:
+      - Methods — Microarrays
+      - Methods — Tumor-Normal Mixing
+      - Results and Discussion — Effects of normal contamination
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Published PAM50, 70-gene, and 21-gene algorithms were implemented with
+      documented normalization, filtering, and imputation. The authors explicitly
+      note that these research implementations may differ from patented clinical
+      assays, and public platforms lacked some signature genes.
+    evidence_locations:
+      - Methods — Normalization and Classification with Genomic Predictors
+      - Methods — Survival analysis
+      - Supplementary Material
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Each tumor's unadmixed profile and paired adjacent tissue provide a useful
+      within-patient contamination comparator. The pure-tumor state is not an
+      independent biological truth, and improved survival separation after
+      correction does not prove that every corrected subtype is correct.
+    evidence_locations:
+      - Methods — Tumor-Normal Mixing
+      - Results and Discussion
+      - Conclusions
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The study reports classification trajectories, experimental linearity,
+      survival curves, sensitivity, and negative predictive value. Dataset-wide
+      correction levels were selected to maximize negative predictive value while
+      preserving group sizes, creating outcome-informed optimism; confidence
+      intervals, multiplicity control, and external calibration of individual
+      purity estimates are limited.
+    evidence_locations:
+      - Methods — Normalization and Classification with Genomic Predictors
+      - Methods — Sensitivity and negative predictive value
+      - Figures 3–4
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Directionally similar changes across three survival cohorts and a highly
+      microdissected fourth set support the contamination mechanism. The correction
+      amount changes by cohort, individual purity could not be predicted from
+      expression, and no unchanged patient-level threshold or clinical decision
+      rule was externally validated.
+    evidence_locations:
+      - Results and Discussion — Effects of Normal Contamination in Public Datasets
+      - Results and Discussion — Correcting for normal percentages
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Public GEO accessions, equations, classifier sources, cohort characteristics,
+      and supplementary results are reported under CC BY. Exact code, environment,
+      imputation seed, and clinically patented assay implementations are not pinned.
+    evidence_locations:
+      - Methods
+      - Supplementary Material
+      - Pre-publication history
+evidence_role: supporting
+key_strengths:
+  - Uses paired tumor and adjacent non-neoplastic tissue from 55 patients.
+  - Experimentally checks the assumed linear influence of epithelial and stromal RNA.
+  - Shows that contamination can shift subtype and recurrence-risk classifications.
+  - Finds a predictable downward risk bias for the studied PAM50 implementation.
+  - Replicates directionally consistent effects across multiple public cohorts.
+key_limitations:
+  - Mixing is primarily simulated from expression profiles rather than repeated physical admixtures.
+  - Research implementations may differ from the commercial assays.
+  - Public cohorts lack patient-level tumor-purity measurements.
+  - Correction amounts were chosen using outcome performance within each cohort.
+  - No fixed, externally calibrated individual correction or abstention rule is supplied.
+conflicts_and_funding: >-
+  Two authors disclosed collaboration or patent relationships connected to PAM50;
+  the manuscript states that it did not assess the commercial assay. Support came
+  from NIH/NCI R01 CA138255 and P50 CA58233 and the University Cancer Research Fund.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder's standing authorization covers this confirmed
+  screening set and he remains accountable for the locked eligibility and
+  evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T09:05:00-05:00
+scientific_conclusions_drawn: false

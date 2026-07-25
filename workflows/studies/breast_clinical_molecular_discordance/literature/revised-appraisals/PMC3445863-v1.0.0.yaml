@@ -1,0 +1,123 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 1bdfeeb3dd98f2307de5885f6924f063de53909635b8c1ef5a93868a97072d49
+title: Prediction consistency and clinical presentations of breast cancer molecular subtypes for Han Chinese population.
+pmid: '23046482'
+doi: 10.1186/1479-5876-10-S1-S10
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3445863/fullTextXML
+full_text_sha256: 1719e78cad40bcbaed4c07a0356d9e5aa8b7f76922b4dbd74180636ca627b3bb
+access_basis: >-
+  Identity-, checksum-, and CC-BY-2.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The analysis combines 44 consecutive Taiwanese and 125 public mainland
+      Chinese invasive cancers, all profiled on the same Affymetrix platform.
+      Pooling after separate acquisition and restricting detailed survival to 44
+      patients limits representativeness and precision.
+    evidence_locations:
+      - Methods — Study population and microarray experiments
+      - Table 1
+      - Results — Clinical features
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Taiwanese tumors required greater than 90% cancer content and both sources
+      used U133 Plus 2.0 arrays with RMA, followed by pooled quantile
+      normalization. The public cohort's specimen handling is less controlled,
+      and pooling plus batch correction can alter the very subtype calls being
+      compared.
+    evidence_locations:
+      - Methods — Study population and microarray experiments
+      - Methods — Single sample prediction and systemic bias adjustment
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      Sørlie 500, Hu 306, and PAM50 centroids were mapped to array probes and
+      evaluated with no adjustment, gene centering, and DWD. Gene centering and
+      DWD require the study collection, so most compared implementations are not
+      patient-independent; mapping older clone identifiers also introduces
+      implementation uncertainty.
+    evidence_locations:
+      - Methods — Intrinsic gene lists and prototypical samples
+      - Methods — Single sample prediction and systemic bias adjustment
+      - Discussion
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      Agreement between gene sets and rough concordance with ER/HER2 phenotypes do
+      not establish the correct intrinsic subtype. The analysis retains only 117
+      highly concordant samples for detailed clinical description, creating a
+      selected subset rather than an independent truth standard.
+    evidence_locations:
+      - Results — Agreement between intrinsic gene sets
+      - Results — Clinical features
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Kappa with confidence intervals appropriately summarizes pairwise agreement.
+      Numerous method, gene-set, subtype, pathological, subgroup, and survival
+      comparisons lack a multiplicity plan; survival has only ten events and no
+      multivariable adjustment, and selection of agreeing samples biases clinical
+      comparisons.
+    evidence_locations:
+      - Results
+      - Table 3
+      - Figure 1
+      - Discussion — limitations
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      The study examines a useful non-European population but does not validate an
+      unchanged classifier in an independent held-out cohort. Batch adjustments
+      change assignments materially, follow-up is sparse, and there is no
+      technical-repeat, decision-impact, reliability-calibration, or abstention
+      validation.
+    evidence_locations:
+      - Results — Distributions of molecular subtypes
+      - Results — Agreement
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Data sources, probe mapping, centroids, adjustment methods, kappa estimates,
+      and supplementary tables are described under CC BY. No pinned code or
+      environment is supplied, and older identifier mapping limits exact reuse.
+    evidence_locations:
+      - Methods
+      - Supplementary Material
+      - Data source GSE5460
+evidence_role: context_only
+key_strengths:
+  - Directly compares three generations of intrinsic gene signatures.
+  - Uses a common array platform in 169 Han Chinese breast cancers.
+  - Reports agreement with confidence intervals across multiple bias adjustments.
+  - Shows that preprocessing choice can materially change subtype calls.
+  - Highlights persistent Luminal A/Luminal B and IHC/molecular disagreement.
+key_limitations:
+  - Gene centering and DWD depend on the study cohort.
+  - There is no independent biological reference subtype.
+  - Detailed clinical comparisons select only highly concordant cases.
+  - Survival analysis contains only 44 patients and ten events without multivariable adjustment.
+  - No unchanged external validation, technical reliability calibration, or abstention rule is tested.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Funding included Cathay Medical
+  Research Institute CGH-MR-9609, National Taiwan University 95R0066-BM01-01 and
+  98HM0001, and National Science Council 100-2314-B-281-005-MY2.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder's standing authorization covers this confirmed
+  screening set and he remains accountable for the locked eligibility and
+  evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T09:06:00-05:00
+scientific_conclusions_drawn: false

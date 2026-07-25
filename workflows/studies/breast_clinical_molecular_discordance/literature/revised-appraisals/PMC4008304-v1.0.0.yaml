@@ -1,0 +1,125 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: f388ae05a4ed1d1a982e7577d351252c06613e62f3b975994114b4b850f5bf69
+title: Analytical validation of the PAM50-based Prosigna Breast Cancer Prognostic Gene Signature Assay and nCounter Analysis System using formalin-fixed paraffin-embedded breast tumor specimens.
+pmid: '24625003'
+doi: 10.1186/1471-2407-14-177
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4008304/fullTextXML
+full_text_sha256: 1f5bfe0d6288272c9b89f66a055e9a650e2f05b93256b1d4488be8447a141480
+access_basis: >-
+  Identity-, checksum-, and CC-BY-2.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: analytical_validation
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Analytical precision uses five pooled subtype/risk RNA samples;
+      reproducibility uses 43 unique hormone-receptor-positive FFPE blocks
+      selected to span tissue area and ROR range. This is appropriate for
+      analytical validation but small and not representative of all breast cancer
+      subtypes or decentralized laboratories.
+    evidence_locations:
+      - 'Methods — RNA precision: study design'
+      - 'Methods — Reproducibility: study design'
+      - Tables 1–4
+  - domain: specimen_and_measurement
+    judgment: low
+    rationale: >-
+      FFPE sections underwent independent pathology review, macrodissection, RNA
+      extraction, QC, and blinded testing across three sites, operators, reagent
+      lots, runs, and sections. Separate studies prespecified RNA-input and
+      non-tumor-interferent challenges using the clinical workflow.
+    evidence_locations:
+      - Methods — NanoString Prosigna assay
+      - 'Methods — Reproducibility: study design'
+      - Methods — Tissue interferents
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      The commercial Prosigna workflow uses embedded clinical-grade software,
+      automatic QC, fixed subtype/ROR algorithms, and prespecified risk cutoffs.
+      Operators followed locked SOPs, reagents, instrumentation, and software;
+      failed QC prevents result output.
+    evidence_locations:
+      - Methods — NanoString Prosigna assay
+      - Methods — operator training
+      - Methods — prespecified SOPs and acceptance criteria
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Same-RNA replicates isolate device precision, while serial FFPE sections
+      across sites capture the full analytical workflow. Expected categories for
+      pooled RNA and cross-site agreement are appropriate analytical comparators,
+      but no independent biological truth identifies a correct subtype near a
+      boundary.
+    evidence_locations:
+      - Methods — RNA precision
+      - Methods — Reproducibility
+      - Results — subtype and risk category concordance
+  - domain: analysis_and_statistics
+    judgment: low
+    rationale: >-
+      CLSI-guided, prospectively specified variance-component models, acceptance
+      criteria, likelihood-ratio tests, exact concordance intervals, and
+      equivalence intervals address the declared analytical objectives.
+      Post-hoc expression correlation is clearly labeled and is not the primary
+      basis for success.
+    evidence_locations:
+      - 'Methods — RNA precision: statistical analysis'
+      - 'Methods — Reproducibility: statistical analysis'
+      - 'Methods — RNA input: statistical analysis'
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Three-site testing, independent pathologists, operators, lots, and clinical
+      labs directly support decentralized analytical transport. Only three sites
+      and 41 cross-site-comparable blocks contribute to the main tissue analysis,
+      the manufacturer is one site and deeply involved, and there is no
+      independent postmarket replication or patient-level abstention calibration.
+    evidence_locations:
+      - Results — variance components
+      - Results — subtype and risk category concordance
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      SOP elements, sample design, QC rules, models, acceptance thresholds,
+      variance components, confidence intervals, and interferent results are
+      extensively reported under CC BY. Commercial software and assay components
+      are not independently executable from the article.
+    evidence_locations:
+      - Methods
+      - Results
+      - Supplementary Material
+evidence_role: supporting
+key_strengths:
+  - Uses prespecified CLSI-guided protocols, analysis plans, and acceptance criteria.
+  - Separates RNA-level precision from the full FFPE tissue workflow.
+  - Tests three sites, independent pathologists, operators, lots, runs, and sections.
+  - Reports total tissue-workflow SD of 2.9 ROR units and 97% subtype concordance.
+  - Directly quantifies RNA-input robustness and non-tumor-tissue interference.
+key_limitations:
+  - Reproducibility uses only 43 hormone-receptor-positive blocks and three sites.
+  - NanoString employees, shareholders, a paid consultant, and PAM50 patent interests are disclosed.
+  - Commercial embedded software cannot be independently reconstructed from the article.
+  - Adjacent tissue can still bias ROR by up to 19 units when macrodissection is omitted.
+  - No independent postmarket laboratory replication or clinical decision-impact validation is provided.
+conflicts_and_funding: >-
+  One author held relevant PAM50 patents and co-founded the licensor BioClassifier.
+  Multiple authors were NanoString employees and shareholders, and one was a paid
+  NanoString consultant. The article does not state a separate external funding
+  source; the extensive manufacturer involvement is a material appraisal concern.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder's standing authorization covers this confirmed
+  screening set and he remains accountable for the locked eligibility and
+  evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T09:07:00-05:00
+scientific_conclusions_drawn: false

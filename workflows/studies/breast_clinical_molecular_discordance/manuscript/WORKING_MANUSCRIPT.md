@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.12.0-working`
+Manuscript version: `0.13.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -144,7 +144,7 @@ stored or appraised. Read-only receipts retain source identity, rights observati
 and ephemeral checksums rather than article content.
 [revised-screening-progress/batch-0002.yaml;
 FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md;
-revised_appraisal_progress_v0.3.5.yaml]
+revised_appraisal_progress_v0.3.6.yaml]
 
 Eleven of the 17 newly included records now have article identity and an approved
 CC BY license independently verified through official Europe PMC XML. Four more
@@ -152,7 +152,7 @@ were lawfully reviewed through governed ephemeral sessions because their rights 
 not authorize durable commercial corpus storage. The IOP article is abstract-only
 and subscription-restricted. The remaining IEEE article is confirmed open access
 under CC BY but awaits full-text retrieval after scheduled publisher maintenance.
-Three of those 15 records have completed appraisal and 12 remain ready. No failed
+Six of those 15 records have completed appraisal and nine remain ready. No failed
 or restricted retrieval stored article content.
 
 ### Quality appraisal
@@ -493,6 +493,52 @@ and prognostic signal but cannot serve as a fixed patient-independent reliabilit
 algorithm or unchanged external validation. [PMID:30849944; revised appraisal
 PMC6408846-v1.0.0]
 
+### Non-neoplastic tissue contamination
+
+Paired tumor and adjacent benign tissue from 55 patients showed that increasing
+non-neoplastic contribution changed classifications across three published
+genomic predictors. In the studied PAM50 implementation, contamination shifted
+calls toward less aggressive subtypes and lower ROR-S categories. Correction
+changed subtype in five of 24 tumors with measured cellularity and raised risk
+category in eight; directionally similar patterns appeared in public cohorts.
+
+This supports tumor purity as a distinct pre-analytic reliability input. The
+mixtures were largely simulated from expression profiles, commercial assays were
+not reproduced exactly, and cohort-wide correction amounts were selected partly
+by outcome performance because individual purity was unavailable. It does not
+justify an outcome-tuned or one-size-fits-all correction. [PMID:21718502; revised
+appraisal PMC3151208-v1.0.0]
+
+### Population and preprocessing consistency
+
+Three intrinsic gene sets and three adjustment choices were compared in 169 Han
+Chinese tumors. PAM50 was less sensitive than the older signatures to systematic
+microarray correction, but its agreement between unadjusted, gene-centered, and
+DWD implementations ranged from kappa 0.66 to 0.80. Hu 306 versus PAM50 agreement
+fell from 0.85 with gene centering to 0.67 with DWD.
+
+Because centering and DWD use the study collection, detailed clinical analysis
+selected only consistently classified cases, and survival included only ten
+events, this record is `context_only`. It reinforces preprocessing dependence and
+population transport concerns without supplying a fixed reference or truth label.
+[PMID:23046482; revised appraisal PMC3445863-v1.0.0]
+
+### Clinical-grade Prosigna analytical validation
+
+A CLSI-guided Prosigna study used prespecified SOPs and acceptance criteria across
+three sites, six operators, reagent lots, runs, independent pathology review, and
+serial FFPE sections. RNA-level SD was below one ROR unit; the full tissue workflow
+had total SD 2.9 ROR units. Cross-site subtype concordance averaged 97%, and risk
+category concordance was 90% to 93%.
+
+The interferent experiment is equally important: when required macrodissection
+was omitted, adjacent non-tumor tissue lowered ROR by as much as 19 units and
+changed five of 23 subtype calls. The study supports a locked assay's analytical
+repeatability while showing that pre-analytic failure can dominate instrument
+noise. Manufacturer employment, ownership, patents, only three sites, and lack of
+independent postmarket replication prevent an anchor role. [PMID:24625003;
+revised appraisal PMC4008304-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -504,7 +550,7 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 15 completed appraisals show that the broad problem is established: PAM50
+The 18 completed appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
@@ -520,7 +566,7 @@ technical evidence, define a reliability estimand and thresholds without outcome
 tuning, validate transport in an independent cohort, and abstain prospectively when
 the assignment is not analytically reliable.
 
-This interpretation may change after appraisal of the 12 remaining accessible
+This interpretation may change after appraisal of the nine remaining accessible
 records, resolution of the open IEEE retrieval, and sequential citation chaining.
 AIMS and the IOP article remain identified but unappraised access-restricted
 sources. This is not an authorized novelty conclusion.
@@ -529,7 +575,7 @@ sources. This is not an authorized novelty conclusion.
 
 Status: `working`
 
-- Primary title-and-abstract screening is complete; 12 accessible appraisals, one
+- Primary title-and-abstract screening is complete; nine accessible appraisals, one
   open IEEE retrieval, and citation chaining are incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -600,7 +646,7 @@ checks, and internal reviews are complete.
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
-| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.5.yaml` | verified, incomplete |
+| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.6.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
 | Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |
@@ -616,6 +662,9 @@ checks, and internal reviews are complete.
 | Results—commercial-assay discordance | External evidence appraisal | `revised-appraisals/PMC5939629-v1.0.0.yaml` | supporting |
 | Results—technical and spatial reproducibility | External evidence appraisal | `revised-appraisals/PMC10147733-v1.0.0.yaml` | supporting |
 | Results—Luminal A ambiguity | External evidence appraisal | `revised-appraisals/PMC6408846-v1.0.0.yaml` | context only |
+| Results—non-neoplastic contamination | External evidence appraisal | `revised-appraisals/PMC3151208-v1.0.0.yaml` | supporting |
+| Results—population/preprocessing consistency | External evidence appraisal | `revised-appraisals/PMC3445863-v1.0.0.yaml` | context only |
+| Results—Prosigna analytical validation | External evidence appraisal | `revised-appraisals/PMC4008304-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
 | Discussion ¶1–2 | Explicit interpretation | 12 completed appraisals plus one access-restricted priority record | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
@@ -624,6 +673,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.13.0-working | 2026-07-25 | Added non-neoplastic contamination, Han Chinese preprocessing consistency, and clinical-grade Prosigna analytical-validation appraisals; 18 of 30 records are now appraised. |
 | 0.12.0-working | 2026-07-25 | Added OPTIMA commercial-assay discordance, PAM50 technical/spatial reproducibility, and cohort-adaptive Luminal A ambiguity appraisals; 15 of 30 records are now appraised. |
 | 0.11.0-working | 2026-07-25 | Reconciled expanded lawful-access review: 27 full texts are verified, 15 expanded-set papers are ready for appraisal, two records are restricted, and one open IEEE retrieval remains. |
 | 0.8.0-working | 2026-07-24 | Added the PBCMC single-subject uncertainty appraisal, recorded AIMS as subscription-restricted, and narrowed the candidate contribution beyond uncertainty and abstention alone. |
