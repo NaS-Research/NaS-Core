@@ -26,11 +26,15 @@ from nas_core.domain.appraisal import (
 from nas_core.domain.citation_chain import (
     CitationSeed,
     load_citation_chain_receipt,
+    load_citation_enrichment_receipt,
     load_citation_prioritization_receipt,
+    load_citation_recommendation_receipt,
     load_citation_screening_preparation_receipt,
     write_citation_chain_receipt,
     write_citation_enrichment_receipt,
+    write_citation_founder_packet_receipt,
     write_citation_prioritization_receipt,
+    write_citation_recommendation_receipt,
     write_citation_screening_preparation_receipt,
 )
 from nas_core.domain.cohorts import (
@@ -71,7 +75,9 @@ from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.citation_chain import CitationChainRetrievalService
 from nas_core.retrieval.citation_enrichment import CitationEnrichmentService
+from nas_core.retrieval.citation_packet import CitationFounderPacketService
 from nas_core.retrieval.citation_prioritization import CitationPrioritizationService
+from nas_core.retrieval.citation_recommendation import CitationRecommendationService
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
@@ -296,6 +302,26 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Contact Europe PMC and persist verified enrichment artifacts",
     )
+    citation_recommend = evidence_review_commands.add_parser(
+        "citation-recommend",
+        help="Create conservative abstract-informed advisory screening recommendations",
+    )
+    citation_recommend.add_argument("enrichment_receipt", type=Path)
+    citation_recommend.add_argument("--code-revision", required=True)
+    citation_recommend.add_argument("--receipt-output", required=True, type=Path)
+    citation_recommend.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist recommendations covering every enriched citation candidate",
+    )
+    citation_packet = evidence_review_commands.add_parser(
+        "citation-packet",
+        help="Freeze a checksum-bound founder packet and complete row-level appendix",
+    )
+    citation_packet.add_argument("recommendation_receipt", type=Path)
+    citation_packet.add_argument("--packet-output", required=True, type=Path)
+    citation_packet.add_argument("--appendix-output", required=True, type=Path)
+    citation_packet.add_argument("--receipt-output", required=True, type=Path)
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
     literature_commands = literature.add_subparsers(dest="literature_command", required=True)
@@ -931,6 +957,61 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print("Metadata only; zero final screening decisions were recorded.")
         print(f"Wrote verified enrichment receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-recommend"
+    ):
+        enrichment = load_citation_enrichment_receipt(args.enrichment_receipt)
+        if not args.execute:
+            print(
+                f"Citation recommendation pass ready: "
+                f"{enrichment.requested_candidate_count} candidates"
+            )
+            print("Dry run only; no recommendations or decisions were stored.")
+            return 0
+        recommendation_service = CitationRecommendationService(
+            store=get_object_store()
+        )
+        recommendations = recommendation_service.recommend(
+            enrichment,
+            code_revision=args.code_revision,
+        )
+        write_citation_recommendation_receipt(
+            args.receipt_output, recommendations
+        )
+        print(
+            f"Recommended citation pass {recommendations.pass_number}: "
+            f"{recommendations.include_recommendation_count} include, "
+            f"{recommendations.exclude_recommendation_count} exclude, "
+            f"{recommendations.unclear_recommendation_count} unclear"
+        )
+        print("Advisory only; zero founder decisions were recorded.")
+        print(f"Wrote verified recommendation receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-packet"
+    ):
+        recommendation_receipt = load_citation_recommendation_receipt(
+            args.recommendation_receipt
+        )
+        packet_service = CitationFounderPacketService(store=get_object_store())
+        packet = packet_service.build(
+            recommendation_receipt,
+            packet_path=args.packet_output,
+            appendix_path=args.appendix_output,
+        )
+        write_citation_founder_packet_receipt(args.receipt_output, packet)
+        print(
+            f"Built citation founder packet: {packet.proposed_decision_count} "
+            f"proposed decisions, {packet.pending_adjudication_count} pending"
+        )
+        print(f"Packet SHA-256: {packet.packet_sha256}")
+        print(f"Appendix SHA-256: {packet.appendix_sha256}")
+        print("Advisory only; explicit founder confirmation is still required.")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

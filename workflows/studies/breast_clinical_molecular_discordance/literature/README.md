@@ -56,6 +56,13 @@ Europe PMC enrichment matched every candidate and returned 4,402 abstracts throu
 90 batched requests. Ninety-three metadata-only records remain explicitly visible.
 The next artifact is an abstract-informed advisory packet covering every record.
 
+Abstract advisory version `1.0.2` covers all 4,495 records and remains nondecisional:
+15 high-confidence include recommendations, 4,224 exclusion recommendations, and
+256 held for individual adjudication. The frozen founder packet has SHA-256
+`a6ebe1f9…8e9f0a`; its complete 4,495-row CSV appendix has SHA-256
+`a1f378c4…7e062c`. Founder confirmation can authorize only the 4,239 proposed
+decisions. The 256 unclear records require a separate adjudication packet.
+
 Required artifacts:
 
 - `literature/protocol.md`

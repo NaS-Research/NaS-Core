@@ -9,6 +9,8 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from nas_core.domain.advisory import AdvisoryConfidence
+from nas_core.domain.literature import ScreeningDecision, ScreeningExclusionReason
 from nas_core.domain.snapshots import StoredObject
 
 
@@ -275,6 +277,125 @@ class CitationEnrichmentReceipt(CitationChainModel):
         return self
 
 
+class CitationScreeningRecommendation(CitationChainModel):
+    record_key: str = Field(pattern=r"^[A-Z]+:.+$")
+    title: str = Field(min_length=1)
+    pmid: str | None = None
+    pmcid: str | None = None
+    doi: str | None = None
+    rank: int = Field(ge=1)
+    priority_tier: CitationPriorityTier
+    recommendation: ScreeningDecision
+    confidence: AdvisoryConfidence
+    exclusion_reason: ScreeningExclusionReason | None = None
+    rationale: str = Field(min_length=1)
+    matched_signals: list[str]
+    abstract_available: bool
+    founder_decision_recorded: bool = False
+
+    @model_validator(mode="after")
+    def validate_recommendation(self) -> CitationScreeningRecommendation:
+        if self.recommendation is ScreeningDecision.PENDING:
+            raise ValueError("citation advisory recommendations cannot be pending")
+        if (
+            self.recommendation is ScreeningDecision.EXCLUDE
+        ) != (self.exclusion_reason is not None):
+            raise ValueError("only exclusion recommendations require an exclusion reason")
+        if self.founder_decision_recorded:
+            raise ValueError("advisory recommendation cannot claim a founder decision")
+        return self
+
+
+class CitationRecommendationReceipt(CitationChainModel):
+    schema_version: str = "1.0.0"
+    recommendation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    pass_number: int = Field(ge=1)
+    enrichment_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    algorithm_version: str = Field(min_length=1)
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    created_at: datetime
+    verified_at: datetime
+    candidate_count: int = Field(ge=0)
+    include_recommendation_count: int = Field(ge=0)
+    exclude_recommendation_count: int = Field(ge=0)
+    unclear_recommendation_count: int = Field(ge=0)
+    high_confidence_count: int = Field(ge=0)
+    abstract_unavailable_count: int = Field(ge=0)
+    recommendations_object: StoredObject
+    input_checksum_verified: bool
+    output_checksum_verified: bool
+    record_coverage_verified: bool
+    final_screening_decisions_recorded: int = Field(default=0, ge=0)
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_recommendations(self) -> CitationRecommendationReceipt:
+        if (
+            self.include_recommendation_count
+            + self.exclude_recommendation_count
+            + self.unclear_recommendation_count
+            != self.candidate_count
+        ):
+            raise ValueError("citation recommendations must cover every candidate")
+        if not all(
+            (
+                self.input_checksum_verified,
+                self.output_checksum_verified,
+                self.record_coverage_verified,
+            )
+        ):
+            raise ValueError("citation recommendations require verified invariants")
+        if self.final_screening_decisions_recorded or self.scientific_conclusions_drawn:
+            raise ValueError("citation recommendations cannot make final decisions")
+        return self
+
+
+class CitationFounderPacketReceipt(CitationChainModel):
+    schema_version: str = "1.0.0"
+    packet_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    pass_number: int = Field(ge=1)
+    recommendation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    created_at: datetime
+    candidate_count: int = Field(ge=0)
+    proposed_decision_count: int = Field(ge=0)
+    pending_adjudication_count: int = Field(ge=0)
+    include_recommendation_count: int = Field(ge=0)
+    exclude_recommendation_count: int = Field(ge=0)
+    packet_path: str = Field(min_length=1)
+    packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    appendix_path: str = Field(min_length=1)
+    appendix_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    recommendation_checksum_verified: bool
+    packet_coverage_verified: bool
+    founder_confirmation_required: bool = True
+    final_screening_decisions_recorded: int = Field(default=0, ge=0)
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_packet(self) -> CitationFounderPacketReceipt:
+        if (
+            self.proposed_decision_count + self.pending_adjudication_count
+            != self.candidate_count
+        ):
+            raise ValueError("citation packet must account for every candidate")
+        if (
+            self.include_recommendation_count + self.exclude_recommendation_count
+            != self.proposed_decision_count
+        ):
+            raise ValueError("citation packet proposed decisions do not reconcile")
+        if not (
+            self.recommendation_checksum_verified
+            and self.packet_coverage_verified
+            and self.founder_confirmation_required
+        ):
+            raise ValueError("citation packet requires verified advisory boundaries")
+        if self.final_screening_decisions_recorded or self.scientific_conclusions_drawn:
+            raise ValueError("citation packet cannot make final decisions")
+        return self
+
+
 class CitationChainSnapshot(CitationChainModel):
     schema_version: str = "1.0.0"
     execution_id: str = Field(pattern=r"^[a-f0-9]{64}$")
@@ -443,5 +564,45 @@ def write_citation_enrichment_receipt(
 
 def load_citation_enrichment_receipt(path: Path) -> CitationEnrichmentReceipt:
     return CitationEnrichmentReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_citation_recommendation_receipt(
+    path: Path,
+    receipt: CitationRecommendationReceipt,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def load_citation_recommendation_receipt(path: Path) -> CitationRecommendationReceipt:
+    return CitationRecommendationReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_citation_founder_packet_receipt(
+    path: Path,
+    receipt: CitationFounderPacketReceipt,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def load_citation_founder_packet_receipt(path: Path) -> CitationFounderPacketReceipt:
+    return CitationFounderPacketReceipt.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )

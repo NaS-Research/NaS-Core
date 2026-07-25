@@ -161,6 +161,10 @@ Current gate state:
   pre-decision calibration lowered the supporting threshold so known single-sample
   scoring methods were not buried. Full official Europe PMC enrichment matched all
   4,495 records and supplied 4,402 abstracts; the remaining 93 stay metadata-only.
+- Abstract-informed advisory version `1.0.2` covers all 4,495 candidates: 15
+  high-confidence includes, 4,224 exclusions, and 256 records held for individual
+  adjudication. Packet `a6ebe1f9…8e9f0a` and its complete 4,495-row appendix
+  `a1f378c4…7e062c` are frozen. Zero final founder decisions are recorded.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -196,9 +200,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Enrich and deterministically prioritize the 4,495 citation-pass candidates,
-   produce a checksum-bound founder screening packet, and record final decisions
-   without autonomous exclusions.
+1. Obtain founder confirmation of the 4,239 proposed citation-pass decisions and
+   individually adjudicate the remaining 256 records without autonomous exclusions.
 2. Add and appraise any newly eligible methodological or external-transport studies,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
@@ -235,6 +238,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation pass 1 founder packet frozen
+
+Implemented a conservative abstract-informed advisory engine and checksum-bound
+founder packet generator. Two pre-decision calibration reviews repaired outcome-
+only routing and added explicit microarray vocabulary. Superseded external advisory
+objects remain immutable; no recommendation became a decision.
+
+The final packet proposes 15 includes and 4,224 exclusions and holds 256 records
+for individual adjudication, including all 93 records without abstracts. Its
+complete CSV appendix contains every title, identifier, rationale, confidence,
+protocol reason, signal, and `founder_decision_recorded=false` flag.
 
 ### 2026-07-25 — Full citation metadata enrichment completed
 

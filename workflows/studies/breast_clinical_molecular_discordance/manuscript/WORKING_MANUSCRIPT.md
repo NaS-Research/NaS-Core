@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.19.0-working`
+Manuscript version: `0.20.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -173,6 +173,14 @@ retrieved 4,402 abstracts; 93 records remain metadata-only and cannot be exclude
 solely for missing abstracts. Founder screening of this inventory is pending.
 [citation-chain/pass-0001-prioritization.yaml;
 citation-chain/pass-0001-full-enrichment.yaml]
+
+Conservative abstract-informed advisory rules then produced 15 include and 4,224
+exclude recommendations while holding 256 records for individual adjudication.
+These recommendations are frozen in a checksum-bound founder packet and complete
+row-level appendix. They remain advisory: no citation-pass founder decision has
+been recorded, and pass 1 is not complete.
+[citation-chain/pass-0001-recommendations.yaml;
+citation-chain/pass-0001-founder-packet.yaml]
 
 ### Quality appraisal
 
