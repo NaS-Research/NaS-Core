@@ -1,6 +1,17 @@
 from datetime import UTC, datetime
+from pathlib import Path
 
-from nas_core.domain.appraisal import FullTextInventory, FullTextInventoryRecord
+import yaml
+
+from nas_core.domain.appraisal import (
+    FullTextAppraisalProgress,
+    FullTextInventory,
+    FullTextInventoryRecord,
+)
+from nas_core.domain.citation_access import (
+    load_citation_access_check_queue,
+    load_repository_access_batch_receipt,
+)
 from nas_core.ingestion.gdc import HTTPResponse
 from nas_core.retrieval.citation_access import (
     CitationAccessCheckQueueService,
@@ -10,6 +21,15 @@ from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
 from nas_core.storage.object_store import InMemoryObjectStore
 
 NOW = datetime(2026, 7, 25, 20, 0, tzinfo=UTC)
+ROOT = Path(__file__).parents[1]
+CITATION_FULL_TEXT = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "breast_clinical_molecular_discordance"
+    / "literature"
+    / "citation-full-text"
+)
 
 
 def _xml(*, license_url: str) -> bytes:
@@ -112,3 +132,33 @@ def test_repository_batch_routes_unapproved_license_without_storage() -> None:
     assert queue.record_count == 1
     assert queue.records[0].reason == "license_not_approved"
     assert queue.records[0].final_access_decision_recorded is False
+
+
+def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
+    batch = load_repository_access_batch_receipt(
+        CITATION_FULL_TEXT / "repository-access-batch-v1.0.0.yaml"
+    )
+    queue = load_citation_access_check_queue(
+        CITATION_FULL_TEXT / "access-check-queue-v1.0.0.yaml"
+    )
+
+    assert batch.repository_candidate_count == 23
+    assert batch.retrieved_count == 13
+    assert batch.access_check_required_count == 10
+    assert queue.record_count == 16
+    assert queue.repository_batch_id == batch.batch_id
+    assert sum(item.reason == "no_repository_identifier" for item in queue.records) == 6
+    assert queue.final_access_decisions_recorded == 0
+
+    progress = FullTextAppraisalProgress.model_validate(
+        yaml.safe_load(
+            (
+                CITATION_FULL_TEXT.parent
+                / "citation_appraisal_progress_v1.0.0.yaml"
+            ).read_text(encoding="utf-8")
+        )
+    )
+    assert progress.full_texts_retrieved == 13
+    assert progress.appraisals_completed == 0
+    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 13
+    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 16

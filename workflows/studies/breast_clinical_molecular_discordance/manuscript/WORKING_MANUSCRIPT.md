@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.23.0-working`
+Manuscript version: `0.24.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -194,6 +194,15 @@ which activates an uncapped saturation inventory while limiting the later
 quality-selected core synthesis to 30 non-duplicate primary studies. Its immutable
 queue routes the 29 net-new records to 23 repository checks and six separate
 lawful-access checks and reuses three prior appraisals without double-counting.
+
+The repository pass assessed all 23 PMC candidates through the official Europe PMC
+full-text endpoint. Thirteen exact-identity articles carried approved CC BY licenses
+and were immutably retrieved. Five returned no full text from that endpoint, three
+did not carry an approved durable-storage license, and two failed exact identity
+matching; none of those ten stored article content. Together with six records
+lacking PMC identifiers, 16 records remain in a governed access-check queue.
+Thirteen citation-pass studies are ready for appraisal. These are access and
+workflow results, not scientific findings.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
@@ -802,7 +811,7 @@ Status: `working`
 
 - Primary and citation-pass-1 title-and-abstract screening and all 28 currently
   accessible appraisals are complete. Pass 1 has 29 net-new records in an authorized
-  governed queue awaiting lawful-access accounting and appraisal;
+  governed queue: 13 are ready for appraisal and 16 await access resolution;
   sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -910,6 +919,7 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
+| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 13 ready, 16 pending access |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |

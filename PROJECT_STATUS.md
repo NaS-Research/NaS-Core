@@ -22,10 +22,10 @@ pass 1 now has a
 checksum-bound founder ledger containing 32 inclusions and 4,463 exclusions, with
 zero unclear and zero AI decisions. Exact-identifier reconciliation found no overlap
 with the active 30-record inventory, three previously appraised studies, and 29
-net-new records. Founder-approved amendment `0.2.5` is active. Its governed queue
-routes 23 records to repository checks, six to separate lawful-access checks, and
-three to prior-appraisal reuse. The next task is lawful-access accounting for all
-29 net-new records.
+net-new records. Founder-approved amendment `0.2.5` is active. Official Europe PMC
+assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
+repository candidates. Citation progress now has 13 records ready for appraisal
+and 16 awaiting governed access resolution.
 
 Definition of done:
 
@@ -189,6 +189,15 @@ Current gate state:
   checksums and created a 32-record governed queue: 23 repository candidates, six
   access checks, and three prior-appraisal reuses. It authorized no molecular or
   outcome access.
+- Citation access inventory `1.0.0` assigns stable screening IDs to all 29 net-new
+  records. Repository batch `95f35d80…15ef9b` assessed all 23 PMC candidates:
+  13 exact-identity CC BY articles were verified and stored, five returned 404,
+  three lacked an approved durable-storage license, and two failed exact identity
+  matching. Failed records stored no article content.
+- Access-check queue `de76e254…46ad93` combines those ten fail-closed repository
+  results with six records lacking repository identifiers. All 16 remain pending
+  access resolution, not scientific exclusion. Citation progress records 13 ready
+  for appraisal, 16 awaiting full text, and zero new appraisals completed.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -224,44 +233,60 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Perform lawful-access accounting for the 29 net-new records and
-   reuse—but do not double-count—the three exact prior appraisals.
-2. Appraise every accessible newly eligible methodological or external-transport study,
+1. Resolve the 16-record governed access-check queue through exact identity,
+   publisher/repository rights, and read-only-versus-restricted decisions.
+2. Appraise the 13 verified CC BY citation studies, beginning with the most direct
+   PAM50 assay-concordance and cross-platform implementation evidence.
+3. Appraise every additionally accessible methodological or external-transport study,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
-3. Update the living manuscript and its evidence-to-text ledger after every material
+4. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Resolve and approve the exact centroid and external-reference artifacts,
+5. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-5. Define an independently calibrated technical-error model and lock the margin
+6. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-7. Complete the founder scientific/product, molecular/pathology, and statistical
+8. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-10. Implement persisted evidence claims, citations, provenance, contradictory
+11. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-12. Expand the screening model gateway into general evidence reasoning with
+13. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-13. Build evaluation suites for retrieval, citation validity, numerical
+14. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-14. Generate an immutable research release containing the protocol, dataset
+15. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-15. Generate a reviewable white-paper draft whose substantive claims trace to
+16. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-16. Build the internal workbench for projects, protocols, datasets, runs,
+17. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-17. Complete repeated internal oncology pilots before selecting the first
+18. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation lawful-access inventory and repository pass completed
+
+Implemented a typed access inventory, fail-closed batch repository assessor,
+pending access-check queue, and citation appraisal-progress command. All 29 net-new
+records received stable screening IDs.
+
+The official Europe PMC full-text endpoint was queried for all 23 repository
+candidates. Thirteen exact-identity articles carried approved CC BY licenses and
+were stored outside Git with verified receipts. Ten stored nothing: five endpoint
+404s, three licenses outside the approved durable-storage set, and two identity
+mismatches. Queue `de76e254…46ad93` governs those ten plus six no-PMCID records.
+Thirteen studies are ready for appraisal and 16 await access resolution. No
+eligibility decision or scientific conclusion changed.
 
 ### 2026-07-25 — Evidence-cap amendment 0.2.5 activated
 

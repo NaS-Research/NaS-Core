@@ -1,0 +1,172 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+generated_at: '2026-07-25T21:20:11.360276Z'
+provisional_inclusion_count: 29
+full_texts_retrieved: 13
+read_only_full_texts_reviewed: 0
+appraisals_completed: 0
+access_restricted_count: 0
+duplicate_resolved_count: 0
+anchor_count: 0
+supporting_count: 0
+context_only_count: 0
+excluded_count: 0
+records:
+- screening_id: ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874
+  title: Classification and risk stratification of invasive breast carcinomas using a real-time quantitative
+    RT-PCR assay.
+  pmcid: PMC1557722
+  status: ready_for_appraisal
+  retrieval_id: f4a4cdfb50c3b9faf43b367270ba3a6b4559377410464659a1ef4966b10a0888
+  full_text_sha256: 69768c592366da9f96d33f8c57159a093bb6e6d4d9d30053b450bd562a4344d3
+- screening_id: 8ad4355ad2bce77049fedfcb0636929eac3f305e504e9a509306f18bbad4bb5f
+  title: 'Breast cancer molecular profiling with single sample predictors: a retrospective analysis.'
+  status: awaiting_full_text
+- screening_id: 6533ac2ac734cebe16bd375cbf0adbedffacd5bf69e216dca3bd0112ba470b30
+  title: A three-gene model to robustly identify breast cancer molecular subtypes.
+  pmcid: PMC3283537
+  status: awaiting_full_text
+- screening_id: 8c9185fd9f166320499f912f6342ef800ce81760560ae7946a86e0965170e194
+  title: A single-sample microarray normalization method to facilitate personalized-medicine workflows.
+  pmcid: PMC3508193
+  status: awaiting_full_text
+- screening_id: f19c6289712d0f195fa224726b02c70d400391689afebcc6e84174d8a8c4a40b
+  title: PAM50 breast cancer subtyping by RT-qPCR and concordance with standard clinical molecular markers.
+  pmcid: PMC3487945
+  status: ready_for_appraisal
+  retrieval_id: 2e63f952ae24efd89e01bdd37e919fceec5ab894ebdfacbc859b3191610a68fe
+  full_text_sha256: c6682f9e314065f7b1cfa62399e56a9c0d6925baf12849454485df4e94f35f5d
+- screening_id: 630314e3504ea43f55fbbf4a9b13d36cd24bacb736f44ba8f0ce712802ea34be
+  title: 'Assignment of tumor subtype by genomic testing and pathologic-based approximations: implications
+    on patient''s management and therapy selection.'
+  status: awaiting_full_text
+- screening_id: 0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a
+  title: Development and verification of the PAM50-based Prosigna breast cancer gene signature assay.
+  pmcid: PMC4546262
+  status: ready_for_appraisal
+  retrieval_id: c448328df2e99e3e803b27baf8f24c778cce70b7b1ac6f5d44cdbbd334ded165
+  full_text_sha256: 9f17b6fba248976e33fc2dd13bd79a84669b0ef9c916d597aa46f60b37c27052
+- screening_id: 70d4cec79f5f314861c3e4f180268ce7fe9507eee0749cc0b06139b3680357c5
+  title: Performance of Three-Biomarker Immunohistochemistry for Intrinsic Breast Cancer Subtyping in
+    the AMBER Consortium.
+  pmcid: PMC4779705
+  status: awaiting_full_text
+- screening_id: 98d833b330ef6ded0d7318e136d8d8f880f33ea1e9d878be9f81b39ba2c15433
+  title: Heterogeneity in global gene expression profiles between biopsy specimens taken peri-surgically
+    from primary ER-positive breast carcinomas.
+  pmcid: PMC4818440
+  status: ready_for_appraisal
+  retrieval_id: 74b116abaf55633857e1ccef5dc88d6ff45de37a53270740dfb350a4b03ba4f1
+  full_text_sha256: c83c58f2be320e3e92f668826123e88137d286cdb1622c796a8d5bb66fe285ca
+- screening_id: 91d111ceabb0aba006b39083ad8442818920e0c585a97e76a5804286a2997394
+  title: "Denaturing fixatives are compatible with the NanoString nCounter<sup>\xAE</sup> platform and\
+    \ the Prosigna<sup>\xAE</sup> assay."
+  status: awaiting_full_text
+- screening_id: 77cd45b21d9039a053fbe1876c53efded277771111ae89f209e233de8ecdc6fe
+  title: 'Receptor-based Surrogate Subtypes and Discrepancies with Breast Cancer Intrinsic Subtypes: Implications
+    for Image Biomarker Development.'
+  status: awaiting_full_text
+- screening_id: 4abea96b841f9e86c6903d6e12f03f105e572434ac83009e70b81a8bcfa2bfca
+  title: 'Discordance of the PAM50 Intrinsic Subtypes Compared with Immunohistochemistry-Based Surrogate
+    in Breast Cancer Patients: Potential Implication of Genomic Alterations of Discordance.'
+  pmcid: PMC6473265
+  status: awaiting_full_text
+- screening_id: 42f7579197d57716920501366e856599e0e282fdb24e17eb09e7865adf872aaf
+  title: Single sample scoring of molecular phenotypes.
+  pmcid: PMC6219008
+  status: ready_for_appraisal
+  retrieval_id: 3d6875fe32186016c16163d32b70ae13f5fef839a259ee670ff24f5f5e10820a
+  full_text_sha256: a298da0795163d928c9a515ce96e7cd065e3067fc98382294a1a4fde4536d80e
+- screening_id: d09d787833cb2baa04198d726cec62c37e6f88c1214b44c5a7e018892ebeed0d
+  title: 'Performance of gene expression-based single sample predictors for assessment of clinicopathological
+    subgroups and molecular subtypes in cancers: a case comparison study in non-small cell lung cancer.'
+  pmcid: PMC7299291
+  status: awaiting_full_text
+- screening_id: 4f4ee766ff74a049a626bdee612a1bc7a2540e91771f5ec9d254f74dbf4fcf57
+  title: 'Breast cancer PAM50 signature: correlation and concordance between RNA-Seq and digital multiplexed
+    gene expression technologies in a triple negative breast cancer series.'
+  pmcid: PMC6547580
+  status: ready_for_appraisal
+  retrieval_id: 0455214838fac222ecde6c26317985ccc9ff0eb4a99b77e2f8c090e6f9ef8cbc
+  full_text_sha256: 82092cd34ffb3a8e6bc9f99f301853e9dd168eeed87208e8ec59addaf79dfb3b
+- screening_id: 6e71578597a0700e630b89ee2b7c6aab3ff0807ff760a869864071f6b62903eb
+  title: Standardized versus research-based PAM50 intrinsic subtyping of breast cancer.
+  status: awaiting_full_text
+- screening_id: 52fe49b5b6e74f571109fef3d844bd1690c8e3b18aa333ae1796812ad508e261
+  title: Purity Independent Subtyping of Tumors (PurIST), A Clinically Robust, Single-sample Classifier
+    for Tumor Subtyping in Pancreatic Cancer.
+  pmcid: PMC6942634
+  status: awaiting_full_text
+- screening_id: 3d181f219140a3b8504ea8cc4b791b829c9bb03a924c18c42e3e9e7abe52d6b6
+  title: 'Computational approaches to support comparative analysis of multiparametric tests: Modelling
+    versus Training.'
+  pmcid: PMC7470374
+  status: ready_for_appraisal
+  retrieval_id: a2dfba15587bf137844801aec2ca749afd913fa2b6e13182bf83e5b09a97c60c
+  full_text_sha256: 2060f691975521c268eb9ca7845e1c111a8390f6cb0911ddb7f7db4130be1aca
+- screening_id: 32e12824107b966d709986b71feae6a8da760c6e25d9c1312229ebbf06f2494a
+  title: Concordance of Immunohistochemistry-Based and Gene Expression-Based Subtyping in Breast Cancer.
+  pmcid: PMC7791620
+  status: awaiting_full_text
+- screening_id: 88a6dad90d20e90dfd4aa5a4d3d265fd45d0ad70018f74742defa3977df8750d
+  title: 'multiclassPairs: an R package to train multiclass pair-based classifier.'
+  pmcid: PMC8479681
+  status: ready_for_appraisal
+  retrieval_id: 8b93ce8fae5855ea33ecfdb51315a1750f371878131b9d7a89370314f4a4bb3b
+  full_text_sha256: 24858233fc9d1b1d7297d86cbba6b775819459a0fb9ef8f8cf5567574293c03e
+- screening_id: fde5c7ea6f4d365e3d5f73456255ca43663fae719ac9d57b9351573b3d173b56
+  title: A comparison of rule-based and centroid single-sample multiclass predictors for transcriptomic
+    classification.
+  pmcid: PMC8796360
+  status: ready_for_appraisal
+  retrieval_id: 24000633724ed5181cbc44af584121f585a70d3dec90768a296c692b1c72233f
+  full_text_sha256: ba39be72d362c00e675022e5f106937e9db1fd14f8fe45cd44df8fc8e42204d4
+- screening_id: 27f9996e6647cda5fb31e1351ea4aa3353640fbdf5a0d021c87bbeb8b970516a
+  title: Sample Preparation Approach Influences PAM50 Risk of Recurrence Score in Early Breast Cancer.
+  pmcid: PMC8657125
+  status: ready_for_appraisal
+  retrieval_id: 705db2cab7358ee6b018eeb53e1c8b33594568140852e31f395a3a861d553962
+  full_text_sha256: b39b132075598410a7bead763b8358b42134fdf999cc6e0ca6b4148573bb6ed6
+- screening_id: 564b9e536607f672f57571b54ba714470ea27d12068964b3e484a944f9ff7c72
+  title: Discordance between PAM50 intrinsic subtyping and immunohistochemistry in South African women
+    with breast cancer.
+  pmcid: PMC10147771
+  status: awaiting_full_text
+- screening_id: 238a93e8805957952320245312b4ad0a6539c9f71f0da115e502e39cf41436dc
+  title: 'Correlation between breast cancer subtypes determined by immunohistochemistry and n-COUNTER
+    PAM50 assay: a real-world study.'
+  pmcid: PMC10771357
+  status: ready_for_appraisal
+  retrieval_id: 270656e5502c5a27337fec54814815950963d95caab99c99a8d2e5561914d947
+  full_text_sha256: d142441280f7fcdf1ab04e0e6fbaa9c7070077885299fefa3e1b7b4c686c4105
+- screening_id: ca39d7821e26c2596195bea613930e126ad8142fcbc8e250f4b91a078e9224d9
+  title: Ensemble methods of rank-based trees for single sample classification with gene expression profiles.
+  pmcid: PMC10848444
+  status: ready_for_appraisal
+  retrieval_id: bcc4843a30e6f2b220543f3cd20645971ecb1b92074a938e057fd8332fa3f3dd
+  full_text_sha256: 517f03780e8e4bab03d2ce843c858052ae2a37e4df96a671a9d7bfe54174c105
+- screening_id: 6c3508f650680780e97d7bfb7d31a495365975d5227179be33bb493cb9f385df
+  title: Feature-specific quantile normalization and feature-specific mean-variance normalization deliver
+    robust bi-directional classification and feature selection performance between microarray and RNAseq
+    data.
+  pmcid: PMC11265146
+  status: awaiting_full_text
+- screening_id: 2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a
+  title: Effect of cross-platform gene-expression, computational methods on breast cancer subtyping in
+    PALOMA-2 and PALLET studies.
+  pmcid: PMC11217366
+  status: ready_for_appraisal
+  retrieval_id: 7b4bf7205fa8fa727e9ba3526399d28433ff660c943218798f700ad8aebba99f
+  full_text_sha256: ea958edeca833a08d5834d9fde3df7a5a2fb104748c4e1bd306dd02ea1f77333
+- screening_id: 9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529
+  title: The spatially informed mFISHseq assay resolves biomarker discordance and predicts treatment response
+    in breast cancer.
+  pmcid: PMC11696812
+  status: awaiting_full_text
+- screening_id: 09dcf1ec6b23a4c970b86dd3e3957ca742f02cac9b02196b9722686583978e11
+  title: "Bridging and analytical validation of the Prosigna  <sup>\xAE</sup>  Breast Risk of Recurrence\
+    \ Test as a whole-transcriptome NGS lab developed test"
+  status: awaiting_full_text
+scientific_conclusions_drawn: false

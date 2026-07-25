@@ -1718,25 +1718,31 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; Europe PMC was not contacted and nothing was stored.")
             return 0
-        service = CitationRepositoryAccessService(
+        citation_access_service = CitationRepositoryAccessService(
             retrieval_service=FullTextRetrievalService(store=get_object_store())
         )
-        batch, retrieval_receipts = service.assess(
+        repository_access_batch, citation_retrieval_receipts = (
+            citation_access_service.assess(
             inventory,
             code_revision=args.code_revision,
             receipt_directory=str(args.receipt_dir),
+            )
         )
         args.receipt_dir.mkdir(parents=True, exist_ok=True)
-        for receipt in retrieval_receipts:
+        for citation_retrieval_receipt in citation_retrieval_receipts:
             write_full_text_retrieval_receipt(
-                args.receipt_dir / f"{receipt.pmcid}.yaml",
-                receipt,
+                args.receipt_dir / f"{citation_retrieval_receipt.pmcid}.yaml",
+                citation_retrieval_receipt,
             )
-        write_repository_access_batch_receipt(args.batch_receipt_output, batch)
+        write_repository_access_batch_receipt(
+            args.batch_receipt_output, repository_access_batch
+        )
         print(
-            f"Assessed {batch.repository_candidate_count} repository candidates: "
-            f"{batch.retrieved_count} licensed full texts retrieved, "
-            f"{batch.access_check_required_count} routed to access checks"
+            f"Assessed {repository_access_batch.repository_candidate_count} "
+            f"repository candidates: {repository_access_batch.retrieved_count} "
+            f"licensed full texts retrieved, "
+            f"{repository_access_batch.access_check_required_count} "
+            "routed to access checks"
         )
         print(f"Wrote repository access batch: {args.batch_receipt_output}")
         return 0
@@ -1767,18 +1773,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.literature_command == "citation-appraisal-progress"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        progress = FullTextAppraisalProgressService().build(
+        citation_appraisal_progress = FullTextAppraisalProgressService().build(
             inventory,
             retrieval_receipt_paths=sorted(args.retrieval_dir.glob("*.yaml")),
             appraisal_paths=sorted(args.appraisal_dir.glob("*.yaml")),
         )
-        write_full_text_appraisal_progress(args.output_path, progress)
-        ready = sum(item.status == "ready_for_appraisal" for item in progress.records)
-        awaiting = sum(item.status == "awaiting_full_text" for item in progress.records)
+        write_full_text_appraisal_progress(
+            args.output_path, citation_appraisal_progress
+        )
+        ready = sum(
+            item.status == "ready_for_appraisal"
+            for item in citation_appraisal_progress.records
+        )
+        awaiting = sum(
+            item.status == "awaiting_full_text"
+            for item in citation_appraisal_progress.records
+        )
         print(
             f"Wrote citation appraisal progress: {ready} ready for appraisal, "
             f"{awaiting} awaiting full text, "
-            f"{progress.appraisals_completed} completed"
+            f"{citation_appraisal_progress.appraisals_completed} completed"
         )
         print(f"Progress path: {args.output_path}")
         return 0

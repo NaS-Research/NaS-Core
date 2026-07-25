@@ -91,6 +91,20 @@ and three prior-appraisal reuses. The saturation inventory is now uncapped; the
 quality-selected core synthesis remains limited to 30 non-duplicate primary
 studies. Molecular and outcome access remain prohibited.
 
+Citation access inventory `1.0.0` contains the 29 net-new studies with stable
+screening IDs: 23 repository candidates and six initial access checks. Repository
+batch `95f35d80…15ef9b` contacted the official Europe PMC full-text endpoint for
+all 23. Thirteen articles passed exact PMCID, PMID, DOI, title, and item-level CC BY
+verification and have immutable receipts in `citation-full-text/retrievals/`.
+Five returned 404, three lacked an approved durable-storage license, and two failed
+exact identity matching. Those ten stored no article content.
+
+Access-check queue `de76e254…46ad93` combines the ten repository failures with six
+records having no PMCID. It records zero final access decisions: all 16 remain
+pending lawful read-only, publisher-license, identity-correction, or restriction
+review. Reconciled `citation_appraisal_progress_v1.0.0.yaml` records 13 ready for
+appraisal, 16 awaiting full text, and zero new appraisals complete.
+
 Required artifacts:
 
 - `literature/protocol.md`

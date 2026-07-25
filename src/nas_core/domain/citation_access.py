@@ -185,3 +185,9 @@ def write_citation_access_check_queue(
     )
     with path.open("x", encoding="utf-8") as destination:
         destination.write(payload)
+
+
+def load_citation_access_check_queue(path: Path) -> CitationAccessCheckQueue:
+    return CitationAccessCheckQueue.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
