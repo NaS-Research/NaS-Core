@@ -12,9 +12,9 @@ and what comes next?
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-Seven have verified CC-BY full text; the first question-specific appraisal is
+Seven have verified CC-BY full text; two question-specific appraisals are
 complete. Four are restricted or unavailable through the approved endpoint, and
-two require a lawful alternative source. Appraise the remaining six accessible
+two require a lawful alternative source. Appraise the remaining five accessible
 papers, resolve access where possible, then screen the remaining 87 candidates.
 
 Definition of done:
@@ -70,6 +70,10 @@ Current gate state:
   calibration, unvalidated independence assumptions, inconsistent simulation counts,
   and no external repeat-measure validation prevent it from supplying a transportable
   NaS error model.
+- The subgroup-centering paper `PMC4365540` is also `context_only`. It demonstrates
+  that cohort composition can radically change PAM50 calls, but its proposed fix
+  uses the study cohort's clinical composition and explicitly cannot classify one
+  patient independently. It supports—not resolves—the fixed-reference requirement.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -101,9 +105,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-`0.3.0` full-text appraisal of the six remaining verified
-   CC-BY priority papers, next addressing subgroup centering and RNA-seq reference
-   sensitivity.
+1. Complete question-`0.3.0` full-text appraisal of the five remaining verified
+   CC-BY priority papers, next addressing RNA-seq reference sensitivity and
+   single-sample alternatives.
 2. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
    method (PMID `28062443`) without paywall circumvention or unlicensed storage.
 3. Founder-confirm or reject the five author-year-only inventory links, then screen
@@ -141,6 +145,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Subgroup-specific centering appraised
+
+Completed the question-specific appraisal of verified CC-BY paper `PMC4365540`.
+The method directly shows that standard cohort median centering can produce radically
+different PAM50 assignments when a study cohort is clinically skewed. Its proposed
+percentile correction improved agreement within selected UNC subgroups and shifted
+two small external cohorts toward clinically expected subtype proportions.
+
+The paper is `context_only`. Development and most accuracy testing reuse the PAM50
+training resource, external comparators do not establish independent molecular
+truth, and the method requires clinicopathological composition plus sufficient
+cohort size. The authors explicitly state it is unsuitable for a one-patient
+dataset. It strengthens the rationale for a patient-independent external reference
+but cannot serve as that reference or validate the NaS procedure.
 
 ### 2026-07-24 — Measurement-uncertainty evidence appraised
 
@@ -200,20 +219,6 @@ hashes, sizes, summaries, and pending states. Reconciliation against the prior
 457-record inventory found 55 exact matches, 5 author-year-only candidates, and 40
 new candidates. It transferred zero prior decisions and generated no scientific
 conclusion.
-
-### 2026-07-23 — Revised reliability search locked and captured
-
-Recorded founder Phase 0 authorization for question `0.3.0`, implemented a
-metadata-only feasibility specification, and refined the search through four
-count-only iterations. The final strategy `0.2.3` narrowed the result to 52 PubMed
-and 95 Europe PMC hits without storing preview records.
-
-Executed the locked query once. Immutable execution `7c57c576…8fbee` contains 96
-unique bibliographic records and 51 cross-source duplicates. A separate verifier
-reloaded the manifest and all five data objects from external storage, recomputed
-hashes and sizes, checked normalized-record schema and uniqueness, reconciled source
-and duplicate counts, and issued the aggregate receipt in Git. No molecular or
-outcome data were accessed, and no scientific conclusion was generated.
 
 ## Current blockers
 

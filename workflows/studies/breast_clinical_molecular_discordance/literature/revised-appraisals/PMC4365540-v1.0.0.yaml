@@ -1,0 +1,126 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0
+title: Molecular subtyping for clinically defined breast cancer subgroups.
+pmid: '25849221'
+doi: 10.1186/s13058-015-0520-4
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4365540/fullTextXML
+full_text_sha256: 6e75edfe0caf53efbb4282d626e10ee2781c6a6bf4e698dfac6ac2dfd11eef9d
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: methods_normalization
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: high
+    rationale: >-
+      Development and most quantified accuracy comparisons reuse deliberately selected
+      prototypic and clinical subgroups from the UNC PAM50 training cohort. External
+      evaluation is limited to 48 ER-positive Trondheim tumors and 77 TCGA triple-negative
+      tumors selected precisely because their clinical composition is skewed. These
+      extreme subgroups illustrate cohort-composition bias but do not represent an
+      independently sampled intended-use population.
+    evidence_locations:
+      - Methods — Evaluation of subgroup-specific gene centering and associated datasets
+      - Methods — Evaluation of subgroup-specific strategy on external study cohorts
+      - Results — Application on external study cohorts
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The work reuses previously processed UNC, TCGA, and Trondheim expression data.
+      Platform and preprocessing information is referenced to source studies, but the
+      appraisal cannot isolate biological, laboratory, platform, and centering effects
+      within the reported comparisons. The method also requires clinicopathological
+      variables sufficiently complete to match study and training compositions.
+    evidence_locations:
+      - Methods — Evaluation of subgroup-specific gene centering and associated datasets
+      - Methods — Estrogen receptor-positive cohort
+      - Discussion
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      The percentile-centering algorithm is described, R 3.0.0 is identified, subgroup
+      baseline tables are supplied, and code and data were deposited. However, execution
+      depends on the study cohort's clinicopathological distribution, adequate cohort
+      size, and potentially random resampling or weighting. It is therefore not a fixed
+      patient-independent implementation and cannot satisfy the NaS one-sample contract.
+    evidence_locations:
+      - Methods — Formulation of subgroup-specific gene centering
+      - Discussion
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      Internal accuracy treats UNC prototypic labels—used to define the subtype
+      centroids—as truth, creating a non-independent comparator. External ER-positive
+      performance is judged by expected luminal enrichment rather than patient-level
+      reference labels. The TCGA triple-negative comparator uses published PAM50 calls
+      generated with the full TCGA cohort, so it does not establish independent
+      biological truth or clinical correctness.
+    evidence_locations:
+      - Methods — Evaluation using the PAM50 training cohort
+      - Methods — Evaluation of subgroup-specific strategy on external study cohorts
+      - Results — Application on external study cohorts
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Large improvements on prototypic subsets are partly evaluated against labels and
+      centroids derived from the same training resource. Multiple subtype and subgroup
+      comparisons are reported without a prespecified multiplicity strategy; the
+      triple-negative UNC comparison has only nine tumors. External analyses primarily
+      compare resulting subtype proportions with clinical expectations, which cannot
+      quantify patient-level classification accuracy.
+    evidence_locations:
+      - Results — Prototypic subgroups from the UNC dataset
+      - Results — Clinically defined subgroups from the UNC dataset
+      - Results — Application on external study cohorts
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Two small external cohorts demonstrate that the transformation changes subtype
+      distributions in the expected clinical direction, but neither provides an
+      independent molecular truth standard. Most importantly, the authors state that
+      the method is not suitable for a one-patient dataset and requires sufficient
+      cohort size plus clinicopathological composition. That directly prevents unchanged
+      transport into the fixed single-patient NaS procedure.
+    evidence_locations:
+      - Results — Application on external study cohorts
+      - Discussion
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The algorithm, R version, supplementary baselines, datasets, and a code repository
+      are reported. Repeated sampling is suggested to average randomness, but no fixed
+      random seed or immutable software revision is declared, and exact reconstruction
+      depends on external preprocessing and historical repository availability.
+    evidence_locations:
+      - Methods — Formulation of subgroup-specific gene centering
+      - Discussion
+evidence_role: context_only
+key_strengths:
+  - Directly demonstrates that standard PAM50 centering can be highly cohort-composition dependent.
+  - Provides an explicit percentile-based alternative with code, data, and subgroup baselines.
+  - Tests clinically skewed ER-positive and triple-negative external cohorts.
+  - Transparently states the need for clinicopathological metadata and sufficient cohort size.
+key_limitations:
+  - The proposed method is explicitly unsuitable for a single-patient dataset.
+  - Internal labels and centroids derive from the same UNC training resource.
+  - External assessments rely mainly on expected subtype enrichment rather than independent truth.
+  - Small, deliberately selected external cohorts limit generalizability.
+  - Cohort composition, sampling, and clinical metadata remain part of every prediction.
+conflicts_and_funding: >-
+  The authors declared no competing interests. The study was supported by National
+  Institutes of Health grants 1U01 CA154969 and 1U54 CA149145; the authors state that
+  funders had no role in study design, analysis, publication decision, or manuscript
+  preparation.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located evidence from the verified CC-BY full text
+  and proposed question-0.3.0 domain judgments. The founder authorized continuation
+  and remains accountable for the locked eligibility and evidence role. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T22:19:39-05:00
+scientific_conclusions_drawn: false

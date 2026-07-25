@@ -2,15 +2,15 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
 progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
-generated_at: '2026-07-25T03:14:29.956469Z'
+generated_at: '2026-07-25T03:20:38.890571Z'
 provisional_inclusion_count: 13
 full_texts_retrieved: 7
-appraisals_completed: 1
+appraisals_completed: 2
 access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
-context_only_count: 1
+context_only_count: 2
 excluded_count: 0
 records:
 - screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
@@ -38,9 +38,11 @@ records:
 - screening_id: afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0
   title: Molecular subtyping for clinically defined breast cancer subgroups.
   pmcid: PMC4365540
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 68f635469b659b051ea5887ed9100d2a897e22a17fe23036985478e1e0ce7ba5
   full_text_sha256: 6e75edfe0caf53efbb4282d626e10ee2781c6a6bf4e698dfac6ac2dfd11eef9d
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 31f863db0452d24f3534598789d0bff73163009c4e71162cd3b55da28b5808cc
   title: 'A novel non-parametric method for uncertainty evaluation of correlation-based molecular signatures:
     its application on PAM50 algorithm.'

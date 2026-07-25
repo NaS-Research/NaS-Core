@@ -35,9 +35,10 @@ and zero AI decisions.
 The revised access ledger contains seven independently verified CC-BY full texts,
 four restricted or repository-unavailable records, and two records requiring a
 lawful alternative source. No restricted full text was stored. Question-specific
-appraisal of `PMC3275466` is complete as `context_only`; six accessible records
-remain. Its sparse technical-error calibration and lack of external repeat-measure
-validation make it directly relevant but not a transportable error model.
+appraisals of `PMC3275466` and `PMC4365540` are complete as `context_only`; five
+accessible records remain. The centering paper demonstrates severe cohort-composition
+dependence but explicitly requires a cohort and is unsuitable for one patient. It
+supports the need for a fixed external reference rather than supplying one.
 
 Required artifacts:
 
