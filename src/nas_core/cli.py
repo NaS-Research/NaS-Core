@@ -73,6 +73,10 @@ from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
+from nas_core.retrieval.citation_adjudication import (
+    CitationUnclearAdjudicationService,
+    load_citation_adjudication_policy,
+)
 from nas_core.retrieval.citation_chain import CitationChainRetrievalService
 from nas_core.retrieval.citation_enrichment import CitationEnrichmentService
 from nas_core.retrieval.citation_packet import CitationFounderPacketService
@@ -322,6 +326,20 @@ def build_parser() -> argparse.ArgumentParser:
     citation_packet.add_argument("--packet-output", required=True, type=Path)
     citation_packet.add_argument("--appendix-output", required=True, type=Path)
     citation_packet.add_argument("--receipt-output", required=True, type=Path)
+    citation_adjudicate = evidence_review_commands.add_parser(
+        "citation-adjudicate",
+        help="Apply a versioned advisory policy to unresolved citation records",
+    )
+    citation_adjudicate.add_argument("recommendation_receipt", type=Path)
+    citation_adjudicate.add_argument("enrichment_receipt", type=Path)
+    citation_adjudicate.add_argument("policy", type=Path)
+    citation_adjudicate.add_argument("--code-revision", required=True)
+    citation_adjudicate.add_argument("--receipt-output", required=True, type=Path)
+    citation_adjudicate.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist complete second-stage advisory recommendations",
+    )
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
     literature_commands = literature.add_subparsers(dest="literature_command", required=True)
@@ -1012,6 +1030,42 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Packet SHA-256: {packet.packet_sha256}")
         print(f"Appendix SHA-256: {packet.appendix_sha256}")
         print("Advisory only; explicit founder confirmation is still required.")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-adjudicate"
+    ):
+        prior_recommendations = load_citation_recommendation_receipt(
+            args.recommendation_receipt
+        )
+        enrichment = load_citation_enrichment_receipt(args.enrichment_receipt)
+        policy = load_citation_adjudication_policy(args.policy)
+        if not args.execute:
+            print(
+                f"Citation adjudication ready: "
+                f"{prior_recommendations.unclear_recommendation_count} unresolved records"
+            )
+            print("Dry run only; no recommendations or decisions were stored.")
+            return 0
+        adjudication_service = CitationUnclearAdjudicationService(
+            store=get_object_store()
+        )
+        adjudication = adjudication_service.adjudicate(
+            prior_recommendations,
+            enrichment,
+            policy,
+            code_revision=args.code_revision,
+        )
+        write_citation_recommendation_receipt(args.receipt_output, adjudication)
+        print(
+            f"Adjudicated citation pass {adjudication.pass_number}: "
+            f"{adjudication.include_recommendation_count} include, "
+            f"{adjudication.exclude_recommendation_count} exclude, "
+            f"{adjudication.unclear_recommendation_count} unclear"
+        )
+        print("Advisory only; zero founder decisions were recorded.")
+        print(f"Wrote verified adjudication receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

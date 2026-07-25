@@ -63,6 +63,14 @@ Abstract advisory version `1.0.2` covers all 4,495 records and remains nondecisi
 `a1f378c4…7e062c`. Founder confirmation can authorize only the 4,239 proposed
 decisions. The 256 unclear records require a separate adjudication packet.
 
+Second-stage advisory policy `1.0.0` reviews those 256 held records and recommends
+17 additional includes and 239 exclusions. Its packet SHA-256 is
+`ba8560a7…c1f29fe`; its appendix SHA-256 is `1e41f1f1…56e9e81`. Combined tests
+prove exact, non-overlapping coverage of all 4,495 records: 32 proposed includes,
+4,463 proposed excludes, zero unclear, and zero founder decisions. The combined
+review artifact allows one exact founder confirmation while retaining both packet
+boundaries.
+
 Required artifacts:
 
 - `literature/protocol.md`

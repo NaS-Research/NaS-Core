@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.20.0-working`
+Manuscript version: `0.21.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -181,6 +181,15 @@ row-level appendix. They remain advisory: no citation-pass founder decision has
 been recorded, and pass 1 is not complete.
 [citation-chain/pass-0001-recommendations.yaml;
 citation-chain/pass-0001-founder-packet.yaml]
+
+Second-stage title-and-abstract adjudication of the 256 held records recommends 17
+additional includes and 239 exclusions. Combined packet coverage is 4,495 unique
+records exactly once: 32 proposed includes, 4,463 proposed exclusions, and zero
+unclear. These remain recommendations pending one checksum-bound founder
+confirmation; citation pass 1 is therefore still incomplete.
+[CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
+citation-chain/pass-0001-adjudication-packet.yaml;
+FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md]
 
 ### Quality appraisal
 

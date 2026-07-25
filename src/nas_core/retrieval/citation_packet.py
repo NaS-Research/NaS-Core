@@ -190,7 +190,7 @@ class CitationFounderPacketService:
             f"- Appendix: `{appendix_path.name}`",
             f"- Appendix SHA-256: `{appendix_sha256}`",
             "",
-            "## High-confidence inclusion recommendations",
+            "## Inclusion recommendations",
             "",
             "| Rank | Record | Title |",
             "|---:|---|---|",

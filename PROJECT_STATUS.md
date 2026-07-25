@@ -165,6 +165,10 @@ Current gate state:
   high-confidence includes, 4,224 exclusions, and 256 records held for individual
   adjudication. Packet `a6ebe1f9…8e9f0a` and its complete 4,495-row appendix
   `a1f378c4…7e062c` are frozen. Zero final founder decisions are recorded.
+- Versioned second-stage policy `1.0.0` adjudicates all 256 held records as 17
+  additional includes and 239 exclusions. Combined coverage is exactly 4,495
+  unique records: 32 proposed includes, 4,463 proposed exclusions, and zero
+  unclear. Both packet pairs remain advisory and record zero founder decisions.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -200,8 +204,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain founder confirmation of the 4,239 proposed citation-pass decisions and
-   individually adjudicate the remaining 256 records without autonomous exclusions.
+1. Obtain the single combined founder confirmation for all 4,495 citation-pass
+   recommendations, then write and independently verify the append-only decision
+   ledger.
 2. Add and appraise any newly eligible methodological or external-transport studies,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
@@ -238,6 +243,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation pass 1 unresolved set fully adjudicated
+
+Implemented a versioned, policy-bound second-stage advisory workflow for all 256
+records held by the first packet. Abstract review retained 17 direct assay,
+classifier, platform, specimen, normalization, or implementation-comparison
+records and recommended exclusion of 239 outcome, treatment, biomarker, taxonomy,
+secondary, nonhuman, or otherwise indirect records.
+
+The second packet has SHA-256 `ba8560a7…c1f29fe`; its complete appendix has
+SHA-256 `1e41f1f1…56e9e81`. Mechanical combined coverage proves 4,495 unique
+records exactly once, with 32 proposed includes, 4,463 proposed excludes, zero
+unclear, and zero founder decisions. A single combined review statement now binds
+both packet and appendix pairs.
 
 ### 2026-07-25 — Citation pass 1 founder packet frozen
 

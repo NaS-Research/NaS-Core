@@ -1,0 +1,33 @@
+schema_version: 1.0.0
+policy_version: 1.0.0
+study_id: NAS-BRCA-002
+pass_number: 1
+based_on_recommendation_id: f0d00998b36bd8fe54f2a88b304aa28afdf7a9ea2d973c20bc08e01e3e975295
+include_record_keys:
+  - MED:22752290
+  - MED:37773555
+  - MED:38549046
+  - MED:39747865
+  - MED:22262870
+  - MED:31435878
+  - MED:30040052
+  - MED:16626501
+  - MED:33442660
+  - MED:38951507
+  - MED:33543757
+  - MED:27556419
+  - MED:16643655
+  - MED:26711328
+  - MED:27036195
+  - MED:23907291
+  - MED:32881987
+rationale: >-
+  Second-stage title-and-abstract review retains only records with a direct
+  classifier, assay, platform, specimen, normalization, implementation-comparison,
+  or molecular-versus-surrogate contribution to question 0.3.0. Outcome association,
+  treatment selection, cost effectiveness, new subtype discovery, general molecular
+  characterization, secondary literature, and unrelated disease methods are
+  recommended for exclusion. Recommendations remain advisory until founder
+  confirmation.
+founder_confirmation_required: true
+autonomous_decisions_allowed: false
