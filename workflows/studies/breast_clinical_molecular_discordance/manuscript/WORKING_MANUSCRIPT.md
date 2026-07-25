@@ -2,13 +2,13 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.8.0-working`
+Manuscript version: `0.9.0-working`
 
 Study: `NAS-BRCA-002`
 
 Question version: `0.3.0`
 
-Last updated: 2026-07-24
+Last updated: 2026-07-25
 
 Overall status: **working—evidence review incomplete; molecular and outcome data not accessed**
 
@@ -131,14 +131,20 @@ priority identifiers before screening. The locked search returned 56 PubMed and
 All 100 records had abstracts and were reset to pending under question `0.3.0`.
 [search_strategy_v0.3.0.yaml; search_receipt_v0.3.1.yaml]
 
-The founder included all 13 direct-priority records for full-text review. Seven
-had verified CC-BY full text and five were lawfully viewable but not approved for
-durable commercial storage. Those 12 records completed question-specific appraisal.
-The remaining AIMS article was identity-verified at the publisher but was
-subscription-restricted; no full text was stored or appraised. Read-only receipts
-retain source identity, rights observations, and ephemeral checksums rather than
-article content. Every priority record therefore has a terminal full-text state.
-[revised-screening-progress/batch-0001.yaml; revised_appraisal_progress.yaml]
+The founder completed title-and-abstract review of all 100 records. The immutable
+ledger records 30 inclusions, 70 exclusions, zero pending, zero unclear, and zero
+AI decisions. All five fuzzy author-year identity links were rejected. Inclusion
+means only that lawful full-text assessment is warranted.
+
+Of the 13 direct-priority inclusions, seven had verified CC-BY full text and five
+were lawfully viewable but not approved for durable commercial storage. Those 12
+records completed question-specific appraisal. The remaining AIMS article was
+identity-verified at the publisher but subscription-restricted; no full text was
+stored or appraised. Read-only receipts retain source identity, rights observations,
+and ephemeral checksums rather than article content.
+[revised-screening-progress/batch-0002.yaml;
+FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md;
+revised_appraisal_progress.yaml]
 
 ### Quality appraisal
 
@@ -457,7 +463,7 @@ technical evidence, define a reliability estimand and thresholds without outcome
 tuning, validate transport in an independent cohort, and abstain prospectively when
 the assignment is not analytically reliable.
 
-This interpretation may change after completion of the 87-record founder screen
+This interpretation may change after appraisal of the 17 newly included records
 and sequential citation chaining. AIMS remains an identified but unappraised
 access-restricted prior-art source. This is not an authorized novelty conclusion.
 
@@ -465,7 +471,8 @@ access-restricted prior-art source. This is not an authorized novelty conclusion
 
 Status: `working`
 
-- The primary evidence review and citation chaining are incomplete.
+- Primary title-and-abstract screening is complete; full-text assessment of 17
+  newly included records and citation chaining are incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -534,7 +541,8 @@ checks, and internal reviews are complete.
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
-| Methods—screening | Founder decisions and access | founder progress receipt; `revised_appraisal_progress.yaml` | verified, incomplete |
+| Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
+| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
 | Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |

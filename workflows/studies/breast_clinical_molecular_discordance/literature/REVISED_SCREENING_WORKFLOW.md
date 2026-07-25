@@ -49,12 +49,19 @@ records the append-only decisions.
 
 The remaining 87 recommendations are in
 [`FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md`](FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md).
-They are advisory until the founder confirms the exact packet. After confirmation,
-record a temporary confirmation YAML outside Git whose `packet_sha256` is the
-SHA-256 of the reviewed Markdown and whose `confirmation_statement` is exactly
-`I confirm the screening packet as written.` The confirmation must also bind the
-queue ID, current progress ID, founder identity, confirmation time, and rejection
-of all five author-year candidate links.
+The founder confirmed that exact packet on 2026-07-25. The confirmation audit is
+[`FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md`](FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md),
+and verified progress receipt
+[`revised-screening-progress/batch-0002.yaml`](revised-screening-progress/batch-0002.yaml)
+records 30 inclusions, 70 exclusions, zero pending, zero unclear, and zero AI
+decisions. The reviewed packet remains byte-for-byte unchanged so its recorded
+SHA-256 remains reproducible.
+
+For a future packet, record a temporary confirmation YAML outside Git whose
+`packet_sha256` is the SHA-256 of the reviewed Markdown and whose
+`confirmation_statement` is exactly `I confirm the screening packet as written.`
+The confirmation must also bind the queue ID, current progress ID, founder identity,
+confirmation time, and rejection or acceptance of every candidate identity link.
 
 Generate the typed decision batch without storing decisions:
 
@@ -72,8 +79,8 @@ ordering, displayed identifiers, coverage, or founder authority differs. Use the
 existing `screening-record` dry run and execute steps only after this command
 succeeds.
 
-Before founder confirmation, validate packet coverage and immutable record
-identities without creating a decision batch:
+Before any future founder confirmation, validate packet coverage and immutable
+record identities without creating a decision batch:
 
 ```bash
 uv run nas-core literature screening-confirm-preview \

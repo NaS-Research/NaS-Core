@@ -87,11 +87,16 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     )
     assert (
         progress.screening_progress_id
-        == "b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f"
+        == "7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c"
     )
-    assert progress.eligible_evidence_count == 13
-    assert progress.access_restricted_count == 4
-    assert progress.pending_candidate_count == 87
+    assert progress.screening_progress_receipt_path == (
+        "literature/revised-screening-progress/batch-0002.yaml"
+    )
+    assert progress.primary_screening_complete is True
+    assert progress.eligible_evidence_count == 30
+    assert progress.completed_appraisal_count == 12
+    assert progress.access_restricted_count == 1
+    assert progress.pending_candidate_count == 0
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False
     assert progress.molecular_data_access_authorized is False
@@ -285,6 +290,6 @@ def test_priority_and_progress_versions_must_match(tmp_path: Path) -> None:
 def test_progress_payload_copy_is_independent() -> None:
     payload = load_progress_payload()
     copied = deepcopy(payload)
-    copied["pending_candidate_count"] = 0
+    copied["pending_candidate_count"] = 1
 
-    assert payload["pending_candidate_count"] == 87
+    assert payload["pending_candidate_count"] == 0

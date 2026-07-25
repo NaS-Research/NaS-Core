@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-24
+Last updated: 2026-07-25
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -8,19 +8,14 @@ and what comes next?
 
 ## Current focus
 
-### Founder-confirm the NAS-BRCA-002 remaining-queue screening packet
+### Appraise the finalized NAS-BRCA-002 evidence set
 
-The question-`0.3.0` review is authorized and active. All 13 direct-priority
-records now have a terminal access state: 12 completed appraisals and one
-identity-verified subscription restriction. The next evidence task is founder
-screening of the remaining 87 revised-queue records, followed by sequential
-backward and forward citation chaining to the locked two-zero-pass stopping rule.
-The advisory pass is complete: 17 inclusions and 70 exclusions are proposed, and
-all five author-year-only candidate links are recommended for rejection. These
-recommendations remain nonbinding until the founder confirms or edits the packet.
-Read-only preview `210a4d8e…4304aa` verifies complete coverage and exact identity
-against all 87 immutable pending records without creating a decision batch or
-claiming founder authorization.
+Primary title-and-abstract screening is complete. Founder-confirmed progress
+`7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
+and zero AI decisions. All five fuzzy author-year identity links were rejected.
+The next evidence task is lawful access assessment and question-specific appraisal
+of the 17 newly included records, followed by sequential backward and forward
+citation chaining to the locked two-zero-pass stopping rule.
 
 Definition of done:
 
@@ -66,9 +61,9 @@ Current gate state:
 - Reconciliation `075aa083…397891` classifies all 100 records against the prior
   inventory: 55 exact matches, 5 author-year-only candidates, and 40 new candidates.
   No previous screening decision was transferred.
-- Question-`0.3.0` title/abstract protocol `1.1.0` is locked. The founder priority
-  packet contains all 13 direct records. Verified founder progress records 13
-  inclusions, 87 pending, zero exclusions, zero unclear, and zero AI decisions.
+- Question-`0.3.0` title/abstract protocol `1.1.0` is locked. Verified founder
+  progress records all 100 decisions: 30 inclusions, 70 exclusions, zero pending,
+  zero unclear, and zero AI decisions.
 - The priority access inventory reconciles all 13 inclusions: 7 verified CC-BY
   full texts, 5 governed read-only reviews, and 1 subscription restriction. No
   restricted text was retained or redistributed.
@@ -130,18 +125,15 @@ Current gate state:
 - Living manuscript `0.8.0-working` contains traceable Phase 0 methods,
   all 12 completed appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
-- The remaining-queue founder packet covers every one of the 87 pending records
-  exactly once. It proposes 17 inclusions and 70 exclusions, preserving the
-  30-record evidence cap when combined with the 13 priority records. Five
-  author-year-only reconciliation candidates are documented as false-positive
-  identity links. No recommendation has been submitted as a founder decision.
-- A checksum-bound confirmation workflow now converts only the exact reviewed
-  packet and exact current progress state into a typed decision batch. The command
-  rejects changed packet bytes, stale queue state, missing records, duplicate
-  ordinals, identifier drift, incomplete authority, and unresolved author-year
-  links. Its preview mode verified packet SHA-256
-  `210a4d8ef80fc90aeee194ad3d3c299c4e70570a9a0bb1804f2ac385224304aa`
-  while explicitly retaining `founder_authorized: false`.
+- The founder confirmed the exact 87-record packet under SHA-256
+  `210a4d8ef80fc90aeee194ad3d3c299c4e70570a9a0bb1804f2ac385224304aa`.
+  The append-only batch records 17 additional inclusions and 70 exclusions and
+  rejects all five author-year-only candidate links. The final evidence set reaches
+  the locked 30-record cap.
+- The checksum-bound confirmation workflow rejected no invariants: packet bytes,
+  queue state, record ordering, identities, coverage, authority, and author-year
+  adjudication all verified. The packet remains byte-for-byte unchanged, and a
+  separate confirmation audit records the authorization boundary.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -173,45 +165,59 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Founder-confirm or edit
-   `literature/FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md`, including the five
-   rejected author-year links, 17 proposed inclusions, and 70 proposed exclusions;
-   then submit and verify the append-only decision batch.
-2. Execute sequential backward-plus-forward Europe PMC citation passes until two
+1. Build the lawful-access inventory for all 30 founder inclusions, preserving the
+   12 completed appraisals and one subscription restriction.
+2. Retrieve or govern read-only review of the 17 newly included records, then
+   complete a question-specific appraisal or explicit access decision for each.
+3. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-3. Update the living manuscript and its evidence-to-text ledger after every material
+4. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Resolve and approve the exact centroid and external-reference artifacts,
+5. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-5. Define an independently calibrated technical-error model and lock the margin
+6. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-7. Complete the founder scientific/product, molecular/pathology, and statistical
+8. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-10. Implement persisted evidence claims, citations, provenance, contradictory
+11. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-12. Expand the screening model gateway into general evidence reasoning with
+13. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-13. Build evaluation suites for retrieval, citation validity, numerical
+14. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-14. Generate an immutable research release containing the protocol, dataset
+15. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-15. Generate a reviewable white-paper draft whose substantive claims trace to
+16. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-16. Build the internal workbench for projects, protocols, datasets, runs,
+17. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-17. Complete repeated internal oncology pilots before selecting the first
+18. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Founder screening finalized at 30 records
+
+Bound Dalron J. Robertson's exact confirmation to the reviewed packet SHA-256,
+current queue, previous progress state, identity-link adjudication, and timestamp.
+The generated 87-record batch passed a no-write validation before append-only
+execution. Verified progress `7b90c37a…63218c` now records 100 of 100 decisions:
+30 included, 70 excluded, zero pending, zero unclear, and zero AI decisions.
+
+The unchanged advisory packet remains the checksum-verifiable object that was
+reviewed. A separate confirmation audit records the authorization and explicitly
+withholds scientific conclusions, novelty, molecular access, outcome access, and
+clinical use. The living manuscript and machine-readable evidence progress now
+reflect completed primary screening.
 
 ### 2026-07-24 — Checksum-bound founder confirmation implemented
 
@@ -273,20 +279,6 @@ source URL and checksum. The CLI validates read-only receipts and automatically
 includes them in progress generation. The complete test, lint, and type-check suite
 passes.
 
-### 2026-07-24 — All accessible priority evidence appraised
-
-Completed the question-specific appraisal of verified CC-BY paper `PMC12501779`
-as `supporting` evidence, bringing the accessible priority set to seven of seven
-complete. BreastSubtypeR unifies ten published classifiers, reproduces original
-implementations, exposes separate calls and inter-method entropy, and provides
-cohort-aware method selection through a versioned Bioconductor package.
-
-This removes generic multi-method comparison and discordance entropy as standalone
-NaS novelty claims. AUTO depends on cohort composition, its thresholds are developed
-substantially within SCAN-B, and entropy is not calibrated to patient-level error
-or abstention. Across the seven appraisals, five records are supporting, two are
-context-only, and none qualifies as anchor evidence.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -298,10 +290,9 @@ context-only, and none qualifies as anchor evidence.
   numerical tolerances, and thresholds are resolved. The complete evidence stopping
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
-- Revised search strategy `0.2.4`, its queue, and prior-inventory reconciliation are
-  complete. The remaining 87-record advisory screen awaits founder confirmation;
-  full-text appraisal of new inclusions and the citation-chain stopping rule remain
-  incomplete.
+- Revised search strategy `0.2.4`, its queue, prior-inventory reconciliation, and
+  founder screening are complete. Lawful-access assessment and appraisal of 17 new
+  inclusions and the citation-chain stopping rule remain incomplete.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.

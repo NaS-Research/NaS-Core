@@ -11,6 +11,8 @@ The current reliability-focused review is governed by:
 - [`REVISED_SCREENING_WORKFLOW.md`](REVISED_SCREENING_WORKFLOW.md)
 - [`REVISED_SCREENING_PROTOCOL.md`](REVISED_SCREENING_PROTOCOL.md)
 - [`FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md`](FOUNDER_PRIORITY_SCREENING_PACKET_v1.0.0.md)
+- [`FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md`](FOUNDER_REMAINING_SCREENING_PACKET_v1.0.0.md)
+- [`FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md`](FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md)
 
 Search strategy `0.2.4` is locked after coverage QA repaired a pre-screening gap in
 version `0.2.3`. Count-only feasibility returned 56 PubMed and 99 Europe PMC hits.
@@ -21,27 +23,24 @@ and count invariants were independently verified.
 
 Reconciliation `075aa083…397891` classified all 100 records against the immutable
 prior inventory: 55 exact matches, 5 author-year-only candidates, and 40 new
-candidates. All 100 remain pending for question `0.3.0`; no prior decision was
-transferred. Raw records and detailed reconciliation mappings remain outside Git.
-The progress ledger cannot claim completion until founder screening, appraisal
-accounting, and two consecutive zero-yield backward-plus-forward citation passes
-all reconcile.
+candidates. No prior decision was transferred. The founder rejected all five fuzzy
+author-year links and confirmed the exact remaining-record packet under SHA-256
+`210a4d8e…4304aa`. Raw records and detailed reconciliation mappings remain outside
+Git. The progress ledger cannot claim completion until appraisal accounting and two
+consecutive zero-yield backward-plus-forward citation passes reconcile.
 
-Screening protocol `1.1.0` is locked to the replacement queue. The founder confirmed
-all 13 mandatory direct-priority records for full-text review. Verified progress
-`b0c31f7e…00945f` records 13 inclusions, 87 pending, zero exclusions, zero unclear,
-and zero AI decisions.
+Screening protocol `1.1.0` is locked to the replacement queue. Verified progress
+`7b90c37a…63218c` records complete founder review of all 100 records: 30 inclusions,
+70 exclusions, zero pending, zero unclear, and zero AI decisions. Inclusion
+authorizes lawful full-text assessment; it is not a quality designation or
+scientific endorsement.
 
-The revised access ledger contains seven independently verified CC-BY full texts,
-four restricted or repository-unavailable records, and two records requiring a
-lawful alternative source. No restricted full text was stored. All seven
-question-specific appraisals are complete: `PMC3275466` and `PMC4365540` are
-`context_only`, while `PMC7442834`, `PMC7761033`, and `PMC9381586` are
-joined by `PMC10587090` and `PMC12501779` as `supporting`. No verified retrieved
-full text remains unappraised. BreastSubtypeR already unifies ten methods, exposes
-per-method calls and inter-method entropy, and performs cohort-aware method
-selection. Its entropy is not calibrated to patient-level error or abstention, and
-AUTO is not patient-independent.
+The priority access ledger contains seven independently verified CC-BY full texts,
+five governed read-only reviews, and one subscription restriction. No restricted
+full text was stored. Twelve priority appraisals are complete: nine are
+`supporting`, three are `context_only`, and none is anchor evidence. Lawful access
+inventory and question-specific appraisal of the 17 newly included records are
+next, followed by sequential citation chaining.
 
 Required artifacts:
 

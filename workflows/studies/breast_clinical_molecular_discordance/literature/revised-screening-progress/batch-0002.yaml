@@ -1,0 +1,33 @@
+schema_version: 1.0.0
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+previous_progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+batch_id: 253281ff268a8f3417e4d01cd0d01ef08f26fde896c357caa93c7382a863865f
+algorithm_version: literature-founder-review-1.0.0
+code_revision: 93059bc8f4a2e3a5631654a3f97981aff70ef93d
+created_at: '2026-07-25T12:48:53.304942Z'
+manifest_object_key: literature-screening-review/af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3/7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c/manifest.json
+manifest_sha256: fd878115f83b0cd5f4bc1b28dc519d34a98e8443e51299cc8d4ab5986336c2b8
+decisions_object_key: literature-screening-review/af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3/7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c/decision-events.jsonl
+decisions_sha256: e2d50a3527e3c013021e57e17e30675135038e69b42345d5b8d77fbb5f9e3693
+decisions_size_bytes: 60623
+summary_object_key: literature-screening-review/af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3/7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c/progress-summary.json
+summary_sha256: bb7b0d3d69334561a1019ffeb8ec5583b7cd1d96e141cec69aadab7473afa5ba
+summary_size_bytes: 211
+summary:
+  total_record_count: 100
+  decided_record_count: 100
+  pending_record_count: 0
+  included_record_count: 30
+  excluded_record_count: 70
+  unclear_record_count: 0
+  decision_event_count: 100
+  completion_percent: 100.0
+verified_at: '2026-07-25T12:48:53.554960Z'
+manifest_checksum_verified: true
+artifact_checksums_verified: true
+event_chain_verified: true
+count_invariants_verified: true
+screening_status: complete
+ai_decisions_recorded: 0
+scientific_conclusions_drawn: false
