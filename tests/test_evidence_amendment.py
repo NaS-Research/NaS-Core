@@ -16,6 +16,7 @@ from nas_core.domain.evidence_amendment import (
 from nas_core.domain.snapshots import StoredObject
 from nas_core.ingestion.gdc import canonical_json, sha256
 from nas_core.retrieval.evidence_amendment import (
+    CitationAccessInventoryService,
     EvidenceCapAmendmentActivationService,
     EvidenceCapAmendmentError,
 )
@@ -132,6 +133,13 @@ def test_activation_routes_every_inclusion_without_authorizing_data_access(
     assert receipt.uncapped_saturation_inventory_active is True
     assert receipt.molecular_data_access_authorized is False
     assert receipt.outcome_data_access_authorized is False
+
+    inventory = CitationAccessInventoryService(store=store).build(receipt)
+    assert inventory.provisional_inclusion_count == 2
+    assert inventory.repository_candidate_count == 1
+    assert inventory.access_check_required_count == 1
+    assert len({item.screening_id for item in inventory.records}) == 2
+    assert all(item.full_text_retrieved is False for item in inventory.records)
 
 
 def test_approval_rejects_inexact_statement() -> None:

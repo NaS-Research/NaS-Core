@@ -54,6 +54,7 @@ from nas_core.domain.cohorts import (
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
 from nas_core.domain.evidence_amendment import (
+    load_evidence_cap_amendment_activation_receipt,
     load_evidence_cap_amendment_approval,
     write_evidence_cap_amendment_activation_receipt,
 )
@@ -102,6 +103,7 @@ from nas_core.retrieval.citation_reconciliation import (
 )
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
 from nas_core.retrieval.evidence_amendment import (
+    CitationAccessInventoryService,
     EvidenceCapAmendmentActivationService,
 )
 from nas_core.retrieval.full_text import FullTextInventoryService
@@ -631,6 +633,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="New path for the typed access inventory YAML",
     )
+    citation_access_inventory = literature_commands.add_parser(
+        "citation-access-inventory",
+        help="Build the net-new access inventory from an activated citation queue",
+    )
+    citation_access_inventory.add_argument("activation_receipt", type=Path)
+    citation_access_inventory.add_argument("--output-path", required=True, type=Path)
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
         help="Retrieve and verify one explicitly licensed Europe PMC full text",
@@ -1636,6 +1644,25 @@ def main(argv: Sequence[str] | None = None) -> int:
             write_full_text_inventory(args.output_path, inventory)
             print(f"Wrote verified access inventory: {args.output_path}")
         print(json.dumps(inventory.model_dump(mode="json", exclude_none=True), indent=2))
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-access-inventory"
+    ):
+        activation_receipt = load_evidence_cap_amendment_activation_receipt(
+            args.activation_receipt
+        )
+        inventory = CitationAccessInventoryService(store=get_object_store()).build(
+            activation_receipt
+        )
+        write_full_text_inventory(args.output_path, inventory)
+        print(
+            f"Wrote citation access inventory: {inventory.provisional_inclusion_count} "
+            f"net-new records, {inventory.repository_candidate_count} repository "
+            f"candidates, {inventory.access_check_required_count} access checks"
+        )
+        print(f"Inventory path: {args.output_path}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-fetch":

@@ -7,6 +7,13 @@ import re
 from datetime import UTC, datetime
 from pathlib import Path
 
+from pydantic import ValidationError
+
+from nas_core.domain.appraisal import (
+    FullTextAccessStatus,
+    FullTextInventory,
+    FullTextInventoryRecord,
+)
 from nas_core.domain.citation_reconciliation import (
     CitationInclusionReconciliationReceipt,
 )
@@ -203,4 +210,81 @@ class EvidenceCapAmendmentActivationService:
             media_type=JSON_MEDIA_TYPE,
             size_bytes=len(body),
             sha256=sha256(body),
+        )
+
+
+class CitationAccessInventoryService:
+    def __init__(self, *, store: ObjectStore) -> None:
+        self._store = store
+
+    def build(
+        self,
+        activation: EvidenceCapAmendmentActivationReceipt,
+    ) -> FullTextInventory:
+        body = self._store.get_bytes(activation.queue_object.object_key)
+        if (
+            len(body) != activation.queue_object.size_bytes
+            or sha256(body) != activation.queue_object.sha256
+        ):
+            raise EvidenceCapAmendmentError("amendment appraisal queue checksum failed")
+        try:
+            payload = json.loads(body)
+            queue = [
+                CitationAppraisalQueueRecord.model_validate(row) for row in payload
+            ]
+        except (json.JSONDecodeError, UnicodeDecodeError, ValidationError) as error:
+            raise EvidenceCapAmendmentError(
+                "amendment appraisal queue is invalid"
+            ) from error
+        net_new = [
+            row
+            for row in queue
+            if row.route is not CitationAppraisalRoute.REUSE_PRIOR_APPRAISAL
+        ]
+        records = [
+            FullTextInventoryRecord(
+                screening_id=sha256(
+                    canonical_json(
+                        {
+                            "activation_id": activation.activation_id,
+                            "record_key": item.record_key,
+                        }
+                    )
+                ),
+                record_key=item.record_key,
+                title=item.title,
+                pmid=item.pmid,
+                pmcid=item.pmcid,
+                doi=item.doi,
+                access_status=(
+                    FullTextAccessStatus.REPOSITORY_CANDIDATE
+                    if item.route is CitationAppraisalRoute.REPOSITORY_CANDIDATE
+                    else FullTextAccessStatus.ACCESS_CHECK_REQUIRED
+                ),
+            )
+            for item in net_new
+        ]
+        repository_count = sum(
+            item.access_status is FullTextAccessStatus.REPOSITORY_CANDIDATE
+            for item in records
+        )
+        if (
+            len(records) != activation.net_new_count
+            or repository_count != activation.repository_candidate_count
+        ):
+            raise EvidenceCapAmendmentError(
+                "citation access inventory does not reconcile with activation"
+            )
+        return FullTextInventory(
+            inventory_version="1.0.0",
+            study_id=activation.study_id,
+            queue_id=activation.activation_id,
+            progress_id=activation.reconciliation_id,
+            provisional_inclusion_count=len(records),
+            repository_candidate_count=repository_count,
+            access_check_required_count=len(records) - repository_count,
+            records=records,
+            full_texts_retrieved=0,
+            appraisals_completed=0,
+            scientific_conclusions_drawn=False,
         )
