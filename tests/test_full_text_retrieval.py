@@ -159,6 +159,31 @@ def test_rejects_substantive_article_identity_mismatch() -> None:
         )
 
 
+def test_identity_accepts_title_and_doi_case_only_differences() -> None:
+    service = FullTextRetrievalService(
+        store=InMemoryObjectStore(),
+        transport=FakeTransport(_xml()),
+        clock=lambda: NOW,
+    )
+
+    receipt = service.verify(
+        service.retrieve(
+            _record().model_copy(
+                update={
+                    "title": "SYNTHETIC LICENSED STUDY.",
+                    "doi": "10.1/SYNTHETIC",
+                }
+            ),
+            study_id="NAS-BRCA-002",
+            queue_id="b" * 64,
+            progress_id="c" * 64,
+            code_revision="f9f1f46",
+        )
+    )
+
+    assert receipt.article_identity_verified is True
+
+
 def test_verification_detects_tampered_full_text() -> None:
     store = InMemoryObjectStore()
     service = FullTextRetrievalService(

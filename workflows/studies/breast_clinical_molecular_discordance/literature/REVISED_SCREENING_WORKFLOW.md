@@ -93,9 +93,10 @@ The derived access inventory is
 [`revised-full-text/inventory/access_inventory_v0.3.2.yaml`](revised-full-text/inventory/access_inventory_v0.3.2.yaml).
 It contains all 30 founder inclusions: 26 have repository identifiers and four
 require separate lawful-access checks. The current reconciled ledger is
-[`revised_appraisal_progress_v0.3.2.yaml`](revised_appraisal_progress_v0.3.2.yaml):
-12 appraisals are complete, one record remains subscription-restricted, and 17
-new inclusions await access resolution.
+[`revised_appraisal_progress_v0.3.3.yaml`](revised_appraisal_progress_v0.3.3.yaml):
+12 appraisals are complete, eight newly included CC BY papers are ready for
+appraisal, one record remains subscription-restricted, and nine inclusions await
+access resolution.
 
 ## Boundaries
 

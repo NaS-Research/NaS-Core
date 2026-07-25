@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: a738eb71e005b5d10232ee0cdc8da4d4b5a0fdc701edc3e96094f9f1d34fbc0f
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 80d2e0fcb88556b59a619f5d8559eecfe6a1ce5d2e386b2f93a576927a23ee33
+pmcid: PMC8974006
+title: classifieR a flexible interactive cloud-application for functional annotation of cancer transcriptomes.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8974006/fullTextXML
+retrieved_at: '2026-07-25T13:20:33.596176Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2022"
+manifest_object_key: full-text/NAS-BRCA-002/80d2e0fcb88556b59a619f5d8559eecfe6a1ce5d2e386b2f93a576927a23ee33/a738eb71e005b5d10232ee0cdc8da4d4b5a0fdc701edc3e96094f9f1d34fbc0f/manifest.json
+manifest_sha256: 557eed5beabccff57dd139167d8033a6246baed782327085c37b40ce4e10d30f
+full_text_object_key: full-text/NAS-BRCA-002/80d2e0fcb88556b59a619f5d8559eecfe6a1ce5d2e386b2f93a576927a23ee33/a738eb71e005b5d10232ee0cdc8da4d4b5a0fdc701edc3e96094f9f1d34fbc0f/article.xml
+full_text_sha256: 76e9f408053428ea101584bbd1dd43023f3d51bb4e21f0b25c95a7cd9da93c03
+full_text_size_bytes: 63676
+verified_at: '2026-07-25T13:20:33.672422Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

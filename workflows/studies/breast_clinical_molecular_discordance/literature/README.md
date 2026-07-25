@@ -40,8 +40,9 @@ requiring separate lawful-access checks. It preserves seven independently verifi
 CC-BY full texts, five governed read-only reviews, and one subscription restriction
 from the priority phase. No restricted full text was stored. Twelve appraisals are
 complete: nine are `supporting`, three are `context_only`, and none is anchor
-evidence. Seventeen newly included records await access resolution and appraisal,
-followed by sequential citation chaining.
+evidence. Eight newly included records now have identity- and license-verified CC
+BY full text and are ready for appraisal; nine records still require access
+resolution. Sequential citation chaining follows full-text adjudication.
 
 Required artifacts:
 

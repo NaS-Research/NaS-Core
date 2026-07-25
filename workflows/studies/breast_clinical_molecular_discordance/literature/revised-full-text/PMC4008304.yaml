@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: b0b441dfb75a6e7695a5ae6869ac5ce820a135f5486e91d0542da003d3b9432a
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: f388ae05a4ed1d1a982e7577d351252c06613e62f3b975994114b4b850f5bf69
+pmcid: PMC4008304
+title: Analytical validation of the PAM50-based Prosigna Breast Cancer Prognostic Gene Signature Assay
+  and nCounter Analysis System using formalin-fixed paraffin-embedded breast tumor specimens.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4008304/fullTextXML
+retrieved_at: '2026-07-25T13:20:33.749548Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 2.0 Generic
+  spdx_identifier: CC-BY-2.0
+  url: https://creativecommons.org/licenses/by/2.0/
+  copyright_statement: "Copyright \xA9 2014 Nielsen et al.; licensee BioMed Central Ltd."
+manifest_object_key: full-text/NAS-BRCA-002/f388ae05a4ed1d1a982e7577d351252c06613e62f3b975994114b4b850f5bf69/b0b441dfb75a6e7695a5ae6869ac5ce820a135f5486e91d0542da003d3b9432a/manifest.json
+manifest_sha256: 4f6d41cfd4b924f78d66a238c2b8c153647ad66f3df7a3fea7c7ded4e0911241
+full_text_object_key: full-text/NAS-BRCA-002/f388ae05a4ed1d1a982e7577d351252c06613e62f3b975994114b4b850f5bf69/b0b441dfb75a6e7695a5ae6869ac5ce820a135f5486e91d0542da003d3b9432a/article.xml
+full_text_sha256: 1f5bfe0d6288272c9b89f66a055e9a650e2f05b93256b1d4488be8447a141480
+full_text_size_bytes: 160080
+verified_at: '2026-07-25T13:20:33.764809Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

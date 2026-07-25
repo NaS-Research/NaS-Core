@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: e5bf841df3b29e6396db239d1ab7bfc39446ee74e505879ffbbfadb54feda43a
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: ac24e2bcd93b4319bbd21d1df4f25c7a3a2157b294a54c7a97997dd13aa37a7a
+pmcid: PMC10241706
+title: Quantification of subtype purity in Luminal A breast cancer predicts clinical characteristics and
+  survival.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10241706/fullTextXML
+retrieved_at: '2026-07-25T13:20:34.642463Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2023"
+manifest_object_key: full-text/NAS-BRCA-002/ac24e2bcd93b4319bbd21d1df4f25c7a3a2157b294a54c7a97997dd13aa37a7a/e5bf841df3b29e6396db239d1ab7bfc39446ee74e505879ffbbfadb54feda43a/manifest.json
+manifest_sha256: b9c4d1cc93df4cf59626737ba2f01c8e9d45bd337b391f620e83bb7d068543c4
+full_text_object_key: full-text/NAS-BRCA-002/ac24e2bcd93b4319bbd21d1df4f25c7a3a2157b294a54c7a97997dd13aa37a7a/e5bf841df3b29e6396db239d1ab7bfc39446ee74e505879ffbbfadb54feda43a/article.xml
+full_text_sha256: 63da7606e5cbe96a467f993c637d8693f5d78a292ea81f45e8b1a092a74ea2f0
+full_text_size_bytes: 100305
+verified_at: '2026-07-25T13:20:34.650780Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

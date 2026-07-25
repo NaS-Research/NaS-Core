@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: b5fe4e7351031918edf866fa25f039b5679f72fb35cf613df3c8215cbef73b25
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 4be62d6ac3907ce0d68fa3600137fc3e603ff3456526cf7267d95dc1e5d7aca0
+pmcid: PMC10147733
+title: Reproducibility and intratumoral heterogeneity of the PAM50 breast cancer assay.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10147733/fullTextXML
+retrieved_at: '2026-07-25T13:20:33.626332Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2023"
+manifest_object_key: full-text/NAS-BRCA-002/4be62d6ac3907ce0d68fa3600137fc3e603ff3456526cf7267d95dc1e5d7aca0/b5fe4e7351031918edf866fa25f039b5679f72fb35cf613df3c8215cbef73b25/manifest.json
+manifest_sha256: 5dd4286270bba4ea033fe4d02f61d41fc2166288a1a4a1069327bd4e0bcb602f
+full_text_object_key: full-text/NAS-BRCA-002/4be62d6ac3907ce0d68fa3600137fc3e603ff3456526cf7267d95dc1e5d7aca0/b5fe4e7351031918edf866fa25f039b5679f72fb35cf613df3c8215cbef73b25/article.xml
+full_text_sha256: 1b7f5c6db4ec9483de2f6e9261d74ac30d3dd56f4c4c49cd162f609ae9a92fbb
+full_text_size_bytes: 81660
+verified_at: '2026-07-25T13:20:33.633981Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

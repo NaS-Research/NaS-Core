@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: 7551cb5ffdd5aa9fdd039be361c1da880922c0568d627780989d5558ccb03952
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 31ff2895b1d10f61aa9a81947f5d0b79032017cc90e5d7667e0565351cd2f91c
+pmcid: PMC8385191
+title: Molecular subtyping of breast cancer intrinsic taxonomy with oligonucleotide microarray and NanoString
+  nCounter.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8385191/fullTextXML
+retrieved_at: '2026-07-25T13:20:33.644797Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 2021 The Author(s)."
+manifest_object_key: full-text/NAS-BRCA-002/31ff2895b1d10f61aa9a81947f5d0b79032017cc90e5d7667e0565351cd2f91c/7551cb5ffdd5aa9fdd039be361c1da880922c0568d627780989d5558ccb03952/manifest.json
+manifest_sha256: 314de903c9a45ef77eae40cfc55a78439ad51dc63be35790d2c9e64e630e6517
+full_text_object_key: full-text/NAS-BRCA-002/31ff2895b1d10f61aa9a81947f5d0b79032017cc90e5d7667e0565351cd2f91c/7551cb5ffdd5aa9fdd039be361c1da880922c0568d627780989d5558ccb03952/article.xml
+full_text_sha256: 4cee5172a4b84a2706c0399a55c0df414af181dbfed0f4505d0cc64b39ca7301
+full_text_size_bytes: 102511
+verified_at: '2026-07-25T13:20:33.673120Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

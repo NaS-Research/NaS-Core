@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: 7394352c77b8e4083ba41831e68dfacd2ba46b1bbf8e7c441ab417cb3646af7c
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: f901ef703777190675743735cdd7dda989a25abb9cddac67646aeafa40fdec4b
+pmcid: PMC6538748
+title: PCA-PAM50 improves consistency between breast cancer intrinsic and clinical subtyping reclassifying
+  a subset of luminal A tumors as luminal B.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6538748/fullTextXML
+retrieved_at: '2026-07-25T13:20:34.453143Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2019"
+manifest_object_key: full-text/NAS-BRCA-002/f901ef703777190675743735cdd7dda989a25abb9cddac67646aeafa40fdec4b/7394352c77b8e4083ba41831e68dfacd2ba46b1bbf8e7c441ab417cb3646af7c/manifest.json
+manifest_sha256: 5be0efb9d8e7aab07e16c9842a1adc306ecb265a9f0ce155098a93346a6dc283
+full_text_object_key: full-text/NAS-BRCA-002/f901ef703777190675743735cdd7dda989a25abb9cddac67646aeafa40fdec4b/7394352c77b8e4083ba41831e68dfacd2ba46b1bbf8e7c441ab417cb3646af7c/article.xml
+full_text_sha256: 5abb7469fb9db15d59f574362fc934ff9304ebd541f583b65277d9080facd797
+full_text_size_bytes: 120437
+verified_at: '2026-07-25T13:20:34.460184Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

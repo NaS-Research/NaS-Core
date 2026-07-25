@@ -111,7 +111,7 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     assert inventory.provisional_inclusion_count == 30
     assert inventory.repository_candidate_count == 26
     assert inventory.access_check_required_count == 4
-    assert len(retrievals) == 7
+    assert len(retrievals) == 15
     assert len(restrictions) == 5
     assert len(read_only_receipts) == 5
     assert {item.screening_id for item in retrievals}.isdisjoint(
@@ -124,16 +124,17 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         yaml.safe_load(
             (
                 REVISED_FULL_TEXT_ROOT.parent
-                / "revised_appraisal_progress_v0.3.2.yaml"
+                / "revised_appraisal_progress_v0.3.3.yaml"
             ).read_text()
         )
     )
     assert progress.progress_id == inventory.progress_id
     assert progress.provisional_inclusion_count == 30
-    assert progress.full_texts_retrieved == 7
+    assert progress.full_texts_retrieved == 15
     assert progress.read_only_full_texts_reviewed == 5
     assert progress.access_restricted_count == 1
-    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 17
+    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 8
+    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 9
     assert progress.appraisals_completed == 12
     assert progress.supporting_count == 9
     assert progress.context_only_count == 3

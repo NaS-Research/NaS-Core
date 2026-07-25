@@ -315,11 +315,19 @@ class FullTextRetrievalService:
         expected: dict[str, str | None],
         actual: dict[str, str | None],
     ) -> bool:
-        for field in ("pmcid", "pmid", "doi"):
+        for field in ("pmcid", "pmid"):
             if expected[field] != actual[field]:
                 return False
-        expected_title = " ".join((expected["title"] or "").split()).removesuffix(".")
-        actual_title = " ".join((actual["title"] or "").split()).removesuffix(".")
+        expected_doi = (expected["doi"] or "").casefold()
+        actual_doi = (actual["doi"] or "").casefold()
+        if expected_doi != actual_doi:
+            return False
+        expected_title = (
+            " ".join((expected["title"] or "").split()).removesuffix(".").casefold()
+        )
+        actual_title = (
+            " ".join((actual["title"] or "").split()).removesuffix(".").casefold()
+        )
         return bool(expected_title) and expected_title == actual_title
 
     def _put_immutable(self, key: str, body: bytes, *, content_type: str) -> None:

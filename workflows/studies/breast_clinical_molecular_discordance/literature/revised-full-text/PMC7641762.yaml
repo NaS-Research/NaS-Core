@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: f7a98c852ac188e3c3b9805a80743b84eccda438d08f61e33dade9733618ae0e
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: 043a74126c981b2da720e14df3a4ca17954173dd049263ce9c0fecb9a8e0115c
+pmcid: PMC7641762
+title: Stable gene expression for normalisation and single-sample scoring.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7641762/fullTextXML
+retrieved_at: '2026-07-25T13:20:36.343940Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2020. Published by Oxford University Press on behalf of Nucleic\
+    \ Acids Research."
+manifest_object_key: full-text/NAS-BRCA-002/043a74126c981b2da720e14df3a4ca17954173dd049263ce9c0fecb9a8e0115c/f7a98c852ac188e3c3b9805a80743b84eccda438d08f61e33dade9733618ae0e/manifest.json
+manifest_sha256: 563daf4089509e1390f6bb043cd6e4bdc0545569d43f4bd9e72ad94482d53bd1
+full_text_object_key: full-text/NAS-BRCA-002/043a74126c981b2da720e14df3a4ca17954173dd049263ce9c0fecb9a8e0115c/f7a98c852ac188e3c3b9805a80743b84eccda438d08f61e33dade9733618ae0e/article.xml
+full_text_sha256: 0bf9ac206f626822519c0cabda0fb8bb21d9805043386893a5eb0ea27498b0eb
+full_text_size_bytes: 137477
+verified_at: '2026-07-25T13:20:36.351821Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: 33e1f9b7874899bbf8f66521cbfc63f4adedbd26ef4ade295c6966e418d26193
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+screening_id: b6b226287390277b87a5ddc6ea5d2668587a8272021bbb3375b9590062511660
+pmcid: PMC6408846
+title: Quantification of intrinsic subtype ambiguity in Luminal A breast cancer and its relationship to
+  clinical outcomes.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6408846/fullTextXML
+retrieved_at: '2026-07-25T13:20:33.721598Z'
+code_revision: a2ec4f5407784240b88b48d60cf2947294c952a0
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s). 2019"
+manifest_object_key: full-text/NAS-BRCA-002/b6b226287390277b87a5ddc6ea5d2668587a8272021bbb3375b9590062511660/33e1f9b7874899bbf8f66521cbfc63f4adedbd26ef4ade295c6966e418d26193/manifest.json
+manifest_sha256: 660889941e80eccd6ce10909c8d249ce27e19320bd5b60ba54a495e99aee395d
+full_text_object_key: full-text/NAS-BRCA-002/b6b226287390277b87a5ddc6ea5d2668587a8272021bbb3375b9590062511660/33e1f9b7874899bbf8f66521cbfc63f4adedbd26ef4ade295c6966e418d26193/article.xml
+full_text_sha256: 889e752286f338c4bb871d1f6a93a49388ac49bde0c025338523b8a7c679fac6
+full_text_size_bytes: 141005
+verified_at: '2026-07-25T13:20:33.739626Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

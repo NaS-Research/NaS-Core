@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Resolve lawful access for the 17 new NAS-BRCA-002 inclusions
+### Appraise eight new CC BY papers and resolve nine access failures
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
@@ -16,9 +16,12 @@ and zero AI decisions. All five fuzzy author-year identity links were rejected.
 The expanded access inventory is complete: 26 of the 30 inclusions have repository
 identifiers and four require separate lawful-access checks. The reconciled ledger
 preserves 12 completed appraisals and one subscription restriction while exposing
-exactly 17 new access tasks. The next evidence task is licensed retrieval or
-governed read-only resolution of those 17 records, followed by question-specific
-appraisal and sequential citation chaining.
+exactly 17 new access tasks. The first official Europe PMC pass retrieved and
+verified eight new CC BY articles. Three records failed on bounded identity
+normalization, three returned no approved XML, and one lacked explicit license
+metadata; two non-PMC records require separate access checks. The next tasks are
+appraisal of the eight verified papers and documented resolution of the remaining
+nine records, followed by sequential citation chaining.
 
 Definition of done:
 
@@ -141,9 +144,14 @@ Current gate state:
   `7b90c37a…63218c` and contains all 30 current inclusions: 26 repository
   candidates and four separate access checks. Prior verified receipts remain valid
   only for records that retain exact identity and inclusion in the current queue.
-- Reconciled appraisal progress preserves seven durable CC-BY retrievals, five
-  governed read-only reviews, 12 completed appraisals, and one unresolved
-  subscription restriction. Seventeen records are explicitly awaiting full text.
+- Reconciled appraisal progress now records 15 durable CC BY retrievals, five
+  governed read-only reviews, 12 completed appraisals, eight records ready for
+  appraisal, one subscription restriction, and nine unresolved access tasks.
+- Eight newly included repository records now have immutable, independently
+  verified CC BY receipts. The engine rejected seven other repository attempts
+  before storage. Official metadata showed three rejections were caused solely by
+  case differences in titles or DOI strings, so identity normalization now
+  case-folds only those two fields while preserving exact PMID and PMCID matching.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -175,43 +183,59 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Retrieve or govern read-only review of the 17 newly included records, then
-   complete a question-specific appraisal or explicit access decision for each.
-2. Execute sequential backward-plus-forward Europe PMC citation passes until two
+1. Complete question-specific appraisals of the eight newly retrieved CC BY papers.
+2. Retry the three official identity matches under the bounded normalization rule
+   and record lawful access decisions for every remaining unresolved inclusion.
+3. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-3. Update the living manuscript and its evidence-to-text ledger after every material
+4. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Resolve and approve the exact centroid and external-reference artifacts,
+5. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-5. Define an independently calibrated technical-error model and lock the margin
+6. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-7. Complete the founder scientific/product, molecular/pathology, and statistical
+8. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-10. Implement persisted evidence claims, citations, provenance, contradictory
+11. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-12. Expand the screening model gateway into general evidence reasoning with
+13. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-13. Build evaluation suites for retrieval, citation validity, numerical
+14. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-14. Generate an immutable research release containing the protocol, dataset
+15. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-15. Generate a reviewable white-paper draft whose substantive claims trace to
+16. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-16. Build the internal workbench for projects, protocols, datasets, runs,
+17. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-17. Complete repeated internal oncology pilots before selecting the first
+18. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Eight new CC BY full texts retrieved
+
+Executed the license-enforced official Europe PMC retrieval pass for all 15 newly
+included records with repository identifiers. Eight articles passed exact identity,
+approved CC BY, immutable storage, checksum, and independent verification. Seven
+failed before storage: three exact-identity formatting mismatches, three unavailable
+XML responses, and one missing explicit license declaration.
+
+Official PMID, PMCID, DOI, and title metadata proved the three identity failures
+were title/DOI case-only differences. The retrieval engine now applies bounded
+case-folding to title and DOI while retaining exact PMID and PMCID checks and
+substantive-title rejection. The updated ledger reports 15 total durable
+retrievals, five read-only reviews, eight new papers ready for appraisal, nine
+records awaiting access, and no scientific conclusions.
 
 ### 2026-07-25 — Thirty-record access inventory reconciled
 
@@ -266,21 +290,6 @@ links because their PMIDs and titles differ and the match signal is only a commo
 surname and year. The packet is deliberately nonbinding: no immutable founder
 decision event was written, and tests mechanically prevent incomplete record
 coverage from passing unnoticed.
-
-### 2026-07-24 — Direct-priority evidence set terminally resolved
-
-Completed five governed read-only appraisals and recorded the AIMS article as an
-identity-verified subscription restriction. All 13 direct-priority records now
-have a terminal state: 12 completed appraisals and one access restriction, with no
-paywall circumvention or restricted full text retained.
-
-PBCMC is the most important novelty correction. It already implements per-patient
-permutation confidence, false-discovery control, a runner-up margin, and explicit
-Assigned, Ambiguous, and Not Assigned states. NaS therefore cannot claim uncertainty
-or abstention alone. The surviving candidate contribution is narrower: an unchanged
-patient-independent classifier whose reliability is calibrated to independently
-measured technical error, prespecified without outcome tuning, and externally
-validated. No reviewed priority paper is anchor evidence.
 
 ## Current blockers
 
