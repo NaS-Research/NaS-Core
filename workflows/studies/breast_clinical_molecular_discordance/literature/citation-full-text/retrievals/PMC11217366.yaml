@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: 7b4bf7205fa8fa727e9ba3526399d28433ff660c943218798f700ad8aebba99f
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a
+pmcid: PMC11217366
+title: Effect of cross-platform gene-expression, computational methods on breast cancer subtyping in PALOMA-2
+  and PALLET studies.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11217366/fullTextXML
+retrieved_at: '2026-07-25T21:14:51.130807Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2024, corrected publication 2024"
+manifest_object_key: full-text/NAS-BRCA-002/2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a/7b4bf7205fa8fa727e9ba3526399d28433ff660c943218798f700ad8aebba99f/manifest.json
+manifest_sha256: 0fe60c881035c3499f1560a2c63b5bb861baea3ce1ed3b13a98d62a004c157a6
+full_text_object_key: full-text/NAS-BRCA-002/2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a/7b4bf7205fa8fa727e9ba3526399d28433ff660c943218798f700ad8aebba99f/article.xml
+full_text_sha256: ea958edeca833a08d5834d9fde3df7a5a2fb104748c4e1bd306dd02ea1f77333
+full_text_size_bytes: 96967
+verified_at: '2026-07-25T21:14:51.135940Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

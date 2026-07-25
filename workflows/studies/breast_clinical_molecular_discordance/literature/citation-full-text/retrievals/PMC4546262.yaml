@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: c448328df2e99e3e803b27baf8f24c778cce70b7b1ac6f5d44cdbbd334ded165
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a
+pmcid: PMC4546262
+title: Development and verification of the PAM50-based Prosigna breast cancer gene signature assay.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4546262/fullTextXML
+retrieved_at: '2026-07-25T21:14:38.493415Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 Wallden et al. 2015"
+manifest_object_key: full-text/NAS-BRCA-002/0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a/c448328df2e99e3e803b27baf8f24c778cce70b7b1ac6f5d44cdbbd334ded165/manifest.json
+manifest_sha256: a272f6ed36fb4ad5ace4cfc0c5eeba17ef435fd3187e0daa8a2581d69c6dad5e
+full_text_object_key: full-text/NAS-BRCA-002/0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a/c448328df2e99e3e803b27baf8f24c778cce70b7b1ac6f5d44cdbbd334ded165/article.xml
+full_text_sha256: 9f17b6fba248976e33fc2dd13bd79a84669b0ef9c916d597aa46f60b37c27052
+full_text_size_bytes: 146978
+verified_at: '2026-07-25T21:14:38.501174Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

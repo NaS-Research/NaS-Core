@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: a2dfba15587bf137844801aec2ca749afd913fa2b6e13182bf83e5b09a97c60c
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 3d181f219140a3b8504ea8cc4b791b829c9bb03a924c18c42e3e9e7abe52d6b6
+pmcid: PMC7470374
+title: 'Computational approaches to support comparative analysis of multiparametric tests: Modelling versus
+  Training.'
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7470374/fullTextXML
+retrieved_at: '2026-07-25T21:14:44.271655Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 2020 Bartlett et al"
+manifest_object_key: full-text/NAS-BRCA-002/3d181f219140a3b8504ea8cc4b791b829c9bb03a924c18c42e3e9e7abe52d6b6/a2dfba15587bf137844801aec2ca749afd913fa2b6e13182bf83e5b09a97c60c/manifest.json
+manifest_sha256: 07a4ac14a8acbb5355f6a251926ca422ec8ffc607a7b694f728beccaa92653f0
+full_text_object_key: full-text/NAS-BRCA-002/3d181f219140a3b8504ea8cc4b791b829c9bb03a924c18c42e3e9e7abe52d6b6/a2dfba15587bf137844801aec2ca749afd913fa2b6e13182bf83e5b09a97c60c/article.xml
+full_text_sha256: 2060f691975521c268eb9ca7845e1c111a8390f6cb0911ddb7f7db4130be1aca
+full_text_size_bytes: 102253
+verified_at: '2026-07-25T21:14:44.294753Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

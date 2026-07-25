@@ -13,6 +13,9 @@ from nas_core.domain.appraisal import (
     FullTextRetrievalReceipt,
 )
 from nas_core.domain.citation_access import (
+    CitationAccessCheckQueue,
+    CitationAccessCheckReason,
+    CitationAccessCheckRecord,
     RepositoryAccessAssessmentRecord,
     RepositoryAccessBatchReceipt,
     RepositoryAccessOutcome,
@@ -159,3 +162,102 @@ class CitationRepositoryAccessService:
         if "identity" in lowered or "does not match" in lowered:
             return RepositoryAccessOutcome.IDENTITY_MISMATCH
         return RepositoryAccessOutcome.METADATA_INVALID
+
+
+class CitationAccessCheckQueueService:
+    _REASON_MAP = {
+        RepositoryAccessOutcome.FULL_TEXT_UNAVAILABLE: (
+            CitationAccessCheckReason.FULL_TEXT_UNAVAILABLE
+        ),
+        RepositoryAccessOutcome.LICENSE_NOT_APPROVED: (
+            CitationAccessCheckReason.LICENSE_NOT_APPROVED
+        ),
+        RepositoryAccessOutcome.IDENTITY_MISMATCH: (
+            CitationAccessCheckReason.IDENTITY_MISMATCH
+        ),
+        RepositoryAccessOutcome.METADATA_INVALID: (
+            CitationAccessCheckReason.METADATA_INVALID
+        ),
+        RepositoryAccessOutcome.REMOTE_ERROR: CitationAccessCheckReason.REMOTE_ERROR,
+    }
+
+    def build(
+        self,
+        inventory: FullTextInventory,
+        batch: RepositoryAccessBatchReceipt,
+        *,
+        code_revision: str,
+    ) -> CitationAccessCheckQueue:
+        if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
+            raise ValueError("code revision must be a 7-to-40 character Git SHA")
+        if (
+            inventory.study_id != batch.study_id
+            or inventory.queue_id != batch.inventory_queue_id
+            or inventory.progress_id != batch.inventory_progress_id
+        ):
+            raise ValueError("inventory and repository access batch identities differ")
+        by_screening_id = {item.screening_id: item for item in inventory.records}
+        records = [
+            CitationAccessCheckRecord(
+                screening_id=item.screening_id,
+                record_key=item.record_key,
+                title=item.title,
+                pmid=item.pmid,
+                doi=item.doi,
+                reason=CitationAccessCheckReason.NO_REPOSITORY_IDENTIFIER,
+                durable_full_text_stored=False,
+                final_access_decision_recorded=False,
+                scientific_conclusions_drawn=False,
+            )
+            for item in inventory.records
+            if item.access_status is FullTextAccessStatus.ACCESS_CHECK_REQUIRED
+        ]
+        for assessment in batch.records:
+            if assessment.outcome is RepositoryAccessOutcome.RETRIEVED:
+                continue
+            inventory_record = by_screening_id.get(assessment.screening_id)
+            if inventory_record is None:
+                raise ValueError("repository access batch references an unknown record")
+            records.append(
+                CitationAccessCheckRecord(
+                    screening_id=inventory_record.screening_id,
+                    record_key=inventory_record.record_key,
+                    title=inventory_record.title,
+                    pmid=inventory_record.pmid,
+                    pmcid=inventory_record.pmcid,
+                    doi=inventory_record.doi,
+                    reason=self._REASON_MAP[assessment.outcome],
+                    prior_repository_detail=assessment.reason,
+                    durable_full_text_stored=False,
+                    final_access_decision_recorded=False,
+                    scientific_conclusions_drawn=False,
+                )
+            )
+        expected = (
+            inventory.access_check_required_count + batch.access_check_required_count
+        )
+        if len(records) != expected:
+            raise ValueError("access-check queue count does not reconcile")
+        queue_id = sha256(
+            canonical_json(
+                {
+                    "code_revision": code_revision,
+                    "inventory_queue_id": inventory.queue_id,
+                    "repository_batch_id": batch.batch_id,
+                    "study_id": inventory.study_id,
+                }
+            )
+        )
+        return CitationAccessCheckQueue(
+            queue_version="1.0.0",
+            queue_id=queue_id,
+            study_id=inventory.study_id,
+            code_revision=code_revision,
+            inventory_queue_id=inventory.queue_id,
+            repository_batch_id=batch.batch_id,
+            record_count=len(records),
+            records=sorted(records, key=lambda item: item.record_key),
+            complete_coverage_verified=True,
+            final_access_decisions_recorded=0,
+            scientific_conclusions_drawn=False,
+        )

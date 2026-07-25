@@ -23,7 +23,11 @@ from nas_core.domain.appraisal import (
     write_full_text_inventory,
     write_full_text_retrieval_receipt,
 )
-from nas_core.domain.citation_access import write_repository_access_batch_receipt
+from nas_core.domain.citation_access import (
+    load_repository_access_batch_receipt,
+    write_citation_access_check_queue,
+    write_repository_access_batch_receipt,
+)
 from nas_core.domain.citation_chain import (
     CitationSeed,
     load_citation_chain_receipt,
@@ -89,7 +93,10 @@ from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
-from nas_core.retrieval.citation_access import CitationRepositoryAccessService
+from nas_core.retrieval.citation_access import (
+    CitationAccessCheckQueueService,
+    CitationRepositoryAccessService,
+)
 from nas_core.retrieval.citation_adjudication import (
     CitationUnclearAdjudicationService,
     load_citation_adjudication_policy,
@@ -656,6 +663,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Contact Europe PMC and store only identity-verified CC BY full texts",
     )
+    citation_access_checks = literature_commands.add_parser(
+        "citation-access-check-queue",
+        help="Combine non-repository records and repository failures for access review",
+    )
+    citation_access_checks.add_argument("inventory", type=Path)
+    citation_access_checks.add_argument("repository_batch", type=Path)
+    citation_access_checks.add_argument("--code-revision", required=True)
+    citation_access_checks.add_argument("--output-path", required=True, type=Path)
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
         help="Retrieve and verify one explicitly licensed Europe PMC full text",
@@ -1716,6 +1731,27 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{batch.access_check_required_count} routed to access checks"
         )
         print(f"Wrote repository access batch: {args.batch_receipt_output}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-access-check-queue"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        repository_batch = load_repository_access_batch_receipt(
+            args.repository_batch
+        )
+        access_queue = CitationAccessCheckQueueService().build(
+            inventory,
+            repository_batch,
+            code_revision=args.code_revision,
+        )
+        write_citation_access_check_queue(args.output_path, access_queue)
+        print(
+            f"Wrote citation access-check queue: {access_queue.record_count} "
+            "records pending governed resolution"
+        )
+        print(f"Access-check queue path: {args.output_path}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-fetch":

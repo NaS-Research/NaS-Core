@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: 8b93ce8fae5855ea33ecfdb51315a1750f371878131b9d7a89370314f4a4bb3b
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 88a6dad90d20e90dfd4aa5a4d3d265fd45d0ad70018f74742defa3977df8750d
+pmcid: PMC8479681
+title: 'multiclassPairs: an R package to train multiclass pair-based classifier.'
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8479681/fullTextXML
+retrieved_at: '2026-07-25T21:14:45.650438Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2021. Published by Oxford University Press."
+manifest_object_key: full-text/NAS-BRCA-002/88a6dad90d20e90dfd4aa5a4d3d265fd45d0ad70018f74742defa3977df8750d/8b93ce8fae5855ea33ecfdb51315a1750f371878131b9d7a89370314f4a4bb3b/manifest.json
+manifest_sha256: 972df38eae5381523905d0152eab4c9621592f23f15515b572e93644dbb3d75c
+full_text_object_key: full-text/NAS-BRCA-002/88a6dad90d20e90dfd4aa5a4d3d265fd45d0ad70018f74742defa3977df8750d/8b93ce8fae5855ea33ecfdb51315a1750f371878131b9d7a89370314f4a4bb3b/article.xml
+full_text_sha256: 24858233fc9d1b1d7297d86cbba6b775819459a0fb9ef8f8cf5567574293c03e
+full_text_size_bytes: 27483
+verified_at: '2026-07-25T21:14:45.656273Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

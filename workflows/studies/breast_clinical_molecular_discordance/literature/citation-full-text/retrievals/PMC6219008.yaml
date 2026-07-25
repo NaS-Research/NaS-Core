@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: 3d6875fe32186016c16163d32b70ae13f5fef839a259ee670ff24f5f5e10820a
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 42f7579197d57716920501366e856599e0e282fdb24e17eb09e7865adf872aaf
+pmcid: PMC6219008
+title: Single sample scoring of molecular phenotypes.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6219008/fullTextXML
+retrieved_at: '2026-07-25T21:14:41.401612Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s). 2018"
+manifest_object_key: full-text/NAS-BRCA-002/42f7579197d57716920501366e856599e0e282fdb24e17eb09e7865adf872aaf/3d6875fe32186016c16163d32b70ae13f5fef839a259ee670ff24f5f5e10820a/manifest.json
+manifest_sha256: 2a84f08acac2a784ade15213cc2cfb703ba50a464140b7dfa5f319030ae83b0b
+full_text_object_key: full-text/NAS-BRCA-002/42f7579197d57716920501366e856599e0e282fdb24e17eb09e7865adf872aaf/3d6875fe32186016c16163d32b70ae13f5fef839a259ee670ff24f5f5e10820a/article.xml
+full_text_sha256: a298da0795163d928c9a515ce96e7cd065e3067fc98382294a1a4fde4536d80e
+full_text_size_bytes: 126739
+verified_at: '2026-07-25T21:14:41.408575Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

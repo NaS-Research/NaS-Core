@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: 270656e5502c5a27337fec54814815950963d95caab99c99a8d2e5561914d947
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 238a93e8805957952320245312b4ad0a6539c9f71f0da115e502e39cf41436dc
+pmcid: PMC10771357
+title: 'Correlation between breast cancer subtypes determined by immunohistochemistry and n-COUNTER PAM50
+  assay: a real-world study.'
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10771357/fullTextXML
+retrieved_at: '2026-07-25T21:14:48.563650Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2023"
+manifest_object_key: full-text/NAS-BRCA-002/238a93e8805957952320245312b4ad0a6539c9f71f0da115e502e39cf41436dc/270656e5502c5a27337fec54814815950963d95caab99c99a8d2e5561914d947/manifest.json
+manifest_sha256: bf369de94599db4bb3a3ee7c26d77d4720d8f84728e1af22a6a9741246e9b504
+full_text_object_key: full-text/NAS-BRCA-002/238a93e8805957952320245312b4ad0a6539c9f71f0da115e502e39cf41436dc/270656e5502c5a27337fec54814815950963d95caab99c99a8d2e5561914d947/article.xml
+full_text_sha256: d142441280f7fcdf1ab04e0e6fbaa9c7070077885299fefa3e1b7b4c686c4105
+full_text_size_bytes: 111244
+verified_at: '2026-07-25T21:14:48.570430Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

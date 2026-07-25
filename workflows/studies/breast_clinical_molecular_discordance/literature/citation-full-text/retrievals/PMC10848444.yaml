@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+retrieval_id: bcc4843a30e6f2b220543f3cd20645971ecb1b92074a938e057fd8332fa3f3dd
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: ca39d7821e26c2596195bea613930e126ad8142fcbc8e250f4b91a078e9224d9
+pmcid: PMC10848444
+title: Ensemble methods of rank-based trees for single sample classification with gene expression profiles.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10848444/fullTextXML
+retrieved_at: '2026-07-25T21:14:49.495071Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2024"
+manifest_object_key: full-text/NAS-BRCA-002/ca39d7821e26c2596195bea613930e126ad8142fcbc8e250f4b91a078e9224d9/bcc4843a30e6f2b220543f3cd20645971ecb1b92074a938e057fd8332fa3f3dd/manifest.json
+manifest_sha256: 7cde707958934d289dfdb77f8c2589f7ac41ca654c9bba4f1cfee63cda65ac29
+full_text_object_key: full-text/NAS-BRCA-002/ca39d7821e26c2596195bea613930e126ad8142fcbc8e250f4b91a078e9224d9/bcc4843a30e6f2b220543f3cd20645971ecb1b92074a938e057fd8332fa3f3dd/article.xml
+full_text_sha256: 517f03780e8e4bab03d2ce843c858052ae2a37e4df96a671a9d7bfe54174c105
+full_text_size_bytes: 183473
+verified_at: '2026-07-25T21:14:49.504530Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

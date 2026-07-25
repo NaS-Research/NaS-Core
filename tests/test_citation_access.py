@@ -2,7 +2,10 @@ from datetime import UTC, datetime
 
 from nas_core.domain.appraisal import FullTextInventory, FullTextInventoryRecord
 from nas_core.ingestion.gdc import HTTPResponse
-from nas_core.retrieval.citation_access import CitationRepositoryAccessService
+from nas_core.retrieval.citation_access import (
+    CitationAccessCheckQueueService,
+    CitationRepositoryAccessService,
+)
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
 from nas_core.storage.object_store import InMemoryObjectStore
 
@@ -100,3 +103,12 @@ def test_repository_batch_routes_unapproved_license_without_storage() -> None:
     assert receipts == []
     assert batch.records[0].outcome == "license_not_approved"
     assert batch.records[0].durable_full_text_stored is False
+
+    queue = CitationAccessCheckQueueService().build(
+        _inventory(),
+        batch,
+        code_revision="abcdef0",
+    )
+    assert queue.record_count == 1
+    assert queue.records[0].reason == "license_not_approved"
+    assert queue.records[0].final_access_decision_recorded is False

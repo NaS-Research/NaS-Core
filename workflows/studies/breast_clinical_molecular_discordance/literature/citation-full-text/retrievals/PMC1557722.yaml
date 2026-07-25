@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+retrieval_id: f4a4cdfb50c3b9faf43b367270ba3a6b4559377410464659a1ef4966b10a0888
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874
+pmcid: PMC1557722
+title: Classification and risk stratification of invasive breast carcinomas using a real-time quantitative
+  RT-PCR assay.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC1557722/fullTextXML
+retrieved_at: '2026-07-25T21:14:35.150599Z'
+code_revision: bdeece200bb465374ecb80b12a78f302bdb15738
+license:
+  name: Creative Commons Attribution 2.0 Generic
+  spdx_identifier: CC-BY-2.0
+  url: https://creativecommons.org/licenses/by/2.0/
+  copyright_statement: "Copyright \xA9 2006 Perreard et al.; licensee BioMed Central Ltd."
+manifest_object_key: full-text/NAS-BRCA-002/ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874/f4a4cdfb50c3b9faf43b367270ba3a6b4559377410464659a1ef4966b10a0888/manifest.json
+manifest_sha256: c671a2da4253350178ea6bfbc4dce5d76f82c9b4e2825a2a966f6306b56ed825
+full_text_object_key: full-text/NAS-BRCA-002/ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874/f4a4cdfb50c3b9faf43b367270ba3a6b4559377410464659a1ef4966b10a0888/article.xml
+full_text_sha256: 69768c592366da9f96d33f8c57159a093bb6e6d4d9d30053b450bd562a4344d3
+full_text_size_bytes: 109475
+verified_at: '2026-07-25T21:14:35.183173Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false
