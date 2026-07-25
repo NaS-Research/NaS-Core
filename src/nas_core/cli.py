@@ -671,6 +671,14 @@ def build_parser() -> argparse.ArgumentParser:
     citation_access_checks.add_argument("repository_batch", type=Path)
     citation_access_checks.add_argument("--code-revision", required=True)
     citation_access_checks.add_argument("--output-path", required=True, type=Path)
+    citation_appraisal_progress = literature_commands.add_parser(
+        "citation-appraisal-progress",
+        help="Reconcile citation access inventory, retrievals, and appraisals",
+    )
+    citation_appraisal_progress.add_argument("inventory", type=Path)
+    citation_appraisal_progress.add_argument("retrieval_dir", type=Path)
+    citation_appraisal_progress.add_argument("appraisal_dir", type=Path)
+    citation_appraisal_progress.add_argument("--output-path", required=True, type=Path)
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
         help="Retrieve and verify one explicitly licensed Europe PMC full text",
@@ -1752,6 +1760,27 @@ def main(argv: Sequence[str] | None = None) -> int:
             "records pending governed resolution"
         )
         print(f"Access-check queue path: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-appraisal-progress"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        progress = FullTextAppraisalProgressService().build(
+            inventory,
+            retrieval_receipt_paths=sorted(args.retrieval_dir.glob("*.yaml")),
+            appraisal_paths=sorted(args.appraisal_dir.glob("*.yaml")),
+        )
+        write_full_text_appraisal_progress(args.output_path, progress)
+        ready = sum(item.status == "ready_for_appraisal" for item in progress.records)
+        awaiting = sum(item.status == "awaiting_full_text" for item in progress.records)
+        print(
+            f"Wrote citation appraisal progress: {ready} ready for appraisal, "
+            f"{awaiting} awaiting full text, "
+            f"{progress.appraisals_completed} completed"
+        )
+        print(f"Progress path: {args.output_path}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-fetch":
