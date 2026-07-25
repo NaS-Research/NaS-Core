@@ -33,3 +33,8 @@ prior work substantially overlaps the broad stability thesis. TCGA discovery and
 processed SCAN-B GSE96058 validation paths are mapped, but biomedical outcome
 ingestion, molecular or survival analysis, preregistration, novelty claims, and
 clinical claims remain prohibited until a revised question passes review.
+
+Question `0.3.0` now has a governed
+[living manuscript](manuscript/WORKING_MANUSCRIPT.md). It contains traceable Phase 0
+methods and evidence-appraisal text only. Unsupported analysis, results, and
+conclusions remain explicit placeholders and may not be promoted to a release.

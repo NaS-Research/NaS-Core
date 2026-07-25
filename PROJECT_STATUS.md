@@ -74,6 +74,9 @@ Current gate state:
   that cohort composition can radically change PAM50 calls, but its proposed fix
   uses the study cohort's clinical composition and explicitly cannot classify one
   patient independently. It supports—not resolves—the fixed-reference requirement.
+- Living manuscript `0.1.0-working` is initialized with traceable Phase 0 methods,
+  the two completed appraisals, an evidence-to-text ledger, explicit interpretation
+  labels, and prohibited placeholders for NaS results and conclusions.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -108,43 +111,59 @@ Current gate state:
 1. Complete question-`0.3.0` full-text appraisal of the five remaining verified
    CC-BY priority papers, next addressing RNA-seq reference sensitivity and
    single-sample alternatives.
-2. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
+2. Update the living manuscript and its evidence-to-text ledger after every material
+   appraisal, protocol decision, executed analysis, figure, and review decision.
+3. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
    method (PMID `28062443`) without paywall circumvention or unlicensed storage.
-3. Founder-confirm or reject the five author-year-only inventory links, then screen
+4. Founder-confirm or reject the five author-year-only inventory links, then screen
    every remaining record in the 100-record revised queue.
-4. Execute sequential backward-plus-forward Europe PMC citation passes until two
+5. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-5. Resolve and approve the exact centroid and external-reference artifacts,
+6. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-6. Define an independently calibrated technical-error model and lock the margin
+7. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+8. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-8. Complete the founder scientific/product, molecular/pathology, and statistical
+9. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+10. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+11. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-11. Implement persisted evidence claims, citations, provenance, contradictory
+12. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+13. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-13. Expand the screening model gateway into general evidence reasoning with
+14. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-14. Build evaluation suites for retrieval, citation validity, numerical
+15. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-15. Generate an immutable research release containing the protocol, dataset
+16. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-16. Generate a reviewable white-paper draft whose substantive claims trace to
+17. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-17. Build the internal workbench for projects, protocols, datasets, runs,
+18. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-18. Complete repeated internal oncology pilots before selecting the first
+19. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Governed living manuscript initialized
+
+Created the dedicated NAS-BRCA-002 manuscript workspace and seeded working version
+`0.1.0` with the study boundary, Phase 0 literature methods, the first two completed
+appraisals, limitations, references, and an evidence-to-text ledger. The draft
+strictly separates external literature from NaS-generated results and labels the
+current discussion as provisional interpretation.
+
+Abstract, NaS analytical results, and conclusions remain explicit prohibited
+placeholders because molecular and outcome access, method lock, preregistration,
+analysis, and review are incomplete. The manuscript rulebook requires an update
+after each material appraisal or research artifact and permits publication only
+from a frozen research release.
 
 ### 2026-07-24 — Subgroup-specific centering appraised
 
@@ -204,21 +223,6 @@ directly satisfies at least one locked criterion, so the advisory packet recomme
 `include` for full-text review with high confidence. Inclusion is only a sensitive
 screening decision—not endorsement, quality appraisal, scientific synthesis, or
 clinical validation. No founder or AI decision event was stored.
-
-### 2026-07-23 — Revised screening corpus verified and reconciled
-
-Built an immutable all-pending queue from the focused search, then stopped it before
-screening when coverage QA found only 9 of 13 mandatory priority papers. Strategy
-`0.2.4` explicitly unions the locked priority identifiers and passed count-only
-feasibility at 56 PubMed and 99 Europe PMC hits.
-
-Replacement execution `a2500aba…f1ea9f` contains 100 unique records and 55
-cross-source duplicates. Queue `af08a334…8a2a3` has 100 complete abstracts, all 13
-priority papers, zero human or AI decisions, and independently verified identities,
-hashes, sizes, summaries, and pending states. Reconciliation against the prior
-457-record inventory found 55 exact matches, 5 author-year-only candidates, and 40
-new candidates. It transferred zero prior decisions and generated no scientific
-conclusion.
 
 ## Current blockers
 
