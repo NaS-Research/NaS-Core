@@ -1,0 +1,248 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
+generated_at: '2026-07-25T15:24:00Z'
+provisional_inclusion_count: 30
+full_texts_retrieved: 18
+read_only_full_texts_reviewed: 9
+appraisals_completed: 21
+access_restricted_count: 2
+duplicate_resolved_count: 0
+anchor_count: 0
+supporting_count: 13
+context_only_count: 8
+excluded_count: 0
+records:
+- screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
+  title: Supervised risk predictor of breast cancer based on intrinsic subtypes.
+  pmcid: PMC2667820
+  status: completed
+  read_only_review_id: 7c8ff863b83b6d4e660713aa8f02b4365754e1b360c6049a571f580d38498e59
+  full_text_sha256: ebf6c990ea618fd4b1823659a64d3938f8972f2e1cd7faaed5a549754b3067ba
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 7fffe06a6fc330fe2419e914bf1900df91706c162578ae0269ee1b4a23214c2b
+  title: Systematic bias in genomic classification due to contaminating non-neoplastic tissue in breast
+    tumor samples.
+  pmcid: PMC3151208
+  status: completed
+  retrieval_id: 29171606a68953378c969a908a6d0556245429017c0f6ce86cf7c3fe493da920
+  full_text_sha256: cc1ea270ce7b24d4ba44babd541abdb195ee93c922deba3ac1687b38350c6285
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: bfd73615047f4e33896b3be73b4b28b6933f40fe4e40aa593c5fdf4247d92e0a
+  title: 'Characterization of uncertainty in the classification of multivariate assays: application to
+    PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
+  pmcid: PMC3275466
+  status: completed
+  retrieval_id: 0cfff39bbcdf786882b11a015b8f55fd6dba8906c49e0db4e5cf3c03bc7e35b7
+  full_text_sha256: a09221f7fa1a951709ad348c5e376b963abb4291e47897d2ac8238866fb2481e
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: 1bdfeeb3dd98f2307de5885f6924f063de53909635b8c1ef5a93868a97072d49
+  title: Prediction consistency and clinical presentations of breast cancer molecular subtypes for Han
+    Chinese population.
+  pmcid: PMC3445863
+  status: completed
+  retrieval_id: ee2bd741bbd507d6673bbcee2e697183516788c28f305ff0210198e8959fa398
+  full_text_sha256: 1719e78cad40bcbaed4c07a0356d9e5aa8b7f76922b4dbd74180636ca627b3bb
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: 0f9f69bb3990a9f6794557c1e3040aff69232dcff0b04d80406b2f0abe179876
+  title: 'Multiclass prediction with partial least square regression for gene expression data: applications
+    in breast cancer intrinsic taxonomy.'
+  pmcid: PMC3893734
+  status: completed
+  retrieval_id: bf8438798ffff2e6369043624444227dd07834e6ffde490c62c8f1b8e228d492
+  full_text_sha256: d4587ee42476a4de12d36b229014286ce7cde5bfa4bf0698e7b40e450ca072d6
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: f388ae05a4ed1d1a982e7577d351252c06613e62f3b975994114b4b850f5bf69
+  title: Analytical validation of the PAM50-based Prosigna Breast Cancer Prognostic Gene Signature Assay
+    and nCounter Analysis System using formalin-fixed paraffin-embedded breast tumor specimens.
+  pmcid: PMC4008304
+  status: completed
+  retrieval_id: b0b441dfb75a6e7695a5ae6869ac5ce820a135f5486e91d0542da003d3b9432a
+  full_text_sha256: 1f5bfe0d6288272c9b89f66a055e9a650e2f05b93256b1d4488be8447a141480
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 678644a4c0bf2a9ee4697c71f84fa34d5d2b976697e1efd709ae452fc12102ba
+  title: Absolute assignment of breast cancer intrinsic molecular subtype.
+  status: access_restricted
+  observed_license: Oxford University Press; all rights reserved; current session has no subscription
+    access
+- screening_id: d056d1f0a4bda238c21307b4498066d3a8fb5792892885664e2673d36c50b301
+  title: Test set bias affects reproducibility of gene signatures.
+  pmcid: PMC4495301
+  status: completed
+  read_only_review_id: f237433c9491f3e2332e4a9a14db1510ad59805da6cc0e4bad918c9e9248bded
+  full_text_sha256: 93efdcdedc3e38bed8b955c685c70bb3ee8d7287caf443d16592e4abcd8651f9
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0
+  title: Molecular subtyping for clinically defined breast cancer subgroups.
+  pmcid: PMC4365540
+  status: completed
+  retrieval_id: 68f635469b659b051ea5887ed9100d2a897e22a17fe23036985478e1e0ce7ba5
+  full_text_sha256: 6e75edfe0caf53efbb4282d626e10ee2781c6a6bf4e698dfac6ac2dfd11eef9d
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: 0bd9b3df343485cbd77f626899d54f7d4a3822d8c204c8fde64babb188f46bc9
+  title: 'Comparing Breast Cancer Multiparameter Tests in the OPTIMA Prelim Trial: No Test Is More Equal
+    Than the Others.'
+  pmcid: PMC5939629
+  status: completed
+  read_only_review_id: 26662bd4cb3d56efce3105cb97647f23895919b55a3dd9ed5d16e47625d76857
+  full_text_sha256: da2dfa44e02a6982877990ba4e4e06c91122201ab9e5630c645b11c6729cb560
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 31f863db0452d24f3534598789d0bff73163009c4e71162cd3b55da28b5808cc
+  title: 'A novel non-parametric method for uncertainty evaluation of correlation-based molecular signatures:
+    its application on PAM50 algorithm.'
+  status: completed
+  read_only_review_id: 74d10004b121f466bdf58265acd7d3093560572071e32346abf5a8d02ffc083a
+  full_text_sha256: fd35a7d57aaca430e77f807ac47d93269bfb20ffd7bf9a12bca8e129f5c5bb2b
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 3737756d7c6bb626ba29c86d7accaa2e53cdba801e3b28978dce84ddf6ad3907
+  title: PAM50 Molecular Intrinsic Subtypes in the Nurses' Health Study Cohorts.
+  pmcid: PMC6449178
+  status: ready_for_appraisal
+  read_only_review_id: 345503ef6fcc3e7b423960d8bb6e054b1d871f7492d0c1cfc3d32efd7b8ed05a
+  full_text_sha256: d41f774b24402805a08024592b7b9f49bdc142e8724bfeafe1ba20174b76bdca
+- screening_id: b6b226287390277b87a5ddc6ea5d2668587a8272021bbb3375b9590062511660
+  title: Quantification of intrinsic subtype ambiguity in Luminal A breast cancer and its relationship
+    to clinical outcomes.
+  pmcid: PMC6408846
+  status: completed
+  retrieval_id: 33e1f9b7874899bbf8f66521cbfc63f4adedbd26ef4ade295c6966e418d26193
+  full_text_sha256: 889e752286f338c4bb871d1f6a93a49388ac49bde0c025338523b8a7c679fac6
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: f901ef703777190675743735cdd7dda989a25abb9cddac67646aeafa40fdec4b
+  title: PCA-PAM50 improves consistency between breast cancer intrinsic and clinical subtyping reclassifying
+    a subset of luminal A tumors as luminal B.
+  pmcid: PMC6538748
+  status: completed
+  retrieval_id: 7394352c77b8e4083ba41831e68dfacd2ba46b1bbf8e7c441ab417cb3646af7c
+  full_text_sha256: 5abb7469fb9db15d59f574362fc934ff9304ebd541f583b65277d9080facd797
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: 1ce286a49630b0b8be69f3e46804f875196aa98dc4c185f22b3ab2df661729b4
+  title: An approach for normalization and quality control for NanoString RNA expression data.
+  pmcid: PMC8138885
+  status: ready_for_appraisal
+  read_only_review_id: 8b04f2397e07a5223c291bd89fa29a8dd1a2af13e50d5ea2061f79309a05fe08
+  full_text_sha256: 577cadc1125bdfe06e348a8cb68e9e19cafd2c81d4e6d473db11cedfb18b51e9
+- screening_id: 6684c1bbe395bbe4001317d1be9a3ced57e69cc25c0fb9ba3c809a7e8e4d5f5b
+  title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
+  pmcid: PMC7442834
+  status: completed
+  retrieval_id: 423e3b117cb12be7e0e9b096bc75288e1d7ee8093dfc68c00bdd51e779ddb44d
+  full_text_sha256: 186a84b2285043a611853488490a17a557716aa7ccc0324e8a6798115d136518
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 043a74126c981b2da720e14df3a4ca17954173dd049263ce9c0fecb9a8e0115c
+  title: Stable gene expression for normalisation and single-sample scoring.
+  pmcid: PMC7641762
+  status: ready_for_appraisal
+  retrieval_id: f7a98c852ac188e3c3b9805a80743b84eccda438d08f61e33dade9733618ae0e
+  full_text_sha256: 0bf9ac206f626822519c0cabda0fb8bb21d9805043386893a5eb0ea27498b0eb
+- screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
+  title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier.
+  pmcid: PMC7761033
+  status: completed
+  retrieval_id: 84b4dfe009b0a0a5efb97ebbbc9103d57f62dd30d6cfb1ca2ba13f7e2e439d02
+  full_text_sha256: bab950f09f9e8b9844d24306353aa61759d6de8e7142e22ead20098d1f8be456
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 31ff2895b1d10f61aa9a81947f5d0b79032017cc90e5d7667e0565351cd2f91c
+  title: Molecular subtyping of breast cancer intrinsic taxonomy with oligonucleotide microarray and NanoString
+    nCounter.
+  pmcid: PMC8385191
+  status: ready_for_appraisal
+  retrieval_id: 7551cb5ffdd5aa9fdd039be361c1da880922c0568d627780989d5558ccb03952
+  full_text_sha256: 4cee5172a4b84a2706c0399a55c0df414af181dbfed0f4505d0cc64b39ca7301
+- screening_id: 80d2e0fcb88556b59a619f5d8559eecfe6a1ce5d2e386b2f93a576927a23ee33
+  title: classifieR a flexible interactive cloud-application for functional annotation of cancer transcriptomes.
+  pmcid: PMC8974006
+  status: ready_for_appraisal
+  retrieval_id: a738eb71e005b5d10232ee0cdc8da4d4b5a0fdc701edc3e96094f9f1d34fbc0f
+  full_text_sha256: 76e9f408053428ea101584bbd1dd43023f3d51bb4e21f0b25c95a7cd9da93c03
+- screening_id: 7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d
+  title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence for
+    clinical assessment of early-stage breast cancer.
+  pmcid: PMC9381586
+  status: completed
+  retrieval_id: b2657bfc946ddd5664b19933f76de52ebda4ffd5b1c23dce0b3289417f3e3a92
+  full_text_sha256: 06494384535ca60452e494b5ffc24f9b2e8cf9002d840731f80ec1c0cc1b68cc
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 4be62d6ac3907ce0d68fa3600137fc3e603ff3456526cf7267d95dc1e5d7aca0
+  title: Reproducibility and intratumoral heterogeneity of the PAM50 breast cancer assay.
+  pmcid: PMC10147733
+  status: completed
+  retrieval_id: b5fe4e7351031918edf866fa25f039b5679f72fb35cf613df3c8215cbef73b25
+  full_text_sha256: 1b7f5c6db4ec9483de2f6e9261d74ac30d3dd56f4c4c49cd162f609ae9a92fbb
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: b6523b6e596cc30c5aefa9dbf194f56e115dceb1356853536901308d4a67c4cb
+  title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
+  pmcid: PMC10052604
+  status: completed
+  read_only_review_id: f089c6511bd7b99de8fb6bd9424fadad833c695be7f812e014d8f1d31d81d7b2
+  full_text_sha256: 39410af81d1483e2822d29b7c9c416d71a82a4410a0137fed1d0557902c23028
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: ac24e2bcd93b4319bbd21d1df4f25c7a3a2157b294a54c7a97997dd13aa37a7a
+  title: Quantification of subtype purity in Luminal A breast cancer predicts clinical characteristics
+    and survival.
+  pmcid: PMC10241706
+  status: completed
+  retrieval_id: e5bf841df3b29e6396db239d1ab7bfc39446ee74e505879ffbbfadb54feda43a
+  full_text_sha256: 63da7606e5cbe96a467f993c637d8693f5d78a292ea81f45e8b1a092a74ea2f0
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: 176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd
+  title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
+  pmcid: PMC10587090
+  status: completed
+  retrieval_id: 18b91d8f47e661a06c3564cb6af7bf07b1e898140bb83b8b8f31a463eeb3b86e
+  full_text_sha256: 2ca3db6fae40accbc47d98f6b0ff4aedbdb976d8cdde7cda059d6abbf4520e2a
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 5d5446e955e8d287dcb192229ab19a244f70cd2397cdf95a90f4870fba4a5d11
+  title: Multiplexed RNA-FISH-guided Laser Capture Microdissection RNA Sequencing Improves Breast Cancer
+    Molecular Subtyping, Prognostic Classification, and Predicts Response to Antibody Drug Conjugates.
+  pmcid: PMC10723508
+  status: ready_for_appraisal
+  read_only_review_id: c6d3ac0e5eafcfc77e939a0210eb9c83def45110f69ae59bec5bf88b03f9e7b3
+  full_text_sha256: 395e2f7f4d2ba56bd858c505f7fbfa7f80e1dd6daa84504fc4198e71a50e9e5e
+- screening_id: 045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341
+  title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping in breast
+    cancer research.'
+  pmcid: PMC12501779
+  status: completed
+  retrieval_id: af9d95d5b954b792d282c354c7d3d42ced375525fa2166d0edca69a1d7b1faf2
+  full_text_sha256: c3231678890ecc0def1770c33863ecef7c4a4781a084b79a90ebe5660921a8ee
+  appraisal_version: 1.0.0
+  evidence_role: supporting
+- screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
+  title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
+  pmcid: PMC12789466
+  status: completed
+  read_only_review_id: 59c418a648404d9ebef6507eb103358d1ba051e496fc6b07d2d414d337b60a9b
+  full_text_sha256: 7ffecece01cb1993c163afb089fc5387c7e40adac99ad7d16f44f81aaea9e352
+  appraisal_version: 1.0.0
+  evidence_role: context_only
+- screening_id: a0e913a2432f4c5569b673614d206e22002181c614063624e852c1a2d411d5c3
+  title: Selective multimodal deep learning for reliable breast cancer subtype classification from histopathology
+    and genomic data.
+  status: access_restricted
+  observed_license: Institute of Physics and Engineering in Medicine; all rights reserved
+- screening_id: 8c7eb040930ed090ae2bdd099df65a6c1e6c5299459e2ad0ec5edb1c68faae77
+  title: A Digital Twin-Inspired Closed-Loop Latent Simulation Framework for Cross-Cohort Breast Cancer
+    Subtype Classification under Modality-Disjoint Learning.
+  status: awaiting_full_text
+scientific_conclusions_drawn: false

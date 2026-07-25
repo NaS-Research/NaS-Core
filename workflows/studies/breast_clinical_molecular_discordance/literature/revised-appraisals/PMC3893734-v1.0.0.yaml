@@ -1,0 +1,118 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 0f9f69bb3990a9f6794557c1e3040aff69232dcff0b04d80406b2f0abe179876
+title: 'Multiclass prediction with partial least square regression for gene expression data: applications in breast cancer intrinsic taxonomy.'
+pmid: '24490149'
+doi: 10.1155/2013/248648
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3893734/fullTextXML
+full_text_sha256: d4587ee42476a4de12d36b229014286ce7cde5bfa4bf0698e7b40e450ca072d6
+access_basis: >-
+  Identity-, checksum-, and CC-BY-3.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Model development used 139 PAM50 prototype microarrays and validation pooled
+      535 Han Chinese tumors from three public Affymetrix studies. The external
+      population is useful for testing geographic and study transport, but the
+      retrospective convenience cohorts, case filtering, and treatment heterogeneity
+      limit clinical representativeness.
+    evidence_locations:
+      - Materials and Methods — Breast cancer microarray datasets
+      - Results — Validation in three independent Chinese datasets
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      All studies used Affymetrix U133 Plus 2.0 arrays and a common preprocessing
+      workflow, reducing cross-platform variation. Expression was nevertheless
+      mean-centered and scaled within each study, specimen handling and tumor purity
+      were not harmonized experimentally, and technical repeatability was not measured.
+    evidence_locations:
+      - Materials and Methods — Data preprocessing
+      - Discussion
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      Four one-versus-rest PLS/logistic models each select ten PAM50 genes and use a
+      probability threshold of 0.5, permitting ambiguous and unclassifiable outputs.
+      Component and feature selection occur during model development, but application
+      still depends on study-level centering and scaling. The report does not provide
+      a frozen patient-independent executable artifact or calibrated probability model.
+    evidence_locations:
+      - Materials and Methods — Multiclass classification
+      - Materials and Methods — PLS dimension reduction and logistic regression
+      - Results — Prediction rule
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      Conventional PAM50 calls are treated as the gold standard for agreement, but
+      they are another expression classifier rather than biological truth. Removing
+      unclassified cases before reporting the strongest kappa preferentially excludes
+      difficult tumors and cannot establish correctness of either method.
+    evidence_locations:
+      - Materials and Methods — Performance evaluation
+      - Results — Validation in three independent Chinese datasets
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Cross-validation, leave-one-out assessment, kappa, survival comparisons, and a
+      Bonferroni-adjusted alpha are reported. However, threshold changes are examined
+      after observing a 23% unclassified rate: excluding 125 unclassified cases raises
+      kappa from 0.541 to 0.829, while lowering the threshold to 0.1 reduces the
+      unclassified rate to 2% and yields kappa 0.704. This post hoc threshold behavior
+      is not independently calibrated and creates selection-dependent performance.
+    evidence_locations:
+      - Materials and Methods — Statistical analysis
+      - Results — Validation in three independent Chinese datasets
+      - Discussion
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Three Chinese studies provide external data, but they share one array platform,
+      use cohort-level normalization, and are pooled for the headline validation. The
+      initial rule leaves about one quarter of cases unclassified, and revised
+      thresholds are not tested in a further independent cohort, platform, or laboratory.
+    evidence_locations:
+      - Results — Validation in three independent Chinese datasets
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Public accession identifiers, model equations, feature-selection logic,
+      thresholds, cross-validation procedures, and negative classification outcomes
+      are reported under CC BY. Exact coefficients, a versioned executable
+      implementation, dependency lock, and immutable analysis release are absent.
+    evidence_locations:
+      - Materials and Methods
+      - Supplementary materials
+evidence_role: context_only
+key_strengths:
+  - Preserves ambiguous and unclassifiable outputs instead of forcing every tumor into a subtype.
+  - Tests a compact classifier in three independent Han Chinese expression studies.
+  - Reports how threshold changes alter coverage and agreement.
+  - Retains survival and classification results for the external population.
+key_limitations:
+  - PAM50 is a comparator rather than a biological truth standard.
+  - Study-level centering and scaling prevent patient-independent execution.
+  - The original threshold leaves roughly one quarter of validation tumors unclassified.
+  - Stronger agreement is obtained after excluding difficult cases or changing thresholds post hoc.
+  - No frozen coefficients, calibrated abstention rule, cross-platform validation, or technical-repeat study is supplied.
+conflicts_and_funding: >-
+  The authors declared no conflicts of interest. Funding was reported from Cathay
+  General Hospital grant MR10118 and Taiwan National Science Council grant
+  NSC-102-2314-B-281-003-MY3.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments under the founder's standing authorization. The founder remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T10:24:00-05:00
+scientific_conclusions_drawn: false

@@ -8,17 +8,17 @@ and what comes next?
 
 ## Current focus
 
-### Complete nine remaining expanded-set appraisals and retrieve one open IEEE paper
+### Complete six remaining expanded-set appraisals and retrieve one open IEEE paper
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
 and zero AI decisions. All five fuzzy author-year identity links were rejected.
 The expanded access inventory is complete: 26 of the 30 inclusions have repository
 identifiers and four required separate lawful-access checks. Reconciliation now
-records 18 durable CC BY retrievals, nine governed read-only reviews, 18 completed
-appraisals, nine records ready for appraisal, two access restrictions, and one
+records 18 durable CC BY retrievals, nine governed read-only reviews, 21 completed
+appraisals, six records ready for appraisal, two access restrictions, and one
 temporarily unresolved open-access IEEE retrieval. No restricted text was stored.
-The next tasks are question-specific appraisal of the nine remaining accessible records,
+The next tasks are question-specific appraisal of the six remaining accessible records,
 retrieval of the IEEE CC BY paper after publisher maintenance, and sequential
 citation chaining.
 
@@ -143,9 +143,9 @@ Current gate state:
   `7b90c37a…63218c` and contains all 30 current inclusions: 26 repository
   candidates and four separate access checks. Prior verified receipts remain valid
   only for records that retain exact identity and inclusion in the current queue.
-- Reconciled appraisal progress `revised_appraisal_progress_v0.3.6.yaml` records
-  18 durable CC BY retrievals, nine governed read-only reviews, 18 completed
-  appraisals, nine records ready for appraisal, two access restrictions, and one
+- Reconciled appraisal progress `revised_appraisal_progress_v0.3.7.yaml` records
+  18 durable CC BY retrievals, nine governed read-only reviews, 21 completed
+  appraisals, six records ready for appraisal, two access restrictions, and one
   open-access IEEE paper pending retrieval after publisher maintenance.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
@@ -182,7 +182,7 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-specific appraisals of the nine remaining accessible papers.
+1. Complete question-specific appraisals of the six remaining accessible papers.
 2. Retrieve and verify the IEEE CC BY paper after scheduled publisher maintenance,
    or record a temporary retrieval limitation without treating it as restricted.
 3. Execute sequential backward-plus-forward Europe PMC citation passes until two
@@ -220,6 +220,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Cohort-adaptive classifier methods appraised
+
+Completed three question-specific appraisals. The PLS/logistic classifier,
+PCA-PAM50, and ssNMF subtype-purity studies are all `context_only`; progress is
+now 21 of 30, with 13 supporting and eight context-only records.
+
+The batch establishes that explicit Ambiguous/Unclassifiable states and continuous
+subtype-purity scores are prior art. It also exposes the central methodological
+problem: apparent performance can rise by excluding hard cases, changing thresholds
+after validation, or adapting normalization and latent factors to the test cohort.
+None supplies a frozen, independently calibrated patient-level reliability rule.
 
 ### 2026-07-25 — Pre-analytic and assay reproducibility appraised
 
@@ -277,19 +289,6 @@ substantive-title rejection. The updated ledger reports 15 total durable
 retrievals, five read-only reviews, eight new papers ready for appraisal, nine
 records awaiting access, and no scientific conclusions.
 
-### 2026-07-25 — Thirty-record access inventory reconciled
-
-Expanded the lawful-access inventory from the 13 priority records to all 30
-founder inclusions. The new append-only inventory is bound to completed screening
-progress `7b90c37a…63218c` and identifies 26 repository candidates and four records
-requiring separate access checks.
-
-Corrected the reconciliation contract so verified retrieval and read-only receipts
-remain valid across later append-only screening checkpoints only when the same
-record is still included with matching queue and title identity. The new progress
-ledger preserves 12 completed appraisals and one subscription restriction and
-exposes exactly 17 records awaiting lawful full text.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -302,7 +301,7 @@ exposes exactly 17 records awaiting lawful full text.
   rule and founder scientific/product, molecular/pathology, and statistical reviews
   are also required before selection.
 - Revised search strategy `0.2.4`, its queue, prior-inventory reconciliation, and
-  founder screening are complete. Nine expanded-set appraisals, one temporary
+  founder screening are complete. Six expanded-set appraisals, one temporary
   IEEE retrieval task, and the citation-chain stopping rule remain incomplete.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the

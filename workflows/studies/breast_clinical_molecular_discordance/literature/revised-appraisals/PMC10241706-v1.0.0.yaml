@@ -1,0 +1,125 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: ac24e2bcd93b4319bbd21d1df4f25c7a3a2157b294a54c7a97997dd13aa37a7a
+title: Quantification of subtype purity in Luminal A breast cancer predicts clinical characteristics and survival.
+pmid: '37209182'
+doi: 10.1007/s10549-023-06961-9
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10241706/fullTextXML
+full_text_sha256: 63da7606e5cbe96a467f993c637d8693f5d78a292ea81f45e8b1a092a74ea2f0
+access_basis: >-
+  Identity-, checksum-, and CC-BY-4.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: outcome_association
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The analysis merges 3,061 retrospective TCGA and METABRIC cases downloaded
+      from cBioPortal, including 1,178 PAM50 Luminal A cases. The large cohorts
+      improve precision but overlap with the authors' earlier ambiguity work, span
+      different treatment eras, and do not constitute prospective or population-
+      representative validation.
+    evidence_locations:
+      - Methods — Study populations
+      - Discussion
+  - domain: specimen_and_measurement
+    judgment: high
+    rationale: >-
+      TCGA and METABRIC use different bulk-expression platforms and preprocessing
+      before cohort merging. Bulk transcriptomes cannot distinguish cell-level,
+      spatial, clonal, stromal, purity, or processing sources of an apparent
+      subtype mixture; the authors explicitly state that its physical scale is
+      unknown and requires single-cell or spatial testing.
+    evidence_locations:
+      - Methods — Study populations
+      - Discussion
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      Semi-supervised NMF jointly factorizes the complete patient-by-gene matrix
+      with PAM50 labels. Factorization rank and supervision weight are selected by
+      fivefold cross-validation within the combined cohort and separately within
+      each source cohort. Quartiles, tertiles, and exclusive-high groups are
+      cohort-relative, so neither the model nor thresholds are patient-independent.
+    evidence_locations:
+      - Methods — Semi-supervised non-negative matrix factorization
+      - Methods — Clinical feature, molecular characteristics, and survival analysis
+      - Methods — Alternate subtype analysis
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      ssNMF is supervised by existing PAM50 assignments and evaluated against
+      clinical features, expression-derived recurrence scores, mutations, and
+      outcomes. These offer construct validity but no direct truth standard for
+      subtype purity or spatial admixture; several comparator scores are computed
+      from the same normalized expression data.
+    evidence_locations:
+      - Methods — Semi-supervised non-negative matrix factorization
+      - Methods — Clinical feature, molecular characteristics, and survival analysis
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The study uses exact chi-square and t tests, Kaplan–Meier curves, and adjusted
+      Cox models, reporting a mortality hazard ratio of 2.08 for the lowest versus
+      highest pLumA quartile. Numerous clinical, molecular, mutation, alternative-
+      subtype, cohort-specific, and survival comparisons lack a study-wide
+      multiplicity plan; quartile choices are cohort-derived; proportional-hazards
+      diagnostics are not reported; and treatment confounding remains.
+    evidence_locations:
+      - Methods — Clinical feature, molecular characteristics, and survival analysis
+      - Results
+      - Supplementary tables
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Similar patterns in TCGA and METABRIC provide an internal cross-cohort
+      consistency check, but both cohorts contribute to model construction and
+      hyperparameter selection. The authors call for additional independent
+      populations, and no locked model, fixed threshold, spatial confirmation,
+      treatment-response validation, or prospective clinical evaluation is shown.
+    evidence_locations:
+      - Results
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The report describes the objective function, hyperparameters, public data
+      source, covariates, negative basal-admixture findings, funding, and limitations
+      under CC BY. It does not provide a frozen patient-level model, exact executable
+      environment, immutable analysis release, or complete reproducibility bundle.
+    evidence_locations:
+      - Methods
+      - Supplementary information
+      - Funding
+evidence_role: context_only
+key_strengths:
+  - Models subtype adherence continuously instead of retaining only a categorical label.
+  - Uses 1,178 Luminal A cases across TCGA and METABRIC.
+  - Reports adjusted outcome associations and multiple adverse molecular features.
+  - Retains counterintuitive and null basal-admixture findings.
+  - States that bulk-data admixture requires single-cell or spatial confirmation.
+key_limitations:
+  - The model and thresholds are fitted to the cohorts being evaluated.
+  - Existing PAM50 labels supervise the method and are not a truth standard.
+  - Bulk expression cannot localize or prove physical subtype admixture.
+  - Extensive comparisons lack a study-wide multiplicity strategy.
+  - The cohorts overlap prior work and no external locked-model validation is provided.
+  - Outcome associations are prognostic and cannot establish treatment utility.
+conflicts_and_funding: >-
+  The authors declared no conflicts of interest. Funding came from a Breast Cancer
+  Alliance Exceptional Project Award and the National Cancer Institute Cancer
+  Research Education Grants Program (R25-CA057699).
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments under the founder's standing authorization. The founder remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T10:24:00-05:00
+scientific_conclusions_drawn: false

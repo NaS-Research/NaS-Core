@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.13.0-working`
+Manuscript version: `0.14.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -144,7 +144,7 @@ stored or appraised. Read-only receipts retain source identity, rights observati
 and ephemeral checksums rather than article content.
 [revised-screening-progress/batch-0002.yaml;
 FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md;
-revised_appraisal_progress_v0.3.6.yaml]
+revised_appraisal_progress_v0.3.7.yaml]
 
 Eleven of the 17 newly included records now have article identity and an approved
 CC BY license independently verified through official Europe PMC XML. Four more
@@ -152,7 +152,7 @@ were lawfully reviewed through governed ephemeral sessions because their rights 
 not authorize durable commercial corpus storage. The IOP article is abstract-only
 and subscription-restricted. The remaining IEEE article is confirmed open access
 under CC BY but awaits full-text retrieval after scheduled publisher maintenance.
-Six of those 15 records have completed appraisal and nine remain ready. No failed
+Nine of those 15 records have completed appraisal and six remain ready. No failed
 or restricted retrieval stored article content.
 
 ### Quality appraisal
@@ -539,6 +539,61 @@ noise. Manufacturer employment, ownership, patents, only three sites, and lack o
 independent postmarket replication prevent an anchor role. [PMID:24625003;
 revised appraisal PMC4008304-v1.0.0]
 
+### Explicit ambiguous and unclassifiable classifier states
+
+A four-model PLS/logistic classifier was developed in 139 PAM50 prototype arrays
+and evaluated in 535 tumors from three Han Chinese microarray studies. With its
+prespecified probability threshold of 0.5, the method preserved both ambiguous
+and unclassifiable states rather than forcing every tumor into a subtype.
+Agreement with PAM50 in the pooled validation data was kappa 0.541, with 125
+tumors—approximately one quarter—unclassified and 55 ambiguous. Excluding
+unclassified tumors raised kappa to 0.829; lowering the threshold post hoc to 0.1
+reduced the unclassified rate to 2% and yielded kappa 0.704.
+
+This is `context_only` prior art for explicit classifier abstention. It shows why
+coverage, ambiguity, and conditional agreement must be reported together:
+discarding hard cases can make agreement appear substantially stronger. PAM50 was
+treated as the reference rather than biological truth, preprocessing remained
+study-dependent, and the revised threshold was not calibrated in a further
+independent cohort. [PMID:24490149; revised appraisal PMC3893734-v1.0.0]
+
+### Cohort-adaptive clinical-concordance optimization
+
+PCA-PAM50 was evaluated in an in-house 118-tumor laser-microdissected RNA-seq
+cohort, 1,097 TCGA tumors, and approximately 1,000 METABRIC tumors. Compared with
+conventional PAM50, clinical/intrinsic concordance increased by 6.0, 9.3, and
+8.7 percentage points, respectively. In TCGA, 107 conventionally classified
+Luminal A tumors switched to Luminal B and had higher MKI67 expression and worse
+progression-related outcomes. The corresponding METABRIC switched-case survival
+contrast was not consistently significant.
+
+The method is `context_only`: it infers expression-based ER status, repeatedly
+selects ER-positive cases to balance each cohort, and then recenters genes
+iteratively. Its output can therefore change with the accompanying test cohort.
+Moreover, the clinical Luminal A/B comparator partly uses an expression-derived
+MKI67 cutoff calibrated across the studied data. Greater agreement with that
+surrogate cannot establish a patient-independent or biologically correct subtype
+call. [PMID:31138829; revised appraisal PMC6538748-v1.0.0]
+
+### Whole-transcriptome subtype-purity modeling
+
+A semi-supervised NMF study merged TCGA and METABRIC and modeled 1,178 PAM50
+Luminal A tumors using 11,379 common transcripts. The lowest versus highest
+quartile of Luminal A adherence had more adverse clinicopathologic features,
+approximately threefold greater TP53 mutation prevalence, and adjusted overall-
+mortality hazard ratio 2.08. The report also retained an important negative
+finding: tumors with predominant basal-like admixture did not have shorter
+survival than Luminal B- or HER2-admixed groups.
+
+This analysis is `context_only`. The complete patient matrix and existing PAM50
+labels jointly train the factorization; hyperparameters and quartiles are selected
+within the evaluated cohorts. Bulk transcriptomes also cannot establish whether
+the apparent mixture arises within cells, between spatial regions, from tumor
+purity, or from processing. The authors explicitly identify single-cell or
+spatial profiling as necessary to resolve that construct. The prognostic
+association is hypothesis-generating and does not establish treatment utility.
+[PMID:37209182; revised appraisal PMC10241706-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -550,7 +605,7 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 18 completed appraisals show that the broad problem is established: PAM50
+The 21 completed appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
@@ -558,15 +613,18 @@ single-sample execution, recurrence-risk stratification, group-level prognostic
 separation, runner-up margins, perturbation-stability labeling, multi-method
 comparison, discordance entropy, empirical permutation confidence, explicit
 Ambiguous or Not Assigned states, direct commercial-assay discordance, and
-technical-versus-spatial repeatability differences. A defensible NaS contribution cannot therefore
-be merely a classifier, risk predictor, margin, perturbation experiment,
-ensemble-disagreement score, uncertainty test, or abstention label. It would need
-to reproduce a fixed classifier unchanged, calibrate perturbations from independent
-technical evidence, define a reliability estimand and thresholds without outcome
-tuning, validate transport in an independent cohort, and abstain prospectively when
-the assignment is not analytically reliable.
+technical-versus-spatial repeatability differences. The new batch additionally
+shows that explicit ambiguous/unclassifiable states, cohort-adaptive attempts to
+increase clinical concordance, and continuous whole-transcriptome subtype-purity
+scores are prior art. A defensible NaS contribution cannot therefore be merely a
+classifier, risk predictor, margin, perturbation experiment, ensemble-disagreement
+score, uncertainty test, abstention label, or cohort-derived purity score. It
+would need to reproduce a fixed classifier unchanged, calibrate perturbations
+from independent technical evidence, define a reliability estimand and thresholds
+without outcome tuning, validate transport in an independent cohort, and abstain
+prospectively when the assignment is not analytically reliable.
 
-This interpretation may change after appraisal of the nine remaining accessible
+This interpretation may change after appraisal of the six remaining accessible
 records, resolution of the open IEEE retrieval, and sequential citation chaining.
 AIMS and the IOP article remain identified but unappraised access-restricted
 sources. This is not an authorized novelty conclusion.
@@ -575,7 +633,7 @@ sources. This is not an authorized novelty conclusion.
 
 Status: `working`
 
-- Primary title-and-abstract screening is complete; nine accessible appraisals, one
+- Primary title-and-abstract screening is complete; six accessible appraisals, one
   open IEEE retrieval, and citation chaining are incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -636,17 +694,28 @@ checks, and internal reviews are complete.
     of correlation-based molecular signatures: its application on PAM50
     algorithm. *Bioinformatics.* 2017;33(5):693–700.
     PMID:28062443. DOI:10.1093/bioinformatics/btw704.
+13. Tan AC, et al. Multiclass prediction with partial least square regression
+    for gene expression data: applications in breast cancer intrinsic taxonomy.
+    *Biomed Res Int.* 2013;2013:248648.
+    PMID:24490149. DOI:10.1155/2013/248648.
+14. Raj-Kumar PK, et al. PCA-PAM50 improves consistency between breast cancer
+    intrinsic and clinical subtyping reclassifying a subset of luminal A tumors
+    as luminal B. *Sci Rep.* 2019;9:7956.
+    PMID:31138829. DOI:10.1038/s41598-019-44339-4.
+15. Kannan N, et al. Quantification of subtype purity in Luminal A breast cancer
+    predicts clinical characteristics and survival. *Breast Cancer Res Treat.*
+    2023;200:239–253. PMID:37209182. DOI:10.1007/s10549-023-06961-9.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–9 | External methodological evidence | 12 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
+| Introduction ¶1–9 | External methodological evidence | 21 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
-| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.6.yaml` | verified, incomplete |
+| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.7.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
 | Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |
@@ -665,14 +734,18 @@ checks, and internal reviews are complete.
 | Results—non-neoplastic contamination | External evidence appraisal | `revised-appraisals/PMC3151208-v1.0.0.yaml` | supporting |
 | Results—population/preprocessing consistency | External evidence appraisal | `revised-appraisals/PMC3445863-v1.0.0.yaml` | context only |
 | Results—Prosigna analytical validation | External evidence appraisal | `revised-appraisals/PMC4008304-v1.0.0.yaml` | supporting |
+| Results—ambiguous/unclassifiable states | External evidence appraisal | `revised-appraisals/PMC3893734-v1.0.0.yaml` | context only |
+| Results—clinical-concordance optimization | External evidence appraisal | `revised-appraisals/PMC6538748-v1.0.0.yaml` | context only |
+| Results—whole-transcriptome purity | External evidence appraisal | `revised-appraisals/PMC10241706-v1.0.0.yaml` | context only |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | 12 completed appraisals plus one access-restricted priority record | provisional |
+| Discussion ¶1–2 | Explicit interpretation | 21 completed appraisals, two access-restricted records, and one pending open-access retrieval | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.14.0-working | 2026-07-25 | Added explicit ambiguous/unclassifiable PLS states, cohort-adaptive PCA-PAM50, and whole-transcriptome ssNMF subtype-purity appraisals; 21 of 30 records are now appraised. |
 | 0.13.0-working | 2026-07-25 | Added non-neoplastic contamination, Han Chinese preprocessing consistency, and clinical-grade Prosigna analytical-validation appraisals; 18 of 30 records are now appraised. |
 | 0.12.0-working | 2026-07-25 | Added OPTIMA commercial-assay discordance, PAM50 technical/spatial reproducibility, and cohort-adaptive Luminal A ambiguity appraisals; 15 of 30 records are now appraised. |
 | 0.11.0-working | 2026-07-25 | Reconciled expanded lawful-access review: 27 full texts are verified, 15 expanded-set papers are ready for appraisal, two records are restricted, and one open IEEE retrieval remains. |

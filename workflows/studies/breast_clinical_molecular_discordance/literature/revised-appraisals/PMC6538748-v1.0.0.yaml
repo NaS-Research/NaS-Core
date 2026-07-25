@@ -1,0 +1,123 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: f901ef703777190675743735cdd7dda989a25abb9cddac67646aeafa40fdec4b
+title: PCA-PAM50 improves consistency between breast cancer intrinsic and clinical subtyping reclassifying a subset of luminal A tumors as luminal B.
+pmid: '31138829'
+doi: 10.1038/s41598-019-44339-4
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6538748/fullTextXML
+full_text_sha256: 5abb7469fb9db15d59f574362fc934ff9304ebd541f583b65277d9080facd797
+access_basis: >-
+  Identity-, checksum-, and CC-BY-4.0-verified Europe PMC XML stored in the
+  governed external NaS object store.
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Evaluation spans an in-house laser-microdissected RNA-seq cohort of 118
+      tumors, 1,097 TCGA tumors, and approximately 1,000 METABRIC tumors. This
+      breadth is useful, but all are retrospective collections with differing
+      eligibility, treatment eras, platforms, and availability of clinical markers.
+    evidence_locations:
+      - Methods — Study populations
+      - Supplementary methods
+  - domain: specimen_and_measurement
+    judgment: high
+    rationale: >-
+      The cohorts combine laser-microdissected RNA sequencing, TCGA RNA sequencing,
+      and METABRIC microarrays. Clinical Luminal A/B labels in TCGA and METABRIC
+      use gene-expression MKI67 as a surrogate, with a cutoff calibrated after
+      combining in-house and public data and applying ComBat. The comparator is
+      therefore partly constructed from the same modality being evaluated.
+    evidence_locations:
+      - Methods — Study populations
+      - Methods — Clinical subtype assignment
+      - Supplementary methods
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      PCA-PAM50 first infers expression-based ER status and then repeatedly chooses
+      ER-positive cases to balance the cohort before iterative gene centering.
+      Results depend on the available test cohort and random subset selection, so
+      the method is not a fixed one-patient classifier and can change when cohort
+      composition changes.
+    evidence_locations:
+      - Methods — PCA-PAM50 algorithm
+      - Figure 1
+      - Discussion
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      Increased agreement with IHC-defined clinical subtypes is the primary
+      success criterion. These surrogates do not constitute intrinsic-subtype
+      truth, and their Luminal A/B distinction incorporates an expression-derived
+      MKI67 rule. Outcome associations are informative but cannot adjudicate the
+      correctness of individual reassigned tumors.
+    evidence_locations:
+      - Methods — Clinical subtype assignment
+      - Results — Clinical and intrinsic subtype consistency
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The report compares agreement gains of 6.0, 9.3, and 8.7 percentage points
+      and evaluates proliferation and survival in switched subgroups. Multiple
+      cohort-specific classification, biomarker, and survival contrasts lack a
+      study-wide multiplicity plan; the MKI67 comparator cutoff is data-derived;
+      and key outcome analyses are post-classification exploratory comparisons.
+      METABRIC switched cases did not consistently show significantly worse survival.
+    evidence_locations:
+      - Methods — Statistical analysis
+      - Results — Reclassified Luminal A tumors
+      - Supplementary survival analyses
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Directionally improved clinical concordance across three cohorts is a useful
+      replication. Nevertheless, each application adapts to its cohort, the
+      platforms and clinical-label construction differ, and no fixed algorithm,
+      patient-only calibration, technical repeats, or prospective decision study is
+      transported unchanged to an independent setting.
+    evidence_locations:
+      - Results
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The article reports public cohorts, the iterative algorithm, comparisons,
+      supplementary analyses, and limitations under CC BY. Random ER-balanced
+      sampling is not bound to a reproducible seed, and the paper does not provide
+      a fully pinned executable environment or immutable analysis release.
+    evidence_locations:
+      - Methods
+      - Data availability
+      - Supplementary information
+evidence_role: context_only
+key_strengths:
+  - Evaluates a centering problem across RNA-seq and microarray cohorts.
+  - Includes a laser-microdissected in-house cohort alongside TCGA and METABRIC.
+  - Reports switched-case proliferation and survival behavior rather than concordance alone.
+  - Makes cohort ER imbalance an explicit source of classifier instability.
+key_limitations:
+  - The algorithm adapts to the test cohort and uses random ER-balanced subsets.
+  - Clinical Luminal A/B comparators partly depend on expression-derived MKI67.
+  - Greater clinical concordance does not establish biological correctness.
+  - Multiplicity and post hoc subgroup analyses limit outcome claims.
+  - No fixed patient-independent artifact, technical-repeat calibration, or prospective validation is provided.
+conflicts_and_funding: >-
+  The authors declared no competing interests. The report lists institutional and
+  government support; no commercial conflict relevant to the classifier comparison
+  was declared.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments under the founder's standing authorization. The founder remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T10:24:00-05:00
+scientific_conclusions_drawn: false
