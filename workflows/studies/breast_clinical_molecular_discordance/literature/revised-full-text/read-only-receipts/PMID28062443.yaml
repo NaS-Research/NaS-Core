@@ -1,0 +1,34 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 74d10004b121f466bdf58265acd7d3093560572071e32346abf5a8d02ffc083a
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: 31f863db0452d24f3534598789d0bff73163009c4e71162cd3b55da28b5808cc
+pmid: '28062443'
+doi: 10.1093/bioinformatics/btw704
+title: >-
+  A novel non-parametric method for uncertainty evaluation of correlation-based
+  molecular signatures: its application on PAM50 algorithm.
+source_url: https://ri.conicet.gov.ar/bitstream/handle/11336/60239/CONICET_Digital_Nro.602c8a8f-fe61-4171-aed3-9821d10c1cba_A.pdf?isAllowed=y&sequence=2
+access_mode: read_only_ephemeral
+access_basis: >-
+  The complete accepted manuscript was lawfully viewable through the CONICET
+  institutional repository. Repository policy permits public access but excludes
+  commercial exploitation; the journal version is Oxford University Press
+  copyrighted. NaS reviewed the manuscript without retaining or redistributing it.
+observed_rights: >-
+  CONICET institutional-repository access under a non-commercial repository policy;
+  journal version published by Oxford University Press.
+rights_url: https://ri.conicet.gov.ar/wp/licencias-de-uso/
+content_sha256: fd35a7d57aaca430e77f807ac47d93269bfb20ffd7bf9a12bca8e129f5c5bb2b
+content_size_bytes: 2116114
+accessed_at: 2026-07-24T23:24:18-05:00
+verified_at: 2026-07-24T23:24:18-05:00
+code_revision: 64e4f85
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

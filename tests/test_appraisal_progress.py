@@ -133,6 +133,46 @@ def _access_decision_payload() -> dict[str, object]:
     }
 
 
+def test_non_pmc_access_decision_requires_and_reconciles_identifiers(
+    tmp_path: Path,
+) -> None:
+    inventory = FullTextInventory.model_validate(
+        {
+            "study_id": "NAS-BRCA-002",
+            "queue_id": "a" * 64,
+            "progress_id": "b" * 64,
+            "provisional_inclusion_count": 1,
+            "repository_candidate_count": 0,
+            "access_check_required_count": 1,
+            "records": [
+                {
+                    "screening_id": "d" * 64,
+                    "record_key": "pmid:2",
+                    "title": "Two",
+                    "pmid": "2",
+                    "doi": "10.1/two",
+                    "access_status": "access_check_required",
+                }
+            ],
+        }
+    )
+    payload = _access_decision_payload()
+    payload["pmcid"] = None
+    payload["pmid"] = "2"
+    payload["doi"] = "10.1/two"
+    decision = _write_yaml(tmp_path / "decision.yaml", payload)
+
+    progress = FullTextAppraisalProgressService().build(
+        inventory,
+        retrieval_receipt_paths=[],
+        appraisal_paths=[],
+        access_decision_paths=[decision],
+    )
+
+    assert progress.access_restricted_count == 1
+    assert progress.records[0].status == "access_restricted"
+
+
 def _read_only_receipt_payload() -> dict[str, object]:
     return {
         "receipt_version": "1.0.0",

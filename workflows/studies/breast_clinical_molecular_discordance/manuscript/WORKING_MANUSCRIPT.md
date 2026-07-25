@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.6.0-working`
+Manuscript version: `0.8.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -54,6 +54,22 @@ across RNA-seq, microarray, NanoString, and qRT-PCR cohorts. It demonstrates
 single-sample feasibility but does not provide independently calibrated technical
 uncertainty, repeatability, or an explicit abstention state. [PMID:33255759]
 
+The foundational PAM50 report defined the 50-gene, five-centroid, Spearman-
+correlation classifier and validated group-level prognosis and chemotherapy
+response, but it assigns every sample to its nearest centroid without a
+patient-level analytical reliability or abstention state. Subsequent test-set-bias
+experiments demonstrated that otherwise identical patient data and a locked
+classifier can yield different calls when test-set size or ER composition changes
+during normalization. [PMID:19204204; PMID:25788628]
+
+MPAM50 is another fixed single-sample alternative. It removes reference subtraction,
+uses weighted centroids derived from unnormalized expression, and scores samples
+with Pearson correlation. Evaluation across 9,637 samples from 19 datasets further
+establishes that cohort-independent subtyping itself is prior art. PCA-PAM50 instead
+adapts centering through expression-inferred ER balancing; its packaged
+implementation addresses skewed cohorts but remains cohort-dependent and therefore
+does not satisfy a patient-independent objective. [PMID:37008073; PMID:41390542]
+
 Large-scale RNA-seq work has additionally extended single-sample rules to molecular
 subtype and recurrence-risk prediction, with independent outcome evaluation and
 external comparison against Prosigna. That work supports technical and group-level
@@ -72,6 +88,16 @@ method-specific calls and inter-method Shannon entropy, and uses cohort composit
 to disable methods whose assumptions are likely violated. Thus, multi-method
 comparison and discordance quantification also exist, although the published
 entropy is not calibrated to patient-level error or abstention. [PMID:41064593]
+
+Patient-level uncertainty and non-assignment are themselves also prior art. PBCMC
+uses gene-label permutations to form subtype-specific empirical null distributions,
+controls five subtype tests with Benjamini–Hochberg false-discovery rates, and
+reports Assigned, Ambiguous, or Not Assigned states for one specimen. Its reported
+implementation uses 10,000 permutations, an FDR threshold of 0.01, and a 0.1
+leading-versus-runner-up correlation margin. The remaining unresolved problem is
+therefore not whether abstention can be implemented, but whether a fixed rule can
+be calibrated to independently measured technical error and validated unchanged
+in an external cohort. [PMID:28062443]
 
 This study is therefore evaluating a narrower methodological question: whether a
 fully specified, patient-independent research implementation can report the leading
@@ -106,11 +132,12 @@ All 100 records had abstracts and were reset to pending under question `0.3.0`.
 [search_strategy_v0.3.0.yaml; search_receipt_v0.3.1.yaml]
 
 The founder included all 13 direct-priority records for full-text review. Seven
-had verified CC-BY full text, four were restricted or unavailable through the
-approved repository endpoint, and two required a lawful alternative source.
-Restricted full text was not stored. At this manuscript version, all seven
-verified CC-BY records have completed question-specific appraisal; four priority
-records remain access-restricted and two require a verified lawful source.
+had verified CC-BY full text and five were lawfully viewable but not approved for
+durable commercial storage. Those 12 records completed question-specific appraisal.
+The remaining AIMS article was identity-verified at the publisher but was
+subscription-restricted; no full text was stored or appraised. Read-only receipts
+retain source identity, rights observations, and ephemeral checksums rather than
+article content. Every priority record therefore has a terminal full-text state.
 [revised-screening-progress/batch-0001.yaml; revised_appraisal_progress.yaml]
 
 ### Quality appraisal
@@ -155,6 +182,46 @@ and the report contains a material inconsistency between 100,000 and 1,000 simul
 replicas. The evidence is retained as `context_only`: it establishes the problem and
 narrows the contribution, but does not provide a transportable technical-error model.
 [PMID:22196354; revised appraisal PMC3275466-v1.0.0]
+
+### Foundational PAM50 classifier
+
+Parker and colleagues reduced 161 qRT-PCR-performing genes to a 50-gene classifier
+using repeated ten-percent leave-out cross-validation in 189 prototype tumors.
+Each tumor was assigned to the nearest of five PAM-derived centroids using Spearman
+rank correlation. Prognostic testing included 761 patients who received no systemic
+therapy, and a separate 133-patient cohort evaluated pathologic complete response
+to taxane-anthracycline chemotherapy. Intrinsic subtype added group-level
+prognostic information to standard variables, and the subtype-based model had high
+negative predictive value for pathologic complete response.
+
+This report supplies the foundational research centroids and classifier structure,
+but not a reliability reference standard. Prototype selection emphasizes
+archetypal tumors; Normal-like calls may reflect normal-tissue contamination; and
+every specimen receives a nearest-centroid label regardless of score separation,
+measurement error, or reproducibility. The evidence is `supporting` for exact
+method provenance and population-level validation, not anchor evidence for
+patient-level reliability or abstention. [PMID:19204204; revised appraisal
+PMC2667820-v1.0.0]
+
+### Test-set bias and patient independence
+
+Patil and colleagues assembled 6,297 tumors from 28 studies spanning 15 microarray
+platform types. In a 198-patient Affymetrix cohort, they repeatedly changed the
+number and ER composition of samples normalized with a given patient while holding
+that patient's expression data and the PAM50 classifier fixed. Calls changed when
+the surrounding normalization cohort changed, with greatest agreement when subset
+composition resembled the full cohort. Unnormalized prediction using Spearman
+gene ranks removed this induced dependency in the tested setting, and a separate
+grade classifier showed similar within- and cross-platform accuracy with and
+without scaling.
+
+The design isolates an important technical failure: a classification can change
+without any biological change in the patient. Full-cohort PAM50 calls remain a
+self-consistency reference rather than biological truth, and the proposed
+rank-based workaround is not a calibrated modern RNA-seq reliability system. The
+evidence is nevertheless `supporting` and makes patient independence a required
+property rather than a novel observation. [PMID:25788628; revised appraisal
+PMC4495301-v1.0.0]
 
 ### Cohort-specific centering
 
@@ -215,6 +282,25 @@ nonsignificant (HR 1.5, 95% CI 0.9–2.4; P=0.126). The downloadable model also 
 an independently calibrated measurement-error, repeatability, confidence, or
 abstention rule. The evidence is therefore `supporting`, not anchor evidence.
 [PMID:33255759; revised appraisal PMC7761033-v1.0.0]
+
+### Modified fixed-centroid single-sample classification
+
+Hamaneh and Yu developed MPAM50 using weighted subtype-average centroids,
+log-transformed within-sample expression, no test-cohort reference subtraction,
+and Pearson correlation. The centroids were trained from TCGA-BRCA and GSE115577
+after removing samples with discordant PAM50 calls. Testing included 9,637 samples
+from 19 independent datasets. Median agreement with reported PAM50 labels was
+0.792, with substantial Luminal-A/Luminal-B/Normal confusion. Comparisons included
+AIMS, MiniABS, three other PAM50 modifications, clinical receptor-defined groups,
+and survival curves.
+
+MPAM50 provides another reproducible fixed classifier and broad technical
+replication, further removing generic fixed single-sample classification as a NaS
+contribution. Primary labels remain varying research PAM50 calls, discordant
+training samples were excluded, only one paired-platform dataset assessed the
+same patients, and no technical-repeat reliability or abstention calibration was
+performed. The evidence is `supporting`, not anchor evidence. [PMID:37008073;
+revised appraisal PMC10052604-v1.0.0]
 
 ### Single-sample subtype and recurrence-risk prediction
 
@@ -301,6 +387,50 @@ were research PAM50 or IHC labels, no direct Prosigna or outcome validation was
 performed, and entropy was not calibrated to error probability or abstention.
 [PMID:41064593; revised appraisal PMC12501779-v1.0.0]
 
+### Cohort-adaptive PCA-PAM50 software
+
+The PCAPAM50 package reengineers PCA-PAM50 into documented CRAN functions. It
+infers an expression-guided ER-balanced subset, refines centering using confidently
+classified Basal-like and Luminal-A cases, and compares final calls with
+conventional PAM50. The report states improved IHC concordance and more stable
+behavior in ER-imbalanced subsets, building substantially on prior evaluation in
+TCGA, METABRIC, and an in-house cohort.
+
+This is relevant implementation evidence but not a patient-independent solution:
+the reference adapts to the composition of the test cohort, IHC concordance is not
+intrinsic-subtype truth, and the package paper does not supply a new independent
+technical or clinical validation cohort. With high concern for transport validation,
+the evidence is retained as `context_only`. [PMID:41390542; revised appraisal
+PMC12789466-v1.0.0]
+
+### Single-subject uncertainty and non-assignment
+
+Fresno and colleagues developed Permutation-Based Confidence for Molecular
+Classification (PBCMC), a single-subject uncertainty procedure for correlation-
+based PAM50. For each specimen, gene labels are permuted to generate empirical
+null correlation distributions for the five centroids. The method applies
+upper-tail tests, controls the five subtype tests using Benjamini–Hochberg, and
+combines significance with a leading-versus-runner-up correlation margin to
+produce Assigned, Ambiguous, and Not Assigned states.
+
+The study evaluated 5,228 tumors across six training and 27 test datasets. Its
+recommended configuration used 10,000 permutations, an FDR threshold of 0.01,
+and a 0.1 correlation-difference threshold. Across all datasets, 61.17% of tumors
+were Assigned, 6.15% Ambiguous, and 32.68% Not Assigned. The pbcmc Bioconductor
+package provides executable code.
+
+This is direct `supporting` prior art and materially narrows the NaS contribution:
+single-subject uncertainty, false-discovery control, explicit ambiguity, and
+abstention cannot be claimed as novel. Gene-label permutations test whether
+centroid correlation exceeds a randomized null; they do not estimate repeatability
+under independently measured assay error. The thresholds were selected using the
+study collections, and no independent technical-repeat, prospective clinical,
+probability-calibration, or decision-impact validation was performed. A surviving
+NaS contribution must therefore connect a frozen patient-independent classifier
+to an independently estimated technical-error model, prespecified reliability
+estimand, and unchanged external validation. [PMID:28062443; revised appraisal
+PMID28062443-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -312,32 +442,34 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The seven accessible priority appraisals show that the broad problem is established: PAM50
+The 12 completed priority appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
 single-sample execution, recurrence-risk stratification, group-level prognostic
 separation, runner-up margins, perturbation-stability labeling, multi-method
-comparison, and discordance entropy. A defensible NaS contribution cannot therefore
-be merely a classifier, risk predictor, margin, perturbation experiment, or
-ensemble-disagreement score. It would need to reproduce a fixed classifier
-unchanged, calibrate perturbations from independent technical evidence, define a
-reliability estimand and thresholds without outcome tuning, validate transport in
-an independent cohort, and abstain prospectively when the assignment is not
-analytically reliable.
+comparison, discordance entropy, empirical permutation confidence, and explicit
+Ambiguous or Not Assigned states. A defensible NaS contribution cannot therefore
+be merely a classifier, risk predictor, margin, perturbation experiment,
+ensemble-disagreement score, uncertainty test, or abstention label. It would need
+to reproduce a fixed classifier unchanged, calibrate perturbations from independent
+technical evidence, define a reliability estimand and thresholds without outcome
+tuning, validate transport in an independent cohort, and abstain prospectively when
+the assignment is not analytically reliable.
 
-This interpretation may change after appraisal of absolute single-sample
-classifiers, RNA-seq implementations, uncertainty methods, and software packages.
-It is not an authorized novelty conclusion.
+This interpretation may change after completion of the 87-record founder screen
+and sequential citation chaining. AIMS remains an identified but unappraised
+access-restricted prior-art source. This is not an authorized novelty conclusion.
 
 ## Limitations
 
 Status: `working`
 
 - The primary evidence review and citation chaining are incomplete.
-- Seven of 13 priority records have completed question-specific appraisal; these
-  comprise all currently verified CC-BY full texts.
-- Several priority full texts are restricted or lack a verified lawful source.
+- Twelve of 13 priority records have completed question-specific appraisal: seven
+  from verified CC-BY retrieval and five through governed read-only review.
+- AIMS is identity-verified but subscription-restricted. It remains unappraised,
+  and no absence-of-prior-art claim may be inferred from that access boundary.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
 - No molecular or outcome data have been accessed for question `0.3.0`.
 - No external statistical or pathology review has been completed.
@@ -377,31 +509,54 @@ checks, and internal reviews are complete.
    package for intrinsic molecular subtyping in breast cancer research.
    *NAR Genom Bioinform.* 2025;7(4):lqaf131.
    PMID:41064593. DOI:10.1093/nargab/lqaf131.
+8. Parker JS, et al. Supervised risk predictor of breast cancer based on
+   intrinsic subtypes. *J Clin Oncol.* 2009;27(8):1160–1167.
+   PMID:19204204. DOI:10.1200/JCO.2008.18.1370.
+9. Patil P, et al. Test set bias affects reproducibility of gene signatures.
+   *Bioinformatics.* 2015;31(14):2318–2323.
+   PMID:25788628. DOI:10.1093/bioinformatics/btv157.
+10. Hamaneh MB, Yu YK. A simple method for robust and accurate intrinsic
+    subtyping of breast cancer. *Cancer Inform.* 2023;22:11769351231159893.
+    PMID:37008073. DOI:10.1177/11769351231159893.
+11. Raj-Kumar PK, et al. Enhanced PAM50 subtyping of breast cancer implemented
+    in the PCAPAM50 R package. *Sci Rep.* 2025;15.
+    PMID:41390542. DOI:10.1038/s41598-025-30752-5.
+12. Fresno C, et al. A novel non-parametric method for uncertainty evaluation
+    of correlation-based molecular signatures: its application on PAM50
+    algorithm. *Bioinformatics.* 2017;33(5):693–700.
+    PMID:28062443. DOI:10.1093/bioinformatics/btw704.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–6 | External methodological evidence | seven records in `literature/revised-appraisals/` | supported, evidence review incomplete |
-| Introduction ¶7 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
+| Introduction ¶1–9 | External methodological evidence | 12 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
+| Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions and access | founder progress receipt; `revised_appraisal_progress.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
+| Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
+| Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |
 | Results—centering | External evidence appraisal | `revised-appraisals/PMC4365540-v1.0.0.yaml` | context only |
 | Results—RNA-seq reference | External evidence appraisal | `revised-appraisals/PMC7442834-v1.0.0.yaml` | supporting |
 | Results—absolute single sample | External evidence appraisal | `revised-appraisals/PMC7761033-v1.0.0.yaml` | supporting |
+| Results—modified fixed centroid | External evidence appraisal | `revised-appraisals/PMC10052604-v1.0.0.yaml` | supporting |
 | Results—subtype and recurrence risk | External evidence appraisal | `revised-appraisals/PMC9381586-v1.0.0.yaml` | supporting |
 | Results—margin and perturbation | External evidence appraisal | `revised-appraisals/PMC10587090-v1.0.0.yaml` | supporting |
 | Results—multi-method software | External evidence appraisal | `revised-appraisals/PMC12501779-v1.0.0.yaml` | supporting |
+| Results—PCA-PAM50 software | External evidence appraisal | `revised-appraisals/PMC12789466-v1.0.0.yaml` | context only |
+| Results—single-subject uncertainty | External evidence appraisal | `revised-appraisals/PMID28062443-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | seven completed appraisals | provisional |
+| Discussion ¶1–2 | Explicit interpretation | 12 completed appraisals plus one access-restricted priority record | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.8.0-working | 2026-07-24 | Added the PBCMC single-subject uncertainty appraisal, recorded AIMS as subscription-restricted, and narrowed the candidate contribution beyond uncertainty and abstention alone. |
+| 0.7.0-working | 2026-07-24 | Added four governed read-only appraisals: foundational PAM50, test-set bias, MPAM50, and PCAPAM50; priority appraisal is now 11 of 13. |
 | 0.6.0-working | 2026-07-24 | Completed all seven accessible priority appraisals; added BreastSubtypeR and excluded generic multi-method discordance from the candidate novelty claim. |
 | 0.5.0-working | 2026-07-24 | Added population-scale margin and perturbation evidence; restricted the candidate contribution to independently calibrated and externally validated reliability and abstention. |
 | 0.4.0-working | 2026-07-24 | Added SCAN-B subtype and recurrence-risk evidence; excluded generic RNA-seq risk prediction from the candidate novelty claim. |

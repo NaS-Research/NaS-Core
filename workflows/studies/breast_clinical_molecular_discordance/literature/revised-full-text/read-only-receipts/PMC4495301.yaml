@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: f237433c9491f3e2332e4a9a14db1510ad59805da6cc0e4bad918c9e9248bded
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: d056d1f0a4bda238c21307b4498066d3a8fb5792892885664e2673d36c50b301
+pmcid: PMC4495301
+pmid: '25788628'
+doi: 10.1093/bioinformatics/btv157
+title: Test set bias affects reproducibility of gene signatures.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4495301/
+access_mode: read_only_ephemeral
+access_basis: >-
+  The complete article was lawfully viewable through PubMed Central. The article
+  states that Oxford University Press retains all rights, so NaS reviewed the
+  article without retaining or redistributing its text.
+observed_rights: >-
+  © The Author 2015. Published by Oxford University Press. All rights reserved.
+rights_url: https://pmc.ncbi.nlm.nih.gov/about/copyright/
+content_sha256: 93efdcdedc3e38bed8b955c685c70bb3ee8d7287caf443d16592e4abcd8651f9
+content_size_bytes: 149179
+accessed_at: 2026-07-24T23:16:51-05:00
+verified_at: 2026-07-24T23:16:51-05:00
+code_revision: 64e4f85
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

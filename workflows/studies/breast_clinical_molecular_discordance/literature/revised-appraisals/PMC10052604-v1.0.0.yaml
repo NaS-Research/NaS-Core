@@ -1,0 +1,127 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: b6523b6e596cc30c5aefa9dbf194f56e115dceb1356853536901308d4a67c4cb
+title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
+pmid: '37008073'
+doi: 10.1177/11769351231159893
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10052604/
+full_text_sha256: 39410af81d1483e2822d29b7c9c416d71a82a4410a0137fed1d0557902c23028
+access_basis: >-
+  Lawful ephemeral review of the complete PubMed Central article under
+  CC-BY-NC-4.0; no durable commercial corpus storage or article redistribution.
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Centroids were trained from TCGA-BRCA and GSE115577 after excluding samples
+      whose two PAM50 implementations disagreed. Testing used 9,637 samples across
+      19 independent public datasets and multiple platforms. Requiring public
+      PAM50 labels, raw or within-sample-normalized data, at least 100 samples, and
+      all five subtypes may select unusually complete research cohorts.
+    evidence_locations:
+      - Methods — Data
+      - Methods — Training set
+      - Methods — Testing set
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Microarray, RNA-seq, and other expression technologies broaden technical
+      coverage, and classification uses within-sample values without test-cohort
+      normalization. Platform-specific preprocessing remains heterogeneous,
+      missing PAM50 genes are simply omitted, and paired cross-platform data were
+      available for only one dataset.
+    evidence_locations:
+      - Methods — Preprocessing
+      - Results — Prediction accuracy
+      - Discussion
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      MPAM50 is explicitly defined: log-transformed within-sample expression,
+      per-sample standard-deviation scaling, weighted subtype-average centroids,
+      no reference subtraction, Pearson correlation, and nearest-centroid
+      assignment. Centroid values and executable code are linked.
+    evidence_locations:
+      - Methods — Overview
+      - Methods — The MPAM50 centroids
+      - Data and code availability
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Reported and genefu PAM50 calls, clinical receptor-defined subtypes, AIMS,
+      MiniABS, and three modified PAM50 variants provide useful technical
+      comparators. PAM50-derived labels are not biological truth, discordant
+      training samples were removed, and clinical subtypes do not map one-to-one
+      onto intrinsic subtypes, particularly Luminal A versus Luminal B.
+    evidence_locations:
+      - Methods — Performance assessment
+      - Results — Prediction accuracy
+      - Results — Performance comparison
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Dataset-level accuracy, balanced accuracy, confusion matrices, clinical
+      concordance, survival curves, and per-dataset rather than pooled summaries
+      address major imbalances. The report conducts numerous method, subtype,
+      dataset, and survival comparisons without a study-wide multiplicity plan,
+      and calibration or decision-curve analysis is absent.
+    evidence_locations:
+      - Methods — Performance measures
+      - Results
+      - Supplemental Tables S1–S7
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Nineteen datasets and 9,637 samples provide broad external technical
+      replication, and the training datasets are excluded from that test set.
+      The principal target remains agreement with varying PAM50 implementations.
+      Only one paired-platform dataset tests the same patients, no independent
+      technical replicates calibrate reliability, and no prospective clinical
+      decision or abstention rule is evaluated.
+    evidence_locations:
+      - Results — Prediction accuracy
+      - Results — Survival analysis
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Equations, centroids, dataset identifiers, comparisons, supplementary
+      tables, and code are reported. A fully pinned environment and immutable
+      software release are not tied to the article, and CC-BY-NC terms require
+      separate commercial-use diligence.
+    evidence_locations:
+      - Methods
+      - Supplemental Material
+      - Data and code availability
+evidence_role: supporting
+key_strengths:
+  - Defines a fixed 50-gene nearest-centroid classifier that operates on one sample independently.
+  - Tests 9,637 samples from 19 independent datasets across multiple technologies.
+  - Compares MPAM50 with AIMS, MiniABS, and three alternative PAM50 modifications.
+  - Preserves group-level prognostic separation and similar clinical-subtype concordance.
+  - Supplies centroid values and executable research code.
+key_limitations:
+  - PAM50-derived calls are the primary labels and are not biological truth.
+  - Discordant training samples are excluded before centroid estimation.
+  - Luminal A versus Luminal B confusion remains substantial.
+  - Only one paired-platform dataset assesses the same patients across technologies.
+  - No calibrated patient-level technical reliability or abstention rule is provided.
+  - Article and code licensing require separate commercial-use review.
+conflicts_and_funding: >-
+  The authors declared no potential conflicts of interest. Work was supported by
+  the Intramural Research Program of the National Library of Medicine at the
+  National Institutes of Health.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder explicitly authorized the appraisal and remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T23:31:00-05:00
+scientific_conclusions_drawn: false

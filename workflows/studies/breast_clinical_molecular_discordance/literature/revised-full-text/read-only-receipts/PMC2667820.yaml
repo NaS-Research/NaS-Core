@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 7c8ff863b83b6d4e660713aa8f02b4365754e1b360c6049a571f580d38498e59
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
+pmcid: PMC2667820
+pmid: '19204204'
+doi: 10.1200/JCO.2008.18.1370
+title: Supervised risk predictor of breast cancer based on intrinsic subtypes.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2667820/
+access_mode: read_only_ephemeral
+access_basis: >-
+  The complete article was lawfully viewable through PubMed Central. The page
+  identifies American Society of Clinical Oncology copyright and does not grant a
+  reusable Creative Commons license, so NaS reviewed the article without retaining
+  or redistributing its text.
+observed_rights: © 2009 by American Society of Clinical Oncology.
+rights_url: https://pmc.ncbi.nlm.nih.gov/about/copyright/
+content_sha256: ebf6c990ea618fd4b1823659a64d3938f8972f2e1cd7faaed5a549754b3067ba
+content_size_bytes: 234140
+accessed_at: 2026-07-24T23:16:51-05:00
+verified_at: 2026-07-24T23:16:51-05:00
+code_revision: 64e4f85
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

@@ -1,0 +1,21 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 678644a4c0bf2a9ee4697c71f84fa34d5d2b976697e1efd709ae452fc12102ba
+pmcid: null
+pmid: "25479802"
+doi: 10.1093/jnci/dju357
+title: Absolute assignment of breast cancer intrinsic molecular subtype.
+source_url: https://academic.oup.com/jnci/article-abstract/107/1/dju357/900920
+observed_license: Oxford University Press; all rights reserved; current session has no subscription access
+license_url: https://academic.oup.com/jnci/article-abstract/107/1/dju357/900920
+outcome: restricted
+policy_reason: >-
+  The identity-verified publisher page reports that the current session does not
+  have article access and offers short-term purchase. No verified open full-text
+  repository copy was found. NaS therefore retains only bibliographic metadata and
+  the access determination; it does not store, bypass, or appraise the paywalled
+  article.
+checked_at: 2026-07-24T23:20:00-05:00
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

@@ -1,0 +1,122 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: d056d1f0a4bda238c21307b4498066d3a8fb5792892885664e2673d36c50b301
+title: Test set bias affects reproducibility of gene signatures.
+pmid: '25788628'
+doi: 10.1093/bioinformatics/btv157
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4495301/
+full_text_sha256: 93efdcdedc3e38bed8b955c685c70bb3ee8d7287caf443d16592e4abcd8651f9
+access_basis: >-
+  Lawful ephemeral review of the complete PubMed Central article; Oxford
+  University Press all-rights-reserved notice, no durable article storage.
+study_design: methods_normalization
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The curated collection included 6,297 tumors from 28 independent studies,
+      15 platform types, and cohorts ranging from 43 to 1,992 patients. This broad
+      technical sampling supports the methodological question, but clinical
+      metadata were incomplete and the detailed perturbation example relied on a
+      198-patient Affymetrix cohort rather than a prespecified target population.
+    evidence_locations:
+      - Materials and Methods — Study population and data
+      - Table 1
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Multiple microarray manufacturers and versions provide a demanding
+      cross-platform test. The study analyzes already processed public data and
+      therefore cannot isolate laboratory, specimen, tumor-purity, or preprocessing
+      components of error, and it does not evaluate RNA-seq or a modern clinical
+      assay workflow.
+    evidence_locations:
+      - Materials and Methods — Study population and data
+      - Discussion
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      The paper explicitly defines robust quantile rescaling in genefu, standard
+      PAM50 prediction, test-set size and ER-composition perturbations, the
+      unnormalized Spearman alternative, and a cross-platform grade-prediction
+      experiment. Complete code, data references, and reproduction instructions
+      are publicly linked.
+    evidence_locations:
+      - Materials and Methods — Normalization procedure
+      - Materials and Methods — Estimating test set bias
+      - Availability and implementation
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Each patient's full-cohort PAM50 call is used as the reference when smaller
+      or composition-shifted subsets are normalized, which directly measures
+      technical self-consistency rather than biological truth. The separate
+      cross-platform model predicts grades 1 versus 3 and is not a validation of
+      intrinsic subtype correctness.
+    evidence_locations:
+      - Results — Normalization makes patient predictions depend on other patients' data
+      - Results — Using gene ranks with unnormalized data produces comparable accuracy
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      One hundred repeated subsets across multiple sizes and ER compositions make
+      the instability pattern transparent, and ten-fold cross-validation supports
+      the grade-classification comparison. Formal uncertainty intervals and
+      hypothesis tests are limited, no multiplicity framework is specified, and
+      the analysis does not estimate a calibrated per-patient probability of an
+      erroneous subtype.
+    evidence_locations:
+      - Materials and Methods — Estimating test set bias
+      - Results
+      - Figures 2 and 3
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      The phenomenon is reproduced under changes in subset size and ER composition
+      and evaluated across Affymetrix, Agilent, and Illumina data. The proposed
+      rank-based workaround is evaluated mainly through invariance and a separate
+      grade classifier; it is not independently validated as an unchanged PAM50
+      implementation with clinical outcomes, repeat measures, or prospective use.
+    evidence_locations:
+      - Results
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      The article links code, data, and instructions intended to reproduce the
+      complete analysis and reports the packages and normalization settings needed
+      for implementation. Long-term environment pinning and an immutable release
+      identifier are not supplied, but the reporting standard is strong.
+    evidence_locations:
+      - Availability and implementation
+      - Materials and Methods
+evidence_role: supporting
+key_strengths:
+  - Uses 6,297 tumors from 28 studies and 15 microarray platform types.
+  - Directly holds patient data and classifier fixed while changing only the normalization cohort.
+  - Evaluates both test-set size and ER-composition effects on PAM50 calls.
+  - Provides complete code, data, and reproduction instructions.
+  - Shows a rank-based unnormalized alternative can avoid the induced test-set dependency.
+key_limitations:
+  - Full-cohort PAM50 calls measure self-consistency rather than biological correctness.
+  - The principal example is one 198-patient microarray dataset.
+  - The workaround is not validated as a modern RNA-seq or clinical PAM50 implementation.
+  - No patient-level error probability, repeat-measure reliability, or abstention threshold is calibrated.
+  - Laboratory and specimen sources of instability are not isolated.
+conflicts_and_funding: >-
+  The authors reported no conflicts in the article. Funding and institutional
+  support are described in the acknowledgements; the analysis relies on public
+  datasets and open code.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder explicitly authorized the appraisal and remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T23:28:00-05:00
+scientific_conclusions_drawn: false

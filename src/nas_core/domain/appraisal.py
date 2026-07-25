@@ -120,7 +120,9 @@ class FullTextAccessDecision(AppraisalModel):
     decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     study_id: str = Field(min_length=1)
     screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
-    pmcid: str = Field(pattern=r"^PMC[0-9]+$")
+    pmcid: str | None = Field(default=None, pattern=r"^PMC[0-9]+$")
+    pmid: str | None = Field(default=None, pattern=r"^[0-9]+$")
+    doi: str | None = Field(default=None, min_length=1)
     title: str = Field(min_length=1)
     source_url: str = Field(min_length=1)
     observed_license: str = Field(min_length=1)
@@ -133,6 +135,8 @@ class FullTextAccessDecision(AppraisalModel):
 
     @model_validator(mode="after")
     def validate_decision(self) -> FullTextAccessDecision:
+        if not any((self.pmcid, self.pmid, self.doi)):
+            raise ValueError("access decision requires PMCID, PMID, or DOI")
         if self.durable_full_text_stored:
             raise ValueError("restricted access decision cannot claim durable storage")
         if self.scientific_conclusions_drawn:

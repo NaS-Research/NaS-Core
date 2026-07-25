@@ -7,6 +7,7 @@ from nas_core.domain.appraisal import (
     FullTextAppraisal,
     FullTextAppraisalProgress,
     FullTextInventory,
+    FullTextReadOnlyReviewReceipt,
     FullTextRetrievalReceipt,
     write_full_text_inventory,
 )
@@ -93,12 +94,19 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         FullTextAccessDecision.model_validate(yaml.safe_load(path.read_text()))
         for path in sorted((REVISED_FULL_TEXT_ROOT / "access-decisions").glob("*.yaml"))
     ]
+    read_only_receipts = [
+        FullTextReadOnlyReviewReceipt.model_validate(yaml.safe_load(path.read_text()))
+        for path in sorted(
+            (REVISED_FULL_TEXT_ROOT / "read-only-receipts").glob("*.yaml")
+        )
+    ]
 
     assert inventory.provisional_inclusion_count == 13
     assert inventory.repository_candidate_count == 11
     assert inventory.access_check_required_count == 2
     assert len(retrievals) == 7
-    assert len(restrictions) == 4
+    assert len(restrictions) == 5
+    assert len(read_only_receipts) == 5
     assert {item.screening_id for item in retrievals}.isdisjoint(
         {item.screening_id for item in restrictions}
     )
@@ -114,11 +122,12 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     )
     assert progress.provisional_inclusion_count == 13
     assert progress.full_texts_retrieved == 7
-    assert progress.access_restricted_count == 4
-    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 2
-    assert progress.appraisals_completed == 7
-    assert progress.supporting_count == 5
-    assert progress.context_only_count == 2
+    assert progress.read_only_full_texts_reviewed == 5
+    assert progress.access_restricted_count == 1
+    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 0
+    assert progress.appraisals_completed == 12
+    assert progress.supporting_count == 9
+    assert progress.context_only_count == 3
     completed = [item for item in progress.records if item.status == "completed"]
     assert {item.pmcid for item in completed} == {
         "PMC3275466",
@@ -128,6 +137,11 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         "PMC9381586",
         "PMC10587090",
         "PMC12501779",
+        "PMC2667820",
+        "PMC4495301",
+        "PMC10052604",
+        "PMC12789466",
+        None,
     }
 
     appraisals = [
@@ -153,4 +167,9 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         "35974007": "supporting",
         "37857634": "supporting",
         "41064593": "supporting",
+        "19204204": "supporting",
+        "25788628": "supporting",
+        "28062443": "supporting",
+        "37008073": "supporting",
+        "41390542": "context_only",
     }

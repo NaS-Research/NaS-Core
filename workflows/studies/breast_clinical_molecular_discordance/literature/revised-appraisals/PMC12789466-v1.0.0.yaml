@@ -1,0 +1,123 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
+title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
+pmid: '41390542'
+doi: 10.1038/s41598-025-30752-5
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12789466/
+full_text_sha256: 7ffecece01cb1993c163afb089fc5387c7e40adac99ad7d16f44f81aaea9e352
+access_basis: >-
+  Lawful ephemeral review of the complete PubMed Central article under
+  CC-BY-NC-ND-4.0; no durable commercial corpus storage, article adaptation, or
+  redistribution.
+study_design: methods_normalization
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The package demonstration uses TCGA breast cancer data and refers to prior
+      evaluation in TCGA, METABRIC, and an in-house cohort. The current report does
+      not describe a new independent prospectively selected test population, and
+      its emphasis is software reengineering rather than a fresh validation study.
+    evidence_locations:
+      - Introduction
+      - Methods — Data download and preprocessing
+      - Results — Pipeline overview
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Public gene-expression and IHC-derived receptor data support an accessible
+      demonstration. The report does not add paired technical replicates,
+      cross-laboratory samples, specimen-quality experiments, or prospective
+      assay measurements, and data preprocessing details are distributed between
+      this paper, the package, and the prior PCA-PAM50 publication.
+    evidence_locations:
+      - Methods — Data download and preprocessing
+      - Package vignette
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      The workflow is separated into documented functions for expression-guided
+      ER balancing, iterative subtype refinement, and conventional PAM50
+      comparison. The package is available through CRAN with a vignette, reference
+      manual, fixed inputs, and explicit random-seed support.
+    evidence_locations:
+      - Methods — Development
+      - Methods — Installation
+      - Results — Pipeline overview
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Genefu PAM50 variants and IHC-defined subtypes are appropriate comparisons
+      for the stated concordance objective. IHC surrogates are not intrinsic-
+      subtype ground truth, and increasing IHC agreement can optimize a different
+      construct from analytical stability or biological correctness.
+    evidence_locations:
+      - Introduction
+      - Results — Improvements over the original PCA-PAM50 script
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The report compares subtype concordance and behavior in ER-imbalanced
+      subsets and describes a deterministic software workflow. Statistical
+      analysis is comparatively sparse for a validation claim: uncertainty
+      intervals, a locked multiplicity plan, calibration, and complete
+      patient-level error analyses are not presented.
+    evidence_locations:
+      - Methods
+      - Results
+      - Table 5
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      The current package paper primarily demonstrates reengineered software on
+      TCGA and relies on prior TCGA, METABRIC, and in-house findings for the main
+      6–9.3 percentage-point concordance claim. PCA-PAM50 remains cohort-dependent:
+      it infers an ER-balanced subset and refines centering from the test cohort.
+      No independent patient-only execution, technical-repeat validation,
+      uncertainty calibration, or prospective clinical validation is shown.
+    evidence_locations:
+      - Introduction
+      - Results — Improvements over the original PCA-PAM50 script
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      CRAN distribution, documentation, a vignette, a reference manual, and an
+      explicit portal are strengths. The article's CC-BY-NC-ND license does not
+      authorize adapted redistribution, and the report does not bind all analyses
+      to an immutable package/environment snapshot.
+    evidence_locations:
+      - Methods — Development
+      - Methods — Installation
+      - Data availability
+evidence_role: context_only
+key_strengths:
+  - Provides a documented, installable R package for PCA-PAM50.
+  - Makes cohort-balancing and iterative centering behavior explicit.
+  - Compares against original and robust genefu implementations.
+  - Directly studies ER-imbalance as a source of PAM50 instability.
+key_limitations:
+  - The package paper does not provide a new independent validation cohort.
+  - The method adapts to the test cohort and therefore is not patient-independent.
+  - IHC concordance is not biological truth or analytical reliability.
+  - No technical-repeat calibration, patient-level uncertainty, or abstention rule is evaluated.
+  - Major performance claims substantially rely on the earlier PCA-PAM50 report.
+  - Licensing requires separate commercial-use and no-derivatives diligence.
+conflicts_and_funding: >-
+  The authors declared no competing interests. Funding was provided by the US
+  Department of Defense through the Henry M. Jackson Foundation and Uniformed
+  Services University; the article states the usual non-endorsement disclaimer.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder explicitly authorized the appraisal and remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T23:31:00-05:00
+scientific_conclusions_drawn: false

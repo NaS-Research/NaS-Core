@@ -1,0 +1,32 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 59c418a648404d9ebef6507eb103358d1ba051e496fc6b07d2d414d337b60a9b
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
+pmcid: PMC12789466
+pmid: '41390542'
+doi: 10.1038/s41598-025-30752-5
+title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12789466/
+access_mode: read_only_ephemeral
+access_basis: >-
+  The complete article was lawfully viewable through PubMed Central under
+  CC-BY-NC-ND-4.0. The non-commercial and no-derivatives conditions do not
+  authorize durable commercial corpus storage or adapted redistribution, so NaS
+  reviewed the article without retaining or redistributing its text.
+observed_rights: >-
+  Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.
+rights_url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+content_sha256: 7ffecece01cb1993c163afb089fc5387c7e40adac99ad7d16f44f81aaea9e352
+content_size_bytes: 167197
+accessed_at: 2026-07-24T23:16:51-05:00
+verified_at: 2026-07-24T23:16:51-05:00
+code_revision: 64e4f85
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

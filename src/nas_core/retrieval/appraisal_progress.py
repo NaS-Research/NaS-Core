@@ -15,6 +15,7 @@ from nas_core.domain.appraisal import (
     FullTextAppraisalProgressRecord,
     FullTextDuplicateDecision,
     FullTextInventory,
+    FullTextInventoryRecord,
     FullTextReadOnlyReviewReceipt,
     FullTextRetrievalReceipt,
     load_full_text_access_decision,
@@ -128,10 +129,10 @@ class FullTextAppraisalProgressService:
                 )
             status = AppraisalCompletionStatus.AWAITING_FULL_TEXT
             if access_decision is not None and read_only_receipt is None:
-                self._verify_access_decision(inventory, item.title, item.pmcid, access_decision)
+                self._verify_access_decision(inventory, item, access_decision)
                 status = AppraisalCompletionStatus.ACCESS_RESTRICTED
             elif access_decision is not None:
-                self._verify_access_decision(inventory, item.title, item.pmcid, access_decision)
+                self._verify_access_decision(inventory, item, access_decision)
             if duplicate_decision is not None:
                 self._verify_duplicate_decision(
                     inventory, item.title, inventory_by_id, duplicate_decision
@@ -249,14 +250,28 @@ class FullTextAppraisalProgressService:
     @staticmethod
     def _verify_access_decision(
         inventory: FullTextInventory,
-        expected_title: str,
-        expected_pmcid: str | None,
+        inventory_record: FullTextInventoryRecord,
         decision: FullTextAccessDecision,
     ) -> None:
+        expected_title = inventory_record.title
+        expected_pmcid = inventory_record.pmcid
+        expected_pmid = inventory_record.pmid
+        expected_doi = inventory_record.doi
         if (
             decision.study_id != inventory.study_id
             or decision.title != expected_title
-            or decision.pmcid != expected_pmcid
+            or (
+                decision.pmcid is not None
+                and decision.pmcid != expected_pmcid
+            )
+            or (
+                decision.pmid is not None
+                and decision.pmid != expected_pmid
+            )
+            or (
+                decision.doi is not None
+                and decision.doi.casefold() != (expected_doi or "").casefold()
+            )
             or decision.durable_full_text_stored
             or decision.scientific_conclusions_drawn
         ):

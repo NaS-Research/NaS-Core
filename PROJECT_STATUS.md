@@ -8,15 +8,13 @@ and what comes next?
 
 ## Current focus
 
-### Resolve and appraise the remaining NAS-BRCA-002 priority evidence
+### Screen the remaining NAS-BRCA-002 revised evidence queue
 
-The question-`0.3.0` review is authorized and active. Founder batch
-`b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-All seven verified CC-BY full texts have completed question-specific appraisal.
-Use the governed read-only path for lawfully viewable sources whose terms prohibit
-durable storage, without retaining or redistributing article content. Record a
-methodological appraisal for every remaining priority paper that can be lawfully
-reviewed; preserve unresolved access explicitly.
+The question-`0.3.0` review is authorized and active. All 13 direct-priority
+records now have a terminal access state: 12 completed appraisals and one
+identity-verified subscription restriction. The next evidence task is founder
+screening of the remaining 87 revised-queue records, followed by sequential
+backward and forward citation chaining to the locked two-zero-pass stopping rule.
 
 Definition of done:
 
@@ -65,9 +63,9 @@ Current gate state:
 - Question-`0.3.0` title/abstract protocol `1.1.0` is locked. The founder priority
   packet contains all 13 direct records. Verified founder progress records 13
   inclusions, 87 pending, zero exclusions, zero unclear, and zero AI decisions.
-- The priority access inventory reconciles all 13 inclusions: 7 verified CC-BY full
-  texts, 4 restricted or repository-unavailable records, and 2 records without a
-  verified lawful full-text source. No restricted text was stored.
+- The priority access inventory reconciles all 13 inclusions: 7 verified CC-BY
+  full texts, 5 governed read-only reviews, and 1 subscription restriction. No
+  restricted text was retained or redistributed.
 - The question-specific `PMC3275466` appraisal is complete as `context_only`.
   Its technical-error framework directly challenges the novelty boundary, but sparse
   calibration, unvalidated independence assumptions, inconsistent simulation counts,
@@ -113,8 +111,18 @@ Current gate state:
   redistribution claims. Appraisal progress distinguishes durable retrieval from
   read-only review and allows a storage restriction to coexist with completed
   ephemeral appraisal.
-- Living manuscript `0.6.0-working` contains traceable Phase 0 methods,
-  all seven accessible appraisals, an evidence-to-text ledger, explicit interpretation
+- Five governed read-only reviews are complete. PBCMC directly establishes
+  single-subject empirical permutation confidence, false-discovery control, a
+  runner-up margin, and Assigned/Ambiguous/Not Assigned states as prior art. Its
+  gene-label null does not estimate repeatability under independently measured
+  technical error, and its thresholds lack unchanged external validation.
+- The AIMS publisher record is identity-verified and subscription-restricted.
+  No paywall was bypassed, no full text was stored, and no appraisal was inferred
+  from the abstract. All 13 priority records therefore reconcile to 12 completed
+  appraisals and one explicit access restriction: nine supporting, three
+  context-only, and zero anchor studies.
+- Living manuscript `0.8.0-working` contains traceable Phase 0 methods,
+  all 12 completed appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
@@ -147,46 +155,58 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Create verified read-only receipts and complete appraisals for lawfully viewable
-   AIMS (PMID `25479802`), single-subject uncertainty (PMID `28062443`), and
-   restricted priority records without paywall circumvention or unlicensed storage.
-2. Founder-confirm or reject the five author-year-only inventory links, then screen
+1. Founder-confirm or reject the five author-year-only inventory links, then screen
    every remaining record in the 100-record revised queue.
-3. Execute sequential backward-plus-forward Europe PMC citation passes until two
+2. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-4. Update the living manuscript and its evidence-to-text ledger after every material
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-5. Resolve and approve the exact centroid and external-reference artifacts,
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-6. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-8. Complete the founder scientific/product, molecular/pathology, and statistical
+7. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-11. Implement persisted evidence claims, citations, provenance, contradictory
+10. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-13. Expand the screening model gateway into general evidence reasoning with
+12. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-14. Build evaluation suites for retrieval, citation validity, numerical
+13. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-15. Generate an immutable research release containing the protocol, dataset
+14. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-16. Generate a reviewable white-paper draft whose substantive claims trace to
+15. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-17. Build the internal workbench for projects, protocols, datasets, runs,
+16. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-18. Complete repeated internal oncology pilots before selecting the first
+17. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Direct-priority evidence set terminally resolved
+
+Completed five governed read-only appraisals and recorded the AIMS article as an
+identity-verified subscription restriction. All 13 direct-priority records now
+have a terminal state: 12 completed appraisals and one access restriction, with no
+paywall circumvention or restricted full text retained.
+
+PBCMC is the most important novelty correction. It already implements per-patient
+permutation confidence, false-discovery control, a runner-up margin, and explicit
+Assigned, Ambiguous, and Not Assigned states. NaS therefore cannot claim uncertainty
+or abstention alone. The surviving candidate contribution is narrower: an unchanged
+patient-independent classifier whose reliability is calibrated to independently
+measured technical error, prespecified without outcome tuning, and externally
+validated. No reviewed priority paper is anchor evidence.
 
 ### 2026-07-24 — Governed read-only evidence appraisal implemented
 
@@ -251,21 +271,6 @@ external clinical series are small, and projected chemotherapy changes are
 retrospective rather than prospective clinical-utility evidence. No patient-level
 uncertainty, perturbation repeatability, or abstention rule is validated.
 
-### 2026-07-24 — Absolute single-sample classifier appraised
-
-Completed the question-specific appraisal of verified CC-BY paper `PMC7761033`
-as `supporting` evidence. MiniABS uses pairwise expression ratios among 11 genes
-to classify one specimen independently of a reference cohort and was evaluated
-across 5,816 samples from ten studies spanning four platform families.
-
-This directly removes single-sample execution as a defensible NaS novelty claim.
-It does not remove the narrower reliability opportunity: PAM50-derived calls are
-the principal targets, feature selection appears to precede the TCGA split,
-Normal-like exclusion improves accuracy, and the key Luminal-B survival comparison
-is nonsignificant. MiniABS provides no independently calibrated technical-error,
-repeatability, ambiguity, or abstention rule. The living manuscript now states
-that distinction explicitly.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -280,10 +285,9 @@ that distinction explicitly.
 - Revised search strategy `0.2.4`, its queue, and prior-inventory reconciliation are
   complete. Founder screening, full-text appraisal, and the citation-chain stopping
   rule remain incomplete.
-- AIMS and the single-subject PAM50 uncertainty paper do not have verified PMCIDs
-  in the locked snapshot. Lawfully viewable publisher or institutional copies have
-  been identified, but article identity, rights terms, and ephemeral checksums must
-  be verified before appraisals can be locked.
+- AIMS is identity-verified at the publisher but subscription-restricted. Its
+  full text cannot be appraised unless the founder supplies lawful access; the
+  evidence review must retain this limitation and cannot infer novelty from it.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is

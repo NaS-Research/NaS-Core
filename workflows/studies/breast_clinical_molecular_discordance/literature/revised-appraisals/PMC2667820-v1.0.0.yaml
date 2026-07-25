@@ -1,0 +1,124 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
+title: Supervised risk predictor of breast cancer based on intrinsic subtypes.
+pmid: '19204204'
+doi: 10.1200/JCO.2008.18.1370
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2667820/
+full_text_sha256: ebf6c990ea618fd4b1823659a64d3938f8972f2e1cd7faaed5a549754b3067ba
+access_basis: >-
+  Lawful ephemeral review of the complete PubMed Central article; American
+  Society of Clinical Oncology copyright, no durable article storage.
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The 189 prototype tumors were deliberately selected for archetypal subtype
+      patterns rather than sampled to represent the intended clinical population.
+      Prognostic testing used 761 patients who received no systemic therapy, and
+      chemotherapy-response testing used 133 additional patients, providing
+      clinically relevant but historically heterogeneous cohorts.
+    evidence_locations:
+      - Patients and Methods — Patient Cohorts
+      - Patients and Methods — Prototype Samples
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The work bridged microarray and qRT-PCR measurements and applied explicit
+      FFPE performance criteria, which supports assay translation. Platform,
+      specimen, and preprocessing differences across the assembled validation
+      cohorts remain possible contributors to discordance, and the report does
+      not provide a patient-level data-quality or measurement-error state.
+    evidence_locations:
+      - Patients and Methods — Gene Expression Data
+      - Patients and Methods — Gene Set Reduction Using Prototype Samples and qRT-PCR
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      The article defines the 50-gene reduction, five PAM-derived centroids,
+      nearest-centroid assignment, and Spearman rank-correlation distance.
+      Random ten-percent leave-out cross-validation was repeated for 50 cycles
+      during gene-set reduction, and the exact centroid values are supplied in
+      the online appendix.
+    evidence_locations:
+      - Gene Set Reduction Using Prototype Samples and qRT-PCR
+      - Sample Subtype Prediction
+      - Appendix Figure A3
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Prototype-derived subtype centroids and standard clinicopathologic variables
+      were appropriate comparators for developing the assay, but neither is an
+      independent biological truth for a discordant individual. The Normal-like
+      class was trained using normal breast tissue and is acknowledged as likely
+      reflecting normal-tissue contamination.
+    evidence_locations:
+      - Sample Subtype Prediction
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Prognostic and predictive analyses used independent cohorts, multivariable
+      models, time-to-relapse endpoints, C-index comparisons, and neoadjuvant
+      pathologic complete response. The paper reports extensive model selection
+      and multiple subtype and outcome analyses without a study-wide multiplicity
+      framework, and complete proportional-hazards and missing-data diagnostics
+      are not reported.
+    evidence_locations:
+      - Prognostic and Predictive Models Using Clinical and Molecular Subtype Data
+      - Results — Prognostic Value of Intrinsic Subtypes
+      - Results — Prediction of Neoadjuvant Chemotherapy Response
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Separate prognosis and chemotherapy-response cohorts and cross-platform
+      testing were substantial strengths. The evaluation establishes population-
+      level prognostic and predictive associations, not independent calibration of
+      score margins, technical repeatability, or a prospective patient-level
+      abstention rule. The historical research implementation is not identical to
+      the later clinical Prosigna assay.
+    evidence_locations:
+      - Results
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Gene identities, model structure, centroid heatmaps, cohort references, and
+      supplementary tables are reported. A modern end-to-end executable package,
+      immutable code revision, locked environment, and machine-readable provenance
+      for every training and test sample are not supplied by this 2009 report.
+    evidence_locations:
+      - Online Appendix
+      - Data Supplement
+      - Author Contributions
+evidence_role: supporting
+key_strengths:
+  - Defines the historical 50-gene PAM50 nearest-centroid classifier and exact subtype centroids.
+  - Uses explicit cross-validation during gene-set reduction.
+  - Evaluates prognosis in 761 untreated patients and chemotherapy response in 133 patients.
+  - Shows subtype information adds to standard clinicopathologic variables at group level.
+key_limitations:
+  - Prototype selection emphasizes archetypal tumors rather than the full clinical continuum.
+  - The assigned subtype is always the nearest centroid; no uncertainty or abstention state is defined.
+  - Validation does not calibrate analytical error or repeat-measure subtype retention.
+  - Normal-like assignment may reflect normal-tissue contamination.
+  - The research algorithm should not be conflated with the later regulated Prosigna assay.
+conflicts_and_funding: >-
+  The article reports multiple patent or commercial relationships involving the
+  PAM50 assay and lists National Cancer Institute and other research support.
+  These interests are relevant to implementation and interpretation but do not
+  invalidate the methodological source.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder explicitly authorized the appraisal and remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T23:28:00-05:00
+scientific_conclusions_drawn: false

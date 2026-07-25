@@ -1,0 +1,130 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 31f863db0452d24f3534598789d0bff73163009c4e71162cd3b55da28b5808cc
+title: >-
+  A novel non-parametric method for uncertainty evaluation of correlation-based
+  molecular signatures: its application on PAM50 algorithm.
+pmid: '28062443'
+doi: 10.1093/bioinformatics/btw704
+full_text_source_url: https://ri.conicet.gov.ar/bitstream/handle/11336/60239/CONICET_Digital_Nro.602c8a8f-fe61-4171-aed3-9821d10c1cba_A.pdf?isAllowed=y&sequence=2
+full_text_sha256: fd35a7d57aaca430e77f807ac47d93269bfb20ffd7bf9a12bca8e129f5c5bb2b
+access_basis: >-
+  Lawful ephemeral review of the complete CONICET accepted manuscript under a
+  non-commercial repository policy; no durable article storage or redistribution.
+study_design: analytical_validation
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The analysis includes 5,228 tumors across six training and 27 test datasets
+      spanning commercial and non-commercial microarray platforms. This is broad
+      technical coverage, but the cohorts are historical public collections with
+      variable gene coverage, clinical annotation, treatment, and outcome
+      availability rather than a prespecified clinical target population.
+    evidence_locations:
+      - Methods — Breast cancer datasets
+      - Table 1
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Platform diversity tests robustness to heterogeneous public expression data,
+      and the method can operate when fewer than all 50 PAM50 genes are available.
+      The study does not use independently repeated specimens or laboratory
+      replicates and cannot separate tumor purity, assay noise, platform effects,
+      and preprocessing as causes of Not Assigned status.
+    evidence_locations:
+      - Methods — Breast cancer datasets
+      - Results — Robustness Assessment
+      - Discussion
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      PBCMC is defined at the single-subject level using gene-label permutations,
+      five empirical null correlation distributions, upper-tail tests,
+      Benjamini-Hochberg adjustment, and three outputs: Assigned, Ambiguous, and
+      Not Assigned. The recommended settings are 10,000 permutations, FDR 0.01,
+      and a 0.1 leading-versus-runner-up correlation difference; code is provided
+      in the Bioconductor pbcmc package.
+    evidence_locations:
+      - Methods — Permutation-Based Confidence for Molecular Classification
+      - Results — PBCMC Parameter Assessment
+      - Availability and Implementation
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Comparisons with median-scaled PAM50, robust genefu PAM50, AIMS, survival,
+      and ROR-PT are informative. None is an independent biological or clinical
+      truth for a discordant individual, and the method tests whether observed
+      centroid correlations exceed a gene-label random null rather than whether
+      the subtype will repeat under measurement error.
+    evidence_locations:
+      - Results — Robustness Assessment
+      - Results — Impact of assigned vs not assigned categories in survival analysis
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      The authors compare 1,000, 10,000, and 100,000 permutations and multiple FDR
+      cutoffs, control five subtype tests with Benjamini-Hochberg, and examine
+      survival and ROR-PT after stratification. The 0.1 ambiguity threshold is
+      inherited rather than independently calibrated, threshold selection uses
+      the training collections, and numerous dataset, subtype, survival, and risk
+      comparisons lack a study-wide multiplicity plan.
+    evidence_locations:
+      - Results — PBCMC Parameter Assessment
+      - Results — Robustness Assessment
+      - Results — Impact of assigned vs not assigned categories in survival analysis
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Training and test datasets are separated, and similar Assigned/Ambiguous/Not
+      Assigned proportions across collections support technical replication.
+      Non-commercial platforms show more Not Assigned cases, indicating unresolved
+      transport sensitivity. No prospective cohort, clinical assay, independent
+      technical repeats, probability calibration, or decision-impact evaluation
+      validates the proposed treatment interpretation.
+    evidence_locations:
+      - Table 1
+      - Results — Robustness Assessment
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The algorithm, thresholds, datasets, package name, and key result tables are
+      reported, and source code is available from Bioconductor. A fully pinned
+      environment, immutable code revision, and item-level provenance for all
+      harmonized inputs are not supplied, and commercial reuse rights require
+      separate diligence.
+    evidence_locations:
+      - Availability and Implementation
+      - Methods
+      - Supplementary Tables
+evidence_role: supporting
+key_strengths:
+  - Directly defines single-subject Assigned, Ambiguous, and Not Assigned PAM50 states.
+  - Uses empirical gene-label permutation nulls and controls five subtype tests with FDR.
+  - Evaluates 5,228 tumors across 33 historical datasets and diverse platforms.
+  - Prespecifies an explicit leading-versus-runner-up correlation-difference rule.
+  - Provides an executable Bioconductor package.
+key_limitations:
+  - Gene-label permutations test non-random correlation, not repeatability under measured technical error.
+  - The FDR and margin thresholds are selected in the study's training collections.
+  - PAM50, AIMS, survival, and ROR-PT are not patient-level subtype ground truth.
+  - No independent technical-repeat or prospective clinical validation is performed.
+  - Platform effects and specimen quality are not separated as causes of non-assignment.
+  - Treatment-support language exceeds the retrospective analytical evidence.
+conflicts_and_funding: >-
+  The authors reported no conflicts of interest. Funding from CONICET, Argentine
+  science agencies, and collaborating institutions is described in the article.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed
+  domain judgments. The founder explicitly authorized the appraisal and remains
+  accountable for the locked eligibility and evidence-role decision. No model
+  generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T23:38:00-05:00
+scientific_conclusions_drawn: false

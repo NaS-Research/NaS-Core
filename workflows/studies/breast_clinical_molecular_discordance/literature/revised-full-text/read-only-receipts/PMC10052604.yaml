@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: f089c6511bd7b99de8fb6bd9424fadad833c695be7f812e014d8f1d31d81d7b2
+study_id: NAS-BRCA-002
+queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
+progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
+screening_id: b6523b6e596cc30c5aefa9dbf194f56e115dceb1356853536901308d4a67c4cb
+pmcid: PMC10052604
+pmid: '37008073'
+doi: 10.1177/11769351231159893
+title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10052604/
+access_mode: read_only_ephemeral
+access_basis: >-
+  The complete article was lawfully viewable through PubMed Central under
+  CC-BY-NC-4.0. Because NaS is a commercial company and non-commercial reuse does
+  not authorize durable commercial corpus storage, NaS reviewed the article
+  without retaining or redistributing its text.
+observed_rights: Creative Commons Attribution-NonCommercial 4.0 International.
+rights_url: https://creativecommons.org/licenses/by-nc/4.0/
+content_sha256: 39410af81d1483e2822d29b7c9c416d71a82a4410a0137fed1d0557902c23028
+content_size_bytes: 274928
+accessed_at: 2026-07-24T23:16:51-05:00
+verified_at: 2026-07-24T23:16:51-05:00
+code_revision: 64e4f85
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false
