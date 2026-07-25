@@ -1,0 +1,153 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d
+title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence for clinical assessment of early-stage breast cancer.
+pmid: '35974007'
+doi: 10.1038/s41523-022-00465-3
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9381586/fullTextXML
+full_text_sha256: 06494384535ca60452e494b5ffc24f9b2e8cf9002d840731f80ec1c0cc1b68cc
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      SCAN-B contributed a large consecutive population-based series, including a
+      5,250-patient training set and a completely non-overlapping 2,412-patient
+      early-stage test set with long registry follow-up. Two external clinical
+      series were also used. Selection nevertheless required available tissue and
+      RNA sequencing, the broader 6,660-patient impact cohort partly overlaps the
+      training set, and external Prosigna series were small.
+    evidence_locations:
+      - Results — Study cohorts
+      - Results — Cross-comparison between SSP and Prosigna in independent external clinical series
+      - Methods — Patient material
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The principal SCAN-B workflow used prospectively integrated fresh-tissue RNA
+      sequencing and a documented alignment and quantification pipeline. External
+      comparisons included paired but technically different fresh and FFPE
+      specimens and NanoString measurements, exposing realistic transport
+      challenges. No central cross-platform replicate experiment established an
+      error model, and sampling, tissue preservation, tumor content, and library
+      protocol remain possible sources of discordance.
+    evidence_locations:
+      - Results — Cross-comparison between SSP and Prosigna in independent external clinical series
+      - Discussion
+      - Methods — Gene expression analysis
+      - Methods — Prosigna classification
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      The study describes the 100-reference nearest-centroid target construction,
+      AIMS-derived within-sample gene-pair rules, cross-validation, selected rule
+      counts, input expression representation, subtype and ROR outputs, and
+      treatment-impact emulation. Derived fixed models and classification functions
+      are released in the standalone sspbc R package, permitting single-sample
+      execution without a test-cohort reference.
+    evidence_locations:
+      - Results — Training SSP models for molecular subtypes of breast cancer
+      - Results — Training and validation of an SSP model for ROR in breast cancer
+      - Methods — Assigning PAM50 subtype and ROR score using nearest centroid
+      - Methods — Training SSP models using the AIMS procedure
+      - Code availability
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      SSP models were trained primarily to reproduce an extended research
+      nearest-centroid implementation generated from the same institutional
+      expression system. External comparisons with clinical Prosigna strengthen
+      relevance, but included only 103 clinical Prosigna cases and 100 cases with
+      non-clinical NanoString-derived Prosigna results. Neither comparator is
+      biological truth, and tissue and sampling differences complicate individual
+      discordance interpretation.
+    evidence_locations:
+      - Results — Concordance between SSP and NCN for molecular subtypes in the independent test set
+      - Results — Cross-comparison between SSP and Prosigna in independent external clinical series
+      - Discussion
+      - Methods — Assigning PAM50 subtype and ROR score using nearest centroid
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Parameter evaluation was confined to training data, the reserved test set had
+      no patient overlap with training, agreement metrics include confidence
+      intervals and weighted kappa, and prognostic analyses use distant
+      recurrence-free interval with prespecified covariate-adjusted Cox models.
+      However, many classifiers, markers, endpoints, subgroups, and treatment-impact
+      comparisons were examined without a study-wide multiplicity framework; the
+      ROR model has only 17% exact agreement across 20 bins despite high weighted
+      agreement; and treatment-impact estimates are retrospective, guideline-
+      emulated, and explicitly naive.
+    evidence_locations:
+      - Results — Training and validation of an SSP model for ROR in breast cancer
+      - Results — Comparison between NCN and SSP stratifications by patient outcome
+      - Results — Assessing potential impact of SSP molecular subtype and ROR testing on use of chemotherapy
+      - Methods — Training SSP models using the AIMS procedure
+      - Methods — Survival analysis
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      A non-overlapping 2,412-patient test set demonstrated stable subtype and ROR
+      agreement, long-follow-up outcome analyses showed similar group-level
+      prognostic separation, and two external series benchmarked SSP against
+      Prosigna. Remaining concerns are the small external series, Swedish
+      population and care setting, partial tissue and protocol mismatch, absence
+      of prospective decision-impact validation, and no evidence that individual
+      discordant labels improve treatment selection.
+    evidence_locations:
+      - Results — Concordance between SSP and NCN for molecular subtypes in the independent test set
+      - Results — Comparison between NCN and SSP stratifications by patient outcome
+      - Results — Cross-comparison between SSP and Prosigna in independent external clinical series
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Cohort construction, overlap, follow-up, endpoints, expression pipeline,
+      target construction, training procedure, test separation, agreement metrics,
+      and survival covariates are reported. Processed expression and
+      clinicopathological classifications are publicly available, the code and
+      derived models are distributed as an R package, and restrictions on raw
+      personally identifiable sequencing data are explicit. The cited repository
+      does not provide an immutable release, article-linked commit, or package
+      checksum, so the exact executable artifact still requires local freezing.
+    evidence_locations:
+      - Results — Study cohorts
+      - Methods — Gene expression analysis
+      - Methods — Training SSP models using the AIMS procedure
+      - Methods — Survival analysis
+      - Data availability
+      - Code availability
+evidence_role: supporting
+key_strengths:
+  - Uses a large consecutive population-based cohort integrated with routine care.
+  - Reserves a fully non-overlapping 2,412-patient test set with long registry follow-up.
+  - Evaluates subtype, recurrence-risk, outcome, and projected treatment-impact outputs.
+  - Benchmarks against Prosigna in two independent external clinical series.
+  - Publishes processed expression data, classifications, derived models, and executable R code.
+key_limitations:
+  - Principal labels reproduce an extended research nearest-centroid implementation rather than biological truth.
+  - External Prosigna comparisons include only 203 cases and mix clinical and non-clinical testing.
+  - Exact agreement for the 20-bin recurrence-risk score is only 17%.
+  - Extensive secondary and subgroup analyses lack a study-wide multiplicity framework.
+  - Projected chemotherapy changes are retrospective, guideline-emulated, and not clinical utility evidence.
+  - No patient-level uncertainty, perturbation repeatability, or explicit abstention rule is validated.
+conflicts_and_funding: >-
+  Open-access funding was provided by Lund University. The authors declared no
+  study-related financial conflicts. Anna Ehinger, Henrik Lindman, and Lao H. Saal
+  disclosed non-financial interests including industry honoraria, advisory work,
+  research support, and, for Lao H. Saal, employment and ownership interests in
+  SAGA Diagnostics AB.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable
+  for the locked eligibility and evidence-role decision. No model generated a
+  scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T22:46:52-05:00
+scientific_conclusions_drawn: false

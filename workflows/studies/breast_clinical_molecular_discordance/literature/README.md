@@ -34,13 +34,13 @@ and zero AI decisions.
 
 The revised access ledger contains seven independently verified CC-BY full texts,
 four restricted or repository-unavailable records, and two records requiring a
-lawful alternative source. No restricted full text was stored. Four
+lawful alternative source. No restricted full text was stored. Five
 question-specific appraisals are complete: `PMC3275466` and `PMC4365540` are
-`context_only`, while `PMC7442834` and `PMC7761033` are `supporting`; three
-accessible records remain. MiniABS establishes that an 11-gene, cohort-independent
-classifier can execute on a single sample across several platform families. Its
-PAM50-derived target labels, potentially optimistic feature-selection sequence, and
-absence of calibrated uncertainty or clinical validation prevent an anchor role.
+`context_only`, while `PMC7442834`, `PMC7761033`, and `PMC9381586` are
+`supporting`; two accessible records remain. The SCAN-B SSP study is the strongest
+reviewed validation of single-sample subtype and recurrence-risk prediction, but
+its primary targets reproduce a research nearest-centroid method and its
+retrospective treatment-impact emulation does not establish clinical utility.
 
 Required artifacts:
 

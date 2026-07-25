@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.3.0-working`
+Manuscript version: `0.4.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -54,6 +54,13 @@ across RNA-seq, microarray, NanoString, and qRT-PCR cohorts. It demonstrates
 single-sample feasibility but does not provide independently calibrated technical
 uncertainty, repeatability, or an explicit abstention state. [PMID:33255759]
 
+Large-scale RNA-seq work has additionally extended single-sample rules to molecular
+subtype and recurrence-risk prediction, with independent outcome evaluation and
+external comparison against Prosigna. That work supports technical and group-level
+prognostic feasibility, but it does not validate patient-level uncertainty or prove
+that retrospective changes in emulated treatment recommendations improve outcomes.
+[PMID:35974007]
+
 This study is therefore evaluating a narrower methodological question: whether a
 fully specified, patient-independent research implementation can report the leading
 and runner-up subtype scores, their margin, perturbation repeatability, data-quality
@@ -89,7 +96,7 @@ All 100 records had abstracts and were reset to pending under question `0.3.0`.
 The founder included all 13 direct-priority records for full-text review. Seven
 had verified CC-BY full text, four were restricted or unavailable through the
 approved repository endpoint, and two required a lawful alternative source.
-Restricted full text was not stored. At this manuscript version, 4 of the 13
+Restricted full text was not stored. At this manuscript version, 5 of the 13
 priority records have completed question-specific appraisal.
 [revised-screening-progress/batch-0001.yaml; revised_appraisal_progress.yaml]
 
@@ -196,6 +203,35 @@ an independently calibrated measurement-error, repeatability, confidence, or
 abstention rule. The evidence is therefore `supporting`, not anchor evidence.
 [PMID:33255759; revised appraisal PMC7761033-v1.0.0]
 
+### Single-sample subtype and recurrence-risk prediction
+
+Staaf and colleagues trained AIMS-derived single-sample predictors for breast
+cancer subtype and recurrence risk in SCAN-B. The development cohort contained
+5,250 patients, while a completely non-overlapping population-based test set
+contained 2,412 patients with median distant-recurrence follow-up of 8.1 years.
+Four-class subtype agreement with the extended nearest-centroid target was 90%
+(kappa 0.84). Three-category recurrence-risk agreement was 84% (weighted kappa
+0.90), although exact agreement across the underlying 20 risk-score bins was only
+17%. Group-level prognostic separation was similar between the single-sample and
+nearest-centroid methods, including covariate-adjusted analyses in 772
+ER-positive/HER2-negative, node-negative patients treated with endocrine therapy.
+
+External comparisons included 103 clinical Prosigna cases and 100 cases with
+non-clinical NanoString-derived Prosigna results. Pooled agreement was 81% for
+subtype, 76% for three-category recurrence risk, and 85% for binary recurrence-risk
+classification. A retrospective guideline emulation estimated that strict use of
+the single-sample recommendation could change chemotherapy assignment for 17% of
+an age-restricted ER-positive/HER2-negative, node-negative subgroup, but the authors
+explicitly described this analysis as naive and called for prospective evaluation.
+
+This is the strongest reviewed evidence for technically executable, prognostically
+informative single-sample RNA-seq classification. It remains `supporting` rather
+than anchor evidence because its primary target reproduces a research
+nearest-centroid method, external clinical series are small, exact continuous-risk
+agreement is limited, and no prospective decision impact, patient-level
+uncertainty, repeatability, or abstention rule was validated.
+[PMID:35974007; revised appraisal PMC9381586-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -207,16 +243,17 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The first four appraisals suggest that the broad problem is established: PAM50
+The first five appraisals suggest that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
-single-sample execution. A defensible NaS contribution cannot therefore be merely
-“a single-sample classifier.” It would need to predefine every artifact and
-transformation, reproduce a fixed classifier unchanged, calibrate perturbations
-from independent technical evidence, distinguish analytical reliability from
-label agreement, expose ambiguity rather than conceal it in a hard label, and
-abstain when the assignment is not analytically reliable.
+single-sample execution, recurrence-risk stratification, and group-level prognostic
+separation. A defensible NaS contribution cannot therefore be merely “a
+single-sample classifier” or “an RNA-seq risk predictor.” It would need to predefine
+every artifact and transformation, reproduce a fixed classifier unchanged,
+calibrate perturbations from independent technical evidence, distinguish
+analytical reliability from label agreement, expose ambiguity rather than conceal
+it in a hard label, and abstain when the assignment is not analytically reliable.
 
 This interpretation may change after appraisal of absolute single-sample
 classifiers, RNA-seq implementations, uncertainty methods, and software packages.
@@ -227,7 +264,7 @@ It is not an authorized novelty conclusion.
 Status: `working`
 
 - The primary evidence review and citation chaining are incomplete.
-- Only 4 of 13 priority records have completed question-specific appraisal.
+- Only 5 of 13 priority records have completed question-specific appraisal.
 - Several priority full texts are restricted or lack a verified lawful source.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
 - No molecular or outcome data have been accessed for question `0.3.0`.
@@ -257,13 +294,17 @@ checks, and internal reviews are complete.
 4. Seo MK, Paik S, Kim S. An improved, assay platform agnostic, absolute single
    sample breast cancer subtype classifier. *Cancers (Basel).* 2020;12(12):3506.
    PMID:33255759. DOI:10.3390/cancers12123506.
+5. Staaf J, et al. RNA sequencing-based single sample predictors of molecular
+   subtype and risk of recurrence for clinical assessment of early-stage breast
+   cancer. *NPJ Breast Cancer.* 2022;8:94.
+   PMID:35974007. DOI:10.1038/s41523-022-00465-3.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–3 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml`; `revised-appraisals/PMC7761033-v1.0.0.yaml` | supported, evidence review incomplete |
-| Introduction ¶4 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
+| Introduction ¶1–4 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml`; `revised-appraisals/PMC7761033-v1.0.0.yaml`; `revised-appraisals/PMC9381586-v1.0.0.yaml` | supported, evidence review incomplete |
+| Introduction ¶5 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions and access | founder progress receipt; `revised_appraisal_progress.yaml` | verified, incomplete |
@@ -271,14 +312,16 @@ checks, and internal reviews are complete.
 | Results—centering | External evidence appraisal | `revised-appraisals/PMC4365540-v1.0.0.yaml` | context only |
 | Results—RNA-seq reference | External evidence appraisal | `revised-appraisals/PMC7442834-v1.0.0.yaml` | supporting |
 | Results—absolute single sample | External evidence appraisal | `revised-appraisals/PMC7761033-v1.0.0.yaml` | supporting |
+| Results—subtype and recurrence risk | External evidence appraisal | `revised-appraisals/PMC9381586-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | four completed appraisals | provisional |
+| Discussion ¶1–2 | Explicit interpretation | five completed appraisals | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.4.0-working | 2026-07-24 | Added SCAN-B subtype and recurrence-risk evidence; excluded generic RNA-seq risk prediction from the candidate novelty claim. |
 | 0.3.0-working | 2026-07-24 | Added MiniABS appraisal; removed any implied novelty claim for single-sample classification and isolated reliability and abstention as the candidate contribution. |
 | 0.2.0-working | 2026-07-24 | Added the supporting RNA-seq reference-sensitivity appraisal and narrowed the fixed-reference contribution. |
 | 0.1.0-working | 2026-07-24 | Created governed manuscript; seeded Phase 0 methods and the first two question-specific appraisals. |

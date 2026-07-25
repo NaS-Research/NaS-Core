@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
 progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
-generated_at: '2026-07-25T03:41:35.630358Z'
+generated_at: '2026-07-25T03:47:59.770428Z'
 provisional_inclusion_count: 13
 full_texts_retrieved: 7
-appraisals_completed: 4
+appraisals_completed: 5
 access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
-supporting_count: 2
+supporting_count: 3
 context_only_count: 2
 excluded_count: 0
 records:
@@ -67,9 +67,11 @@ records:
   title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence for
     clinical assessment of early-stage breast cancer.
   pmcid: PMC9381586
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: b2657bfc946ddd5664b19933f76de52ebda4ffd5b1c23dce0b3289417f3e3a92
   full_text_sha256: 06494384535ca60452e494b5ffc24f9b2e8cf9002d840731f80ec1c0cc1b68cc
+  appraisal_version: 1.0.0
+  evidence_role: supporting
 - screening_id: b6523b6e596cc30c5aefa9dbf194f56e115dceb1356853536901308d4a67c4cb
   title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
   pmcid: PMC10052604

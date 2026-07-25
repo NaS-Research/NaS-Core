@@ -12,9 +12,9 @@ and what comes next?
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-Seven have verified CC-BY full text; four question-specific appraisals are
+Seven have verified CC-BY full text; five question-specific appraisals are
 complete. Four are restricted or unavailable through the approved endpoint, and
-two require a lawful alternative source. Appraise the remaining three accessible
+two require a lawful alternative source. Appraise the remaining two accessible
 papers, resolve access where possible, then screen the remaining 87 candidates.
 
 Definition of done:
@@ -86,8 +86,14 @@ Current gate state:
   feature-selection sequence, Normal-like sensitivity, and absence of calibrated
   uncertainty or abstention prevent an anchor role. NaS cannot claim single-sample
   execution alone as novel.
-- Living manuscript `0.3.0-working` contains traceable Phase 0 methods,
-  the four completed appraisals, an evidence-to-text ledger, explicit interpretation
+- SCAN-B SSP paper `PMC9381586` is `supporting` and is the strongest reviewed
+  validation so far. It uses a non-overlapping 2,412-patient test set, long
+  follow-up, adjusted outcome models, external Prosigna comparisons, public data,
+  and executable code. It also establishes that subtype and recurrence-risk
+  prediction already exist; retrospective treatment emulation and absent
+  patient-level uncertainty prevent anchor or clinical-utility claims.
+- Living manuscript `0.4.0-working` contains traceable Phase 0 methods,
+  the five completed appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
@@ -120,9 +126,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-`0.3.0` full-text appraisal of the three remaining verified
-   CC-BY priority papers, next addressing RNA-seq single-sample subtype and
-   recurrence prediction (`PMC9381586`).
+1. Complete question-`0.3.0` full-text appraisal of the two remaining verified
+   CC-BY priority papers, next addressing population-scale PAM50 perturbation and
+   stability (`PMC10587090`).
 2. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
 3. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
@@ -162,6 +168,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Single-sample subtype and recurrence-risk predictor appraised
+
+Completed the question-specific appraisal of verified CC-BY paper `PMC9381586`
+as `supporting` evidence. The SCAN-B study uses a fully non-overlapping
+2,412-patient population-based test set, long registry follow-up, adjusted survival
+models, two external Prosigna series, publicly accessible processed data, and an
+executable R package.
+
+This is the strongest reviewed validation so far, but it further narrows NaS
+novelty: single-sample RNA-seq subtype prediction, recurrence-risk stratification,
+and group-level prognostic validation already exist. The primary target reproduces
+a research nearest-centroid method, exact 20-bin risk agreement is only 17%,
+external clinical series are small, and projected chemotherapy changes are
+retrospective rather than prospective clinical-utility evidence. No patient-level
+uncertainty, perturbation repeatability, or abstention rule is validated.
 
 ### 2026-07-24 — Absolute single-sample classifier appraised
 
@@ -222,21 +244,6 @@ truth, and the method requires clinicopathological composition plus sufficient
 cohort size. The authors explicitly state it is unsuitable for a one-patient
 dataset. It strengthens the rationale for a patient-independent external reference
 but cannot serve as that reference or validate the NaS procedure.
-
-### 2026-07-24 — Measurement-uncertainty evidence appraised
-
-Locked question-`0.3.0` full-text appraisal protocol `1.1.0` and completed the first
-revised appraisal against the verified CC-BY text of `PMC3275466`. The paper is
-eligible and directly relevant: it models how laboratory measurement error can
-alter PAM50 calls and proposes patient-level uncertainty reporting.
-
-The record is `context_only`, not anchor or supporting evidence. Its error model
-comes from 12 replicates of four archetypal specimens, assumes Gaussian independent
-gene errors, is applied to independent tumors by simulation rather than repeat
-measurement, lacks external laboratory/platform validation, and contains a material
-100,000-versus-1,000 simulation-count inconsistency. It demonstrates the problem and
-narrows novelty, but does not provide the independently calibrated, transportable
-error model required by the proposed NaS method.
 
 ## Current blockers
 
