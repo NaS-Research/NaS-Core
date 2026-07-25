@@ -169,6 +169,15 @@ Current gate state:
   additional includes and 239 exclusions. Combined coverage is exactly 4,495
   unique records: 32 proposed includes, 4,463 proposed exclusions, and zero
   unclear. Both packet pairs remain advisory and record zero founder decisions.
+- The combined-confirmation engine is implemented and integration-tested against
+  the real packet pair. It rejects standing authorization, wrong statements,
+  changed bytes, stale hashes, incomplete second-stage coverage, duplicates, and
+  remaining unclear records. After exact confirmation it can freeze a 4,495-record
+  founder ledger with 32 includes, 4,463 excludes, and zero AI decisions.
+- Draft protocol amendment `0.2.5` separates an uncapped saturation inventory from
+  a quality-selected core synthesis set. It prevents the existing 30-study cap
+  from becoming an arbitrary exclusion rule, but remains inactive pending separate
+  founder review after citation-screening confirmation.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -207,42 +216,56 @@ Current gate state:
 1. Obtain the single combined founder confirmation for all 4,495 citation-pass
    recommendations, then write and independently verify the append-only decision
    ledger.
-2. Add and appraise any newly eligible methodological or external-transport studies,
+2. Review and authorize, revise, hold, or reject evidence-cap amendment `0.2.5`.
+3. Add and appraise any newly eligible methodological or external-transport studies,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
-3. Update the living manuscript and its evidence-to-text ledger after every material
+4. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Resolve and approve the exact centroid and external-reference artifacts,
+5. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-5. Define an independently calibrated technical-error model and lock the margin
+6. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-7. Complete the founder scientific/product, molecular/pathology, and statistical
+8. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-10. Implement persisted evidence claims, citations, provenance, contradictory
+11. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-12. Expand the screening model gateway into general evidence reasoning with
+13. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-13. Build evaluation suites for retrieval, citation validity, numerical
+14. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-14. Generate an immutable research release containing the protocol, dataset
+15. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-15. Generate a reviewable white-paper draft whose substantive claims trace to
+16. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-16. Build the internal workbench for projects, protocols, datasets, runs,
+17. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-17. Complete repeated internal oncology pilots before selecting the first
+18. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation confirmation and cap-amendment paths prepared
+
+Implemented the typed combined founder-confirmation service and final citation
+decision-ledger receipt. Integration tests reproduce the two real packet appendices,
+prove exact 4,495-record coverage, and verify the expected 32/4,463 disposition.
+The service fails closed on absent exact authority, tampered packet bytes, mismatched
+hashes, incomplete second-stage coverage, duplicates, or unclear records.
+
+The founder confirmation template remains intentionally invalid while authorization
+is absent. Draft amendment `0.2.5` proposes an uncapped saturation inventory and a
+quality-selected core synthesis set so the 30-study target cannot suppress eligible
+contradictory evidence. Neither artifact changes current governance.
 
 ### 2026-07-25 — Citation pass 1 unresolved set fully adjudicated
 

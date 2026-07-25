@@ -27,6 +27,7 @@ from nas_core.domain.citation_chain import (
     CitationSeed,
     load_citation_chain_receipt,
     load_citation_enrichment_receipt,
+    load_citation_founder_packet_receipt,
     load_citation_prioritization_receipt,
     load_citation_recommendation_receipt,
     load_citation_screening_preparation_receipt,
@@ -36,6 +37,10 @@ from nas_core.domain.citation_chain import (
     write_citation_prioritization_receipt,
     write_citation_recommendation_receipt,
     write_citation_screening_preparation_receipt,
+)
+from nas_core.domain.citation_confirmation import (
+    load_citation_founder_confirmation,
+    write_citation_decision_ledger_receipt,
 )
 from nas_core.domain.cohorts import (
     load_cohort_receipt,
@@ -78,6 +83,7 @@ from nas_core.retrieval.citation_adjudication import (
     load_citation_adjudication_policy,
 )
 from nas_core.retrieval.citation_chain import CitationChainRetrievalService
+from nas_core.retrieval.citation_confirmation import CitationDecisionConfirmationService
 from nas_core.retrieval.citation_enrichment import CitationEnrichmentService
 from nas_core.retrieval.citation_packet import CitationFounderPacketService
 from nas_core.retrieval.citation_prioritization import CitationPrioritizationService
@@ -339,6 +345,24 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Persist complete second-stage advisory recommendations",
+    )
+    citation_confirm = evidence_review_commands.add_parser(
+        "citation-confirm",
+        help="Verify founder authority and freeze the complete citation decision ledger",
+    )
+    citation_confirm.add_argument("first_packet_receipt", type=Path)
+    citation_confirm.add_argument("first_packet", type=Path)
+    citation_confirm.add_argument("first_appendix", type=Path)
+    citation_confirm.add_argument("second_packet_receipt", type=Path)
+    citation_confirm.add_argument("second_packet", type=Path)
+    citation_confirm.add_argument("second_appendix", type=Path)
+    citation_confirm.add_argument("confirmation", type=Path)
+    citation_confirm.add_argument("--code-revision", required=True)
+    citation_confirm.add_argument("--receipt-output", required=True, type=Path)
+    citation_confirm.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist final founder decisions after exact confirmation",
     )
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
@@ -1066,6 +1090,50 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print("Advisory only; zero founder decisions were recorded.")
         print(f"Wrote verified adjudication receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-confirm"
+    ):
+        first_packet = load_citation_founder_packet_receipt(
+            args.first_packet_receipt
+        )
+        second_packet = load_citation_founder_packet_receipt(
+            args.second_packet_receipt
+        )
+        citation_confirmation = load_citation_founder_confirmation(args.confirmation)
+        if not args.execute:
+            print(
+                f"Citation confirmation ready: "
+                f"{first_packet.proposed_decision_count + second_packet.proposed_decision_count} "
+                f"decisions bound to founder {citation_confirmation.founder_name}"
+            )
+            print("Dry run only; no final decision ledger was stored.")
+            return 0
+        confirmation_service = CitationDecisionConfirmationService(
+            store=get_object_store()
+        )
+        decision_receipt = confirmation_service.confirm(
+            first_packet,
+            second_packet,
+            citation_confirmation,
+            first_packet_path=args.first_packet,
+            first_appendix_path=args.first_appendix,
+            second_packet_path=args.second_packet,
+            second_appendix_path=args.second_appendix,
+            code_revision=args.code_revision,
+        )
+        write_citation_decision_ledger_receipt(
+            args.receipt_output, decision_receipt
+        )
+        print(
+            f"Confirmed citation pass {decision_receipt.pass_number}: "
+            f"{decision_receipt.included_count} include, "
+            f"{decision_receipt.excluded_count} exclude, "
+            f"{decision_receipt.unclear_count} unclear"
+        )
+        print(f"Wrote final founder decision receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

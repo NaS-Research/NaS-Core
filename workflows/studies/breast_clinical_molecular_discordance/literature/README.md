@@ -71,6 +71,14 @@ prove exact, non-overlapping coverage of all 4,495 records: 32 proposed includes
 review artifact allows one exact founder confirmation while retaining both packet
 boundaries.
 
+The combined-confirmation service is ready but has not been executed. Its integration
+test uses the real packet files and verifies the prospective 4,495-record ledger,
+32 includes, 4,463 excludes, zero unclear, and zero AI decisions. It deliberately
+rejects standing project authorization in place of the exact checksum-bound founder
+statement. Draft evidence-cap amendment `0.2.5` is also prepared but inactive; it
+would separate the complete saturation inventory from a concise quality-selected
+core synthesis.
+
 Required artifacts:
 
 - `literature/protocol.md`
