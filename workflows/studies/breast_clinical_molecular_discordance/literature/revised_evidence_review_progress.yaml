@@ -3,7 +3,7 @@ progress_version: 1.0.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
 question_version: 0.3.0
-protocol_version: 0.2.4
+protocol_version: 0.2.5
 review_status: active
 search_strategy_version: 0.2.4
 priority_set_version: 1.0.0
@@ -18,13 +18,88 @@ deduplication_complete: true
 screening_progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
 screening_progress_receipt_path: literature/revised-screening-progress/batch-0002.yaml
 primary_screening_complete: true
-eligible_evidence_count: 30
-completed_appraisal_count: 12
-access_restricted_count: 1
-pending_candidate_count: 0
-uncapped_saturation_inventory_active: false
+eligible_evidence_count: 62
+completed_appraisal_count: 31
+access_restricted_count: 2
+pending_candidate_count: 29
+uncapped_saturation_inventory_active: true
 core_synthesis_maximum: 30
-citation_passes: []
+amendment_activation_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+amendment_activation_receipt_path: literature/evidence-cap-amendment-activation-v0.2.5.yaml
+citation_passes:
+  - pass_number: 1
+    status: complete
+    seed_evidence_ids:
+      - PMID:19204204
+      - PMID:21718502
+      - PMID:22196354
+      - PMID:23046482
+      - PMID:24490149
+      - PMID:24625003
+      - PMID:25479802
+      - PMID:25788628
+      - PMID:25849221
+      - PMID:27130929
+      - PMID:28062443
+      - PMID:30591591
+      - PMID:30849944
+      - PMID:31138829
+      - PMID:32789507
+      - PMID:32826944
+      - PMID:32997146
+      - PMID:33255759
+      - PMID:34387660
+      - PMID:35361119
+      - PMID:35974007
+      - PMID:36892725
+      - PMID:37008073
+      - PMID:37209182
+      - PMID:37857634
+      - PMID:38105959
+      - PMID:41064593
+      - PMID:41390542
+      - PMID:41671586
+      - PMID:42172162
+    backward_source: europe_pmc_references
+    forward_source: europe_pmc_citations
+    backward_candidate_count: 981
+    forward_candidate_count: 4639
+    unique_candidate_count: 4628
+    screened_candidate_count: 4628
+    new_eligible_evidence_ids:
+      - MED:31159741
+      - MED:22752290
+      - MED:30189722
+      - MED:23035882
+      - MED:36867282
+      - MED:31754050
+      - MED:37773555
+      - MED:26297356
+      - MED:38549046
+      - MED:39747865
+      - MED:28069519
+      - MED:22262870
+      - PPR:PPR1259744
+      - MED:34885228
+      - MED:31435878
+      - MED:30040052
+      - MED:16626501
+      - MED:38321494
+      - MED:34788787
+      - MED:30721923
+      - MED:22959562
+      - MED:20181526
+      - MED:33442660
+      - MED:38951507
+      - MED:30400809
+      - MED:33543757
+      - MED:27556419
+      - MED:16643655
+      - MED:26711328
+      - MED:27036195
+      - MED:23907291
+      - MED:32881987
+    completed_at: '2026-07-25T15:56:29Z'
 unresolved_claims:
   - >-
     Whether the published AWCA artifacts provide lawfully reusable, sufficiently frozen

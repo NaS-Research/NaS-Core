@@ -1,8 +1,8 @@
 # NAS-BRCA-002 Revised Reliability Evidence Review
 
-Protocol version: `0.2.4`
+Protocol version: `0.2.5`
 Question version: `0.3.0`
-Status: **Locked for the founder-authorized bounded evidence audit**
+Status: **Locked with founder-approved uncapped saturation inventory**
 
 ## Purpose
 
@@ -46,12 +46,22 @@ Every eligible study must resolve, challenge, or delimit at least one domain:
 Outcome associations alone are not sufficient. Agreement with PAM50 is not treated
 as biological truth, and reproducibility is not treated as clinical validity.
 
-## Bounded evidence set
+## Governed evidence set
 
 [`revised_priority_evidence.yaml`](revised_priority_evidence.yaml) contains the first
 13 direct candidates. It deliberately includes evidence that may defeat or narrow
-the proposed contribution. The final evidence set is capped at 30 studies unless a
-versioned amendment demonstrates that the stopping rule cannot otherwise be assessed.
+the proposed contribution. Founder-approved amendment `0.2.5` replaces the former
+30-study evidence cap with two layers:
+
+1. an uncapped saturation inventory in which every founder-included record receives
+   lawful-access accounting and appraisal, restriction, or duplicate resolution; and
+2. a core synthesis containing no more than 30 non-duplicate primary studies,
+   selected only after appraisal for directness, quality, unchanged transport, and
+   unique contribution.
+
+No record may be removed from the saturation inventory because of result direction,
+statistical significance, access convenience, or whether it supports the NaS
+hypothesis. Core-set selection cannot occur before appraisal.
 
 AI may identify and prioritize candidates, extract structured fields, and flag
 inconsistencies. Dalron J. Robertson records every final include or exclude decision.
@@ -119,6 +129,16 @@ deduplication, screening, appraisal accounting, and both zero-yield passes recon
 
 ## Current boundary
 
-The protocol and search authorize bounded bibliographic retrieval. They do not
+The protocol and search authorize bibliographic retrieval and lawful full-text
+assessment for the saturation inventory. They do not
 authorize molecular data access, outcome access, classifier execution, threshold
 selection, novelty, or clinical use.
+
+## Amendment provenance
+
+The exact approved amendment text remains unchanged at
+[`CITATION_CHAIN_EVIDENCE_CAP_AMENDMENT_DRAFT_v0.2.5.md`](CITATION_CHAIN_EVIDENCE_CAP_AMENDMENT_DRAFT_v0.2.5.md)
+with SHA-256 `4aeb5ef4…d507`. The founder approval, citation reconciliation, and
+activation receipt bind protocol `0.2.5` to 32 confirmed citation inclusions:
+23 repository candidates, six lawful-access checks, and three reusable prior
+appraisals. Activation did not authorize molecular or outcome access.

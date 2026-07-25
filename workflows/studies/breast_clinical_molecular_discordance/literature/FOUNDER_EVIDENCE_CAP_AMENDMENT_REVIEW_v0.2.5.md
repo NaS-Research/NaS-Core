@@ -1,6 +1,6 @@
 # Founder Review — Evidence-Cap Amendment 0.2.5
 
-Status: **Decision required; amendment is not active**
+Status: **Founder approved and activated**
 
 ## Why this decision is required
 
@@ -40,3 +40,11 @@ To approve without modification, reply exactly:
 
 Any other response will be treated as a request to revise, hold, or reject the
 amendment and will not activate it.
+
+## Recorded decision
+
+Dalron J. Robertson supplied the exact approval statement on 2026-07-25. The
+approval is recorded in
+[`FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`](FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml).
+Activation `6769d900…ab2f33` verified the approved amendment and reconciliation
+checksums and created the governed appraisal queue. Protocol `0.2.5` is active.

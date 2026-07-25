@@ -74,6 +74,7 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert search.status == "locked"
     assert search.retrieval_authorized is True
     assert progress.review_status == "active"
+    assert progress.protocol_version == "0.2.5"
     assert progress.locked_search_executed is True
     assert (
         progress.search_execution_id
@@ -93,10 +94,14 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
         "literature/revised-screening-progress/batch-0002.yaml"
     )
     assert progress.primary_screening_complete is True
-    assert progress.eligible_evidence_count == 30
-    assert progress.completed_appraisal_count == 12
-    assert progress.access_restricted_count == 1
-    assert progress.pending_candidate_count == 0
+    assert progress.eligible_evidence_count == 62
+    assert progress.completed_appraisal_count == 31
+    assert progress.access_restricted_count == 2
+    assert progress.pending_candidate_count == 29
+    assert progress.uncapped_saturation_inventory_active is True
+    assert progress.core_synthesis_maximum == 30
+    assert len(progress.citation_passes) == 1
+    assert len(progress.citation_passes[0].new_eligible_evidence_ids) == 32
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False
     assert progress.molecular_data_access_authorized is False
@@ -290,6 +295,6 @@ def test_priority_and_progress_versions_must_match(tmp_path: Path) -> None:
 def test_progress_payload_copy_is_independent() -> None:
     payload = load_progress_payload()
     copied = deepcopy(payload)
-    copied["pending_candidate_count"] = 1
+    copied["pending_candidate_count"] = 30
 
-    assert payload["pending_candidate_count"] == 0
+    assert payload["pending_candidate_count"] == 29

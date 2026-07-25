@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.22.0-working`
+Manuscript version: `0.23.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -189,13 +189,18 @@ inclusions, 4,463 exclusions, zero unclear, and zero AI decisions. Identifier-on
 reconciliation found no overlap with the active 30-study inventory, three exact
 matches to locked prior appraisals (PMIDs 22752290, 27556419, and 16643655), and
 29 net-new records. Citation-pass screening is complete; the pass is not yet
-appraisal-complete, and protocol amendment `0.2.5` remains separately pending.
+appraisal-complete. The founder separately approved protocol amendment `0.2.5`,
+which activates an uncapped saturation inventory while limiting the later
+quality-selected core synthesis to 30 non-duplicate primary studies. Its immutable
+queue routes the 29 net-new records to 23 repository checks and six separate
+lawful-access checks and reuses three prior appraisals without double-counting.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
 FOUNDER_CITATION_PASS_0001_CONFIRMATION_v1.0.0.yaml;
 citation-chain/pass-0001-decision-ledger.yaml;
-citation-chain/pass-0001-inclusion-reconciliation.yaml]
+citation-chain/pass-0001-inclusion-reconciliation.yaml;
+evidence-cap-amendment-activation-v0.2.5.yaml]
 
 ### Quality appraisal
 
@@ -796,8 +801,8 @@ novelty conclusion.
 Status: `working`
 
 - Primary and citation-pass-1 title-and-abstract screening and all 28 currently
-  accessible appraisals are complete. Pass 1 has 29 net-new records awaiting
-  lawful-access accounting and appraisal behind a separate protocol-amendment gate;
+  accessible appraisals are complete. Pass 1 has 29 net-new records in an authorized
+  governed queue awaiting lawful-access accounting and appraisal;
   sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -904,6 +909,7 @@ checks, and internal reviews are complete.
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
+| Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |

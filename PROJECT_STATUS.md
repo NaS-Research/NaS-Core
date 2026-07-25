@@ -17,13 +17,15 @@ The expanded access inventory is complete: 26 of the 30 inclusions have reposito
 identifiers and four required separate lawful-access checks. Reconciliation now
 records 19 durable CC BY retrievals, nine governed read-only reviews, 28 completed
 appraisals, zero records ready for appraisal, and two access restrictions. No
-restricted text was stored. All lawfully accessible records are appraised. The next
-task is the separately governed evidence-cap decision. Citation pass 1 now has a
+restricted text was stored. All lawfully accessible records are appraised. Citation
+pass 1 now has a
 checksum-bound founder ledger containing 32 inclusions and 4,463 exclusions, with
 zero unclear and zero AI decisions. Exact-identifier reconciliation found no overlap
 with the active 30-record inventory, three previously appraised studies, and 29
-net-new records requiring lawful-access accounting and appraisal if amendment
-`0.2.5` is approved.
+net-new records. Founder-approved amendment `0.2.5` is active. Its governed queue
+routes 23 records to repository checks, six to separate lawful-access checks, and
+three to prior-appraisal reuse. The next task is lawful-access accounting for all
+29 net-new records.
 
 Definition of done:
 
@@ -181,10 +183,12 @@ Current gate state:
   active-inventory matches, three exact prior-appraisal matches (PMIDs 22752290,
   27556419, and 16643655), and 29 net-new records. No founder decision changed and
   no title-only or fuzzy identity match was used.
-- Draft protocol amendment `0.2.5` separates an uncapped saturation inventory from
-  a quality-selected core synthesis set. It prevents the existing 30-study cap
-  from becoming an arbitrary exclusion rule, but remains inactive pending separate
-  founder review after citation-screening confirmation.
+- Founder-approved protocol amendment `0.2.5` activates an uncapped saturation
+  inventory and retains a maximum 30-study quality-selected core synthesis.
+  Activation `6769d900…ab2f33` verified the approved amendment and reconciliation
+  checksums and created a 32-record governed queue: 23 repository candidates, six
+  access checks, and three prior-appraisal reuses. It authorized no molecular or
+  outcome access.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -220,46 +224,59 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Review and separately authorize, revise, hold, or reject evidence-cap amendment
-   `0.2.5`; citation-screening confirmation did not activate it.
-2. If approved, perform lawful-access accounting for the 29 net-new records and
+1. Perform lawful-access accounting for the 29 net-new records and
    reuse—but do not double-count—the three exact prior appraisals.
-3. Appraise every accessible newly eligible methodological or external-transport study,
+2. Appraise every accessible newly eligible methodological or external-transport study,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
-4. Update the living manuscript and its evidence-to-text ledger after every material
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-5. Resolve and approve the exact centroid and external-reference artifacts,
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-6. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-8. Complete the founder scientific/product, molecular/pathology, and statistical
+7. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-11. Implement persisted evidence claims, citations, provenance, contradictory
+10. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-13. Expand the screening model gateway into general evidence reasoning with
+12. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-14. Build evaluation suites for retrieval, citation validity, numerical
+13. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-15. Generate an immutable research release containing the protocol, dataset
+14. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-16. Generate a reviewable white-paper draft whose substantive claims trace to
+15. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-17. Build the internal workbench for projects, protocols, datasets, runs,
+16. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-18. Complete repeated internal oncology pilots before selecting the first
+17. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Evidence-cap amendment 0.2.5 activated
+
+The founder approved the exact amendment text under SHA-256
+`4aeb5ef4…d507`. The typed activation engine independently verified that file,
+reconciliation receipt `6d7f34e3…f61d`, and external reconciliation object before
+changing protocol state.
+
+Activation `6769d900…ab2f33` replaces the arbitrary 30-record evidence cap with an
+uncapped saturation inventory while preserving a maximum 30-study core synthesis.
+The immutable queue covers all 32 pass-1 inclusions: 23 repository candidates, six
+lawful-access checks, and three prior-appraisal reuses. The progress ledger now
+records 62 cumulative eligible studies, 31 completed appraisals, two restrictions,
+and 29 pending access/appraisal records. No screening decision, scientific
+conclusion, molecular permission, or outcome permission changed.
 
 ### 2026-07-25 — Citation pass 1 founder ledger frozen and reconciled
 
@@ -273,7 +290,8 @@ normalizes only PMID, PMCID, and DOI identifiers, and routes every inclusion wit
 changing its decision. Production reconciliation `0a6d4893…580b4` found 29 net-new
 records, three exact prior-appraisal matches, and no match to the active 30-paper
 inventory. Versioned appraisal histories resolve deterministically to the latest
-locked appraisal. Evidence-cap amendment `0.2.5` remains a separate founder decision.
+locked appraisal. Evidence-cap amendment `0.2.5` was subsequently approved through
+its separate founder decision.
 
 ### 2026-07-25 — Citation confirmation and cap-amendment paths prepared
 

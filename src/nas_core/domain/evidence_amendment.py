@@ -164,6 +164,14 @@ def load_evidence_cap_amendment_approval(
     )
 
 
+def load_evidence_cap_amendment_activation_receipt(
+    path: Path,
+) -> EvidenceCapAmendmentActivationReceipt:
+    return EvidenceCapAmendmentActivationReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_evidence_cap_amendment_activation_receipt(
     path: Path,
     receipt: EvidenceCapAmendmentActivationReceipt,

@@ -10,6 +10,8 @@ from nas_core.domain.citation_reconciliation import (
 from nas_core.domain.evidence_amendment import (
     APPROVAL_STATEMENT,
     EvidenceCapAmendmentApproval,
+    load_evidence_cap_amendment_activation_receipt,
+    load_evidence_cap_amendment_approval,
 )
 from nas_core.domain.snapshots import StoredObject
 from nas_core.ingestion.gdc import canonical_json, sha256
@@ -20,6 +22,14 @@ from nas_core.retrieval.evidence_amendment import (
 from nas_core.storage.object_store import InMemoryObjectStore
 
 NOW = datetime(2026, 7, 25, 19, 53, tzinfo=UTC)
+ROOT = Path(__file__).parents[1]
+LITERATURE = (
+    ROOT
+    / "workflows"
+    / "studies"
+    / "breast_clinical_molecular_discordance"
+    / "literature"
+)
 
 
 def _approval(amendment: bytes, reconciliation_receipt: bytes) -> EvidenceCapAmendmentApproval:
@@ -148,3 +158,26 @@ def test_activation_rejects_changed_approved_amendment(tmp_path: Path) -> None:
             code_revision="abcdef0",
             activated_at=NOW,
         )
+
+
+def test_checked_in_amendment_approval_and_activation_are_checksum_bound() -> None:
+    approval = load_evidence_cap_amendment_approval(
+        LITERATURE / "FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml"
+    )
+    activation = load_evidence_cap_amendment_activation_receipt(
+        LITERATURE / "evidence-cap-amendment-activation-v0.2.5.yaml"
+    )
+
+    assert approval.amendment_sha256 == sha256(
+        (
+            LITERATURE
+            / "CITATION_CHAIN_EVIDENCE_CAP_AMENDMENT_DRAFT_v0.2.5.md"
+        ).read_bytes()
+    )
+    assert activation.amendment_sha256 == approval.amendment_sha256
+    assert activation.reconciliation_id == approval.reconciliation_id
+    assert activation.confirmed_inclusion_count == 32
+    assert activation.repository_candidate_count == 23
+    assert activation.access_check_required_count == 6
+    assert activation.prior_appraisal_reuse_count == 3
+    assert activation.net_new_count == 29

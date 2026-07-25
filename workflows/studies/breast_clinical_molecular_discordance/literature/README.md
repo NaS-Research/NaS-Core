@@ -81,8 +81,15 @@ the active 30-record inventory and 36 unique prior appraisals. No inclusion was
 already in the active inventory. Three have reusable locked appraisals (PMIDs
 22752290, 27556419, and 16643655), leaving 29 net-new records. Reconciliation
 used only PMID, PMCID, and normalized DOI equality; it made no founder decision
-and drew no scientific conclusion. Draft evidence-cap amendment `0.2.5` remains
-inactive pending a separate founder decision.
+and drew no scientific conclusion.
+
+The founder separately approved evidence-cap amendment `0.2.5` under exact source
+SHA-256 `4aeb5ef4…d507`. Activation `6769d900…ab2f33` verified the amendment,
+reconciliation receipt, and external reconciliation object before creating the
+immutable appraisal queue: 23 repository candidates, six lawful-access checks,
+and three prior-appraisal reuses. The saturation inventory is now uncapped; the
+quality-selected core synthesis remains limited to 30 non-duplicate primary
+studies. Molecular and outcome access remain prohibited.
 
 Required artifacts:
 
