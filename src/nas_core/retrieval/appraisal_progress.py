@@ -15,10 +15,12 @@ from nas_core.domain.appraisal import (
     FullTextAppraisalProgressRecord,
     FullTextDuplicateDecision,
     FullTextInventory,
+    FullTextReadOnlyReviewReceipt,
     FullTextRetrievalReceipt,
     load_full_text_access_decision,
     load_full_text_appraisal,
     load_full_text_duplicate_decision,
+    load_full_text_read_only_review_receipt,
     load_full_text_retrieval_receipt,
 )
 
@@ -37,11 +39,15 @@ class FullTextAppraisalProgressService:
         *,
         retrieval_receipt_paths: Sequence[Path],
         appraisal_paths: Sequence[Path],
+        read_only_review_receipt_paths: Sequence[Path] = (),
         access_decision_paths: Sequence[Path] = (),
         duplicate_decision_paths: Sequence[Path] = (),
     ) -> FullTextAppraisalProgress:
         inventory_by_id = {item.screening_id: item for item in inventory.records}
         receipts = self._load_unique_receipts(retrieval_receipt_paths)
+        read_only_receipts = self._load_unique_read_only_receipts(
+            read_only_review_receipt_paths
+        )
         appraisals = self._load_unique_appraisals(appraisal_paths)
         access_decisions = self._load_unique_access_decisions(access_decision_paths)
         duplicate_decisions = self._load_unique_duplicate_decisions(
@@ -49,6 +55,7 @@ class FullTextAppraisalProgressService:
         )
         unknown = (
             set(receipts)
+            | set(read_only_receipts)
             | set(appraisals)
             | set(access_decisions)
             | set(duplicate_decisions)
@@ -59,47 +66,78 @@ class FullTextAppraisalProgressService:
         progress_records: list[FullTextAppraisalProgressRecord] = []
         for screening_id, item in inventory_by_id.items():
             receipt = receipts.get(screening_id)
+            read_only_receipt = read_only_receipts.get(screening_id)
             appraisal = appraisals.get(screening_id)
             access_decision = access_decisions.get(screening_id)
             duplicate_decision = duplicate_decisions.get(screening_id)
+            if receipt is not None and read_only_receipt is not None:
+                raise AppraisalProgressError(
+                    "record cannot have both durable and read-only full-text receipts"
+                )
+            if duplicate_decision is not None and any(
+                value is not None
+                for value in (receipt, read_only_receipt, access_decision)
+            ):
+                raise AppraisalProgressError(
+                    "record cannot combine duplicate resolution with access or review state"
+                )
             if receipt is not None and access_decision is not None:
                 raise AppraisalProgressError(
-                    "record cannot be both access-restricted and retrieved"
+                    "record cannot be both access-restricted and durably retrieved"
                 )
-            if sum(
-                value is not None
-                for value in (receipt, access_decision, duplicate_decision)
-            ) > 1:
-                raise AppraisalProgressError(
-                    "record cannot combine duplicate resolution with retrieval or restriction"
-                )
-            if receipt is None and appraisal is not None:
+            if receipt is None and read_only_receipt is None and appraisal is not None:
                 raise AppraisalProgressError("appraisal lacks a verified full-text receipt")
             if receipt is not None:
                 self._verify_receipt(inventory, item.title, receipt)
+            if read_only_receipt is not None:
+                self._verify_read_only_receipt(
+                    inventory, item.title, item.pmcid, read_only_receipt
+                )
+            source_title = (
+                receipt.title
+                if receipt is not None
+                else read_only_receipt.title
+                if read_only_receipt is not None
+                else None
+            )
+            source_url = (
+                receipt.source_url
+                if receipt is not None
+                else read_only_receipt.source_url
+                if read_only_receipt is not None
+                else None
+            )
+            source_sha256 = (
+                receipt.full_text_sha256
+                if receipt is not None
+                else read_only_receipt.content_sha256
+                if read_only_receipt is not None
+                else None
+            )
             if (
                 appraisal is not None
-                and receipt is not None
                 and (
                     appraisal.study_id != inventory.study_id
-                    or appraisal.title != receipt.title
-                    or appraisal.full_text_source_url != receipt.source_url
-                    or appraisal.full_text_sha256 != receipt.full_text_sha256
+                    or appraisal.title != source_title
+                    or appraisal.full_text_source_url != source_url
+                    or appraisal.full_text_sha256 != source_sha256
                 )
             ):
                 raise AppraisalProgressError(
                     "appraisal identity does not match verified full-text receipt"
                 )
             status = AppraisalCompletionStatus.AWAITING_FULL_TEXT
-            if access_decision is not None:
+            if access_decision is not None and read_only_receipt is None:
                 self._verify_access_decision(inventory, item.title, item.pmcid, access_decision)
                 status = AppraisalCompletionStatus.ACCESS_RESTRICTED
+            elif access_decision is not None:
+                self._verify_access_decision(inventory, item.title, item.pmcid, access_decision)
             if duplicate_decision is not None:
                 self._verify_duplicate_decision(
                     inventory, item.title, inventory_by_id, duplicate_decision
                 )
                 status = AppraisalCompletionStatus.DUPLICATE_RESOLVED
-            if receipt is not None:
+            if receipt is not None or read_only_receipt is not None:
                 status = AppraisalCompletionStatus.READY_FOR_APPRAISAL
             if appraisal is not None:
                 status = AppraisalCompletionStatus.COMPLETED
@@ -110,11 +148,16 @@ class FullTextAppraisalProgressService:
                     pmcid=item.pmcid,
                     status=status,
                     retrieval_id=receipt.retrieval_id if receipt else None,
-                    full_text_sha256=receipt.full_text_sha256 if receipt else None,
+                    read_only_review_id=(
+                        read_only_receipt.review_id if read_only_receipt else None
+                    ),
+                    full_text_sha256=source_sha256,
                     appraisal_version=appraisal.appraisal_version if appraisal else None,
                     evidence_role=appraisal.evidence_role if appraisal else None,
                     observed_license=(
-                        access_decision.observed_license if access_decision else None
+                        access_decision.observed_license
+                        if access_decision and read_only_receipt is None
+                        else None
                     ),
                     canonical_screening_id=(
                         duplicate_decision.canonical_screening_id
@@ -134,8 +177,9 @@ class FullTextAppraisalProgressService:
             generated_at=self._clock(),
             provisional_inclusion_count=len(progress_records),
             full_texts_retrieved=len(receipts),
+            read_only_full_texts_reviewed=len(read_only_receipts),
             appraisals_completed=len(appraisals),
-            access_restricted_count=len(access_decisions),
+            access_restricted_count=len(set(access_decisions) - set(read_only_receipts)),
             duplicate_resolved_count=len(duplicate_decisions),
             anchor_count=self._role_count(progress_records, EvidenceRole.ANCHOR),
             supporting_count=self._role_count(progress_records, EvidenceRole.SUPPORTING),
@@ -165,6 +209,18 @@ class FullTextAppraisalProgressService:
                 raise AppraisalProgressError("duplicate completed appraisal")
             appraisals[appraisal.screening_id] = appraisal
         return appraisals
+
+    @staticmethod
+    def _load_unique_read_only_receipts(
+        paths: Sequence[Path],
+    ) -> dict[str, FullTextReadOnlyReviewReceipt]:
+        receipts: dict[str, FullTextReadOnlyReviewReceipt] = {}
+        for path in paths:
+            receipt = load_full_text_read_only_review_receipt(path)
+            if receipt.screening_id in receipts:
+                raise AppraisalProgressError("duplicate read-only review receipt")
+            receipts[receipt.screening_id] = receipt
+        return receipts
 
     @staticmethod
     def _load_unique_access_decisions(
@@ -240,6 +296,30 @@ class FullTextAppraisalProgressService:
             or receipt.scientific_conclusions_drawn
         ):
             raise AppraisalProgressError("full-text receipt failed progress reconciliation")
+
+    @staticmethod
+    def _verify_read_only_receipt(
+        inventory: FullTextInventory,
+        expected_title: str,
+        expected_pmcid: str | None,
+        receipt: FullTextReadOnlyReviewReceipt,
+    ) -> None:
+        if (
+            receipt.study_id != inventory.study_id
+            or receipt.queue_id != inventory.queue_id
+            or receipt.progress_id != inventory.progress_id
+            or receipt.title != expected_title
+            or receipt.pmcid != expected_pmcid
+            or not receipt.checksum_verified
+            or not receipt.article_identity_verified
+            or not receipt.lawful_read_access_verified
+            or receipt.durable_full_text_stored
+            or receipt.redistribution_authorized
+            or receipt.scientific_conclusions_drawn
+        ):
+            raise AppraisalProgressError(
+                "read-only review receipt failed progress reconciliation"
+            )
 
     @staticmethod
     def _role_count(

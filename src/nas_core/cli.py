@@ -16,6 +16,7 @@ from nas_core.domain.advisory import (
 from nas_core.domain.appraisal import (
     load_full_text_access_decision,
     load_full_text_appraisal,
+    load_full_text_read_only_review_receipt,
     write_full_text_appraisal_progress,
     write_full_text_inventory,
     write_full_text_retrieval_receipt,
@@ -377,6 +378,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Validate one full-text eligibility and quality appraisal",
     )
     appraisal_validate.add_argument("path", type=Path, help="Full-text appraisal YAML")
+    read_only_validate = literature_commands.add_parser(
+        "read-only-receipt-validate",
+        help="Validate a governed ephemeral full-text review receipt",
+    )
+    read_only_validate.add_argument("path", type=Path, help="Read-only review receipt YAML")
     appraisal_progress = literature_commands.add_parser(
         "appraisal-progress",
         help="Reconcile founder inclusions, verified full texts, and completed appraisals",
@@ -928,6 +934,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
+    if (
+        args.command == "literature"
+        and args.literature_command == "read-only-receipt-validate"
+    ):
+        read_only_receipt = load_full_text_read_only_review_receipt(args.path)
+        print(
+            f"Read-only review receipt is valid: {read_only_receipt.study_id}, "
+            f"{read_only_receipt.screening_id}, {read_only_receipt.access_mode}"
+        )
+        return 0
+
     if args.command == "literature" and args.literature_command == "appraisal-progress":
         queue_receipt = load_screening_queue_receipt(args.receipt)
         progress_receipt = load_screening_progress_receipt(args.progress_receipt)
@@ -938,6 +955,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         appraisal_progress = FullTextAppraisalProgressService().build(
             inventory,
             retrieval_receipt_paths=sorted(args.full_text_receipt_dir.glob("*.yaml")),
+            read_only_review_receipt_paths=sorted(
+                (args.full_text_receipt_dir / "read-only-receipts").glob("*.yaml")
+            ),
             appraisal_paths=sorted(args.appraisal_dir.glob("*.yaml")),
             access_decision_paths=sorted(
                 (args.full_text_receipt_dir / "access-decisions").glob("*.yaml")
@@ -951,6 +971,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"Appraisal progress: {appraisal_progress.appraisals_completed}/"
             f"{appraisal_progress.provisional_inclusion_count} completed; "
             f"{appraisal_progress.full_texts_retrieved} full texts retrieved; "
+            f"{appraisal_progress.read_only_full_texts_reviewed} reviewed read-only; "
             f"{appraisal_progress.access_restricted_count} access restricted; "
             f"{appraisal_progress.duplicate_resolved_count} duplicates resolved"
         )

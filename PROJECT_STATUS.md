@@ -8,14 +8,15 @@ and what comes next?
 
 ## Current focus
 
-### Complete the remaining NAS-BRCA-002 Phase 0 evidence review
+### Resolve and appraise the remaining NAS-BRCA-002 priority evidence
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
 All seven verified CC-BY full texts have completed question-specific appraisal.
-Four are restricted or unavailable through the approved endpoint, and two require
-a lawful alternative source. Resolve lawful access where possible, screen the
-remaining 87 candidates, and complete sequential citation chaining.
+Use the governed read-only path for lawfully viewable sources whose terms prohibit
+durable storage, without retaining or redistributing article content. Record a
+methodological appraisal for every remaining priority paper that can be lawfully
+reviewed; preserve unresolved access explicitly.
 
 Definition of done:
 
@@ -28,6 +29,8 @@ Definition of done:
   checksummed, evidence-backed, and locked before molecular access.
 - The revised evidence review satisfies its locked stopping rule and retains
   contradictory and null evidence.
+- Every read-only appraisal reconciles to an identity-verified source URL and
+  ephemeral-content checksum; no restricted full text enters Git or object storage.
 - Metadata-only checks verify receptor fields and PAM50 gene coverage in TCGA and
   GSE96058 without accessing outcomes.
 - Separate founder scientific/product, molecular/pathology, and statistical review
@@ -104,6 +107,12 @@ Current gate state:
   not calibrated to classification error or abstention.
 - All seven retrieved CC-BY priority papers are now appraised: five supporting,
   two context-only, and zero anchor studies.
+- A governed read-only review receipt is implemented for lawfully viewable content
+  that may not be durably stored. It records identity, access terms, checksum,
+  access time, and verification state while mechanically prohibiting storage and
+  redistribution claims. Appraisal progress distinguishes durable retrieval from
+  read-only review and allows a storage restriction to coexist with completed
+  ephemeral appraisal.
 - Living manuscript `0.6.0-working` contains traceable Phase 0 methods,
   all seven accessible appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
@@ -138,9 +147,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Pursue lawful access for AIMS (PMID `25479802`), the single-subject uncertainty
-   method (PMID `28062443`), and the four restricted priority records without
-   paywall circumvention or unlicensed storage.
+1. Create verified read-only receipts and complete appraisals for lawfully viewable
+   AIMS (PMID `25479802`), single-subject uncertainty (PMID `28062443`), and
+   restricted priority records without paywall circumvention or unlicensed storage.
 2. Founder-confirm or reject the five author-year-only inventory links, then screen
    every remaining record in the 100-record revised queue.
 3. Execute sequential backward-plus-forward Europe PMC citation passes until two
@@ -178,6 +187,24 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Governed read-only evidence appraisal implemented
+
+Implemented a separate, auditable receipt for lawfully viewable articles whose
+terms do not authorize durable full-text storage. The receipt retains only article
+identity, source and rights metadata, access timestamps, byte count, an ephemeral
+content checksum, code revision, and verification flags. Its contract rejects any
+claim that content was stored, redistribution was authorized, or scientific
+conclusions were drawn by the receipt itself.
+
+Appraisal reconciliation now accepts exactly one evidence source state: a verified
+durable CC-BY retrieval or a verified ephemeral read-only receipt. A prior
+restricted-storage decision may coexist with read-only review, while durable
+retrieval and read-only review for the same record are rejected. Progress reports
+the two modes separately and requires every completed appraisal to match the exact
+source URL and checksum. The CLI validates read-only receipts and automatically
+includes them in progress generation. The complete test, lint, and type-check suite
+passes.
 
 ### 2026-07-24 — All accessible priority evidence appraised
 
@@ -239,22 +266,6 @@ is nonsignificant. MiniABS provides no independently calibrated technical-error,
 repeatability, ambiguity, or abstention rule. The living manuscript now states
 that distinction explicitly.
 
-### 2026-07-24 — RNA-seq reference sensitivity appraised
-
-Completed the question-specific appraisal of verified CC-BY paper `PMC7442834`
-as `supporting` evidence. In 4,731 public RNA-seq tumors, the study directly
-demonstrates dependence of standard PAM50 calls on reference construction,
-reports substantially higher pairwise stability from AWCA centering, and tests
-precomputed RSEM- and FPKM-matched references plus regularized multiclass
-logistic-regression classifiers on additional datasets.
-
-The study is not anchor evidence. Published PAM50 labels are a technical
-benchmark rather than a biological gold standard, possible TCGA/PanCancer
-sample overlap is unresolved, reference transport remains preprocessing-specific,
-and small exploratory prognostic comparisons do not establish clinical validity
-or utility. The living manuscript and evidence ledger now preserve both the
-positive implementation evidence and those limitations.
-
 ## Current blockers
 
 - Docker is not currently available in the development environment, so the
@@ -269,8 +280,10 @@ positive implementation evidence and those limitations.
 - Revised search strategy `0.2.4`, its queue, and prior-inventory reconciliation are
   complete. Founder screening, full-text appraisal, and the citation-chain stopping
   rule remain incomplete.
-- AIMS and the single-subject PAM50 uncertainty paper do not have a verified PMCID
-  in the locked snapshot. Lawful full-text access remains unresolved.
+- AIMS and the single-subject PAM50 uncertainty paper do not have verified PMCIDs
+  in the locked snapshot. Lawfully viewable publisher or institutional copies have
+  been identified, but article identity, rights terms, and ephemeral checksums must
+  be verified before appraisals can be locked.
 - GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
   coverage and the locked cross-platform transformation remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
@@ -348,6 +361,10 @@ positive implementation evidence and those limitations.
   storage. Git may contain only aggregate receipts, screening decisions, and
   concise evidence extraction; copyrighted abstracts and full text are not
   redistributed, embedded, or used for model training without item-level rights.
+- Lawfully viewable articles without durable-storage authorization may be appraised
+  only through an ephemeral read-only receipt. The content is not retained; the
+  receipt records source identity, access basis, rights observation, checksum, and
+  verification state, and never grants redistribution rights.
 - GDC ingestion is fail-closed unless the plan is `preregistered`; every
   snapshot records the exact request, API provenance, explicitly supplied data
   release, raw response checksums, and immutable object locations.

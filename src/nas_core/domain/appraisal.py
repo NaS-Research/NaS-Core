@@ -78,6 +78,10 @@ class FullTextAccessOutcome(StrEnum):
     RESTRICTED = "restricted"
 
 
+class FullTextReviewAccessMode(StrEnum):
+    READ_ONLY_EPHEMERAL = "read_only_ephemeral"
+
+
 class DuplicateRelationship(StrEnum):
     PREPRINT_OF = "preprint_of"
     DUPLICATE_REPORT = "duplicate_report"
@@ -237,6 +241,54 @@ class FullTextRetrievalReceipt(AppraisalModel):
     scientific_conclusions_drawn: bool = False
 
 
+class FullTextReadOnlyReviewReceipt(AppraisalModel):
+    """Receipt for lawful review when durable full-text storage is not authorized."""
+
+    schema_version: str = "1.0.0"
+    receipt_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    review_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(min_length=1)
+    queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    pmcid: str | None = Field(default=None, pattern=r"^PMC[0-9]+$")
+    pmid: str | None = Field(default=None, pattern=r"^[0-9]+$")
+    doi: str | None = None
+    title: str = Field(min_length=1)
+    source_url: str = Field(min_length=1)
+    access_mode: FullTextReviewAccessMode
+    access_basis: str = Field(min_length=1)
+    observed_rights: str = Field(min_length=1)
+    rights_url: str | None = Field(default=None, min_length=1)
+    content_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    content_size_bytes: int = Field(ge=1)
+    accessed_at: datetime
+    verified_at: datetime
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    checksum_verified: bool
+    article_identity_verified: bool
+    lawful_read_access_verified: bool
+    durable_full_text_stored: bool = False
+    redistribution_authorized: bool = False
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_receipt(self) -> FullTextReadOnlyReviewReceipt:
+        if not (
+            self.checksum_verified
+            and self.article_identity_verified
+            and self.lawful_read_access_verified
+        ):
+            raise ValueError("read-only review receipt requires all verification flags")
+        if self.durable_full_text_stored:
+            raise ValueError("read-only review receipt cannot claim durable storage")
+        if self.redistribution_authorized:
+            raise ValueError("read-only review receipt cannot authorize redistribution")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("read-only review receipt cannot draw scientific conclusions")
+        return self
+
+
 class AppraisalDomain(AppraisalModel):
     domain: AppraisalDomainName
     judgment: RiskJudgment
@@ -328,6 +380,7 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
     pmcid: str | None = None
     status: AppraisalCompletionStatus
     retrieval_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    read_only_review_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     full_text_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     appraisal_version: str | None = Field(
         default=None, pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$"
@@ -341,14 +394,19 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
 
     @model_validator(mode="after")
     def validate_state(self) -> FullTextAppraisalProgressRecord:
-        retrieval_fields = (self.retrieval_id, self.full_text_sha256)
+        source_ids = (self.retrieval_id, self.read_only_review_id)
+        source_fields = (*source_ids, self.full_text_sha256)
         appraisal_fields = (self.appraisal_version, self.evidence_role)
         duplicate_fields = (self.canonical_screening_id, self.duplicate_relationship)
+        source_is_complete = (
+            sum(value is not None for value in source_ids) == 1
+            and self.full_text_sha256 is not None
+        )
         if self.status is AppraisalCompletionStatus.AWAITING_FULL_TEXT:
             if any(
                 value is not None
                 for value in (
-                    *retrieval_fields,
+                    *source_fields,
                     *appraisal_fields,
                     *duplicate_fields,
                     self.observed_license,
@@ -358,7 +416,7 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
         elif self.status is AppraisalCompletionStatus.ACCESS_RESTRICTED:
             if any(
                 value is not None
-                for value in (*retrieval_fields, *appraisal_fields, *duplicate_fields)
+                for value in (*source_fields, *appraisal_fields, *duplicate_fields)
             ):
                 raise ValueError("restricted record cannot contain retrieval or appraisal state")
             if self.observed_license is None:
@@ -366,22 +424,25 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
         elif self.status is AppraisalCompletionStatus.DUPLICATE_RESOLVED:
             if any(
                 value is not None
-                for value in (*retrieval_fields, *appraisal_fields, self.observed_license)
+                for value in (*source_fields, *appraisal_fields, self.observed_license)
             ) or any(value is None for value in duplicate_fields):
                 raise ValueError(
                     "duplicate-resolved record requires only canonical relationship state"
                 )
         elif self.status is AppraisalCompletionStatus.READY_FOR_APPRAISAL:
-            if any(value is None for value in retrieval_fields) or any(
+            if not source_is_complete or any(
                 value is not None for value in (*appraisal_fields, *duplicate_fields)
             ) or self.observed_license is not None:
-                raise ValueError("ready record requires retrieval state only")
+                raise ValueError("ready record requires exactly one verified source state")
         elif (
-            any(value is None for value in (*retrieval_fields, *appraisal_fields))
+            not source_is_complete
+            or any(value is None for value in appraisal_fields)
             or self.observed_license is not None
             or any(value is not None for value in duplicate_fields)
         ):
-            raise ValueError("completed record requires retrieval and appraisal state only")
+            raise ValueError(
+                "completed record requires exactly one verified source and appraisal state"
+            )
         return self
 
 
@@ -393,6 +454,7 @@ class FullTextAppraisalProgress(AppraisalModel):
     generated_at: datetime
     provisional_inclusion_count: int = Field(ge=1)
     full_texts_retrieved: int = Field(ge=0)
+    read_only_full_texts_reviewed: int = Field(default=0, ge=0)
     appraisals_completed: int = Field(ge=0)
     access_restricted_count: int = Field(ge=0)
     duplicate_resolved_count: int = Field(ge=0)
@@ -409,18 +471,16 @@ class FullTextAppraisalProgress(AppraisalModel):
             raise ValueError("appraisal-progress record count does not reconcile")
         if len({item.screening_id for item in self.records}) != len(self.records):
             raise ValueError("appraisal-progress screening IDs must be unique")
-        retrieved = sum(
-            item.status
-            in {
-                AppraisalCompletionStatus.READY_FOR_APPRAISAL,
-                AppraisalCompletionStatus.COMPLETED,
-            }
-            for item in self.records
-        )
+        retrieved = sum(item.retrieval_id is not None for item in self.records)
+        read_only = sum(item.read_only_review_id is not None for item in self.records)
         completed = sum(
             item.status is AppraisalCompletionStatus.COMPLETED for item in self.records
         )
-        if retrieved != self.full_texts_retrieved or completed != self.appraisals_completed:
+        if (
+            retrieved != self.full_texts_retrieved
+            or read_only != self.read_only_full_texts_reviewed
+            or completed != self.appraisals_completed
+        ):
             raise ValueError("appraisal-progress completion counts do not reconcile")
         restricted = sum(
             item.status is AppraisalCompletionStatus.ACCESS_RESTRICTED
@@ -456,6 +516,14 @@ def load_full_text_appraisal(path: Path) -> FullTextAppraisal:
 
 def load_full_text_retrieval_receipt(path: Path) -> FullTextRetrievalReceipt:
     return FullTextRetrievalReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_full_text_read_only_review_receipt(
+    path: Path,
+) -> FullTextReadOnlyReviewReceipt:
+    return FullTextReadOnlyReviewReceipt.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 
@@ -498,6 +566,19 @@ def write_full_text_appraisal_progress(
 
 
 def write_full_text_retrieval_receipt(path: Path, receipt: FullTextRetrievalReceipt) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def write_full_text_read_only_review_receipt(
+    path: Path, receipt: FullTextReadOnlyReviewReceipt
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = yaml.safe_dump(
         receipt.model_dump(mode="json", exclude_none=True),

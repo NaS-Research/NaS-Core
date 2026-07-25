@@ -133,6 +133,32 @@ def _access_decision_payload() -> dict[str, object]:
     }
 
 
+def _read_only_receipt_payload() -> dict[str, object]:
+    return {
+        "receipt_version": "1.0.0",
+        "review_id": "2" * 64,
+        "study_id": "NAS-BRCA-002",
+        "queue_id": "a" * 64,
+        "progress_id": "b" * 64,
+        "screening_id": "d" * 64,
+        "pmcid": "PMC2",
+        "pmid": "2",
+        "title": "Two",
+        "source_url": "https://example.org/two",
+        "access_mode": "read_only_ephemeral",
+        "access_basis": "Lawfully viewable publisher article; no redistribution.",
+        "observed_rights": "All rights reserved.",
+        "content_sha256": "3" * 64,
+        "content_size_bytes": 123,
+        "accessed_at": "2026-07-24T00:00:00Z",
+        "verified_at": "2026-07-24T00:00:01Z",
+        "code_revision": "abcdef1",
+        "checksum_verified": True,
+        "article_identity_verified": True,
+        "lawful_read_access_verified": True,
+    }
+
+
 def _duplicate_decision_payload() -> dict[str, object]:
     return {
         "decision_version": "1.0.0",
@@ -212,6 +238,96 @@ def test_progress_rejects_restricted_and_retrieved_conflict(tmp_path: Path) -> N
             retrieval_receipt_paths=[receipt],
             appraisal_paths=[],
             access_decision_paths=[decision],
+        )
+
+
+def test_progress_allows_restricted_storage_and_read_only_appraisal(
+    tmp_path: Path,
+) -> None:
+    receipt = _write_yaml(tmp_path / "read-only.yaml", _read_only_receipt_payload())
+    decision = _write_yaml(tmp_path / "decision.yaml", _access_decision_payload())
+    appraisal_payload = _appraisal_payload()
+    appraisal_payload.update(
+        {
+            "screening_id": "d" * 64,
+            "title": "Two",
+            "full_text_source_url": "https://example.org/two",
+            "full_text_sha256": "3" * 64,
+            "access_basis": "Lawful ephemeral read-only review.",
+        }
+    )
+    appraisal = _write_yaml(tmp_path / "appraisal.yaml", appraisal_payload)
+
+    progress = FullTextAppraisalProgressService().build(
+        _inventory(),
+        retrieval_receipt_paths=[],
+        read_only_review_receipt_paths=[receipt],
+        appraisal_paths=[appraisal],
+        access_decision_paths=[decision],
+    )
+
+    assert progress.full_texts_retrieved == 0
+    assert progress.read_only_full_texts_reviewed == 1
+    assert progress.appraisals_completed == 1
+    assert progress.access_restricted_count == 0
+    assert progress.records[1].status == "completed"
+    assert progress.records[1].read_only_review_id == "2" * 64
+
+
+def test_progress_rejects_durable_and_read_only_receipt_conflict(
+    tmp_path: Path,
+) -> None:
+    durable_payload = _receipt_payload()
+    durable_payload.update(
+        {"screening_id": "d" * 64, "pmcid": "PMC2", "title": "Two"}
+    )
+    durable = _write_yaml(tmp_path / "durable.yaml", durable_payload)
+    read_only = _write_yaml(tmp_path / "read-only.yaml", _read_only_receipt_payload())
+
+    with pytest.raises(AppraisalProgressError, match="both durable and read-only"):
+        FullTextAppraisalProgressService().build(
+            _inventory(),
+            retrieval_receipt_paths=[durable],
+            read_only_review_receipt_paths=[read_only],
+            appraisal_paths=[],
+        )
+
+
+def test_read_only_receipt_rejects_storage_or_redistribution(tmp_path: Path) -> None:
+    for field in ("durable_full_text_stored", "redistribution_authorized"):
+        payload = _read_only_receipt_payload()
+        payload[field] = True
+        receipt = _write_yaml(tmp_path / f"{field}.yaml", payload)
+        with pytest.raises(ValueError):
+            FullTextAppraisalProgressService().build(
+                _inventory(),
+                retrieval_receipt_paths=[],
+                read_only_review_receipt_paths=[receipt],
+                appraisal_paths=[],
+            )
+
+
+def test_progress_rejects_read_only_appraisal_checksum_mismatch(
+    tmp_path: Path,
+) -> None:
+    receipt = _write_yaml(tmp_path / "read-only.yaml", _read_only_receipt_payload())
+    appraisal_payload = _appraisal_payload()
+    appraisal_payload.update(
+        {
+            "screening_id": "d" * 64,
+            "title": "Two",
+            "full_text_source_url": "https://example.org/two",
+            "full_text_sha256": "4" * 64,
+        }
+    )
+    appraisal = _write_yaml(tmp_path / "appraisal.yaml", appraisal_payload)
+
+    with pytest.raises(AppraisalProgressError, match="identity does not match"):
+        FullTextAppraisalProgressService().build(
+            _inventory(),
+            retrieval_receipt_paths=[],
+            read_only_review_receipt_paths=[receipt],
+            appraisal_paths=[appraisal],
         )
 
 
