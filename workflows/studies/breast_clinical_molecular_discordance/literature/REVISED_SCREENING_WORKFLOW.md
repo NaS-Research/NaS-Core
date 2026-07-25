@@ -90,11 +90,12 @@ uv run nas-core literature screening-confirm-preview \
 ```
 
 The derived access inventory is
-[`revised-full-text/inventory/access_inventory.yaml`](revised-full-text/inventory/access_inventory.yaml).
-Seven papers have verified CC-BY full text, four are access-restricted or unavailable
-through the approved repository endpoint, and two require a lawful alternative
-source. [`revised_appraisal_progress.yaml`](revised_appraisal_progress.yaml) is the
-current appraisal ledger.
+[`revised-full-text/inventory/access_inventory_v0.3.2.yaml`](revised-full-text/inventory/access_inventory_v0.3.2.yaml).
+It contains all 30 founder inclusions: 26 have repository identifiers and four
+require separate lawful-access checks. The current reconciled ledger is
+[`revised_appraisal_progress_v0.3.2.yaml`](revised_appraisal_progress_v0.3.2.yaml):
+12 appraisals are complete, one record remains subscription-restricted, and 17
+new inclusions await access resolution.
 
 ## Boundaries
 

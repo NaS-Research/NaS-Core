@@ -35,12 +35,13 @@ Screening protocol `1.1.0` is locked to the replacement queue. Verified progress
 authorizes lawful full-text assessment; it is not a quality designation or
 scientific endorsement.
 
-The priority access ledger contains seven independently verified CC-BY full texts,
-five governed read-only reviews, and one subscription restriction. No restricted
-full text was stored. Twelve priority appraisals are complete: nine are
-`supporting`, three are `context_only`, and none is anchor evidence. Lawful access
-inventory and question-specific appraisal of the 17 newly included records are
-next, followed by sequential citation chaining.
+The 30-record access inventory contains 26 repository candidates and four records
+requiring separate lawful-access checks. It preserves seven independently verified
+CC-BY full texts, five governed read-only reviews, and one subscription restriction
+from the priority phase. No restricted full text was stored. Twelve appraisals are
+complete: nine are `supporting`, three are `context_only`, and none is anchor
+evidence. Seventeen newly included records await access resolution and appraisal,
+followed by sequential citation chaining.
 
 Required artifacts:
 

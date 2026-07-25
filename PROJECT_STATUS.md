@@ -8,14 +8,17 @@ and what comes next?
 
 ## Current focus
 
-### Appraise the finalized NAS-BRCA-002 evidence set
+### Resolve lawful access for the 17 new NAS-BRCA-002 inclusions
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
 and zero AI decisions. All five fuzzy author-year identity links were rejected.
-The next evidence task is lawful access assessment and question-specific appraisal
-of the 17 newly included records, followed by sequential backward and forward
-citation chaining to the locked two-zero-pass stopping rule.
+The expanded access inventory is complete: 26 of the 30 inclusions have repository
+identifiers and four require separate lawful-access checks. The reconciled ledger
+preserves 12 completed appraisals and one subscription restriction while exposing
+exactly 17 new access tasks. The next evidence task is licensed retrieval or
+governed read-only resolution of those 17 records, followed by question-specific
+appraisal and sequential citation chaining.
 
 Definition of done:
 
@@ -134,6 +137,13 @@ Current gate state:
   queue state, record ordering, identities, coverage, authority, and author-year
   adjudication all verified. The packet remains byte-for-byte unchanged, and a
   separate confirmation audit records the authorization boundary.
+- Expanded inventory `access_inventory_v0.3.2.yaml` is bound to completed progress
+  `7b90c37a…63218c` and contains all 30 current inclusions: 26 repository
+  candidates and four separate access checks. Prior verified receipts remain valid
+  only for records that retain exact identity and inclusion in the current queue.
+- Reconciled appraisal progress preserves seven durable CC-BY retrievals, five
+  governed read-only reviews, 12 completed appraisals, and one unresolved
+  subscription restriction. Seventeen records are explicitly awaiting full text.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -165,45 +175,56 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Build the lawful-access inventory for all 30 founder inclusions, preserving the
-   12 completed appraisals and one subscription restriction.
-2. Retrieve or govern read-only review of the 17 newly included records, then
+1. Retrieve or govern read-only review of the 17 newly included records, then
    complete a question-specific appraisal or explicit access decision for each.
-3. Execute sequential backward-plus-forward Europe PMC citation passes until two
+2. Execute sequential backward-plus-forward Europe PMC citation passes until two
    consecutive complete passes add zero eligible methods or external validations.
-4. Update the living manuscript and its evidence-to-text ledger after every material
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-5. Resolve and approve the exact centroid and external-reference artifacts,
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-6. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-8. Complete the founder scientific/product, molecular/pathology, and statistical
+7. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-11. Implement persisted evidence claims, citations, provenance, contradictory
+10. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-13. Expand the screening model gateway into general evidence reasoning with
+12. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-14. Build evaluation suites for retrieval, citation validity, numerical
+13. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-15. Generate an immutable research release containing the protocol, dataset
+14. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-16. Generate a reviewable white-paper draft whose substantive claims trace to
+15. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-17. Build the internal workbench for projects, protocols, datasets, runs,
+16. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-18. Complete repeated internal oncology pilots before selecting the first
+17. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Thirty-record access inventory reconciled
+
+Expanded the lawful-access inventory from the 13 priority records to all 30
+founder inclusions. The new append-only inventory is bound to completed screening
+progress `7b90c37a…63218c` and identifies 26 repository candidates and four records
+requiring separate access checks.
+
+Corrected the reconciliation contract so verified retrieval and read-only receipts
+remain valid across later append-only screening checkpoints only when the same
+record is still included with matching queue and title identity. The new progress
+ledger preserves 12 completed appraisals and one subscription restriction and
+exposes exactly 17 records awaiting lawful full text.
 
 ### 2026-07-25 — Founder screening finalized at 30 records
 
@@ -260,24 +281,6 @@ or abstention alone. The surviving candidate contribution is narrower: an unchan
 patient-independent classifier whose reliability is calibrated to independently
 measured technical error, prespecified without outcome tuning, and externally
 validated. No reviewed priority paper is anchor evidence.
-
-### 2026-07-24 — Governed read-only evidence appraisal implemented
-
-Implemented a separate, auditable receipt for lawfully viewable articles whose
-terms do not authorize durable full-text storage. The receipt retains only article
-identity, source and rights metadata, access timestamps, byte count, an ephemeral
-content checksum, code revision, and verification flags. Its contract rejects any
-claim that content was stored, redistribution was authorized, or scientific
-conclusions were drawn by the receipt itself.
-
-Appraisal reconciliation now accepts exactly one evidence source state: a verified
-durable CC-BY retrieval or a verified ephemeral read-only receipt. A prior
-restricted-storage decision may coexist with read-only review, while durable
-retrieval and read-only review for the same record are rejected. Progress reports
-the two modes separately and requires every completed appraisal to match the exact
-source URL and checksum. The CLI validates read-only receipts and automatically
-includes them in progress generation. The complete test, lint, and type-check suite
-passes.
 
 ## Current blockers
 

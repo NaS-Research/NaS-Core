@@ -237,6 +237,59 @@ def test_progress_reconciles_retrieval_and_appraisal(tmp_path: Path) -> None:
     ]
 
 
+def test_prior_checkpoint_receipt_remains_valid_for_current_inclusion(
+    tmp_path: Path,
+) -> None:
+    receipt_payload = _receipt_payload()
+    receipt_payload["progress_id"] = "9" * 64
+    receipt = _write_yaml(tmp_path / "receipt.yaml", receipt_payload)
+
+    progress = FullTextAppraisalProgressService().build(
+        _inventory(),
+        retrieval_receipt_paths=[receipt],
+        appraisal_paths=[],
+    )
+
+    assert progress.progress_id == "b" * 64
+    assert progress.full_texts_retrieved == 1
+    assert progress.records[0].status == "ready_for_appraisal"
+
+
+def test_prior_checkpoint_receipt_still_requires_same_queue(
+    tmp_path: Path,
+) -> None:
+    receipt_payload = _receipt_payload()
+    receipt_payload["progress_id"] = "9" * 64
+    receipt_payload["queue_id"] = "8" * 64
+    receipt = _write_yaml(tmp_path / "receipt.yaml", receipt_payload)
+
+    with pytest.raises(AppraisalProgressError, match="failed progress reconciliation"):
+        FullTextAppraisalProgressService().build(
+            _inventory(),
+            retrieval_receipt_paths=[receipt],
+            appraisal_paths=[],
+        )
+
+
+def test_prior_checkpoint_read_only_receipt_remains_valid(
+    tmp_path: Path,
+) -> None:
+    receipt_payload = _read_only_receipt_payload()
+    receipt_payload["progress_id"] = "9" * 64
+    receipt = _write_yaml(tmp_path / "read-only.yaml", receipt_payload)
+
+    progress = FullTextAppraisalProgressService().build(
+        _inventory(),
+        retrieval_receipt_paths=[],
+        read_only_review_receipt_paths=[receipt],
+        appraisal_paths=[],
+    )
+
+    assert progress.progress_id == "b" * 64
+    assert progress.read_only_full_texts_reviewed == 1
+    assert progress.records[1].status == "ready_for_appraisal"
+
+
 def test_progress_rejects_appraisal_without_receipt(tmp_path: Path) -> None:
     appraisal = _write_yaml(tmp_path / "appraisal.yaml", _appraisal_payload())
 

@@ -299,10 +299,13 @@ class FullTextAppraisalProgressService:
         expected_title: str,
         receipt: FullTextRetrievalReceipt,
     ) -> None:
+        # A retrieval remains valid when later append-only screening batches advance
+        # the progress ID, provided the exact record is still a current inclusion.
+        # Membership and title are checked against the current inventory before this
+        # method; the receipt retains the checkpoint that originally authorized it.
         if (
             receipt.study_id != inventory.study_id
             or receipt.queue_id != inventory.queue_id
-            or receipt.progress_id != inventory.progress_id
             or receipt.title != expected_title
             or not receipt.manifest_checksum_verified
             or not receipt.full_text_checksum_verified
@@ -319,10 +322,12 @@ class FullTextAppraisalProgressService:
         expected_pmcid: str | None,
         receipt: FullTextReadOnlyReviewReceipt,
     ) -> None:
+        # Read-only receipts are likewise durable provenance for their original
+        # screening checkpoint. Current-inclusion membership, identity, access, and
+        # checksum constraints still fail closed.
         if (
             receipt.study_id != inventory.study_id
             or receipt.queue_id != inventory.queue_id
-            or receipt.progress_id != inventory.progress_id
             or receipt.title != expected_title
             or receipt.pmcid != expected_pmcid
             or not receipt.checksum_verified
