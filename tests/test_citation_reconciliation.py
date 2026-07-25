@@ -190,3 +190,28 @@ def test_reconciliation_rejects_tampered_decision_ledger() -> None:
             code_revision="abcdef0",
             reconciled_at=NOW,
         )
+
+
+def test_reconciliation_selects_latest_version_of_a_prior_appraisal() -> None:
+    store = InMemoryObjectStore()
+    older = _appraisal()
+    newer = older.model_copy(
+        update={
+            "screening_id": "9" * 64,
+            "assessed_at": datetime(2026, 7, 26, tzinfo=UTC),
+        }
+    )
+
+    receipt = CitationInclusionReconciliationService(store=store).reconcile(
+        _decision(store),
+        _inventory(),
+        [newer, older],
+        code_revision="abcdef0",
+        reconciled_at=NOW,
+    )
+
+    rows = __import__("json").loads(
+        store.get_bytes(receipt.reconciliation_object.object_key)
+    )
+    matched = next(row for row in rows if row["record_key"] == "MED:2")
+    assert matched["matched_screening_id"] == "9" * 64

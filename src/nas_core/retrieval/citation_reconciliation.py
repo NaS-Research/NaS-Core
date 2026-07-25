@@ -192,6 +192,7 @@ class CitationInclusionReconciliationService:
                     "screening_id": item.screening_id,
                     "record_key": item.record_key,
                     "identifiers": cls._identifiers(item.model_dump()),
+                    "assessed_at": "",
                 }
                 for item in inventory.records
             ]
@@ -208,6 +209,7 @@ class CitationInclusionReconciliationService:
                     "screening_id": item.screening_id,
                     "record_key": None,
                     "identifiers": cls._identifiers(item.model_dump()),
+                    "assessed_at": item.assessed_at.isoformat(),
                 }
                 for item in unique.values()
             ]
@@ -223,11 +225,10 @@ class CitationInclusionReconciliationService:
             assert isinstance(identifiers, dict)
             for value in identifiers.values():
                 existing = index.get(value)
-                if existing is not None and existing["screening_id"] != record["screening_id"]:
-                    raise CitationReconciliationError(
-                        f"existing evidence identifier is ambiguous: {value}"
-                    )
-                index[value] = record
+                if existing is None or str(record["assessed_at"]) > str(
+                    existing["assessed_at"]
+                ):
+                    index[value] = record
         return index
 
     @staticmethod
