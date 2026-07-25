@@ -97,6 +97,14 @@ def load_citation_founder_confirmation(path: Path) -> CitationFounderConfirmatio
     )
 
 
+def load_citation_decision_ledger_receipt(
+    path: Path,
+) -> CitationDecisionLedgerReceipt:
+    return CitationDecisionLedgerReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_citation_decision_ledger_receipt(
     path: Path,
     receipt: CitationDecisionLedgerReceipt,

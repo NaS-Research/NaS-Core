@@ -39,8 +39,12 @@ from nas_core.domain.citation_chain import (
     write_citation_screening_preparation_receipt,
 )
 from nas_core.domain.citation_confirmation import (
+    load_citation_decision_ledger_receipt,
     load_citation_founder_confirmation,
     write_citation_decision_ledger_receipt,
+)
+from nas_core.domain.citation_reconciliation import (
+    write_citation_inclusion_reconciliation_receipt,
 )
 from nas_core.domain.cohorts import (
     load_cohort_receipt,
@@ -88,6 +92,9 @@ from nas_core.retrieval.citation_enrichment import CitationEnrichmentService
 from nas_core.retrieval.citation_packet import CitationFounderPacketService
 from nas_core.retrieval.citation_prioritization import CitationPrioritizationService
 from nas_core.retrieval.citation_recommendation import CitationRecommendationService
+from nas_core.retrieval.citation_reconciliation import (
+    CitationInclusionReconciliationService,
+)
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
@@ -363,6 +370,26 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Persist final founder decisions after exact confirmation",
+    )
+    citation_reconcile = evidence_review_commands.add_parser(
+        "citation-reconcile",
+        help="Reconcile confirmed inclusions against inventory and prior appraisals",
+    )
+    citation_reconcile.add_argument("decision_receipt", type=Path)
+    citation_reconcile.add_argument("inventory", type=Path)
+    citation_reconcile.add_argument(
+        "--appraisal-dir",
+        required=True,
+        action="append",
+        type=Path,
+        help="Directory containing prior full-text appraisal YAML files; repeatable",
+    )
+    citation_reconcile.add_argument("--code-revision", required=True)
+    citation_reconcile.add_argument("--receipt-output", required=True, type=Path)
+    citation_reconcile.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the checksum-verified inclusion reconciliation",
     )
 
     literature = commands.add_parser("literature", help="Capture governed evidence searches")
@@ -1134,6 +1161,52 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{decision_receipt.unclear_count} unclear"
         )
         print(f"Wrote final founder decision receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-reconcile"
+    ):
+        citation_decision = load_citation_decision_ledger_receipt(
+            args.decision_receipt
+        )
+        citation_inventory = load_full_text_inventory(args.inventory)
+        appraisal_paths = sorted(
+            {
+                path
+                for directory in args.appraisal_dir
+                for path in directory.glob("*.yaml")
+            }
+        )
+        appraisals = [load_full_text_appraisal(path) for path in appraisal_paths]
+        if not args.execute:
+            print(
+                f"Citation reconciliation ready: "
+                f"{citation_decision.included_count} confirmed inclusions against "
+                f"{len(citation_inventory.records)} active records and "
+                f"{len({item.screening_id for item in appraisals})} prior appraisals"
+            )
+            print("Dry run only; no reconciliation artifact was stored.")
+            return 0
+        reconciliation_service = CitationInclusionReconciliationService(
+            store=get_object_store()
+        )
+        reconciliation = reconciliation_service.reconcile(
+            citation_decision,
+            citation_inventory,
+            appraisals,
+            code_revision=args.code_revision,
+        )
+        write_citation_inclusion_reconciliation_receipt(
+            args.receipt_output, reconciliation
+        )
+        print(
+            f"Reconciled citation pass {reconciliation.pass_number}: "
+            f"{reconciliation.active_inventory_match_count} active inventory, "
+            f"{reconciliation.prior_appraisal_match_count} prior appraisal, "
+            f"{reconciliation.net_new_count} net new"
+        )
+        print(f"Wrote reconciliation receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "search":

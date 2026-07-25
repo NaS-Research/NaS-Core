@@ -1,0 +1,14 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+pass_number: 1
+first_packet_sha256: a6ebe1f993572fa9266d75c119bc32c5a8b5cff991a844b6e0c89eec238e9f0a
+first_appendix_sha256: a1f378c49b8128be0a2fb3084983232bb69c1c9ece8aaaf0c5dccc7daf7e062c
+second_packet_sha256: ba8560a7b7dc50cc19f90473384982690a09bcf587bc4010dba25b2c4c1f29fe
+second_appendix_sha256: 1e41f1f1785af0baa360cac9ef1e882efa628ac3555a6b1d176817d8756e9e81
+confirmation_statement: I confirm both checksum-bound citation pass 1 packets as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-25T15:56:29Z'
+founder_authorized: true
+founder_role_conflict_disclosed: true
