@@ -206,7 +206,7 @@ class FullTextRetrievalManifest(AppraisalModel):
     queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
-    pmcid: str = Field(pattern=r"^PMC[0-9]+$")
+    pmcid: str | None = Field(default=None, pattern=r"^PMC[0-9]+$")
     pmid: str | None = None
     doi: str | None = None
     title: str = Field(min_length=1)
@@ -226,7 +226,7 @@ class FullTextRetrievalReceipt(AppraisalModel):
     queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
-    pmcid: str = Field(pattern=r"^PMC[0-9]+$")
+    pmcid: str | None = Field(default=None, pattern=r"^PMC[0-9]+$")
     title: str = Field(min_length=1)
     source_url: str = Field(min_length=1)
     retrieved_at: datetime

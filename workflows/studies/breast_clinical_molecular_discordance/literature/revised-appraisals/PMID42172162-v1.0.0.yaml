@@ -1,0 +1,142 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 8c7eb040930ed090ae2bdd099df65a6c1e6c5299459e2ad0ec5edb1c68faae77
+title: A Digital Twin-Inspired Closed-Loop Latent Simulation Framework for Cross-Cohort Breast Cancer Subtype Classification under Modality-Disjoint Learning.
+pmid: '42172162'
+doi: 10.1109/JBHI.2026.3696086
+full_text_source_url: https://ieeexplore.ieee.org/document/11534057/
+full_text_sha256: cc8fa29a2d20f81f010431cbeabcd5677467d1517f6d7a2c7f012baa22f2b373
+access_basis: >-
+  Identity-, checksum-, PDF-integrity-, and CC-BY-4.0-verified IEEE author
+  manuscript stored immutably in the governed external NaS object store.
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: high
+    rationale: >-
+      TCGA-BRCA, BCSC, and METABRIC are non-overlapping convenience cohorts with
+      fundamentally different modalities. TCGA and METABRIC sample counts are
+      reported, but the BCSC cohort size, selection window, exclusions, outcome
+      completeness, and patient flow are not. The combined learning population
+      therefore cannot be reconstructed or assessed for selection bias.
+    evidence_locations:
+      - Methods — Datasets and Data Integrity
+      - Methods — Modality-Disjoint Multimodal Learning
+      - Limitations — Modality correspondence and METABRIC confound
+  - domain: specimen_and_measurement
+    judgment: high
+    rationale: >-
+      No patient contains every modality, so WSI, expression, mammography, and
+      clinical features cannot be checked for within-patient biological
+      concordance. The WSI preprocessing protocol is detailed, but biospecimen
+      provenance, RNA quality, assay platform harmonization, slide multiplicity,
+      missingness, and BCSC mammography acquisition are insufficiently reported.
+      METABRIC is described as RNA-seq despite the cited METABRIC resource being
+      assay-distinct, increasing uncertainty about feature construction.
+    evidence_locations:
+      - Methods — Datasets and Data Integrity
+      - Methods — Data Preprocessing
+      - Methods — Modality Absence Encoding
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      The architecture contains many adaptively selected components, including
+      latent dimension, feedback strength, kNN size, augmentation, absence tokens,
+      encoder, survival coefficient, refinement horizon, and PPO policy. Numerous
+      ablations use Seed 789, and the article does not establish that all choices
+      were fixed before the held-out evaluation. Latent feedback retrieves from
+      the training bank, but no frozen end-to-end implementation is independently
+      exercised on a prospectively specified external cohort.
+    evidence_locations:
+      - Methods — Closed-Loop Latent Feedback Mechanism
+      - Methods — PPO Policy and Comparator Baselines
+      - Ablation Studies — Tables XVI–XXIII
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      PAM50 labels serve as supervised targets, but the article does not fully
+      specify how labels were generated and harmonized across cohorts or provide
+      an independent biological truth standard. Cross-cohort agreement and latent
+      retrieval compare model representations with inherited labels rather than
+      adjudicating whether a discordant subtype call is correct.
+    evidence_locations:
+      - Methods — Problem Formulation
+      - Methods — Datasets and Data Integrity
+      - Results — Cross-Cohort Latent Retrieval
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Multi-seed and patient-level cross-validation are strengths, but four seeds
+      quantify training variation rather than population uncertainty and most
+      ablations remain single-seed. The four listed held-out accuracies (0.884,
+      0.856, 0.922, 0.903) average about 0.891, not the reported 0.876. The
+      BCSC-assisted METABRIC zero-shot accuracy is variously reported as 0.840,
+      0.810, and 0.818, and per-class test counts total 164 while another analysis
+      cites 165 test patients. These unresolved inconsistencies preclude reliance
+      on the numerical effect estimates.
+    evidence_locations:
+      - Results — Tables VI–VIII
+      - Results — Table XIII
+      - Research Utility Scenarios — Scenario 2
+      - Robustness — Table XXIV
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Five-fold cross-validation is restricted to the TCGA training partition.
+      METABRIC transfer evaluation reinitializes and fine-tunes the projector and
+      shares preprocessing, so it is not unchanged external validation. The
+      zero-shot gap remains substantial and inconsistently reported, BCSC has no
+      patient-level alignment, and the interface has only an informal review by
+      three researchers with no clinical decision-impact study.
+    evidence_locations:
+      - Experimental Setup — Splits, Seeds, and Cross-Validation
+      - Results — BCSC Domain Shift and Transfer-Learning Validation
+      - Limitations
+  - domain: reporting_and_reproducibility
+    judgment: high
+    rationale: >-
+      The paper provides extensive equations, tables, seeds, a code link, and
+      transparent caveats. However, the accepted author manuscript retains
+      placeholder volume and received dates, lacks a data-availability statement
+      and conflict declaration, incompletely specifies BCSC construction, and
+      contains material numerical inconsistencies. A frozen, independently
+      verified execution receipt is not supplied.
+    evidence_locations:
+      - First-page footnote — code and weights
+      - Experimental Setup
+      - Results — Tables VI, VIII, XIII, and XXIV
+      - Acknowledgment
+evidence_role: context_only
+key_strengths:
+  - Explicitly models uncertainty trajectories rather than returning only a hard label.
+  - Uses patient-level splitting before WSI feature extraction and reports multiple seeds.
+  - Reports calibration, class-specific uncertainty, ablations, and a cross-cohort gap.
+  - Clearly states that latent trajectories are non-causal and not clinical digital twins.
+  - Makes the author manuscript and code link available under CC BY 4.0.
+key_limitations:
+  - No patient has the complete multimodal feature set.
+  - BCSC cohort construction and sample size are not reported sufficiently.
+  - METABRIC evaluation is fine-tuned and confounded by shared preprocessing.
+  - Many architecture choices and ablations are adaptively evaluated on one seed.
+  - PAM50 labels are inherited targets rather than an independent truth standard.
+  - Several central sample counts and performance estimates conflict internally.
+  - No formal user study, prospective validation, or clinical decision-impact evaluation exists.
+conflicts_and_funding: >-
+  The work was supported by the Qatar Research Development and Innovation Council
+  (ARG01-0513 230141), and Qatar National Library provided open-access funding.
+  No conflict-of-interest or competing-interest statement was located in the
+  author manuscript.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex retrieved the CC-BY-4.0 author manuscript from IEEE, verified and
+  registered the PDF, extracted section-located methodological evidence, checked
+  arithmetic consistency, and proposed domain judgments under the founder's
+  standing authorization. The founder remains accountable for the locked
+  eligibility and evidence-role decision. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-25T09:55:00-05:00
+scientific_conclusions_drawn: false

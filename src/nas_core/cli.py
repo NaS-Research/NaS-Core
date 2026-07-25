@@ -14,6 +14,7 @@ from nas_core.domain.advisory import (
     write_ai_advisory_schemas,
 )
 from nas_core.domain.appraisal import (
+    FullTextLicense,
     load_full_text_access_decision,
     load_full_text_appraisal,
     load_full_text_read_only_review_receipt,
@@ -59,6 +60,7 @@ from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
+from nas_core.retrieval.licensed_pdf import LicensedPdfImportService
 from nas_core.retrieval.literature import (
     LiteratureSearchService,
     LiteratureSearchVerificationService,
@@ -464,6 +466,32 @@ def build_parser() -> argparse.ArgumentParser:
     )
     full_text_fetch.add_argument(
         "--execute", action="store_true", help="Contact Europe PMC and persist licensed XML"
+    )
+    full_text_import_pdf = literature_commands.add_parser(
+        "full-text-import-pdf",
+        help="Import and verify one explicitly licensed publisher PDF",
+    )
+    full_text_import_pdf.add_argument(
+        "receipt", type=Path, help="Verified screening queue receipt"
+    )
+    full_text_import_pdf.add_argument(
+        "progress_receipt", type=Path, help="Latest verified founder progress receipt"
+    )
+    full_text_import_pdf.add_argument("screening_id", help="Founder-included screening ID")
+    full_text_import_pdf.add_argument("pdf_path", type=Path, help="Downloaded publisher PDF")
+    full_text_import_pdf.add_argument("--source-url", required=True)
+    full_text_import_pdf.add_argument("--license-name", required=True)
+    full_text_import_pdf.add_argument("--license-spdx", required=True)
+    full_text_import_pdf.add_argument("--license-url", required=True)
+    full_text_import_pdf.add_argument("--copyright-statement", required=True)
+    full_text_import_pdf.add_argument(
+        "--code-revision", required=True, help="Exact Git commit SHA"
+    )
+    full_text_import_pdf.add_argument(
+        "--receipt-output", required=True, type=Path, help="New verified receipt path"
+    )
+    full_text_import_pdf.add_argument(
+        "--execute", action="store_true", help="Verify and persist the licensed PDF"
     )
 
     program = commands.add_parser("program", help="Manage research program charters")
@@ -1098,6 +1126,51 @@ def main(argv: Sequence[str] | None = None) -> int:
         write_full_text_retrieval_receipt(args.receipt_output, retrieval_receipt)
         print(
             f"Retrieved and verified {retrieval_receipt.pmcid}: "
+            f"{retrieval_receipt.full_text_size_bytes} bytes, "
+            f"{retrieval_receipt.license.spdx_identifier}, "
+            f"{retrieval_receipt.full_text_sha256}"
+        )
+        print(f"Wrote verified aggregate receipt: {args.receipt_output}")
+        return 0
+
+    if args.command == "literature" and args.literature_command == "full-text-import-pdf":
+        queue_receipt = load_screening_queue_receipt(args.receipt)
+        progress_receipt = load_screening_progress_receipt(args.progress_receipt)
+        inventory = FullTextInventoryService(store=get_object_store()).build(
+            queue_receipt,
+            progress_receipt,
+        )
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not a current founder inclusion")
+        if not args.execute:
+            print(
+                f"Publisher-PDF import ready: {args.pdf_path}, "
+                f"screening {matches[0].screening_id}, code {args.code_revision}"
+            )
+            print("Dry run only; the PDF was not read or stored.")
+            return 0
+        license_record = FullTextLicense(
+            name=args.license_name,
+            spdx_identifier=args.license_spdx,
+            url=args.license_url,
+            copyright_statement=args.copyright_statement,
+        )
+        import_service = LicensedPdfImportService(store=get_object_store())
+        pdf_manifest = import_service.import_pdf(
+            matches[0],
+            pdf_path=args.pdf_path,
+            source_url=args.source_url,
+            license_record=license_record,
+            study_id=inventory.study_id,
+            queue_id=inventory.queue_id,
+            progress_id=inventory.progress_id,
+            code_revision=args.code_revision,
+        )
+        retrieval_receipt = import_service.verify(pdf_manifest)
+        write_full_text_retrieval_receipt(args.receipt_output, retrieval_receipt)
+        print(
+            f"Imported and verified publisher PDF: "
             f"{retrieval_receipt.full_text_size_bytes} bytes, "
             f"{retrieval_receipt.license.spdx_identifier}, "
             f"{retrieval_receipt.full_text_sha256}"

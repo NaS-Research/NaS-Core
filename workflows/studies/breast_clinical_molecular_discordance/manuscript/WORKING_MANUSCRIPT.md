@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.16.0-working`
+Manuscript version: `0.17.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -144,16 +144,16 @@ stored or appraised. Read-only receipts retain source identity, rights observati
 and ephemeral checksums rather than article content.
 [revised-screening-progress/batch-0002.yaml;
 FOUNDER_REMAINING_SCREENING_CONFIRMATION_v1.0.0.md;
-revised_appraisal_progress_v0.3.9.yaml]
+revised_appraisal_progress_v0.4.0.yaml]
 
 Eleven of the 17 newly included records now have article identity and an approved
 CC BY license independently verified through official Europe PMC XML. Four more
 were lawfully reviewed through governed ephemeral sessions because their rights do
 not authorize durable commercial corpus storage. The IOP article is abstract-only
-and subscription-restricted. The remaining IEEE article is confirmed open access
-under CC BY but awaits full-text retrieval after scheduled publisher maintenance.
-All 15 lawfully accessible expanded-set records have completed appraisal. No failed
-or restricted retrieval stored article content.
+and subscription-restricted. The IEEE author manuscript was retrieved from the
+publisher, verified as CC BY 4.0, and stored immutably through the governed
+publisher-PDF import path. All 16 lawfully accessible expanded-set records have
+completed appraisal. No failed or restricted retrieval stored article content.
 
 ### Quality appraisal
 
@@ -695,6 +695,26 @@ authors are employees, inventors, or advisers of the company developing the test
 and code and patient-level data are available only by request. [PMID:38105959;
 revised appraisal PMC10723508-v1.0.0]
 
+### Modality-disjoint latent simulation
+
+The IEEE CDLS report combines non-overlapping TCGA-BRCA, BCSC, and METABRIC
+cohorts in a shared latent space and applies five PPO-guided refinement steps with
+kNN feedback. It reports calibration, multi-seed stability, five-fold
+cross-validation, and transparent warnings that the representation-space
+trajectories are non-causal and not clinical digital twins.
+
+This evidence is `context_only`. No patient has the complete multimodal feature
+set, the METABRIC transfer evaluation reinitializes and fine-tunes part of the
+model, and BCSC cohort construction is incompletely reported. Several central
+numbers also fail internal consistency checks: the four listed held-out
+accuracies average approximately 0.891 rather than the reported 0.876, and
+BCSC-assisted zero-shot METABRIC accuracy is reported as 0.840, 0.810, and 0.818
+in different locations. The paper establishes that uncertainty trajectories,
+latent refinement, modality-absence encoding, and research interfaces are active
+prior art, but it does not validate a fixed patient-level reliability or
+abstention rule. [PMID:42172162; revised appraisal
+PMID42172162-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -706,7 +726,7 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 27 completed accessible-record appraisals show that the broad problem is established: PAM50
+The 28 completed accessible-record appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
@@ -725,8 +745,7 @@ from independent technical evidence, define a reliability estimand and threshold
 without outcome tuning, validate transport in an independent cohort, and abstain
 prospectively when the assignment is not analytically reliable.
 
-This interpretation may change after resolution and appraisal of the open IEEE
-retrieval and sequential citation chaining. AIMS and the IOP article remain
+This interpretation may change after sequential citation chaining. AIMS and the IOP article remain
 identified but unappraised access-restricted sources. This is not an authorized
 novelty conclusion.
 
@@ -734,8 +753,8 @@ novelty conclusion.
 
 Status: `working`
 
-- Primary title-and-abstract screening and all 27 lawfully accessible appraisals
-  are complete; one open IEEE retrieval and citation chaining are incomplete.
+- Primary title-and-abstract screening and all 28 lawfully accessible appraisals
+  are complete; sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -826,17 +845,21 @@ checks, and internal reviews are complete.
     classification, and predicts response to antibody drug conjugates.
     *medRxiv* [preprint]. 2023. PMID:38105959.
     DOI:10.1101/2023.12.05.23299341.
+22. Hezil N, et al. A digital twin-inspired closed-loop latent simulation framework
+    for cross-cohort breast cancer subtype classification under modality-disjoint
+    learning. *IEEE J Biomed Health Inform.* 2026. PMID:42172162.
+    DOI:10.1109/JBHI.2026.3696086.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–9 | External methodological evidence | 27 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
+| Introduction ¶1–9 | External methodological evidence | 28 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
-| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.3.9.yaml` | verified, IEEE retrieval incomplete |
+| Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
 | Results—test-set bias | External evidence appraisal | `revised-appraisals/PMC4495301-v1.0.0.yaml` | supporting |
@@ -864,14 +887,16 @@ checks, and internal reviews are complete.
 | Results—cross-platform discordance | External evidence appraisal | `revised-appraisals/PMC8385191-v1.0.0.yaml` | context only |
 | Results—integrated annotation software | External evidence appraisal | `revised-appraisals/PMC8974006-v1.0.0.yaml` | context only |
 | Results—spatially guided mFISHseq | External evidence appraisal | `revised-appraisals/PMC10723508-v1.0.0.yaml` | context only |
+| Results—modality-disjoint latent simulation | External evidence appraisal | `revised-appraisals/PMID42172162-v1.0.0.yaml` | context only |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | 27 completed appraisals, two access-restricted records, and one pending open-access retrieval | provisional |
+| Discussion ¶1–2 | Explicit interpretation | 28 completed appraisals and two access-restricted records | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.17.0-working | 2026-07-25 | Added the governed IEEE publisher-PDF receipt and CDLS appraisal; all 28 lawfully accessible records are appraised, with two access restrictions retained. |
 | 0.16.0-working | 2026-07-25 | Added cross-platform microarray/nCounter discordance, classifieR, and spatially guided mFISHseq appraisals; all 27 lawfully accessible records are now appraised. |
 | 0.15.0-working | 2026-07-25 | Added NHS cohort-centering, NanoString QC/normalization, and fixed stable-reference single-sample scoring appraisals; 24 of 30 records are now appraised. |
 | 0.14.0-working | 2026-07-25 | Added explicit ambiguous/unclassifiable PLS states, cohort-adaptive PCA-PAM50, and whole-transcriptome ssNMF subtype-purity appraisals; 21 of 30 records are now appraised. |

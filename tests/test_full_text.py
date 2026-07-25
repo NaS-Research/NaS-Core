@@ -92,7 +92,7 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     )
     retrievals = [
         FullTextRetrievalReceipt.model_validate(yaml.safe_load(path.read_text()))
-        for path in sorted(REVISED_FULL_TEXT_ROOT.glob("PMC*.yaml"))
+        for path in sorted(REVISED_FULL_TEXT_ROOT.glob("*.yaml"))
     ]
     restrictions = [
         FullTextAccessDecision.model_validate(yaml.safe_load(path.read_text()))
@@ -111,7 +111,7 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     assert inventory.provisional_inclusion_count == 30
     assert inventory.repository_candidate_count == 26
     assert inventory.access_check_required_count == 4
-    assert len(retrievals) == 18
+    assert len(retrievals) == 19
     assert len(restrictions) == 10
     assert len(read_only_receipts) == 9
     assert {item.screening_id for item in retrievals}.isdisjoint(
@@ -124,20 +124,20 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         yaml.safe_load(
             (
                 REVISED_FULL_TEXT_ROOT.parent
-                / "revised_appraisal_progress_v0.3.9.yaml"
+                / "revised_appraisal_progress_v0.4.0.yaml"
             ).read_text()
         )
     )
     assert progress.progress_id == inventory.progress_id
     assert progress.provisional_inclusion_count == 30
-    assert progress.full_texts_retrieved == 18
+    assert progress.full_texts_retrieved == 19
     assert progress.read_only_full_texts_reviewed == 9
     assert progress.access_restricted_count == 2
     assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 0
-    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 1
-    assert progress.appraisals_completed == 27
+    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 0
+    assert progress.appraisals_completed == 28
     assert progress.supporting_count == 15
-    assert progress.context_only_count == 12
+    assert progress.context_only_count == 13
     completed = [item for item in progress.records if item.status == "completed"]
     assert {item.pmcid for item in completed} == {
         "PMC3275466",
@@ -212,4 +212,5 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
         "34387660": "context_only",
         "35361119": "context_only",
         "38105959": "context_only",
+        "42172162": "context_only",
     }
