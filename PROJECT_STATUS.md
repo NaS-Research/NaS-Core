@@ -8,14 +8,14 @@ and what comes next?
 
 ## Current focus
 
-### Appraise the accessible NAS-BRCA-002 priority evidence
+### Appraise the remaining accessible NAS-BRCA-002 priority evidence
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-Seven have verified CC-BY full text, four are restricted or unavailable through
-the approved endpoint, and two require a lawful alternative source. Complete
-question-specific appraisal of the seven accessible papers, resolve access where
-possible, then screen the remaining 87 candidates.
+Seven have verified CC-BY full text; the first question-specific appraisal is
+complete. Four are restricted or unavailable through the approved endpoint, and
+two require a lawful alternative source. Appraise the remaining six accessible
+papers, resolve access where possible, then screen the remaining 87 candidates.
 
 Definition of done:
 
@@ -43,8 +43,8 @@ Current gate state:
 - Draft method specification `0.1.0` is typed and mechanically validated. It cannot
   authorize molecular execution while any scientific dependency remains unresolved.
 - Revised evidence protocol `0.2.4` and priority set `1.0.0` are typed. All 13
-  direct candidates are pending question-`0.3.0` founder adjudication; no prior
-  decision was silently carried forward.
+  direct candidates have founder `include` decisions for full-text review; no prior
+  question-`0.2.0` decision was silently carried forward.
 - Typed Phase 0 plan, literature-search strategy, evidence matrix, and data-
   feasibility specification are implemented.
 - AI-assisted question review is advisory; the founder Phase 0 decision is recorded,
@@ -65,6 +65,11 @@ Current gate state:
 - The priority access inventory reconciles all 13 inclusions: 7 verified CC-BY full
   texts, 4 restricted or repository-unavailable records, and 2 records without a
   verified lawful full-text source. No restricted text was stored.
+- The question-specific `PMC3275466` appraisal is complete as `context_only`.
+  Its technical-error framework directly challenges the novelty boundary, but sparse
+  calibration, unvalidated independence assumptions, inconsistent simulation counts,
+  and no external repeat-measure validation prevent it from supplying a transportable
+  NaS error model.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
 - Verified queue `b02c2abf…f042` has progress state `dd27a686…ac21`: 27 founder-
@@ -96,9 +101,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-`0.3.0` full-text appraisal of the seven verified CC-BY
-   priority papers, beginning with measurement uncertainty, centering, and
-   single-sample classifier alternatives.
+1. Complete question-`0.3.0` full-text appraisal of the six remaining verified
+   CC-BY priority papers, next addressing subgroup centering and RNA-seq reference
+   sensitivity.
 2. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
    method (PMID `28062443`) without paywall circumvention or unlicensed storage.
 3. Founder-confirm or reject the five author-year-only inventory links, then screen
@@ -136,6 +141,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Measurement-uncertainty evidence appraised
+
+Locked question-`0.3.0` full-text appraisal protocol `1.1.0` and completed the first
+revised appraisal against the verified CC-BY text of `PMC3275466`. The paper is
+eligible and directly relevant: it models how laboratory measurement error can
+alter PAM50 calls and proposes patient-level uncertainty reporting.
+
+The record is `context_only`, not anchor or supporting evidence. Its error model
+comes from 12 replicates of four archetypal specimens, assumes Gaussian independent
+gene errors, is applied to independent tumors by simulation rather than repeat
+measurement, lacks external laboratory/platform validation, and contains a material
+100,000-versus-1,000 simulation-count inconsistency. It demonstrates the problem and
+narrows novelty, but does not provide the independently calibrated, transportable
+error model required by the proposed NaS method.
 
 ### 2026-07-24 — Founder priority batch and lawful-access inventory completed
 
@@ -194,26 +214,6 @@ reloaded the manifest and all five data objects from external storage, recompute
 hashes and sizes, checked normalized-record schema and uniqueness, reconciled source
 and duplicate counts, and issued the aggregate receipt in Git. No molecular or
 outcome data were accessed, and no scientific conclusion was generated.
-
-### 2026-07-23 — Revised evidence-review phase implemented
-
-Implemented a question-`0.3.0` evidence protocol and targeted PubMed/Europe PMC
-strategy focused on fixed single-sample classifiers, centering, mapping,
-patient-level uncertainty, technical error, perturbation, abstention, and unchanged
-external transport. The direct priority set contains 13 high-relevance candidates
-and remains capped at 30 final studies. It explicitly prioritizes the previously
-unappraised single-subject PAM50 uncertainty method, AIMS, MiniABS, RNA-seq SSP,
-MPAM50, BreastSubtypeR, and current centering implementations.
-
-Added typed priority, citation-pass, and progress contracts plus CLI validation.
-The ledger cannot claim saturation unless the search, prior-inventory deduplication,
-founder screening, appraisal/access accounting, and two latest consecutive complete
-backward-plus-forward Europe PMC passes all reconcile with zero newly eligible
-methodological or external-transport evidence. AI cannot finalize screening
-decisions, and the phase cannot authorize novelty, molecular data, or outcomes.
-
-Validation: checked-in schema parity, CLI binding, false-saturation and founder-
-authority invariants, focused tests, Ruff, strict MyPy, and the full test suite.
 
 ## Current blockers
 

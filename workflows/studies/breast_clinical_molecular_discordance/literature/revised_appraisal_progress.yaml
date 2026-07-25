@@ -2,15 +2,15 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
 progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
-generated_at: '2026-07-24T17:49:10.207110Z'
+generated_at: '2026-07-25T03:14:29.956469Z'
 provisional_inclusion_count: 13
 full_texts_retrieved: 7
-appraisals_completed: 0
+appraisals_completed: 1
 access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
-context_only_count: 0
+context_only_count: 1
 excluded_count: 0
 records:
 - screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
@@ -22,9 +22,11 @@ records:
   title: 'Characterization of uncertainty in the classification of multivariate assays: application to
     PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
   pmcid: PMC3275466
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 0cfff39bbcdf786882b11a015b8f55fd6dba8906c49e0db4e5cf3c03bc7e35b7
   full_text_sha256: a09221f7fa1a951709ad348c5e376b963abb4291e47897d2ac8238866fb2481e
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 678644a4c0bf2a9ee4697c71f84fa34d5d2b976697e1efd709ae452fc12102ba
   title: Absolute assignment of breast cancer intrinsic molecular subtype.
   status: awaiting_full_text

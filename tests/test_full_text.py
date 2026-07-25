@@ -4,6 +4,7 @@ import yaml
 
 from nas_core.domain.appraisal import (
     FullTextAccessDecision,
+    FullTextAppraisal,
     FullTextAppraisalProgress,
     FullTextInventory,
     FullTextRetrievalReceipt,
@@ -19,6 +20,7 @@ REVISED_FULL_TEXT_ROOT = (
     / "literature"
     / "revised-full-text"
 )
+REVISED_APPRAISAL_ROOT = REVISED_FULL_TEXT_ROOT.parent / "revised-appraisals"
 
 
 def test_full_text_inventory_reconciles_access_candidates() -> None:
@@ -114,4 +116,18 @@ def test_checked_in_revised_access_inventory_and_receipts_reconcile() -> None:
     assert progress.full_texts_retrieved == 7
     assert progress.access_restricted_count == 4
     assert sum(item.status == "awaiting_full_text" for item in progress.records) == 2
-    assert progress.appraisals_completed == 0
+    assert progress.appraisals_completed == 1
+    assert progress.context_only_count == 1
+    completed = [item for item in progress.records if item.status == "completed"]
+    assert len(completed) == 1
+    assert completed[0].pmcid == "PMC3275466"
+
+    appraisal = FullTextAppraisal.model_validate(
+        yaml.safe_load(
+            (REVISED_APPRAISAL_ROOT / "PMC3275466-v1.0.0.yaml").read_text()
+        )
+    )
+    assert appraisal.screening_id == completed[0].screening_id
+    assert appraisal.full_text_sha256 == completed[0].full_text_sha256
+    assert appraisal.evidence_role == "context_only"
+    assert appraisal.founder_authorized is True

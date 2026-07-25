@@ -34,8 +34,10 @@ and zero AI decisions.
 
 The revised access ledger contains seven independently verified CC-BY full texts,
 four restricted or repository-unavailable records, and two records requiring a
-lawful alternative source. No restricted full text was stored. Full-text appraisal
-of the seven accessible records is next.
+lawful alternative source. No restricted full text was stored. Question-specific
+appraisal of `PMC3275466` is complete as `context_only`; six accessible records
+remain. Its sparse technical-error calibration and lack of external repeat-measure
+validation make it directly relevant but not a transportable error model.
 
 Required artifacts:
 

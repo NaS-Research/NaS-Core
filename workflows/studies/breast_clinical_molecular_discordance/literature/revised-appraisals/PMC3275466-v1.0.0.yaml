@@ -1,0 +1,121 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: bfd73615047f4e33896b3be73b4b28b6933f40fe4e40aa593c5fdf4247d92e0a
+title: 'Characterization of uncertainty in the classification of multivariate assays: application to PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
+pmid: '22196354'
+doi: 10.1186/2043-9113-1-37
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3275466/fullTextXML
+full_text_sha256: a09221f7fa1a951709ad348c5e376b963abb4291e47897d2ac8238866fb2481e
+access_basis: Creative Commons Attribution 2.0 Generic (CC-BY-2.0).
+study_design: analytical_validation
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The question-relevant evaluation used 847 tumors remaining from 911 GEICAM
+      9906 trial specimens after tumor-content review. This is a sizable independent
+      patient set, but excluded tumors are not characterized and a clinical-trial
+      cohort does not establish representativeness for the proposed research population.
+    evidence_locations:
+      - Methods — Evaluation Using the GEICAM Larger and Independent Test Set
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      FFPE enrichment, RNA extraction, RT-qPCR, and quality control are described.
+      The technical-error distributions central to question 0.3.0 were estimated
+      from only 12 replicates of four archetypal specimens; two archetypes pooled
+      ten tumors and one Luminal A run failed quality control. The authors explicitly
+      state that error functions must be recalculated by laboratory and setting.
+    evidence_locations:
+      - Methods — Archetypal Sample Collection and Preparation
+      - Methods — Error Characterization
+      - Conclusions
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      The perturbation workflow and standard PAM50 classification are described,
+      but the report does not supply a complete executable subtype implementation,
+      exact centroid coefficients, centering reference, preprocessing contract,
+      or immutable software artifact. It therefore cannot directly resolve the NaS
+      method specification dependencies.
+    evidence_locations:
+      - Methods — Monte Carlo Simulation Using Archetypal Samples
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+  - domain: reference_comparator
+    judgment: not_applicable
+    rationale: >-
+      This is a repeatability simulation rather than diagnostic-accuracy validation.
+      Each parent sample's original PAM50 call is the reference for reclassification;
+      no independent biological truth standard is claimed or required for that aim.
+    evidence_locations:
+      - Methods — Error Effect on PAM50 Results for GEICAM Samples
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The central probabilities assume Gaussian, gene-wise independent measurement
+      errors estimated from sparse archetype replicates and extended to GEICAM with
+      subtype-specific loess models. Large Monte Carlo samples reduce simulation
+      noise but cannot repair uncertainty or misspecification in the empirical error
+      model. The text reports 100,000 replicas per GEICAM sample while the figure
+      caption and table counts correspond to 1,000, a material reproducibility conflict.
+    evidence_locations:
+      - Methods — Error Characterization
+      - Methods — Sample Size Justification for Archetypal Sample Monte Carlo Simulation
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+      - Results and Discussion — GEICAM 9906 Samples
+      - Figure 3 caption
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      GEICAM tumors were not independently repeat-tested to compare observed with
+      predicted instability. One four-specimen, single-laboratory error model generated
+      every perturbation, with no external laboratory, platform, calibration cohort,
+      or prospective validation. The proposed clinician scorecard remains conceptual.
+    evidence_locations:
+      - Methods — Evaluation Using the GEICAM Larger and Independent Test Set
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+      - Results and Discussion — GEICAM 9906 Samples
+      - Conclusions
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Laboratory procedures, simulation logic, functions, loess parameters, and
+      scenarios are described, but no complete code or reusable data package is
+      declared, random seeds and R version are absent, and the replica-count conflict
+      prevents exact reconstruction from the report alone.
+    evidence_locations:
+      - Methods — Error Characterization
+      - Methods — Monte Carlo Simulation Using GEICAM Samples
+      - Results and Discussion — GEICAM 9906 Samples
+      - Figure 3 caption
+evidence_role: context_only
+key_strengths:
+  - Directly addresses patient-level uncertainty from technical measurement error in PAM50.
+  - Uses repeated laboratory measurements to motivate an explicit perturbation distribution.
+  - Tests simulated repeatability in 847 independent clinical-trial tumors.
+  - Acknowledges that technical-error functions are laboratory- and setting-specific.
+key_limitations:
+  - Error calibration relies on four archetypal specimens with 12 replicates each.
+  - Independent tumors were simulated rather than independently repeat-measured.
+  - Distributional and gene-independence assumptions lack external empirical validation.
+  - Replica counts conflict between text, tables, and the Figure 3 caption.
+  - No transportable error artifact or prospectively validated abstention threshold is supplied.
+conflicts_and_funding: >-
+  Philip Bernard declared inventing the PAM50 breast test and co-founding
+  Bioclassifier LLC, which held PAM50 licensing rights. The study acknowledged
+  National Library of Medicine training grant LM007124, ARUP Institute laboratory
+  support, and University of Utah high-performance computing time.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex re-evaluated the verified CC-BY full text against the locked
+  question-0.3.0 appraisal protocol, using the prior section-located appraisal as
+  historical evidence. The founder authorized continuation and remains accountable
+  for the locked eligibility and role. No model generated a scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T22:12:53-05:00
+scientific_conclusions_drawn: false
