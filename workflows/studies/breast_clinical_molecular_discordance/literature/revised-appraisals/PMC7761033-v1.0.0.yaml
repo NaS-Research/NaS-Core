@@ -1,0 +1,146 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
+title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier.
+pmid: '33255759'
+doi: 10.3390/cancers12123506
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7761033/fullTextXML
+full_text_sha256: bab950f09f9e8b9844d24306353aa61759d6de8e7142e22ead20098d1f8be456
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Development used 432 TCGA-BRCA tumors with author-provided PAM50 labels, and
+      validation included 5,816 samples from ten additional studies. The large,
+      heterogeneous validation collection is a strength, but inclusion depended on
+      the availability of compatible expression measurements and prior PAM50 calls,
+      Normal-like representation was sparse in training, and clinical and sampling
+      characteristics were not harmonized across cohorts.
+    evidence_locations:
+      - Results — 2.1. Overview of MiniABS
+      - Results — 2.4. Validation on Independent Datasets
+      - Methods — 4.2. Training Dataset
+      - Methods — 4.5. Independent Validation and Processing
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      MiniABS was evaluated across RNA-seq, two-color microarray, Affymetrix
+      microarray, NanoString, and qRT-PCR data, and pairwise within-sample ratios
+      reduce dependence on cohort-level scaling. However, platform-specific
+      preprocessing and probe selection still varied, no central assay or
+      cross-platform technical-replicate experiment was performed, and measurement
+      error was not independently quantified for the 11 required genes.
+    evidence_locations:
+      - Results — 2.4. Validation on Independent Datasets
+      - Methods — 4.2. Training Dataset
+      - Methods — 4.5. Independent Validation and Processing
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      The report specifies the 11 genes, pairwise log-ratio transformation, seven
+      slack-margin values, random-forest family, majority-vote rule, and single-sample
+      execution, and it publishes a MiniABS package. Nevertheless, the final
+      classifier aggregates seven separately parameterized models, exact random
+      seeds and all software dependencies are not frozen in the article, and the
+      package is hosted as a dated SourceForge archive rather than a checksummed
+      research release.
+    evidence_locations:
+      - Results — 2.1. Overview of MiniABS
+      - Results — 2.2. Training and Optimization of the Classifiers
+      - Methods — 4.1. Method Overview
+      - Methods — 4.3. Feature Selection and Input Data (PGER Matrix) Preparation
+      - Methods — 4.6. Performance Assessment with and without Normal-Like
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Author-provided research PAM50 calls offer a consistent technical target and
+      permit comparison with AIMS and uncentered genefu calls. They are not an
+      independent biological or clinical gold standard, vary by original-study
+      implementation, and directly supplied the labels used for feature selection,
+      training, and most validation accuracy calculations.
+    evidence_locations:
+      - Results — 2.4. Validation on Independent Datasets
+      - Discussion
+      - Methods — 4.5. Independent Validation and Processing
+      - Methods — 4.9. Statistical Analysis
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Training used a stratified 80:20 split, repeated five-fold cross-validation,
+      tuning across four algorithms, external validation, accuracy, kappa, confidence
+      intervals, Kaplan-Meier analysis, and Cox regression. However, the reported
+      workflow appears to derive subtype-specific genes from the full 432-sample
+      discovery set before the train-test split; many gene sets, algorithms,
+      slack margins, and model reductions were explored; no study-wide multiplicity
+      plan was specified; and the key Luminal-B discordance survival comparison was
+      unadjusted and not statistically significant.
+    evidence_locations:
+      - Results — 2.2. Training and Optimization of the Classifiers
+      - Results — 2.4. Validation on Independent Datasets
+      - Methods — 4.3. Feature Selection and Input Data (PGER Matrix) Preparation
+      - Methods — 4.4. Training and Optimization of the Classifier
+      - Methods — 4.9. Statistical Analysis
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      The classifier was evaluated in 5,816 samples from ten studies and across four
+      expression-platform families, including platforms absent from training. This
+      is substantial technical transport evidence. Still, validation principally
+      measures agreement with heterogeneous prior PAM50 calls, accuracy improves
+      when the controversial Normal-like class is removed, and the outcome analysis
+      is limited to one retrospective cohort without prospective decision-impact or
+      patient-utility validation.
+    evidence_locations:
+      - Results — 2.4. Validation on Independent Datasets
+      - Discussion
+      - Methods — 4.5. Independent Validation and Processing
+      - Methods — 4.6. Performance Assessment with and without Normal-Like
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The paper reports the training cohort, validation accessions, transformations,
+      selected genes, model family, performance definitions, supplementary
+      information, and a publicly downloadable MiniABS 0.1.1 package. Reproduction
+      is weakened by absent random seeds, incomplete frozen dependency details,
+      and no article-linked checksum or immutable release identifier for the model
+      archive.
+    evidence_locations:
+      - Methods — 4.1. Method Overview
+      - Methods — 4.4. Training and Optimization of the Classifier
+      - Methods — 4.5. Independent Validation and Processing
+      - Associated Data
+evidence_role: supporting
+key_strengths:
+  - Implements an absolute classifier that uses only the expression values of one sample.
+  - Reduces the required measurement panel to 11 biologically interpretable genes.
+  - Validates across 5,816 samples from ten studies and four platform families.
+  - Directly compares MiniABS with AIMS, uncentered genefu PAM50, and published PAM50 calls.
+  - Makes a downloadable implementation and trained model available.
+key_limitations:
+  - PAM50-derived labels are technical targets rather than biological or clinical truth.
+  - Feature selection appears to precede the TCGA train-test split.
+  - Extensive exploratory model and feature selection lacks a study-wide multiplicity plan.
+  - Normal-like exclusion materially improves reported accuracy.
+  - The key Luminal-B discordance survival comparison is retrospective, unadjusted, and nonsignificant.
+  - No independently calibrated uncertainty, repeatability, or abstention rule is validated.
+conflicts_and_funding: >-
+  The authors declared no conflict of interest. Funding came from the Korea Health
+  Technology R&D Project through the Korea Health Industry Development Institute,
+  Ministry of Health and Welfare, Republic of Korea (HI14C1324), and the Bio and
+  Medical Technology Development Program through the National Research Foundation
+  of Korea, Ministry of Science and ICT (NRF-2016M3A9B6903439).
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed domain
+  judgments. The founder explicitly authorized the appraisal and remains accountable
+  for the locked eligibility and evidence-role decision. No model generated a
+  scientific result.
+founder_authorized: true
+assessed_at: 2026-07-24T22:39:50-05:00
+scientific_conclusions_drawn: false

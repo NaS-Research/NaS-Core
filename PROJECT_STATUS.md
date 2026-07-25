@@ -12,9 +12,9 @@ and what comes next?
 
 The question-`0.3.0` review is authorized and active. Founder batch
 `b0c31f7e…00945f` advances all 13 direct-priority records to full-text review.
-Seven have verified CC-BY full text; three question-specific appraisals are
+Seven have verified CC-BY full text; four question-specific appraisals are
 complete. Four are restricted or unavailable through the approved endpoint, and
-two require a lawful alternative source. Appraise the remaining four accessible
+two require a lawful alternative source. Appraise the remaining three accessible
 papers, resolve access where possible, then screen the remaining 87 candidates.
 
 Definition of done:
@@ -80,8 +80,14 @@ Current gate state:
   references and regularized classifiers. Published PAM50 calls remain a technical
   target rather than biological truth, transport is normalization-specific, and
   clinical validity is unproven, so it is not anchor evidence.
-- Living manuscript `0.2.0-working` contains traceable Phase 0 methods,
-  the three completed appraisals, an evidence-to-text ledger, explicit interpretation
+- MiniABS paper `PMC7761033` is `supporting`. It establishes that an 11-gene,
+  pairwise-ratio classifier can operate on a single sample across RNA-seq,
+  microarray, NanoString, and qRT-PCR datasets. Its PAM50-derived target labels,
+  feature-selection sequence, Normal-like sensitivity, and absence of calibrated
+  uncertainty or abstention prevent an anchor role. NaS cannot claim single-sample
+  execution alone as novel.
+- Living manuscript `0.3.0-working` contains traceable Phase 0 methods,
+  the four completed appraisals, an evidence-to-text ledger, explicit interpretation
   labels, and prohibited placeholders for NaS results and conclusions.
 - PubMed and Europe PMC are registered for bounded evidence synthesis. Replacement
   execution `83d33fb2…4434` contains 457 unique records with complete abstracts.
@@ -114,9 +120,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Complete question-`0.3.0` full-text appraisal of the four remaining verified
-   CC-BY priority papers, next addressing the improved absolute single-sample
-   classifier (`PMC7761033`).
+1. Complete question-`0.3.0` full-text appraisal of the three remaining verified
+   CC-BY priority papers, next addressing RNA-seq single-sample subtype and
+   recurrence prediction (`PMC9381586`).
 2. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
 3. Pursue lawful access for AIMS (PMID `25479802`) and the single-subject uncertainty
@@ -156,6 +162,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-24 — Absolute single-sample classifier appraised
+
+Completed the question-specific appraisal of verified CC-BY paper `PMC7761033`
+as `supporting` evidence. MiniABS uses pairwise expression ratios among 11 genes
+to classify one specimen independently of a reference cohort and was evaluated
+across 5,816 samples from ten studies spanning four platform families.
+
+This directly removes single-sample execution as a defensible NaS novelty claim.
+It does not remove the narrower reliability opportunity: PAM50-derived calls are
+the principal targets, feature selection appears to precede the TCGA split,
+Normal-like exclusion improves accuracy, and the key Luminal-B survival comparison
+is nonsignificant. MiniABS provides no independently calibrated technical-error,
+repeatability, ambiguity, or abstention rule. The living manuscript now states
+that distinction explicitly.
 
 ### 2026-07-24 — RNA-seq reference sensitivity appraised
 
@@ -216,20 +237,6 @@ measurement, lacks external laboratory/platform validation, and contains a mater
 100,000-versus-1,000 simulation-count inconsistency. It demonstrates the problem and
 narrows novelty, but does not provide the independently calibrated, transportable
 error model required by the proposed NaS method.
-
-### 2026-07-24 — Founder priority batch and lawful-access inventory completed
-
-Recorded and independently verified the first question-`0.3.0` append-only founder
-batch: 13 direct-priority inclusions, 87 pending records, zero exclusions, zero
-unclear, and zero AI decisions. Updated the typed priority set and evidence-review
-ledger without carrying forward question-`0.2.0` decisions.
-
-Built and persisted the 13-paper access inventory. Seven Europe PMC full texts
-passed exact article identity, approved CC-BY license, checksum, and size
-verification. Four records are restricted or unavailable through the approved
-endpoint, and two have no verified repository full text. Restricted material was
-not stored. The reconciled appraisal ledger reports 7 retrieved, 4 restricted,
-2 awaiting lawful access, and 0 question-specific appraisals complete.
 
 ## Current blockers
 

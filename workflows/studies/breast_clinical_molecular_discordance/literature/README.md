@@ -34,13 +34,13 @@ and zero AI decisions.
 
 The revised access ledger contains seven independently verified CC-BY full texts,
 four restricted or repository-unavailable records, and two records requiring a
-lawful alternative source. No restricted full text was stored. Three
+lawful alternative source. No restricted full text was stored. Four
 question-specific appraisals are complete: `PMC3275466` and `PMC4365540` are
-`context_only`, while `PMC7442834` is `supporting`; four accessible records remain.
-The RNA-seq study confirms strong reference-construction sensitivity and supports
-preprocessing-matched single-sample execution, but its PAM50-derived benchmark
-labels, unresolved cohort independence, and absence of clinical validation prevent
-an anchor role.
+`context_only`, while `PMC7442834` and `PMC7761033` are `supporting`; three
+accessible records remain. MiniABS establishes that an 11-gene, cohort-independent
+classifier can execute on a single sample across several platform families. Its
+PAM50-derived target labels, potentially optimistic feature-selection sequence, and
+absence of calibrated uncertainty or clinical validation prevent an anchor role.
 
 Required artifacts:
 

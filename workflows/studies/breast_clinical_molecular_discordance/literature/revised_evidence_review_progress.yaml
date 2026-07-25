@@ -18,7 +18,7 @@ screening_progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f
 screening_progress_receipt_path: literature/revised-screening-progress/batch-0001.yaml
 primary_screening_complete: false
 eligible_evidence_count: 13
-completed_appraisal_count: 3
+completed_appraisal_count: 4
 access_restricted_count: 4
 pending_candidate_count: 87
 citation_passes: []
@@ -29,6 +29,10 @@ unresolved_claims:
   - >-
     Whether an existing single-subject uncertainty or Not Assigned method already
     resolves the proposed NaS margin, reliability, and abstention contribution.
+  - >-
+    Whether MiniABS model 0.1.1 can be lawfully frozen and reproduced unchanged,
+    and whether its seven-model vote exposes sufficient score information for an
+    independently calibrated reliability and abstention layer.
   - >-
     Whether leave-one-gene-out retention adds defensible information beyond published
     gene-cluster removal, gene-removal, and permutation methods.

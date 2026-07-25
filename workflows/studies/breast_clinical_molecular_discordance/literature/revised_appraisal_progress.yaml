@@ -2,14 +2,14 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: af08a33445641feba853fb292c92b17dd4020cecbae42158a64b430e5278a2a3
 progress_id: b0c31f7e5c4ffd1f37a3bd61bc7853412256d7d9c7e34ba0cfe66e02f900945f
-generated_at: '2026-07-25T03:31:43.030738Z'
+generated_at: '2026-07-25T03:41:35.630358Z'
 provisional_inclusion_count: 13
 full_texts_retrieved: 7
-appraisals_completed: 3
+appraisals_completed: 4
 access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
-supporting_count: 1
+supporting_count: 2
 context_only_count: 2
 excluded_count: 0
 records:
@@ -58,9 +58,11 @@ records:
 - screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
   title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier.
   pmcid: PMC7761033
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 84b4dfe009b0a0a5efb97ebbbc9103d57f62dd30d6cfb1ca2ba13f7e2e439d02
   full_text_sha256: bab950f09f9e8b9844d24306353aa61759d6de8e7142e22ead20098d1f8be456
+  appraisal_version: 1.0.0
+  evidence_role: supporting
 - screening_id: 7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d
   title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence for
     clinical assessment of early-stage breast cancer.

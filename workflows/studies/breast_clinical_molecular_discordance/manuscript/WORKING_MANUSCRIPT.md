@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.2.0-working`
+Manuscript version: `0.3.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -48,12 +48,19 @@ was primarily agreement with prior PAM50 calls rather than biological truth.
 [Appraisals: PMC3275466-v1.0.0; PMC4365540-v1.0.0;
 PMC7442834-v1.0.0]
 
+Absolute single-sample classifiers also exist. MiniABS uses pairwise expression
+ratios among 11 genes to remove dependence on other test samples and was evaluated
+across RNA-seq, microarray, NanoString, and qRT-PCR cohorts. It demonstrates
+single-sample feasibility but does not provide independently calibrated technical
+uncertainty, repeatability, or an explicit abstention state. [PMID:33255759]
+
 This study is therefore evaluating a narrower methodological question: whether a
 fully specified, patient-independent research implementation can report the leading
-and runner-up PAM50 scores, their margin, perturbation repeatability, data-quality
+and runner-up subtype scores, their margin, perturbation repeatability, data-quality
 state, and an explicit reliability or abstention state. The intended contribution
-is analytical reliability and transparent non-assignment—not biological truth,
-clinical validity, treatment prediction, or clinical utility.
+is analytical reliability and transparent non-assignment—not a new claim to
+single-sample classification, biological truth, clinical validity, treatment
+prediction, or clinical utility.
 [Research question 0.3.0; reliability specification 0.1.0]
 
 ## Methods
@@ -82,7 +89,7 @@ All 100 records had abstracts and were reset to pending under question `0.3.0`.
 The founder included all 13 direct-priority records for full-text review. Seven
 had verified CC-BY full text, four were restricted or unavailable through the
 approved repository endpoint, and two required a lawful alternative source.
-Restricted full text was not stored. At this manuscript version, 3 of the 13
+Restricted full text was not stored. At this manuscript version, 4 of the 13
 priority records have completed question-specific appraisal.
 [revised-screening-progress/batch-0001.yaml; revised_appraisal_progress.yaml]
 
@@ -167,6 +174,28 @@ feasibility of preprocessing-matched single-sample execution, but it does not
 establish biological correctness, clinical validity, or clinical utility.
 [PMID:32826944; revised appraisal PMC7442834-v1.0.0]
 
+### Absolute single-sample classification
+
+Seo and colleagues developed MiniABS, a random-forest classifier based on pairwise
+expression ratios among 11 genes. Because each feature is calculated entirely
+within one specimen, execution does not require a contemporaneous reference cohort.
+The model was developed from 432 TCGA-BRCA tumors and evaluated in 5,816 samples
+from ten additional studies spanning RNA-seq, microarray, NanoString, and qRT-PCR.
+Across the validation datasets, the authors reported a mean accuracy of 86.54%
+against prior PAM50 calls after excluding Normal-like tumors. In GSE96058, agreement
+with author-provided PAM50 calls was 76.7% with a kappa of 0.613; MiniABS reassigned
+404 of 767 PAM50 Luminal-B tumors and 208 of 225 Normal-like tumors to Luminal A.
+
+The study demonstrates that cross-platform, cohort-independent single-sample
+classification is technically feasible. It does not establish that discordant
+MiniABS labels are biologically correct: PAM50-derived calls supplied the training
+and validation targets, feature selection appears to have preceded the TCGA
+train-test split, and the key retrospective Luminal-B survival contrast was
+nonsignificant (HR 1.5, 95% CI 0.9–2.4; P=0.126). The downloadable model also lacks
+an independently calibrated measurement-error, repeatability, confidence, or
+abstention rule. The evidence is therefore `supporting`, not anchor evidence.
+[PMID:33255759; revised appraisal PMC7761033-v1.0.0]
+
 ### NaS analytical results
 
 Status: `placeholder—no molecular or outcome data accessed`
@@ -178,15 +207,16 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The first three appraisals suggest that the broad problem is established: PAM50
+The first four appraisals suggest that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
-references and supervised classifiers can support single-sample execution, which
-narrows the remaining research gap. A defensible NaS contribution would need to
-predefine every artifact and transformation, operate on one patient without
-consulting the test cohort, calibrate perturbations from independent technical
-evidence, distinguish analytical reliability from label agreement, and abstain
-when the resulting assignment is not analytically reliable.
+references, pairwise-ratio classifiers, and supervised models already support
+single-sample execution. A defensible NaS contribution cannot therefore be merely
+“a single-sample classifier.” It would need to predefine every artifact and
+transformation, reproduce a fixed classifier unchanged, calibrate perturbations
+from independent technical evidence, distinguish analytical reliability from
+label agreement, expose ambiguity rather than conceal it in a hard label, and
+abstain when the assignment is not analytically reliable.
 
 This interpretation may change after appraisal of absolute single-sample
 classifiers, RNA-seq implementations, uncertainty methods, and software packages.
@@ -197,7 +227,7 @@ It is not an authorized novelty conclusion.
 Status: `working`
 
 - The primary evidence review and citation chaining are incomplete.
-- Only 3 of 13 priority records have completed question-specific appraisal.
+- Only 4 of 13 priority records have completed question-specific appraisal.
 - Several priority full texts are restricted or lack a verified lawful source.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
 - No molecular or outcome data have been accessed for question `0.3.0`.
@@ -224,26 +254,31 @@ checks, and internal reviews are complete.
 3. Cascianelli S, et al. Machine learning for RNA sequencing-based intrinsic
    subtyping of breast cancer. *Sci Rep.* 2020;10:14071.
    PMID:32826944. DOI:10.1038/s41598-020-70832-2.
+4. Seo MK, Paik S, Kim S. An improved, assay platform agnostic, absolute single
+   sample breast cancer subtype classifier. *Cancers (Basel).* 2020;12(12):3506.
+   PMID:33255759. DOI:10.3390/cancers12123506.
 
 ## Evidence-to-text ledger
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–2 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml` | supported, evidence review incomplete |
-| Introduction ¶3 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
+| Introduction ¶1–3 | External methodological evidence | `revised-appraisals/PMC3275466-v1.0.0.yaml`; `revised-appraisals/PMC4365540-v1.0.0.yaml`; `revised-appraisals/PMC7442834-v1.0.0.yaml`; `revised-appraisals/PMC7761033-v1.0.0.yaml` | supported, evidence review incomplete |
+| Introduction ¶4 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions and access | founder progress receipt; `revised_appraisal_progress.yaml` | verified, incomplete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—centering | External evidence appraisal | `revised-appraisals/PMC4365540-v1.0.0.yaml` | context only |
 | Results—RNA-seq reference | External evidence appraisal | `revised-appraisals/PMC7442834-v1.0.0.yaml` | supporting |
+| Results—absolute single sample | External evidence appraisal | `revised-appraisals/PMC7761033-v1.0.0.yaml` | supporting |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | three completed appraisals | provisional |
+| Discussion ¶1–2 | Explicit interpretation | four completed appraisals | provisional |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.3.0-working | 2026-07-24 | Added MiniABS appraisal; removed any implied novelty claim for single-sample classification and isolated reliability and abstention as the candidate contribution. |
 | 0.2.0-working | 2026-07-24 | Added the supporting RNA-seq reference-sensitivity appraisal and narrowed the fixed-reference contribution. |
 | 0.1.0-working | 2026-07-24 | Created governed manuscript; seeded Phase 0 methods and the first two question-specific appraisals. |

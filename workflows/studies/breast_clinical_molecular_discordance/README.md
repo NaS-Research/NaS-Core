@@ -36,7 +36,7 @@ clinical claims remain prohibited until a revised question passes review.
 
 Question `0.3.0` now has a governed
 [living manuscript](manuscript/WORKING_MANUSCRIPT.md). It contains traceable Phase 0
-methods and evidence-appraisal text only. Three of 13 priority papers are appraised:
-two are context-only and the RNA-seq reference-sensitivity study is supporting
-evidence. Unsupported analysis, results, and conclusions remain explicit
-placeholders and may not be promoted to a release.
+methods and evidence-appraisal text only. Four of 13 priority papers are appraised:
+two are context-only, and the RNA-seq reference-sensitivity and MiniABS
+single-sample studies are supporting evidence. Unsupported analysis, results, and
+conclusions remain explicit placeholders and may not be promoted to a release.
