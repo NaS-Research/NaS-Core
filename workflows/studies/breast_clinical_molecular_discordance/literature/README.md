@@ -114,6 +114,13 @@ are locked as `context_only`. The original proposal files correctly retain
 `founder_decision_recorded=false` because authority resides in the separate,
 append-only confirmation artifact.
 
+Citation appraisal batch 0002 now proposes judgments for four single-sample
+method papers under packet SHA-256 `f45518a3…f92e2`. `PMC6219008` and
+`PMC8796360` are proposed as `supporting`; `PMC8479681` and `PMC10848444` are
+proposed as `context_only`. The proposals remain non-authoritative and the live
+progress ledger remains at three completed, ten ready, and 16 awaiting access
+until the founder confirms the exact packet.
+
 Required artifacts:
 
 - `literature/protocol.md`

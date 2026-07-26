@@ -204,6 +204,9 @@ lacking PMC identifiers, 16 records remain in a governed access-check queue.
 The founder authorized the first checksum-bound appraisal batch: three studies are
 complete as context-only and ten verified full texts remain ready for appraisal.
 These counts are workflow results, not scientific findings.
+Four of those ten now have a checksum-bound batch-0002 appraisal proposal under
+founder review. Their proposed judgments are not incorporated into the manuscript
+evidence synthesis and do not change completion counts until exact authorization.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
@@ -224,9 +227,9 @@ they define reliability mechanisms but do not validate a NaS method or clinical
 decision.
 [FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md;
 FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml;
-citation-appraisal-proposals/PMC11217366-v1.0.0.yaml;
-citation-appraisal-proposals/PMC6547580-v1.0.0.yaml;
-citation-appraisal-proposals/PMC3487945-v1.0.0.yaml]
+citation-appraisal-proposals/batch-0001/PMC11217366-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0001/PMC6547580-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0001/PMC3487945-v1.0.0.yaml]
 
 ### Quality appraisal
 

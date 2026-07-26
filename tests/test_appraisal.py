@@ -27,7 +27,8 @@ REAL_APPRAISAL_DIR = (
     / "literature"
     / "appraisals"
 )
-PROPOSAL_DIR = REAL_APPRAISAL_DIR.parent / "citation-appraisal-proposals"
+PROPOSAL_ROOT = REAL_APPRAISAL_DIR.parent / "citation-appraisal-proposals"
+PROPOSAL_DIR = PROPOSAL_ROOT / "batch-0001"
 APPRAISAL_PACKET = (
     REAL_APPRAISAL_DIR.parent / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md"
 )
@@ -167,6 +168,26 @@ def test_first_citation_appraisal_batch_is_non_authoritative() -> None:
         "PMC6547580-v1.0.0",
     ]
     assert all(item.proposed_evidence_role == "context_only" for item in proposals)
+    assert all(item.founder_decision_recorded is False for item in proposals)
+    assert all(item.scientific_conclusions_drawn is False for item in proposals)
+
+
+def test_second_citation_appraisal_batch_is_non_authoritative() -> None:
+    paths = sorted((PROPOSAL_ROOT / "batch-0002").glob("*.yaml"))
+
+    proposals = [
+        FullTextAppraisalProposal.model_validate(yaml.safe_load(path.read_text()))
+        for path in paths
+    ]
+
+    assert [path.stem for path in paths] == [
+        "PMC10848444-v1.0.0",
+        "PMC6219008-v1.0.0",
+        "PMC8479681-v1.0.0",
+        "PMC8796360-v1.0.0",
+    ]
+    assert sum(item.proposed_evidence_role == "supporting" for item in proposals) == 2
+    assert sum(item.proposed_evidence_role == "context_only" for item in proposals) == 2
     assert all(item.founder_decision_recorded is False for item in proposals)
     assert all(item.scientific_conclusions_drawn is False for item in proposals)
 

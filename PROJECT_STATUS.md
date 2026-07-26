@@ -26,7 +26,10 @@ net-new records. Founder-approved amendment `0.2.5` is active. Official Europe P
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
 repository candidates. The founder confirmed checksum-bound appraisal batch 0001.
 Citation progress now has three completed `context_only` appraisals, ten records
-ready for appraisal, and 16 awaiting governed access resolution.
+ready for appraisal, and 16 awaiting governed access resolution. Batch 0002
+contains four validated single-sample/classifier proposals bound to packet
+SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
+ledger.
 
 Definition of done:
 
@@ -278,6 +281,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation appraisal batch 0002 frozen for review
+
+Completed seven-domain appraisal proposals for four direct single-sample method
+papers. Two are proposed as supporting evidence and two as context-only. The packet
+retains platform failures, label circularity, absent uncertainty calibration,
+incomplete external transport, and sparse performance reporting rather than
+promoting algorithm availability into clinical evidence.
+
+Packet SHA-256 `f45518a3…f92e2` binds all four proposal checksums. No founder
+decision, ledger completion, scientific conclusion, novelty claim, or patient-level
+recommendation was recorded.
 
 ### 2026-07-25 — Citation appraisal batch 0001 founder-authorized
 
