@@ -5,7 +5,8 @@ HR-Positive/HER2-Negative Breast Cancer**
 
 Study ID: `NAS-BRCA-002`  
 Question ID: `NAS-RQ-BRCA002`  
-Current state: **Question v0.3.0 drafted; review prerequisites pending**
+Current state: **Question v0.3.0 active under bounded preselection review; pass-2
+founder confirmation is the next gate**
 Planned public URL:
 `https://nasresearch.bio/research/pam50-classification-stability-breast-cancer`
 
@@ -19,44 +20,84 @@ gate was satisfied.
 | Phase | Workstream | Status | Completion evidence / next action |
 | ---: | --- | --- | --- |
 | 0 | Register proposal | Complete | Workspace, draft intake, project plan, and oncology charter entry created |
-| 1 | Review and select question | Changes requested | Phase 0 decision requires a narrower question version `0.3.0` |
-| 2 | Lock evidence-review protocol | Terminated by no-go trigger | Direct prior work preempted the broad thesis; no affirmative novelty claim was made |
-| 3 | Establish data and assay feasibility | Assessment complete; revisions required | TCGA discovery and GSE96058 validation paths mapped; outcome access remains prohibited |
-| 4 | Preregister analysis plan | Blocked | `change` decision explicitly prohibits preregistration until revised review |
+| 1 | Review and select question | In progress after changes requested | Narrowed question `0.3.0`, method contract, evidence work, metadata audits, and living manuscript exist; selection awaits evidence saturation and founder multidisciplinary review |
+| 2 | Lock evidence-review protocol | Bounded review active; formal gate incomplete | Protocol `0.2.5`, direct screening, 53 appraisal reports, citation pass 1 closure, and pass 2 advisory packets exist; exact pass-2 founder confirmation and later zero-yield saturation passes remain |
+| 3 | Establish data and assay feasibility | Input feasibility passed; method compatibility unresolved | Field-isolated audit `1.0.1` verified both 50-gene panels, receptor completeness, and all 136 replicate links; real centroids, reference, platform bridge, and empirical technical-error model remain unresolved |
+| 4 | Preregister analysis plan | Blocked | Requires question selection, evidence saturation, governed method artifacts and thresholds, multidisciplinary founder review, and the `NAS-BRCA-001` qualification release gate |
 | 5 | Capture discovery snapshots | Not started | Requires preregistration and completion of the `NAS-BRCA-001` qualification gate |
 | 6 | Build and quality-check cohort | Not started | Requires an independently verified immutable snapshot |
-| 7 | Execute discovery analysis | Not started | Requires approved cohort QA and frozen analysis code |
+| 7 | Execute discovery analysis | Synthetic method validation only | Synthetic scoring, both perturbation families, failure states, abstention, and companion/order invariance are tested; real execution remains prohibited |
 | 8 | Execute exploratory outcome analysis | Not started | Run only if prespecified event, follow-up, and diagnostic criteria are met |
 | 9 | Reproduce and stress-test | Not started | Requires a frozen discovery run |
 | 10 | Perform external validation | Not started | Requires a locked validation addendum and approved independent source |
 | 11 | Assemble evidence and freeze release | Not started | Requires completed discovery, validation, claim audit, and reviews |
-| 12 | Draft scientific paper | Not started | Must derive exclusively from the approved frozen release |
+| 12 | Draft scientific paper | Living pre-result draft active | Manuscript `0.40.0-working` contains governed methods and external evidence only; analytical results and conclusions remain prohibited placeholders |
 | 13 | Complete publication review | Not started | Resolve clinical, statistical, reproducibility, governance, claim, and editorial reviews |
 | 14 | Produce website edition | Not started | Build approved web content, figures, tables, PDF, metadata, and accessibility assets |
 | 15 | Publish and verify production | Not started | Approve deployment preview, publish version 1.0, and verify production artifacts |
 | 16 | Maintain, correct, and decide next study | Not started | Monitor feedback, version corrections, and hold translation decision review |
+
+## Completion audit — 2026-07-26
+
+The study is **not complete** and no current artifact authorizes a scientific,
+clinical, novelty, molecular, outcome, or publication claim.
+
+Phase 0 is the only fully closed project-to-publication phase. Phases 1, 2, 3,
+7, and 12 contain real partial work, but none satisfies its final exit gate.
+Phases 4–6, 8–11, and 13–16 have not begun outcome-bearing or publication
+execution. These phases are not equally sized, so a percent-complete estimate
+would be false precision.
+
+Current evidence proving partial progress:
+
+- citation pass 1 closure `3f7037ca…d9676` binds 62 eligible identities,
+  56 appraisal-complete identities, six restrictions, and zero pending;
+- pass 2 has 2,479 new screened candidates in two checksum-bound advisory
+  packets, but zero founder decisions;
+- field-isolated audit `1.0.1` passes all five input-feasibility checks without
+  retaining patient, molecular, or outcome records;
+- synthetic-only method code covers exact-panel validation, five-centroid
+  Spearman scoring, leave-one-gene-out and explicit technical-error panels,
+  failure states, abstention, and companion/order invariance;
+- manuscript `0.40.0-working` preserves results and conclusions as prohibited
+  placeholders.
+
+The next completion-critical human action is exact confirmation of
+`FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md`:
+
+> I confirm both checksum-bound citation pass 2 packets as written.
+
+That statement authorizes only the recorded pass-2 screening decisions. It does
+not authorize molecular data, outcomes, analysis, novelty, clinical use, or
+publication.
 
 ### Current blockers
 
 - `NAS-BRCA-001` received a conditional platform-qualification pass; its founder
   results/remediation gate remains pending before outcome-bearing discovery work.
 - Question `0.2.0` received a `change` decision after direct prior work was found;
-  the narrowed `0.3.0` revision is proposed and not approved.
+  the narrowed `0.3.0` revision remains proposed and not approved.
 - The revised single-sample reliability/abstention contribution has not completed
   scientific/product, molecular/pathology, and statistical self-review.
-- GSE96058 is approved as a processed-data validation candidate, but its PAM50
-  gene coverage and the cross-platform transformation remain unverified.
+- Evidence saturation is incomplete. Pass 2 has complete advisory coverage but
+  no founder decision; two consecutive fully screened zero-yield passes have not
+  occurred.
+- GSE96058 is approved as a processed-data validation candidate. Its PAM50 gene
+  coverage and replicate linkage are verified; the cross-platform transformation
+  and empirically calibrated technical-error model remain unresolved.
+- Exact real PAM50 centroids, external reference values, numerical tolerance,
+  and reliability thresholds remain unapproved. Synthetic fixtures cannot resolve
+  those scientific dependencies.
 
 ### Immediate working queue
 
-1. Use the completed synthetic two-family scoring kernel to resolve software
-   behavior while separately identifying an independently calibrated real
-   technical-error model and governed method artifacts; do not treat synthetic
-   vectors as calibration or select thresholds from molecular/outcome results.
-2. Complete the revised evidence review and two-pass citation-chain stopping rule.
-3. Preserve the completed metadata-only verification of TCGA/GSE96058 receptor
-   fields, PAM50 coverage, and GSE96058 replicate linkage while resolving the
-   cross-platform transformation separately.
+1. Record exact founder confirmation of the checksum-bound pass-2 packets.
+2. Route only confirmed pass-2 inclusions through lawful access and appraisal,
+   close the pass from verified receipts, and continue citation chaining until
+   two consecutive fully screened passes add no eligible evidence.
+3. Resolve real governed centroid/reference artifacts, the platform bridge,
+   empirical technical-error calibration, numerical tolerance, and thresholds
+   without molecular or outcome-guided selection.
 4. Complete the three founder review perspectives in
    `reviews/QUESTION_REVIEW_PACKET.md`.
 5. Return revised version `0.3.0` for `go`, `change`, `hold`, or `reject`.

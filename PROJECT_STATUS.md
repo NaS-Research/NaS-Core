@@ -402,6 +402,18 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-26 — Project-to-publication completion audit reconciled
+
+Reconciled every phase in `NAS-BRCA-002/PROJECT_PLAN.md` against current immutable
+receipts, typed state, synthetic method evidence, and manuscript placeholders.
+Phase 0 is the only fully closed project-to-publication phase. Phases 1, 2, 3,
+7, and 12 contain partial work but have not met their exit gates; all remaining
+outcome-bearing, release, review, website, and publication phases remain
+unstarted or blocked. The audit replaces stale claims that evidence retrieval,
+metadata verification, synthetic method execution, and manuscript work had not
+begun. It records the exact pass-2 founder statement as the next human action and
+explicitly rejects a misleading percent-complete estimate.
+
 ### 2026-07-26 — Citation pass 2 prepared for founder confirmation
 
 Executed the cumulative-seed, bidirectional Europe PMC retrieval, prior-decision
