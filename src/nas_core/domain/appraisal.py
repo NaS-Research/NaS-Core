@@ -11,6 +11,10 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from nas_core.domain.snapshots import StoredObject
 
+APPRAISAL_BATCH_CONFIRMATION_STATEMENT = (
+    "I confirm citation appraisal batch 0001 as written."
+)
+
 
 class AppraisalModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -448,6 +452,48 @@ class FullTextAppraisalProposal(AppraisalModel):
         return self
 
 
+class FullTextAppraisalProposalReference(AppraisalModel):
+    filename: str = Field(pattern=r"^PMC[0-9]+-v[0-9]+\.[0-9]+\.[0-9]+\.yaml$")
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+
+
+class FullTextAppraisalBatchConfirmation(AppraisalModel):
+    schema_version: str = "1.0.0"
+    confirmation_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(min_length=1)
+    batch_number: int = Field(ge=1)
+    packet_filename: str = Field(min_length=1)
+    packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    proposal_count: int = Field(ge=1)
+    proposals: list[FullTextAppraisalProposalReference] = Field(min_length=1)
+    confirmation_statement: str
+    founder_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    founder_name: str = Field(min_length=1)
+    reviewer_role: str = Field(min_length=1)
+    confirmed_at: datetime
+    founder_authorized: bool
+    founder_role_conflict_disclosed: bool
+
+    @model_validator(mode="after")
+    def validate_confirmation(self) -> FullTextAppraisalBatchConfirmation:
+        if self.batch_number != 1:
+            raise ValueError("this confirmation contract is bound to batch 0001")
+        if self.confirmation_statement != APPRAISAL_BATCH_CONFIRMATION_STATEMENT:
+            raise ValueError("appraisal confirmation statement is not exact")
+        if not self.founder_authorized:
+            raise ValueError("appraisal confirmation requires founder authorization")
+        if not self.founder_role_conflict_disclosed:
+            raise ValueError("founder reviewer-role conflict must be disclosed")
+        if len(self.proposals) != self.proposal_count:
+            raise ValueError("appraisal confirmation proposal count does not reconcile")
+        if len({item.filename for item in self.proposals}) != len(self.proposals):
+            raise ValueError("appraisal confirmation filenames must be unique")
+        if len({item.screening_id for item in self.proposals}) != len(self.proposals):
+            raise ValueError("appraisal confirmation screening IDs must be unique")
+        return self
+
+
 class FullTextAppraisalProgressRecord(AppraisalModel):
     screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     title: str = Field(min_length=1)
@@ -590,6 +636,14 @@ def load_full_text_appraisal(path: Path) -> FullTextAppraisal:
 
 def load_full_text_appraisal_proposal(path: Path) -> FullTextAppraisalProposal:
     return FullTextAppraisalProposal.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_full_text_appraisal_batch_confirmation(
+    path: Path,
+) -> FullTextAppraisalBatchConfirmation:
+    return FullTextAppraisalBatchConfirmation.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

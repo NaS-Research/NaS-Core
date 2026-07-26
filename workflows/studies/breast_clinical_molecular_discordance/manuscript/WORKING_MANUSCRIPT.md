@@ -201,8 +201,9 @@ and were immutably retrieved. Five returned no full text from that endpoint, thr
 did not carry an approved durable-storage license, and two failed exact identity
 matching; none of those ten stored article content. Together with six records
 lacking PMC identifiers, 16 records remain in a governed access-check queue.
-Thirteen citation-pass studies are ready for appraisal. These are access and
-workflow results, not scientific findings.
+The founder authorized the first checksum-bound appraisal batch: three studies are
+complete as context-only and ten verified full texts remain ready for appraisal.
+These counts are workflow results, not scientific findings.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
@@ -210,6 +211,22 @@ FOUNDER_CITATION_PASS_0001_CONFIRMATION_v1.0.0.yaml;
 citation-chain/pass-0001-decision-ledger.yaml;
 citation-chain/pass-0001-inclusion-reconciliation.yaml;
 evidence-cap-amendment-activation-v0.2.5.yaml]
+
+The first citation appraisal batch adds a deliberately bounded contrast. A paired
+triple-negative series reported 92.7% raw RNA-seq/NanoString subtype agreement,
+while comparisons in PALOMA-2 and PALLET reported 54% and 69% agreement,
+respectively. These percentages are not directly exchangeable: the populations,
+platform pairings, normalization, algorithms, and ambiguity rules differed.
+An independent 814-patient RT-qPCR study further showed incomplete mapping between
+clinical surrogate categories and intrinsic subtypes and systematic call changes
+under normal-tissue contamination. The three studies are context-only evidence;
+they define reliability mechanisms but do not validate a NaS method or clinical
+decision.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md;
+FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml;
+citation-appraisal-proposals/PMC11217366-v1.0.0.yaml;
+citation-appraisal-proposals/PMC6547580-v1.0.0.yaml;
+citation-appraisal-proposals/PMC3487945-v1.0.0.yaml]
 
 ### Quality appraisal
 
@@ -782,7 +799,7 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 28 completed accessible-record appraisals show that the broad problem is established: PAM50
+The 31 completed appraisals show that the broad problem is established: PAM50
 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
@@ -809,9 +826,10 @@ novelty conclusion.
 
 Status: `working`
 
-- Primary and citation-pass-1 title-and-abstract screening and all 28 currently
-  accessible appraisals are complete. Pass 1 has 29 net-new records in an authorized
-  governed queue: 13 are ready for appraisal and 16 await access resolution;
+- Primary and citation-pass-1 title-and-abstract screening are complete. Thirty-one
+  appraisals are complete across the direct and citation sets. Pass 1 has 29 net-new
+  records in an authorized governed queue: three are appraised, ten are ready for
+  appraisal, and 16 await access resolution;
   sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -919,7 +937,8 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 13 ready, 16 pending access |
+| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 10 ready, 16 pending access |
+| Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisal-proposals/` | context only |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -957,6 +976,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.18.0-working | 2026-07-25 | Added founder-authorized citation appraisal batch 0001 and the bounded cross-study platform, population, implementation, and ambiguity synthesis; 31 total appraisals are complete. |
 | 0.17.0-working | 2026-07-25 | Added the governed IEEE publisher-PDF receipt and CDLS appraisal; all 28 lawfully accessible records are appraised, with two access restrictions retained. |
 | 0.16.0-working | 2026-07-25 | Added cross-platform microarray/nCounter discordance, classifieR, and spatially guided mFISHseq appraisals; all 27 lawfully accessible records are now appraised. |
 | 0.15.0-working | 2026-07-25 | Added NHS cohort-centering, NanoString QC/normalization, and fixed stable-reference single-sample scoring appraisals; 24 of 30 records are now appraised. |

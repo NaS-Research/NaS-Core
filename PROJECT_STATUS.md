@@ -24,10 +24,9 @@ zero unclear and zero AI decisions. Exact-identifier reconciliation found no ove
 with the active 30-record inventory, three previously appraised studies, and 29
 net-new records. Founder-approved amendment `0.2.5` is active. Official Europe PMC
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
-repository candidates. Citation progress has 13 records ready for appraisal and
-16 awaiting governed access resolution. Batch 0001 now contains three mechanically
-validated, checksum-bound appraisal proposals; all remain non-authoritative until
-the founder confirms the packet.
+repository candidates. The founder confirmed checksum-bound appraisal batch 0001.
+Citation progress now has three completed `context_only` appraisals, ten records
+ready for appraisal, and 16 awaiting governed access resolution.
 
 Definition of done:
 
@@ -201,8 +200,9 @@ Current gate state:
   access resolution, not scientific exclusion. Citation progress records 13 ready
   for appraisal, 16 awaiting full text, and zero new appraisals completed.
 - Citation appraisal batch 0001 covers `PMC11217366`, `PMC6547580`, and
-  `PMC3487945`. All three are proposed as `context_only`; no founder decision has
-  been recorded and the governing progress counts remain unchanged.
+  `PMC3487945`. Exact founder confirmation is bound to the packet and proposal
+  checksums. The authorization service derives three locked `context_only`
+  appraisals, and the governing progress ledger records the completed state.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -240,8 +240,8 @@ Current gate state:
 
 1. Resolve the 16-record governed access-check queue through exact identity,
    publisher/repository rights, and read-only-versus-restricted decisions.
-2. Appraise the 13 verified CC BY citation studies, beginning with the most direct
-   PAM50 assay-concordance and cross-platform implementation evidence.
+2. Appraise the remaining ten verified CC BY citation studies, prioritizing direct
+   single-sample, normalization, perturbation, and external-transport evidence.
 3. Appraise every additionally accessible methodological or external-transport study,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
@@ -278,6 +278,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation appraisal batch 0001 founder-authorized
+
+Bound the founder's exact confirmation to packet SHA-256 `4704eba6…0516e` and
+three immutable proposal checksums. A typed authorization service now fails closed
+on altered packet bytes, altered proposals, missing records, identity changes,
+non-exact language, undisclosed reviewer conflict, or absent founder authority.
+
+The live citation ledger now records three completed `context_only` appraisals,
+ten verified full texts ready for appraisal, and 16 unresolved access records.
+The batch supports a bounded synthesis that PAM50 agreement depends on population,
+specimen, platform, preprocessing, implementation, and ambiguity handling; it does
+not establish NaS accuracy, novelty, clinical utility, or patient-level readiness.
 
 ### 2026-07-25 — Citation appraisal proposal boundary implemented
 

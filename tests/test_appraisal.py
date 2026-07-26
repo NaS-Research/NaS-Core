@@ -6,9 +6,16 @@ import yaml
 from pydantic import ValidationError
 
 from nas_core.domain.appraisal import (
+    APPRAISAL_BATCH_CONFIRMATION_STATEMENT,
     AppraisalDomainName,
     FullTextAppraisal,
+    FullTextAppraisalBatchConfirmation,
     FullTextAppraisalProposal,
+    load_full_text_appraisal_batch_confirmation,
+)
+from nas_core.retrieval.appraisal_confirmation import (
+    AppraisalConfirmationError,
+    AppraisalConfirmationService,
 )
 
 ROOT = Path(__file__).parents[1]
@@ -21,6 +28,13 @@ REAL_APPRAISAL_DIR = (
     / "appraisals"
 )
 PROPOSAL_DIR = REAL_APPRAISAL_DIR.parent / "citation-appraisal-proposals"
+APPRAISAL_PACKET = (
+    REAL_APPRAISAL_DIR.parent / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md"
+)
+APPRAISAL_CONFIRMATION = (
+    REAL_APPRAISAL_DIR.parent
+    / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml"
+)
 
 
 def _payload(*, role: str = "anchor", validation: str = "low") -> dict[str, object]:
@@ -155,6 +169,87 @@ def test_first_citation_appraisal_batch_is_non_authoritative() -> None:
     assert all(item.proposed_evidence_role == "context_only" for item in proposals)
     assert all(item.founder_decision_recorded is False for item in proposals)
     assert all(item.scientific_conclusions_drawn is False for item in proposals)
+
+
+def test_appraisal_batch_confirmation_requires_exact_statement() -> None:
+    payload = {
+        "confirmation_version": "1.0.0",
+        "study_id": "NAS-BRCA-002",
+        "batch_number": 1,
+        "packet_filename": "packet.md",
+        "packet_sha256": "a" * 64,
+        "proposal_count": 1,
+        "proposals": [
+            {
+                "filename": "PMC11217366-v1.0.0.yaml",
+                "screening_id": "b" * 64,
+                "sha256": "c" * 64,
+            }
+        ],
+        "confirmation_statement": "Looks good.",
+        "founder_id": "dalron-j-robertson",
+        "founder_name": "Dalron J. Robertson",
+        "reviewer_role": "founder_internal_reviewer",
+        "confirmed_at": datetime(2026, 7, 26, tzinfo=UTC),
+        "founder_authorized": True,
+        "founder_role_conflict_disclosed": True,
+    }
+
+    with pytest.raises(ValidationError, match="statement is not exact"):
+        FullTextAppraisalBatchConfirmation.model_validate(payload)
+
+
+def test_appraisal_confirmation_service_rejects_packet_checksum(
+    tmp_path: Path,
+) -> None:
+    packet = tmp_path / "packet.md"
+    packet.write_text("changed", encoding="utf-8")
+    confirmation = FullTextAppraisalBatchConfirmation(
+        confirmation_version="1.0.0",
+        study_id="NAS-BRCA-002",
+        batch_number=1,
+        packet_filename="packet.md",
+        packet_sha256="a" * 64,
+        proposal_count=1,
+        proposals=[
+            {
+                "filename": "PMC11217366-v1.0.0.yaml",
+                "screening_id": "b" * 64,
+                "sha256": "c" * 64,
+            }
+        ],
+        confirmation_statement=APPRAISAL_BATCH_CONFIRMATION_STATEMENT,
+        founder_id="dalron-j-robertson",
+        founder_name="Dalron J. Robertson",
+        reviewer_role="founder_internal_reviewer",
+        confirmed_at=datetime(2026, 7, 26, tzinfo=UTC),
+        founder_authorized=True,
+        founder_role_conflict_disclosed=True,
+    )
+
+    with pytest.raises(AppraisalConfirmationError, match="checksum failed"):
+        AppraisalConfirmationService().authorize(
+            confirmation=confirmation,
+            packet_path=packet,
+            proposal_paths=[],
+        )
+
+
+def test_real_appraisal_confirmation_authorizes_exact_proposal_set() -> None:
+    confirmation = load_full_text_appraisal_batch_confirmation(APPRAISAL_CONFIRMATION)
+
+    appraisals = AppraisalConfirmationService().authorize(
+        confirmation=confirmation,
+        packet_path=APPRAISAL_PACKET,
+        proposal_paths=sorted(PROPOSAL_DIR.glob("*.yaml")),
+    )
+
+    assert len(appraisals) == 3
+    assert all(item.founder_authorized for item in appraisals)
+    assert all(item.evidence_role == "context_only" for item in appraisals)
+    assert all(
+        item.review_method == "founder_with_ai_assistance" for item in appraisals
+    )
 
 
 def test_second_real_appraisal_is_context_only_and_non_conclusive() -> None:

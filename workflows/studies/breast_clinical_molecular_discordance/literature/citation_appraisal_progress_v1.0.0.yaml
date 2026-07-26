@@ -2,16 +2,16 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
 progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
-generated_at: '2026-07-25T21:20:11.360276Z'
+generated_at: '2026-07-26T00:55:44Z'
 provisional_inclusion_count: 29
 full_texts_retrieved: 13
 read_only_full_texts_reviewed: 0
-appraisals_completed: 0
+appraisals_completed: 3
 access_restricted_count: 0
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
-context_only_count: 0
+context_only_count: 3
 excluded_count: 0
 records:
 - screening_id: ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874
@@ -35,9 +35,11 @@ records:
 - screening_id: f19c6289712d0f195fa224726b02c70d400391689afebcc6e84174d8a8c4a40b
   title: PAM50 breast cancer subtyping by RT-qPCR and concordance with standard clinical molecular markers.
   pmcid: PMC3487945
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 2e63f952ae24efd89e01bdd37e919fceec5ab894ebdfacbc859b3191610a68fe
   full_text_sha256: c6682f9e314065f7b1cfa62399e56a9c0d6925baf12849454485df4e94f35f5d
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 630314e3504ea43f55fbbf4a9b13d36cd24bacb736f44ba8f0ce712802ea34be
   title: 'Assignment of tumor subtype by genomic testing and pathologic-based approximations: implications
     on patient''s management and therapy selection.'
@@ -88,9 +90,11 @@ records:
   title: 'Breast cancer PAM50 signature: correlation and concordance between RNA-Seq and digital multiplexed
     gene expression technologies in a triple negative breast cancer series.'
   pmcid: PMC6547580
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 0455214838fac222ecde6c26317985ccc9ff0eb4a99b77e2f8c090e6f9ef8cbc
   full_text_sha256: 82092cd34ffb3a8e6bc9f99f301853e9dd168eeed87208e8ec59addaf79dfb3b
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 6e71578597a0700e630b89ee2b7c6aab3ff0807ff760a869864071f6b62903eb
   title: Standardized versus research-based PAM50 intrinsic subtyping of breast cancer.
   status: awaiting_full_text
@@ -157,9 +161,11 @@ records:
   title: Effect of cross-platform gene-expression, computational methods on breast cancer subtyping in
     PALOMA-2 and PALLET studies.
   pmcid: PMC11217366
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 7b4bf7205fa8fa727e9ba3526399d28433ff660c943218798f700ad8aebba99f
   full_text_sha256: ea958edeca833a08d5834d9fde3df7a5a2fb104748c4e1bd306dd02ea1f77333
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529
   title: The spatially informed mFISHseq assay resolves biomarker discordance and predicts treatment response
     in breast cancer.

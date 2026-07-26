@@ -1,0 +1,24 @@
+schema_version: 1.0.0
+confirmation_version: 1.0.0
+study_id: NAS-BRCA-002
+batch_number: 1
+packet_filename: FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md
+packet_sha256: 4704eba652d027f4f93389a7af76b54dfac5d64e261c977840e7382ae600516e
+proposal_count: 3
+proposals:
+  - filename: PMC11217366-v1.0.0.yaml
+    screening_id: 2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a
+    sha256: 1f3188421b6b4d1f832ab114a43afa960d1f2074107ca7551854c482594469bc
+  - filename: PMC3487945-v1.0.0.yaml
+    screening_id: f19c6289712d0f195fa224726b02c70d400391689afebcc6e84174d8a8c4a40b
+    sha256: 621add70dede86407bb437e6933a4d3d5feb9b5059abbcc268f6aed996292ae1
+  - filename: PMC6547580-v1.0.0.yaml
+    screening_id: 4f4ee766ff74a049a626bdee612a1bc7a2540e91771f5ec9d254f74dbf4fcf57
+    sha256: b86612dbfa620ca4ad0297073987b97dd2a14a5eb18b24cdb2faefbffb1995a8
+confirmation_statement: I confirm citation appraisal batch 0001 as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-26T00:55:44Z'
+founder_authorized: true
+founder_role_conflict_disclosed: true

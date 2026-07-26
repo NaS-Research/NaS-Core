@@ -102,16 +102,17 @@ exact identity matching. Those ten stored no article content.
 Access-check queue `de76e254…46ad93` combines the ten repository failures with six
 records having no PMCID. It records zero final access decisions: all 16 remain
 pending lawful read-only, publisher-license, identity-correction, or restriction
-review. Reconciled `citation_appraisal_progress_v1.0.0.yaml` records 13 ready for
-appraisal, 16 awaiting full text, and zero new appraisals complete.
+review. Reconciled `citation_appraisal_progress_v1.0.0.yaml` records three completed
+appraisals, ten ready for appraisal, and 16 awaiting full text.
 
-Citation appraisal batch 0001 proposes seven-domain judgments for three direct
-studies: `PMC11217366`, `PMC6547580`, and `PMC3487945`. The proposal files are
-mechanically validated but explicitly non-authoritative: each records
-`founder_decision_recorded=false`, and all three remain `ready_for_appraisal` in
-the governing progress ledger. The founder packet
-`FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md` binds the exact proposal hashes
-and requires one exact confirmation before locked appraisals may be created.
+Citation appraisal batch 0001 covers three direct studies: `PMC11217366`,
+`PMC6547580`, and `PMC3487945`. The founder supplied the exact confirmation bound
+to packet SHA-256 `4704eba6…0516e` and all three proposal checksums. The typed
+authorization service independently verifies those bytes before deriving locked
+founder-authorized appraisals; modified or incomplete inputs fail closed. All three
+are locked as `context_only`. The original proposal files correctly retain
+`founder_decision_recorded=false` because authority resides in the separate,
+append-only confirmation artifact.
 
 Required artifacts:
 
