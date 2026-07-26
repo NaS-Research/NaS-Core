@@ -1,0 +1,111 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529
+title: The spatially informed mFISHseq assay resolves biomarker discordance and predicts treatment response in breast cancer.
+pmid: '39747865'
+doi: 10.1038/s41467-024-55583-2
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:11696812&metadataPrefix=pmc
+full_text_sha256: 5b5e30f693880dfcaf0efb16444bf5807fc5a7f42d45dc68a9f334ed693e07a0
+access_basis: >-
+  Official PMC OAI article XML reviewed ephemerally; canonical article subtree
+  verified and zero article bytes retained. CC BY-NC-ND 4.0 does not authorize a
+  durable commercial corpus.
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The retrospective development cohort begins with 1,082 archived FFPE breast
+      samples from European biobanks, a hospital, and commercial sources, with 1,013
+      invasive tumors used in most analyses. Tissue, consent, and clinical-data
+      availability limit representativeness.
+    evidence_locations:
+      - Methods — Study Design
+      - Supplementary Data 1
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Blinded batch processing, RNA-FISH biomarkers, guided laser-capture
+      microdissection, sequencing controls, and pathology review are substantial
+      strengths. Region selection emphasizes biomarker-defined areas, most cases
+      lack paired unguided measurement, and low-expression IHC remains variable.
+    evidence_locations:
+      - Methods — Multiplexed RNA-FISH
+      - Methods — Laser capture microdissection
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      The 293-gene classifier and consensus vote across mFISHseq, PAM50, and AIMS
+      are developed and interpreted using the retrospective cohort. Outcome
+      alignment is used to support reclassification, without a frozen externally
+      calibrated correctness probability or abstention rule.
+    evidence_locations:
+      - Results — Molecular subtyping discordance
+      - Results — Consensus subtyping
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      IHC, PAM50, AIMS, prognostic signatures, molecular markers, and survival
+      provide convergent comparisons but no biological subtype truth. Majority
+      voting among correlated expression classifiers cannot establish that the
+      consensus label is correct.
+    evidence_locations:
+      - Results — Consensus subtyping
+      - Results — External cohort validation
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Only analytical biomarker thresholds use the 70:30 split; consensus,
+      prognostic, survival, treatment, and many molecular analyses use broader
+      adaptive comparisons. Multiplicity procedures are reported, but the 52-patient
+      T-DM1 model and outcome-guided interpretations remain optimism-prone.
+    evidence_locations:
+      - Methods — Study Design
+      - Methods — Statistics and Reproducibility
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      METABRIC and TCGA test consensus components and outcome associations, but do
+      not independently validate the complete spatial assay unchanged. The
+      48-patient research-use deployment is descriptive, and treatment recommendations
+      and T-DM1 response predictions lack prospective validation.
+    evidence_locations:
+      - Results — METABRIC and TCGA validation
+      - Results — Real-world implementation
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Peer review, detailed methods, source data, supplements, software versions,
+      conflicts, and reporting summaries improve transparency over the preprint.
+      The complete commercial assay, patient-level dataset, and frozen executable
+      clinical implementation are not independently reproducible.
+    evidence_locations:
+      - Methods
+      - Data availability
+proposed_evidence_role: context_only
+key_strengths:
+  - Integrates spatial RNA imaging, tumor-enriched microdissection, and transcriptomics.
+  - Includes a large archival cohort plus external METABRIC and TCGA analyses.
+  - Reports substantial classifier discordance and boundary instability openly.
+  - The peer-reviewed version provides fuller methods, source data, and external analyses.
+key_limitations:
+  - This is the version of record for the already appraised 2023 preprint, not an independent study.
+  - Consensus voting among correlated classifiers does not create biological truth.
+  - Most subtype and outcome analyses are not protected by the analytical holdout.
+  - Treatment-response and research-use findings are not prospectively validated.
+conflicts_and_funding: >-
+  Numerous authors are current or former MultiplexDX personnel; related patent
+  applications, advisory roles, and the commercial Multiplex8+ test are disclosed.
+  The paper reports public, European, institutional, and company-linked support.
+  These relationships are directly relevant to interpretation.
+assistant_id: openai-codex
+assistant_disclosure: >-
+  OpenAI Codex reviewed the checksum-bound canonical article representation
+  ephemerally and proposed section-located judgments. This is not a founder
+  decision, locked appraisal, scientific conclusion, novelty finding, or clinical
+  recommendation.
+proposed_at: '2026-07-26T00:20:00-05:00'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

@@ -192,7 +192,10 @@ def canonicalize_pmc_oai_article(body: bytes) -> tuple[bytes, str, dict[str, str
     identity: dict[str, str] = {}
     for element in article.iter():
         local_name = element.tag.rsplit("}", 1)[-1]
-        value = " ".join(" ".join(element.itertext()).split())
+        # Inline JATS markup may split one word across adjacent text nodes, as in
+        # ``<underline>Pur</underline>ity``. Identity extraction must concatenate
+        # those nodes before normalizing whitespace or exact titles fail closed.
+        value = " ".join("".join(element.itertext()).split())
         if local_name == "article-id":
             id_type = element.attrib.get("pub-id-type", "").casefold()
             if id_type in {"pmcid", "pmid", "doi"} and value:

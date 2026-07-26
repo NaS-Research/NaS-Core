@@ -62,13 +62,18 @@ remaining papers passed those canonical gates and are frozen as batch-0007
 founder confirmation. There are no remaining unresolved lawful-viewing routes in
 this citation subset.
 
-The six pending appraisal packets are indexed in
-`FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`: 17 proposals total,
-including seven proposed `supporting` and ten proposed `context_only` appraisals.
+The seven pending appraisal packets are indexed in
+`FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`: 22 proposals total,
+including seven proposed `supporting` and 15 proposed `context_only` appraisals.
 Each batch requires its own exact founder confirmation before materialization.
-Five additional citation-pass full texts—`PMC4779705`, `PMC6942634`,
-`PMC7299291`, `PMC11265146`, and `PMC11696812`—remain to be appraised and
-checksum-frozen in a later packet.
+Batch 0008 completes proposal-stage appraisal of the five remaining verified
+citation-pass full texts under packet SHA-256 `4cf6fdab…028bd`. Its three
+canonical PMC OAI sources passed exact re-fetch, identity, checksum, narrative,
+and verbatim-leakage gates with zero article bytes retained; its two durable CC BY
+sources passed external object-store checksum verification. All five are proposed
+as `context_only`. The peer-reviewed `PMC11696812` report is the version of record
+for the already appraised `PMC10723508` preprint and must replace—not supplement—
+that preprint in synthesis, so the pair counts as one study.
 
 Metadata feasibility audit `1.0.0` is complete under the existing no-patient-row
 Phase 0 boundary. It verified 1,231 open TCGA-BRCA STAR-count files, the current
@@ -292,9 +297,9 @@ Current gate state:
 ## Next implementation queue
 
 1. Obtain separate exact founder decisions for citation appraisal batches 0002
-   through 0007; materialize only the batches explicitly confirmed.
-2. Appraise the five remaining verified citation-pass full texts and freeze their
-   non-authoritative proposals in a checksum-bound batch.
+   through 0008; materialize only the batches explicitly confirmed.
+2. Record the mFISHseq version-of-record link during batch-0008 materialization
+   so the peer-reviewed article replaces, and never double-counts, its preprint.
 3. Obtain exact founder authorization for field-isolated metadata audit `1.0.0`;
    only then implement and execute its transient projection gates.
 4. After all citation-pass-1 appraisals are founder-reviewed, execute sequential

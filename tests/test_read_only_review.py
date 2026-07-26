@@ -429,6 +429,29 @@ def test_pmc_oai_review_hashes_only_stable_article_subtree() -> None:
     assert first.durable_full_text_stored is False
 
 
+def test_pmc_oai_identity_preserves_words_split_by_inline_markup() -> None:
+    body = _oai_body().replace(
+        b"Synthetic single-sample study.",
+        b"<underline>Synth</underline>etic single-sample study.",
+    )
+
+    receipt = PmcOaiReadOnlyReviewService(
+        transport=FakeTransport(body),
+        clock=lambda: NOW,
+    ).review(
+        _record(),
+        study_id="NAS-BRCA-002",
+        queue_id="b" * 64,
+        progress_id="c" * 64,
+        code_revision="abcdef1",
+        access_basis="Canonical no-storage review.",
+        observed_rights="All rights reserved.",
+        rights_url="https://pmc.ncbi.nlm.nih.gov/about/copyright/",
+    )
+
+    assert receipt.article_identity_verified
+
+
 def _publisher_html(*, include_citation_metadata: bool = True) -> bytes:
     title = (
         "A three-gene model to robustly identify breast cancer molecular subtypes."

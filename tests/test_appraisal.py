@@ -246,6 +246,26 @@ def test_second_citation_appraisal_batch_is_non_authoritative() -> None:
     assert all(item.scientific_conclusions_drawn is False for item in proposals)
 
 
+def test_eighth_citation_appraisal_batch_is_non_authoritative() -> None:
+    paths = sorted((PROPOSAL_ROOT / "batch-0008").glob("*.yaml"))
+
+    proposals = [
+        FullTextAppraisalProposal.model_validate(yaml.safe_load(path.read_text()))
+        for path in paths
+    ]
+
+    assert [path.stem for path in paths] == [
+        "PMC11265146-v1.0.0",
+        "PMC11696812-v1.0.0",
+        "PMC4779705-v1.0.0",
+        "PMC6942634-v1.0.0",
+        "PMC7299291-v1.0.0",
+    ]
+    assert all(item.proposed_evidence_role == "context_only" for item in proposals)
+    assert all(item.founder_decision_recorded is False for item in proposals)
+    assert all(item.scientific_conclusions_drawn is False for item in proposals)
+
+
 def test_third_citation_appraisal_batch_is_non_authoritative() -> None:
     paths = sorted((PROPOSAL_ROOT / "batch-0003").glob("*.yaml"))
 
@@ -477,6 +497,7 @@ def test_real_appraisal_confirmation_authorizes_exact_proposal_set() -> None:
         (5, 0, 1),
         (6, 0, 2),
         (7, 0, 3),
+        (8, 0, 5),
     ],
 )
 def test_pending_real_batches_are_authorization_ready(
@@ -515,7 +536,7 @@ def test_pending_real_batches_are_authorization_ready(
 def test_pending_review_index_binds_real_packet_hashes_and_counts() -> None:
     review_index = PENDING_REVIEW_INDEX.read_text(encoding="utf-8")
 
-    for batch_number in range(2, 8):
+    for batch_number in range(2, 9):
         packet = (
             REAL_APPRAISAL_DIR.parent
             / f"FOUNDER_CITATION_APPRAISAL_BATCH_{batch_number:04d}_v1.0.0.md"

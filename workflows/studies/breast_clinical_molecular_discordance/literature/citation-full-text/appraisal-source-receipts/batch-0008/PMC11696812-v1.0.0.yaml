@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 3fd159ec6f850fb6015abb449561d73dcf9a4dd9d746136260ed24a51d6dd295
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529
+pmcid: PMC11696812
+pmid: '39747865'
+doi: 10.1038/s41467-024-55583-2
+title: The spatially informed mFISHseq assay resolves biomarker discordance and predicts treatment response
+  in breast cancer.
+source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:11696812&metadataPrefix=pmc
+access_mode: read_only_ephemeral
+content_representation: canonical_pmc_oai_article_xml_v1
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article subtree hashed; zero
+  article bytes retained.
+observed_rights: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0; durable commercial-corpus
+  reuse is not authorized.
+rights_url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+content_sha256: 5b5e30f693880dfcaf0efb16444bf5807fc5a7f42d45dc68a9f334ed693e07a0
+content_size_bytes: 253781
+accessed_at: '2026-07-26T04:54:26.318296Z'
+verified_at: '2026-07-26T04:54:26.318467Z'
+code_revision: 71e7e41
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

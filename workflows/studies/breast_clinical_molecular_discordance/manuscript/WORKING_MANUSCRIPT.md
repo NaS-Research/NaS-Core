@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.29.0-working`
+Manuscript version: `0.30.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -282,6 +282,30 @@ evidence base pending exact founder confirmation.
 citation-appraisal-proposals/batch-0007/PMC3283537-v1.0.0.yaml;
 citation-appraisal-proposals/batch-0007/PMC3508193-v1.0.0.yaml;
 citation-appraisal-proposals/batch-0007/PMC7791620-v1.0.0.yaml]
+
+Five further citation-pass reports are frozen as non-authoritative batch-0008
+proposals. AMBER directly demonstrates that three-marker IHC surrogates reproduce
+basal-like PAM50 labels more reliably than Luminal A, Luminal B, or
+HER2-enriched labels, while still leaving PAM50 as an unverified comparator.
+PurIST shows that a fixed eight-pair, within-patient classifier can avoid
+receiving-cohort normalization and expose a confidence gradient, but its
+pancreatic clustering labels are not breast-subtype truth. A 19-study lung
+comparison shows that rank-based classifiers can cross platforms while
+performance weakens for a less distinct molecular boundary. A paired-platform
+TCGA study isolates technological effects in the same BRCA patients and supports
+feature-specific normalization, but trains generic models against pre-existing
+PAM50 labels rather than executing a locked PAM50 procedure. The peer-reviewed
+mFISHseq report adds external analyses and fuller reporting but remains subject to
+adaptive development, correlated comparators, and unvalidated treatment models.
+It supersedes its already appraised preprint for citation purposes and is not an
+independent replication. These interpretations remain outside the authoritative
+evidence base pending exact founder confirmation.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md;
+citation-appraisal-proposals/batch-0008/PMC4779705-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0008/PMC6942634-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0008/PMC7299291-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0008/PMC11265146-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0008/PMC11696812-v1.0.0.yaml]
 
 ### Quality appraisal
 
@@ -901,9 +925,9 @@ Status: `working`
 
 - Primary and citation-pass-1 title-and-abstract screening are complete. Thirty-one
   appraisals are complete across the direct and citation sets. Pass 1 has 29 net-new
-  records in an authorized governed queue: three are appraised, 22 are ready for
-  appraisal, three are access-restricted, and one awaits a reproducible full-text
-  route;
+  records in an authorized governed queue: three are founder-locked, 22 have
+  checksum-frozen non-authoritative proposals, three are access-restricted, and one
+  awaits a reproducible full-text route;
   sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -1012,7 +1036,7 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 materialized, 17 pending proposals, 5 appraisal-ready, 3 restricted, 1 unresolved full text |
+| Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 materialized, 22 pending proposals, 3 restricted, 1 unresolved full text |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
 | Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
@@ -1020,6 +1044,7 @@ checks, and internal reviews are complete.
 | Pending—citation appraisal batch 0005 | AI-assisted ephemeral appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md`; `citation-appraisal-proposals/batch-0005/PMID23907291-v1.0.0.yaml` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0006 | AI-assisted publisher-PDF appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md`; two files in `citation-appraisal-proposals/batch-0006/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0007 | AI-assisted canonical-source appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md`; three files in `citation-appraisal-proposals/batch-0007/` | non-authoritative, founder review required |
+| Pending—citation appraisal batch 0008 | AI-assisted canonical and durable-source appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md`; five files in `citation-appraisal-proposals/batch-0008/` | non-authoritative, founder review required; mFISHseq version pair counts once |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -1057,6 +1082,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.30.0-working | 2026-07-25 | Added five checksum-bound batch-0008 proposals and the explicit mFISHseq preprint/version-of-record non-duplication boundary. |
 | 0.29.0-working | 2026-07-25 | Added the five-request source-level metadata audit, its `changes_requested` feasibility finding, and the transparent pre-gate endpoint-characterization disclosure. |
 | 0.28.0-working | 2026-07-25 | Added three checksum-bound, non-authoritative batch-0007 proposals covering SCAN normalization, simplified subtype robustness, and Swedish IHC/PAM50 concordance. |
 | 0.27.0-working | 2026-07-25 | Added two checksum-bound, non-authoritative batch-0006 IHC/PAM50 comparison proposals and recorded fail-closed rejection of an unstable repository PDF. |

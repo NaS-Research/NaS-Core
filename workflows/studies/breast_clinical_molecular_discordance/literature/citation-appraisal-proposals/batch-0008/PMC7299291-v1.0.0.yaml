@@ -1,0 +1,108 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: d09d787833cb2baa04198d726cec62c37e6f88c1214b44c5a7e018892ebeed0d
+title: 'Performance of gene expression-based single sample predictors for assessment of clinicopathological subgroups and molecular subtypes in cancers: a case comparison study in non-small cell lung cancer.'
+pmid: '30721923'
+doi: 10.1093/bib/bbz008
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7299291/fullTextXML
+full_text_sha256: b7c5ee0550a0f8597a28786f2298bd97349cb8671cfb4c66b1d4fbdf48c69ec7
+access_basis: >-
+  Checksum-verified Europe PMC full text stored under the article's Creative
+  Commons Attribution 4.0 International license.
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Nineteen retrospective public studies contribute 3,213 unique lung-cancer
+      samples across regions, eras, stages, histologies, and platforms. Entire
+      cohorts were assigned to training or testing, but historical pathology
+      definitions and cohort heterogeneity remain important sources of bias.
+    evidence_locations:
+      - Methods — Data sets
+      - Table 1
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      The comparison spans RNA sequencing and several microarray platforms using
+      common mapped genes. Most raw data were used, but two datasets supplied only
+      normalized values and historical specimen and pathology procedures were not
+      centrally harmonized.
+    evidence_locations:
+      - Methods — Preprocessing and centroid classification
+      - Discussion
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Open implementations of kTSP and AIMS use only within-sample gene ordering and
+      are applied unchanged to independent cohorts. Models are binary, depend on
+      selected common genes and training endpoints, and do not define calibrated
+      uncertainty or abstention behavior.
+    evidence_locations:
+      - Methods — kTSP single sample predictor
+      - Methods — AIMS single sample predictor
+  - domain: reference_comparator
+    judgment: high
+    rationale: >-
+      Histology is clinically reviewed but era-dependent. Molecular TRU versus
+      non-TRU targets are generated separately within each dataset by a centered
+      centroid procedure, so the predictor is compared with a cohort-dependent
+      expression label rather than biological truth.
+    evidence_locations:
+      - Methods — Preprocessing and centroid classification
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Independent-cohort accuracy, balanced accuracy, method comparisons, pooled
+      training, agreement, platform strata, and gene-rule overlap are reported.
+      Performance varies widely for the harder molecular endpoint, and numerous
+      model-dataset comparisons are not a prespecified clinical validation.
+    evidence_locations:
+      - Methods — Statistical analyses
+      - Results — Molecular subtype prediction
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Entire external cohorts and multiple platforms provide meaningful
+      transportability evidence. Yet the molecular target is reconstructed within
+      each receiving dataset, the disease is lung cancer, and no patient-level
+      calibration, repeat-measure study, or clinical utility evaluation is supplied.
+    evidence_locations:
+      - Results — Molecular subtype prediction
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      Public accessions, software packages, source code, preprocessing, cohort
+      allocation, common-gene rules, statistics, and detailed supplementary methods
+      are reported, enabling substantial independent reconstruction.
+    evidence_locations:
+      - Materials and methods
+      - Associated Data
+proposed_evidence_role: context_only
+key_strengths:
+  - Uses 19 studies and multiple platforms with cohort-level train-test separation.
+  - Directly compares two open within-sample rank-based classifier families.
+  - Contrasts an easy pathology endpoint with a harder expression-subtype endpoint.
+  - Reports large cross-dataset performance variation instead of only favorable results.
+key_limitations:
+  - Lung-cancer results are indirect for breast PAM50 implementation.
+  - Molecular reference labels are cohort-centered rather than independently observed truth.
+  - Binary models do not reproduce the five-class PAM50 decision problem.
+  - No calibrated ambiguity, abstention, repeated-measure reliability, or clinical utility is tested.
+conflicts_and_funding: >-
+  Funding came from Swedish Cancer Society, Mrs Berta Kamprad Foundation, Gunnar
+  Nilsson Cancer Foundation, Crafoord Foundation, BioCARE at Lund University,
+  Gustav V Jubilee Foundation, and Region Skåne/ALF. No material commercial
+  conflict was identified in the reviewed article.
+assistant_id: openai-codex
+assistant_disclosure: >-
+  OpenAI Codex reviewed the checksum-verified stored article and proposed
+  section-located judgments. This is not a founder decision, locked appraisal,
+  scientific conclusion, novelty finding, or clinical recommendation.
+proposed_at: '2026-07-26T00:20:00-05:00'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

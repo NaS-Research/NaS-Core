@@ -211,9 +211,22 @@ PAM50 in two Swedish cohorts. These observations do not validate a NaS method,
 patient-level subtype adjudication, or treatment utility. Exact founder
 confirmation is required before any proposal can enter the evidence ledger.
 
+Citation appraisal batch 0008 completes proposal-stage review of the remaining
+five verified citation-pass full texts. Three canonical PMC OAI representations
+were re-fetched and verified with zero article bytes retained; two CC BY 4.0
+sources were reverified against the external object store. All five proposals are
+`context_only`. The set contributes direct evidence about IHC/PAM50 mismatch and
+paired-platform TCGA-BRCA normalization, plus indirect evidence about rank-based
+patient-independent classification and difficult molecular boundaries. It does
+not establish a correct biological label, validate a NaS classifier, or support a
+clinical decision. `PMC11696812` is the peer-reviewed successor to the already
+appraised `PMC10723508` preprint and must replace it as the canonical synthesis
+citation rather than count as an independent study. Exact founder confirmation is
+required before batch 0008 can enter the evidence ledger.
+
 For founder review, `FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`
-indexes batches 0002 through 0007 with exact packet hashes, proposal counts,
-evidence-role totals, links, and the six packet-specific confirmation statements.
+indexes batches 0002 through 0008 with exact packet hashes, proposal counts,
+evidence-role totals, links, and the seven packet-specific confirmation statements.
 It is a convenience index, not a combined authorization.
 
 Required artifacts:

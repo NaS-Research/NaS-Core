@@ -4,9 +4,9 @@ Version: `1.0.0`
 
 Study: `NAS-BRCA-002`
 
-Status: **Six independent founder decisions required**
+Status: **Seven independent founder decisions required**
 
-Purpose: provide one index for the six checksum-frozen appraisal packets that
+Purpose: provide one index for the seven checksum-frozen appraisal packets that
 remain non-authoritative. This file is a review aid only. It is not a combined
 authorization and cannot substitute for any packet-specific exact confirmation.
 
@@ -20,10 +20,11 @@ authorization and cannot substitute for any packet-specific exact confirmation.
 | `0005` | `990c74c2ff79ed82088807d3dafe7fcfa9bc326825ae7f9901a2d00f3f0b8117` | 1 | 0 | 1 | Pending |
 | `0006` | `a1bbada9a8830fedc3f3776a7bf16c9e36cce84e6c3ab1d6072fddab4cb8c002` | 2 | 0 | 2 | Pending |
 | `0007` | `43410b02f7eef83e4fd75fd3ca16b9f84ffbede39e32660e248cef7df5c821d5` | 3 | 0 | 3 | Pending |
-| **Total** | — | **17** | **7** | **10** | **Pending** |
+| `0008` | `4cf6fdab2f03beb91d35a56c68aa3c98ab32fb7bc9850d6bf9cf5187a5b028bd` | 5 | 0 | 5 | Pending |
+| **Total** | — | **22** | **7** | **15** | **Pending** |
 
 Batch `0001` is intentionally absent because it is already founder-authorized and
-materialized. The six pending packets have passed their real-byte
+materialized. The seven pending packets have passed their real-byte
 authorization-readiness tests, but no confirmation artifact exists for any of
 them.
 
@@ -38,6 +39,7 @@ boundary:
 4. [`FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md`](FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md)
 5. [`FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md`](FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md)
 6. [`FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md`](FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md)
+7. [`FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md`](FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md)
 
 Each packet states its observations, seven domain judgments, review position, and
 interpretation boundary. Confirming a packet authorizes only those exact proposal
@@ -46,7 +48,7 @@ authorize molecular-data access, establish novelty, or make a clinical claim.
 
 ## Exact confirmation statements
 
-After reviewing all six packets, the founder may reply with these six exact lines
+After reviewing all seven packets, the founder may reply with these seven exact lines
 in one message:
 
 ```text
@@ -56,6 +58,7 @@ I confirm citation appraisal batch 0004 as written.
 I confirm citation appraisal batch 0005 as written.
 I confirm citation appraisal batch 0006 as written.
 I confirm citation appraisal batch 0007 as written.
+I confirm citation appraisal batch 0008 as written.
 ```
 
 Each line remains an independent decision. Any packet or proposal change alters
