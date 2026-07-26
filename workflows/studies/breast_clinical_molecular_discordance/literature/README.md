@@ -91,6 +91,16 @@ inclusions still receives a checksum-bound empty queue, adds no seeds, and creat
 no access inventory. This preserves auditable lineage through the locked requirement
 for two consecutive fully screened zero-yield passes.
 
+Pass completion is derived through a separate checksum-bound closure gate. It
+re-verifies retrieval and deduplication objects, founder decision and inclusion
+ledgers, the pass appraisal queue, exact prior-appraisal reuses, the access
+inventory, and final appraisal progress. Unresolved full-text or appraisal work
+prevents closure. The authoritative pass-1 no-write preflight reconciles 4,628
+unique records, 4,495 founder-screened records, 32 inclusions, three prior-appraisal
+reuses, 25 completed appraisals, four access restrictions, and 32 new eligible
+evidence records. Pass 1 therefore resets rather than advances the two-zero-pass
+stopping counter.
+
 Transparent title prioritization version `1.0.1` ranks—but does not decide—all
 4,495 candidates: 80 direct, 400 supporting, and 4,015 context. Full official
 Europe PMC enrichment matched every candidate and returned 4,402 abstracts through

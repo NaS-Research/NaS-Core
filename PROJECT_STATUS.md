@@ -43,6 +43,15 @@ ledger for every prior pass. Empty eligible sets remain checksum-bound as empty
 queues, contribute no new seeds, and do not create access inventories; this allows
 the system to prove two consecutive zero-yield passes without losing lineage.
 
+Citation-pass completion is no longer a free-standing count assertion. A typed
+closure service re-verifies retrieval and screening objects, founder decision and
+reconciliation ledgers, appraisal queues, exact reused appraisals, access inventory,
+and appraisal progress before deriving new eligible evidence IDs. The authoritative
+pass-1 dry run reconciles 4,628 unique citation records, 4,495 founder decisions,
+32 inclusions, three exact appraisal reuses, 25 completed appraisals, four access
+restrictions, and 32 new eligible evidence records. The implementation must be
+frozen before its append-only pass-1 closure receipt is written.
+
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
 50 historical PAM50 genes without ambiguous mappings in both frozen source
@@ -393,6 +402,13 @@ pass-3 and pass-4 tests prove that direct, pass-1, and all later founder inclusi
 remain present; duplicates are exact-identifier reconciled; every prior decision
 ledger is used for screening deduplication; and a zero-inclusion pass remains in
 the checksum lineage without creating a meaningless access inventory.
+
+Implemented receipt-derived citation-pass closure with fail-closed source-object,
+receipt-byte, identity, count, founder-authority, and appraisal-accounting checks.
+Synthetic tests cover a completed eligible record, unresolved appraisal rejection,
+and a zero-yield pass with no access artifacts. The real pass-1 no-write preflight
+reconciles all 32 inclusions and proves that pass 1 resets the consecutive-zero
+counter.
 
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 

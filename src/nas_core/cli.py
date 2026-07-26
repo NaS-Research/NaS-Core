@@ -18,6 +18,7 @@ from nas_core.domain.appraisal import (
     load_full_text_access_decision,
     load_full_text_appraisal,
     load_full_text_appraisal_batch_confirmation,
+    load_full_text_appraisal_progress,
     load_full_text_appraisal_proposal,
     load_full_text_inventory,
     load_full_text_read_only_review_receipt,
@@ -61,6 +62,9 @@ from nas_core.domain.citation_confirmation import (
 from nas_core.domain.citation_reconciliation import (
     load_citation_inclusion_reconciliation_receipt,
     write_citation_inclusion_reconciliation_receipt,
+)
+from nas_core.domain.citation_saturation import (
+    write_citation_pass_closure_receipt,
 )
 from nas_core.domain.cohorts import (
     load_cohort_receipt,
@@ -152,6 +156,7 @@ from nas_core.retrieval.citation_recommendation import CitationRecommendationSer
 from nas_core.retrieval.citation_reconciliation import (
     CitationInclusionReconciliationService,
 )
+from nas_core.retrieval.citation_saturation import CitationPassClosureService
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
 from nas_core.retrieval.citation_seeds import CitationCumulativeSeedService
 from nas_core.retrieval.ephemeral_appraisal import (
@@ -601,6 +606,31 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Persist the later-pass appraisal queue and routing receipt",
+    )
+    citation_close = evidence_review_commands.add_parser(
+        "citation-close-pass",
+        help="Derive complete citation-pass saturation accounting from receipts",
+    )
+    citation_close.add_argument("citation_receipt", type=Path)
+    citation_close.add_argument("preparation_receipt", type=Path)
+    citation_close.add_argument("decision_receipt", type=Path)
+    citation_close.add_argument("reconciliation_receipt", type=Path)
+    citation_close.add_argument("queue_receipt", type=Path)
+    citation_close.add_argument("--access-inventory", type=Path)
+    citation_close.add_argument("--appraisal-progress", type=Path)
+    citation_close.add_argument(
+        "--prior-appraisal",
+        action="append",
+        default=[],
+        type=Path,
+        help="Locked appraisal reused by this citation pass; repeatable",
+    )
+    citation_close.add_argument("--code-revision", required=True)
+    citation_close.add_argument("--receipt-output", required=True, type=Path)
+    citation_close.add_argument(
+        "--execute",
+        action="store_true",
+        help="Write the verified citation-pass closure receipt",
     )
     activate_cap = evidence_review_commands.add_parser(
         "activate-cap-amendment",
@@ -1867,6 +1897,70 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{reconciliation.net_new_count} net new"
         )
         print(f"Wrote reconciliation receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-close-pass"
+    ):
+        citation_receipt = load_citation_chain_receipt(args.citation_receipt)
+        preparation_receipt = load_citation_screening_preparation_receipt(
+            args.preparation_receipt
+        )
+        decision_receipt = load_citation_decision_ledger_receipt(
+            args.decision_receipt
+        )
+        closure_reconciliation = load_citation_inclusion_reconciliation_receipt(
+            args.reconciliation_receipt
+        )
+        closure_queue = load_citation_access_queue_receipt(
+            args.queue_receipt
+        )
+        access_inventory = (
+            load_full_text_inventory(args.access_inventory)
+            if args.access_inventory is not None
+            else None
+        )
+        appraisal_progress = (
+            load_full_text_appraisal_progress(args.appraisal_progress)
+            if args.appraisal_progress is not None
+            else None
+        )
+        closure = CitationPassClosureService(
+            store=get_object_store()
+        ).close(
+            citation_receipt,
+            preparation_receipt,
+            decision_receipt,
+            closure_reconciliation,
+            closure_queue,
+            citation_receipt_path=args.citation_receipt,
+            preparation_receipt_path=args.preparation_receipt,
+            decision_receipt_path=args.decision_receipt,
+            reconciliation_receipt_path=args.reconciliation_receipt,
+            queue_receipt_path=args.queue_receipt,
+            code_revision=args.code_revision,
+            access_inventory=access_inventory,
+            access_inventory_path=args.access_inventory,
+            appraisal_progress=appraisal_progress,
+            appraisal_progress_path=args.appraisal_progress,
+            prior_appraisal_paths=args.prior_appraisal,
+        )
+        if not args.execute:
+            print(
+                f"Citation pass {closure.pass_number} closure verified: "
+                f"{len(closure.new_eligible_evidence_ids)} new eligible, "
+                f"{closure.appraisals_completed_count} appraised, "
+                f"{closure.access_restricted_count} restricted"
+            )
+            print("Dry run only; no closure receipt was written.")
+            return 0
+        write_citation_pass_closure_receipt(args.receipt_output, closure)
+        print(
+            f"Closed citation pass {closure.pass_number}: "
+            f"{len(closure.new_eligible_evidence_ids)} new eligible evidence records"
+        )
+        print(f"Wrote citation-pass closure receipt: {args.receipt_output}")
         return 0
 
     if (
