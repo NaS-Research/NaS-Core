@@ -1,0 +1,145 @@
+schema_version: 1.0.0
+audit_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+executed_at: '2026-07-26T04:32:39.836277+00:00'
+authorization_path: workflows/studies/breast_clinical_molecular_discordance/reviews/FOUNDER_PHASE_ZERO_AUTHORIZATION_v0.3.0.md
+authorization_sha256: 3e9ae592e22d29741e400573736a7f133d8a64b93b50064f72be26df040527e4
+metadata_only: true
+patient_level_data_accessed: false
+molecular_values_accessed: false
+outcome_data_accessed: false
+raw_responses_stored: false
+endpoints:
+- source_id: gdc-status
+  method: GET
+  url: https://api.gdc.cancer.gov/status
+  representation_sha256: e0217ad3931ecad57c34fd662dc76b55dbb72056945a1a6da4e34a4a461cabb5
+  representation_size_bytes: 223
+  raw_response_stored: false
+  patient_rows_requested: false
+  outcome_fields_requested: false
+- source_id: gdc-case-mapping
+  method: GET
+  url: https://api.gdc.cancer.gov/cases/_mapping
+  representation_sha256: 4e5fd1736d2b5a17f6cd66929953a6893f4858a0a480480faa26ccafd2e798c8
+  representation_size_bytes: 284276
+  raw_response_stored: false
+  patient_rows_requested: false
+  outcome_fields_requested: false
+- source_id: gdc-file-aggregation
+  method: POST
+  url: https://api.gdc.cancer.gov/files
+  request_sha256: df7ff066bf0ea01a00bb453a6f434625834feb530578d79c5c5e56315b7046a6
+  representation_sha256: 0c8ac166aa57b91f00f3f789674e1647ea5c21f5032dc09b13b7494769bbd9dc
+  representation_size_bytes: 461
+  raw_response_stored: false
+  patient_rows_requested: false
+  outcome_fields_requested: false
+- source_id: geo-gse96058-gtf
+  method: HEAD
+  url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96058/suppl/GSE96058_UCSC_hg38_knownGenes_22sep2014.gtf.gz
+  representation_sha256: cb28d124ab3766d80cf57758cc925fefe9105d3cde7a7d23fb90e0a1be0c4084
+  representation_size_bytes: 123
+  raw_response_stored: false
+  patient_rows_requested: false
+  outcome_fields_requested: false
+- source_id: geo-gse96058-expression
+  method: HEAD
+  url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96058/suppl/GSE96058_gene_expression_3273_samples_and_136_replicates_transformed.csv.gz
+  representation_sha256: cab4a9c4714a2d584338da6062890a469688ad75bdce3633cf82033f1fdc482b
+  representation_size_bytes: 124
+  raw_response_stored: false
+  patient_rows_requested: false
+  outcome_fields_requested: false
+gdc:
+  data_release: Data Release 45.0 - December 04, 2025
+  api_tag: 8.5.0
+  case_mapping_field_count: 770
+  indexed_receptor_field_matches: []
+  open_star_counts_file_count: 1231
+  workflow_types:
+  - STAR - Counts
+  data_formats:
+  - tsv
+  access_categories:
+  - open
+geo:
+  accession: GSE96058
+  supplementary_artifacts:
+  - artifact_role: hg38 gene annotation
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96058/suppl/GSE96058_UCSC_hg38_knownGenes_22sep2014.gtf.gz
+    content_length_bytes: 20808999
+    last_modified: Fri, 10 Mar 2017 01:30:07 GMT
+    content_type: application/x-gzip
+  - artifact_role: processed gene-expression matrix
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96058/suppl/GSE96058_gene_expression_3273_samples_and_136_replicates_transformed.csv.gz
+    content_length_bytes: 591676211
+    last_modified: Thu, 14 Sep 2017 20:40:51 GMT
+    content_type: application/x-gzip
+  family_metadata_endpoint_used: false
+  family_metadata_exclusion_reason: 'Not requested: the bundle contains patient-level
+    treatment and survival fields outside the founder-authorized source-metadata boundary.'
+checks:
+- check_id: tcga-indexed-receptor-fields
+  status: unresolved
+  finding: The current GDC case mapping exposes no indexed ER, PR, HER2, estrogen-,
+    progesterone-, or receptor-named fields.
+  evidence_source_ids:
+  - gdc-case-mapping
+  limitation: Completeness cannot be estimated without a separately authorized, field-limited
+    clinical-supplement route.
+- check_id: tcga-open-star-counts
+  status: verified
+  finding: GDC reports 1231 open TCGA-BRCA STAR - Counts gene-expression files through
+    a zero-row aggregate query.
+  evidence_source_ids:
+  - gdc-status
+  - gdc-file-aggregation
+- check_id: tcga-pam50-gene-coverage
+  status: unresolved
+  finding: Source-level GDC metadata confirms the workflow but does not enumerate
+    expression-table genes.
+  evidence_source_ids:
+  - gdc-file-aggregation
+  limitation: Exact PAM50 coverage requires a separately authorized schema-only inspection
+    of one frozen open file or its authoritative annotation.
+- check_id: gse96058-processed-artifacts
+  status: verified
+  finding: NCBI GEO serves both the declared hg38 annotation and processed 3,273-sample
+    plus 136-replicate expression artifacts.
+  evidence_source_ids:
+  - geo-gse96058-gtf
+  - geo-gse96058-expression
+- check_id: gse96058-pam50-gene-coverage
+  status: unresolved
+  finding: HEAD-only source metadata proves artifact availability but cannot prove
+    row-level PAM50 coverage or alias resolution.
+  evidence_source_ids:
+  - geo-gse96058-gtf
+  - geo-gse96058-expression
+  limitation: Exact coverage requires a separately authorized gene-identifier-only
+    projection that discards every expression value.
+- check_id: gse96058-receptor-and-replicate-completeness
+  status: prohibited
+  finding: The GEO family metadata bundle co-mingles receptor and replicate annotations
+    with patient-level treatment and survival fields, so it was excluded from this
+    executable audit.
+  evidence_source_ids:
+  - geo-gse96058-expression
+  limitation: A reviewed field-isolation procedure and explicit patient-level metadata
+    authorization are required before retrieving the family bundle.
+decision: changes_requested
+decision_rationale: Source availability and the open GDC STAR - Counts workflow are
+  verified, but receptor completeness and exact PAM50 gene coverage cannot be established
+  without a narrower, separately authorized field/schema inspection.
+next_authorization_required:
+- Field-limited TCGA clinical-supplement inspection retaining only aggregate ER, PR,
+  and HER2 completeness counts.
+- Gene-identifier-only inspection of one frozen GDC STAR - Counts artifact with every
+  expression value discarded.
+- Gene-identifier-only inspection of the GSE96058 processed matrix with every expression
+  value discarded.
+- Field-isolated GSE96058 receptor and replicate audit that rejects treatment and
+  survival fields before derivation.

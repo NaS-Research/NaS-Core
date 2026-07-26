@@ -73,6 +73,10 @@ from nas_core.domain.evidence_review import (
     load_priority_evidence_set,
     write_evidence_review_schemas,
 )
+from nas_core.domain.feasibility import (
+    write_metadata_feasibility_receipt,
+    write_metadata_feasibility_schema,
+)
 from nas_core.domain.literature import (
     load_literature_search_receipt,
     load_screening_decision_batch,
@@ -97,6 +101,10 @@ from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
+from nas_core.ingestion.metadata_feasibility import (
+    ALLOWED_URLS as METADATA_AUDIT_URLS,
+)
+from nas_core.ingestion.metadata_feasibility import MetadataFeasibilityAuditService
 from nas_core.retrieval.appraisal_confirmation import AppraisalConfirmationService
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.citation_access import (
@@ -208,6 +216,41 @@ def build_parser() -> argparse.ArgumentParser:
         "schema", help="Write the canonical dataset-snapshot JSON Schema"
     )
     snapshot_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+
+    feasibility = commands.add_parser(
+        "feasibility",
+        help="Run governed source-metadata feasibility audits",
+    )
+    feasibility_commands = feasibility.add_subparsers(
+        dest="feasibility_command",
+        required=True,
+    )
+    metadata_audit = feasibility_commands.add_parser(
+        "metadata-audit",
+        help="Audit TCGA-BRCA and GSE96058 source metadata without patient rows",
+    )
+    metadata_audit.add_argument(
+        "--authorization",
+        type=Path,
+        required=True,
+        help="Founder Phase 0 authorization artifact",
+    )
+    metadata_audit.add_argument(
+        "--output",
+        type=Path,
+        required=True,
+        help="Immutable YAML receipt path",
+    )
+    metadata_audit.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute five allowlisted source-level requests and write the receipt",
+    )
+    metadata_schema = feasibility_commands.add_parser(
+        "schema",
+        help="Write the canonical metadata-feasibility receipt JSON Schema",
+    )
+    metadata_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
 
     cohort = commands.add_parser("cohort", help="Build governed analysis-ready cohorts")
     cohort_commands = cohort.add_subparsers(dest="cohort_command", required=True)
@@ -1040,6 +1083,28 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "ingest" and args.ingest_command == "schema":
         write_dataset_snapshot_schema(args.path)
         print(f"Wrote dataset-snapshot schema: {args.path}")
+        return 0
+
+    if args.command == "feasibility" and args.feasibility_command == "metadata-audit":
+        if not args.execute:
+            print(json.dumps(sorted(METADATA_AUDIT_URLS), indent=2))
+            print("Dry run only; no endpoint was contacted and no artifact was written.")
+            return 0
+        authorization_bytes = args.authorization.read_bytes()
+        metadata_receipt = MetadataFeasibilityAuditService().execute(
+            authorization_path=str(args.authorization),
+            authorization_bytes=authorization_bytes,
+        )
+        write_metadata_feasibility_receipt(args.output, metadata_receipt)
+        print(
+            f"Wrote metadata feasibility audit {metadata_receipt.audit_version}: "
+            f"{metadata_receipt.decision.value}"
+        )
+        return 0
+
+    if args.command == "feasibility" and args.feasibility_command == "schema":
+        write_metadata_feasibility_schema(args.path)
+        print(f"Wrote metadata-feasibility schema: {args.path}")
         return 0
 
     if args.command == "cohort" and args.cohort_command == "build":

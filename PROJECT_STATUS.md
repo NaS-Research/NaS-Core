@@ -66,6 +66,18 @@ The six pending appraisal packets are indexed in
 `FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`: 17 proposals total,
 including seven proposed `supporting` and ten proposed `context_only` appraisals.
 Each batch requires its own exact founder confirmation before materialization.
+Five additional citation-pass full texts—`PMC4779705`, `PMC6942634`,
+`PMC7299291`, `PMC11265146`, and `PMC11696812`—remain to be appraised and
+checksum-frozen in a later packet.
+
+Metadata feasibility audit `1.0.0` is complete under the existing no-patient-row
+Phase 0 boundary. It verified 1,231 open TCGA-BRCA STAR-count files, the current
+770-field GDC case mapping, and availability of the two declared GSE96058
+supplementary artifacts. The case mapping exposes no receptor-named field, and
+source-level/HEAD metadata cannot prove exact PAM50 row coverage. The audit
+therefore records `changes_requested`. A separate founder packet now defines the
+minimal transient field/schema isolation required to resolve those gates without
+authorizing molecular or outcome analysis.
 
 Definition of done:
 
@@ -279,15 +291,15 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain separate exact founder decisions for citation appraisal batches 0002,
-   0003, 0004, and 0005; materialize only the batches explicitly confirmed.
-2. Resolve the remaining 2010 Lancet Oncology record through a reproducible,
-   checksum-verifiable CC BY full-text route.
-3. Appraise the remaining verified read-only and durable full texts, prioritizing
-   direct single-sample, normalization, perturbation, and external-transport evidence.
-4. Appraise every additionally accessible methodological or external-transport study,
-   then execute sequential citation passes until two consecutive fully screened
-   passes add zero eligible evidence.
+1. Obtain separate exact founder decisions for citation appraisal batches 0002
+   through 0007; materialize only the batches explicitly confirmed.
+2. Appraise the five remaining verified citation-pass full texts and freeze their
+   non-authoritative proposals in a checksum-bound batch.
+3. Obtain exact founder authorization for field-isolated metadata audit `1.0.0`;
+   only then implement and execute its transient projection gates.
+4. After all citation-pass-1 appraisals are founder-reviewed, execute sequential
+   citation passes until two consecutive fully screened passes add zero eligible
+   evidence.
 5. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
 6. Resolve and approve the exact centroid and external-reference artifacts,
@@ -321,6 +333,23 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Source-level metadata feasibility audit completed
+
+Implemented a typed, immutable feasibility receipt and a five-request execution
+gate. The gate allowlists exact official GDC and NCBI URLs; requests zero GDC
+rows; uses HEAD-only GEO artifact checks; rejects patient and outcome fields; and
+stores only hashes, aggregate counts, schema findings, and file headers. Seven
+synthetic tests cover authorization, zero-row enforcement, derivative isolation,
+immutable writing, and schema parity.
+
+The live audit verified GDC Data Release 45.0, API tag 8.5.0, 770 current case
+mapping fields, 1,231 open TCGA-BRCA STAR-count files, and both declared
+GSE96058 artifacts. It found no indexed receptor-named GDC case field and could
+not establish PAM50 row coverage from source-level metadata. The immutable receipt
+therefore records `changes_requested`. The development record also discloses a
+transient GEO endpoint-characterization exposure; no response was stored and no
+outcome analysis was performed.
 
 ### 2026-07-25 — Structured no-storage appraisal proposal path completed
 

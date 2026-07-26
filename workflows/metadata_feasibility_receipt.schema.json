@@ -1,0 +1,400 @@
+{
+  "$defs": {
+    "FeasibilityCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "minLength": 1,
+          "title": "Check Id",
+          "type": "string"
+        },
+        "evidence_source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Source Ids",
+          "type": "array"
+        },
+        "finding": {
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "limitation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limitation"
+        },
+        "status": {
+          "$ref": "#/$defs/FeasibilityStatus"
+        }
+      },
+      "required": [
+        "check_id",
+        "status",
+        "finding",
+        "evidence_source_ids"
+      ],
+      "title": "FeasibilityCheck",
+      "type": "object"
+    },
+    "FeasibilityDecision": {
+      "enum": [
+        "pass",
+        "changes_requested",
+        "fail"
+      ],
+      "title": "FeasibilityDecision",
+      "type": "string"
+    },
+    "FeasibilityStatus": {
+      "enum": [
+        "verified",
+        "unresolved",
+        "prohibited"
+      ],
+      "title": "FeasibilityStatus",
+      "type": "string"
+    },
+    "GDCMetadataSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "access_categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Access Categories",
+          "type": "array"
+        },
+        "api_tag": {
+          "minLength": 1,
+          "title": "Api Tag",
+          "type": "string"
+        },
+        "case_mapping_field_count": {
+          "minimum": 1,
+          "title": "Case Mapping Field Count",
+          "type": "integer"
+        },
+        "data_formats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Data Formats",
+          "type": "array"
+        },
+        "data_release": {
+          "minLength": 1,
+          "title": "Data Release",
+          "type": "string"
+        },
+        "indexed_receptor_field_matches": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Indexed Receptor Field Matches",
+          "type": "array"
+        },
+        "open_star_counts_file_count": {
+          "minimum": 0,
+          "title": "Open Star Counts File Count",
+          "type": "integer"
+        },
+        "workflow_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Workflow Types",
+          "type": "array"
+        }
+      },
+      "required": [
+        "data_release",
+        "api_tag",
+        "case_mapping_field_count",
+        "indexed_receptor_field_matches",
+        "open_star_counts_file_count",
+        "workflow_types",
+        "data_formats",
+        "access_categories"
+      ],
+      "title": "GDCMetadataSummary",
+      "type": "object"
+    },
+    "GEOMetadataSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "accession": {
+          "pattern": "^GSE[0-9]+$",
+          "title": "Accession",
+          "type": "string"
+        },
+        "family_metadata_endpoint_used": {
+          "title": "Family Metadata Endpoint Used",
+          "type": "boolean"
+        },
+        "family_metadata_exclusion_reason": {
+          "minLength": 1,
+          "title": "Family Metadata Exclusion Reason",
+          "type": "string"
+        },
+        "supplementary_artifacts": {
+          "items": {
+            "$ref": "#/$defs/GEOSupplementaryArtifact"
+          },
+          "minItems": 2,
+          "title": "Supplementary Artifacts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "accession",
+        "supplementary_artifacts",
+        "family_metadata_endpoint_used",
+        "family_metadata_exclusion_reason"
+      ],
+      "title": "GEOMetadataSummary",
+      "type": "object"
+    },
+    "GEOSupplementaryArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_role": {
+          "minLength": 1,
+          "title": "Artifact Role",
+          "type": "string"
+        },
+        "content_length_bytes": {
+          "minimum": 1,
+          "title": "Content Length Bytes",
+          "type": "integer"
+        },
+        "content_type": {
+          "minLength": 1,
+          "title": "Content Type",
+          "type": "string"
+        },
+        "last_modified": {
+          "minLength": 1,
+          "title": "Last Modified",
+          "type": "string"
+        },
+        "url": {
+          "pattern": "^https://ftp\\.ncbi\\.nlm\\.nih\\.gov/",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_role",
+        "url",
+        "content_length_bytes",
+        "last_modified",
+        "content_type"
+      ],
+      "title": "GEOSupplementaryArtifact",
+      "type": "object"
+    },
+    "MetadataEndpointEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "pattern": "^(GET|HEAD|POST)$",
+          "title": "Method",
+          "type": "string"
+        },
+        "outcome_fields_requested": {
+          "title": "Outcome Fields Requested",
+          "type": "boolean"
+        },
+        "patient_rows_requested": {
+          "title": "Patient Rows Requested",
+          "type": "boolean"
+        },
+        "raw_response_stored": {
+          "title": "Raw Response Stored",
+          "type": "boolean"
+        },
+        "representation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Representation Sha256",
+          "type": "string"
+        },
+        "representation_size_bytes": {
+          "minimum": 0,
+          "title": "Representation Size Bytes",
+          "type": "integer"
+        },
+        "request_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Sha256"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "url": {
+          "pattern": "^https://",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "method",
+        "url",
+        "representation_sha256",
+        "representation_size_bytes",
+        "raw_response_stored",
+        "patient_rows_requested",
+        "outcome_fields_requested"
+      ],
+      "title": "MetadataEndpointEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "audit_version": {
+      "pattern": "^1\\.0\\.0$",
+      "title": "Audit Version",
+      "type": "string"
+    },
+    "authorization_path": {
+      "minLength": 1,
+      "title": "Authorization Path",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/FeasibilityCheck"
+      },
+      "minItems": 5,
+      "title": "Checks",
+      "type": "array"
+    },
+    "decision": {
+      "$ref": "#/$defs/FeasibilityDecision"
+    },
+    "decision_rationale": {
+      "minLength": 1,
+      "title": "Decision Rationale",
+      "type": "string"
+    },
+    "endpoints": {
+      "items": {
+        "$ref": "#/$defs/MetadataEndpointEvidence"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "title": "Endpoints",
+      "type": "array"
+    },
+    "executed_at": {
+      "minLength": 1,
+      "title": "Executed At",
+      "type": "string"
+    },
+    "gdc": {
+      "$ref": "#/$defs/GDCMetadataSummary"
+    },
+    "geo": {
+      "$ref": "#/$defs/GEOMetadataSummary"
+    },
+    "metadata_only": {
+      "title": "Metadata Only",
+      "type": "boolean"
+    },
+    "molecular_values_accessed": {
+      "title": "Molecular Values Accessed",
+      "type": "boolean"
+    },
+    "next_authorization_required": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Next Authorization Required",
+      "type": "array"
+    },
+    "outcome_data_accessed": {
+      "title": "Outcome Data Accessed",
+      "type": "boolean"
+    },
+    "patient_level_data_accessed": {
+      "title": "Patient Level Data Accessed",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-BRCA002$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^0\\.3\\.0$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "raw_responses_stored": {
+      "title": "Raw Responses Stored",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "pattern": "^1\\.0\\.0$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-BRCA-002$",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "audit_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "executed_at",
+    "authorization_path",
+    "authorization_sha256",
+    "metadata_only",
+    "patient_level_data_accessed",
+    "molecular_values_accessed",
+    "outcome_data_accessed",
+    "raw_responses_stored",
+    "endpoints",
+    "gdc",
+    "geo",
+    "checks",
+    "decision",
+    "decision_rationale",
+    "next_authorization_required"
+  ],
+  "title": "MetadataFeasibilityReceipt",
+  "type": "object"
+}

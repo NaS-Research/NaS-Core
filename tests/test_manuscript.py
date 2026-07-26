@@ -16,6 +16,7 @@ def test_living_manuscript_preserves_traceability_and_claim_boundaries() -> None
     manuscript = (MANUSCRIPT_ROOT / "WORKING_MANUSCRIPT.md").read_text(
         encoding="utf-8"
     )
+    normalized_manuscript = " ".join(manuscript.split())
     rules = (MANUSCRIPT_ROOT / "README.md").read_text(encoding="utf-8")
 
     for heading in (
@@ -31,7 +32,8 @@ def test_living_manuscript_preserves_traceability_and_claim_boundaries() -> None
         "## Revision log",
     ):
         assert heading in manuscript
-    assert "molecular and outcome data not accessed" in manuscript
+    assert "no molecular values or outcome dataset used or retained" in normalized_manuscript
+    assert "During pre-gate endpoint characterization" in manuscript
     assert "No scientific or clinical conclusion is authorized" in manuscript
     assert "revised-appraisals/PMC3275466-v1.0.0.yaml" in manuscript
     assert "revised-appraisals/PMC4365540-v1.0.0.yaml" in manuscript

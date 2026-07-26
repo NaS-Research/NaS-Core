@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.28.0-working`
+Manuscript version: `0.29.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -10,7 +10,8 @@ Question version: `0.3.0`
 
 Last updated: 2026-07-25
 
-Overall status: **working—evidence review incomplete; molecular and outcome data not accessed**
+Overall status: **working—evidence review and input feasibility incomplete; no
+molecular values or outcome dataset used or retained**
 
 ## Abstract
 
@@ -309,6 +310,24 @@ TCGA-BRCA is the proposed discovery source and processed SCAN-B GSE96058 is the
 candidate external-validation source. Cohort construction, estimands, statistical
 models, sensitivity analyses, multiplicity handling, and figure specifications will
 be inserted only after the evidence gate and preregistration.
+
+A governed source-level metadata audit queried the current GDC service status and
+case-field mapping, ran a zero-row aggregate file query, and issued HEAD-only checks
+for the declared GSE96058 annotation and processed-expression artifacts. GDC Data
+Release 45.0 exposed 1,231 open TCGA-BRCA STAR-count files, and both GEO artifacts
+were available. However, none of the 770 indexed GDC case-field names identified
+ER, PR, HER2, estrogen, progesterone, or receptor status. Source-level metadata
+also could not enumerate expression-table genes. Receptor completeness and exact
+PAM50 coverage therefore remain unresolved; this is a feasibility result, not a
+cohort or molecular result.
+
+During pre-gate endpoint characterization, a public GEO family metadata response
+was found to co-mingle receptor and replicate annotations with patient-level
+treatment and survival fields. The response was not retained and no outcome
+analysis was performed. The endpoint is prohibited unless a separately authorized,
+fail-closed field-isolation procedure is implemented.
+[metadata_feasibility_receipt_v1.0.0.yaml;
+METADATA_FEASIBILITY_REPORT_v1.0.0.md]
 
 ## Results
 
@@ -988,11 +1007,12 @@ checks, and internal reviews are complete.
 | Introduction ¶1–9 | External methodological evidence | 28 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
+| Methods—metadata feasibility | Five-request source-level audit and unresolved input gates | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/METADATA_FEASIBILITY_REPORT_v1.0.0.md` | verified, changes requested |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 22 ready, 3 restricted, 1 pending access |
+| Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 materialized, 17 pending proposals, 5 appraisal-ready, 3 restricted, 1 unresolved full text |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
 | Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
@@ -1037,6 +1057,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.29.0-working | 2026-07-25 | Added the five-request source-level metadata audit, its `changes_requested` feasibility finding, and the transparent pre-gate endpoint-characterization disclosure. |
 | 0.28.0-working | 2026-07-25 | Added three checksum-bound, non-authoritative batch-0007 proposals covering SCAN normalization, simplified subtype robustness, and Swedish IHC/PAM50 concordance. |
 | 0.27.0-working | 2026-07-25 | Added two checksum-bound, non-authoritative batch-0006 IHC/PAM50 comparison proposals and recorded fail-closed rejection of an unstable repository PDF. |
 | 0.26.0-working | 2026-07-25 | Added the bounded no-storage proposal validator, generalized `PMC`/`PMID`/`PPR` founder references, and non-authoritative batch-0005 genomic-versus-pathology appraisal proposal. |
