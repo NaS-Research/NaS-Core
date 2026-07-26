@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+policy_version: 1.0.0
+study_id: NAS-BRCA-002
+pass_number: 2
+based_on_recommendation_id: ee268365677a87b9257cf58d1d880b4424b9601614055f7fd0f76137bafe5d2c
+include_record_keys:
+  - MED:35983098
+  - MED:39181325
+  - MED:39326668
+  - PPR:PPR723583
+  - MED:31812633
+  - MED:41936844
+  - MED:28825136
+  - MED:21347257
+rationale: >-
+  Second-stage title-and-abstract review retains only high-confidence records
+  with a direct single-sample classifier method, analytical or external
+  classifier validation, explicit robustness to platform, preprocessing, RNA
+  quality, batch, purity, or specimen preservation, multiregional subtype
+  heterogeneity, or standardized surrogate-threshold reproducibility relevant
+  to question 0.3.0. Secondary commentary, outcome-only studies, unrelated
+  molecular characterization, nonhuman studies, and the unmatched CTX metadata
+  record remain recommended for exclusion. Recommendations remain advisory
+  until the founder confirms both checksum-bound pass-2 packets.
+founder_confirmation_required: true
+autonomous_decisions_allowed: false

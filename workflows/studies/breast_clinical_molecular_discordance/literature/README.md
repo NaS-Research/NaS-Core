@@ -51,15 +51,26 @@ screening. These are workload dispositions, not autonomous eligibility decisions
 Raw responses, candidate metadata, and the full deduplication ledger remain in
 checksummed external object storage; aggregate receipts are in `citation-chain/`.
 
-Sequential pass retrieval uses a typed cumulative-seed boundary. For pass 2, it
-must combine the 30 direct founder inclusions with all 32 pass-1 founder inclusions
+Sequential pass retrieval uses a typed cumulative-seed boundary. Pass 2 combined
+the 30 direct founder inclusions with all 32 pass-1 founder inclusions
 from the checksum-verified evidence-cap activation queue. Exact persistent-
 identifier deduplication is permitted across 61 `MED` PMIDs and one Europe PMC
-`PPR` preprint identity, but no founder inclusion may be dropped because of appraisal role,
-access restriction, result direction, or core-synthesis limits. Screening
-preparation for pass 2 must bind the complete pass-1 founder decision ledger in
-addition to the locked direct-search inventory, preventing previously screened
-citation records from being presented as new.
+`PPR` preprint identity, but no founder inclusion may be dropped because of
+appraisal role, access restriction, result direction, or core-synthesis limits.
+Screening preparation bound the complete pass-1 founder decision ledger in addition
+to the locked direct-search inventory, preventing previously screened citation
+records from being presented as new.
+
+Pass 2 retrieved 2,053 backward and 8,163 forward links and deduplicated them to
+7,135 unique non-seed candidates. Prior-screening and within-pass reconciliation
+left 2,479 genuinely new records. Official enrichment matched 2,478 records and
+supplied 2,410 abstracts; the single unresolved metadata record remains visible.
+The initial advisory packet proposes one inclusion and 2,378 exclusions while
+holding 100 records. Field-isolated second-stage adjudication proposes eight more
+inclusions and 92 exclusions. The checksum-bound combined review covers all 2,479
+records exactly once: nine proposed inclusions, 2,470 proposed exclusions, zero
+unclear, and zero founder or AI decisions. These remain advisory until the founder
+supplies the exact pass-2 confirmation statement.
 Transparent title prioritization version `1.0.1` ranks—but does not decide—all
 4,495 candidates: 80 direct, 400 supporting, and 4,015 context. Full official
 Europe PMC enrichment matched every candidate and returned 4,402 abstracts through

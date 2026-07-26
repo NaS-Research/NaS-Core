@@ -10,15 +10,21 @@ and what comes next?
 
 ### Continue sequential citation chaining after closing input feasibility
 
-Citation pass 2 requires the cumulative founder-included evidence set, not only
-the original direct-search inventory. The deterministic pass-2 boundary now
-derives 62 unique Europe PMC seeds (61 `MED` PMIDs and one `PPR` preprint) from
-the 30 direct inclusions and all 32 pass-1 inclusions, verifies the founder-
-authorized uncapped amendment queue, preserves
-every inclusion, and stores only a checksum-bound seed object. Pass-2 screening
-preparation also requires the complete pass-1 founder decision ledger so previously
-screened citation records cannot silently re-enter the founder queue. The
-implementation must be frozen before live Europe PMC retrieval.
+Citation pass 2 has executed from frozen revision `5d7a6d9…7520e0`. Its 62
+unique persistent seeds comprise 61 `MED` PMIDs and one `PPR` preprint from the
+30 direct inclusions and all 32 pass-1 inclusions. Official Europe PMC retrieval
+returned 2,053 backward and 8,163 forward links, yielding 7,135 unique non-seed
+candidates. Reconciliation against the direct-search inventory, complete pass-1
+founder ledger, and within-pass duplicates removed 4,656 previously screened or
+duplicate records and left 2,479 genuinely new candidates.
+
+All 2,479 records were prioritized and enriched; 2,478 matched official metadata,
+2,410 supplied abstracts, and one unresolved metadata record remains visible.
+The two checksum-bound advisory packets cover every new candidate exactly once:
+9 proposed inclusions, 2,470 proposed exclusions, zero unclear, zero founder
+decisions, and zero scientific conclusions. The current gate is exact founder
+review of `FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md`. Molecular and
+outcome access remain prohibited.
 
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
@@ -311,40 +317,52 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Execute sequential
-   citation passes until two consecutive fully screened passes add zero eligible
-   evidence.
-2. Update the living manuscript and its evidence-to-text ledger after every material
+1. Confirm or revise the two checksum-bound citation pass-2 packets, materialize
+   the append-only founder decision ledger, and appraise all lawfully accessible
+   inclusions.
+2. Execute later sequential citation passes until two consecutive fully screened
+   passes add zero eligible evidence.
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-3. Resolve and approve the exact centroid and external-reference artifacts,
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-4. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-5. Complete the founder scientific/product, molecular/pathology, and statistical
+6. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-8. Implement persisted evidence claims, citations, provenance, contradictory
+9. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-10. Expand the screening model gateway into general evidence reasoning with
+11. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-11. Build evaluation suites for retrieval, citation validity, numerical
+12. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-12. Generate an immutable research release containing the protocol, dataset
+13. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-13. Generate a reviewable white-paper draft whose substantive claims trace to
+14. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-14. Build the internal workbench for projects, protocols, datasets, runs,
+15. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-15. Complete repeated internal oncology pilots before selecting the first
+16. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-26 — Citation pass 2 prepared for founder confirmation
+
+Executed the cumulative-seed, bidirectional Europe PMC retrieval, prior-decision
+deduplication, prioritization, enrichment, conservative advisory, and field-isolated
+second-stage adjudication workflow. Pass 2 reduced 7,135 non-seed records to 2,479
+genuinely new candidates. Two checksum-bound packets now propose nine inclusions
+and 2,470 exclusions with zero unclear. Mechanical tests prove complete,
+non-overlapping coverage. No founder or AI decision and no scientific conclusion
+has been recorded.
 
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 

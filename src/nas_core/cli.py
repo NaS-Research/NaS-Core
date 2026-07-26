@@ -1467,7 +1467,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             f"Built citation pass {cumulative_seeds.next_pass_number} seed set: "
-            f"{cumulative_seeds.cumulative_seed_count} unique PMIDs from "
+            f"{cumulative_seeds.cumulative_seed_count} unique persistent identifiers from "
             f"{cumulative_seeds.direct_inclusion_count} direct and "
             f"{cumulative_seeds.prior_pass_inclusion_count} prior-pass inclusions"
         )

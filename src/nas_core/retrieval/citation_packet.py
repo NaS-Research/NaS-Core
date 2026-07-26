@@ -173,7 +173,7 @@ class CitationFounderPacketService:
             if item.exclusion_reason is not None
         )
         lines = [
-            "# Founder Citation Screening Packet — Pass 1",
+            f"# Founder Citation Screening Packet — Pass {receipt.pass_number}",
             "",
             "**Advisory only—founder confirmation required.**",
             "",

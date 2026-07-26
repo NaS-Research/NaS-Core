@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.35.0-working`
+Manuscript version: `0.36.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -233,6 +233,21 @@ FOUNDER_CITATION_PASS_0001_CONFIRMATION_v1.0.0.yaml;
 citation-chain/pass-0001-decision-ledger.yaml;
 citation-chain/pass-0001-inclusion-reconciliation.yaml;
 evidence-cap-amendment-activation-v0.2.5.yaml]
+
+Citation pass 2 used all 62 founder-included persistent identities from the
+direct search and pass 1. Official Europe PMC retrieval returned 2,053 backward
+and 8,163 forward links, yielding 7,135 unique non-seed candidates. Exact
+reconciliation against the direct-search inventory, the complete pass-1 founder
+ledger, and within-pass duplicates left 2,479 genuinely new records. Advisory
+screening and a separate adjudication stage now propose nine inclusions and 2,470
+exclusions with zero unclear. Both checksum-bound packets remain nondecisional;
+no pass-2 founder decision or scientific conclusion has been recorded.
+[citation-chain/pass-0002-seeds.yaml;
+citation-chain/pass-0002-retrieval.yaml;
+citation-chain/pass-0002-screening-preparation.yaml;
+citation-chain/pass-0002-recommendations.yaml;
+citation-chain/pass-0002-unclear-adjudication.yaml;
+FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md]
 
 The first citation appraisal batch adds a deliberately bounded contrast. A paired
 triple-negative series reported 92.7% raw RNA-seq/NanoString subtype agreement,
@@ -1122,6 +1137,7 @@ checks, and internal reviews are complete.
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
+| Methods—citation pass 2 | Cumulative retrieval and advisory screening | `citation-chain/pass-0002-seeds.yaml`; `citation-chain/pass-0002-retrieval.yaml`; `citation-chain/pass-0002-screening-preparation.yaml`; `FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md` | 2,479 new candidates; 9 include and 2,470 exclude recommendations; founder confirmation pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
 | Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 25 materialized, 0 ready, 4 restricted, 0 unresolved full texts |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
@@ -1170,6 +1186,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.36.0-working | 2026-07-26 | Added citation pass-2 cumulative retrieval and nondecisional screening: 7,135 non-seed records reduced to 2,479 genuinely new candidates, with nine proposed inclusions, 2,470 proposed exclusions, zero unclear, and exact founder confirmation pending. |
 | 0.35.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.1`: unchanged sources classified 3,273 primary records and 136 linked technical replicates with zero unclassified; all five input-feasibility checks pass while molecular/outcome execution remains prohibited. |
 | 0.34.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.0`: both sources contain all 50 PAM50 genes; receptor completeness is quantified for 1,098 TCGA and 3,409 GSE96058 records; replicate linkage remains unresolved and molecular/outcome execution remains prohibited. |
 | 0.33.0-working | 2026-07-26 | Materialized founder-confirmed citation appraisal batches 0002–0008, closed citation pass 1 at 25 appraised and 4 restricted records, bound delayed appraisals to stable source receipts, and reconciled 53 appraisal reports to 52 unique studies. |
