@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import json
 import re
 import ssl
@@ -68,9 +69,10 @@ TITLE_DASH_EQUIVALENTS = str.maketrans(
 
 
 def normalize_article_title(title: str | None) -> str:
-    """Normalize whitespace, case, terminal period, and hyphen typography."""
+    """Normalize bibliographic markup, whitespace, case, and hyphen typography."""
+    text_only = re.sub(r"<[^>]+>", "", title or "")
     normalized = (
-        " ".join((title or "").split())
+        " ".join(html.unescape(text_only).split())
         .translate(TITLE_DASH_EQUIVALENTS)
         .removesuffix(".")
         .casefold()

@@ -67,7 +67,7 @@ def _medrxiv_record() -> FullTextInventoryRecord:
     return FullTextInventoryRecord(
         screening_id="d" * 64,
         record_key="PPR:PPR123",
-        title="Synthetic preprint study.",
+        title="Synthetic <sup>preprint</sup> study.",
         doi="10.1234/2026.01.01.12345678",
         access_status="repository_candidate",
     )
