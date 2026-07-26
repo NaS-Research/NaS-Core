@@ -68,13 +68,14 @@ TITLE_DASH_EQUIVALENTS = str.maketrans(
 
 
 def normalize_article_title(title: str | None) -> str:
-    """Normalize only whitespace, terminal period, case, and dash typography."""
-    return (
+    """Normalize whitespace, case, terminal period, and hyphen typography."""
+    normalized = (
         " ".join((title or "").split())
         .translate(TITLE_DASH_EQUIVALENTS)
         .removesuffix(".")
         .casefold()
     )
+    return " ".join(normalized.replace("-", " ").split())
 
 
 class FullTextRetrievalError(RuntimeError):

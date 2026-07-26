@@ -145,12 +145,17 @@ def test_identity_matching_allows_only_bounded_dash_typography() -> None:
         **expected,
         "title": "Feature–specific mean—variance model",
     }
+    omitted_hyphen = {
+        **expected,
+        "title": "Feature specific mean variance model",
+    }
     lexical_change = {
         **expected,
         "title": "Feature-specific mean-variance classifier",
     }
 
     assert FullTextRetrievalService._identity_matches(expected, typographic_dash)
+    assert FullTextRetrievalService._identity_matches(expected, omitted_hyphen)
     assert not FullTextRetrievalService._identity_matches(expected, lexical_change)
 
 
