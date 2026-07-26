@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Execute citation chaining to the locked stopping rule
+### Complete citation appraisals and governed access resolution
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
@@ -24,8 +24,10 @@ zero unclear and zero AI decisions. Exact-identifier reconciliation found no ove
 with the active 30-record inventory, three previously appraised studies, and 29
 net-new records. Founder-approved amendment `0.2.5` is active. Official Europe PMC
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
-repository candidates. Citation progress now has 13 records ready for appraisal
-and 16 awaiting governed access resolution.
+repository candidates. Citation progress has 13 records ready for appraisal and
+16 awaiting governed access resolution. Batch 0001 now contains three mechanically
+validated, checksum-bound appraisal proposals; all remain non-authoritative until
+the founder confirms the packet.
 
 Definition of done:
 
@@ -198,6 +200,9 @@ Current gate state:
   results with six records lacking repository identifiers. All 16 remain pending
   access resolution, not scientific exclusion. Citation progress records 13 ready
   for appraisal, 16 awaiting full text, and zero new appraisals completed.
+- Citation appraisal batch 0001 covers `PMC11217366`, `PMC6547580`, and
+  `PMC3487945`. All three are proposed as `context_only`; no founder decision has
+  been recorded and the governing progress counts remain unchanged.
 - Eleven newly included repository records now have immutable, independently
   verified CC BY receipts. Four more were lawfully reviewed without storage under
   rights that do not authorize a NaS commercial corpus. One IOP article is
@@ -273,6 +278,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation appraisal proposal boundary implemented
+
+Implemented a typed, fail-closed appraisal-proposal contract that cannot record a
+founder decision or be loaded as locked evidence. The first three checksum-verified
+papers were extracted against all seven domains and frozen in a checksum-bound
+founder packet.
+
+The proposals expose a coherent but bounded pattern: reported agreement changes
+substantially with population, platform, preprocessing, classifier implementation,
+and ambiguity handling. All three are proposed as `context_only`; no scientific
+conclusion, clinical claim, or progress-ledger completion was recorded.
 
 ### 2026-07-25 — Citation lawful-access inventory and repository pass completed
 

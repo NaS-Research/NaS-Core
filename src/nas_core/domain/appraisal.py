@@ -378,6 +378,76 @@ class FullTextAppraisal(AppraisalModel):
         return self
 
 
+class FullTextAppraisalProposal(AppraisalModel):
+    """AI-assisted appraisal draft that cannot be mistaken for locked evidence."""
+
+    schema_version: str = "1.0.0"
+    proposal_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(min_length=1)
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    title: str = Field(min_length=1)
+    pmid: str | None = None
+    doi: str | None = None
+    full_text_source_url: str = Field(min_length=1)
+    full_text_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    access_basis: str = Field(min_length=1)
+    study_design: StudyDesign
+    eligibility: FullTextEligibility
+    full_text_exclusion_reason: str | None = Field(default=None, min_length=1)
+    domains: list[AppraisalDomain] = Field(min_length=7, max_length=7)
+    proposed_evidence_role: EvidenceRole
+    key_strengths: list[str]
+    key_limitations: list[str]
+    conflicts_and_funding: str = Field(min_length=1)
+    assistant_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    assistant_disclosure: str = Field(min_length=1)
+    proposed_at: datetime
+    founder_decision_recorded: bool = False
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_proposal(self) -> FullTextAppraisalProposal:
+        names = [item.domain for item in self.domains]
+        if len(set(names)) != len(AppraisalDomainName) or set(names) != set(
+            AppraisalDomainName
+        ):
+            raise ValueError("each required appraisal domain must appear exactly once")
+        if self.founder_decision_recorded:
+            raise ValueError("an appraisal proposal cannot record a founder decision")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("an appraisal proposal cannot draw a scientific conclusion")
+        if self.eligibility is FullTextEligibility.EXCLUDE:
+            if self.proposed_evidence_role is not EvidenceRole.EXCLUDED:
+                raise ValueError("a proposed exclusion must have the excluded evidence role")
+            if self.full_text_exclusion_reason is None:
+                raise ValueError("a proposed exclusion requires one explicit reason")
+        else:
+            if self.proposed_evidence_role is EvidenceRole.EXCLUDED:
+                raise ValueError("an eligible proposal cannot use the excluded evidence role")
+            if self.full_text_exclusion_reason is not None:
+                raise ValueError("an eligible proposal cannot have an exclusion reason")
+        judgments = {item.domain: item.judgment for item in self.domains}
+        if self.proposed_evidence_role is EvidenceRole.ANCHOR:
+            if any(
+                value in {RiskJudgment.HIGH, RiskJudgment.UNCLEAR}
+                for value in judgments.values()
+            ):
+                raise ValueError("a proposed anchor cannot contain high or unclear domains")
+            required_low = {
+                AppraisalDomainName.ANALYSIS_AND_STATISTICS,
+                AppraisalDomainName.VALIDATION_AND_TRANSPORTABILITY,
+            }
+            if any(judgments[name] is not RiskJudgment.LOW for name in required_low):
+                raise ValueError("proposed anchors require low-risk analysis and validation")
+        if self.proposed_evidence_role is EvidenceRole.SUPPORTING and any(
+            value is RiskJudgment.HIGH for value in judgments.values()
+        ):
+            raise ValueError(
+                "a proposal with a high-risk domain must be context-only or excluded"
+            )
+        return self
+
+
 class FullTextAppraisalProgressRecord(AppraisalModel):
     screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     title: str = Field(min_length=1)
@@ -516,6 +586,12 @@ class FullTextAppraisalProgress(AppraisalModel):
 
 def load_full_text_appraisal(path: Path) -> FullTextAppraisal:
     return FullTextAppraisal.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
+
+
+def load_full_text_appraisal_proposal(path: Path) -> FullTextAppraisalProposal:
+    return FullTextAppraisalProposal.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
 
 
 def load_full_text_inventory(path: Path) -> FullTextInventory:

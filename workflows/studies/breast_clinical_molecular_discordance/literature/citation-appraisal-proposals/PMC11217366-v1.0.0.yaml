@@ -1,0 +1,125 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a
+title: Effect of cross-platform gene-expression, computational methods on breast cancer subtyping in PALOMA-2 and PALLET studies.
+pmid: '38951507'
+doi: 10.1038/s41523-024-00658-y
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11217366/fullTextXML
+full_text_sha256: ea958edeca833a08d5834d9fde3df7a5a2fb104748c4e1bd306dd02ea1f77333
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The analysis used prospectively collected specimens from two randomized trials, but
+      only biomarker-available subsets were analyzed: 222 of 666 PALOMA-2 participants had
+      both ruoProsigna-PAM50 and HTG-AIMS results, and 224 PALLET participants had baseline
+      RNA-seq. Both cohorts were restricted to postmenopausal ER-positive/HER2-negative
+      disease, and specimen availability plus consent may select a non-random subset even
+      though reported PALOMA-2 baseline characteristics were similar.
+    evidence_locations:
+      - Results — PALOMA-2
+      - Results — PALLET
+      - Methods — Patient population
+  - domain: specimen_and_measurement
+    judgment: high
+    rationale: >-
+      The principal PALOMA-2 comparison changes both measurement platform and algorithm:
+      FFPE NanoString ruoProsigna is compared with FFPE HTG EdgeSeq AIMS. PALLET compares
+      algorithms on the same RNA-seq data, but RNA-seq used two instruments and read
+      configurations. The authors state that no HTG-to-microarray technical calibration was
+      performed because paired calibration data were unavailable, so platform and algorithm
+      effects cannot be separated for the headline PALOMA-2 discordance.
+    evidence_locations:
+      - Methods — Tissue samples
+      - Methods — Gene-expression profiling
+      - Results — PALOMA-2
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      HTG-AIMS used only 42 of 100 published binary rules because of panel coverage.
+      HTG-PAM50 used TCGA ER-positive/HER2-negative subgroup-specific percentile centering,
+      while PALLET PAM50 used cohort median centering plus pretrained cross-platform factors.
+      These cohort-dependent implementations do not satisfy strict one-patient independence,
+      and the full executable artifacts, seeds, and software environment are not frozen in
+      the report.
+    evidence_locations:
+      - Methods — Gene-expression profiling
+      - Results — Comparison of PAM50 intrinsic subtyping with AIMS on HTG data
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      The paired ruoProsigna result is a standardized technical comparator for PALOMA-2, but
+      it is not a biological gold standard and it omits Normal-like calls. For kappa, AIMS
+      Normal-like calls were reassigned to Luminal A. PALLET has no standardized clinical
+      comparator and contrasts two research implementations on the same RNA-seq data.
+    evidence_locations:
+      - Methods — Gene-expression profiling
+      - Results — PALOMA-2
+      - Results — PALLET
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      Agreement counts and kappa directly quantify discordance, but outcome analyses use
+      numerous small subtype-treatment strata, one-sided log-rank tests, and no study-wide
+      multiplicity control. The 0.10 centroid-distance switching experiment and
+      clear-versus-discord outcome grouping were exploratory, and switched-subtype outcome
+      data were not shown. No uncertainty interval was reported for the principal agreement
+      proportions.
+    evidence_locations:
+      - Methods — Statistical analyses
+      - Results — Evaluation of the heterogeneity of intrinsic subtyping assignments
+      - Results — PALOMA-2
+      - Results — PALLET
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Two trials demonstrate that disagreement recurs, but they do not test one unchanged
+      classifier and artifact set across independent patients and platforms. Each trial uses
+      a different assay/algorithm pairing and study-specific preprocessing. The narrow
+      ER-positive/HER2-negative trial populations, absent unchanged external transport, and
+      small non-luminal strata prevent validation of a general reliability or treatment claim.
+    evidence_locations:
+      - Methods — Patient population
+      - Methods — Gene-expression profiling
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The report identifies cohorts, sample counts, assay workflows, software versions for
+      RNA-seq processing, centering concepts, contingency tables, and uncertainty caveats.
+      However, complete analysis code, executable classifier artifacts, random seeds, all
+      calibration factors, and the switched-subtype outcome data are not provided in the
+      article.
+    evidence_locations:
+      - Methods — Gene-expression profiling
+      - Methods — Statistical analyses
+      - Supplementary information
+proposed_evidence_role: context_only
+key_strengths:
+  - Direct paired comparison found only 54% agreement in 222 PALOMA-2 tumors.
+  - A second trial found 69% agreement between AIMS and a calibrated PAM50 implementation.
+  - Reports the full subtype cross-tabulations rather than only an aggregate accuracy claim.
+  - Demonstrates close first-versus-second centroid correlations and adjacent-subtype switching.
+  - Uses clinically characterized randomized-trial specimens and reports outcome associations.
+key_limitations:
+  - Headline PALOMA-2 comparison conflates assay-platform and algorithm differences.
+  - Implementations require cohort-specific centering or calibration and are not strictly single-patient.
+  - No fixed abstention rule was prospectively applied to borderline centroid assignments.
+  - Exploratory outcome analyses are small, multiple, and not externally validated.
+  - The study was funded by Pfizer and several authors were affiliated with Pfizer during the work.
+conflicts_and_funding: >-
+  The study was funded by Pfizer Inc.; Pfizer also funded editorial support from ICON
+  and Oxford PharmaGenesis. The article identifies multiple Pfizer-affiliated authors.
+  A separate competing-interest statement was not present in the retrieved XML.
+assistant_id: openai-codex
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal,
+  scientific result, novelty finding, or clinical recommendation.
+proposed_at: 2026-07-25T23:55:00-05:00
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

@@ -5,7 +5,11 @@ import pytest
 import yaml
 from pydantic import ValidationError
 
-from nas_core.domain.appraisal import AppraisalDomainName, FullTextAppraisal
+from nas_core.domain.appraisal import (
+    AppraisalDomainName,
+    FullTextAppraisal,
+    FullTextAppraisalProposal,
+)
 
 ROOT = Path(__file__).parents[1]
 REAL_APPRAISAL_DIR = (
@@ -16,6 +20,7 @@ REAL_APPRAISAL_DIR = (
     / "literature"
     / "appraisals"
 )
+PROPOSAL_DIR = REAL_APPRAISAL_DIR.parent / "citation-appraisal-proposals"
 
 
 def _payload(*, role: str = "anchor", validation: str = "low") -> dict[str, object]:
@@ -95,6 +100,61 @@ def test_locked_appraisal_requires_founder_authorization() -> None:
 
     with pytest.raises(ValidationError, match="founder authorization"):
         FullTextAppraisal.model_validate(payload)
+
+
+def test_appraisal_proposal_is_explicitly_non_authoritative() -> None:
+    payload = _payload(role="supporting", validation="some_concerns")
+    payload["proposal_version"] = payload.pop("appraisal_version")
+    payload["proposed_evidence_role"] = payload.pop("evidence_role")
+    payload["assistant_id"] = "openai-codex"
+    payload["assistant_disclosure"] = "AI-assisted draft for founder review."
+    payload["proposed_at"] = payload.pop("assessed_at")
+    payload["founder_decision_recorded"] = False
+    payload.pop("reviewer_id")
+    payload.pop("reviewer_name")
+    payload.pop("review_method")
+    payload.pop("founder_authorized")
+
+    proposal = FullTextAppraisalProposal.model_validate(payload)
+
+    assert proposal.proposed_evidence_role == "supporting"
+    assert proposal.founder_decision_recorded is False
+    assert proposal.scientific_conclusions_drawn is False
+
+
+def test_appraisal_proposal_cannot_record_founder_decision() -> None:
+    payload = _payload(role="supporting", validation="some_concerns")
+    payload["proposal_version"] = payload.pop("appraisal_version")
+    payload["proposed_evidence_role"] = payload.pop("evidence_role")
+    payload["assistant_id"] = "openai-codex"
+    payload["assistant_disclosure"] = "AI-assisted draft for founder review."
+    payload["proposed_at"] = payload.pop("assessed_at")
+    payload["founder_decision_recorded"] = True
+    payload.pop("reviewer_id")
+    payload.pop("reviewer_name")
+    payload.pop("review_method")
+    payload.pop("founder_authorized")
+
+    with pytest.raises(ValidationError, match="cannot record a founder decision"):
+        FullTextAppraisalProposal.model_validate(payload)
+
+
+def test_first_citation_appraisal_batch_is_non_authoritative() -> None:
+    paths = sorted(PROPOSAL_DIR.glob("*.yaml"))
+
+    proposals = [
+        FullTextAppraisalProposal.model_validate(yaml.safe_load(path.read_text()))
+        for path in paths
+    ]
+
+    assert [path.stem for path in paths] == [
+        "PMC11217366-v1.0.0",
+        "PMC3487945-v1.0.0",
+        "PMC6547580-v1.0.0",
+    ]
+    assert all(item.proposed_evidence_role == "context_only" for item in proposals)
+    assert all(item.founder_decision_recorded is False for item in proposals)
+    assert all(item.scientific_conclusions_drawn is False for item in proposals)
 
 
 def test_second_real_appraisal_is_context_only_and_non_conclusive() -> None:

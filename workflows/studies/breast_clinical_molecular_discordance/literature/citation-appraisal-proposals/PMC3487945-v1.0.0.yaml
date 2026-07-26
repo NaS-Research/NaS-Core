@@ -1,0 +1,121 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: f19c6289712d0f195fa224726b02c70d400391689afebcc6e84174d8a8c4a40b
+title: PAM50 Breast Cancer Subtyping by RT-qPCR and Concordance with Standard Clinical Molecular Markers
+pmid: '23035882'
+doi: 10.1186/1755-8794-5-44
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3487945/fullTextXML
+full_text_sha256: c6682f9e314065f7b1cfa62399e56a9c0d6925baf12849454485df4e94f35f5d
+access_basis: Creative Commons Attribution 2.0 Generic (CC-BY-2.0).
+study_design: analytical_validation
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Centroids were trained in 154 prototype samples selected from 171 breast specimens,
+      including normal tissue, and tested in an independent 814-patient GEICAM/9906 phase
+      III trial cohort. The large test set is a strength, but it consists of locally advanced
+      chemotherapy-treated disease enrolled under historical biomarker thresholds, limiting
+      applicability to contemporary early HR-positive/HER2-negative populations.
+    evidence_locations:
+      - Methods — Samples and clinical data
+      - Table 1 — Patient characteristics
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      GEICAM specimens were evaluated at one site for ER, PR, and HER2, with equivocal HER2
+      confirmed by CISH, while RT-qPCR included analytical measurements of efficiency,
+      detection, quantification, plate/batch reproducibility, and normal-tissue interference.
+      The report does not fully characterize preanalytic variation across collection sites or
+      missing/failed assay samples.
+    evidence_locations:
+      - Methods — Samples and clinical data
+      - Methods — Measurement of PCR efficiency, limits of detection, and limits of quantification
+      - Methods — Measurements of assay reproducibility
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      Prototype selection, centroid construction, Spearman nearest-centroid assignment,
+      fixed biomarker cut-points, and single-patient application are described. Ten-fold
+      cross-validation assessed training stability, and fixed artifacts were applied to the
+      independent test set. Nevertheless, the exact centroid vectors, complete executable
+      code, random split seed, and deployable environment are not frozen in the article.
+    evidence_locations:
+      - Methods — Selection of prototype samples for the RT-qPCR training set
+      - Methods — 10-Fold cross validation to determine stability of selected prototypes
+      - Methods — Scaling single and Meta-Gene scores
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Centrally scored IHC/CISH is clinically meaningful but explicitly imperfect as a
+      biological reference. Training subtype labels were derived by clustering and SigClust
+      from the same RT-qPCR expression space, so classifier agreement with those labels is
+      not independent truth. Outcome associations offer supporting information but not a
+      treatment-response reference.
+    evidence_locations:
+      - Methods — Samples and clinical data
+      - Methods — Selection of prototype samples for the RT-qPCR training set
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The study reports cross-validation agreement, ROC AUCs, fixed-cut-point performance,
+      interference experiments, and Cox outcome analyses. However, prototype discovery and
+      numerous marker/subtype comparisons are exploratory without an overall multiplicity
+      plan; the prognostic model used backward/forward stepwise selection; proportional
+      hazards and calibration are not reported; and treatment assignment followed IHC,
+      complicating causal interpretation of discordant ER/ESR1 survival patterns.
+    evidence_locations:
+      - Results — Training set, subtype stability, and classification accuracy
+      - Results — Prognostic significance of gene expression versus standard methods for ER and HER2 status
+      - Table 6 — Univariate and multivariate analyses of prognostic factors
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      Fixed centroids and marker cut-points were transported from a separate training set
+      into 814 independent trial patients, and assay perturbation was tested through
+      replicate plate/batch measurements plus normal-tissue dilution. Validation remains
+      assay- and laboratory-specific, uses no independent external platform or prospective
+      decision-impact study, and does not establish contemporary clinical utility.
+    evidence_locations:
+      - Methods — Samples and clinical data
+      - Methods — Measurements of assay reproducibility
+      - Results — Interference from normal breast tissue contamination
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      The report gives cohort characteristics, assay procedures, fixed cut-points, technical
+      experiments, contingency tables, effect estimates, and extensive supplements. Exact
+      classifier artifacts and a fully executable environment are unavailable, and commercial
+      interests in the assay require explicit retention when interpreting the evidence.
+    evidence_locations:
+      - Methods
+      - Tables 1–6
+      - Competing interests
+proposed_evidence_role: context_only
+key_strengths:
+  - Applies fixed training-derived centroids and cut-points to 814 independent trial patients.
+  - Measures plate/batch reproducibility and models subtype switching under technical error.
+  - Directly demonstrates normal-tissue contamination as a source of subtype instability.
+  - Shows poor one-to-one mapping between IHC surrogate categories and PAM50 intrinsic subtypes.
+  - Reports clinically interpretable cross-tabulations and adjusted survival associations.
+key_limitations:
+  - Training prototypes and subtype truth were derived from the same RT-qPCR expression space.
+  - Stepwise prognostic modeling, multiple exploratory analyses, and no reported PH/calibration assessment.
+  - Historical locally advanced trial population limits modern clinical transportability.
+  - No prospective treatment-decision or patient-utility validation.
+  - Assay-related commercial interests were declared.
+conflicts_and_funding: >-
+  ARUP Laboratories reported a financial interest in commercial offering of the subject
+  matter. One author received ARUP Institute research funding, and three authors reported
+  equity in Bioclassifier LLC, which sublicensed PAM50 from the University of Utah.
+assistant_id: openai-codex
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal,
+  scientific result, novelty finding, or clinical recommendation.
+proposed_at: 2026-07-25T23:55:00-05:00
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

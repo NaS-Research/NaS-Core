@@ -105,6 +105,14 @@ pending lawful read-only, publisher-license, identity-correction, or restriction
 review. Reconciled `citation_appraisal_progress_v1.0.0.yaml` records 13 ready for
 appraisal, 16 awaiting full text, and zero new appraisals complete.
 
+Citation appraisal batch 0001 proposes seven-domain judgments for three direct
+studies: `PMC11217366`, `PMC6547580`, and `PMC3487945`. The proposal files are
+mechanically validated but explicitly non-authoritative: each records
+`founder_decision_recorded=false`, and all three remain `ready_for_appraisal` in
+the governing progress ledger. The founder packet
+`FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md` binds the exact proposal hashes
+and requires one exact confirmation before locked appraisals may be created.
+
 Required artifacts:
 
 - `literature/protocol.md`
