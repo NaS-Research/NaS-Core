@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.30.0-working`
+Manuscript version: `0.31.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -316,6 +316,22 @@ High-risk defects cannot be averaged away. Only evidence with low-risk analysis
 and transport validation may serve as anchor evidence. AI-assisted extraction is
 disclosed, and the founder authorizes each locked appraisal.
 [REVISED_FULL_TEXT_APPRAISAL_PROTOCOL.md]
+
+### Publication-version reconciliation
+
+Preprints and their versions of record are preserved as separate appraisal
+artifacts but cannot be counted as independent studies without a distinct
+contribution. A publication-version link requires an independently checksummed
+proposal and exact founder confirmation. Materialization verifies the packet,
+proposal, earlier and canonical screening identifiers, and inclusion of the
+canonical appraisal in the confirmed batch. Reconciliation then requires both
+locked appraisals, exact normalized titles, PMIDs, and DOIs; prohibits one record
+from participating in multiple links; and emits a family receipt reporting both
+the appraisal count and the deduplicated unique-study count. For mFISHseq,
+`PMC10723508` is proposed as the preprint of `PMC11696812`. No link decision or
+deduplicated receipt exists until batch 0008 is founder-confirmed.
+[citation-version-link-proposals/batch-0008/PMC10723508-to-PMC11696812-v1.0.0.yaml;
+FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md]
 
 ### Proposed analytical procedure
 
@@ -1045,6 +1061,7 @@ checks, and internal reviews are complete.
 | Pending—citation appraisal batch 0006 | AI-assisted publisher-PDF appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md`; two files in `citation-appraisal-proposals/batch-0006/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0007 | AI-assisted canonical-source appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md`; three files in `citation-appraisal-proposals/batch-0007/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0008 | AI-assisted canonical and durable-source appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md`; five files in `citation-appraisal-proposals/batch-0008/` | non-authoritative, founder review required; mFISHseq version pair counts once |
+| Pending—mFISHseq publication-version link | AI-assisted same-study proposal | `citation-version-link-proposals/batch-0008/PMC10723508-to-PMC11696812-v1.0.0.yaml` | non-authoritative; materializes only with batch 0008 |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -1082,6 +1099,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.31.0-working | 2026-07-26 | Added checksum-bound publication-version authorization and unique-study reconciliation so the mFISHseq preprint and version of record cannot be double-counted. |
 | 0.30.0-working | 2026-07-25 | Added five checksum-bound batch-0008 proposals and the explicit mFISHseq preprint/version-of-record non-duplication boundary. |
 | 0.29.0-working | 2026-07-25 | Added the five-request source-level metadata audit, its `changes_requested` feasibility finding, and the transparent pre-gate endpoint-characterization disclosure. |
 | 0.28.0-working | 2026-07-25 | Added three checksum-bound, non-authoritative batch-0007 proposals covering SCAN normalization, simplified subtype robustness, and Swedish IHC/PAM50 concordance. |

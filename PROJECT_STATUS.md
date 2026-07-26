@@ -67,13 +67,19 @@ The seven pending appraisal packets are indexed in
 including seven proposed `supporting` and 15 proposed `context_only` appraisals.
 Each batch requires its own exact founder confirmation before materialization.
 Batch 0008 completes proposal-stage appraisal of the five remaining verified
-citation-pass full texts under packet SHA-256 `4cf6fdab…028bd`. Its three
+citation-pass full texts under packet SHA-256 `30b59efe…4454f`. Its three
 canonical PMC OAI sources passed exact re-fetch, identity, checksum, narrative,
 and verbatim-leakage gates with zero article bytes retained; its two durable CC BY
 sources passed external object-store checksum verification. All five are proposed
-as `context_only`. The peer-reviewed `PMC11696812` report is the version of record
-for the already appraised `PMC10723508` preprint and must replace—not supplement—
-that preprint in synthesis, so the pair counts as one study.
+as `context_only`. A separately checksummed version-link proposal binds the
+peer-reviewed `PMC11696812` report to the already appraised `PMC10723508`
+preprint. Confirmation will materialize the link with the appraisals, after which
+mechanical reconciliation must preserve both reports but count the pair once.
+The typed authorization and reconciliation engine is implemented: it verifies
+the packet and link checksums, requires the canonical report to be appraised in
+the confirmed batch, binds exact titles/PMIDs/DOIs, rejects overlapping links,
+and derives a unique-study family receipt. No decision or receipt has been
+materialized because batch 0008 remains unconfirmed.
 
 Metadata feasibility audit `1.0.0` is complete under the existing no-patient-row
 Phase 0 boundary. It verified 1,231 open TCGA-BRCA STAR-count files, the current
@@ -298,8 +304,8 @@ Current gate state:
 
 1. Obtain separate exact founder decisions for citation appraisal batches 0002
    through 0008; materialize only the batches explicitly confirmed.
-2. Record the mFISHseq version-of-record link during batch-0008 materialization
-   so the peer-reviewed article replaces, and never double-counts, its preprint.
+2. When batch 0008 is exactly confirmed, materialize its mFISHseq version link
+   and execute the unique-study reconciliation receipt.
 3. Obtain exact founder authorization for field-isolated metadata audit `1.0.0`;
    only then implement and execute its transient projection gates.
 4. After all citation-pass-1 appraisals are founder-reviewed, execute sequential

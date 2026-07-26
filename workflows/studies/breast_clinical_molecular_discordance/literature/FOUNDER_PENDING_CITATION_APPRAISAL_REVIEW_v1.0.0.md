@@ -12,16 +12,16 @@ authorization and cannot substitute for any packet-specific exact confirmation.
 
 ## Decision inventory
 
-| Batch | Packet SHA-256 | Proposals | Supporting | Context only | Status |
-|---|---|---:|---:|---:|---|
-| `0002` | `f45518a31273c0fed4bca6c1b53025dacbe5270ada54fcb0786afabcdedf92e2` | 4 | 2 | 2 | Pending |
-| `0003` | `2645951e5aa9f1e72c19b5b87d88839f448b4bebbd734db2cb7dd6a4ed5bedc2` | 6 | 4 | 2 | Pending |
-| `0004` | `b03ea2151ebb8ce4d00acb203c15ff712ab5d6f7e626949d6619a5ae259d7eda` | 1 | 1 | 0 | Pending |
-| `0005` | `990c74c2ff79ed82088807d3dafe7fcfa9bc326825ae7f9901a2d00f3f0b8117` | 1 | 0 | 1 | Pending |
-| `0006` | `a1bbada9a8830fedc3f3776a7bf16c9e36cce84e6c3ab1d6072fddab4cb8c002` | 2 | 0 | 2 | Pending |
-| `0007` | `43410b02f7eef83e4fd75fd3ca16b9f84ffbede39e32660e248cef7df5c821d5` | 3 | 0 | 3 | Pending |
-| `0008` | `4cf6fdab2f03beb91d35a56c68aa3c98ab32fb7bc9850d6bf9cf5187a5b028bd` | 5 | 0 | 5 | Pending |
-| **Total** | — | **22** | **7** | **15** | **Pending** |
+| Batch | Packet SHA-256 | Appraisals | Version links | Supporting | Context only | Status |
+|---|---|---:|---:|---:|---:|---|
+| `0002` | `f45518a31273c0fed4bca6c1b53025dacbe5270ada54fcb0786afabcdedf92e2` | 4 | 0 | 2 | 2 | Pending |
+| `0003` | `2645951e5aa9f1e72c19b5b87d88839f448b4bebbd734db2cb7dd6a4ed5bedc2` | 6 | 0 | 4 | 2 | Pending |
+| `0004` | `b03ea2151ebb8ce4d00acb203c15ff712ab5d6f7e626949d6619a5ae259d7eda` | 1 | 0 | 1 | 0 | Pending |
+| `0005` | `990c74c2ff79ed82088807d3dafe7fcfa9bc326825ae7f9901a2d00f3f0b8117` | 1 | 0 | 0 | 1 | Pending |
+| `0006` | `a1bbada9a8830fedc3f3776a7bf16c9e36cce84e6c3ab1d6072fddab4cb8c002` | 2 | 0 | 0 | 2 | Pending |
+| `0007` | `43410b02f7eef83e4fd75fd3ca16b9f84ffbede39e32660e248cef7df5c821d5` | 3 | 0 | 0 | 3 | Pending |
+| `0008` | `30b59efed257ad8ff699b4ccf3dcd3fa33be4e0f85b75b509401a0c59c34454f` | 5 | 1 | 0 | 5 | Pending |
+| **Total** | — | **22** | **1** | **7** | **15** | **Pending** |
 
 Batch `0001` is intentionally absent because it is already founder-authorized and
 materialized. The seven pending packets have passed their real-byte

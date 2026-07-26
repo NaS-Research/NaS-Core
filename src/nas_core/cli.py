@@ -21,12 +21,15 @@ from nas_core.domain.appraisal import (
     load_full_text_appraisal_proposal,
     load_full_text_inventory,
     load_full_text_read_only_review_receipt,
+    load_publication_version_link_decision,
     write_full_text_appraisal,
     write_full_text_appraisal_progress,
     write_full_text_appraisal_proposal,
     write_full_text_inventory,
     write_full_text_read_only_review_receipt,
     write_full_text_retrieval_receipt,
+    write_publication_version_link_decision,
+    write_publication_version_reconciliation_receipt,
 )
 from nas_core.domain.citation_access import (
     load_repository_access_batch_receipt,
@@ -143,6 +146,9 @@ from nas_core.retrieval.literature import (
     LiteratureSearchVerificationService,
 )
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
+from nas_core.retrieval.publication_versions import (
+    PublicationVersionReconciliationService,
+)
 from nas_core.retrieval.read_only_review import (
     ApprovedPublisherHtmlReadOnlyReviewService,
     ApprovedPublisherPdfReadOnlyReviewService,
@@ -765,6 +771,38 @@ def build_parser() -> argparse.ArgumentParser:
     citation_appraisal_authorize.add_argument("packet", type=Path)
     citation_appraisal_authorize.add_argument("proposal_dir", type=Path)
     citation_appraisal_authorize.add_argument("output_dir", type=Path)
+    citation_appraisal_authorize.add_argument(
+        "--version-link-proposal-dir",
+        type=Path,
+        help="Directory containing checksum-confirmed publication-version proposals",
+    )
+    citation_appraisal_authorize.add_argument(
+        "--version-link-output-dir",
+        type=Path,
+        help="Directory for founder-authorized publication-version decisions",
+    )
+    citation_version_reconcile = literature_commands.add_parser(
+        "citation-publication-version-reconcile",
+        help="Count appraised publication families without double-counting versions",
+    )
+    citation_version_reconcile.add_argument(
+        "--appraisal-dir",
+        action="append",
+        required=True,
+        type=Path,
+        help="Appraisal directory; repeat for each evidence workspace",
+    )
+    citation_version_reconcile.add_argument(
+        "--version-link-dir",
+        required=True,
+        type=Path,
+        help="Directory containing founder-authorized publication-version links",
+    )
+    citation_version_reconcile.add_argument(
+        "--output-path",
+        required=True,
+        type=Path,
+    )
     citation_read_only_review = literature_commands.add_parser(
         "citation-pmc-read-only-review",
         help="Review a PMC article ephemerally and emit a no-storage receipt",
@@ -2101,25 +2139,85 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.confirmation
         )
         proposal_paths = sorted(args.proposal_dir.glob("*.yaml"))
-        appraisals = AppraisalConfirmationService().authorize(
+        if (args.version_link_proposal_dir is None) != (
+            args.version_link_output_dir is None
+        ):
+            raise SystemExit(
+                "version-link proposal and output directories must be supplied together"
+            )
+        version_link_proposal_paths = (
+            sorted(args.version_link_proposal_dir.glob("*.yaml"))
+            if args.version_link_proposal_dir is not None
+            else []
+        )
+        authorization = AppraisalConfirmationService().authorize_bundle(
             confirmation=appraisal_confirmation,
             packet_path=args.packet,
             proposal_paths=proposal_paths,
+            version_link_proposal_paths=version_link_proposal_paths,
         )
         by_screening_id = {
             item.screening_id: item for item in appraisal_confirmation.proposals
         }
-        for appraisal in appraisals:
+        for appraisal in authorization.appraisals:
             reference = by_screening_id[appraisal.screening_id]
             write_full_text_appraisal(
                 args.output_dir / reference.filename,
                 appraisal,
             )
+        by_version_pair = {
+            (item.earlier_screening_id, item.canonical_screening_id): item
+            for item in appraisal_confirmation.version_links
+        }
+        for version_link in authorization.version_links:
+            version_reference = by_version_pair[
+                (
+                    version_link.earlier.screening_id,
+                    version_link.canonical.screening_id,
+                )
+            ]
+            if args.version_link_output_dir is None:
+                raise SystemExit("confirmed version links require an output directory")
+            write_publication_version_link_decision(
+                args.version_link_output_dir / version_reference.filename,
+                version_link,
+            )
         print(
-            f"Authorized and wrote {len(appraisals)} locked appraisals "
+            f"Authorized and wrote {len(authorization.appraisals)} locked appraisals "
+            f"and {len(authorization.version_links)} publication-version links "
             f"from batch {appraisal_confirmation.batch_number:04d}"
         )
         print(f"Appraisal directory: {args.output_dir}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-publication-version-reconcile"
+    ):
+        appraisal_paths = sorted(
+            path
+            for directory in args.appraisal_dir
+            for path in directory.glob("*.yaml")
+        )
+        version_link_paths = sorted(args.version_link_dir.glob("*.yaml"))
+        version_receipt = PublicationVersionReconciliationService().build(
+            appraisals=[
+                load_full_text_appraisal(path) for path in appraisal_paths
+            ],
+            version_links=[
+                load_publication_version_link_decision(path)
+                for path in version_link_paths
+            ],
+        )
+        write_publication_version_reconciliation_receipt(
+            args.output_path,
+            version_receipt,
+        )
+        print(
+            f"Reconciled {version_receipt.appraisal_count} appraisals into "
+            f"{version_receipt.unique_study_count} unique studies"
+        )
+        print(f"Version reconciliation: {args.output_path}")
         return 0
 
     if (

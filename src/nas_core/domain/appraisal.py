@@ -103,6 +103,116 @@ class DuplicateRelationship(StrEnum):
     DUPLICATE_REPORT = "duplicate_report"
 
 
+class PublicationStage(StrEnum):
+    PREPRINT = "preprint"
+    VERSION_OF_RECORD = "version_of_record"
+
+
+class PublicationVersionIdentity(AppraisalModel):
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    title: str = Field(min_length=1)
+    publication_stage: PublicationStage
+    pmcid: str | None = Field(default=None, pattern=r"^PMC[0-9]+$")
+    pmid: str | None = Field(default=None, pattern=r"^[0-9]+$")
+    doi: str | None = Field(default=None, min_length=1)
+
+    @model_validator(mode="after")
+    def validate_identity(self) -> PublicationVersionIdentity:
+        if not any((self.pmcid, self.pmid, self.doi)):
+            raise ValueError("publication version identity requires one identifier")
+        return self
+
+
+class PublicationVersionLinkProposal(AppraisalModel):
+    """Non-authoritative same-study link proposed for founder review."""
+
+    schema_version: str = "1.0.0"
+    proposal_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(min_length=1)
+    relationship: DuplicateRelationship
+    earlier: PublicationVersionIdentity
+    canonical: PublicationVersionIdentity
+    matching_evidence: list[str] = Field(min_length=3)
+    rationale: str = Field(min_length=1)
+    assistant_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    assistant_disclosure: str = Field(min_length=1)
+    proposed_at: datetime
+    founder_decision_recorded: bool = False
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_proposal(self) -> PublicationVersionLinkProposal:
+        if self.relationship is not DuplicateRelationship.PREPRINT_OF:
+            raise ValueError("publication version proposal must use preprint_of")
+        if self.earlier.screening_id == self.canonical.screening_id:
+            raise ValueError("publication version proposal requires distinct records")
+        if (
+            self.earlier.publication_stage is not PublicationStage.PREPRINT
+            or self.canonical.publication_stage
+            is not PublicationStage.VERSION_OF_RECORD
+        ):
+            raise ValueError(
+                "publication version proposal must link preprint to version of record"
+            )
+        if self.founder_decision_recorded:
+            raise ValueError("publication version proposal cannot record founder decision")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("publication version proposal cannot draw conclusions")
+        return self
+
+
+class PublicationVersionLinkDecision(AppraisalModel):
+    """Founder-authorized same-study link used to prevent evidence double counting."""
+
+    schema_version: str = "1.0.0"
+    decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(min_length=1)
+    relationship: DuplicateRelationship
+    earlier: PublicationVersionIdentity
+    canonical: PublicationVersionIdentity
+    matching_evidence: list[str] = Field(min_length=3)
+    rationale: str = Field(min_length=1)
+    reviewer_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    reviewer_name: str = Field(min_length=1)
+    review_method: AppraisalReviewMethod
+    assistant_disclosure: str | None = Field(default=None, min_length=1)
+    founder_authorized: bool
+    decided_at: datetime
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_decision(self) -> PublicationVersionLinkDecision:
+        proposal = PublicationVersionLinkProposal(
+            proposal_version=self.decision_version,
+            study_id=self.study_id,
+            relationship=self.relationship,
+            earlier=self.earlier,
+            canonical=self.canonical,
+            matching_evidence=self.matching_evidence,
+            rationale=self.rationale,
+            assistant_id="validation-only",
+            assistant_disclosure="Validation-only reconstruction.",
+            proposed_at=self.decided_at,
+        )
+        if proposal.scientific_conclusions_drawn:
+            raise ValueError("publication version decision cannot draw conclusions")
+        if not self.founder_authorized:
+            raise ValueError("publication version decision requires founder authorization")
+        if (
+            self.review_method is AppraisalReviewMethod.FOUNDER_WITH_AI_ASSISTANCE
+            and self.assistant_disclosure is None
+        ):
+            raise ValueError("AI-assisted version decision requires disclosure")
+        if (
+            self.review_method is AppraisalReviewMethod.FOUNDER_ONLY
+            and self.assistant_disclosure is not None
+        ):
+            raise ValueError("founder-only version decision cannot contain AI disclosure")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("publication version decision cannot draw conclusions")
+        return self
+
+
 class FullTextDuplicateDecision(AppraisalModel):
     schema_version: str = "1.0.0"
     decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
@@ -475,6 +585,18 @@ class FullTextAppraisalProposalReference(AppraisalModel):
     sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
 
 
+class PublicationVersionLinkProposalReference(AppraisalModel):
+    filename: str = Field(
+        pattern=(
+            r"^PMC[0-9]+-to-PMC[0-9]+"
+            r"-v[0-9]+\.[0-9]+\.[0-9]+\.yaml$"
+        )
+    )
+    earlier_screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    canonical_screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+
+
 class FullTextAppraisalBatchConfirmation(AppraisalModel):
     schema_version: str = "1.0.0"
     confirmation_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
@@ -489,6 +611,10 @@ class FullTextAppraisalBatchConfirmation(AppraisalModel):
     packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     proposal_count: int = Field(ge=1)
     proposals: list[FullTextAppraisalProposalReference] = Field(min_length=1)
+    version_link_count: int = Field(default=0, ge=0)
+    version_links: list[PublicationVersionLinkProposalReference] = Field(
+        default_factory=list
+    )
     confirmation_statement: str
     founder_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
     founder_name: str = Field(min_length=1)
@@ -521,6 +647,83 @@ class FullTextAppraisalBatchConfirmation(AppraisalModel):
             raise ValueError("appraisal confirmation screening IDs must be unique")
         if len({item.sha256 for item in self.proposals}) != len(self.proposals):
             raise ValueError("appraisal confirmation proposal checksums must be unique")
+        if len(self.version_links) != self.version_link_count:
+            raise ValueError("appraisal confirmation version-link count does not reconcile")
+        if len({item.filename for item in self.version_links}) != len(
+            self.version_links
+        ):
+            raise ValueError("appraisal confirmation version-link filenames must be unique")
+        linked_ids = [
+            screening_id
+            for item in self.version_links
+            for screening_id in (
+                item.earlier_screening_id,
+                item.canonical_screening_id,
+            )
+        ]
+        if len(set(linked_ids)) != len(linked_ids):
+            raise ValueError("appraisal confirmation version-link records must be unique")
+        if len({item.sha256 for item in self.version_links}) != len(
+            self.version_links
+        ):
+            raise ValueError("appraisal confirmation version-link checksums must be unique")
+        return self
+
+
+class EvidenceStudyFamilyMember(AppraisalModel):
+    screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    title: str = Field(min_length=1)
+    publication_stage: PublicationStage | None = None
+    canonical: bool
+
+
+class EvidenceStudyFamily(AppraisalModel):
+    canonical_screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    canonical_title: str = Field(min_length=1)
+    members: list[EvidenceStudyFamilyMember] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_family(self) -> EvidenceStudyFamily:
+        if len({item.screening_id for item in self.members}) != len(self.members):
+            raise ValueError("evidence family members must be unique")
+        canonical = [item for item in self.members if item.canonical]
+        if len(canonical) != 1:
+            raise ValueError("evidence family requires exactly one canonical member")
+        if (
+            canonical[0].screening_id != self.canonical_screening_id
+            or canonical[0].title != self.canonical_title
+        ):
+            raise ValueError("evidence family canonical identity does not reconcile")
+        return self
+
+
+class PublicationVersionReconciliationReceipt(AppraisalModel):
+    schema_version: str = "1.0.0"
+    receipt_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(min_length=1)
+    generated_at: datetime
+    appraisal_count: int = Field(ge=1)
+    version_link_count: int = Field(ge=0)
+    unique_study_count: int = Field(ge=1)
+    families: list[EvidenceStudyFamily] = Field(min_length=1)
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_receipt(self) -> PublicationVersionReconciliationReceipt:
+        members = [item for family in self.families for item in family.members]
+        if len(members) != self.appraisal_count:
+            raise ValueError("version reconciliation appraisal count does not reconcile")
+        if len({item.screening_id for item in members}) != len(members):
+            raise ValueError("version reconciliation appraisals must appear exactly once")
+        if len(self.families) != self.unique_study_count:
+            raise ValueError("version reconciliation unique-study count does not reconcile")
+        if self.appraisal_count - self.version_link_count != self.unique_study_count:
+            raise ValueError("version reconciliation link count does not reconcile")
+        linked_families = sum(len(family.members) > 1 for family in self.families)
+        if linked_families != self.version_link_count:
+            raise ValueError("version reconciliation linked families do not reconcile")
+        if self.scientific_conclusions_drawn:
+            raise ValueError("version reconciliation cannot draw scientific conclusions")
         return self
 
 
@@ -670,6 +873,22 @@ def load_full_text_appraisal_proposal(path: Path) -> FullTextAppraisalProposal:
     )
 
 
+def load_publication_version_link_proposal(
+    path: Path,
+) -> PublicationVersionLinkProposal:
+    return PublicationVersionLinkProposal.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_publication_version_link_decision(
+    path: Path,
+) -> PublicationVersionLinkDecision:
+    return PublicationVersionLinkDecision.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def load_full_text_appraisal_batch_confirmation(
     path: Path,
 ) -> FullTextAppraisalBatchConfirmation:
@@ -740,6 +959,47 @@ def write_full_text_appraisal_proposal(
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = yaml.safe_dump(
         proposal.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def write_publication_version_link_proposal(
+    path: Path, proposal: PublicationVersionLinkProposal
+) -> None:
+    """Write one non-authoritative publication link without overwriting review."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        proposal.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def write_publication_version_link_decision(
+    path: Path, decision: PublicationVersionLinkDecision
+) -> None:
+    """Write one founder-authorized publication link without overwriting evidence."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        decision.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def write_publication_version_reconciliation_receipt(
+    path: Path, receipt: PublicationVersionReconciliationReceipt
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
         sort_keys=False,
         width=100,
     )

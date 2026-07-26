@@ -7,7 +7,8 @@ Study: `NAS-BRCA-002`
 Status: **Founder decision required**
 
 This packet presents five AI-assisted, checksum-bound full-text appraisal
-proposals covering IHC/PAM50 agreement, rank-pair single-sample classification,
+proposals and one checksum-bound publication-version link proposal. The
+appraisals cover IHC/PAM50 agreement, rank-pair single-sample classification,
 cross-cohort classifier transport, cross-platform normalization, and spatially
 informed breast-cancer profiling. It does not contain a founder decision, locked
 appraisal, scientific conclusion, novelty finding, causal treatment claim, or
@@ -24,6 +25,17 @@ clinical recommendation.
 | `PMC7299291-v1.0.0.yaml` | `15e7a823fdc0c06485678e983d373cdf4dddaefbcf74bc052cc1bfcdfa11ba4b` | `context_only` |
 
 The proposals are stored under `citation-appraisal-proposals/batch-0008/`.
+
+## Immutable publication-version proposal
+
+| Proposed relationship | Proposal SHA-256 | Effect after confirmation |
+|---|---|---|
+| `PMC10723508` `preprint_of` `PMC11696812` | `009718e17fbf432e5d085dcd71a77301e788f9e84bf77eec5b9295856b187d68` | Preserve both reports; cite the version of record and count the pair once |
+
+The proposal is stored under
+`citation-version-link-proposals/batch-0008/PMC10723508-to-PMC11696812-v1.0.0.yaml`.
+It is non-authoritative and mechanically cannot enter synthesis reconciliation
+without this packet's exact founder confirmation.
 
 Three articles were re-fetched through official PMC OAI, reduced to their
 canonical JATS article subtree, identity-checked, and verified against immutable
@@ -214,10 +226,11 @@ appraised as preprint `PMC10723508`:
 - same mFISHseq platform, 293-gene classifier, consensus framework, and core
   treatment-response analyses.
 
-The peer-reviewed paper will replace the preprint as the canonical citation in
-later synthesis. The preprint remains preserved as provenance, but the pair must
-count as one study and cannot be treated as replication. This packet records that
-review boundary; it does not silently erase or rewrite the earlier appraisal.
+If this packet is confirmed, the peer-reviewed paper will replace the preprint as
+the canonical citation in later synthesis. The preprint remains preserved as
+provenance, but the pair must count as one study and cannot be treated as
+replication. The founder-authorized link will be stored separately from both
+appraisals; it will not silently erase or rewrite the earlier appraisal.
 
 ## Cross-study interpretation boundary
 
@@ -238,7 +251,8 @@ authorize molecular-data execution.
 
 ## Founder decision
 
-To authorize this exact packet, reply with:
+To authorize the five exact appraisals and the exact publication-version link,
+reply with:
 
 `I confirm citation appraisal batch 0008 as written.`
 

@@ -224,6 +224,18 @@ appraised `PMC10723508` preprint and must replace it as the canonical synthesis
 citation rather than count as an independent study. Exact founder confirmation is
 required before batch 0008 can enter the evidence ledger.
 
+Publication-version control is mechanically enforced. A non-authoritative link
+proposal has its own checksum and is included in the batch-0008 founder
+confirmation contract. Authorization requires the canonical publication to have
+an appraisal in that same confirmed batch. The reconciliation service then
+verifies both appraisals against exact screening IDs, normalized titles, PMIDs,
+and DOIs; rejects missing, overlapping, or cross-study links; and emits an
+immutable family receipt whose unique-study count is the appraisal count minus
+authorized version links. The CLI commands are
+`citation-appraisal-authorize --version-link-proposal-dir ... --version-link-output-dir ...`
+and `citation-publication-version-reconcile`. No link decision or family receipt
+exists before founder confirmation.
+
 For founder review, `FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`
 indexes batches 0002 through 0008 with exact packet hashes, proposal counts,
 evidence-role totals, links, and the seven packet-specific confirmation statements.

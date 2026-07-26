@@ -12,6 +12,7 @@ from nas_core.domain.appraisal import (
     FullTextAppraisal,
     FullTextAppraisalBatchConfirmation,
     FullTextAppraisalProposal,
+    PublicationVersionLinkProposal,
     appraisal_batch_confirmation_statement,
     load_full_text_appraisal_batch_confirmation,
     write_full_text_appraisal,
@@ -19,6 +20,9 @@ from nas_core.domain.appraisal import (
 from nas_core.retrieval.appraisal_confirmation import (
     AppraisalConfirmationError,
     AppraisalConfirmationService,
+)
+from nas_core.retrieval.publication_versions import (
+    PublicationVersionReconciliationService,
 )
 
 ROOT = Path(__file__).parents[1]
@@ -32,6 +36,9 @@ REAL_APPRAISAL_DIR = (
 )
 PROPOSAL_ROOT = REAL_APPRAISAL_DIR.parent / "citation-appraisal-proposals"
 PROPOSAL_DIR = PROPOSAL_ROOT / "batch-0001"
+VERSION_LINK_PROPOSAL_ROOT = (
+    REAL_APPRAISAL_DIR.parent / "citation-version-link-proposals"
+)
 APPRAISAL_PACKET = (
     REAL_APPRAISAL_DIR.parent / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md"
 )
@@ -50,7 +57,9 @@ def _test_confirmation(
     batch_number: int,
     packet_path: Path,
     proposal_paths: list[Path],
+    version_link_proposal_paths: list[Path] | None = None,
 ) -> FullTextAppraisalBatchConfirmation:
+    version_link_proposal_paths = version_link_proposal_paths or []
     proposals = [
         FullTextAppraisalProposal.model_validate(yaml.safe_load(path.read_text()))
         for path in proposal_paths
@@ -69,6 +78,25 @@ def _test_confirmation(
                 "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             }
             for path, proposal in zip(proposal_paths, proposals, strict=True)
+        ],
+        version_link_count=len(version_link_proposal_paths),
+        version_links=[
+            {
+                "filename": path.name,
+                "earlier_screening_id": proposal.earlier.screening_id,
+                "canonical_screening_id": proposal.canonical.screening_id,
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+            for path, proposal in zip(
+                version_link_proposal_paths,
+                [
+                    PublicationVersionLinkProposal.model_validate(
+                        yaml.safe_load(path.read_text())
+                    )
+                    for path in version_link_proposal_paths
+                ],
+                strict=True,
+            )
         ],
         confirmation_statement=appraisal_batch_confirmation_statement(batch_number),
         founder_id="dalron-j-robertson",
@@ -264,6 +292,20 @@ def test_eighth_citation_appraisal_batch_is_non_authoritative() -> None:
     assert all(item.proposed_evidence_role == "context_only" for item in proposals)
     assert all(item.founder_decision_recorded is False for item in proposals)
     assert all(item.scientific_conclusions_drawn is False for item in proposals)
+    version_paths = sorted(
+        (VERSION_LINK_PROPOSAL_ROOT / "batch-0008").glob("*.yaml")
+    )
+    version_links = [
+        PublicationVersionLinkProposal.model_validate(
+            yaml.safe_load(path.read_text())
+        )
+        for path in version_paths
+    ]
+    assert [path.stem for path in version_paths] == [
+        "PMC10723508-to-PMC11696812-v1.0.0"
+    ]
+    assert all(item.founder_decision_recorded is False for item in version_links)
+    assert all(item.scientific_conclusions_drawn is False for item in version_links)
 
 
 def test_third_citation_appraisal_batch_is_non_authoritative() -> None:
@@ -512,25 +554,38 @@ def test_pending_real_batches_are_authorization_ready(
     proposal_paths = sorted(
         (PROPOSAL_ROOT / f"batch-{batch_number:04d}").glob("*.yaml")
     )
+    version_link_proposal_paths = sorted(
+        (
+            VERSION_LINK_PROPOSAL_ROOT / f"batch-{batch_number:04d}"
+        ).glob("*.yaml")
+    )
     confirmation = _test_confirmation(
         batch_number=batch_number,
         packet_path=packet,
         proposal_paths=proposal_paths,
+        version_link_proposal_paths=version_link_proposal_paths,
     )
 
-    appraisals = AppraisalConfirmationService().authorize(
+    authorization = AppraisalConfirmationService().authorize_bundle(
         confirmation=confirmation,
         packet_path=packet,
         proposal_paths=proposal_paths,
+        version_link_proposal_paths=version_link_proposal_paths,
     )
 
-    assert sum(item.evidence_role == "supporting" for item in appraisals) == (
+    assert sum(
+        item.evidence_role == "supporting" for item in authorization.appraisals
+    ) == (
         expected_supporting
     )
-    assert sum(item.evidence_role == "context_only" for item in appraisals) == (
+    assert sum(
+        item.evidence_role == "context_only" for item in authorization.appraisals
+    ) == (
         expected_context
     )
-    assert all(item.founder_authorized for item in appraisals)
+    assert all(item.founder_authorized for item in authorization.appraisals)
+    assert len(authorization.version_links) == (1 if batch_number == 8 else 0)
+    assert all(item.founder_authorized for item in authorization.version_links)
 
 
 def test_pending_review_index_binds_real_packet_hashes_and_counts() -> None:
@@ -548,16 +603,78 @@ def test_pending_review_index_binds_real_packet_hashes_and_counts() -> None:
                 ).glob("*.yaml")
             )
         )
+        version_link_count = len(
+            list(
+                (
+                    VERSION_LINK_PROPOSAL_ROOT
+                    / f"batch-{batch_number:04d}"
+                ).glob("*.yaml")
+            )
+        )
         packet_sha256 = hashlib.sha256(packet.read_bytes()).hexdigest()
 
         assert (
-            f"| `{batch_number:04d}` | `{packet_sha256}` | {proposal_count} |"
+            f"| `{batch_number:04d}` | `{packet_sha256}` | "
+            f"{proposal_count} | {version_link_count} |"
             in review_index
         )
         assert (
             appraisal_batch_confirmation_statement(batch_number)
             in review_index
         )
+
+
+def test_batch_eight_version_link_reconciles_preprint_and_record_once() -> None:
+    batch_number = 8
+    packet = (
+        REAL_APPRAISAL_DIR.parent
+        / "FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md"
+    )
+    proposal_paths = sorted(
+        (PROPOSAL_ROOT / "batch-0008").glob("*.yaml")
+    )
+    version_link_paths = sorted(
+        (VERSION_LINK_PROPOSAL_ROOT / "batch-0008").glob("*.yaml")
+    )
+    confirmation = _test_confirmation(
+        batch_number=batch_number,
+        packet_path=packet,
+        proposal_paths=proposal_paths,
+        version_link_proposal_paths=version_link_paths,
+    )
+    authorization = AppraisalConfirmationService().authorize_bundle(
+        confirmation=confirmation,
+        packet_path=packet,
+        proposal_paths=proposal_paths,
+        version_link_proposal_paths=version_link_paths,
+    )
+    preprint = FullTextAppraisal.model_validate(
+        yaml.safe_load(
+            (
+                REAL_APPRAISAL_DIR.parent
+                / "revised-appraisals"
+                / "PMC10723508-v1.0.0.yaml"
+            ).read_text()
+        )
+    )
+    final = next(
+        appraisal
+        for appraisal in authorization.appraisals
+        if appraisal.screening_id
+        == "9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529"
+    )
+
+    receipt = PublicationVersionReconciliationService(
+        clock=lambda: datetime(2026, 7, 26, tzinfo=UTC)
+    ).build(
+        appraisals=[preprint, final],
+        version_links=authorization.version_links,
+    )
+
+    assert receipt.appraisal_count == 2
+    assert receipt.version_link_count == 1
+    assert receipt.unique_study_count == 1
+    assert receipt.families[0].canonical_screening_id == final.screening_id
 
 
 def test_appraisal_confirmation_rejects_cross_study_proposal(tmp_path: Path) -> None:
