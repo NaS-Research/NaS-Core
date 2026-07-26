@@ -4,7 +4,6 @@ import gzip
 import hashlib
 import io
 import json
-import tarfile
 from contextlib import AbstractContextManager, nullcontext
 from datetime import UTC, datetime
 from pathlib import Path
@@ -24,6 +23,7 @@ from nas_core.ingestion.field_isolated_metadata import (
     GDC_FILES_URL,
     GEO_EXPRESSION_URL,
     GEO_FAMILY_SOFT_URL,
+    TCGA_CLINICAL_PATIENT_FILENAME,
     FieldIsolatedMetadataAuditService,
     FieldIsolatedMetadataError,
     ManifestResponse,
@@ -58,24 +58,18 @@ REAL_AUTHORIZATION_PATH = (
 )
 
 
-def _clinical_archive() -> bytes:
+def _clinical_table() -> bytes:
     header = (
         "bcr_patient_uuid\tbreast_carcinoma_estrogen_receptor_status\t"
         "breast_carcinoma_progesterone_receptor_status\t"
         "lab_proc_her2_neu_immunohistochemistry_receptor_status\t"
         "days_to_death\n"
     )
-    body = (
+    return (
         header
         + "patient-one\tPositive\tNegative\tEquivocal\tPROHIBITED-OUTCOME\n"
         + "patient-two\tNegative\tPositive\tNegative\tPROHIBITED-OUTCOME\n"
     ).encode()
-    output = io.BytesIO()
-    with tarfile.open(fileobj=output, mode="w:gz") as archive:
-        info = tarfile.TarInfo("clinical_patient_brca.txt")
-        info.size = len(body)
-        archive.addfile(info, io.BytesIO(body))
-    return output.getvalue()
 
 
 def _star_counts(*, omit_gene: str | None = None) -> bytes:
@@ -117,7 +111,7 @@ def _geo_family() -> bytes:
 
 class FakeTransport:
     def __init__(self, *, missing_tcga_gene: str | None = None) -> None:
-        self.clinical = _clinical_archive()
+        self.clinical = _clinical_table()
         self.star = _star_counts(omit_gene=missing_tcga_gene)
         self.geo_expression = _geo_expression()
         self.geo_family = _geo_family()
@@ -131,7 +125,14 @@ class FakeTransport:
         self.requests.append(("POST", url))
         text = json.dumps(payload)
         if "BCR Biotab" in text:
-            hits = [self._record(CLINICAL_ID, "clinical.tar.gz", self.clinical, "BCR Biotab")]
+            hits = [
+                self._record(
+                    CLINICAL_ID,
+                    TCGA_CLINICAL_PATIENT_FILENAME,
+                    self.clinical,
+                    "BCR Biotab",
+                )
+            ]
         else:
             hits = [self._record(STAR_ID, "star_counts.tsv", self.star, "TSV")]
         return ManifestResponse(200, {}, canonical_json({"data": {"hits": hits}}))
@@ -220,6 +221,7 @@ def test_queries_are_project_scoped_and_field_limited() -> None:
     assert "TCGA-BRCA" in clinical
     assert "BCR Biotab" in clinical
     assert "Clinical Supplement" in clinical
+    assert TCGA_CLINICAL_PATIENT_FILENAME in clinical
     assert "TCGA-BRCA" in star
     assert "STAR - Counts" in star
     assert '"size": 1' in star

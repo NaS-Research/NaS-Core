@@ -7,7 +7,6 @@ import hashlib
 import json
 import re
 import ssl
-import tarfile
 from collections import Counter
 from collections.abc import Callable, Iterable, Iterator, Mapping
 from contextlib import AbstractContextManager, contextmanager
@@ -38,6 +37,7 @@ from nas_core.ingestion.gdc import canonical_json, sha256
 
 GDC_FILES_URL = "https://api.gdc.cancer.gov/files"
 GDC_DATA_PREFIX = "https://api.gdc.cancer.gov/data/"
+TCGA_CLINICAL_PATIENT_FILENAME = "nationwidechildrens.org_clinical_patient_brca.txt"
 GEO_EXPRESSION_URL = (
     "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96058/suppl/"
     "GSE96058_gene_expression_3273_samples_and_136_replicates_transformed.csv.gz"
@@ -284,6 +284,13 @@ def build_gdc_clinical_manifest_query() -> dict[str, object]:
                     "op": "in",
                     "content": {"field": "access", "value": ["open"]},
                 },
+                {
+                    "op": "in",
+                    "content": {
+                        "field": "file_name",
+                        "value": [TCGA_CLINICAL_PATIENT_FILENAME],
+                    },
+                },
             ],
         },
         "fields": "file_id,file_name,file_size,md5sum,data_format",
@@ -371,6 +378,13 @@ class FieldIsolatedMetadataAuditService:
         if len(star_files) != 1:
             raise FieldIsolatedMetadataError(
                 "the deterministic STAR manifest must return exactly one file"
+            )
+        if (
+            len(clinical_files) != 1
+            or clinical_files[0].file_name != TCGA_CLINICAL_PATIENT_FILENAME
+        ):
+            raise FieldIsolatedMetadataError(
+                "the clinical manifest must return exactly the registered patient table"
             )
 
         tcga_records: dict[str, ReceptorRecord] = {}
@@ -545,8 +559,20 @@ class FieldIsolatedMetadataAuditService:
         with self._transport.open_get(url) as response:
             self._checked_stream(response, context="TCGA clinical supplement")
             digest = DigestingReader(response.stream)
-            records, permitted, rejected = self._parse_clinical_archive(digest)
+            records: dict[str, ReceptorRecord] = {}
+            permitted: set[str] = set()
+            rejected: set[str] = set()
+            self._parse_clinical_table(
+                digest,
+                records=records,
+                permitted=permitted,
+                rejected=rejected,
+            )
             digest.drain()
+        if not records:
+            raise FieldIsolatedMetadataError(
+                "TCGA clinical table contained no permitted receptor records"
+            )
         return (
             self._artifact(
                 source_id=f"tcga-clinical-{record.file_id}",
@@ -554,7 +580,7 @@ class FieldIsolatedMetadataAuditService:
                 url=url,
                 record=record,
                 digest=digest,
-                parser_name="tcga-bcr-biotab-field-projection-v1",
+                parser_name="tcga-bcr-biotab-plain-field-projection-v1",
                 permitted=permitted,
                 rejected=rejected,
             ),
@@ -643,40 +669,6 @@ class FieldIsolatedMetadataAuditService:
             ),
             samples,
         )
-
-    @staticmethod
-    def _parse_clinical_archive(
-        digest: DigestingReader,
-    ) -> tuple[dict[str, ReceptorRecord], set[str], set[str]]:
-        records: dict[str, ReceptorRecord] = {}
-        permitted: set[str] = set()
-        rejected: set[str] = set()
-        try:
-            with tarfile.open(
-                fileobj=cast(BinaryIO, digest),
-                mode="r|gz",
-            ) as archive:
-                for member in archive:
-                    if not member.isfile() or not member.name.casefold().endswith(".txt"):
-                        continue
-                    source = archive.extractfile(member)
-                    if source is None:
-                        continue
-                    FieldIsolatedMetadataAuditService._parse_clinical_table(
-                        source,
-                        records=records,
-                        permitted=permitted,
-                        rejected=rejected,
-                    )
-        except tarfile.TarError as error:
-            raise FieldIsolatedMetadataError(
-                "TCGA clinical supplement is not a streaming tar.gz archive"
-            ) from error
-        if not records:
-            raise FieldIsolatedMetadataError(
-                "TCGA clinical archive contained no permitted receptor records"
-            )
-        return records, permitted, rejected
 
     @staticmethod
     def _parse_clinical_table(
