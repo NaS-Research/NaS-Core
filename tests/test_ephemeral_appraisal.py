@@ -331,7 +331,7 @@ def test_pmc_oai_proposal_rejects_changed_article_content() -> None:
         ).validate(record=_oai_record(), receipt=receipt, proposal=proposal)
 
 
-def test_pmc_html_proposal_reconciles_raw_source_receipt() -> None:
+def test_pmc_html_proposal_reconciles_canonical_source_receipt() -> None:
     source_url = PMC_ARTICLE_URL.format(pmcid="PMC123")
     body = f"""<!doctype html><html><head>
 <meta name="citation_title" content="{TITLE}">

@@ -94,6 +94,7 @@ class FullTextReviewAccessMode(StrEnum):
 
 class FullTextContentRepresentation(StrEnum):
     RAW_SOURCE_BYTES = "raw_source_bytes"
+    CANONICAL_PMC_HTML_V1 = "canonical_pmc_html_v1"
     CANONICAL_PMC_OAI_ARTICLE_XML_V1 = "canonical_pmc_oai_article_xml_v1"
     CANONICAL_PUBLISHER_HTML_V1 = "canonical_publisher_html_v1"
 

@@ -490,14 +490,15 @@ class PmcReadOnlyReviewService:
         response = self._transport.get(source_url)
         if response.status_code != 200 or len(response.body) < 10_000:
             raise ReadOnlyReviewError("PMC full-text page is unavailable or incomplete")
-        parser = _CitationMetaParser()
+        parser = _CanonicalPublisherHtmlParser()
         try:
             parser.feed(response.body.decode("utf-8"))
         except UnicodeDecodeError as error:
             raise ReadOnlyReviewError("PMC full-text page is not UTF-8 HTML") from error
         self._verify_identity(record, parser.metadata, source_url)
+        canonical_bytes, _ = parser.canonical_representation()
         accessed_at = self._clock()
-        content_sha256 = sha256(response.body)
+        content_sha256 = sha256(canonical_bytes)
         review_id = sha256(
             canonical_json(
                 {
@@ -522,11 +523,14 @@ class PmcReadOnlyReviewService:
             title=record.title,
             source_url=source_url,
             access_mode=FullTextReviewAccessMode.READ_ONLY_EPHEMERAL,
+            content_representation=(
+                FullTextContentRepresentation.CANONICAL_PMC_HTML_V1
+            ),
             access_basis=access_basis,
             observed_rights=observed_rights,
             rights_url=rights_url,
             content_sha256=content_sha256,
-            content_size_bytes=len(response.body),
+            content_size_bytes=len(canonical_bytes),
             accessed_at=accessed_at,
             verified_at=self._clock(),
             code_revision=code_revision,

@@ -384,10 +384,10 @@ class PmcHtmlAppraisalProposalService:
             )
         if (
             receipt.content_representation
-            is not FullTextContentRepresentation.RAW_SOURCE_BYTES
+            is not FullTextContentRepresentation.CANONICAL_PMC_HTML_V1
         ):
             raise EphemeralAppraisalError(
-                "receipt does not declare raw PMC HTML source bytes"
+                "receipt does not declare canonical PMC HTML"
             )
         response = self._transport.get(source_url)
         if (
@@ -395,13 +395,6 @@ class PmcHtmlAppraisalProposalService:
             or not 10_000 <= len(response.body) <= 20_000_000
         ):
             raise EphemeralAppraisalError("PMC HTML article is unavailable")
-        if (
-            len(response.body) != receipt.content_size_bytes
-            or sha256(response.body) != receipt.content_sha256
-        ):
-            raise EphemeralAppraisalError(
-                "PMC HTML article no longer matches the review receipt"
-            )
         parser = _CanonicalPublisherHtmlParser()
         try:
             parser.feed(response.body.decode("utf-8"))
@@ -409,7 +402,14 @@ class PmcHtmlAppraisalProposalService:
             raise EphemeralAppraisalError(
                 "PMC HTML article failed in-memory parsing"
             ) from error
-        _, source_text = parser.canonical_representation()
+        canonical_bytes, source_text = parser.canonical_representation()
+        if (
+            len(canonical_bytes) != receipt.content_size_bytes
+            or sha256(canonical_bytes) != receipt.content_sha256
+        ):
+            raise EphemeralAppraisalError(
+                "canonical PMC HTML article no longer matches the review receipt"
+            )
         try:
             PmcReadOnlyReviewService._verify_identity(  # noqa: SLF001
                 record, parser.metadata, source_url
