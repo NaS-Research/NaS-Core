@@ -72,4 +72,12 @@ to audit `1.0.0`, accept only the declared `F<number>`/`F<number>repl` title
 grammar and `0`/`1`/`NA` receptor categories, and retain only aggregate counts.
 Molecular and outcome execution remain prohibited.
 
+Audit `1.0.1` executed from frozen revision `5d5a5d2…95361`. Immutable
+[`field_isolated_metadata_receipt_v1.0.1.yaml`](field_isolated_metadata_receipt_v1.0.1.yaml)
+has SHA-256 `a974bce9…3821b` and returned `pass`: it classified 3,273 primary
+records and 136 technical replicates, linked all 136 replicates, and left zero
+records unclassified. The full boundary and aggregate interpretation are recorded
+in
+[`FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md`](FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md).
+
 Completion gate: Governed immutable dataset snapshot is verified.

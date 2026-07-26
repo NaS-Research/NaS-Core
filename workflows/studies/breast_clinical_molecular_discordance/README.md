@@ -41,3 +41,10 @@ are appraised: two are context-only and five are supporting. Four priority recor
 are access-restricted and two still require a verified lawful source. The reviewed
 evidence leaves only a narrow technical-calibration and abstention question.
 Unsupported analysis, results, and conclusions remain explicit placeholders.
+
+Founder-authorized field-isolated metadata audit `1.0.1` now closes the bounded
+input-feasibility gate: both sources contain all 50 historical PAM50 genes,
+receptor completeness is quantified, and all 136 GSE96058 technical replicates
+link to 3,273 primary records with zero unclassified records. This does not
+authorize cohort construction, molecular or outcome analysis, classifier
+execution, or clinical conclusions.

@@ -22,3 +22,9 @@ the exact checksum-bound authorization in
 [`FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_CONFIRMATION_v1.0.1.yaml`](FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_CONFIRMATION_v1.0.1.yaml)
 on 2026-07-26. It does not authorize patient-level retention, molecular analysis,
 outcome access, cohort construction, classifier execution, or scientific conclusions.
+
+The authorized amendment executed from frozen revision `5d5a5d2…95361` and
+returned `pass`. Its immutable aggregate-only receipt is
+[`../ingestion/field_isolated_metadata_receipt_v1.0.1.yaml`](../ingestion/field_isolated_metadata_receipt_v1.0.1.yaml);
+the interpretive boundary is documented in
+[`../ingestion/FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md`](../ingestion/FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md).

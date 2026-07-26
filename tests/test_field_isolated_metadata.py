@@ -66,6 +66,11 @@ REAL_RECEIPT_PATH = (
     / "ingestion"
     / "field_isolated_metadata_receipt_v1.0.0.yaml"
 )
+REAL_AMENDED_RECEIPT_PATH = (
+    STUDY_ROOT
+    / "ingestion"
+    / "field_isolated_metadata_receipt_v1.0.1.yaml"
+)
 REAL_AMENDMENT_PATH = (
     STUDY_ROOT
     / "reviews"
@@ -580,4 +585,39 @@ def test_real_receipt_is_safe_valid_and_changes_requested() -> None:
     assert receipt.cohort_constructed is False
     assert receipt.classifier_executed is False
     assert re.search(r"GSM[0-9]+", serialized) is None
+    assert re.search(r"TCGA-[A-Z0-9]{2}-[A-Z0-9]{4}", serialized) is None
+
+
+def test_real_amended_receipt_is_safe_valid_and_passes() -> None:
+    receipt = FieldIsolatedMetadataReceipt.model_validate(
+        yaml.safe_load(REAL_AMENDED_RECEIPT_PATH.read_text(encoding="utf-8"))
+    )
+    serialized = REAL_AMENDED_RECEIPT_PATH.read_text(encoding="utf-8")
+
+    assert receipt.audit_version == "1.0.1"
+    assert receipt.decision is FieldIsolationDecision.PASS
+    assert receipt.software_revision == "5d5a5d2de20056324ca0622c750129d962395361"
+    assert receipt.authorization_sha256 == hashlib.sha256(
+        REAL_AMENDMENT_AUTHORIZATION_PATH.read_bytes()
+    ).hexdigest()
+    assert receipt.authorization_packet_sha256 == hashlib.sha256(
+        REAL_AMENDMENT_PATH.read_bytes()
+    ).hexdigest()
+    assert receipt.prior_receipt_sha256 == hashlib.sha256(
+        REAL_RECEIPT_PATH.read_bytes()
+    ).hexdigest()
+    assert receipt.tcga_gene_coverage.missing_canonical_genes == []
+    assert receipt.gse96058_gene_coverage.missing_canonical_genes == []
+    assert receipt.gse96058_replicates.primary_record_count == 3273
+    assert receipt.gse96058_replicates.technical_replicate_count == 136
+    assert receipt.gse96058_replicates.linked_technical_replicate_count == 136
+    assert receipt.gse96058_replicates.unclassified_record_count == 0
+    assert receipt.patient_level_records_retained is False
+    assert receipt.molecular_values_parsed is False
+    assert receipt.outcome_values_parsed is False
+    assert receipt.raw_artifacts_stored is False
+    assert receipt.cohort_constructed is False
+    assert receipt.classifier_executed is False
+    assert re.search(r"GSM[0-9]+", serialized) is None
+    assert re.search(r"^\s*-?\s*F[0-9]+(?:repl)?\s*$", serialized, re.MULTILINE) is None
     assert re.search(r"TCGA-[A-Z0-9]{2}-[A-Z0-9]{4}", serialized) is None

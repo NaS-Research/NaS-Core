@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.34.0-working`
+Manuscript version: `0.35.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -418,17 +418,22 @@ mappings. In TCGA, ER, PR, and HER2 were present for 1,049, 1,048, and 983 of
 corresponding counts were 3,189, 3,051, and 3,281 of 3,409, with all three present
 for 2,931.
 
-The approved GEO characteristic fields contained no primary-versus-technical
-replicate linkage, so all 3,409 records remained unclassified for replicate state
-and audit `1.0.0` returned `changes_requested`. The official GEO description says
-sample titles distinguish primary records such as `F30` from technical replicates
-such as `F30repl`; parsing that additional field requires separately versioned
-founder authorization. These are input-feasibility findings, not cohort,
-molecular, diagnostic, prognostic, or treatment results.
+Audit `1.0.0` could not classify replicate state under its original field
+allowlist. The founder separately authorized audit amendment `1.0.1`, which
+accepted only sample titles matching the declared `F<number>` or
+`F<number>repl` grammar, reduced them transiently to aggregate linkage counts,
+and normalized only the declared `0`/`1`/`NA` receptor categories. All four
+source-representation checksums matched audit `1.0.0`. The amended audit
+classified 3,273 primary records and 136 technical replicates, linked every
+technical replicate to a primary, left zero records unclassified, and returned
+`pass`. No title or sample accession was retained. These are input-feasibility
+findings, not cohort, molecular, diagnostic, prognostic, or treatment results.
 [metadata_feasibility_receipt_v1.0.0.yaml;
 METADATA_FEASIBILITY_REPORT_v1.0.0.md;
 field_isolated_metadata_receipt_v1.0.0.yaml;
-FIELD_ISOLATED_METADATA_REPORT_v1.0.0.md]
+FIELD_ISOLATED_METADATA_REPORT_v1.0.0.md;
+field_isolated_metadata_receipt_v1.0.1.yaml;
+FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md]
 
 ## Results
 
@@ -1009,10 +1014,10 @@ Status: `working`
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
   and no absence-of-prior-art claim may be inferred from that access boundary.
-- Field-isolated audit `1.0.0` verified both sources' PAM50 panel and receptor
-  completeness but could not classify GSE96058 primary and technical-replicate
-  records under the approved field allowlist. A separately authorized sample-title
-  projection is required.
+- Field-isolated audit `1.0.1` closed PAM50 gene presence, receptor completeness,
+  and GSE96058 primary/technical-replicate linkage. It did not establish assay
+  equivalence, numerical compatibility, a valid transformation, or classifier
+  validity.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
 - Public representations containing molecular and prohibited metadata fields were
   transiently transferred through the authorized projection gate. No molecular or
@@ -1113,7 +1118,7 @@ checks, and internal reviews are complete.
 | Introduction ¶1–9 | External methodological evidence | 28 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
-| Methods—metadata feasibility | Source-level and field-isolated input audits | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.0.yaml`; both audit reports | PAM50 and receptor gates verified; replicate linkage changes requested |
+| Methods—metadata feasibility | Source-level and field-isolated input audits | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.1.yaml`; all audit reports | all five input-feasibility checks verified; method compatibility unresolved |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
@@ -1165,6 +1170,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.35.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.1`: unchanged sources classified 3,273 primary records and 136 linked technical replicates with zero unclassified; all five input-feasibility checks pass while molecular/outcome execution remains prohibited. |
 | 0.34.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.0`: both sources contain all 50 PAM50 genes; receptor completeness is quantified for 1,098 TCGA and 3,409 GSE96058 records; replicate linkage remains unresolved and molecular/outcome execution remains prohibited. |
 | 0.33.0-working | 2026-07-26 | Materialized founder-confirmed citation appraisal batches 0002–0008, closed citation pass 1 at 25 appraised and 4 restricted records, bound delayed appraisals to stable source receipts, and reconciled 53 appraisal reports to 52 unique studies. |
 | 0.32.0-working | 2026-07-26 | Closed the final citation full-text access check for CC BY PMID 20181526 after official publisher, Unpaywall, Europe PMC, Crossref, and Elsevier API routes failed to provide a reproducible article body; citation state is 3 appraised, 22 ready, 4 restricted, and 0 awaiting full text. |

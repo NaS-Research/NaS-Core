@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Execute authorized field-isolated metadata audit amendment 1.0.1
+### Continue sequential citation chaining after closing input feasibility
 
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
@@ -23,12 +23,15 @@ primary-versus-technical-replicate linkage, so all 3,409 sample records remained
 unclassified and the receipt correctly returned `changes_requested`. The official
 GEO description states that `!Sample_title` distinguishes titles such as `F30`
 and `F30repl`, but that field is outside audit `1.0.0`'s allowlist. The founder
-authorized amendment `1.0.1` exactly on 2026-07-26. The implementation now permits
-only a strictly validated, aggregate-only title projection and source-specific
-`0`/`1`/`NA` receptor normalization, binds execution to the prior receipt and
-unchanged source-representation checksums, and retains none of the transient
-titles. Synthetic fail-closed validation must pass and the implementation revision
-must be frozen before the live audit executes.
+authorized amendment `1.0.1` exactly on 2026-07-26. Audit `1.0.1` then executed
+from frozen revision `5d5a5d2…95361` and produced receipt SHA-256
+`a974bce9…3821b`. All four source representations matched audit `1.0.0`; the
+strict title projection classified 3,273 primary records and 136 technical
+replicates, linked all 136 replicates, and left zero records unclassified. All
+five feasibility checks passed. No transient title, accession, patient/sample
+row, molecular value, outcome, raw artifact, cohort, or classifier result was
+retained. Input feasibility is closed; method compatibility and scientific review
+remain unresolved.
 
 The completed citation-appraisal state remains:
 
@@ -298,43 +301,50 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Freeze the validated field-isolated metadata amendment `1.0.1` implementation,
-   execute it against the unchanged source representations, and record the
-   immutable aggregate-only receipt and report.
-2. Execute sequential
+1. Execute sequential
    citation passes until two consecutive fully screened passes add zero eligible
    evidence.
-3. Update the living manuscript and its evidence-to-text ledger after every material
+2. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Resolve and approve the exact centroid and external-reference artifacts,
+3. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-5. Define an independently calibrated technical-error model and lock the margin
+4. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Complete the founder scientific/product, molecular/pathology, and statistical
+5. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-9. Implement persisted evidence claims, citations, provenance, contradictory
+8. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-11. Expand the screening model gateway into general evidence reasoning with
+10. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-12. Build evaluation suites for retrieval, citation validity, numerical
+11. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-13. Generate an immutable research release containing the protocol, dataset
+12. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-14. Generate a reviewable white-paper draft whose substantive claims trace to
+13. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-15. Build the internal workbench for projects, protocols, datasets, runs,
+14. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-16. Complete repeated internal oncology pilots before selecting the first
+15. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
+
+Recorded the founder's exact checksum-bound amendment authorization, implemented
+the no-retention title projection and source-continuity gate, froze the code, and
+executed the live audit. All four source representations matched audit `1.0.0`.
+The audit classified 3,273 GSE96058 primary records and 136 technical replicates,
+linked all 136 replicates, and left zero records unclassified. All five input-
+feasibility checks passed. No title, accession, patient/sample row, molecular
+value, outcome, raw artifact, cohort, or classifier output was retained.
 
 ### 2026-07-26 — Field-isolated metadata audit 1.0.0 executed
 
@@ -715,10 +725,9 @@ concordance, but omitting macrodissection produced ROR bias as large as -19 unit
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.
 - GSE96058 is approved only as a processed-data validation candidate. All 50
-  historical PAM50 genes and receptor completeness are verified, but
-  primary-versus-technical-replicate linkage requires founder authorization of
-  sample-title amendment `1.0.1`. The cross-platform transformation also remains
-  unresolved.
+  historical PAM50 genes, receptor completeness, and primary-versus-technical-
+  replicate linkage are verified. The cross-platform transformation, assay
+  compatibility, and classifier validity remain unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
 - NAS-BRCA-001 public release is blocked by pending founder results review, a
