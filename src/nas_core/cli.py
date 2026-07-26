@@ -678,6 +678,21 @@ def build_parser() -> argparse.ArgumentParser:
     citation_appraisal_progress.add_argument("inventory", type=Path)
     citation_appraisal_progress.add_argument("retrieval_dir", type=Path)
     citation_appraisal_progress.add_argument("appraisal_dir", type=Path)
+    citation_appraisal_progress.add_argument(
+        "--read-only-receipt-dir",
+        type=Path,
+        help="Directory containing governed ephemeral-review receipts",
+    )
+    citation_appraisal_progress.add_argument(
+        "--access-decision-dir",
+        type=Path,
+        help="Directory containing final restricted-access decisions",
+    )
+    citation_appraisal_progress.add_argument(
+        "--duplicate-decision-dir",
+        type=Path,
+        help="Directory containing founder-authorized duplicate decisions",
+    )
     citation_appraisal_progress.add_argument("--output-path", required=True, type=Path)
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
@@ -1777,6 +1792,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             inventory,
             retrieval_receipt_paths=sorted(args.retrieval_dir.glob("*.yaml")),
             appraisal_paths=sorted(args.appraisal_dir.glob("*.yaml")),
+            read_only_review_receipt_paths=(
+                sorted(args.read_only_receipt_dir.glob("*.yaml"))
+                if args.read_only_receipt_dir is not None
+                else ()
+            ),
+            access_decision_paths=(
+                sorted(args.access_decision_dir.glob("*.yaml"))
+                if args.access_decision_dir is not None
+                else ()
+            ),
+            duplicate_decision_paths=(
+                sorted(args.duplicate_decision_dir.glob("*.yaml"))
+                if args.duplicate_decision_dir is not None
+                else ()
+            ),
         )
         write_full_text_appraisal_progress(
             args.output_path, citation_appraisal_progress

@@ -55,6 +55,16 @@ CC_BY_LICENSES = {
         "CC-BY-4.0",
     ),
 }
+TITLE_DASH_EQUIVALENTS = str.maketrans(
+    {
+        "\u2010": "-",
+        "\u2011": "-",
+        "\u2012": "-",
+        "\u2013": "-",
+        "\u2014": "-",
+        "\u2212": "-",
+    }
+)
 
 
 class FullTextRetrievalError(RuntimeError):
@@ -322,13 +332,22 @@ class FullTextRetrievalService:
         actual_doi = (actual["doi"] or "").casefold()
         if expected_doi != actual_doi:
             return False
-        expected_title = (
-            " ".join((expected["title"] or "").split()).removesuffix(".").casefold()
+        expected_title = FullTextRetrievalService._normalize_identity_title(
+            expected["title"]
         )
-        actual_title = (
-            " ".join((actual["title"] or "").split()).removesuffix(".").casefold()
+        actual_title = FullTextRetrievalService._normalize_identity_title(
+            actual["title"]
         )
         return bool(expected_title) and expected_title == actual_title
+
+    @staticmethod
+    def _normalize_identity_title(title: str | None) -> str:
+        return (
+            " ".join((title or "").split())
+            .translate(TITLE_DASH_EQUIVALENTS)
+            .removesuffix(".")
+            .casefold()
+        )
 
     def _put_immutable(self, key: str, body: bytes, *, content_type: str) -> None:
         if self._store.exists(key):

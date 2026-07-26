@@ -134,6 +134,43 @@ def test_repository_batch_routes_unapproved_license_without_storage() -> None:
     assert queue.records[0].final_access_decision_recorded is False
 
 
+def test_identity_matching_allows_only_bounded_dash_typography() -> None:
+    expected = {
+        "pmcid": "PMC123",
+        "pmid": "456",
+        "doi": "10.1/synthetic",
+        "title": "Feature-specific mean-variance model.",
+    }
+    typographic_dash = {
+        **expected,
+        "title": "Feature–specific mean—variance model",
+    }
+    lexical_change = {
+        **expected,
+        "title": "Feature-specific mean-variance classifier",
+    }
+
+    assert FullTextRetrievalService._identity_matches(expected, typographic_dash)
+    assert not FullTextRetrievalService._identity_matches(expected, lexical_change)
+
+
+def test_identity_matching_still_requires_exact_primary_identifiers() -> None:
+    expected = {
+        "pmcid": "PMC123",
+        "pmid": "456",
+        "doi": "10.1/synthetic",
+        "title": "Feature-specific mean-variance model.",
+    }
+
+    for field, changed in (
+        ("pmcid", "PMC999"),
+        ("pmid", "999"),
+        ("doi", "10.1/different"),
+    ):
+        actual = {**expected, field: changed}
+        assert not FullTextRetrievalService._identity_matches(expected, actual)
+
+
 def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
     batch = load_repository_access_batch_receipt(
         CITATION_FULL_TEXT / "repository-access-batch-v1.0.0.yaml"
