@@ -1,3 +1,4 @@
+import hashlib
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -11,6 +12,7 @@ from nas_core.domain.appraisal import (
     FullTextAppraisal,
     FullTextAppraisalBatchConfirmation,
     FullTextAppraisalProposal,
+    appraisal_batch_confirmation_statement,
     load_full_text_appraisal_batch_confirmation,
 )
 from nas_core.retrieval.appraisal_confirmation import (
@@ -36,6 +38,41 @@ APPRAISAL_CONFIRMATION = (
     REAL_APPRAISAL_DIR.parent
     / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml"
 )
+
+
+def _test_confirmation(
+    *,
+    batch_number: int,
+    packet_path: Path,
+    proposal_paths: list[Path],
+) -> FullTextAppraisalBatchConfirmation:
+    proposals = [
+        FullTextAppraisalProposal.model_validate(yaml.safe_load(path.read_text()))
+        for path in proposal_paths
+    ]
+    return FullTextAppraisalBatchConfirmation(
+        confirmation_version="1.0.0",
+        study_id="NAS-BRCA-002",
+        batch_number=batch_number,
+        packet_filename=packet_path.name,
+        packet_sha256=hashlib.sha256(packet_path.read_bytes()).hexdigest(),
+        proposal_count=len(proposal_paths),
+        proposals=[
+            {
+                "filename": path.name,
+                "screening_id": proposal.screening_id,
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+            for path, proposal in zip(proposal_paths, proposals, strict=True)
+        ],
+        confirmation_statement=appraisal_batch_confirmation_statement(batch_number),
+        founder_id="dalron-j-robertson",
+        founder_name="Dalron J. Robertson",
+        reviewer_role="founder_internal_reviewer",
+        confirmed_at=datetime(2026, 7, 26, tzinfo=UTC),
+        founder_authorized=True,
+        founder_role_conflict_disclosed=True,
+    )
 
 
 def _payload(*, role: str = "anchor", validation: str = "low") -> dict[str, object]:
@@ -219,7 +256,7 @@ def test_appraisal_batch_confirmation_requires_exact_statement() -> None:
         "confirmation_version": "1.0.0",
         "study_id": "NAS-BRCA-002",
         "batch_number": 1,
-        "packet_filename": "packet.md",
+        "packet_filename": "FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md",
         "packet_sha256": "a" * 64,
         "proposal_count": 1,
         "proposals": [
@@ -242,16 +279,72 @@ def test_appraisal_batch_confirmation_requires_exact_statement() -> None:
         FullTextAppraisalBatchConfirmation.model_validate(payload)
 
 
+def test_appraisal_batch_confirmation_statement_is_batch_specific() -> None:
+    payload = {
+        "confirmation_version": "1.0.0",
+        "study_id": "NAS-BRCA-002",
+        "batch_number": 2,
+        "packet_filename": "FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md",
+        "packet_sha256": "a" * 64,
+        "proposal_count": 1,
+        "proposals": [
+            {
+                "filename": "PMC6219008-v1.0.0.yaml",
+                "screening_id": "b" * 64,
+                "sha256": "c" * 64,
+            }
+        ],
+        "confirmation_statement": APPRAISAL_BATCH_CONFIRMATION_STATEMENT,
+        "founder_id": "dalron-j-robertson",
+        "founder_name": "Dalron J. Robertson",
+        "reviewer_role": "founder_internal_reviewer",
+        "confirmed_at": datetime(2026, 7, 26, tzinfo=UTC),
+        "founder_authorized": True,
+        "founder_role_conflict_disclosed": True,
+    }
+
+    with pytest.raises(ValidationError, match="statement is not exact"):
+        FullTextAppraisalBatchConfirmation.model_validate(payload)
+
+
+def test_appraisal_batch_confirmation_rejects_cross_batch_packet() -> None:
+    payload = {
+        "confirmation_version": "1.0.0",
+        "study_id": "NAS-BRCA-002",
+        "batch_number": 2,
+        "packet_filename": "FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md",
+        "packet_sha256": "a" * 64,
+        "proposal_count": 1,
+        "proposals": [
+            {
+                "filename": "PMC6219008-v1.0.0.yaml",
+                "screening_id": "b" * 64,
+                "sha256": "c" * 64,
+            }
+        ],
+        "confirmation_statement": appraisal_batch_confirmation_statement(2),
+        "founder_id": "dalron-j-robertson",
+        "founder_name": "Dalron J. Robertson",
+        "reviewer_role": "founder_internal_reviewer",
+        "confirmed_at": datetime(2026, 7, 26, tzinfo=UTC),
+        "founder_authorized": True,
+        "founder_role_conflict_disclosed": True,
+    }
+
+    with pytest.raises(ValidationError, match="filename does not match"):
+        FullTextAppraisalBatchConfirmation.model_validate(payload)
+
+
 def test_appraisal_confirmation_service_rejects_packet_checksum(
     tmp_path: Path,
 ) -> None:
-    packet = tmp_path / "packet.md"
+    packet = tmp_path / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md"
     packet.write_text("changed", encoding="utf-8")
     confirmation = FullTextAppraisalBatchConfirmation(
         confirmation_version="1.0.0",
         study_id="NAS-BRCA-002",
         batch_number=1,
-        packet_filename="packet.md",
+        packet_filename=packet.name,
         packet_sha256="a" * 64,
         proposal_count=1,
         proposals=[
@@ -293,6 +386,65 @@ def test_real_appraisal_confirmation_authorizes_exact_proposal_set() -> None:
     assert all(
         item.review_method == "founder_with_ai_assistance" for item in appraisals
     )
+
+
+@pytest.mark.parametrize(
+    ("batch_number", "expected_supporting", "expected_context"),
+    [(2, 2, 2), (3, 4, 2)],
+)
+def test_pending_real_batches_are_authorization_ready(
+    batch_number: int,
+    expected_supporting: int,
+    expected_context: int,
+) -> None:
+    packet = (
+        REAL_APPRAISAL_DIR.parent
+        / f"FOUNDER_CITATION_APPRAISAL_BATCH_{batch_number:04d}_v1.0.0.md"
+    )
+    proposal_paths = sorted(
+        (PROPOSAL_ROOT / f"batch-{batch_number:04d}").glob("*.yaml")
+    )
+    confirmation = _test_confirmation(
+        batch_number=batch_number,
+        packet_path=packet,
+        proposal_paths=proposal_paths,
+    )
+
+    appraisals = AppraisalConfirmationService().authorize(
+        confirmation=confirmation,
+        packet_path=packet,
+        proposal_paths=proposal_paths,
+    )
+
+    assert sum(item.evidence_role == "supporting" for item in appraisals) == (
+        expected_supporting
+    )
+    assert sum(item.evidence_role == "context_only" for item in appraisals) == (
+        expected_context
+    )
+    assert all(item.founder_authorized for item in appraisals)
+
+
+def test_appraisal_confirmation_rejects_cross_study_proposal(tmp_path: Path) -> None:
+    packet = tmp_path / "FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md"
+    packet.write_text("test packet", encoding="utf-8")
+    source = PROPOSAL_ROOT / "batch-0002" / "PMC6219008-v1.0.0.yaml"
+    payload = yaml.safe_load(source.read_text())
+    payload["study_id"] = "NAS-OTHER-001"
+    proposal = tmp_path / source.name
+    proposal.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+    confirmation = _test_confirmation(
+        batch_number=2,
+        packet_path=packet,
+        proposal_paths=[proposal],
+    )
+
+    with pytest.raises(AppraisalConfirmationError, match="study identity changed"):
+        AppraisalConfirmationService().authorize(
+            confirmation=confirmation,
+            packet_path=packet,
+            proposal_paths=[proposal],
+        )
 
 
 def test_second_real_appraisal_is_context_only_and_non_conclusive() -> None:

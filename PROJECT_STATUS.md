@@ -284,6 +284,18 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-25 — Appraisal authorization generalized across batches
+
+Replaced the batch-0001-only confirmation constraint with a batch-derived exact
+statement for batches `0001` through `9999`. The contract now requires the packet
+filename and statement to agree with the same four-digit batch number, rejects
+duplicate proposal checksums, and the authorization service rejects cross-study
+proposal substitution.
+
+Real batch-0002 and batch-0003 packet/proposal bytes now pass authorization-readiness
+tests without creating a founder decision or locked appraisal artifact. Exact
+founder confirmation remains mandatory and independently scoped to each batch.
+
 ### 2026-07-25 — Citation appraisal batch 0003 frozen for review
 
 Completed seven-domain proposals for all six remaining checksum-verified citation

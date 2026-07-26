@@ -47,6 +47,10 @@ class AppraisalConfirmationService:
                 expected_sha256=reference.sha256,
             )
             proposal = load_full_text_appraisal_proposal(path)
+            if proposal.study_id != confirmation.study_id:
+                raise AppraisalConfirmationError(
+                    f"study identity changed for {filename}"
+                )
             if proposal.screening_id != reference.screening_id:
                 raise AppraisalConfirmationError(
                     f"screening identity changed for {filename}"

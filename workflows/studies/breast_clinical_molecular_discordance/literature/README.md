@@ -130,6 +130,14 @@ commercial-test reconstruction, and real-world IHC/PAM50 disagreement. It remain
 non-authoritative pending its own exact founder confirmation and does not alter
 the live progress counts.
 
+The typed appraisal-confirmation contract is no longer batch-0001-specific. It
+derives the exact statement from the four-digit batch number, binds that number to
+the packet filename, verifies the packet and every proposal checksum, rejects
+missing or substituted proposal sets, verifies screening and study identities,
+and then derives founder-authorized appraisals in memory. Authorization-readiness
+tests cover the real batch-0002 and batch-0003 bytes without recording a founder
+decision. Only a separate exact founder confirmation artifact can cross this gate.
+
 Required artifacts:
 
 - `literature/protocol.md`

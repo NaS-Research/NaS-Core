@@ -11,9 +11,15 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from nas_core.domain.snapshots import StoredObject
 
-APPRAISAL_BATCH_CONFIRMATION_STATEMENT = (
-    "I confirm citation appraisal batch 0001 as written."
-)
+
+def appraisal_batch_confirmation_statement(batch_number: int) -> str:
+    """Return the exact founder statement for one numbered appraisal batch."""
+    if not 1 <= batch_number <= 9999:
+        raise ValueError("appraisal batch number must be between 1 and 9999")
+    return f"I confirm citation appraisal batch {batch_number:04d} as written."
+
+
+APPRAISAL_BATCH_CONFIRMATION_STATEMENT = appraisal_batch_confirmation_statement(1)
 
 
 class AppraisalModel(BaseModel):
@@ -462,8 +468,13 @@ class FullTextAppraisalBatchConfirmation(AppraisalModel):
     schema_version: str = "1.0.0"
     confirmation_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     study_id: str = Field(min_length=1)
-    batch_number: int = Field(ge=1)
-    packet_filename: str = Field(min_length=1)
+    batch_number: int = Field(ge=1, le=9999)
+    packet_filename: str = Field(
+        pattern=(
+            r"^FOUNDER_CITATION_APPRAISAL_BATCH_[0-9]{4}"
+            r"_v[0-9]+\.[0-9]+\.[0-9]+\.md$"
+        )
+    )
     packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     proposal_count: int = Field(ge=1)
     proposals: list[FullTextAppraisalProposalReference] = Field(min_length=1)
@@ -477,10 +488,16 @@ class FullTextAppraisalBatchConfirmation(AppraisalModel):
 
     @model_validator(mode="after")
     def validate_confirmation(self) -> FullTextAppraisalBatchConfirmation:
-        if self.batch_number != 1:
-            raise ValueError("this confirmation contract is bound to batch 0001")
-        if self.confirmation_statement != APPRAISAL_BATCH_CONFIRMATION_STATEMENT:
+        expected_statement = appraisal_batch_confirmation_statement(
+            self.batch_number
+        )
+        if self.confirmation_statement != expected_statement:
             raise ValueError("appraisal confirmation statement is not exact")
+        expected_packet_prefix = (
+            f"FOUNDER_CITATION_APPRAISAL_BATCH_{self.batch_number:04d}_"
+        )
+        if not self.packet_filename.startswith(expected_packet_prefix):
+            raise ValueError("appraisal packet filename does not match batch number")
         if not self.founder_authorized:
             raise ValueError("appraisal confirmation requires founder authorization")
         if not self.founder_role_conflict_disclosed:
@@ -491,6 +508,8 @@ class FullTextAppraisalBatchConfirmation(AppraisalModel):
             raise ValueError("appraisal confirmation filenames must be unique")
         if len({item.screening_id for item in self.proposals}) != len(self.proposals):
             raise ValueError("appraisal confirmation screening IDs must be unique")
+        if len({item.sha256 for item in self.proposals}) != len(self.proposals):
+            raise ValueError("appraisal confirmation proposal checksums must be unique")
         return self
 
 
