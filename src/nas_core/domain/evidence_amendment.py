@@ -173,7 +173,7 @@ class CitationPassAppraisalQueueReceipt(EvidenceAmendmentModel):
     active_amendment_activation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     active_amendment_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     active_protocol_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
-    confirmed_inclusion_count: int = Field(ge=1)
+    confirmed_inclusion_count: int = Field(ge=0)
     repository_candidate_count: int = Field(ge=0)
     access_check_required_count: int = Field(ge=0)
     prior_appraisal_reuse_count: int = Field(ge=0)

@@ -130,17 +130,19 @@ def _candidate(
 def _decision_receipt(
     store: InMemoryObjectStore,
     records: list[CitationDecisionLedgerRecord],
+    *,
+    pass_number: int = 1,
 ) -> CitationDecisionLedgerReceipt:
     stored = _stored(
         store,
-        "prior/decisions.json",
+        f"prior/decisions-{pass_number}.json",
         [item.model_dump(mode="json", exclude_none=True) for item in records],
     )
     included = sum(record.decision.value == "include" for record in records)
     return CitationDecisionLedgerReceipt(
-        decision_id="e" * 64,
+        decision_id=("e" if pass_number == 1 else "9") * 64,
         study_id="NAS-BRCA-002",
-        pass_number=1,
+        pass_number=pass_number,
         code_revision="abcdef0",
         confirmed_at=NOW,
         founder_id="founder",
@@ -270,3 +272,52 @@ def test_pass_two_requires_complete_prior_decision_history() -> None:
             _prior_receipt(store, []),
             code_revision="f9f1f46",
         )
+
+
+def test_pass_three_deduplicates_both_prior_founder_ledgers() -> None:
+    store = InMemoryObjectStore()
+    pass_one = CitationDecisionLedgerRecord(
+        record_key="MED:20",
+        rank=1,
+        title="Pass one method",
+        pmid="20",
+        decision="include",
+        reviewer_id="founder",
+        reviewer_name="Founder",
+        reviewer_role="founder_internal_reviewer",
+        decided_at=NOW,
+        founder_authorized=True,
+        ai_decision=False,
+    )
+    pass_two = pass_one.model_copy(
+        update={
+            "record_key": "MED:30",
+            "title": "Pass two method",
+            "pmid": "30",
+        }
+    )
+    candidates = [
+        _candidate("MED:20", "MED", "20", "Pass one method"),
+        _candidate("MED:30", "MED", "30", "Pass two method"),
+        _candidate("MED:40", "MED", "40", "Pass three new method"),
+    ]
+
+    receipt = CitationScreeningPreparationService(
+        store=store, clock=lambda: NOW
+    ).prepare(
+        _citation_receipt(store, candidates, pass_number=3),
+        _prior_receipt(store, []),
+        code_revision="f9f1f46",
+        prior_decision_receipts=[
+            _decision_receipt(store, [pass_one], pass_number=1),
+            _decision_receipt(store, [pass_two], pass_number=2),
+        ],
+    )
+
+    assert receipt.prior_decision_ids == ["e" * 64, "9" * 64]
+    assert receipt.already_screened_count == 2
+    assert receipt.requires_screening_count == 1
+    screening = json.loads(
+        store.get_bytes(receipt.screening_candidates_object.object_key)
+    )
+    assert [item["record_key"] for item in screening] == ["MED:40"]

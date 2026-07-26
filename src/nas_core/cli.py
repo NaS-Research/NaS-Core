@@ -70,6 +70,7 @@ from nas_core.domain.cohorts import (
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
 from nas_core.domain.evidence_amendment import (
     load_citation_access_queue_receipt,
+    load_citation_pass_appraisal_queue_receipt,
     load_evidence_cap_amendment_activation_receipt,
     load_evidence_cap_amendment_approval,
     write_citation_pass_appraisal_queue_receipt,
@@ -468,6 +469,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     citation_seed_build.add_argument("direct_inventory", type=Path)
     citation_seed_build.add_argument("amendment_activation", type=Path)
+    citation_seed_build.add_argument(
+        "--prior-pass-queue-receipt",
+        action="append",
+        default=[],
+        type=Path,
+        help=(
+            "Founder-authorized appraisal queue for citation pass 2+; "
+            "repeat once per pass in ascending pass order"
+        ),
+    )
     citation_seed_build.add_argument("--next-pass-number", required=True, type=int)
     citation_seed_build.add_argument("--code-revision", required=True)
     citation_seed_build.add_argument("--receipt-output", required=True, type=Path)
@@ -1460,11 +1471,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         amendment_activation = load_evidence_cap_amendment_activation_receipt(
             args.amendment_activation
         )
+        prior_pass_queues = [
+            load_citation_pass_appraisal_queue_receipt(path)
+            for path in args.prior_pass_queue_receipt
+        ]
+        prior_pass_inclusion_count = (
+            amendment_activation.confirmed_inclusion_count
+            + sum(
+                queue.confirmed_inclusion_count for queue in prior_pass_queues
+            )
+        )
         if not args.execute:
             print(
                 f"Cumulative citation seed set ready: "
                 f"{direct_inventory.provisional_inclusion_count} direct and "
-                f"{amendment_activation.confirmed_inclusion_count} prior-pass inclusions "
+                f"{prior_pass_inclusion_count} prior-pass inclusions "
                 f"for pass {args.next_pass_number}"
             )
             print("Dry run only; no cumulative seed object was stored.")
@@ -1475,6 +1496,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             amendment_activation,
             direct_inventory_path=args.direct_inventory,
             activation_receipt_path=args.amendment_activation,
+            prior_pass_queues=prior_pass_queues,
+            prior_pass_queue_paths=args.prior_pass_queue_receipt,
             next_pass_number=args.next_pass_number,
             code_revision=args.code_revision,
         )

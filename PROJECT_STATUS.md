@@ -35,6 +35,14 @@ and preserves protocol `0.2.5`. If confirmed, four records have repository
 identifiers and five require separate lawful-access checks. These are anticipated
 workflow routes, not founder decisions or access authorizations.
 
+The sequential stopping-rule boundary is generalized beyond pass 2. Each next
+seed receipt requires the original 30-record inventory, the complete pass-1
+activation queue, and exactly one ordered founder-authorized queue for every later
+prior pass. Screening preparation independently requires one founder decision
+ledger for every prior pass. Empty eligible sets remain checksum-bound as empty
+queues, contribute no new seeds, and do not create access inventories; this allows
+the system to prove two consecutive zero-yield passes without losing lineage.
+
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
 50 historical PAM50 genes without ambiguous mappings in both frozen source
@@ -379,6 +387,12 @@ matches, zero prior-appraisal matches, and nine net-new candidates. Under the
 already active uncapped amendment, those candidates route to four repository
 checks and five separate access checks. Receipt, object, count, founder-authority,
 and no-molecular/no-outcome invariants fail closed.
+
+Generalized the cumulative seed contract and CLI for pass 3 and later. Synthetic
+pass-3 and pass-4 tests prove that direct, pass-1, and all later founder inclusions
+remain present; duplicates are exact-identifier reconciled; every prior decision
+ledger is used for screening deduplication; and a zero-inclusion pass remains in
+the checksum lineage without creating a meaningless access inventory.
 
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 

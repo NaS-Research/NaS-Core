@@ -251,6 +251,10 @@ class CitationAccessInventoryService:
             for row in queue
             if row.route is not CitationAppraisalRoute.REUSE_PRIOR_APPRAISAL
         ]
+        if not net_new:
+            raise EvidenceCapAmendmentError(
+                "no net-new inclusions require an access inventory"
+            )
         queue_identity = (
             activation.activation_id
             if isinstance(activation, EvidenceCapAmendmentActivationReceipt)

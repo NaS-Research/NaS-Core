@@ -81,6 +81,16 @@ active protocol-`0.2.5` amendment receipt before creating an access inventory.
 Current metadata would route four records to official repository checks and five
 to separate lawful-access review. No pass-2 decision or access inventory exists
 until founder confirmation.
+
+For pass 3 and later, cumulative seeds are not reconstructed from memory or only
+the immediately preceding pass. The typed seed receipt binds the direct-search
+inventory, the pass-1 activation queue, and one ordered founder-authorized queue
+for every later prior pass. Screening preparation independently requires one
+founder decision ledger for every prior pass. A fully screened pass with zero
+inclusions still receives a checksum-bound empty queue, adds no seeds, and creates
+no access inventory. This preserves auditable lineage through the locked requirement
+for two consecutive fully screened zero-yield passes.
+
 Transparent title prioritization version `1.0.1` ranks—but does not decide—all
 4,495 candidates: 80 direct, 400 supporting, and 4,015 context. Full official
 Europe PMC enrichment matched every candidate and returned 4,402 abstracts through

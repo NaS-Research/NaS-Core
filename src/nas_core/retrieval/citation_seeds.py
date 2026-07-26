@@ -19,6 +19,7 @@ from nas_core.domain.citation_chain import (
 )
 from nas_core.domain.evidence_amendment import (
     CitationAppraisalQueueRecord,
+    CitationPassAppraisalQueueReceipt,
     EvidenceCapAmendmentActivationReceipt,
 )
 from nas_core.domain.snapshots import StoredObject
@@ -51,18 +52,30 @@ class CitationCumulativeSeedService:
         *,
         direct_inventory_path: Path,
         activation_receipt_path: Path,
+        prior_pass_queues: list[CitationPassAppraisalQueueReceipt] | None = None,
+        prior_pass_queue_paths: list[Path] | None = None,
         next_pass_number: int,
         code_revision: str,
     ) -> CitationCumulativeSeedReceipt:
+        later_queues = prior_pass_queues or []
+        later_queue_paths = prior_pass_queue_paths or []
         self._validate_inputs(
             direct_inventory,
             activation,
+            later_queues,
+            later_queue_paths,
             next_pass_number=next_pass_number,
             code_revision=code_revision,
         )
         direct_sha = sha256(direct_inventory_path.read_bytes())
         activation_sha = sha256(activation_receipt_path.read_bytes())
-        queue = self._load_queue(activation)
+        prior_pass_records = self._load_queue(activation)
+        for queue_receipt in later_queues:
+            prior_pass_records.extend(self._load_queue(queue_receipt))
+        later_queue_ids = [receipt.queue_id for receipt in later_queues]
+        later_queue_shas = [
+            sha256(path.read_bytes()) for path in later_queue_paths
+        ]
 
         by_identifier: dict[str, CitationCumulativeSeedRecord] = {}
         duplicate_count = 0
@@ -82,7 +95,7 @@ class CitationCumulativeSeedService:
                 source_record_keys=[direct_record.record_key],
                 founder_inclusion_preserved=True,
             )
-        for queue_record in queue:
+        for queue_record in prior_pass_records:
             if queue_record.pmid is not None:
                 source = "MED"
                 external_id = queue_record.pmid
@@ -141,6 +154,11 @@ class CitationCumulativeSeedService:
             "next_pass_number": next_pass_number,
             "study_id": direct_inventory.study_id,
         }
+        if later_queue_ids:
+            identity.update(
+                prior_pass_queue_ids=later_queue_ids,
+                prior_pass_queue_sha256s=later_queue_shas,
+            )
         seed_set_id = sha256(canonical_json(identity))
         key = (
             f"citation-chain/{direct_inventory.study_id}/"
@@ -149,6 +167,9 @@ class CitationCumulativeSeedService:
         stored = self._store_object(key, seed_body)
         created_at = self._clock()
         return CitationCumulativeSeedReceipt(
+            seed_set_version=(
+                "1.0.0" if next_pass_number == 2 else "1.1.0"
+            ),
             seed_set_id=seed_set_id,
             study_id=direct_inventory.study_id,
             next_pass_number=next_pass_number,
@@ -158,8 +179,10 @@ class CitationCumulativeSeedService:
             direct_inventory_sha256=direct_sha,
             amendment_activation_sha256=activation_sha,
             amendment_activation_id=activation.activation_id,
+            prior_pass_queue_ids=later_queue_ids,
+            prior_pass_queue_sha256s=later_queue_shas,
             direct_inclusion_count=len(direct_inventory.records),
-            prior_pass_inclusion_count=len(queue),
+            prior_pass_inclusion_count=len(prior_pass_records),
             duplicate_identifier_count=duplicate_count,
             cumulative_seed_count=len(records),
             seeds_object=stored,
@@ -205,7 +228,10 @@ class CitationCumulativeSeedService:
 
     def _load_queue(
         self,
-        activation: EvidenceCapAmendmentActivationReceipt,
+        activation: (
+            EvidenceCapAmendmentActivationReceipt
+            | CitationPassAppraisalQueueReceipt
+        ),
     ) -> list[CitationAppraisalQueueRecord]:
         body = self._verified_body(activation.queue_object)
         try:
@@ -253,6 +279,8 @@ class CitationCumulativeSeedService:
     def _validate_inputs(
         direct_inventory: FullTextInventory,
         activation: EvidenceCapAmendmentActivationReceipt,
+        prior_pass_queues: list[CitationPassAppraisalQueueReceipt],
+        prior_pass_queue_paths: list[Path],
         *,
         next_pass_number: int,
         code_revision: str,
@@ -261,9 +289,34 @@ class CitationCumulativeSeedService:
             raise CitationCumulativeSeedError(
                 "direct inventory and amendment activation identify different studies"
             )
-        if next_pass_number != 2:
+        if next_pass_number < 2:
             raise CitationCumulativeSeedError(
-                "this cumulative seed builder is bound to citation pass 2"
+                "cumulative seed builder requires citation pass 2 or later"
+            )
+        expected_prior_passes = list(range(2, next_pass_number))
+        actual_prior_passes = [
+            receipt.pass_number for receipt in prior_pass_queues
+        ]
+        if actual_prior_passes != expected_prior_passes:
+            raise CitationCumulativeSeedError(
+                "cumulative seeds require one ordered queue for every later prior pass"
+            )
+        if len(prior_pass_queue_paths) != len(prior_pass_queues):
+            raise CitationCumulativeSeedError(
+                "every later prior-pass queue requires its receipt path"
+            )
+        if any(
+            receipt.study_id != direct_inventory.study_id
+            or receipt.active_amendment_activation_id
+            != activation.activation_id
+            or not receipt.founder_authorized
+            or not receipt.uncapped_saturation_inventory_active
+            or not receipt.count_invariants_verified
+            for receipt in prior_pass_queues
+        ):
+            raise CitationCumulativeSeedError(
+                "later prior-pass queues require verified founder authority "
+                "under the active amendment"
             )
         if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
             raise CitationCumulativeSeedError(

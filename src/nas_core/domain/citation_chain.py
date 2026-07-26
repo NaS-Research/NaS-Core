@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
@@ -104,6 +105,8 @@ class CitationCumulativeSeedReceipt(CitationChainModel):
     direct_inventory_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     amendment_activation_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     amendment_activation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    prior_pass_queue_ids: list[str] = Field(default_factory=list)
+    prior_pass_queue_sha256s: list[str] = Field(default_factory=list)
     direct_inclusion_count: int = Field(ge=1)
     prior_pass_inclusion_count: int = Field(ge=1)
     duplicate_identifier_count: int = Field(ge=0)
@@ -119,6 +122,23 @@ class CitationCumulativeSeedReceipt(CitationChainModel):
 
     @model_validator(mode="after")
     def validate_receipt(self) -> CitationCumulativeSeedReceipt:
+        expected_later_queues = self.next_pass_number - 2
+        if (
+            len(self.prior_pass_queue_ids) != expected_later_queues
+            or len(self.prior_pass_queue_sha256s) != expected_later_queues
+            or len(self.prior_pass_queue_ids) != len(set(self.prior_pass_queue_ids))
+        ):
+            raise ValueError(
+                "cumulative seeds require one unique queue for every later prior pass"
+            )
+        if any(
+            re.fullmatch(r"[a-f0-9]{64}", value) is None
+            for value in (
+                *self.prior_pass_queue_ids,
+                *self.prior_pass_queue_sha256s,
+            )
+        ):
+            raise ValueError("cumulative prior-pass queue hashes are invalid")
         expected = (
             self.direct_inclusion_count
             + self.prior_pass_inclusion_count
