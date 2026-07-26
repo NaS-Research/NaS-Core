@@ -1,0 +1,90 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 7465ec9237f1827c3e254be55fd03907568543bbfe7451d17f43e08f4292b8a1
+title: Gene expression profiles from formalin fixed paraffin embedded breast cancer tissue are largely
+  comparable to fresh frozen matched tissue.
+pmid: '21347257'
+doi: 10.1371/journal.pone.0017163
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:3037966&metadataPrefix=pmc
+full_text_sha256: 3a6cd17a156109c96a25f4a534b5562e09f527334207b0c95b03fb8dbdc77857
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article representation hashed;
+  zero article bytes retained.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: high
+  rationale: The analytic set contains twenty matched breast tumors from one institution and one recent
+    diagnosis year after one pair failed quality control. This deliberately homogeneous convenience sample
+    cannot represent routine block age, processing, tumor composition, or patient diversity.
+  evidence_locations:
+  - "Methods \u2014 patient samples"
+  - "Table 1 \u2014 sample overview"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Matched frozen and paraffin material, pathologist review, tumor-content thresholds, biological
+    replicates, technical replicates, and RNA quality checks are strengths. Different tissue pieces and
+    extraction protocols introduce unavoidable preanalytic differences.
+  evidence_locations:
+  - "Methods \u2014 RNA isolation"
+  - "Methods \u2014 RNA quality assessment"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Intrinsic subtype, genomic grade, and prognostic signatures are applied under described normalization
+    and matching procedures. Some mappings and thresholds are adapted to the DASL probe set, and the complete
+    executable transformations are not frozen.
+  evidence_locations:
+  - "Methods \u2014 data analysis"
+  - "Results \u2014 gene signatures"
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Paired frozen tissue is a suitable technical comparator, while immunohistochemistry, histologic
+    grade, and MammaPrint add clinically recognizable checks. Spatially distinct tissue pieces and platform-specific
+    derived signatures prevent any comparator from acting as error-free truth.
+  evidence_locations:
+  - "Methods \u2014 patient samples"
+  - "Results \u2014 signature comparison"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: The analysis compares replicates, pairs, nonpairs, several normalization schemes, differential-expression
+    overlap, and multiple signature outputs. Its small sample size, extensive exploratory testing, and
+    lack of uncertainty intervals around agreement constrain inference.
+  evidence_locations:
+  - "Methods \u2014 data analysis"
+  - "Results \u2014 paired expression comparison"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: Technical replication and three established signatures provide internal triangulation, but
+    there is no external laboratory, older archival block, independent cohort, prospective workflow, or
+    modern sequencing-platform validation.
+  evidence_locations:
+  - Discussion
+  - "Results \u2014 reproducibility"
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Assay procedures, sample characteristics, normalization alternatives, signatures, supplements,
+    and conflicts are reported. Exact analysis code, environment, randomization details, and a complete
+    executable pipeline are unavailable.
+  evidence_locations:
+  - Methods
+  - Supporting Information
+proposed_evidence_role: context_only
+key_strengths:
+- Uses pathologist-reviewed paired paraffin and frozen breast tumor material.
+- Includes biological and technical replication plus explicit RNA-quality checks.
+- Tests whether several established signatures retain signal across preservation conditions.
+key_limitations:
+- Only twenty evaluable matched tumors from one institution and one collection year.
+- No external laboratory, independent cohort, or contemporary sequencing validation.
+- Extensive exploratory comparisons have limited uncertainty reporting.
+conflicts_and_funding: One author was an inventor and shareholder connected to the 70-gene assay, and
+  another worked for the assay company. The work received TI Pharma support; the report states that the
+  commercial funder participated in design, analysis, publication decisions, and manuscript preparation.
+assistant_id: openai-codex
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound official article in memory, retained zero
+  article bytes, and proposed domain judgments and an evidence role. This is not a founder decision, locked
+  appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+proposed_at: '2026-07-26T20:35:57Z'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

@@ -1,0 +1,91 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 73eba22dd3ff40305ecbafada2cdff2b244d6bae246940725108249f6a2edaf9
+title: Multiregional transcriptomics identifies congruent consensus molecular subtypes with prognostic
+  value beyond tumor heterogeneity in colorectal cancer.
+doi: 10.21203/rs.3.rs-3290125/v1
+full_text_source_url: https://www.researchsquare.com/article/rs-3290125/v1
+full_text_sha256: e016fae9277b87b575fc7793138b6d42c60988ab8ddf16aabfed49b9009e8c6d
+access_basis: Official Research Square version 1 article reviewed ephemerally under CC BY 4.0; canonical
+  visible-text representation hashed; zero article bytes retained.
+study_design: outcome_association
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: The single-hospital series is large and includes multiregional primary tumors, single primary
+    samples, liver metastases, and matched primary-metastasis sets. Collection periods, treatment exposure,
+    and availability differ across subcohorts, creating selection and survivorship concerns.
+  evidence_locations:
+  - "Methods \u2014 patient material"
+  - Supplementary Table S1
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Spatially separated regions, pathology review, mutation checks, high-depth sequencing, and
+    documented array processing strengthen measurement. Several platforms, batch correction, fresh-frozen-only
+    tissue, and unequal regional sampling can affect comparability.
+  evidence_locations:
+  - "Methods \u2014 gene expression profiling"
+  - "Methods \u2014 mutation analyses"
+- domain: classifier_implementation
+  judgment: high
+  rationale: Published CMS, CRIS, and intrinsic classifiers are described, but custom probability cutoffs,
+    data-derived heterogeneity scores, feature selection, enrichment rules, and NMF cluster-number choices
+    are developed and assessed within overlapping institutional data. No frozen deployable classifier
+    is externally tested.
+  evidence_locations:
+  - "Methods \u2014 expression classification"
+  - "Methods \u2014 tumor classification"
+- domain: reference_comparator
+  judgment: high
+  rationale: Molecular labels are outputs of several transcriptomic frameworks rather than an independent
+    biological reference. Recapitulation of published intrinsic classes and single-cell regional variation
+    supplies triangulation, but it cannot establish a clinically correct subtype for each patient.
+  evidence_locations:
+  - "Results \u2014 intrinsic subtype comparison"
+  - "Methods \u2014 public single-cell data"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: The report uses multiplicity adjustment, mixed models, agreement statistics, Cox models,
+    proportional-hazards checks, multivariable adjustment, and bootstrap explained variation. Numerous
+    exploratory subtype and gene-set analyses, data-derived thresholds, and limited event counts in some
+    spatial subsets raise optimism risk.
+  evidence_locations:
+  - "Methods \u2014 statistical analyses"
+  - "Results \u2014 survival analyses"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: Internal sensitivity checks, multiple specimen contexts, and an external single-cell dataset
+    support biological plausibility. The proposed congruent classes lack a wholly independent patient
+    cohort, prospective validation, assay transfer, locked scoring rule, or demonstrated treatment utility.
+  evidence_locations:
+  - "Results \u2014 congruent CMS"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohorts, endpoints, software versions, thresholds, model checks, GEO accessions, funding,
+    and patent interests are reported. Some matched primary-metastasis expression data are deferred, no
+    custom code artifact is released, and this version is not peer reviewed.
+  evidence_locations:
+  - "Declarations \u2014 data availability"
+  - "Declarations \u2014 code availability"
+proposed_evidence_role: context_only
+key_strengths:
+- Connects multiregional sampling, single-sample heterogeneity estimates, metastases, and survival.
+- Reports adjusted survival models and checks proportional-hazards assumptions.
+- Makes most expression cohorts traceable through named GEO accessions.
+key_limitations:
+- Novel subtype construction and evaluation reuse overlapping single-center data.
+- Several custom thresholds and exploratory analyses increase optimism risk.
+- This is a non-peer-reviewed preprint with incomplete release of matched longitudinal data and code.
+conflicts_and_funding: Public Norwegian health, research-council, and cancer-society grants supported
+  the work. Several authors disclosed patent applications involving colorectal transcriptomic subtypes
+  or subtype-related treatment concepts; they reported no additional competing interests.
+assistant_id: openai-codex
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound official preprint in memory, retained zero
+  article bytes, and proposed domain judgments and an evidence role. This is not a founder decision, locked
+  appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+proposed_at: '2026-07-26T20:35:57Z'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

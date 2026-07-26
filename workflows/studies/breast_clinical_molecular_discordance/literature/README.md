@@ -65,22 +65,17 @@ Pass 2 retrieved 2,053 backward and 8,163 forward links and deduplicated them to
 7,135 unique non-seed candidates. Prior-screening and within-pass reconciliation
 left 2,479 genuinely new records. Official enrichment matched 2,478 records and
 supplied 2,410 abstracts; the single unresolved metadata record remains visible.
-The initial advisory packet proposes one inclusion and 2,378 exclusions while
-holding 100 records. Field-isolated second-stage adjudication proposes eight more
-inclusions and 92 exclusions. The checksum-bound combined review covers all 2,479
-records exactly once: nine proposed inclusions, 2,470 proposed exclusions, zero
-unclear, and zero founder or AI decisions. These remain advisory until the founder
-supplies the exact pass-2 confirmation statement.
+The founder confirmed both checksum-bound packets. The resulting ledger contains
+nine inclusions, 2,470 exclusions, zero unclear, and zero AI decisions.
 
-The next boundary has been preflighted without persistence. Simulated exact
-confirmation reproduces the complete pass-2 ledger in memory, and exact-identifier
-reconciliation against the active 30-record inventory plus all 53 locked appraisal
-reports classifies all nine proposed inclusions as net new. A typed later-pass
-queue can bind the eventual founder decision receipt, reconciliation receipt, and
-active protocol-`0.2.5` amendment receipt before creating an access inventory.
-Current metadata would route four records to official repository checks and five
-to separate lawful-access review. No pass-2 decision or access inventory exists
-until founder confirmation.
+Exact-identifier reconciliation against the active inventory and all locked
+appraisals classified the nine inclusions as net new. Access review accounts for
+all nine: five official sources were reviewed ephemerally with canonical
+checksums and zero retained article bytes, and four publisher-only records have
+typed restriction decisions. The five accessible studies are represented in
+checksum-bound appraisal batch `0009`, all proposed as `context_only`. They remain
+non-authoritative until the founder supplies the exact batch-0009 confirmation
+statement.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search

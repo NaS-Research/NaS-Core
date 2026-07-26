@@ -10,30 +10,25 @@ and what comes next?
 
 ### Continue sequential citation chaining after closing input feasibility
 
-Citation pass 2 has executed from frozen revision `5d7a6d9…7520e0`. Its 62
-unique persistent seeds comprise 61 `MED` PMIDs and one `PPR` preprint from the
-30 direct inclusions and all 32 pass-1 inclusions. Official Europe PMC retrieval
-returned 2,053 backward and 8,163 forward links, yielding 7,135 unique non-seed
-candidates. Reconciliation against the direct-search inventory, complete pass-1
-founder ledger, and within-pass duplicates removed 4,656 previously screened or
-duplicate records and left 2,479 genuinely new candidates.
+Citation pass 2 has executed and its two checksum-bound review packets were
+confirmed by the founder. The frozen decision ledger records 2,479 decisions:
+9 inclusions, 2,470 exclusions, and zero unclear. Identifier-only reconciliation
+against the active inventory and all locked appraisal reports classifies all nine
+inclusions as net new.
 
-All 2,479 records were prioritized and enriched; 2,478 matched official metadata,
-2,410 supplied abstracts, and one unresolved metadata record remains visible.
-The two checksum-bound advisory packets cover every new candidate exactly once:
-9 proposed inclusions, 2,470 proposed exclusions, zero unclear, zero founder
-decisions, and zero scientific conclusions. The current gate is exact founder
-review of `FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md`. Molecular and
-outcome access remain prohibited.
+Lawful-access reconciliation now accounts for every inclusion. Four official PMC
+articles and one CC BY Research Square preprint were reviewed ephemerally with
+source identity and canonical checksums verified; zero article bytes were retained.
+Four publisher-only records have typed restriction decisions. Two are
+purchase- or license-restricted, while two declare CC BY 4.0 but lack a
+credential-free, checksum-verifiable official delivery route.
 
-A no-persistence production-path preflight proves that exact confirmation would
-materialize 2,479 decisions and that identifier-only reconciliation against the
-30-record active inventory and all 53 locked appraisal reports would route all
-nine proposed inclusions as net new. The later-pass queue boundary is now typed,
-checksum-bound to the decision, reconciliation, and active amendment receipts,
-and preserves protocol `0.2.5`. If confirmed, four records have repository
-identifiers and five require separate lawful-access checks. These are anticipated
-workflow routes, not founder decisions or access authorizations.
+Five bounded, anti-copy-validated appraisal proposals are frozen in citation
+appraisal batch `0009`, all with a proposed `context_only` role. The current gate
+is founder review of
+`FOUNDER_CITATION_APPRAISAL_BATCH_0009_v1.0.0.md` using the exact statement
+`I confirm citation appraisal batch 0009 as written.` No proposal is a locked
+appraisal, scientific conclusion, novelty claim, or clinical recommendation.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -401,6 +396,22 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-26 — Citation pass 2 decisions and access audit materialized
+
+Recorded the founder's checksum-bound confirmation of both citation pass-2
+packets and materialized all 2,479 decisions. Reconciliation produced nine
+net-new inclusions with no active-inventory or prior-appraisal reuse.
+
+Completed lawful-access accounting for all nine records. Five exact official
+sources were reviewed ephemerally and four restrictions were documented without
+substituting abstract-only appraisal. Added an exact Research Square source
+binding and a canonical PMC HTML fallback; the latter failed closed on dynamic
+raw page bytes before being repaired and regression-tested.
+
+Prepared appraisal batch `0009` with five checksum-bound, bounded-derivative
+proposals. All five are proposed as `context_only`; founder confirmation is now
+required before any locked appraisal or evidence synthesis update.
 
 ### 2026-07-26 — Project-to-publication completion audit reconciled
 
