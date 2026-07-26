@@ -106,7 +106,7 @@ review in that immutable initial queue. A bounded dash-typography repair later
 resolved `PMC7299291` and `PMC11265146` under exact PMCID, PMID, and DOI agreement;
 both CC BY 4.0 articles were retrieved and verified. Current reconciled
 `citation_appraisal_progress_v1.0.0.yaml` records three completed appraisals,
-22 ready for appraisal, three access restrictions, and one record awaiting full
+22 ready for appraisal, four access restrictions, and zero records awaiting full
 text. Ten verified ephemeral reviews now include eight official PMC pages, one
 version-specific medRxiv representation, and one institutional author-copy PDF;
 every exact content representation was hashed in memory and no article content was
@@ -114,9 +114,14 @@ stored. The UNC Lineberger copy for PMID 23907291 is bound to SHA-256
 `5ffda151…805a` and remains outside the reusable corpus because no redistribution
 license was verified. Official publisher checks separately restrict PMIDs 28069519,
 30040052, and 31435878 without inferring an appraisal from abstracts or previews.
-The sole unresolved record is the 2010 Lancet Oncology paper PMID 20181526: the
-publisher declares it CC BY 4.0, but the approved client does not yet have a
-reproducible checksum-verifiable full-text route. The version-2 `PPR1259744`
+The final access decision covers the 2010 Lancet Oncology paper PMID 20181526.
+ScienceDirect and Crossref declare the version of record CC BY 4.0, but
+Unpaywall identifies only the same publisher PDF, Europe PMC has no repository
+copy, publisher PDF delivery returns an access challenge, and the
+credential-free Elsevier API returns metadata only. The permissive license does
+not substitute for a reproducible checksum-verifiable article body; no challenge
+was bypassed, no third-party copy was retained, and no appraisal was inferred
+from the abstract. The version-2 `PPR1259744`
 medRxiv preprint remains restricted from the reusable corpus under CC BY-NC 4.0.
 
 Citation appraisal batch 0001 covers three direct studies: `PMC11217366`,
@@ -132,8 +137,8 @@ Citation appraisal batch 0002 now proposes judgments for four single-sample
 method papers under packet SHA-256 `f45518a3…f92e2`. `PMC6219008` and
 `PMC8796360` are proposed as `supporting`; `PMC8479681` and `PMC10848444` are
 proposed as `context_only`. The proposals remain non-authoritative and the live
-progress ledger remains at three completed, 20 ready, and six awaiting access
-until the founder confirms the exact packet.
+progress ledger remains at three completed, 22 ready, four access-restricted,
+and zero awaiting full text until the founder confirms the exact packet.
 
 Citation appraisal batch 0003 now proposes judgments for the six remaining
 checksum-verified full texts. `PMC4546262`, `PMC4818440`, `PMC7470374`, and

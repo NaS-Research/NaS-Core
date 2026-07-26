@@ -205,10 +205,10 @@ def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
     assert progress.full_texts_retrieved == 15
     assert progress.read_only_full_texts_reviewed == 10
     assert progress.appraisals_completed == 3
-    assert progress.access_restricted_count == 3
+    assert progress.access_restricted_count == 4
     assert progress.context_only_count == 3
     assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 22
-    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 1
+    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 0
     read_only_receipts = [
         FullTextReadOnlyReviewReceipt.model_validate(yaml.safe_load(path.read_text()))
         for path in sorted(
@@ -220,6 +220,17 @@ def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
         for path in sorted((CITATION_FULL_TEXT / "access-decisions").glob("*.yaml"))
     ]
     assert len(read_only_receipts) == 10
-    assert len(access_decisions) == 12
+    assert len(access_decisions) == 13
+    lancet_decision = next(
+        item for item in access_decisions if item.pmid == "20181526"
+    )
+    assert lancet_decision.doi == "10.1016/s1470-2045(10)70008-5"
+    assert lancet_decision.outcome == "restricted"
+    assert "Creative Commons Attribution 4.0" in lancet_decision.observed_license
+    assert "checksum-verifiable full-text delivery route" in (
+        lancet_decision.policy_reason
+    )
+    assert lancet_decision.durable_full_text_stored is False
+    assert lancet_decision.scientific_conclusions_drawn is False
     assert all(not item.durable_full_text_stored for item in read_only_receipts)
     assert all(not item.durable_full_text_stored for item in access_decisions)

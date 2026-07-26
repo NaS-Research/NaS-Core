@@ -2,12 +2,12 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
 progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
-generated_at: '2026-07-26T02:28:00.933681Z'
+generated_at: '2026-07-26T05:35:07.640859Z'
 provisional_inclusion_count: 29
 full_texts_retrieved: 15
 read_only_full_texts_reviewed: 10
 appraisals_completed: 3
-access_restricted_count: 3
+access_restricted_count: 4
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
@@ -23,7 +23,9 @@ records:
   full_text_sha256: 69768c592366da9f96d33f8c57159a093bb6e6d4d9d30053b450bd562a4344d3
 - screening_id: 8ad4355ad2bce77049fedfcb0636929eac3f305e504e9a509306f18bbad4bb5f
   title: 'Breast cancer molecular profiling with single sample predictors: a retrospective analysis.'
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: The publisher and Crossref declare the version of record open access under Creative
+    Commons Attribution 4.0.
 - screening_id: 6533ac2ac734cebe16bd375cbf0adbedffacd5bf69e216dca3bd0112ba470b30
   title: A three-gene model to robustly identify breast cancer molecular subtypes.
   pmcid: PMC3283537

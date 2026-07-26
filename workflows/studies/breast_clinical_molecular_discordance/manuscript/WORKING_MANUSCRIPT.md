@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.31.0-working`
+Manuscript version: `0.32.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -212,8 +212,12 @@ declares CC BY 4.0 but lacked repository XML. A version-specific medRxiv preprin
 and a public UNC Lineberger author-copy PDF were then verified and hashed through
 separate zero-storage routes. Official publisher checks restricted three
 abstract-, preview-, or purchase-only records without appraisal. One CC BY 4.0
-Lancet Oncology paper still lacks a reproducible checksum-verifiable full-text
-route.
+Lancet Oncology paper also lacks a reproducible checksum-verifiable full-text
+route: its publisher PDF returns an access challenge, Unpaywall points only to
+that same route, Europe PMC has no repository copy, and the credential-free
+Elsevier API returns metadata only. It is now recorded as access-restricted for
+governed appraisal despite the permissive license. No challenge was bypassed,
+third-party copy retained, or appraisal inferred from its abstract.
 The founder authorized the first checksum-bound appraisal batch: three studies are
 complete as context-only and 22 verified full texts remain ready for appraisal.
 These counts are workflow results, not scientific findings.
@@ -942,8 +946,8 @@ Status: `working`
 - Primary and citation-pass-1 title-and-abstract screening are complete. Thirty-one
   appraisals are complete across the direct and citation sets. Pass 1 has 29 net-new
   records in an authorized governed queue: three are founder-locked, 22 have
-  checksum-frozen non-authoritative proposals, three are access-restricted, and one
-  awaits a reproducible full-text route;
+  checksum-frozen non-authoritative proposals, four are access-restricted, and zero
+  await full text;
   sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -1052,7 +1056,7 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 materialized, 22 pending proposals, 3 restricted, 1 unresolved full text |
+| Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 materialized, 22 pending proposals, 4 restricted, 0 unresolved full texts |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
 | Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
@@ -1099,6 +1103,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.32.0-working | 2026-07-26 | Closed the final citation full-text access check for CC BY PMID 20181526 after official publisher, Unpaywall, Europe PMC, Crossref, and Elsevier API routes failed to provide a reproducible article body; citation state is 3 appraised, 22 ready, 4 restricted, and 0 awaiting full text. |
 | 0.31.0-working | 2026-07-26 | Added checksum-bound publication-version authorization and unique-study reconciliation so the mFISHseq preprint and version of record cannot be double-counted. |
 | 0.30.0-working | 2026-07-25 | Added five checksum-bound batch-0008 proposals and the explicit mFISHseq preprint/version-of-record non-duplication boundary. |
 | 0.29.0-working | 2026-07-25 | Added the five-request source-level metadata audit, its `changes_requested` feasibility finding, and the transparent pre-gate endpoint-characterization disclosure. |

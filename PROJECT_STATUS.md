@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-25
+Last updated: 2026-07-26
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -29,9 +29,13 @@ Bounded title normalization subsequently resolved two exact-ID, CC BY 4.0 record
 Eight additional PMC-hosted articles, one version-specific medRxiv preprint, and
 one institutional author-copy PDF now have verified ephemeral-review receipts
 with zero article bytes stored. Citation progress now has three completed
-`context_only` appraisals, 22 records ready for appraisal, three explicit
-publisher-access restrictions, and one open-access publisher record awaiting a
-reproducible full-text route. Batch 0002
+`context_only` appraisals, 22 records ready for appraisal, four explicit
+publisher-access restrictions, and zero records awaiting full text. The final
+access decision concerns the CC BY 4.0 Lancet Oncology record PMID 20181526:
+publisher, Unpaywall, Europe PMC, Crossref, and credential-free Elsevier API
+checks confirmed its identity and license but exposed no reproducible,
+checksum-verifiable article body. No challenge was bypassed, no third-party copy
+was retained, and no appraisal was inferred from its abstract. Batch 0002
 contains four validated single-sample/classifier proposals bound to packet
 SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
 ledger. Batch 0003 contains the remaining six verified full texts and is frozen
@@ -376,6 +380,22 @@ cohort-level centering, a selected 94-patient cohort, exploratory treatment
 subgroups, no declared multiplicity control, treatment crossover, and no external
 validation. The founder-confirmation filename contract now supports `PMC`, `PMID`,
 and `PPR` records, repairing the latent authorization failure for batch 0004.
+
+### 2026-07-26 — Citation full-text access queue resolved
+
+Closed the last citation-pass access check for PMID 20181526 without weakening
+the evidence boundary. The official ScienceDirect page and Crossref record
+declare the version of record CC BY 4.0; Unpaywall points only to the same
+publisher PDF, Europe PMC has no repository copy, automated publisher PDF
+delivery returns an access challenge, and the credential-free Elsevier
+text-mining endpoint returns metadata only. The final decision therefore records
+the article as access-restricted for governed appraisal despite its permissive
+license. No access control was bypassed, no third-party copy was retained, and no
+scientific conclusion was drawn from the abstract.
+
+Reconciled citation progress is now three completed, 22 ready for appraisal,
+four restricted, and zero awaiting full text. All 29 net-new citation-pass
+inclusions have a terminal access route or a verified review source.
 
 ### 2026-07-25 — Publisher access queue reduced to one unresolved record
 

@@ -1,0 +1,25 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 8ad4355ad2bce77049fedfcb0636929eac3f305e504e9a509306f18bbad4bb5f
+pmid: '20181526'
+doi: 10.1016/s1470-2045(10)70008-5
+title: 'Breast cancer molecular profiling with single sample predictors: a retrospective analysis.'
+source_url: https://www.sciencedirect.com/science/article/pii/S1470204510700085
+observed_license: >-
+  The publisher and Crossref declare the version of record open access under
+  Creative Commons Attribution 4.0.
+license_url: https://creativecommons.org/licenses/by/4.0/
+outcome: restricted
+policy_reason: >-
+  The official publisher landing page exposes bibliographic metadata and the
+  structured abstract, but automated PDF delivery returns an access challenge.
+  Unpaywall identifies only the same publisher PDF route, Europe PMC reports no
+  repository full text, and the credential-free Elsevier text-mining endpoint
+  returns metadata without the article body. The license permits reuse, but no
+  reproducible, checksum-verifiable full-text delivery route was available.
+  No access control was bypassed, no third-party copy was retained, and
+  abstract-only content is insufficient for a governed quality appraisal.
+checked_at: 2026-07-26T05:31:51Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false
