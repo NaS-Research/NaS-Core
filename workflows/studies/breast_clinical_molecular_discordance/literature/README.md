@@ -95,9 +95,13 @@ Pass completion is derived through a separate checksum-bound closure gate. It
 re-verifies retrieval and deduplication objects, founder decision and inclusion
 ledgers, the pass appraisal queue, exact prior-appraisal reuses, the access
 inventory, and final appraisal progress. Unresolved full-text or appraisal work
-prevents closure. The authoritative pass-1 no-write preflight reconciles 4,628
-unique records, 4,495 founder-screened records, 32 inclusions, three prior-appraisal
-reuses, 25 completed appraisals, four access restrictions, and 32 new eligible
+prevents closure. Pass 1 was materially closed from frozen revision `8c94614`
+under closure `3f7037ca…d9676`. It reconciles 4,628 unique records, 4,495
+founder-screened records, 32 inclusions, three prior-appraisal reuses, 25 completed
+appraisals, four access restrictions, and 32 new eligible identities. The bound
+review state now contains 62 eligible identities, 56 appraisal-complete identities,
+six access-restricted identities, and zero pending. Because the pass added evidence,
+the consecutive-zero stopping count remains zero.
 evidence records. Pass 1 therefore resets rather than advances the two-zero-pass
 stopping counter.
 

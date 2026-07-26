@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.36.0-working`
+Manuscript version: `0.37.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -189,8 +189,7 @@ ledger `1ca4b716…281caf` records all 4,495 unique records exactly once: 32
 inclusions, 4,463 exclusions, zero unclear, and zero AI decisions. Identifier-only
 reconciliation found no overlap with the active 30-study inventory, three exact
 matches to locked prior appraisals (PMIDs 22752290, 27556419, and 16643655), and
-29 net-new records. Citation-pass screening is complete; the pass is not yet
-appraisal-complete. The founder separately approved protocol amendment `0.2.5`,
+29 net-new records. The founder separately approved protocol amendment `0.2.5`,
 which activates an uncapped saturation inventory while limiting the later
 quality-selected core synthesis to 30 non-duplicate primary studies. Its immutable
 queue routes the 29 net-new records to 23 repository checks and six separate
@@ -226,13 +225,19 @@ appraisals retain the exact proposal, packet, confirmation, access-receipt, and,
 where needed, stable appraisal-source checksums. The medRxiv analytical bridge and
 UNC genomic-versus-pathology comparison were reviewed through bounded zero-storage
 gates that reverified their source checksums and rejected long verbatim passages.
+Receipt-derived closure `3f7037ca…d9676`, executed from frozen revision `8c94614`,
+then independently reverified the entire pass lineage and closed pass 1. The bound
+identity-level review state is 62 eligible, 56 appraisal-complete, six access-
+restricted, and zero pending. The 32 pass-1 additions reset rather than advance the
+required two-consecutive-zero-pass stopping rule.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
 FOUNDER_CITATION_PASS_0001_CONFIRMATION_v1.0.0.yaml;
 citation-chain/pass-0001-decision-ledger.yaml;
 citation-chain/pass-0001-inclusion-reconciliation.yaml;
-evidence-cap-amendment-activation-v0.2.5.yaml]
+evidence-cap-amendment-activation-v0.2.5.yaml;
+citation-chain/pass-0001-closure.yaml]
 
 Citation pass 2 used all 62 founder-included persistent identities from the
 direct search and pass 1. Official Europe PMC retrieval returned 2,053 backward
@@ -993,8 +998,9 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 31 completed appraisals show that the broad problem is established: PAM50
-calls can be sensitive to technical error, cohort-dependent centering, and
+The 53 locked appraisal reports, covering 56 eligible evidence identities after
+three exact prior-appraisal reuses, show that the broad problem is established:
+PAM50 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
 single-sample execution, recurrence-risk stratification, group-level prognostic
@@ -1136,7 +1142,7 @@ checks, and internal reviews are complete.
 | Methods—metadata feasibility | Source-level and field-isolated input audits | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.1.yaml`; all audit reports | all five input-feasibility checks verified; method compatibility unresolved |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
-| Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
+| Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
 | Methods—citation pass 2 | Cumulative retrieval and advisory screening | `citation-chain/pass-0002-seeds.yaml`; `citation-chain/pass-0002-retrieval.yaml`; `citation-chain/pass-0002-screening-preparation.yaml`; `FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md` | 2,479 new candidates; 9 include and 2,470 exclude recommendations; founder confirmation pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
 | Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 25 materialized, 0 ready, 4 restricted, 0 unresolved full texts |
@@ -1186,6 +1192,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.37.0-working | 2026-07-26 | Materially closed citation pass 1 from frozen receipt lineage; the bound review state is 62 eligible identities, 56 appraisal-complete, six access-restricted, zero pending, and zero consecutive zero-yield passes. |
 | 0.36.0-working | 2026-07-26 | Added citation pass-2 cumulative retrieval and nondecisional screening: 7,135 non-seed records reduced to 2,479 genuinely new candidates, with nine proposed inclusions, 2,470 proposed exclusions, zero unclear, and exact founder confirmation pending. |
 | 0.35.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.1`: unchanged sources classified 3,273 primary records and 136 linked technical replicates with zero unclassified; all five input-feasibility checks pass while molecular/outcome execution remains prohibited. |
 | 0.34.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.0`: both sources contain all 50 PAM50 genes; receptor completeness is quantified for 1,098 TCGA and 3,409 GSE96058 records; replicate linkage remains unresolved and molecular/outcome execution remains prohibited. |

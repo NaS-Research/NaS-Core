@@ -46,11 +46,14 @@ the system to prove two consecutive zero-yield passes without losing lineage.
 Citation-pass completion is no longer a free-standing count assertion. A typed
 closure service re-verifies retrieval and screening objects, founder decision and
 reconciliation ledgers, appraisal queues, exact reused appraisals, access inventory,
-and appraisal progress before deriving new eligible evidence IDs. The authoritative
-pass-1 dry run reconciles 4,628 unique citation records, 4,495 founder decisions,
-32 inclusions, three exact appraisal reuses, 25 completed appraisals, four access
-restrictions, and 32 new eligible evidence records. The implementation must be
-frozen before its append-only pass-1 closure receipt is written.
+and appraisal progress before deriving new eligible evidence IDs. Pass 1 is now
+materially closed from frozen revision `8c94614` under immutable closure
+`3f7037ca…d9676`. It reconciles 4,628 unique citation records, 4,495 founder
+decisions, 32 inclusions, three exact appraisal reuses, 25 completed appraisals,
+four access restrictions, and 32 new eligible evidence records. The bound
+identity-level evidence state is 62 eligible, 56 appraisal-complete, six
+access-restricted, and zero pending. Because pass 1 added evidence, the
+consecutive-zero stopping count remains zero.
 
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
@@ -410,6 +413,18 @@ and a zero-yield pass with no access artifacts. The real pass-1 no-write preflig
 reconciles all 32 inclusions and proves that pass 1 resets the consecutive-zero
 counter.
 
+### 2026-07-26 — Citation pass 1 materially closed
+
+Executed the frozen receipt-derived closure path and wrote immutable closure
+`3f7037ca…d9676`. The gate independently reverified all retrieval, screening,
+founder-decision, reconciliation, queue, access, prior-appraisal, and appraisal-
+progress artifacts before closing the pass. The evidence-review progress record
+now reports 62 eligible identities, 56 appraisal-complete identities, six
+access-restricted identities, and zero pending. Pass 1 contributed 32 eligible
+identities, so it does not count toward the required two consecutive zero-yield
+passes. No molecular or outcome access and no scientific conclusion were
+authorized.
+
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 
 Recorded the founder's exact checksum-bound amendment authorization, implemented
@@ -635,10 +650,11 @@ changing protocol state.
 Activation `6769d900…ab2f33` replaces the arbitrary 30-record evidence cap with an
 uncapped saturation inventory while preserving a maximum 30-study core synthesis.
 The immutable queue covers all 32 pass-1 inclusions: 23 repository candidates, six
-lawful-access checks, and three prior-appraisal reuses. The progress ledger now
-records 62 cumulative eligible studies, 31 completed appraisals, two restrictions,
-and 29 pending access/appraisal records. No screening decision, scientific
-conclusion, molecular permission, or outcome permission changed.
+lawful-access checks, and three prior-appraisal reuses. That activation-time
+snapshot recorded 62 eligible identities, 31 completed, two restricted, and 29
+pending; subsequent lawful-access appraisal and immutable pass closure now
+supersede those workflow counts. No screening decision, scientific conclusion,
+molecular permission, or outcome permission changed.
 
 ### 2026-07-25 — Citation pass 1 founder ledger frozen and reconciled
 

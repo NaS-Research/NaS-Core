@@ -19,9 +19,9 @@ screening_progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685
 screening_progress_receipt_path: literature/revised-screening-progress/batch-0002.yaml
 primary_screening_complete: true
 eligible_evidence_count: 62
-completed_appraisal_count: 31
-access_restricted_count: 2
-pending_candidate_count: 29
+completed_appraisal_count: 56
+access_restricted_count: 6
+pending_candidate_count: 0
 uncapped_saturation_inventory_active: true
 core_synthesis_maximum: 30
 amendment_activation_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
@@ -67,39 +67,41 @@ citation_passes:
     unique_candidate_count: 4628
     screened_candidate_count: 4628
     new_eligible_evidence_ids:
-      - MED:31159741
-      - MED:22752290
-      - MED:30189722
-      - MED:23035882
-      - MED:36867282
-      - MED:31754050
-      - MED:37773555
-      - MED:26297356
-      - MED:38549046
-      - MED:39747865
-      - MED:28069519
-      - MED:22262870
+      - PMID:16626501
+      - PMID:16643655
+      - PMID:20181526
+      - PMID:22262870
+      - PMID:22752290
+      - PMID:22959562
+      - PMID:23035882
+      - PMID:23907291
+      - PMID:26297356
+      - PMID:26711328
+      - PMID:27036195
+      - PMID:27556419
+      - PMID:28069519
+      - PMID:30040052
+      - PMID:30189722
+      - PMID:30400809
+      - PMID:30721923
+      - PMID:31159741
+      - PMID:31435878
+      - PMID:31754050
+      - PMID:32881987
+      - PMID:33442660
+      - PMID:33543757
+      - PMID:34788787
+      - PMID:34885228
+      - PMID:36867282
+      - PMID:37773555
+      - PMID:38321494
+      - PMID:38549046
+      - PMID:38951507
+      - PMID:39747865
       - PPR:PPR1259744
-      - MED:34885228
-      - MED:31435878
-      - MED:30040052
-      - MED:16626501
-      - MED:38321494
-      - MED:34788787
-      - MED:30721923
-      - MED:22959562
-      - MED:20181526
-      - MED:33442660
-      - MED:38951507
-      - MED:30400809
-      - MED:33543757
-      - MED:27556419
-      - MED:16643655
-      - MED:26711328
-      - MED:27036195
-      - MED:23907291
-      - MED:32881987
-    completed_at: '2026-07-25T15:56:29Z'
+    completed_at: '2026-07-26T19:29:56.860777Z'
+    closure_id: 3f7037cada1872601b75a79a1d13a831c7f7a57c5543038a3e0e3c5803cd9676
+    closure_receipt_path: literature/citation-chain/pass-0001-closure.yaml
 unresolved_claims:
   - >-
     Whether the published AWCA artifacts provide lawfully reusable, sufficiently frozen

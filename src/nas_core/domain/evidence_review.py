@@ -10,6 +10,10 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from nas_core.domain.citation_saturation import (
+    load_citation_pass_closure_receipt,
+)
+
 
 class EvidenceReviewModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -116,6 +120,8 @@ class CitationChainPass(EvidenceReviewModel):
     screened_candidate_count: int = Field(ge=0)
     new_eligible_evidence_ids: list[str]
     completed_at: datetime | None = None
+    closure_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    closure_receipt_path: str | None = None
 
     @model_validator(mode="after")
     def validate_pass(self) -> CitationChainPass:
@@ -137,13 +143,20 @@ class CitationChainPass(EvidenceReviewModel):
                 )
             ):
                 raise ValueError("a planned citation pass cannot claim candidate counts")
-            if self.new_eligible_evidence_ids or self.completed_at is not None:
+            if (
+                self.new_eligible_evidence_ids
+                or self.completed_at is not None
+                or self.closure_id is not None
+                or self.closure_receipt_path is not None
+            ):
                 raise ValueError("a planned citation pass cannot claim results")
             return self
         if self.screened_candidate_count != self.unique_candidate_count:
             raise ValueError("a complete citation pass must screen every unique candidate")
         if self.completed_at is None:
             raise ValueError("a complete citation pass requires a completion timestamp")
+        if self.closure_id is None or self.closure_receipt_path is None:
+            raise ValueError("a complete citation pass requires its closure receipt")
         return self
 
 
@@ -252,6 +265,7 @@ class EvidenceReviewProgress(EvidenceReviewModel):
             and self.pending_candidate_count == 0
             and self.completed_appraisal_count + self.access_restricted_count
             == self.eligible_evidence_count
+            and len(completed) == len(self.citation_passes)
             and last_two_are_zero
         )
         if self.stopping_rule_satisfied != prerequisites:
@@ -268,9 +282,53 @@ def load_priority_evidence_set(path: Path) -> PriorityEvidenceSet:
 
 
 def load_evidence_review_progress(path: Path) -> EvidenceReviewProgress:
-    return EvidenceReviewProgress.model_validate(
+    progress = EvidenceReviewProgress.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
+    for citation_pass in progress.citation_passes:
+        if citation_pass.status is not CitationPassStatus.COMPLETE:
+            continue
+        assert citation_pass.closure_receipt_path is not None
+        closure_path = Path(citation_pass.closure_receipt_path)
+        if not closure_path.is_absolute():
+            candidates = (
+                path.parent / closure_path,
+                path.parent.parent / closure_path,
+            )
+            closure_path = next(
+                (candidate for candidate in candidates if candidate.is_file()),
+                candidates[-1],
+            )
+        closure = load_citation_pass_closure_receipt(closure_path)
+        expected = (
+            closure.study_id,
+            closure.pass_number,
+            closure.seed_evidence_ids,
+            closure.backward_candidate_count,
+            closure.forward_candidate_count,
+            closure.unique_candidate_count,
+            closure.unique_candidate_count,
+            closure.new_eligible_evidence_ids,
+            closure.closed_at,
+            closure.closure_id,
+        )
+        observed = (
+            progress.study_id,
+            citation_pass.pass_number,
+            citation_pass.seed_evidence_ids,
+            citation_pass.backward_candidate_count,
+            citation_pass.forward_candidate_count,
+            citation_pass.unique_candidate_count,
+            citation_pass.screened_candidate_count,
+            citation_pass.new_eligible_evidence_ids,
+            citation_pass.completed_at,
+            citation_pass.closure_id,
+        )
+        if observed != expected:
+            raise ValueError(
+                f"citation pass {citation_pass.pass_number} does not match its closure"
+            )
+    return progress
 
 
 def write_evidence_review_schemas(priority_path: Path, progress_path: Path) -> None:

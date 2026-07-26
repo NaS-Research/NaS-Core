@@ -56,6 +56,8 @@ def complete_pass(number: int, *, new_ids: list[str] | None = None) -> dict[str,
         "screened_candidate_count": 7,
         "new_eligible_evidence_ids": new_ids or [],
         "completed_at": f"2026-07-{23 + number:02d}T12:00:00Z",
+        "closure_id": f"{number:064x}",
+        "closure_receipt_path": f"literature/citation-chain/pass-{number:04d}-closure.yaml",
     }
 
 
@@ -95,13 +97,17 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     )
     assert progress.primary_screening_complete is True
     assert progress.eligible_evidence_count == 62
-    assert progress.completed_appraisal_count == 31
-    assert progress.access_restricted_count == 2
-    assert progress.pending_candidate_count == 29
+    assert progress.completed_appraisal_count == 56
+    assert progress.access_restricted_count == 6
+    assert progress.pending_candidate_count == 0
     assert progress.uncapped_saturation_inventory_active is True
     assert progress.core_synthesis_maximum == 30
     assert len(progress.citation_passes) == 1
     assert len(progress.citation_passes[0].new_eligible_evidence_ids) == 32
+    assert (
+        progress.citation_passes[0].closure_id
+        == "3f7037cada1872601b75a79a1d13a831c7f7a57c5543038a3e0e3c5803cd9676"
+    )
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False
     assert progress.molecular_data_access_authorized is False
@@ -195,6 +201,17 @@ def test_complete_pass_must_screen_every_unique_candidate() -> None:
         EvidenceReviewProgress.model_validate(payload)
 
 
+def test_complete_pass_requires_closure_receipt() -> None:
+    payload = load_progress_payload()
+    invalid_pass = complete_pass(1)
+    invalid_pass["closure_id"] = None
+    invalid_pass["closure_receipt_path"] = None
+    payload["citation_passes"] = [invalid_pass]
+
+    with pytest.raises(ValidationError, match="requires its closure receipt"):
+        EvidenceReviewProgress.model_validate(payload)
+
+
 def test_false_stopping_rule_claim_is_rejected() -> None:
     payload = load_progress_payload()
     payload["stopping_rule_satisfied"] = True
@@ -272,9 +289,66 @@ def test_new_eligible_study_resets_two_pass_saturation() -> None:
     assert progress.stopping_rule_satisfied is False
 
 
+def test_trailing_planned_pass_prevents_stopping_rule() -> None:
+    payload = load_progress_payload()
+    planned = complete_pass(3)
+    planned.update(
+        {
+            "status": "planned",
+            "backward_candidate_count": 0,
+            "forward_candidate_count": 0,
+            "unique_candidate_count": 0,
+            "screened_candidate_count": 0,
+            "new_eligible_evidence_ids": [],
+            "completed_at": None,
+            "closure_id": None,
+            "closure_receipt_path": None,
+        }
+    )
+    payload.update(
+        {
+            "review_status": "complete",
+            "eligible_evidence_count": 13,
+            "completed_appraisal_count": 12,
+            "access_restricted_count": 1,
+            "pending_candidate_count": 0,
+            "citation_passes": [complete_pass(1), complete_pass(2), planned],
+            "stopping_rule_satisfied": True,
+        }
+    )
+
+    with pytest.raises(ValidationError, match="does not match the audited review state"):
+        EvidenceReviewProgress.model_validate(payload)
+
+
+def test_loader_rejects_progress_that_disagrees_with_closure(tmp_path: Path) -> None:
+    progress_payload = load_progress_payload()
+    progress_payload["citation_passes"][0]["backward_candidate_count"] = 980
+    progress_payload["citation_passes"][0]["closure_receipt_path"] = str(
+        STUDY_ROOT
+        / "literature"
+        / "citation-chain"
+        / "pass-0001-closure.yaml"
+    )
+    mismatched_path = tmp_path / "progress.yaml"
+    mismatched_path.write_text(
+        yaml.safe_dump(progress_payload, sort_keys=False),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="does not match its closure"):
+        load_evidence_review_progress(mismatched_path)
+
+
 def test_priority_and_progress_versions_must_match(tmp_path: Path) -> None:
     progress_payload = load_progress_payload()
     progress_payload["priority_set_version"] = "9.9.9"
+    progress_payload["citation_passes"][0]["closure_receipt_path"] = str(
+        STUDY_ROOT
+        / "literature"
+        / "citation-chain"
+        / "pass-0001-closure.yaml"
+    )
     mismatched_path = tmp_path / "progress.yaml"
     mismatched_path.write_text(
         yaml.safe_dump(progress_payload, sort_keys=False),
@@ -297,4 +371,4 @@ def test_progress_payload_copy_is_independent() -> None:
     copied = deepcopy(payload)
     copied["pending_candidate_count"] = 30
 
-    assert payload["pending_candidate_count"] == 29
+    assert payload["pending_candidate_count"] == 0

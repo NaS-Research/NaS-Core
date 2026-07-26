@@ -13,6 +13,31 @@
           "title": "Backward Source",
           "type": "string"
         },
+        "closure_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Closure Id"
+        },
+        "closure_receipt_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Closure Receipt Path"
+        },
         "completed_at": {
           "anyOf": [
             {
