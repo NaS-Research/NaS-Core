@@ -26,6 +26,15 @@ decisions, and zero scientific conclusions. The current gate is exact founder
 review of `FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md`. Molecular and
 outcome access remain prohibited.
 
+A no-persistence production-path preflight proves that exact confirmation would
+materialize 2,479 decisions and that identifier-only reconciliation against the
+30-record active inventory and all 53 locked appraisal reports would route all
+nine proposed inclusions as net new. The later-pass queue boundary is now typed,
+checksum-bound to the decision, reconciliation, and active amendment receipts,
+and preserves protocol `0.2.5`. If confirmed, four records have repository
+identifiers and five require separate lawful-access checks. These are anticipated
+workflow routes, not founder decisions or access authorizations.
+
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
 50 historical PAM50 genes without ambiguous mappings in both frozen source
@@ -363,6 +372,13 @@ genuinely new candidates. Two checksum-bound packets now propose nine inclusions
 and 2,470 exclusions with zero unclear. Mechanical tests prove complete,
 non-overlapping coverage. No founder or AI decision and no scientific conclusion
 has been recorded.
+
+Implemented the post-confirmation later-pass routing boundary without materializing
+pass-2 decisions. The real-artifact in-memory preflight found zero active-inventory
+matches, zero prior-appraisal matches, and nine net-new candidates. Under the
+already active uncapped amendment, those candidates route to four repository
+checks and five separate access checks. Receipt, object, count, founder-authority,
+and no-molecular/no-outcome invariants fail closed.
 
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 

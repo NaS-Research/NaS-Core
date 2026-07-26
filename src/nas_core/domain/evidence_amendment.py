@@ -156,6 +156,77 @@ class EvidenceCapAmendmentActivationReceipt(EvidenceAmendmentModel):
         return self
 
 
+class CitationPassAppraisalQueueReceipt(EvidenceAmendmentModel):
+    """Route a later founder-confirmed citation pass under the active amendment."""
+
+    schema_version: str = "1.0.0"
+    queue_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    pass_number: int = Field(ge=2)
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    queued_at: datetime
+    founder_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    decision_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    decision_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    reconciliation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    reconciliation_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    active_amendment_activation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    active_amendment_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    active_protocol_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    confirmed_inclusion_count: int = Field(ge=1)
+    repository_candidate_count: int = Field(ge=0)
+    access_check_required_count: int = Field(ge=0)
+    prior_appraisal_reuse_count: int = Field(ge=0)
+    net_new_count: int = Field(ge=0)
+    core_synthesis_maximum: int = Field(ge=1, le=30)
+    queue_object: StoredObject
+    decision_ledger_checksum_verified: bool
+    reconciliation_checksum_verified: bool
+    active_amendment_verified: bool
+    count_invariants_verified: bool
+    founder_authorized: bool
+    uncapped_saturation_inventory_active: bool
+    founder_decisions_changed: int = Field(default=0, ge=0)
+    molecular_data_access_authorized: bool = False
+    outcome_data_access_authorized: bool = False
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_queue(self) -> CitationPassAppraisalQueueReceipt:
+        if (
+            self.repository_candidate_count
+            + self.access_check_required_count
+            != self.net_new_count
+        ):
+            raise ValueError("later-pass net-new access routes do not reconcile")
+        if (
+            self.net_new_count + self.prior_appraisal_reuse_count
+            != self.confirmed_inclusion_count
+        ):
+            raise ValueError("later-pass queue does not cover every inclusion")
+        if not all(
+            (
+                self.decision_ledger_checksum_verified,
+                self.reconciliation_checksum_verified,
+                self.active_amendment_verified,
+                self.count_invariants_verified,
+                self.founder_authorized,
+                self.uncapped_saturation_inventory_active,
+            )
+        ):
+            raise ValueError("later-pass queue requires verified founder authority")
+        if (
+            self.founder_decisions_changed
+            or self.molecular_data_access_authorized
+            or self.outcome_data_access_authorized
+            or self.scientific_conclusions_drawn
+        ):
+            raise ValueError(
+                "later-pass routing cannot change decisions, access data, or conclude"
+            )
+        return self
+
+
 def load_evidence_cap_amendment_approval(
     path: Path,
 ) -> EvidenceCapAmendmentApproval:
@@ -184,3 +255,34 @@ def write_evidence_cap_amendment_activation_receipt(
     )
     with path.open("x", encoding="utf-8") as destination:
         destination.write(payload)
+
+
+def load_citation_pass_appraisal_queue_receipt(
+    path: Path,
+) -> CitationPassAppraisalQueueReceipt:
+    return CitationPassAppraisalQueueReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_citation_pass_appraisal_queue_receipt(
+    path: Path,
+    receipt: CitationPassAppraisalQueueReceipt,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def load_citation_access_queue_receipt(
+    path: Path,
+) -> EvidenceCapAmendmentActivationReceipt | CitationPassAppraisalQueueReceipt:
+    payload = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if isinstance(payload, dict) and "pass_number" in payload:
+        return CitationPassAppraisalQueueReceipt.model_validate(payload)
+    return EvidenceCapAmendmentActivationReceipt.model_validate(payload)

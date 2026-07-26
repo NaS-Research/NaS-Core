@@ -69,8 +69,10 @@ from nas_core.domain.cohorts import (
 )
 from nas_core.domain.discovery import load_phase_zero_artifacts, write_discovery_schemas
 from nas_core.domain.evidence_amendment import (
+    load_citation_access_queue_receipt,
     load_evidence_cap_amendment_activation_receipt,
     load_evidence_cap_amendment_approval,
+    write_citation_pass_appraisal_queue_receipt,
     write_evidence_cap_amendment_activation_receipt,
 )
 from nas_core.domain.evidence_review import (
@@ -159,6 +161,7 @@ from nas_core.retrieval.ephemeral_appraisal import (
 )
 from nas_core.retrieval.evidence_amendment import (
     CitationAccessInventoryService,
+    CitationPassAppraisalQueueService,
     EvidenceCapAmendmentActivationService,
 )
 from nas_core.retrieval.full_text import FullTextInventoryService
@@ -573,6 +576,20 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Persist the checksum-verified inclusion reconciliation",
+    )
+    citation_route = evidence_review_commands.add_parser(
+        "citation-route-inclusions",
+        help="Route a later citation pass under the active uncapped amendment",
+    )
+    citation_route.add_argument("decision_receipt", type=Path)
+    citation_route.add_argument("reconciliation_receipt", type=Path)
+    citation_route.add_argument("active_amendment_receipt", type=Path)
+    citation_route.add_argument("--code-revision", required=True)
+    citation_route.add_argument("--receipt-output", required=True, type=Path)
+    citation_route.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the later-pass appraisal queue and routing receipt",
     )
     activate_cap = evidence_review_commands.add_parser(
         "activate-cap-amendment",
@@ -1831,6 +1848,51 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "evidence-review"
+        and args.evidence_review_command == "citation-route-inclusions"
+    ):
+        citation_decision = load_citation_decision_ledger_receipt(
+            args.decision_receipt
+        )
+        citation_reconciliation = load_citation_inclusion_reconciliation_receipt(
+            args.reconciliation_receipt
+        )
+        active_amendment = load_evidence_cap_amendment_activation_receipt(
+            args.active_amendment_receipt
+        )
+        if not args.execute:
+            print(
+                f"Citation pass {citation_decision.pass_number} routing ready: "
+                f"{citation_reconciliation.confirmed_inclusion_count} inclusions "
+                f"under active protocol {active_amendment.active_protocol_version}"
+            )
+            print("Dry run only; no appraisal queue was stored.")
+            return 0
+        queue_service = CitationPassAppraisalQueueService(
+            store=get_object_store()
+        )
+        appraisal_queue = queue_service.build(
+            citation_decision,
+            citation_reconciliation,
+            active_amendment,
+            decision_receipt_path=args.decision_receipt,
+            reconciliation_receipt_path=args.reconciliation_receipt,
+            active_amendment_receipt_path=args.active_amendment_receipt,
+            code_revision=args.code_revision,
+        )
+        write_citation_pass_appraisal_queue_receipt(
+            args.receipt_output, appraisal_queue
+        )
+        print(
+            f"Routed citation pass {appraisal_queue.pass_number}: "
+            f"{appraisal_queue.repository_candidate_count} repository candidates, "
+            f"{appraisal_queue.access_check_required_count} access checks, "
+            f"{appraisal_queue.prior_appraisal_reuse_count} prior appraisal reuses"
+        )
+        print(f"Wrote later-pass queue receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
         and args.evidence_review_command == "activate-cap-amendment"
     ):
         amendment_approval = load_evidence_cap_amendment_approval(args.approval)
@@ -2240,7 +2302,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.command == "literature"
         and args.literature_command == "citation-access-inventory"
     ):
-        activation_receipt = load_evidence_cap_amendment_activation_receipt(
+        activation_receipt = load_citation_access_queue_receipt(
             args.activation_receipt
         )
         inventory = CitationAccessInventoryService(store=get_object_store()).build(

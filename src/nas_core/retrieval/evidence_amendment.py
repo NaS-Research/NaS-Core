@@ -14,14 +14,21 @@ from nas_core.domain.appraisal import (
     FullTextInventory,
     FullTextInventoryRecord,
 )
+from nas_core.domain.citation_confirmation import (
+    CitationDecisionLedgerReceipt,
+    load_citation_decision_ledger_receipt,
+)
 from nas_core.domain.citation_reconciliation import (
     CitationInclusionReconciliationReceipt,
+    load_citation_inclusion_reconciliation_receipt,
 )
 from nas_core.domain.evidence_amendment import (
     CitationAppraisalQueueRecord,
     CitationAppraisalRoute,
+    CitationPassAppraisalQueueReceipt,
     EvidenceCapAmendmentActivationReceipt,
     EvidenceCapAmendmentApproval,
+    load_evidence_cap_amendment_activation_receipt,
 )
 from nas_core.domain.snapshots import StoredObject
 from nas_core.ingestion.gdc import ImmutableObjectConflictError, canonical_json, sha256
@@ -219,7 +226,10 @@ class CitationAccessInventoryService:
 
     def build(
         self,
-        activation: EvidenceCapAmendmentActivationReceipt,
+        activation: (
+            EvidenceCapAmendmentActivationReceipt
+            | CitationPassAppraisalQueueReceipt
+        ),
     ) -> FullTextInventory:
         body = self._store.get_bytes(activation.queue_object.object_key)
         if (
@@ -241,12 +251,22 @@ class CitationAccessInventoryService:
             for row in queue
             if row.route is not CitationAppraisalRoute.REUSE_PRIOR_APPRAISAL
         ]
+        queue_identity = (
+            activation.activation_id
+            if isinstance(activation, EvidenceCapAmendmentActivationReceipt)
+            else activation.queue_id
+        )
+        queue_identity_field = (
+            "activation_id"
+            if isinstance(activation, EvidenceCapAmendmentActivationReceipt)
+            else "queue_id"
+        )
         records = [
             FullTextInventoryRecord(
                 screening_id=sha256(
                     canonical_json(
                         {
-                            "activation_id": activation.activation_id,
+                            queue_identity_field: queue_identity,
                             "record_key": item.record_key,
                         }
                     )
@@ -278,7 +298,7 @@ class CitationAccessInventoryService:
         return FullTextInventory(
             inventory_version="1.0.0",
             study_id=activation.study_id,
-            queue_id=activation.activation_id,
+            queue_id=queue_identity,
             progress_id=activation.reconciliation_id,
             provisional_inclusion_count=len(records),
             repository_candidate_count=repository_count,
@@ -287,4 +307,216 @@ class CitationAccessInventoryService:
             full_texts_retrieved=0,
             appraisals_completed=0,
             scientific_conclusions_drawn=False,
+        )
+
+
+class CitationPassAppraisalQueueService:
+    """Route later-pass inclusions under an already active uncapped amendment."""
+
+    def __init__(self, *, store: ObjectStore) -> None:
+        self._store = store
+
+    def build(
+        self,
+        decision: CitationDecisionLedgerReceipt,
+        reconciliation: CitationInclusionReconciliationReceipt,
+        active_amendment: EvidenceCapAmendmentActivationReceipt,
+        *,
+        decision_receipt_path: Path,
+        reconciliation_receipt_path: Path,
+        active_amendment_receipt_path: Path,
+        code_revision: str,
+        queued_at: datetime | None = None,
+    ) -> CitationPassAppraisalQueueReceipt:
+        if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
+            raise EvidenceCapAmendmentError(
+                "code revision must be a 7-to-40 character Git SHA"
+            )
+        self._verify_receipt_files(
+            decision,
+            reconciliation,
+            active_amendment,
+            decision_receipt_path=decision_receipt_path,
+            reconciliation_receipt_path=reconciliation_receipt_path,
+            active_amendment_receipt_path=active_amendment_receipt_path,
+        )
+        if (
+            decision.study_id != reconciliation.study_id
+            or decision.study_id != active_amendment.study_id
+            or decision.pass_number != reconciliation.pass_number
+            or decision.decision_id != reconciliation.decision_id
+            or decision.founder_id != active_amendment.founder_id
+        ):
+            raise EvidenceCapAmendmentError(
+                "later-pass decision, reconciliation, and amendment identities differ"
+            )
+        if decision.pass_number < 2:
+            raise EvidenceCapAmendmentError(
+                "later-pass queue requires citation pass 2 or later"
+            )
+        if active_amendment.active_protocol_version != "0.2.5":
+            raise EvidenceCapAmendmentError(
+                "later-pass queue requires active protocol 0.2.5"
+            )
+        if decision.confirmed_at < active_amendment.activated_at:
+            raise EvidenceCapAmendmentError(
+                "later-pass decision predates the active amendment"
+            )
+        if (
+            not active_amendment.founder_authorized
+            or not active_amendment.uncapped_saturation_inventory_active
+        ):
+            raise EvidenceCapAmendmentError(
+                "uncapped evidence amendment is not active"
+            )
+        ledger_body = self._store.get_bytes(decision.ledger_object.object_key)
+        if (
+            len(ledger_body) != decision.ledger_object.size_bytes
+            or sha256(ledger_body) != decision.ledger_object.sha256
+        ):
+            raise EvidenceCapAmendmentError(
+                "later-pass decision ledger checksum failed"
+            )
+        reconciliation_body = self._store.get_bytes(
+            reconciliation.reconciliation_object.object_key
+        )
+        if (
+            len(reconciliation_body)
+            != reconciliation.reconciliation_object.size_bytes
+            or sha256(reconciliation_body)
+            != reconciliation.reconciliation_object.sha256
+        ):
+            raise EvidenceCapAmendmentError(
+                "later-pass reconciliation checksum failed"
+            )
+        rows = EvidenceCapAmendmentActivationService._load_rows(
+            reconciliation_body
+        )
+        queue = [
+            EvidenceCapAmendmentActivationService._route(row) for row in rows
+        ]
+        net_new = [
+            row
+            for row in queue
+            if row.route is not CitationAppraisalRoute.REUSE_PRIOR_APPRAISAL
+        ]
+        prior = len(queue) - len(net_new)
+        if (
+            len(queue) != decision.included_count
+            or len(queue) != reconciliation.confirmed_inclusion_count
+            or len(net_new) != reconciliation.net_new_count
+            or prior != reconciliation.prior_appraisal_match_count
+        ):
+            raise EvidenceCapAmendmentError(
+                "later-pass queue does not reconcile with confirmed inclusions"
+            )
+        timestamp = queued_at or datetime.now(UTC)
+        identity = {
+            "active_amendment_activation_id": active_amendment.activation_id,
+            "code_revision": code_revision,
+            "decision_id": decision.decision_id,
+            "pass_number": decision.pass_number,
+            "queued_at": timestamp.isoformat(),
+            "reconciliation_id": reconciliation.reconciliation_id,
+            "study_id": decision.study_id,
+        }
+        queue_id = sha256(canonical_json(identity))
+        queue_body = canonical_json(
+            [
+                item.model_dump(mode="json", exclude_none=True)
+                for item in sorted(queue, key=lambda item: item.record_key)
+            ]
+        )
+        key = (
+            f"evidence-review/{decision.study_id}/"
+            f"protocol-{active_amendment.active_protocol_version}/"
+            f"citation-pass-{decision.pass_number:04d}-appraisal-queue-"
+            f"{queue_id}.json"
+        )
+        queue_object = self._store_object(key, queue_body)
+        repository = sum(
+            item.route is CitationAppraisalRoute.REPOSITORY_CANDIDATE
+            for item in queue
+        )
+        return CitationPassAppraisalQueueReceipt(
+            queue_id=queue_id,
+            study_id=decision.study_id,
+            pass_number=decision.pass_number,
+            code_revision=code_revision,
+            queued_at=timestamp,
+            founder_id=decision.founder_id,
+            decision_id=decision.decision_id,
+            decision_receipt_sha256=sha256(decision_receipt_path.read_bytes()),
+            reconciliation_id=reconciliation.reconciliation_id,
+            reconciliation_receipt_sha256=sha256(
+                reconciliation_receipt_path.read_bytes()
+            ),
+            active_amendment_activation_id=active_amendment.activation_id,
+            active_amendment_receipt_sha256=sha256(
+                active_amendment_receipt_path.read_bytes()
+            ),
+            active_protocol_version=active_amendment.active_protocol_version,
+            confirmed_inclusion_count=len(queue),
+            repository_candidate_count=repository,
+            access_check_required_count=len(net_new) - repository,
+            prior_appraisal_reuse_count=prior,
+            net_new_count=len(net_new),
+            core_synthesis_maximum=active_amendment.core_synthesis_maximum,
+            queue_object=queue_object,
+            decision_ledger_checksum_verified=True,
+            reconciliation_checksum_verified=True,
+            active_amendment_verified=True,
+            count_invariants_verified=True,
+            founder_authorized=True,
+            uncapped_saturation_inventory_active=True,
+            founder_decisions_changed=0,
+            molecular_data_access_authorized=False,
+            outcome_data_access_authorized=False,
+            scientific_conclusions_drawn=False,
+        )
+
+    @staticmethod
+    def _verify_receipt_files(
+        decision: CitationDecisionLedgerReceipt,
+        reconciliation: CitationInclusionReconciliationReceipt,
+        active_amendment: EvidenceCapAmendmentActivationReceipt,
+        *,
+        decision_receipt_path: Path,
+        reconciliation_receipt_path: Path,
+        active_amendment_receipt_path: Path,
+    ) -> None:
+        if (
+            load_citation_decision_ledger_receipt(decision_receipt_path)
+            != decision
+            or load_citation_inclusion_reconciliation_receipt(
+                reconciliation_receipt_path
+            )
+            != reconciliation
+            or load_evidence_cap_amendment_activation_receipt(
+                active_amendment_receipt_path
+            )
+            != active_amendment
+        ):
+            raise EvidenceCapAmendmentError(
+                "later-pass receipt bytes do not match loaded contracts"
+            )
+
+    def _store_object(self, key: str, body: bytes) -> StoredObject:
+        if self._store.exists(key):
+            if self._store.get_bytes(key) != body:
+                raise ImmutableObjectConflictError(
+                    f"immutable object conflict: {key}"
+                )
+        else:
+            self._store.put_bytes(key, body, content_type=JSON_MEDIA_TYPE)
+        stored = self._store.get_bytes(key)
+        if stored != body:
+            raise EvidenceCapAmendmentError(
+                "stored later-pass appraisal queue changed"
+            )
+        return StoredObject(
+            object_key=key,
+            media_type=JSON_MEDIA_TYPE,
+            size_bytes=len(body),
+            sha256=sha256(body),
         )

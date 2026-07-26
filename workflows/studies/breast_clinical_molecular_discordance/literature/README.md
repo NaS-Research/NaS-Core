@@ -71,6 +71,16 @@ inclusions and 92 exclusions. The checksum-bound combined review covers all 2,47
 records exactly once: nine proposed inclusions, 2,470 proposed exclusions, zero
 unclear, and zero founder or AI decisions. These remain advisory until the founder
 supplies the exact pass-2 confirmation statement.
+
+The next boundary has been preflighted without persistence. Simulated exact
+confirmation reproduces the complete pass-2 ledger in memory, and exact-identifier
+reconciliation against the active 30-record inventory plus all 53 locked appraisal
+reports classifies all nine proposed inclusions as net new. A typed later-pass
+queue can bind the eventual founder decision receipt, reconciliation receipt, and
+active protocol-`0.2.5` amendment receipt before creating an access inventory.
+Current metadata would route four records to official repository checks and five
+to separate lawful-access review. No pass-2 decision or access inventory exists
+until founder confirmation.
 Transparent title prioritization version `1.0.1` ranks—but does not decide—all
 4,495 candidates: 80 direct, 400 supporting, and 4,015 context. Full official
 Europe PMC enrichment matched every candidate and returned 4,402 abstracts through
