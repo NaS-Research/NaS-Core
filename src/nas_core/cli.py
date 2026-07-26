@@ -23,6 +23,7 @@ from nas_core.domain.appraisal import (
     write_full_text_appraisal,
     write_full_text_appraisal_progress,
     write_full_text_inventory,
+    write_full_text_read_only_review_receipt,
     write_full_text_retrieval_receipt,
 )
 from nas_core.domain.citation_access import (
@@ -126,6 +127,7 @@ from nas_core.retrieval.literature import (
     LiteratureSearchVerificationService,
 )
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
+from nas_core.retrieval.read_only_review import PmcReadOnlyReviewService
 from nas_core.retrieval.reconciliation import InventoryReconciliationService
 from nas_core.retrieval.review import ScreeningReviewService
 from nas_core.retrieval.screening import ScreeningQueueService
@@ -705,6 +707,24 @@ def build_parser() -> argparse.ArgumentParser:
     citation_appraisal_authorize.add_argument("packet", type=Path)
     citation_appraisal_authorize.add_argument("proposal_dir", type=Path)
     citation_appraisal_authorize.add_argument("output_dir", type=Path)
+    citation_read_only_review = literature_commands.add_parser(
+        "citation-pmc-read-only-review",
+        help="Review a PMC article ephemerally and emit a no-storage receipt",
+    )
+    citation_read_only_review.add_argument("inventory", type=Path)
+    citation_read_only_review.add_argument("screening_id")
+    citation_read_only_review.add_argument("--code-revision", required=True)
+    citation_read_only_review.add_argument("--access-basis", required=True)
+    citation_read_only_review.add_argument("--observed-rights", required=True)
+    citation_read_only_review.add_argument("--rights-url", required=True)
+    citation_read_only_review.add_argument(
+        "--receipt-output", required=True, type=Path
+    )
+    citation_read_only_review.add_argument(
+        "--execute",
+        action="store_true",
+        help="Read the PMC page in memory; never persist article content",
+    )
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
         help="Retrieve and verify one explicitly licensed Europe PMC full text",
@@ -1865,6 +1885,44 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"from batch {appraisal_confirmation.batch_number:04d}"
         )
         print(f"Appraisal directory: {args.output_dir}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-pmc-read-only-review"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        if not args.execute:
+            print(
+                f"PMC read-only review ready: {matches[0].pmcid}, "
+                f"screening {matches[0].screening_id}, code {args.code_revision}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        review_receipt = PmcReadOnlyReviewService().review(
+            matches[0],
+            study_id=inventory.study_id,
+            queue_id=inventory.queue_id,
+            progress_id=inventory.progress_id,
+            code_revision=args.code_revision,
+            access_basis=args.access_basis,
+            observed_rights=args.observed_rights,
+            rights_url=args.rights_url,
+        )
+        write_full_text_read_only_review_receipt(
+            args.receipt_output, review_receipt
+        )
+        print(
+            f"Reviewed {review_receipt.pmcid} ephemerally: "
+            f"{review_receipt.content_size_bytes} bytes hashed, "
+            "zero article bytes stored"
+        )
+        print(f"Wrote verified no-storage receipt: {args.receipt_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-fetch":
