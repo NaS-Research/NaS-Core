@@ -24,6 +24,7 @@ from nas_core.domain.appraisal import (
     load_full_text_read_only_review_receipt,
     load_full_text_retrieval_receipt,
 )
+from nas_core.retrieval.full_text_retrieval import normalize_article_title
 
 
 class AppraisalProgressError(RuntimeError):
@@ -119,7 +120,11 @@ class FullTextAppraisalProgressService:
                 appraisal is not None
                 and (
                     appraisal.study_id != inventory.study_id
-                    or appraisal.title != source_title
+                    or normalize_article_title(appraisal.title)
+                    != normalize_article_title(source_title)
+                    or appraisal.pmid != item.pmid
+                    or (appraisal.doi or "").casefold()
+                    != (item.doi or "").casefold()
                     or appraisal.full_text_source_url != source_url
                     or appraisal.full_text_sha256 != source_sha256
                 )

@@ -1,0 +1,111 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 4f4ee766ff74a049a626bdee612a1bc7a2540e91771f5ec9d254f74dbf4fcf57
+title: 'Breast cancer PAM50 signature: correlation and concordance between RNA-Seq and digital multiplexed
+  gene expression technologies in a triple negative breast cancer series.'
+pmid: '31159741'
+doi: 10.1186/s12864-019-5849-0
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6547580/fullTextXML
+full_text_sha256: 82092cd34ffb3a8e6bc9f99f301853e9dd168eeed87208e8ec59addaf79dfb3b
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: analytical_validation
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: "All 96 analyzed samples came from a prospective multicenter neoadjuvant trial in Spain and\
+    \ Peru and had sufficient RNA for both platforms. The cohort was deliberately restricted to early-stage\
+    \ triple-negative disease, producing 78\u201384% Basal-like calls; this limited class balance makes\
+    \ overall agreement easier to achieve and sharply limits transport to clinically HR-positive/HER2-negative\
+    \ tumors."
+  evidence_locations:
+  - "Methods \u2014 Patients and samples"
+  - "Results \u2014 Sample quality"
+  - "Results \u2014 Intrinsic subtype calling"
+- domain: specimen_and_measurement
+  judgment: low
+  rationale: Both NanoString and RNA-seq measurements used RNA extracted from the same pretreatment FFPE
+    core biopsy, directly controlling patient, specimen, and extraction variation. RNA quality and platform
+    quality-control metrics were reported, and no NanoString technical failures were observed beyond three
+    negligible control/count hints.
+  evidence_locations:
+  - "Methods \u2014 RNA extraction"
+  - "Methods \u2014 NanoString nCounter"
+  - "Methods \u2014 RNA-Seq"
+  - "Results \u2014 Sample quality"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Both platforms used nearest-centroid PAM50 calls. NanoString background and housekeeping
+    normalization are described; RNA-seq used fixed-upper-quartile normalization, log transformation,
+    Parker scripts, and a previously determined ER-balanced FFPE median adjustment, with code and the
+    adjustment supplied. Exact executable environments and all output artifacts are not frozen, and the
+    adjustment set's independence is only briefly described.
+  evidence_locations:
+  - "Methods \u2014 NanoString nCounter"
+  - "Methods \u2014 RNA-Seq"
+  - Additional file 6
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: The paired-platform design is appropriate for analytical agreement, but neither platform
+    is an independent biological truth standard. Subtype concordance therefore demonstrates reproduction
+    of a shared classifier in these samples, not correctness of either call or clinical validity.
+  evidence_locations:
+  - "Methods \u2014 NanoString nCounter"
+  - "Methods \u2014 RNA-Seq"
+  - Discussion
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: "The study reports paired correlations, ICCs, Bland\u2013Altman plots, kappa, gene-level\
+    \ correlations, and complete discordant-case details. However, the headline 96% agreement reclassifies\
+    \ three of seven raw discordances as ambiguous using a 0.10 centroid-distance rule without a prespecified\
+    \ derivation; the unadjusted call agreement is 89 of 96 (92.7%). Precision intervals and a multiplicity\
+    \ plan for the many gene and score comparisons are absent."
+  evidence_locations:
+  - "Methods \u2014 Statistical analysis"
+  - "Results \u2014 Intrinsic subtype calling"
+  - "Results \u2014 Individual gene correlation"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: There is no independent replication cohort or unchanged external transport test. Agreement
+    is measured in one small, class-imbalanced triple-negative series using the same extracted RNA. The
+    study does not validate behavior in luminal-dominant cohorts, across independent extraction laboratories,
+    or for patient-level treatment decisions.
+  evidence_locations:
+  - "Methods \u2014 Patients and samples"
+  - Discussion
+  - Conclusions
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Platform protocols, software versions, normalization, the ambiguous-call rule, discordant
+    cases, QC supplements, and RNA-seq adjustment materials are reported. Reproduction is limited by absence
+    of a frozen complete environment and by sparse reporting of funding, competing interests, and the
+    external median-adjustment derivation in the retrieved article text.
+  evidence_locations:
+  - Methods
+  - "Additional files 1\u20136"
+  - Acknowledgements
+evidence_role: context_only
+key_strengths:
+- Uses paired measurements from the same FFPE-extracted RNA in every patient.
+- "Reports raw subtype discordances, ambiguity margins, centroid correlations, ICCs, and Bland\u2013Altman\
+  \ analyses."
+- Provides platform-specific normalization and RNA-seq code/median-adjustment material.
+- Shows that strong platform agreement is possible under a controlled paired design.
+key_limitations:
+- Only 96 patients and a highly Basal-like-enriched triple-negative cohort.
+- The reported 96% agreement depends on a post hoc ambiguity interpretation; raw agreement is 92.7%.
+- Neither platform is an independent biological or clinical reference standard.
+- No external cohort, independent laboratory, or luminal-population transport validation.
+conflicts_and_funding: "The retrieved article lists no acknowledgements beyond \u201CNone.\u201D A complete\
+  \ funding and competing-interest disclosure was not identifiable in the retrieved XML, so absence of\
+  \ conflicts cannot be inferred."
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T00:55:44Z'
+scientific_conclusions_drawn: false

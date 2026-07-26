@@ -2,9 +2,9 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
 progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
-generated_at: '2026-07-26T00:55:44Z'
+generated_at: '2026-07-26T01:39:53.665135Z'
 provisional_inclusion_count: 29
-full_texts_retrieved: 13
+full_texts_retrieved: 15
 read_only_full_texts_reviewed: 0
 appraisals_completed: 3
 access_restricted_count: 0
@@ -85,7 +85,9 @@ records:
   title: 'Performance of gene expression-based single sample predictors for assessment of clinicopathological
     subgroups and molecular subtypes in cancers: a case comparison study in non-small cell lung cancer.'
   pmcid: PMC7299291
-  status: awaiting_full_text
+  status: ready_for_appraisal
+  retrieval_id: 973ab1315bb8dbc11f5f8cd86d23fa2e6bd432183a4e21b0aa1288f635270296
+  full_text_sha256: b7c5ee0550a0f8597a28786f2298bd97349cb8671cfb4c66b1d4fbdf48c69ec7
 - screening_id: 4f4ee766ff74a049a626bdee612a1bc7a2540e91771f5ec9d254f74dbf4fcf57
   title: 'Breast cancer PAM50 signature: correlation and concordance between RNA-Seq and digital multiplexed
     gene expression technologies in a triple negative breast cancer series.'
@@ -156,7 +158,9 @@ records:
     robust bi-directional classification and feature selection performance between microarray and RNAseq
     data.
   pmcid: PMC11265146
-  status: awaiting_full_text
+  status: ready_for_appraisal
+  retrieval_id: ae9713e8f2d7e290fd3e6448ed5206f9b8117f836bab13a75b8dd2f44e6ccfdd
+  full_text_sha256: 542412c6ba9b8253f799c9b8e1cecdd959536721cc8e9f26e060e0e408cdd425
 - screening_id: 2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a
   title: Effect of cross-platform gene-expression, computational methods on breast cancer subtyping in
     PALOMA-2 and PALLET studies.

@@ -17,8 +17,10 @@ from nas_core.domain.appraisal import (
     FullTextLicense,
     load_full_text_access_decision,
     load_full_text_appraisal,
+    load_full_text_appraisal_batch_confirmation,
     load_full_text_inventory,
     load_full_text_read_only_review_receipt,
+    write_full_text_appraisal,
     write_full_text_appraisal_progress,
     write_full_text_inventory,
     write_full_text_retrieval_receipt,
@@ -92,6 +94,7 @@ from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
+from nas_core.retrieval.appraisal_confirmation import AppraisalConfirmationService
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.citation_access import (
     CitationAccessCheckQueueService,
@@ -694,6 +697,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="Directory containing founder-authorized duplicate decisions",
     )
     citation_appraisal_progress.add_argument("--output-path", required=True, type=Path)
+    citation_appraisal_authorize = literature_commands.add_parser(
+        "citation-appraisal-authorize",
+        help="Derive locked appraisals from one exact founder-confirmed batch",
+    )
+    citation_appraisal_authorize.add_argument("confirmation", type=Path)
+    citation_appraisal_authorize.add_argument("packet", type=Path)
+    citation_appraisal_authorize.add_argument("proposal_dir", type=Path)
+    citation_appraisal_authorize.add_argument("output_dir", type=Path)
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
         help="Retrieve and verify one explicitly licensed Europe PMC full text",
@@ -1825,6 +1836,35 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{citation_appraisal_progress.appraisals_completed} completed"
         )
         print(f"Progress path: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-appraisal-authorize"
+    ):
+        appraisal_confirmation = load_full_text_appraisal_batch_confirmation(
+            args.confirmation
+        )
+        proposal_paths = sorted(args.proposal_dir.glob("*.yaml"))
+        appraisals = AppraisalConfirmationService().authorize(
+            confirmation=appraisal_confirmation,
+            packet_path=args.packet,
+            proposal_paths=proposal_paths,
+        )
+        by_screening_id = {
+            item.screening_id: item for item in appraisal_confirmation.proposals
+        }
+        for appraisal in appraisals:
+            reference = by_screening_id[appraisal.screening_id]
+            write_full_text_appraisal(
+                args.output_dir / reference.filename,
+                appraisal,
+            )
+        print(
+            f"Authorized and wrote {len(appraisals)} locked appraisals "
+            f"from batch {appraisal_confirmation.batch_number:04d}"
+        )
+        print(f"Appraisal directory: {args.output_dir}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-fetch":

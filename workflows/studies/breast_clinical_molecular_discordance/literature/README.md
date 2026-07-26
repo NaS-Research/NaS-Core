@@ -102,8 +102,11 @@ exact identity matching. Those ten stored no article content.
 Access-check queue `de76e254…46ad93` combines the ten repository failures with six
 records having no PMCID. It records zero final access decisions: all 16 remain
 pending lawful read-only, publisher-license, identity-correction, or restriction
-review. Reconciled `citation_appraisal_progress_v1.0.0.yaml` records three completed
-appraisals, ten ready for appraisal, and 16 awaiting full text.
+review in that immutable initial queue. A bounded dash-typography repair later
+resolved `PMC7299291` and `PMC11265146` under exact PMCID, PMID, and DOI agreement;
+both CC BY 4.0 articles were retrieved and verified. Current reconciled
+`citation_appraisal_progress_v1.0.0.yaml` records three completed appraisals,
+12 ready for appraisal, and 14 awaiting full text.
 
 Citation appraisal batch 0001 covers three direct studies: `PMC11217366`,
 `PMC6547580`, and `PMC3487945`. The founder supplied the exact confirmation bound
@@ -118,7 +121,7 @@ Citation appraisal batch 0002 now proposes judgments for four single-sample
 method papers under packet SHA-256 `f45518a3…f92e2`. `PMC6219008` and
 `PMC8796360` are proposed as `supporting`; `PMC8479681` and `PMC10848444` are
 proposed as `context_only`. The proposals remain non-authoritative and the live
-progress ledger remains at three completed, ten ready, and 16 awaiting access
+progress ledger remains at three completed, 12 ready, and 14 awaiting access
 until the founder confirms the exact packet.
 
 Citation appraisal batch 0003 now proposes judgments for the six remaining
@@ -137,6 +140,8 @@ missing or substituted proposal sets, verifies screening and study identities,
 and then derives founder-authorized appraisals in memory. Authorization-readiness
 tests cover the real batch-0002 and batch-0003 bytes without recording a founder
 decision. Only a separate exact founder confirmation artifact can cross this gate.
+The three batch-0001 locked appraisals are materialized in
+`citation-appraisals/`; the proposal files remain unchanged and non-authoritative.
 
 Required artifacts:
 

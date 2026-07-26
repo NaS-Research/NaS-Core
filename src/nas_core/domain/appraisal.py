@@ -710,6 +710,18 @@ def write_full_text_inventory(path: Path, inventory: FullTextInventory) -> None:
         destination.write(payload)
 
 
+def write_full_text_appraisal(path: Path, appraisal: FullTextAppraisal) -> None:
+    """Write one founder-authorized appraisal without overwriting prior evidence."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        appraisal.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
 def write_full_text_appraisal_progress(
     path: Path, progress: FullTextAppraisalProgress
 ) -> None:

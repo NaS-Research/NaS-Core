@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+retrieval_id: ae9713e8f2d7e290fd3e6448ed5206f9b8117f836bab13a75b8dd2f44e6ccfdd
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 6c3508f650680780e97d7bfb7d31a495365975d5227179be33bb493cb9f385df
+pmcid: PMC11265146
+title: Feature-specific quantile normalization and feature-specific mean-variance normalization deliver
+  robust bi-directional classification and feature selection performance between microarray and RNAseq
+  data.
+source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11265146/fullTextXML
+retrieved_at: '2026-07-26T01:35:04.045222Z'
+code_revision: 6f247d9ac9e3b6a817a179a088360676631e9b75
+license:
+  name: Creative Commons Attribution 4.0 International
+  spdx_identifier: CC-BY-4.0
+  url: https://creativecommons.org/licenses/by/4.0/
+  copyright_statement: "\xA9 The Author(s) 2024"
+manifest_object_key: full-text/NAS-BRCA-002/6c3508f650680780e97d7bfb7d31a495365975d5227179be33bb493cb9f385df/ae9713e8f2d7e290fd3e6448ed5206f9b8117f836bab13a75b8dd2f44e6ccfdd/manifest.json
+manifest_sha256: 50afaadd51c575b31b1f46886d24d4aa31193a240068a26d464fa51439882d36
+full_text_object_key: full-text/NAS-BRCA-002/6c3508f650680780e97d7bfb7d31a495365975d5227179be33bb493cb9f385df/ae9713e8f2d7e290fd3e6448ed5206f9b8117f836bab13a75b8dd2f44e6ccfdd/article.xml
+full_text_sha256: 542412c6ba9b8253f799c9b8e1cecdd959536721cc8e9f26e060e0e408cdd425
+full_text_size_bytes: 134490
+verified_at: '2026-07-26T01:35:04.054510Z'
+manifest_checksum_verified: true
+full_text_checksum_verified: true
+article_identity_verified: true
+license_verified: true
+scientific_conclusions_drawn: false

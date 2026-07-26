@@ -14,6 +14,7 @@ from nas_core.domain.appraisal import (
     FullTextAppraisalProposal,
     appraisal_batch_confirmation_statement,
     load_full_text_appraisal_batch_confirmation,
+    write_full_text_appraisal,
 )
 from nas_core.retrieval.appraisal_confirmation import (
     AppraisalConfirmationError,
@@ -152,6 +153,18 @@ def test_locked_appraisal_requires_founder_authorization() -> None:
 
     with pytest.raises(ValidationError, match="founder authorization"):
         FullTextAppraisal.model_validate(payload)
+
+
+def test_locked_appraisal_writer_is_exclusive(tmp_path: Path) -> None:
+    appraisal = FullTextAppraisal.model_validate(_payload())
+    path = tmp_path / "PMC123-v1.0.0.yaml"
+
+    write_full_text_appraisal(path, appraisal)
+
+    reloaded = FullTextAppraisal.model_validate(yaml.safe_load(path.read_text()))
+    assert reloaded == appraisal
+    with pytest.raises(FileExistsError):
+        write_full_text_appraisal(path, appraisal)
 
 
 def test_appraisal_proposal_is_explicitly_non_authoritative() -> None:

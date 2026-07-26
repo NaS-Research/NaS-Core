@@ -25,8 +25,10 @@ with the active 30-record inventory, three previously appraised studies, and 29
 net-new records. Founder-approved amendment `0.2.5` is active. Official Europe PMC
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
 repository candidates. The founder confirmed checksum-bound appraisal batch 0001.
-Citation progress now has three completed `context_only` appraisals, ten records
-ready for appraisal, and 16 awaiting governed access resolution. Batch 0002
+Bounded Unicode-dash identity normalization subsequently resolved two exact-ID,
+CC BY 4.0 records. Citation progress now has three completed `context_only`
+appraisals, 12 records ready for appraisal, and 14 awaiting governed access
+resolution. Batch 0002
 contains four validated single-sample/classifier proposals bound to packet
 SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
 ledger. Batch 0003 contains the remaining six verified full texts and is frozen
@@ -201,9 +203,11 @@ Current gate state:
   three lacked an approved durable-storage license, and two failed exact identity
   matching. Failed records stored no article content.
 - Access-check queue `de76e254…46ad93` combines those ten fail-closed repository
-  results with six records lacking repository identifiers. All 16 remain pending
-  access resolution, not scientific exclusion. Citation progress records 13 ready
-  for appraisal, 16 awaiting full text, and zero new appraisals completed.
+  results with six records lacking repository identifiers. Two title-only dash
+  mismatches were later resolved under exact PMCID, PMID, and DOI agreement and
+  retrieved as CC BY 4.0. Fourteen remain pending access resolution, not scientific
+  exclusion. Citation progress records 12 ready for appraisal, 14 awaiting full
+  text, and three founder-authorized appraisals completed.
 - Citation appraisal batch 0001 covers `PMC11217366`, `PMC6547580`, and
   `PMC3487945`. Exact founder confirmation is bound to the packet and proposal
   checksums. The authorization service derives three locked `context_only`
@@ -283,6 +287,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Two citation identity failures repaired and retrieved
+
+The official Europe PMC XML for `PMC7299291` and `PMC11265146` matched the
+inventory PMCID, PMID, and DOI exactly; only Unicode dash typography differed in
+the titles. A bounded normalizer now equates six dash code points while preserving
+all lexical content and exact primary-identifier requirements.
+
+Both articles carry CC BY 4.0. The pushed retrieval engine stored and independently
+verified 120,129 and 134,490 bytes, respectively, in governed external object
+storage. Aggregate receipts are in Git. Batch 0001's three derived locked
+appraisals are now materialized by an exclusive checksum-verifying authorization
+command. Reconciled progress is 15 durable full texts, three completed appraisals,
+12 ready for appraisal, and 14 awaiting access.
 
 ### 2026-07-25 — Appraisal authorization generalized across batches
 

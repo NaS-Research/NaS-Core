@@ -200,9 +200,12 @@ full-text endpoint. Thirteen exact-identity articles carried approved CC BY lice
 and were immutably retrieved. Five returned no full text from that endpoint, three
 did not carry an approved durable-storage license, and two failed exact identity
 matching; none of those ten stored article content. Together with six records
-lacking PMC identifiers, 16 records remain in a governed access-check queue.
+lacking PMC identifiers, 16 records entered a governed access-check queue. A later
+bounded identity repair showed that the two apparent mismatches had exact PMCID,
+PMID, and DOI agreement and differed only by Unicode dash typography. Both were
+CC BY 4.0 and were immutably retrieved, leaving 14 access records unresolved.
 The founder authorized the first checksum-bound appraisal batch: three studies are
-complete as context-only and ten verified full texts remain ready for appraisal.
+complete as context-only and 12 verified full texts remain ready for appraisal.
 These counts are workflow results, not scientific findings.
 Four of those ten now have a checksum-bound batch-0002 appraisal proposal under
 founder review. Their proposed judgments are not incorporated into the manuscript
@@ -834,8 +837,8 @@ Status: `working`
 
 - Primary and citation-pass-1 title-and-abstract screening are complete. Thirty-one
   appraisals are complete across the direct and citation sets. Pass 1 has 29 net-new
-  records in an authorized governed queue: three are appraised, ten are ready for
-  appraisal, and 16 await access resolution;
+  records in an authorized governed queue: three are appraised, 12 are ready for
+  appraisal, and 14 await access resolution;
   sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -943,8 +946,8 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 10 ready, 16 pending access |
-| Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisal-proposals/` | context only |
+| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 12 ready, 14 pending access |
+| Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
 | Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
@@ -984,6 +987,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.20.0-working | 2026-07-25 | Repaired two exact-ID Unicode-dash title mismatches, retrieved both CC BY 4.0 full texts, and materialized batch-0001 locked appraisals; citation state is 3 appraised, 12 ready, and 14 pending access. |
 | 0.19.0-working | 2026-07-25 | Recorded non-authoritative batch 0002 and batch 0003 appraisal proposals; evidence synthesis and completed-appraisal counts remain unchanged pending exact founder authorization. |
 | 0.18.0-working | 2026-07-25 | Added founder-authorized citation appraisal batch 0001 and the bounded cross-study platform, population, implementation, and ambiguity synthesis; 31 total appraisals are complete. |
 | 0.17.0-working | 2026-07-25 | Added the governed IEEE publisher-PDF receipt and CDLS appraisal; all 28 lawfully accessible records are appraised, with two access restrictions retained. |

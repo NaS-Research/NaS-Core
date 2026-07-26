@@ -424,6 +424,42 @@ def test_progress_rejects_read_only_appraisal_checksum_mismatch(
         )
 
 
+def test_progress_allows_bounded_title_typography_with_exact_ids(
+    tmp_path: Path,
+) -> None:
+    inventory = _inventory()
+    receipt = _write_yaml(tmp_path / "receipt.yaml", _receipt_payload())
+    appraisal_payload = _appraisal_payload()
+    appraisal_payload["title"] = "ONE."
+    appraisal = _write_yaml(tmp_path / "appraisal.yaml", appraisal_payload)
+
+    progress = FullTextAppraisalProgressService().build(
+        inventory,
+        retrieval_receipt_paths=[receipt],
+        appraisal_paths=[appraisal],
+    )
+
+    assert progress.appraisals_completed == 1
+
+
+def test_progress_rejects_appraisal_doi_substitution(tmp_path: Path) -> None:
+    inventory = _inventory()
+    receipt = _write_yaml(
+        tmp_path / "receipt.yaml",
+        _receipt_payload(),
+    )
+    appraisal_payload = _appraisal_payload()
+    appraisal_payload["doi"] = "10.1/substituted"
+    appraisal = _write_yaml(tmp_path / "appraisal.yaml", appraisal_payload)
+
+    with pytest.raises(AppraisalProgressError, match="identity does not match"):
+        FullTextAppraisalProgressService().build(
+            inventory,
+            retrieval_receipt_paths=[receipt],
+            appraisal_paths=[appraisal],
+        )
+
+
 def test_progress_resolves_preprint_without_double_counting_evidence(
     tmp_path: Path,
 ) -> None:

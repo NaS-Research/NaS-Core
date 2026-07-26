@@ -195,8 +195,8 @@ def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
             ).read_text(encoding="utf-8")
         )
     )
-    assert progress.full_texts_retrieved == 13
+    assert progress.full_texts_retrieved == 15
     assert progress.appraisals_completed == 3
     assert progress.context_only_count == 3
-    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 10
-    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 16
+    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 12
+    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 14
