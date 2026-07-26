@@ -1,0 +1,38 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+relationship: preprint_of
+earlier:
+  screening_id: 5d5446e955e8d287dcb192229ab19a244f70cd2397cdf95a90f4870fba4a5d11
+  title: Multiplexed RNA-FISH-guided Laser Capture Microdissection RNA Sequencing Improves Breast Cancer
+    Molecular Subtyping, Prognostic Classification, and Predicts Response to Antibody Drug Conjugates.
+  publication_stage: preprint
+  pmcid: PMC10723508
+  pmid: '38105959'
+  doi: 10.1101/2023.12.05.23299341
+canonical:
+  screening_id: 9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529
+  title: The spatially informed mFISHseq assay resolves biomarker discordance and predicts treatment response
+    in breast cancer.
+  publication_stage: version_of_record
+  pmcid: PMC11696812
+  pmid: '39747865'
+  doi: 10.1038/s41467-024-55583-2
+matching_evidence:
+- Both reports describe the same mFISHseq platform developed by the same research group.
+- Both begin with the same 1,082 archived breast-specimen development collection.
+- Both use the same spatial RNA-FISH, laser-capture microdissection, and RNA-sequencing workflow.
+- Both report the 293-gene subtype model, multimetric consensus framework, and T-DM1 analysis.
+rationale: The later Nature Communications article is the peer-reviewed version of record for the earlier
+  bioRxiv report. Peer review, expanded reporting, and external analyses do not create an independent
+  study cohort. Synthesis must cite the version of record canonically, retain the preprint for provenance,
+  and count the two reports as one study.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex compared exact article identities, cohort descriptions, methods, and
+  analyses and proposed this same-study link. It is non-authoritative until the founder confirms citation
+  appraisal batch 0008.
+founder_authorized: true
+decided_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

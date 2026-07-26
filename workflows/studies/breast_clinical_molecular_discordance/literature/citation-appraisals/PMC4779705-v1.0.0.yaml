@@ -1,0 +1,94 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 70d4cec79f5f314861c3e4f180268ce7fe9507eee0749cc0b06139b3680357c5
+title: Performance of Three-Biomarker Immunohistochemistry for Intrinsic Breast Cancer Subtyping in the
+  AMBER Consortium.
+pmid: '26711328'
+doi: 10.1158/1055-9965.epi-15-0874
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:4779705&metadataPrefix=pmc
+full_text_sha256: c4799ecf859a94dc7230ccc37eec5759d85cd8da0dd7ca058272def5bd962d9f
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article subtree verified and
+  zero article bytes retained. No approved license authorizes a durable commercial corpus.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: The study selected 1,920 cases with available archival tissue from three epidemiologic cohorts,
+    centered on African American women but also including non-African American comparison cases. Tissue
+    availability, cohort-specific sampling, and the 447-case RNA-profiled subset may affect representativeness.
+  evidence_locations:
+  - "Methods \u2014 Study population and tissue microarray construction"
+  - "Results \u2014 RNA-based subset"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Central tissue-microarray staining, digital quantification, pathologist review, tumor-cellularity
+    rules, and core-collapsing comparisons strengthen measurement. Core size, cellularity, intratumoral
+    heterogeneity, archival handling, and absent Ki67 still influence the surrogate classifications.
+  evidence_locations:
+  - "Methods \u2014 Immunohistochemistry and RNA-based assays"
+  - "Methods \u2014 Core-to-case collapsing"
+- domain: classifier_implementation
+  judgment: high
+  rationale: The three-marker IHC mappings depend on selected positivity thresholds and alternative grade
+    or PR rules. They are clinical surrogates rather than a frozen PAM50 implementation, and no patient-level
+    uncertainty or abstention procedure is evaluated.
+  evidence_locations:
+  - "Methods \u2014 Agreement between IHC-based and RNA-based subtyping"
+  - "Results \u2014 RNA-based PAM50 agreement"
+- domain: reference_comparator
+  judgment: high
+  rationale: RNA-based PAM50 is used as the comparison target for intrinsic subtype, while medical-record
+    biomarkers assess the digital IHC measurements. Neither source establishes biological truth for discordant
+    tumors, and PAM50 normal-like cases were removed from the primary comparison.
+  evidence_locations:
+  - "Methods \u2014 IHC agreement"
+  - "Methods \u2014 RNA-based agreement"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Agreement, sensitivity, specificity, accuracy, thresholds, and alternative collapsing rules
+    are reported transparently. Several threshold and surrogate definitions were explored, the RNA comparison
+    is a selected subset, and no external threshold-validation or multiplicity framework is described.
+  evidence_locations:
+  - Statistical analysis
+  - Results
+- domain: validation_and_transportability
+  judgment: high
+  rationale: Multiple contributing cohorts improve diversity, but the same consortium supplies method
+    development and evaluation. No unchanged external cohort validates the IHC mapping, and the work does
+    not test patient-independent PAM50 reliability, outcome improvement, or treatment utility.
+  evidence_locations:
+  - "Results \u2014 PAM50 intrinsic subtyping"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohorts, assays, cellularity exclusions, digital methods, mappings, and limitations are described
+    with supplements. Patient-level data, a frozen executable classifier, and an independently reproducible
+    end-to-end artifact are not supplied.
+  evidence_locations:
+  - Materials and Methods
+  - Supplementary Material
+evidence_role: context_only
+key_strengths:
+- Includes a large, racially diverse epidemiologic consortium with centralized tissue review.
+- Quantifies the effect of cellularity, core handling, and biomarker thresholds.
+- Directly compares IHC surrogate labels with RNA-based PAM50 in 447 tumors.
+- Shows that basal-like surrogacy transfers better than Luminal or HER2-enriched surrogacy.
+key_limitations:
+- The RNA-profiled comparison subset is selected from the larger tissue cohort.
+- PAM50 is a comparator, not an independently observed biological truth.
+- Multiple surrogate definitions are explored without external threshold validation.
+- No patient-level uncertainty, abstention, outcome-benefit, or treatment-decision rule is tested.
+conflicts_and_funding: The authors reported no conflicts of interest. Support included National Cancer
+  Institute grants, the University Cancer Research Fund of North Carolina, Susan G. Komen, and participating
+  cohort and institutional resources.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound canonical article representation ephemerally
+  and proposed section-located judgments. This is not a founder decision, locked appraisal, scientific
+  conclusion, novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

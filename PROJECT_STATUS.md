@@ -24,66 +24,40 @@ zero unclear and zero AI decisions. Exact-identifier reconciliation found no ove
 with the active 30-record inventory, three previously appraised studies, and 29
 net-new records. Founder-approved amendment `0.2.5` is active. Official Europe PMC
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
-repository candidates. The founder confirmed checksum-bound appraisal batch 0001.
-Bounded title normalization subsequently resolved two exact-ID, CC BY 4.0 records.
-Eight additional PMC-hosted articles, one version-specific medRxiv preprint, and
-one institutional author-copy PDF now have verified ephemeral-review receipts
-with zero article bytes stored. Citation progress now has three completed
-`context_only` appraisals, 22 records ready for appraisal, four explicit
-publisher-access restrictions, and zero records awaiting full text. The final
-access decision concerns the CC BY 4.0 Lancet Oncology record PMID 20181526:
-publisher, Unpaywall, Europe PMC, Crossref, and credential-free Elsevier API
-checks confirmed its identity and license but exposed no reproducible,
-checksum-verifiable article body. No challenge was bypassed, no third-party copy
-was retained, and no appraisal was inferred from its abstract. Batch 0002
-contains four validated single-sample/classifier proposals bound to packet
-SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
-ledger. Batch 0003 contains the remaining six verified full texts and is frozen
-for founder review; it likewise remains outside the evidence ledger until exact
-confirmation. Batch 0004 contains the CC BY-NC medRxiv version-2 analytical
-bridging preprint under packet SHA-256 `b03ea215…d7eda`; it is proposed as
-`supporting` and remains non-authoritative pending exact founder confirmation.
-Batch 0005 contains the checksum-bound UNC institutional-copy appraisal under
-packet SHA-256 `990c74c2…b8117`; it is proposed as `context_only` and remains
-non-authoritative pending exact founder confirmation.
-Batch 0006 contains two checksum-bound direct IHC/PAM50 comparison proposals,
-both proposed as `context_only` and non-authoritative pending exact founder
-confirmation under packet SHA-256 `a1bbada9…c002`. A live re-fetch showed that
-PMC HTML can retain the same byte count while changing its SHA-256, so delayed
-appraisals will not rely on those dynamic pages. A fail-closed official
-publisher/repository PDF route now verifies allowlisted DOI-to-URL bindings, PDF
-completeness, article identity, exact bytes, bounded derivative summaries, and
-verbatim-leakage limits while retaining zero article bytes. The Korean and South
-African comparison PDFs passed the delayed exact-byte gate. The three-gene
-repository PDF changed bytes and was rejected; it joins the SCAN and Swedish
-concordance papers in the queue for separate stable-source resolution. Canonical
-source routes are now implemented for exact PMC OAI article XML and allowlisted
-publisher HTML. They exclude dynamic delivery-envelope fields, verify article
-identity, hash the canonical article representation, enforce bounded derivative
-summaries and verbatim-leakage limits, and retain zero article bytes. All three
-remaining papers passed those canonical gates and are frozen as batch-0007
-`context_only` proposals under packet SHA-256 `43410b02…21d5`, pending exact
-founder confirmation. There are no remaining unresolved lawful-viewing routes in
-this citation subset.
+repository candidates. Bounded title normalization subsequently resolved two
+exact-ID, CC BY 4.0 records. Eight additional PMC-hosted articles, one
+version-specific medRxiv preprint, and one institutional author-copy PDF have
+verified ephemeral-review receipts with zero article bytes stored. The founder
+has confirmed all eight checksum-bound citation appraisal batches. Citation
+progress now records 25 completed appraisals—seven `supporting` and 18
+`context_only`—four explicit publisher-access restrictions, zero records ready
+for appraisal, and zero records awaiting full text.
 
-The seven pending appraisal packets are indexed in
-`FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`: 22 proposals total,
-including seven proposed `supporting` and 15 proposed `context_only` appraisals.
-Each batch requires its own exact founder confirmation before materialization.
-Batch 0008 completes proposal-stage appraisal of the five remaining verified
-citation-pass full texts under packet SHA-256 `30b59efe…4454f`. Its three
-canonical PMC OAI sources passed exact re-fetch, identity, checksum, narrative,
-and verbatim-leakage gates with zero article bytes retained; its two durable CC BY
-sources passed external object-store checksum verification. All five are proposed
-as `context_only`. A separately checksummed version-link proposal binds the
-peer-reviewed `PMC11696812` report to the already appraised `PMC10723508`
-preprint. Confirmation will materialize the link with the appraisals, after which
-mechanical reconciliation must preserve both reports but count the pair once.
-The typed authorization and reconciliation engine is implemented: it verifies
-the packet and link checksums, requires the canonical report to be appraised in
-the confirmed batch, binds exact titles/PMIDs/DOIs, rejects overlapping links,
-and derives a unique-study family receipt. No decision or receipt has been
-materialized because batch 0008 remains unconfirmed.
+The final access decision concerns the CC BY 4.0 Lancet Oncology record PMID
+20181526. Publisher, Unpaywall, Europe PMC, Crossref, and credential-free Elsevier
+API checks confirmed its identity and license but exposed no reproducible,
+checksum-verifiable article body. No challenge was bypassed, no third-party copy
+was retained, and no appraisal was inferred from its abstract. A live re-fetch
+also showed that PMC HTML can retain the same byte count while changing its
+SHA-256. Delayed appraisals therefore use fail-closed publisher-PDF, PMC OAI, or
+allowlisted publisher-HTML routes that verify article identity and exact or
+canonical bytes, bound derivative narrative and verbatim leakage, and retain no
+article bytes.
+
+The historical review index
+`FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md` records all seven
+batch-specific confirmations and links to their append-only confirmation
+artifacts. Exact authorization materialized 22 derived appraisals in
+`literature/citation-appraisals/`; the immutable proposal files remain unchanged
+as provenance. A separately checksummed, founder-authorized version link binds
+the peer-reviewed `PMC11696812` report to the already appraised `PMC10723508`
+preprint. Mechanical reconciliation preserves 53 appraisal reports while
+counting 52 unique studies.
+
+Delayed canonical appraisals carry explicit appraisal-source receipt IDs and
+checksums in addition to their original access receipts. This preserves the
+lawful-access decision while proving which stable, reverified representation
+supports each appraisal.
 
 Metadata feasibility audit `1.0.0` is complete under the existing no-patient-row
 Phase 0 boundary. It verified 1,231 open TCGA-BRCA STAR-count files, the current
@@ -306,48 +280,55 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain separate exact founder decisions for citation appraisal batches 0002
-   through 0008; materialize only the batches explicitly confirmed.
-2. When batch 0008 is exactly confirmed, materialize its mFISHseq version link
-   and execute the unique-study reconciliation receipt.
-3. Obtain exact founder authorization for field-isolated metadata audit `1.0.0`;
+1. Obtain exact founder authorization for field-isolated metadata audit `1.0.0`;
    only then implement and execute its transient projection gates.
-4. After all citation-pass-1 appraisals are founder-reviewed, execute sequential
+2. Execute sequential
    citation passes until two consecutive fully screened passes add zero eligible
    evidence.
-5. Update the living manuscript and its evidence-to-text ledger after every material
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-6. Resolve and approve the exact centroid and external-reference artifacts,
+4. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-7. Define an independently calibrated technical-error model and lock the margin
+5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-8. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-9. Complete the founder scientific/product, molecular/pathology, and statistical
+7. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-10. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-11. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-12. Implement persisted evidence claims, citations, provenance, contradictory
+10. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-13. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-14. Expand the screening model gateway into general evidence reasoning with
+12. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-15. Build evaluation suites for retrieval, citation validity, numerical
+13. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-16. Generate an immutable research release containing the protocol, dataset
+14. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-17. Generate a reviewable white-paper draft whose substantive claims trace to
+15. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-18. Build the internal workbench for projects, protocols, datasets, runs,
+16. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-19. Complete repeated internal oncology pilots before selecting the first
+17. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-26 — Citation appraisal batches 0002–0008 authorized
+
+Recorded seven append-only founder confirmations, independently reverified every
+packet and proposal checksum, and materialized 22 locked citation appraisals.
+Citation pass 1 now has 25 completed appraisals—seven supporting and 18
+context-only—plus four explicit access restrictions and no review backlog.
+Appraisal-source receipts now preserve the exact stable representation used for
+eight delayed appraisals without replacing the original lawful-access receipt.
+The founder-authorized mFISHseq publication-version link and reconciliation
+receipt preserve 53 appraisal reports while counting 52 unique studies.
 
 ### 2026-07-25 — Source-level metadata feasibility audit completed
 

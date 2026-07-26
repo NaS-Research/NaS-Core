@@ -367,6 +367,77 @@ def test_progress_allows_restricted_storage_and_read_only_appraisal(
     assert progress.records[1].read_only_review_id == "2" * 64
 
 
+def test_progress_binds_delayed_appraisal_to_separate_verified_source(
+    tmp_path: Path,
+) -> None:
+    access_receipt = _write_yaml(
+        tmp_path / "read-only.yaml", _read_only_receipt_payload()
+    )
+    appraisal_source_payload = _read_only_receipt_payload()
+    appraisal_source_payload.update(
+        {
+            "review_id": "5" * 64,
+            "source_url": "https://example.org/two-canonical",
+            "content_sha256": "4" * 64,
+            "content_size_bytes": 456,
+        }
+    )
+    appraisal_source = _write_yaml(
+        tmp_path / "appraisal-source.yaml", appraisal_source_payload
+    )
+    appraisal_payload = _appraisal_payload()
+    appraisal_payload.update(
+        {
+            "screening_id": "d" * 64,
+            "title": "Two",
+            "full_text_source_url": "https://example.org/two-canonical",
+            "full_text_sha256": "4" * 64,
+            "access_basis": "Verified delayed canonical source.",
+        }
+    )
+    appraisal = _write_yaml(tmp_path / "appraisal.yaml", appraisal_payload)
+
+    progress = FullTextAppraisalProgressService().build(
+        _inventory(),
+        retrieval_receipt_paths=[],
+        read_only_review_receipt_paths=[access_receipt],
+        appraisal_source_receipt_paths=[appraisal_source],
+        appraisal_paths=[appraisal],
+    )
+
+    record = progress.records[1]
+    assert record.status == "completed"
+    assert record.read_only_review_id == "2" * 64
+    assert record.full_text_sha256 == "3" * 64
+    assert record.appraisal_source_review_id == "5" * 64
+    assert record.appraisal_source_sha256 == "4" * 64
+
+
+def test_progress_rejects_appraisal_source_without_completed_appraisal(
+    tmp_path: Path,
+) -> None:
+    access_receipt = _write_yaml(
+        tmp_path / "read-only.yaml", _read_only_receipt_payload()
+    )
+    appraisal_source_payload = _read_only_receipt_payload()
+    appraisal_source_payload["review_id"] = "5" * 64
+    appraisal_source = _write_yaml(
+        tmp_path / "appraisal-source.yaml", appraisal_source_payload
+    )
+
+    with pytest.raises(
+        AppraisalProgressError,
+        match="appraisal-source receipt requires a completed appraisal",
+    ):
+        FullTextAppraisalProgressService().build(
+            _inventory(),
+            retrieval_receipt_paths=[],
+            read_only_review_receipt_paths=[access_receipt],
+            appraisal_source_receipt_paths=[appraisal_source],
+            appraisal_paths=[],
+        )
+
+
 def test_progress_rejects_durable_and_read_only_receipt_conflict(
     tmp_path: Path,
 ) -> None:

@@ -1,0 +1,107 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 42f7579197d57716920501366e856599e0e282fdb24e17eb09e7865adf872aaf
+title: Single sample scoring of molecular phenotypes
+pmid: '30400809'
+doi: 10.1186/s12859-018-2435-4
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC6219008/fullTextXML
+full_text_sha256: a298da0795163d928c9a515ce96e7cd065e3067fc98382294a1a4fde4536d80e
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: methods_normalization
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Evaluation used 500 paired TCGA breast tumors, 1,091 TCGA tumors, 64 breast cancer cell lines,
+    32 cell lines shared across two studies, and simulation experiments. These are useful heterogeneous
+    technical settings, but the biological examples were selected around known epithelial/mesenchymal
+    signatures and do not represent a prospectively defined clinical population.
+  evidence_locations:
+  - "Methods \u2014 Data"
+  - "Methods \u2014 Stability"
+  - "Results \u2014 Application of singscore"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: The study compares paired TCGA RNA-seq and microarray measurements and independently generated
+    cell-line datasets, but relies on processed RSEM, RMA, TPM, and recalculated RPKM values. The authors
+    explicitly note that within-sample GC, gene-length, low-count, and other technical biases can alter
+    ranks; no independent repeatability experiment estimates those errors.
+  evidence_locations:
+  - "Methods \u2014 Data processing"
+  - "Methods \u2014 Stability"
+  - Discussion
+- domain: classifier_implementation
+  judgment: low
+  rationale: Directed and undirected scoring equations, theoretical normalization limits, missing-signature-gene
+    handling, permutation support, dispersion diagnostics, software versions, and input expectations are
+    explicitly described. The implementation is available through versioned R/Bioconductor and Python
+    packages and operates on each sample without a comparison cohort.
+  evidence_locations:
+  - "Methods \u2014 The singscore method"
+  - "Methods \u2014 Implementation of singscore"
+  - Availability of data and materials
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Simulations provide known differential gene sets and paired-platform samples provide an appropriate
+    stability comparator. Biological applications use published signatures and subtype annotations rather
+    than an independent phenotype truth standard, so concordant scores do not establish biological or
+    clinical correctness.
+  evidence_locations:
+  - "Methods \u2014 Simulations for comparing methods"
+  - "Results \u2014 Singscore has high power and gene-set recall ability"
+  - "Results \u2014 Obtaining landscapes of molecular phenotypes"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Stability analyses varied sample and gene counts with 20 repetitions; power, type-I-error,
+    and recall simulations used 100 repetitions; and comparisons included correlation, concordance, F1,
+    and computation time. The extensive method/signature comparisons lack study-wide multiplicity control
+    and mostly present graphical summaries without confidence intervals or a locked clinical threshold.
+  evidence_locations:
+  - "Methods \u2014 Stability"
+  - "Methods \u2014 Power analysis and type 1 error"
+  - "Results \u2014 Technical considerations for singscore"
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: The same 500 tumors were compared across RNA-seq and microarray, and scores were compared
+    across independently cultured cell-line datasets. This supports platform and dataset stability of
+    the scoring principle, but it does not test a prespecified patient classifier, calibrated abstention
+    threshold, external clinical endpoint, or unchanged prospective laboratory workflow.
+  evidence_locations:
+  - "Results \u2014 Singscore results are highly stable compared to other scoring approaches"
+  - "Results \u2014 Comparing consistency of scores from independent data sets"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: low
+  rationale: Equations, public accession identifiers, processing steps, software versions, simulation
+    settings, package source, and diagnostic visualizations are reported. Public data and implementations
+    in R and Python materially support computational reproduction.
+  evidence_locations:
+  - Methods
+  - "Table 1 \u2014 List of data sets"
+  - Availability of data and materials
+evidence_role: supporting
+key_strengths:
+- Implements a genuinely cohort-independent within-sample rank score.
+- Provides explicit equations, diagnostics, public software, and public datasets.
+- Tests stability in 500 paired breast-tumor RNA-seq and microarray profiles.
+- Compares power, type-I error, recall, stability, and computation time.
+- Explicitly identifies technical rank distortions and unsuitable cohort-dependent methods.
+key_limitations:
+- Evaluates gene-set scores rather than PAM50 subtype assignment.
+- Biological labels and signatures are not independent truth standards.
+- No prospective clinical threshold, abstention rule, or patient-decision validation.
+- Cross-platform evidence does not isolate all preanalytic and measurement effects.
+conflicts_and_funding: The authors declared no competing interests. Funding included Melbourne Research
+  Scholarships, Cancer Therapeutics CRC, National Breast Cancer Foundation award NBCF-ECF-043-14, and
+  NHMRC grants APP1128609 and AP1141361; funders were reported as having no role in design, conduct, interpretation,
+  or writing.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

@@ -12,9 +12,13 @@ from nas_core.domain.appraisal import (
     FullTextAppraisal,
     FullTextAppraisalBatchConfirmation,
     FullTextAppraisalProposal,
+    PublicationVersionLinkDecision,
     PublicationVersionLinkProposal,
+    PublicationVersionReconciliationReceipt,
     appraisal_batch_confirmation_statement,
+    load_full_text_appraisal,
     load_full_text_appraisal_batch_confirmation,
+    load_publication_version_link_decision,
     write_full_text_appraisal,
 )
 from nas_core.retrieval.appraisal_confirmation import (
@@ -36,8 +40,14 @@ REAL_APPRAISAL_DIR = (
 )
 PROPOSAL_ROOT = REAL_APPRAISAL_DIR.parent / "citation-appraisal-proposals"
 PROPOSAL_DIR = PROPOSAL_ROOT / "batch-0001"
+CITATION_APPRAISAL_DIR = REAL_APPRAISAL_DIR.parent / "citation-appraisals"
 VERSION_LINK_PROPOSAL_ROOT = (
     REAL_APPRAISAL_DIR.parent / "citation-version-link-proposals"
+)
+VERSION_LINK_DIR = REAL_APPRAISAL_DIR.parent / "citation-version-links"
+VERSION_RECONCILIATION = (
+    REAL_APPRAISAL_DIR.parent
+    / "citation-publication-version-reconciliation-v1.0.0.yaml"
 )
 APPRAISAL_PACKET = (
     REAL_APPRAISAL_DIR.parent / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md"
@@ -542,7 +552,7 @@ def test_real_appraisal_confirmation_authorizes_exact_proposal_set() -> None:
         (8, 0, 5),
     ],
 )
-def test_pending_real_batches_are_authorization_ready(
+def test_confirmed_real_batches_match_materialized_artifacts(
     batch_number: int,
     expected_supporting: int,
     expected_context: int,
@@ -559,11 +569,12 @@ def test_pending_real_batches_are_authorization_ready(
             VERSION_LINK_PROPOSAL_ROOT / f"batch-{batch_number:04d}"
         ).glob("*.yaml")
     )
-    confirmation = _test_confirmation(
-        batch_number=batch_number,
-        packet_path=packet,
-        proposal_paths=proposal_paths,
-        version_link_proposal_paths=version_link_proposal_paths,
+    confirmation = load_full_text_appraisal_batch_confirmation(
+        REAL_APPRAISAL_DIR.parent
+        / (
+            f"FOUNDER_CITATION_APPRAISAL_BATCH_{batch_number:04d}"
+            "_CONFIRMATION_v1.0.0.yaml"
+        )
     )
 
     authorization = AppraisalConfirmationService().authorize_bundle(
@@ -586,9 +597,19 @@ def test_pending_real_batches_are_authorization_ready(
     assert all(item.founder_authorized for item in authorization.appraisals)
     assert len(authorization.version_links) == (1 if batch_number == 8 else 0)
     assert all(item.founder_authorized for item in authorization.version_links)
+    assert authorization.appraisals == [
+        load_full_text_appraisal(CITATION_APPRAISAL_DIR / reference.filename)
+        for reference in confirmation.proposals
+    ]
+    assert authorization.version_links == [
+        load_publication_version_link_decision(
+            VERSION_LINK_DIR / reference.filename
+        )
+        for reference in confirmation.version_links
+    ]
 
 
-def test_pending_review_index_binds_real_packet_hashes_and_counts() -> None:
+def test_review_index_binds_confirmed_packet_hashes_and_counts() -> None:
     review_index = PENDING_REVIEW_INDEX.read_text(encoding="utf-8")
 
     for batch_number in range(2, 9):
@@ -616,6 +637,11 @@ def test_pending_review_index_binds_real_packet_hashes_and_counts() -> None:
         assert (
             f"| `{batch_number:04d}` | `{packet_sha256}` | "
             f"{proposal_count} | {version_link_count} |"
+            in review_index
+        )
+        assert (
+            f"FOUNDER_CITATION_APPRAISAL_BATCH_{batch_number:04d}"
+            "_CONFIRMATION_v1.0.0.yaml"
             in review_index
         )
         assert (
@@ -675,6 +701,29 @@ def test_batch_eight_version_link_reconciles_preprint_and_record_once() -> None:
     assert receipt.version_link_count == 1
     assert receipt.unique_study_count == 1
     assert receipt.families[0].canonical_screening_id == final.screening_id
+
+
+def test_checked_in_publication_version_reconciliation_counts_reports_once() -> None:
+    receipt = PublicationVersionReconciliationReceipt.model_validate(
+        yaml.safe_load(VERSION_RECONCILIATION.read_text(encoding="utf-8"))
+    )
+    links = [
+        PublicationVersionLinkDecision.model_validate(
+            yaml.safe_load(path.read_text(encoding="utf-8"))
+        )
+        for path in sorted(VERSION_LINK_DIR.glob("*.yaml"))
+    ]
+
+    assert receipt.appraisal_count == 53
+    assert receipt.version_link_count == 1
+    assert receipt.unique_study_count == 52
+    assert len(links) == 1
+    linked_family = next(
+        family for family in receipt.families if len(family.members) == 2
+    )
+    assert linked_family.canonical_screening_id == (
+        "9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529"
+    )
 
 
 def test_appraisal_confirmation_rejects_cross_study_proposal(tmp_path: Path) -> None:

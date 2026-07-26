@@ -36,7 +36,10 @@ def test_living_manuscript_preserves_traceability_and_claim_boundaries() -> None
     assert "During pre-gate endpoint characterization" in manuscript
     assert "It supersedes its already appraised preprint" in manuscript
     assert "### Publication-version reconciliation" in manuscript
-    assert "No link decision or deduplicated receipt exists" in normalized_manuscript
+    assert "preserves 53 appraisal reports and counts 52 unique studies" in (
+        normalized_manuscript
+    )
+    assert "citation-publication-version-reconciliation-v1.0.0.yaml" in manuscript
     assert "No scientific or clinical conclusion is authorized" in manuscript
     assert "revised-appraisals/PMC3275466-v1.0.0.yaml" in manuscript
     assert "revised-appraisals/PMC4365540-v1.0.0.yaml" in manuscript

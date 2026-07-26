@@ -1,0 +1,93 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 238a93e8805957952320245312b4ad0a6539c9f71f0da115e502e39cf41436dc
+title: 'Correlation between breast cancer subtypes determined by immunohistochemistry and n-COUNTER PAM50
+  assay: a real-world study.'
+pmid: '37773555'
+doi: 10.1007/s10549-023-07094-9
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10771357/fullTextXML
+full_text_sha256: d142441280f7fcdf1ab04e0e6fbaa9c7070077885299fefa3e1b7b4c686c4105
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: high
+  rationale: The centralized laboratory series contained 1,104 referrals from eight countries and 1,049
+    with Ki67 data, but testing was ordered when clinicians were uncertain about recurrence risk. This
+    referral enrichment creates substantial spectrum and selection bias.
+  evidence_locations:
+  - Patients and methods
+  - Discussion
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: PAM50 used centralized, pathologist-guided macrodissected FFPE testing, while ER, PR, HER2,
+    and Ki67 were abstracted from many local laboratories operating under local protocols. That contrast
+    is real-world relevant but confounds biological disagreement with interlaboratory variability.
+  evidence_locations:
+  - Patients and methods
+  - "Discussion \u2014 limitations"
+- domain: classifier_implementation
+  judgment: low
+  rationale: The three published IHC proxy definitions and their ER, PR, HER2, and Ki67 thresholds are
+    explicit. The commercial nCounter PAM50 output is the fixed comparison assay.
+  evidence_locations:
+  - Patients and methods
+  - Table 1
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Centralized Prosigna PAM50 is a defensible technical reference for molecular subtype agreement,
+    but calling it a gold standard does not create independent biological truth or prove that its treatment
+    implication is correct.
+  evidence_locations:
+  - Patients and methods
+  - Discussion
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Agreement, kappa with confidence intervals, accuracy, sensitivity, specificity, ROC analysis,
+    and missing-variable comparisons are reported. The Ki67 threshold was optimized and evaluated in the
+    same cohort, and hypothetical treatment mappings simplify actual decisions.
+  evidence_locations:
+  - Patients and methods
+  - Results
+- domain: validation_and_transportability
+  judgment: high
+  rationale: The study is a retrospective single-reference-laboratory analysis without external validation,
+    long-term outcomes, or prospective treatment decisions. Its worldwide referral base does not substitute
+    for an unchanged external validation design.
+  evidence_locations:
+  - "Discussion \u2014 strengths and limitations"
+  - Conclusion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Definitions, counts, tables, uncertainty intervals, software, and limitations are reported,
+    but individual-level data are contractually restricted and local IHC protocols cannot be reconstructed
+    centrally.
+  evidence_locations:
+  - Patients and methods
+  - Data availability
+evidence_role: context_only
+key_strengths:
+- Includes more than 1,000 real-world centralized PAM50 tests.
+- Directly compares three prespecified IHC proxy classifications.
+- Reports kappa confidence intervals and misclassification direction.
+- Transparently acknowledges local-laboratory variability and absent outcomes.
+key_limitations:
+- Referral selection is enriched for clinically uncertain cases.
+- Local IHC methods are heterogeneous and not centrally repeated.
+- No long-term outcomes or prospective treatment decisions are available.
+- Same-cohort Ki67 optimization and simplified treatment assumptions limit inference.
+conflicts_and_funding: The PREGECAM registry was financed by the Local Health Council in Madrid and Oncogenomics
+  supported data acquisition. Multiple authors disclosed consulting, advisory, speaker, travel, or research
+  relationships with pharmaceutical and diagnostic companies, including Veracyte; remaining authors declared
+  none.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

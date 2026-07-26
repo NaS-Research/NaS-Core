@@ -2,13 +2,13 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.32.0-working`
+Manuscript version: `0.33.0-working`
 
 Study: `NAS-BRCA-002`
 
 Question version: `0.3.0`
 
-Last updated: 2026-07-25
+Last updated: 2026-07-26
 
 Overall status: **working—evidence review and input feasibility incomplete; no
 molecular values or outcome dataset used or retained**
@@ -218,19 +218,14 @@ that same route, Europe PMC has no repository copy, and the credential-free
 Elsevier API returns metadata only. It is now recorded as access-restricted for
 governed appraisal despite the permissive license. No challenge was bypassed,
 third-party copy retained, or appraisal inferred from its abstract.
-The founder authorized the first checksum-bound appraisal batch: three studies are
-complete as context-only and 22 verified full texts remain ready for appraisal.
-These counts are workflow results, not scientific findings.
-Four of those ten now have a checksum-bound batch-0002 appraisal proposal under
-founder review. Their proposed judgments are not incorporated into the manuscript
-evidence synthesis and do not change completion counts until exact authorization.
-The other six verified full texts now have a separate checksum-bound batch-0003
-proposal packet. Those proposed judgments are also excluded from the evidence
-synthesis and completion counts until independently confirmed by the founder.
-The medRxiv analytical bridge and UNC genomic-versus-pathology comparison have
-separate batch-0004 and batch-0005 proposals. Both remain non-authoritative; the
-UNC proposal was produced through a bounded zero-storage gate that reverified its
-source checksum and rejected long verbatim passages.
+The founder authorized all eight checksum-bound citation appraisal batches.
+Twenty-five citation-pass full texts are complete: seven are `supporting`, 18 are
+`context_only`, four are access-restricted, and none remain ready or awaiting full
+text. These counts are workflow results, not scientific findings. The locked
+appraisals retain the exact proposal, packet, confirmation, access-receipt, and,
+where needed, stable appraisal-source checksums. The medRxiv analytical bridge and
+UNC genomic-versus-pathology comparison were reviewed through bounded zero-storage
+gates that reverified their source checksums and rejected long verbatim passages.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
@@ -251,12 +246,57 @@ they define reliability mechanisms but do not validate a NaS method or clinical
 decision.
 [FOUNDER_CITATION_APPRAISAL_BATCH_0001_v1.0.0.md;
 FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml;
-citation-appraisal-proposals/batch-0001/PMC11217366-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0001/PMC6547580-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0001/PMC3487945-v1.0.0.yaml]
+citation-appraisals/PMC11217366-v1.0.0.yaml;
+citation-appraisals/PMC6547580-v1.0.0.yaml;
+citation-appraisals/PMC3487945-v1.0.0.yaml]
 
-Two additional direct comparisons are frozen as non-authoritative batch-0006
-proposals. A Korean multi-cohort study reported 38.4% IHC/PAM50 discordance, but
+Batch 0002 establishes that cohort-independent execution is feasible but not
+sufficient for transport. Singscore provides an auditable within-sample rank
+score, while direct classifier comparisons show that single-sample gene-pair and
+rule-based methods can still fail when measurement platforms are not represented
+in development. The remaining software and rank-ensemble reports are useful prior
+art but lack enough external-validation and label-provenance detail for central
+performance claims. These studies narrow the contribution: NaS cannot claim
+single-sample scoring, gene-pair rules, tie flags, or probability-like outputs as
+novel by themselves.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0002_CONFIRMATION_v1.0.0.yaml;
+citation-appraisals/PMC6219008-v1.0.0.yaml;
+citation-appraisals/PMC8796360-v1.0.0.yaml;
+citation-appraisals/PMC8479681-v1.0.0.yaml;
+citation-appraisals/PMC10848444-v1.0.0.yaml]
+
+Batch 0003 shows that disagreement can enter through specimen selection,
+cellularity, peri-surgical timing, platform and preprocessing, incomplete
+commercial-assay reconstruction, reference composition, and narrow subtype
+margins. A locked commercial assay with separated verification demonstrates the
+engineering standard, while paired-biopsy and specimen-preparation studies show
+that globally similar expression can still yield clinically adjacent subtype or
+risk-category changes. None determines which discordant label is biologically
+correct or proves that relabeling improves outcomes.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0003_CONFIRMATION_v1.0.0.yaml;
+citation-appraisals/PMC1557722-v1.0.0.yaml;
+citation-appraisals/PMC4546262-v1.0.0.yaml;
+citation-appraisals/PMC4818440-v1.0.0.yaml;
+citation-appraisals/PMC7470374-v1.0.0.yaml;
+citation-appraisals/PMC8657125-v1.0.0.yaml;
+citation-appraisals/PMC10771357-v1.0.0.yaml]
+
+Batch 0004 adds direct but non-anchor analytical evidence for platform bridging:
+the Prosigna nCounter-to-NGS preprint used separated bridge and validation cohorts
+and prespecified acceptance criteria, but sponsor involvement, preprint status,
+and unavailable fitted calibration artifacts constrain inference. Batch 0005
+adds context-only paired evidence that pathology surrogates and genomic subtypes
+are not interchangeable; its small selected cohort, cohort-level centering,
+uncontrolled multiplicity, treatment crossover, and absent external validation
+prohibit a patient-independent or treatment-utility conclusion.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0004_CONFIRMATION_v1.0.0.yaml;
+FOUNDER_CITATION_APPRAISAL_BATCH_0005_CONFIRMATION_v1.0.0.yaml;
+citation-appraisals/PPR1259744-v1.0.0.yaml;
+citation-appraisals/PMID23907291-v1.0.0.yaml]
+
+Two additional direct comparisons are founder-authorized batch-0006
+`context_only` appraisals. A Korean multi-cohort study reported 38.4% IHC/PAM50
+discordance, but
 its research classifier merged local NanoString expression with TCGA and applied
 batch adjustment before subtype assignment. A South African study showed large
 differences between clinical-surrogate and PAM50 subtype distributions in 378
@@ -264,33 +304,32 @@ quality-passing Black African women, while its explored Ki67 thresholds lacked
 held-out calibration and outcome validation. These studies reinforce that
 agreement depends on population, assay, preprocessing, reference cohort, mapping,
 and threshold choices. They do not identify a universally correct label or show
-that relabeling improves outcomes. The synthesis remains outside the authoritative
-evidence base pending exact founder confirmation.
-[FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md;
-citation-appraisal-proposals/batch-0006/PMC6473265-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0006/PMC10147771-v1.0.0.yaml]
+that relabeling improves outcomes.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0006_CONFIRMATION_v1.0.0.yaml;
+citation-appraisals/PMC6473265-v1.0.0.yaml;
+citation-appraisals/PMC10147771-v1.0.0.yaml]
 
-Three canonical-source appraisals are frozen as non-authoritative batch-0007
-proposals. SCAN demonstrates that within-array normalization without external
-reference samples is technically feasible, but its benchmarks do not validate a
-PAM50 decision rule. A 5,715-tumor classifier comparison shows that a simpler
-three-gene model can be empirically robust while retaining dataset-level scaling
-and an unknown biological truth. A two-cohort Swedish comparison reports only
-poor-to-moderate four-class IHC/PAM50 agreement, with substantially better
-agreement only after Luminal A and B are collapsed. Collectively, these studies
-strengthen the rationale for patient-independent preprocessing, explicit label
-ambiguity, uncertainty, and abstention. They do not validate the proposed NaS
-method or show clinical utility. The synthesis remains outside the authoritative
-evidence base pending exact founder confirmation.
-[FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md;
-citation-appraisal-proposals/batch-0007/PMC3283537-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0007/PMC3508193-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0007/PMC7791620-v1.0.0.yaml]
+Three canonical-source appraisals are founder-authorized batch-0007
+`context_only` evidence. SCAN demonstrates that within-array normalization
+without external reference samples is technically feasible, but its benchmarks
+do not validate a PAM50 decision rule. A 5,715-tumor classifier comparison shows
+that a simpler three-gene model can be empirically robust while retaining
+dataset-level scaling and an unknown biological truth. A two-cohort Swedish
+comparison reports only poor-to-moderate four-class IHC/PAM50 agreement, with
+substantially better agreement only after Luminal A and B are collapsed.
+Collectively, these studies strengthen the rationale for patient-independent
+preprocessing, explicit label ambiguity, uncertainty, and abstention. They do not
+validate the proposed NaS method or show clinical utility.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0007_CONFIRMATION_v1.0.0.yaml;
+citation-appraisals/PMC3283537-v1.0.0.yaml;
+citation-appraisals/PMC3508193-v1.0.0.yaml;
+citation-appraisals/PMC7791620-v1.0.0.yaml]
 
-Five further citation-pass reports are frozen as non-authoritative batch-0008
-proposals. AMBER directly demonstrates that three-marker IHC surrogates reproduce
-basal-like PAM50 labels more reliably than Luminal A, Luminal B, or
-HER2-enriched labels, while still leaving PAM50 as an unverified comparator.
+Five further citation-pass reports are founder-authorized batch-0008
+`context_only` appraisals. AMBER directly demonstrates that three-marker IHC
+surrogates reproduce basal-like PAM50 labels more reliably than Luminal A,
+Luminal B, or HER2-enriched labels, while still leaving PAM50 as an unverified
+comparator.
 PurIST shows that a fixed eight-pair, within-patient classifier can avoid
 receiving-cohort normalization and expose a confidence gradient, but its
 pancreatic clustering labels are not breast-subtype truth. A 19-study lung
@@ -302,14 +341,13 @@ PAM50 labels rather than executing a locked PAM50 procedure. The peer-reviewed
 mFISHseq report adds external analyses and fuller reporting but remains subject to
 adaptive development, correlated comparators, and unvalidated treatment models.
 It supersedes its already appraised preprint for citation purposes and is not an
-independent replication. These interpretations remain outside the authoritative
-evidence base pending exact founder confirmation.
-[FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md;
-citation-appraisal-proposals/batch-0008/PMC4779705-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0008/PMC6942634-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0008/PMC7299291-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0008/PMC11265146-v1.0.0.yaml;
-citation-appraisal-proposals/batch-0008/PMC11696812-v1.0.0.yaml]
+independent replication.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0008_CONFIRMATION_v1.0.0.yaml;
+citation-appraisals/PMC4779705-v1.0.0.yaml;
+citation-appraisals/PMC6942634-v1.0.0.yaml;
+citation-appraisals/PMC7299291-v1.0.0.yaml;
+citation-appraisals/PMC11265146-v1.0.0.yaml;
+citation-appraisals/PMC11696812-v1.0.0.yaml]
 
 ### Quality appraisal
 
@@ -332,10 +370,11 @@ canonical appraisal in the confirmed batch. Reconciliation then requires both
 locked appraisals, exact normalized titles, PMIDs, and DOIs; prohibits one record
 from participating in multiple links; and emits a family receipt reporting both
 the appraisal count and the deduplicated unique-study count. For mFISHseq,
-`PMC10723508` is proposed as the preprint of `PMC11696812`. No link decision or
-deduplicated receipt exists until batch 0008 is founder-confirmed.
+`PMC10723508` is founder-authorized as the preprint of `PMC11696812`. The
+reconciliation preserves 53 appraisal reports and counts 52 unique studies.
 [citation-version-link-proposals/batch-0008/PMC10723508-to-PMC11696812-v1.0.0.yaml;
-FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md]
+FOUNDER_CITATION_APPRAISAL_BATCH_0008_CONFIRMATION_v1.0.0.yaml;
+citation-publication-version-reconciliation-v1.0.0.yaml]
 
 ### Proposed analytical procedure
 
@@ -943,12 +982,11 @@ novelty conclusion.
 
 Status: `working`
 
-- Primary and citation-pass-1 title-and-abstract screening are complete. Thirty-one
-  appraisals are complete across the direct and citation sets. Pass 1 has 29 net-new
-  records in an authorized governed queue: three are founder-locked, 22 have
-  checksum-frozen non-authoritative proposals, four are access-restricted, and zero
-  await full text;
-  sequential citation chaining is incomplete.
+- Primary and citation-pass-1 title-and-abstract screening are complete. Fifty-three
+  appraisal reports representing 52 unique studies are complete across the direct
+  and citation sets. Pass 1 has 29 net-new records in an authorized governed queue:
+  25 are founder-locked, four are access-restricted, and zero remain ready or await
+  full text; sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -1056,16 +1094,16 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 materialized, 22 pending proposals, 4 restricted, 0 unresolved full texts |
+| Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 25 materialized, 0 ready, 4 restricted, 0 unresolved full texts |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
-| Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
-| Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
-| Pending—citation appraisal batch 0004 | AI-assisted preprint appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0004_v1.0.0.md`; `citation-appraisal-proposals/batch-0004/PPR1259744-v1.0.0.yaml` | non-authoritative, founder review required |
-| Pending—citation appraisal batch 0005 | AI-assisted ephemeral appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md`; `citation-appraisal-proposals/batch-0005/PMID23907291-v1.0.0.yaml` | non-authoritative, founder review required |
-| Pending—citation appraisal batch 0006 | AI-assisted publisher-PDF appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md`; two files in `citation-appraisal-proposals/batch-0006/` | non-authoritative, founder review required |
-| Pending—citation appraisal batch 0007 | AI-assisted canonical-source appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md`; three files in `citation-appraisal-proposals/batch-0007/` | non-authoritative, founder review required |
-| Pending—citation appraisal batch 0008 | AI-assisted canonical and durable-source appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0008_v1.0.0.md`; five files in `citation-appraisal-proposals/batch-0008/` | non-authoritative, founder review required; mFISHseq version pair counts once |
-| Pending—mFISHseq publication-version link | AI-assisted same-study proposal | `citation-version-link-proposals/batch-0008/PMC10723508-to-PMC11696812-v1.0.0.yaml` | non-authoritative; materializes only with batch 0008 |
+| Results—citation appraisal batch 0002 | Founder-authorized AI-assisted appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_CONFIRMATION_v1.0.0.yaml`; four files in `citation-appraisals/` | 2 supporting, 2 context only |
+| Results—citation appraisal batch 0003 | Founder-authorized AI-assisted appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_CONFIRMATION_v1.0.0.yaml`; six files in `citation-appraisals/` | 4 supporting, 2 context only |
+| Results—citation appraisal batch 0004 | Founder-authorized AI-assisted preprint appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0004_CONFIRMATION_v1.0.0.yaml`; `citation-appraisals/PPR1259744-v1.0.0.yaml` | supporting |
+| Results—citation appraisal batch 0005 | Founder-authorized AI-assisted ephemeral appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0005_CONFIRMATION_v1.0.0.yaml`; `citation-appraisals/PMID23907291-v1.0.0.yaml` | context only |
+| Results—citation appraisal batch 0006 | Founder-authorized AI-assisted publisher-PDF appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0006_CONFIRMATION_v1.0.0.yaml`; two files in `citation-appraisals/` | 2 context only |
+| Results—citation appraisal batch 0007 | Founder-authorized AI-assisted canonical-source appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0007_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | 3 context only |
+| Results—citation appraisal batch 0008 | Founder-authorized AI-assisted canonical and durable-source appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0008_CONFIRMATION_v1.0.0.yaml`; five files in `citation-appraisals/` | 5 context only; mFISHseq pair counts once |
+| Results—mFISHseq publication-version link | Founder-authorized same-study decision | `citation-version-links/PMC10723508-to-PMC11696812-v1.0.0.yaml`; `citation-publication-version-reconciliation-v1.0.0.yaml` | materialized; 53 reports reconcile to 52 unique studies |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -1103,6 +1141,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.33.0-working | 2026-07-26 | Materialized founder-confirmed citation appraisal batches 0002–0008, closed citation pass 1 at 25 appraised and 4 restricted records, bound delayed appraisals to stable source receipts, and reconciled 53 appraisal reports to 52 unique studies. |
 | 0.32.0-working | 2026-07-26 | Closed the final citation full-text access check for CC BY PMID 20181526 after official publisher, Unpaywall, Europe PMC, Crossref, and Elsevier API routes failed to provide a reproducible article body; citation state is 3 appraised, 22 ready, 4 restricted, and 0 awaiting full text. |
 | 0.31.0-working | 2026-07-26 | Added checksum-bound publication-version authorization and unique-study reconciliation so the mFISHseq preprint and version of record cannot be double-counted. |
 | 0.30.0-working | 2026-07-25 | Added five checksum-bound batch-0008 proposals and the explicit mFISHseq preprint/version-of-record non-duplication boundary. |

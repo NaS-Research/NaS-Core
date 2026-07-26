@@ -1,0 +1,94 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 88a6dad90d20e90dfd4aa5a4d3d265fd45d0ad70018f74742defa3977df8750d
+title: 'multiclassPairs: an R package to train multiclass pair-based classifier'
+pmid: '33543757'
+doi: 10.1093/bioinformatics/btab088
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8479681/fullTextXML
+full_text_sha256: 24858233fc9d1b1d7297d86cbba6b775819459a0fb9ef8f8cf5567574293c03e
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: other
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: unclear
+  rationale: The main-text comparison identifies 3,134 breast cancer samples but gives little information
+    about eligibility, subtype composition, missingness, or whether samples overlap other SCAN-B analyses.
+    Population selection cannot be fully judged from the reported package article.
+  evidence_locations:
+  - Comparison
+  - Supplementary File S1
+- domain: specimen_and_measurement
+  judgment: unclear
+  rationale: The package supports platform-wise feature selection and missing-gene handling, but the main
+    evaluation does not describe specimen processing, assay composition, preprocessing, or platform balance
+    sufficiently to separate biological from technical effects.
+  evidence_locations:
+  - Materials and methods
+  - Comparison
+- domain: classifier_implementation
+  judgment: low
+  rationale: Random-forest and one-versus-rest k-TSP workflows, class-imbalance options, platform-wise
+    selection, missing-gene imputation, voting, tie flags, parameter tuning, and visualization are described.
+    Source is public on CRAN and GitHub, permitting a fixed single-sample implementation after training.
+  evidence_locations:
+  - Random Forest scheme
+  - One-versus-rest scheme
+  - Availability and implementation
+- domain: reference_comparator
+  judgment: unclear
+  rationale: The article does not describe how the breast subtype reference labels were generated or whether
+    they provide independent biological truth. Reported accuracy therefore cannot be interpreted as clinical
+    correctness.
+  evidence_locations:
+  - Comparison
+  - Supplementary File S1
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: The article states that multiclassPairs outperformed Rgtsp across training sizes but reports
+    no main-text accuracy values, uncertainty intervals, prespecified primary comparison, multiplicity
+    handling, or complete split design. The package description cannot independently support an effectiveness
+    estimate.
+  evidence_locations:
+  - Comparison
+  - Supplementary File S1
+- domain: validation_and_transportability
+  judgment: high
+  rationale: No distinct independent cohort, unchanged-artifact external test, or platform-specific performance
+    is reported in the main article. Package features intended for multi-platform use do not themselves
+    establish transportability.
+  evidence_locations:
+  - Comparison
+  - Conclusion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Public source and a concise algorithm description make the software reproducible, but the
+    empirical comparison depends heavily on supplementary material and omits enough main-text dataset,
+    metric, and result detail to audit the performance claim independently.
+  evidence_locations:
+  - Materials and methods
+  - Comparison
+  - Availability and implementation
+evidence_role: context_only
+key_strengths:
+- Publicly implements two interpretable multiclass single-sample workflows.
+- Explicitly flags tied votes and supports class imbalance and missing genes.
+- Allows study/platform-wise feature selection for heterogeneous training data.
+key_limitations:
+- Package paper supplies sparse empirical evaluation detail.
+- Reference-label provenance and population characteristics are unclear.
+- No unchanged external validation or separately reported platform transport.
+- No calibrated uncertainty or prospective abstention rule.
+conflicts_and_funding: The authors declared no conflict of interest. Funding was provided by the Swedish
+  Research Council, Swedish Cancer Society award 190051Pj, and Berta Kamprad's Cancer Foundation award
+  FBKS-2019-35.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

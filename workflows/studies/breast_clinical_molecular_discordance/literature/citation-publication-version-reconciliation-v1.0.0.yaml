@@ -1,0 +1,399 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+generated_at: '2026-07-26T13:50:30.446748Z'
+appraisal_count: 53
+version_link_count: 1
+unique_study_count: 52
+families:
+- canonical_screening_id: 043a74126c981b2da720e14df3a4ca17954173dd049263ce9c0fecb9a8e0115c
+  canonical_title: Stable gene expression for normalisation and single-sample scoring.
+  members:
+  - screening_id: 043a74126c981b2da720e14df3a4ca17954173dd049263ce9c0fecb9a8e0115c
+    title: Stable gene expression for normalisation and single-sample scoring.
+    canonical: true
+- canonical_screening_id: 045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341
+  canonical_title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping
+    in breast cancer research.'
+  members:
+  - screening_id: 045540d4e7bb755ca8715d752839e03d8c31b459d9ee7c6f53506b38f4b84341
+    title: 'BreastSubtypeR: a unified R/Bioconductor package for intrinsic molecular subtyping in breast
+      cancer research.'
+    canonical: true
+- canonical_screening_id: 09dcf1ec6b23a4c970b86dd3e3957ca742f02cac9b02196b9722686583978e11
+  canonical_title: "Bridging and analytical validation of the Prosigna  <sup>\xAE</sup>  Breast Risk of\
+    \ Recurrence Test as a whole-transcriptome NGS lab developed test"
+  members:
+  - screening_id: 09dcf1ec6b23a4c970b86dd3e3957ca742f02cac9b02196b9722686583978e11
+    title: "Bridging and analytical validation of the Prosigna  <sup>\xAE</sup>  Breast Risk of Recurrence\
+      \ Test as a whole-transcriptome NGS lab developed test"
+    canonical: true
+- canonical_screening_id: 0bd9b3df343485cbd77f626899d54f7d4a3822d8c204c8fde64babb188f46bc9
+  canonical_title: 'Comparing Breast Cancer Multiparameter Tests in the OPTIMA Prelim Trial: No Test Is
+    More Equal Than the Others.'
+  members:
+  - screening_id: 0bd9b3df343485cbd77f626899d54f7d4a3822d8c204c8fde64babb188f46bc9
+    title: 'Comparing Breast Cancer Multiparameter Tests in the OPTIMA Prelim Trial: No Test Is More Equal
+      Than the Others.'
+    canonical: true
+- canonical_screening_id: 0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a
+  canonical_title: Development and verification of the PAM50-based Prosigna breast cancer gene signature
+    assay.
+  members:
+  - screening_id: 0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a
+    title: Development and verification of the PAM50-based Prosigna breast cancer gene signature assay.
+    canonical: true
+- canonical_screening_id: 0f9f69bb3990a9f6794557c1e3040aff69232dcff0b04d80406b2f0abe179876
+  canonical_title: 'Multiclass prediction with partial least square regression for gene expression data:
+    applications in breast cancer intrinsic taxonomy.'
+  members:
+  - screening_id: 0f9f69bb3990a9f6794557c1e3040aff69232dcff0b04d80406b2f0abe179876
+    title: 'Multiclass prediction with partial least square regression for gene expression data: applications
+      in breast cancer intrinsic taxonomy.'
+    canonical: true
+- canonical_screening_id: 176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd
+  canonical_title: Perturbation and stability of PAM50 subtyping in population-based primary invasive
+    breast cancer.
+  members:
+  - screening_id: 176f5c43fb6d3679e0e6dd4ab5b4f28218482e472bb0bcc23ad19d840045f4dd
+    title: Perturbation and stability of PAM50 subtyping in population-based primary invasive breast cancer.
+    canonical: true
+- canonical_screening_id: 1bdfeeb3dd98f2307de5885f6924f063de53909635b8c1ef5a93868a97072d49
+  canonical_title: Prediction consistency and clinical presentations of breast cancer molecular subtypes
+    for Han Chinese population.
+  members:
+  - screening_id: 1bdfeeb3dd98f2307de5885f6924f063de53909635b8c1ef5a93868a97072d49
+    title: Prediction consistency and clinical presentations of breast cancer molecular subtypes for Han
+      Chinese population.
+    canonical: true
+- canonical_screening_id: 1ce286a49630b0b8be69f3e46804f875196aa98dc4c185f22b3ab2df661729b4
+  canonical_title: An approach for normalization and quality control for NanoString RNA expression data.
+  members:
+  - screening_id: 1ce286a49630b0b8be69f3e46804f875196aa98dc4c185f22b3ab2df661729b4
+    title: An approach for normalization and quality control for NanoString RNA expression data.
+    canonical: true
+- canonical_screening_id: 238a93e8805957952320245312b4ad0a6539c9f71f0da115e502e39cf41436dc
+  canonical_title: 'Correlation between breast cancer subtypes determined by immunohistochemistry and
+    n-COUNTER PAM50 assay: a real-world study.'
+  members:
+  - screening_id: 238a93e8805957952320245312b4ad0a6539c9f71f0da115e502e39cf41436dc
+    title: 'Correlation between breast cancer subtypes determined by immunohistochemistry and n-COUNTER
+      PAM50 assay: a real-world study.'
+    canonical: true
+- canonical_screening_id: 27f9996e6647cda5fb31e1351ea4aa3353640fbdf5a0d021c87bbeb8b970516a
+  canonical_title: Sample Preparation Approach Influences PAM50 Risk of Recurrence Score in Early Breast
+    Cancer.
+  members:
+  - screening_id: 27f9996e6647cda5fb31e1351ea4aa3353640fbdf5a0d021c87bbeb8b970516a
+    title: Sample Preparation Approach Influences PAM50 Risk of Recurrence Score in Early Breast Cancer.
+    canonical: true
+- canonical_screening_id: 2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a
+  canonical_title: Effect of cross-platform gene-expression, computational methods on breast cancer subtyping
+    in PALOMA-2 and PALLET studies.
+  members:
+  - screening_id: 2c3fb30795b4b467ed63605a07a09f46b7476ed77f4f629646c44c070150d76a
+    title: Effect of cross-platform gene-expression, computational methods on breast cancer subtyping
+      in PALOMA-2 and PALLET studies.
+    canonical: true
+- canonical_screening_id: 31f863db0452d24f3534598789d0bff73163009c4e71162cd3b55da28b5808cc
+  canonical_title: 'A novel non-parametric method for uncertainty evaluation of correlation-based molecular
+    signatures: its application on PAM50 algorithm.'
+  members:
+  - screening_id: 31f863db0452d24f3534598789d0bff73163009c4e71162cd3b55da28b5808cc
+    title: 'A novel non-parametric method for uncertainty evaluation of correlation-based molecular signatures:
+      its application on PAM50 algorithm.'
+    canonical: true
+- canonical_screening_id: 31ff2895b1d10f61aa9a81947f5d0b79032017cc90e5d7667e0565351cd2f91c
+  canonical_title: Molecular subtyping of breast cancer intrinsic taxonomy with oligonucleotide microarray
+    and NanoString nCounter.
+  members:
+  - screening_id: 31ff2895b1d10f61aa9a81947f5d0b79032017cc90e5d7667e0565351cd2f91c
+    title: Molecular subtyping of breast cancer intrinsic taxonomy with oligonucleotide microarray and
+      NanoString nCounter.
+    canonical: true
+- canonical_screening_id: 32e12824107b966d709986b71feae6a8da760c6e25d9c1312229ebbf06f2494a
+  canonical_title: Concordance of Immunohistochemistry-Based and Gene Expression-Based Subtyping in Breast
+    Cancer.
+  members:
+  - screening_id: 32e12824107b966d709986b71feae6a8da760c6e25d9c1312229ebbf06f2494a
+    title: Concordance of Immunohistochemistry-Based and Gene Expression-Based Subtyping in Breast Cancer.
+    canonical: true
+- canonical_screening_id: 3737756d7c6bb626ba29c86d7accaa2e53cdba801e3b28978dce84ddf6ad3907
+  canonical_title: PAM50 Molecular Intrinsic Subtypes in the Nurses' Health Study Cohorts.
+  members:
+  - screening_id: 3737756d7c6bb626ba29c86d7accaa2e53cdba801e3b28978dce84ddf6ad3907
+    title: PAM50 Molecular Intrinsic Subtypes in the Nurses' Health Study Cohorts.
+    canonical: true
+- canonical_screening_id: 3d181f219140a3b8504ea8cc4b791b829c9bb03a924c18c42e3e9e7abe52d6b6
+  canonical_title: 'Computational approaches to support comparative analysis of multiparametric tests:
+    Modelling versus Training.'
+  members:
+  - screening_id: 3d181f219140a3b8504ea8cc4b791b829c9bb03a924c18c42e3e9e7abe52d6b6
+    title: 'Computational approaches to support comparative analysis of multiparametric tests: Modelling
+      versus Training.'
+    canonical: true
+- canonical_screening_id: 42f7579197d57716920501366e856599e0e282fdb24e17eb09e7865adf872aaf
+  canonical_title: Single sample scoring of molecular phenotypes
+  members:
+  - screening_id: 42f7579197d57716920501366e856599e0e282fdb24e17eb09e7865adf872aaf
+    title: Single sample scoring of molecular phenotypes
+    canonical: true
+- canonical_screening_id: 4abea96b841f9e86c6903d6e12f03f105e572434ac83009e70b81a8bcfa2bfca
+  canonical_title: 'Discordance of the PAM50 Intrinsic Subtypes Compared with Immunohistochemistry-Based
+    Surrogate in Breast Cancer Patients: Potential Implication of Genomic Alterations of Discordance.'
+  members:
+  - screening_id: 4abea96b841f9e86c6903d6e12f03f105e572434ac83009e70b81a8bcfa2bfca
+    title: 'Discordance of the PAM50 Intrinsic Subtypes Compared with Immunohistochemistry-Based Surrogate
+      in Breast Cancer Patients: Potential Implication of Genomic Alterations of Discordance.'
+    canonical: true
+- canonical_screening_id: 4be62d6ac3907ce0d68fa3600137fc3e603ff3456526cf7267d95dc1e5d7aca0
+  canonical_title: Reproducibility and intratumoral heterogeneity of the PAM50 breast cancer assay.
+  members:
+  - screening_id: 4be62d6ac3907ce0d68fa3600137fc3e603ff3456526cf7267d95dc1e5d7aca0
+    title: Reproducibility and intratumoral heterogeneity of the PAM50 breast cancer assay.
+    canonical: true
+- canonical_screening_id: 4f4ee766ff74a049a626bdee612a1bc7a2540e91771f5ec9d254f74dbf4fcf57
+  canonical_title: 'Breast cancer PAM50 signature: correlation and concordance between RNA-Seq and digital
+    multiplexed gene expression technologies in a triple negative breast cancer series.'
+  members:
+  - screening_id: 4f4ee766ff74a049a626bdee612a1bc7a2540e91771f5ec9d254f74dbf4fcf57
+    title: 'Breast cancer PAM50 signature: correlation and concordance between RNA-Seq and digital multiplexed
+      gene expression technologies in a triple negative breast cancer series.'
+    canonical: true
+- canonical_screening_id: 52fe49b5b6e74f571109fef3d844bd1690c8e3b18aa333ae1796812ad508e261
+  canonical_title: Purity Independent Subtyping of Tumors (PurIST), A Clinically Robust, Single-sample
+    Classifier for Tumor Subtyping in Pancreatic Cancer.
+  members:
+  - screening_id: 52fe49b5b6e74f571109fef3d844bd1690c8e3b18aa333ae1796812ad508e261
+    title: Purity Independent Subtyping of Tumors (PurIST), A Clinically Robust, Single-sample Classifier
+      for Tumor Subtyping in Pancreatic Cancer.
+    canonical: true
+- canonical_screening_id: 564b9e536607f672f57571b54ba714470ea27d12068964b3e484a944f9ff7c72
+  canonical_title: Discordance between PAM50 intrinsic subtyping and immunohistochemistry in South African
+    women with breast cancer.
+  members:
+  - screening_id: 564b9e536607f672f57571b54ba714470ea27d12068964b3e484a944f9ff7c72
+    title: Discordance between PAM50 intrinsic subtyping and immunohistochemistry in South African women
+      with breast cancer.
+    canonical: true
+- canonical_screening_id: 630314e3504ea43f55fbbf4a9b13d36cd24bacb736f44ba8f0ce712802ea34be
+  canonical_title: 'Assignment of tumor subtype by genomic testing and pathologic-based approximations:
+    implications on patient''s management and therapy selection.'
+  members:
+  - screening_id: 630314e3504ea43f55fbbf4a9b13d36cd24bacb736f44ba8f0ce712802ea34be
+    title: 'Assignment of tumor subtype by genomic testing and pathologic-based approximations: implications
+      on patient''s management and therapy selection.'
+    canonical: true
+- canonical_screening_id: 6533ac2ac734cebe16bd375cbf0adbedffacd5bf69e216dca3bd0112ba470b30
+  canonical_title: A three-gene model to robustly identify breast cancer molecular subtypes.
+  members:
+  - screening_id: 6533ac2ac734cebe16bd375cbf0adbedffacd5bf69e216dca3bd0112ba470b30
+    title: A three-gene model to robustly identify breast cancer molecular subtypes.
+    canonical: true
+- canonical_screening_id: 6684c1bbe395bbe4001317d1be9a3ced57e69cc25c0fb9ba3c809a7e8e4d5f5b
+  canonical_title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
+  members:
+  - screening_id: 6684c1bbe395bbe4001317d1be9a3ced57e69cc25c0fb9ba3c809a7e8e4d5f5b
+    title: Machine learning for RNA sequencing-based intrinsic subtyping of breast cancer.
+    canonical: true
+- canonical_screening_id: 6c3508f650680780e97d7bfb7d31a495365975d5227179be33bb493cb9f385df
+  canonical_title: Feature-specific quantile normalization and feature-specific mean-variance normalization
+    deliver robust bi-directional classification and feature selection performance between microarray
+    and RNAseq data.
+  members:
+  - screening_id: 6c3508f650680780e97d7bfb7d31a495365975d5227179be33bb493cb9f385df
+    title: Feature-specific quantile normalization and feature-specific mean-variance normalization deliver
+      robust bi-directional classification and feature selection performance between microarray and RNAseq
+      data.
+    canonical: true
+- canonical_screening_id: 70d4cec79f5f314861c3e4f180268ce7fe9507eee0749cc0b06139b3680357c5
+  canonical_title: Performance of Three-Biomarker Immunohistochemistry for Intrinsic Breast Cancer Subtyping
+    in the AMBER Consortium.
+  members:
+  - screening_id: 70d4cec79f5f314861c3e4f180268ce7fe9507eee0749cc0b06139b3680357c5
+    title: Performance of Three-Biomarker Immunohistochemistry for Intrinsic Breast Cancer Subtyping in
+      the AMBER Consortium.
+    canonical: true
+- canonical_screening_id: 7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d
+  canonical_title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence
+    for clinical assessment of early-stage breast cancer.
+  members:
+  - screening_id: 7a1348dbc4e8bcd11e27e9e0b04bd31810791b4c3fe7cd1dce83aacffd68de5d
+    title: RNA sequencing-based single sample predictors of molecular subtype and risk of recurrence for
+      clinical assessment of early-stage breast cancer.
+    canonical: true
+- canonical_screening_id: 7fffe06a6fc330fe2419e914bf1900df91706c162578ae0269ee1b4a23214c2b
+  canonical_title: Systematic bias in genomic classification due to contaminating non-neoplastic tissue
+    in breast tumor samples.
+  members:
+  - screening_id: 7fffe06a6fc330fe2419e914bf1900df91706c162578ae0269ee1b4a23214c2b
+    title: Systematic bias in genomic classification due to contaminating non-neoplastic tissue in breast
+      tumor samples.
+    canonical: true
+- canonical_screening_id: 80d2e0fcb88556b59a619f5d8559eecfe6a1ce5d2e386b2f93a576927a23ee33
+  canonical_title: classifieR a flexible interactive cloud-application for functional annotation of cancer
+    transcriptomes.
+  members:
+  - screening_id: 80d2e0fcb88556b59a619f5d8559eecfe6a1ce5d2e386b2f93a576927a23ee33
+    title: classifieR a flexible interactive cloud-application for functional annotation of cancer transcriptomes.
+    canonical: true
+- canonical_screening_id: 88a6dad90d20e90dfd4aa5a4d3d265fd45d0ad70018f74742defa3977df8750d
+  canonical_title: 'multiclassPairs: an R package to train multiclass pair-based classifier'
+  members:
+  - screening_id: 88a6dad90d20e90dfd4aa5a4d3d265fd45d0ad70018f74742defa3977df8750d
+    title: 'multiclassPairs: an R package to train multiclass pair-based classifier'
+    canonical: true
+- canonical_screening_id: 8c7eb040930ed090ae2bdd099df65a6c1e6c5299459e2ad0ec5edb1c68faae77
+  canonical_title: A Digital Twin-Inspired Closed-Loop Latent Simulation Framework for Cross-Cohort Breast
+    Cancer Subtype Classification under Modality-Disjoint Learning.
+  members:
+  - screening_id: 8c7eb040930ed090ae2bdd099df65a6c1e6c5299459e2ad0ec5edb1c68faae77
+    title: A Digital Twin-Inspired Closed-Loop Latent Simulation Framework for Cross-Cohort Breast Cancer
+      Subtype Classification under Modality-Disjoint Learning.
+    canonical: true
+- canonical_screening_id: 8c9185fd9f166320499f912f6342ef800ce81760560ae7946a86e0965170e194
+  canonical_title: A single-sample microarray normalization method to facilitate personalized-medicine
+    workflows.
+  members:
+  - screening_id: 8c9185fd9f166320499f912f6342ef800ce81760560ae7946a86e0965170e194
+    title: A single-sample microarray normalization method to facilitate personalized-medicine workflows.
+    canonical: true
+- canonical_screening_id: 9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529
+  canonical_title: The spatially informed mFISHseq assay resolves biomarker discordance and predicts treatment
+    response in breast cancer.
+  members:
+  - screening_id: 5d5446e955e8d287dcb192229ab19a244f70cd2397cdf95a90f4870fba4a5d11
+    title: Multiplexed RNA-FISH-guided Laser Capture Microdissection RNA Sequencing Improves Breast Cancer
+      Molecular Subtyping, Prognostic Classification, and Predicts Response to Antibody Drug Conjugates.
+    publication_stage: preprint
+    canonical: false
+  - screening_id: 9476c02009a54b18189f93ffe7f103ee050d63550d282666acacd570e6e69529
+    title: The spatially informed mFISHseq assay resolves biomarker discordance and predicts treatment
+      response in breast cancer.
+    publication_stage: version_of_record
+    canonical: true
+- canonical_screening_id: 98d833b330ef6ded0d7318e136d8d8f880f33ea1e9d878be9f81b39ba2c15433
+  canonical_title: Heterogeneity in global gene expression profiles between biopsy specimens taken peri-surgically
+    from primary ER-positive breast carcinomas.
+  members:
+  - screening_id: 98d833b330ef6ded0d7318e136d8d8f880f33ea1e9d878be9f81b39ba2c15433
+    title: Heterogeneity in global gene expression profiles between biopsy specimens taken peri-surgically
+      from primary ER-positive breast carcinomas.
+    canonical: true
+- canonical_screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
+  canonical_title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
+  members:
+  - screening_id: 9ef42057cd27fc7ee426e50363fda4f79603a85105fe4d43ee6fdfb838c48467
+    title: Enhanced PAM50 subtyping of breast cancer implemented in the PCAPAM50 R package.
+    canonical: true
+- canonical_screening_id: ac24e2bcd93b4319bbd21d1df4f25c7a3a2157b294a54c7a97997dd13aa37a7a
+  canonical_title: Quantification of subtype purity in Luminal A breast cancer predicts clinical characteristics
+    and survival.
+  members:
+  - screening_id: ac24e2bcd93b4319bbd21d1df4f25c7a3a2157b294a54c7a97997dd13aa37a7a
+    title: Quantification of subtype purity in Luminal A breast cancer predicts clinical characteristics
+      and survival.
+    canonical: true
+- canonical_screening_id: afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0
+  canonical_title: Molecular subtyping for clinically defined breast cancer subgroups.
+  members:
+  - screening_id: afacd24b8dc4f0eb2ae73585571822a90ed38dd786272954b64a8817f29dded0
+    title: Molecular subtyping for clinically defined breast cancer subgroups.
+    canonical: true
+- canonical_screening_id: b6523b6e596cc30c5aefa9dbf194f56e115dceb1356853536901308d4a67c4cb
+  canonical_title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
+  members:
+  - screening_id: b6523b6e596cc30c5aefa9dbf194f56e115dceb1356853536901308d4a67c4cb
+    title: A Simple Method for Robust and Accurate Intrinsic Subtyping of Breast Cancer.
+    canonical: true
+- canonical_screening_id: b6b226287390277b87a5ddc6ea5d2668587a8272021bbb3375b9590062511660
+  canonical_title: Quantification of intrinsic subtype ambiguity in Luminal A breast cancer and its relationship
+    to clinical outcomes.
+  members:
+  - screening_id: b6b226287390277b87a5ddc6ea5d2668587a8272021bbb3375b9590062511660
+    title: Quantification of intrinsic subtype ambiguity in Luminal A breast cancer and its relationship
+      to clinical outcomes.
+    canonical: true
+- canonical_screening_id: ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874
+  canonical_title: Classification and risk stratification of invasive breast carcinomas using a real-time
+    quantitative RT-PCR assay.
+  members:
+  - screening_id: ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874
+    title: Classification and risk stratification of invasive breast carcinomas using a real-time quantitative
+      RT-PCR assay.
+    canonical: true
+- canonical_screening_id: bfd73615047f4e33896b3be73b4b28b6933f40fe4e40aa593c5fdf4247d92e0a
+  canonical_title: 'Characterization of uncertainty in the classification of multivariate assays: application
+    to PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
+  members:
+  - screening_id: bfd73615047f4e33896b3be73b4b28b6933f40fe4e40aa593c5fdf4247d92e0a
+    title: 'Characterization of uncertainty in the classification of multivariate assays: application
+      to PAM50 centroid-based genomic predictors for breast cancer treatment plans.'
+    canonical: true
+- canonical_screening_id: ca39d7821e26c2596195bea613930e126ad8142fcbc8e250f4b91a078e9224d9
+  canonical_title: Ensemble methods of rank-based trees for single sample classification with gene expression
+    profiles
+  members:
+  - screening_id: ca39d7821e26c2596195bea613930e126ad8142fcbc8e250f4b91a078e9224d9
+    title: Ensemble methods of rank-based trees for single sample classification with gene expression
+      profiles
+    canonical: true
+- canonical_screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
+  canonical_title: Supervised risk predictor of breast cancer based on intrinsic subtypes.
+  members:
+  - screening_id: cf7fddcd352742d3493d3921e80e90c0ea44c64f85da7210ffd7dd4a3e9c65be
+    title: Supervised risk predictor of breast cancer based on intrinsic subtypes.
+    canonical: true
+- canonical_screening_id: d056d1f0a4bda238c21307b4498066d3a8fb5792892885664e2673d36c50b301
+  canonical_title: Test set bias affects reproducibility of gene signatures.
+  members:
+  - screening_id: d056d1f0a4bda238c21307b4498066d3a8fb5792892885664e2673d36c50b301
+    title: Test set bias affects reproducibility of gene signatures.
+    canonical: true
+- canonical_screening_id: d09d787833cb2baa04198d726cec62c37e6f88c1214b44c5a7e018892ebeed0d
+  canonical_title: 'Performance of gene expression-based single sample predictors for assessment of clinicopathological
+    subgroups and molecular subtypes in cancers: a case comparison study in non-small cell lung cancer.'
+  members:
+  - screening_id: d09d787833cb2baa04198d726cec62c37e6f88c1214b44c5a7e018892ebeed0d
+    title: 'Performance of gene expression-based single sample predictors for assessment of clinicopathological
+      subgroups and molecular subtypes in cancers: a case comparison study in non-small cell lung cancer.'
+    canonical: true
+- canonical_screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
+  canonical_title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype
+    Classifier.
+  members:
+  - screening_id: dc357ca6c825b0506095445891e752d938adf7ecd5c57680f9d974eb2b9be392
+    title: An Improved, Assay Platform Agnostic, Absolute Single Sample Breast Cancer Subtype Classifier.
+    canonical: true
+- canonical_screening_id: f19c6289712d0f195fa224726b02c70d400391689afebcc6e84174d8a8c4a40b
+  canonical_title: PAM50 Breast Cancer Subtyping by RT-qPCR and Concordance with Standard Clinical Molecular
+    Markers
+  members:
+  - screening_id: f19c6289712d0f195fa224726b02c70d400391689afebcc6e84174d8a8c4a40b
+    title: PAM50 Breast Cancer Subtyping by RT-qPCR and Concordance with Standard Clinical Molecular Markers
+    canonical: true
+- canonical_screening_id: f388ae05a4ed1d1a982e7577d351252c06613e62f3b975994114b4b850f5bf69
+  canonical_title: Analytical validation of the PAM50-based Prosigna Breast Cancer Prognostic Gene Signature
+    Assay and nCounter Analysis System using formalin-fixed paraffin-embedded breast tumor specimens.
+  members:
+  - screening_id: f388ae05a4ed1d1a982e7577d351252c06613e62f3b975994114b4b850f5bf69
+    title: Analytical validation of the PAM50-based Prosigna Breast Cancer Prognostic Gene Signature Assay
+      and nCounter Analysis System using formalin-fixed paraffin-embedded breast tumor specimens.
+    canonical: true
+- canonical_screening_id: f901ef703777190675743735cdd7dda989a25abb9cddac67646aeafa40fdec4b
+  canonical_title: PCA-PAM50 improves consistency between breast cancer intrinsic and clinical subtyping
+    reclassifying a subset of luminal A tumors as luminal B.
+  members:
+  - screening_id: f901ef703777190675743735cdd7dda989a25abb9cddac67646aeafa40fdec4b
+    title: PCA-PAM50 improves consistency between breast cancer intrinsic and clinical subtyping reclassifying
+      a subset of luminal A tumors as luminal B.
+    canonical: true
+- canonical_screening_id: fde5c7ea6f4d365e3d5f73456255ca43663fae719ac9d57b9351573b3d173b56
+  canonical_title: A comparison of rule-based and centroid single-sample multiclass predictors for transcriptomic
+    classification
+  members:
+  - screening_id: fde5c7ea6f4d365e3d5f73456255ca43663fae719ac9d57b9351573b3d173b56
+    title: A comparison of rule-based and centroid single-sample multiclass predictors for transcriptomic
+      classification
+    canonical: true
+scientific_conclusions_drawn: false

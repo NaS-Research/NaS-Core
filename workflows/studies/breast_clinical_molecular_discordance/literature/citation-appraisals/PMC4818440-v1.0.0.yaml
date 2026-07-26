@@ -1,0 +1,88 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 98d833b330ef6ded0d7318e136d8d8f880f33ea1e9d878be9f81b39ba2c15433
+title: Heterogeneity in global gene expression profiles between biopsy specimens taken peri-surgically
+  from primary ER-positive breast carcinomas.
+pmid: '27036195'
+doi: 10.1186/s13058-016-0696-2
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4818440/fullTextXML
+full_text_sha256: c83c58f2be320e3e92f668826123e88137d286cdb1622c796a8d5bb66fe285ca
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Two paired ER-positive cohorts included 23 evaluable immediate pairs and 56 evaluable diagnostic-versus-surgical
+    pairs. They directly address peri-surgical variation but remain modest, selected cohorts.
+  evidence_locations:
+  - "Methods \u2014 Study I"
+  - "Methods \u2014 Study II"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Whole-genome Illumina expression was measured on paired specimens with quality control. The
+    second design spans roughly two weeks and cannot isolate sampling location, ischemia, surgical manipulation,
+    and other perioperative effects.
+  evidence_locations:
+  - "Methods \u2014 RNA extraction and gene expression"
+  - Discussion
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: PAM50 assignments and centroid margins are reported, but classification uses cohort-normalized
+    expression and assigns every sample without a fixed abstention threshold.
+  evidence_locations:
+  - "Methods \u2014 PAM50 molecular subtyping"
+  - "Results \u2014 PAM50 subtype concordance"
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Within-patient paired specimens are the correct comparator for temporal and sampling stability,
+    but neither biopsy is an independent biological truth and both may capture genuine intratumor heterogeneity.
+  evidence_locations:
+  - "Methods \u2014 Study design"
+  - Discussion
+- domain: analysis_and_statistics
+  judgment: low
+  rationale: Analyses preserve pairing, report global and gene-level correlation, false-discovery-rate
+    control, permutation testing, and centroid-margin patterns across two related designs.
+  evidence_locations:
+  - "Methods \u2014 Statistical analysis"
+  - Results
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: Replication across immediate and delayed paired designs strengthens the stability signal.
+    Small samples, a single disease setting, cohort-dependent normalization, and absence of a locked assay
+    limit transport inference.
+  evidence_locations:
+  - "Results \u2014 Comparison between studies"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: low
+  rationale: Cohort procedures, analytic methods, paired results, limitations, and the public GEO accession
+    GSE73237 are reported.
+  evidence_locations:
+  - Methods
+  - Availability of supporting data
+evidence_role: supporting
+key_strengths:
+- Uses paired specimens from the same patients.
+- Examines two related peri-surgical sampling designs.
+- Reports global expression, individual-gene, and PAM50 stability.
+- Provides public expression data through GEO GSE73237.
+key_limitations:
+- Cohorts are modest and restricted to ER-positive tumors.
+- The delayed design combines several preanalytic and biological effects.
+- PAM50 classification is cohort normalized and has no abstention rule.
+- The study does not estimate patient-outcome consequences.
+conflicts_and_funding: Two authors were identified as PAM50 co-inventors; the remaining authors declared
+  no competing interests. Funding included the Mary-Jean Mitchell Green Foundation, Breast Cancer Now,
+  NHS/NIHR, and Cancer Research UK; sponsors were reported as having no role in the study.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

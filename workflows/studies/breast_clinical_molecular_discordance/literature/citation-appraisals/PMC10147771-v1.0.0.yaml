@@ -1,0 +1,95 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 564b9e536607f672f57571b54ba714470ea27d12068964b3e484a944f9ff7c72
+title: Discordance between PAM50 intrinsic subtyping and immunohistochemistry in South African women with
+  breast cancer.
+pmid: '36867282'
+doi: 10.1007/s10549-023-06886-3
+full_text_source_url: https://link.springer.com/content/pdf/10.1007/s10549-023-06886-3.pdf
+full_text_sha256: 04a65edf61f9338abb12dafe0ab967477502dd6825d6afef33d42231083c2898
+access_basis: Official publisher PDF reviewed ephemerally; zero article bytes retained under the article's
+  CC BY 4.0 license.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: high
+  rationale: The cohort includes 378 consenting, self-identified Black African women from one Soweto clinic.
+    Age matching within an HIV-outcomes study produced a younger sample with mostly stage II or III disease,
+    limiting population representativeness.
+  evidence_locations:
+  - "Methods \u2014 Study participants"
+  - "Discussion \u2014 limitations"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: IHC was processed in one laboratory under defined ER, PR, HER2, FISH, and Ki67 procedures,
+    while marked FFPE tumor sections underwent NanoString measurement and quality control. Visual Ki67
+    scoring by multiple readers remains a variable comparator component.
+  evidence_locations:
+  - "Methods \u2014 IHC classification"
+  - "Methods \u2014 PAM50 subtyping"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: The paper identifies nSolver normalization, controls, and NanoString-assigned intrinsic labels,
+    but classification was performed by the manufacturer with proprietary software details. Every passing
+    sample received a subtype and no ambiguity or abstention behavior is evaluated.
+  evidence_locations:
+  - "Methods \u2014 PAM50 subtyping"
+  - Supplementary Table S1
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Centralized IHC provides a relevant resource-constrained comparator to PAM50. The selected
+    clinical mappings and Ki67 thresholds are disputed, and the analysis does not establish either label
+    system as biological truth in discordant tumors.
+  evidence_locations:
+  - Table 1
+  - "Methods \u2014 IHC classification"
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: Kappa and descriptive tests quantify disagreement, but several Ki67 cutoffs and an alternative
+    HER2 grouping were explored without a stated multiplicity plan or held-out threshold-validation cohort.
+    No outcome analysis verifies the proposed clinical consequences.
+  evidence_locations:
+  - "Methods \u2014 Statistical analysis"
+  - "Results \u2014 Ki67 cutoffs"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: "Findings are not externally validated and reflect one younger, later-stage clinical population.\
+    \ The proposed 20\u201325% Ki67 range remains a hypothesis rather than a prospectively calibrated\
+    \ decision threshold with demonstrated patient benefit."
+  evidence_locations:
+  - Discussion
+  - "Discussion \u2014 limitations"
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohort definitions, assay procedures, thresholds, quality controls, supplements, funding,
+    and limitations are reported. Patient-level data are available only by request, and proprietary NanoString
+    classification limits full independent reconstruction.
+  evidence_locations:
+  - Methods
+  - Data availability
+evidence_role: context_only
+key_strengths:
+- Directly studies an underrepresented Black southern African clinical population.
+- Uses centralized pathology and 378 quality-controlled NanoString subtype results.
+- Demonstrates large distributional differences between IHC and PAM50 labels.
+- Reports resource constraints and population-specific threshold uncertainty explicitly.
+key_limitations:
+- Single-clinic, younger, later-stage cohort limits external generalization.
+- Multiple exploratory Ki67 cutoffs lack held-out calibration and multiplicity control.
+- Proprietary classification and request-only data constrain full reproducibility.
+- No outcome analysis demonstrates benefit from changing IHC thresholds or treatment.
+conflicts_and_funding: Funding came from University of the Witwatersrand open-access support, NIH/NCI,
+  Wits/South African MRC CERC, and South African NRF equipment support. NanoString personnel assigned
+  intrinsic subtypes and were acknowledged; no explicit competing-interest statement was located in the
+  reviewed publisher article.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the exact checksum-bound PDF ephemerally and proposed section-located
+  judgments. This is not a founder decision, locked appraisal, scientific conclusion, novelty finding,
+  or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

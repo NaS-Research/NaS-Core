@@ -753,6 +753,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="Directory containing governed ephemeral-review receipts",
     )
     citation_appraisal_progress.add_argument(
+        "--appraisal-source-receipt-dir",
+        action="append",
+        type=Path,
+        help=(
+            "Directory containing a verified delayed-appraisal source receipt; "
+            "repeat for additional batches"
+        ),
+    )
+    citation_appraisal_progress.add_argument(
         "--access-decision-dir",
         type=Path,
         help="Directory containing final restricted-access decisions",
@@ -2099,6 +2108,15 @@ def main(argv: Sequence[str] | None = None) -> int:
             read_only_review_receipt_paths=(
                 sorted(args.read_only_receipt_dir.glob("*.yaml"))
                 if args.read_only_receipt_dir is not None
+                else ()
+            ),
+            appraisal_source_receipt_paths=(
+                sorted(
+                    path
+                    for directory in args.appraisal_source_receipt_dir
+                    for path in directory.glob("*.yaml")
+                )
+                if args.appraisal_source_receipt_dir is not None
                 else ()
             ),
             access_decision_paths=(

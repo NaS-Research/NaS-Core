@@ -735,6 +735,12 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
     retrieval_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     read_only_review_id: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     full_text_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    appraisal_source_review_id: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
+    appraisal_source_sha256: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
     appraisal_version: str | None = Field(
         default=None, pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$"
     )
@@ -749,17 +755,31 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
     def validate_state(self) -> FullTextAppraisalProgressRecord:
         source_ids = (self.retrieval_id, self.read_only_review_id)
         source_fields = (*source_ids, self.full_text_sha256)
+        appraisal_source_fields = (
+            self.appraisal_source_review_id,
+            self.appraisal_source_sha256,
+        )
         appraisal_fields = (self.appraisal_version, self.evidence_role)
         duplicate_fields = (self.canonical_screening_id, self.duplicate_relationship)
         source_is_complete = (
             sum(value is not None for value in source_ids) == 1
             and self.full_text_sha256 is not None
         )
+        appraisal_source_is_complete = all(
+            value is not None for value in appraisal_source_fields
+        )
+        if any(value is not None for value in appraisal_source_fields) and not (
+            appraisal_source_is_complete
+        ):
+            raise ValueError(
+                "appraisal source requires both review ID and checksum"
+            )
         if self.status is AppraisalCompletionStatus.AWAITING_FULL_TEXT:
             if any(
                 value is not None
                 for value in (
                     *source_fields,
+                    *appraisal_source_fields,
                     *appraisal_fields,
                     *duplicate_fields,
                     self.observed_license,
@@ -769,7 +789,12 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
         elif self.status is AppraisalCompletionStatus.ACCESS_RESTRICTED:
             if any(
                 value is not None
-                for value in (*source_fields, *appraisal_fields, *duplicate_fields)
+                for value in (
+                    *source_fields,
+                    *appraisal_source_fields,
+                    *appraisal_fields,
+                    *duplicate_fields,
+                )
             ):
                 raise ValueError("restricted record cannot contain retrieval or appraisal state")
             if self.observed_license is None:
@@ -777,14 +802,24 @@ class FullTextAppraisalProgressRecord(AppraisalModel):
         elif self.status is AppraisalCompletionStatus.DUPLICATE_RESOLVED:
             if any(
                 value is not None
-                for value in (*source_fields, *appraisal_fields, self.observed_license)
+                for value in (
+                    *source_fields,
+                    *appraisal_source_fields,
+                    *appraisal_fields,
+                    self.observed_license,
+                )
             ) or any(value is None for value in duplicate_fields):
                 raise ValueError(
                     "duplicate-resolved record requires only canonical relationship state"
                 )
         elif self.status is AppraisalCompletionStatus.READY_FOR_APPRAISAL:
             if not source_is_complete or any(
-                value is not None for value in (*appraisal_fields, *duplicate_fields)
+                value is not None
+                for value in (
+                    *appraisal_source_fields,
+                    *appraisal_fields,
+                    *duplicate_fields,
+                )
             ) or self.observed_license is not None:
                 raise ValueError("ready record requires exactly one verified source state")
         elif (

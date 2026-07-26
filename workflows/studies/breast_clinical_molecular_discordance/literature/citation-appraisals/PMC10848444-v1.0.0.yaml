@@ -1,0 +1,101 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: ca39d7821e26c2596195bea613930e126ad8142fcbc8e250f4b91a078e9224d9
+title: Ensemble methods of rank-based trees for single sample classification with gene expression profiles
+pmid: '38321494'
+doi: 10.1186/s12967-024-04940-2
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC10848444/fullTextXML
+full_text_sha256: 517f03780e8e4bab03d2ce843c858052ae2a37e4df96a671a9d7bfe54174c105
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Twelve retrospective public cancer datasets span 22 to 587 samples and 85 to 2,526 genes.
+    The TNBC evaluation combines four published datasets totaling 375 samples across microarray and RNA-seq.
+    This breadth is useful, but many cohorts are very small, selected benchmark datasets with limited
+    clinical characterization.
+  evidence_locations:
+  - "Methods \u2014 Gene expression data and evaluation methods"
+  - "Table 1 \u2014 Binary and multi-class datasets"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Rank comparisons reduce dependence on absolute expression scale and TNBC includes microarray
+    and RNA-seq datasets. Only 49 genes were common across TNBC platforms, and preprocessing, laboratory,
+    specimen, and cohort effects are not isolated through paired samples or technical replicates.
+  evidence_locations:
+  - "Methods \u2014 Gene expression data and evaluation methods"
+  - Results
+  - "Table 2 \u2014 Dimension reduction results"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Rank-tree, random-rank-forest, boosting, variable-importance, class balancing, tuning, and
+    comparator implementations are mathematically described, and source is public. Many influential hyperparameters
+    require dataset-specific grid search, tie handling remains unresolved, and no single frozen artifact
+    or abstention threshold is identified for breast cancer.
+  evidence_locations:
+  - "Methods \u2014 Rank-based trees"
+  - "Methods \u2014 Ensemble Algorithm with reduced dimension"
+  - Discussion
+  - Availability of data and materials
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: The methods predict historical benchmark class labels and are compared with k-TSP and nearest-template
+    prediction. These labels enable method comparison but are not an independent biological or clinical
+    gold standard, and comparator underperformance does not establish patient-level correctness.
+  evidence_locations:
+  - "Methods \u2014 Gene expression data and evaluation methods"
+  - "Methods \u2014 Other SSP methods and algorithm implementation"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Class-balanced 70/15/15 training, validation, and test splits were repeated 50 times, with
+    held-out accuracy and variable-selection summaries. The work compares many datasets, methods, and
+    tuning choices without confidence intervals or multiplicity control, and accuracy alone does not assess
+    calibration, class-specific error, or abstention.
+  evidence_locations:
+  - "Methods \u2014 Performance measures"
+  - Results
+- domain: validation_and_transportability
+  judgment: high
+  rationale: The methods section states that TNBC training and testing crossed microarray and RNA-seq
+    platforms, but the results aggregate TNBC accuracy and do not provide a distinct per-direction cross-platform
+    estimate, unchanged artifact, or independently frozen external test. No prospective assay, clinical
+    cohort, or patient-decision transport is evaluated.
+  evidence_locations:
+  - "Methods \u2014 Gene expression data and evaluation methods"
+  - Table 1 footnote c
+  - Results
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Algorithms, public dataset references, split proportions, repetitions, comparator packages,
+    source code, and aggregate results are reported. Reproduction of the claimed cross-platform TNBC result
+    is weakened by absent per-dataset performance, seeds, exact split assignments, and a frozen model.
+  evidence_locations:
+  - Methods
+  - Results
+  - Availability of data and materials
+evidence_role: context_only
+key_strengths:
+- Extends pairwise rank rules to interpretable multivariate trees and ensembles.
+- Uses held-out test partitions repeated 50 times across 12 cancer datasets.
+- Makes source code and public-data provenance available.
+- Explicitly acknowledges tie and zero-heavy-data limitations.
+key_limitations:
+- Cross-platform TNBC performance is not separately reported by train/test direction.
+- Small benchmark cohorts and historical labels limit clinical interpretation.
+- Accuracy omits calibration, class-specific uncertainty, and abstention.
+- Dataset-specific tuning is required and no fixed breast artifact is validated.
+conflicts_and_funding: The authors declared no competing interests. Funding included University of Miami
+  Copeland Foundation and relief awards, NIH grants R01HL164405 and R35GM139659, NCI grants R01CA200987
+  and P30CA240139, and Sylvester Comprehensive Cancer Center immediate grant funding.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

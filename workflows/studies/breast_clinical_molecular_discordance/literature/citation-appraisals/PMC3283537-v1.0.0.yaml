@@ -1,0 +1,94 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 6533ac2ac734cebe16bd375cbf0adbedffacd5bf69e216dca3bd0112ba470b30
+title: A three-gene model to robustly identify breast cancer molecular subtypes.
+pmid: '22262870'
+doi: 10.1093/jnci/djr545
+full_text_source_url: https://oup.silverchair-cdn.com/article-minimal/979947
+full_text_sha256: b4392904021e9348bf2afa1849cc7d7989ce4e8722d2d25bb2f5b38e1a488961
+access_basis: Official Oxford Academic HTML reviewed ephemerally; canonical article representation hashed
+  and zero article bytes retained.
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: The compendium contains 5,715 tumors from 36 retrospectively assembled public datasets spanning
+    platforms, treatments, and incompletely reported clinical characteristics. Breadth is a strength,
+    but selection and missingness differ across source cohorts.
+  evidence_locations:
+  - "Methods \u2014 Gene Expression Data"
+  - Tables 1 and 2
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: The analysis reused normalized measurements from multiple microarray technologies. Probe
+    mapping, missing classifier genes, platform-specific preprocessing, and the absence of common renormalization
+    introduce measurement heterogeneity that robust scaling cannot fully separate.
+  evidence_locations:
+  - "Methods \u2014 Gene Expression Data"
+  - "Discussion \u2014 limitations"
+- domain: classifier_implementation
+  judgment: high
+  rationale: SCMGENE uses ESR1, ERBB2, and AURKA with Gaussian-mixture subtype assignment, while the luminal
+    split and robust scaling depend on the analyzed dataset. The implementation is reproducible in genefu
+    but is not a frozen, reference-independent single-patient artifact with an abstention rule.
+  evidence_locations:
+  - "Methods \u2014 Subtype Classifiers"
+  - "Methods \u2014 Robustness"
+- domain: reference_comparator
+  judgment: high
+  rationale: The study compares six classifiers with one another, pathology markers, and prognostic signatures,
+    but breast-cancer subtype truth is explicitly unknown. Concordance measures agreement among constructed
+    labels rather than correctness against an independent biological reference.
+  evidence_locations:
+  - "Methods \u2014 Concordance"
+  - Discussion
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Prediction strength, kappa, confidence intervals, cross-validated partial likelihood, and
+    Holm correction are reported. Survival models could not test proportional-hazards departures, source-cohort
+    dependence remains, and many heterogeneous comparisons are interpreted together.
+  evidence_locations:
+  - "Methods \u2014 Statistical Analysis"
+  - Supplementary Tables 5 and 7
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: One training dataset and 32 test datasets provide broad cross-dataset evaluation, and SCMGENE
+    reached robust median prediction strength. Every receiving dataset still undergoes cohort-level scaling
+    or fitting, so the evidence does not validate unchanged prospective single-sample transport.
+  evidence_locations:
+  - "Results \u2014 Robustness"
+  - Figure 2
+- domain: reporting_and_reproducibility
+  judgment: low
+  rationale: The paper identifies datasets, probes, algorithms, software versions, correction procedures,
+    supplementary classifications, and public genefu code. It also reports missing mappings and analytical
+    limitations.
+  evidence_locations:
+  - Methods and Supplement
+  - Funding and Notes
+evidence_role: context_only
+key_strengths:
+- Compares six subtype classifiers across 5,715 tumors and many platforms.
+- Uses explicit robustness, agreement, survival, and multiplicity procedures.
+- Supplies reusable code plus dataset-level classifications and clinical fields.
+- Directly exposes instability at luminal and normal-like boundaries.
+key_limitations:
+- No independent subtype truth determines which discordant label is correct.
+- Scaling and mixture-based assignment remain dependent on the receiving cohort.
+- Retrospective cohorts differ in selection, treatment, measurement, and missingness.
+- Fixed single-patient transport and abstention are not tested.
+conflicts_and_funding: Public and nonprofit funders included Fulbright, NIH/NLM, Claudia Adams Barr, FNRS,
+  MEDIC, BCRF, NHMRC, and ESMO. Christos Sotiriou disclosed inventorship on a Gene expression Grade Index
+  patent application; no other conflicts were reported, and funders were described as uninvolved in the
+  work.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the exact checksum-bound canonical article representation
+  ephemerally and proposed section-located judgments. This is not a founder decision, locked appraisal,
+  scientific conclusion, novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

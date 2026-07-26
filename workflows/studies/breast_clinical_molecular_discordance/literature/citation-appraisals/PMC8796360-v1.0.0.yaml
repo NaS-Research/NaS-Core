@@ -1,0 +1,108 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: fde5c7ea6f4d365e3d5f73456255ca43663fae719ac9d57b9351573b3d173b56
+title: A comparison of rule-based and centroid single-sample multiclass predictors for transcriptomic
+  classification
+pmid: '34788787'
+doi: 10.1093/bioinformatics/btab763
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8796360/fullTextXML
+full_text_sha256: ba39be72d362c00e675022e5f106937e9db1fd14f8fe45cd44df8fc8e42204d4
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: The study spans 301 microarray and 397 RNA-seq bladder tumors, 3,814 SCAN-B breast tumors,
+    18 additional bladder datasets, 19 lung datasets, and 10,088 pan-cancer samples. This is broad, but
+    several evaluations reuse retrospective public cohorts, and the breast analysis uses a within-SCAN-B
+    50/50 split rather than an independently recruited validation population.
+  evidence_locations:
+  - "Methods \u2014 Bladder cancer datasets"
+  - "Methods \u2014 Additional datasets"
+  - "Results \u2014 Breast cancer"
+  - "Results \u2014 Lung cancer"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Array and RNA-seq cohorts with heterogeneous preprocessing provide a demanding platform test,
+    and tumor-purity behavior is explicitly examined. However, cross-platform differences are not isolated
+    from cohort biology, older-array dynamic range caused major failures, and the same specimen was not
+    generally assayed on both platforms.
+  evidence_locations:
+  - "Methods \u2014 Bladder cancer datasets"
+  - "Results \u2014 Lung cancer"
+  - Discussion
+- domain: classifier_implementation
+  judgment: low
+  rationale: Raw and centered centroids, AIMS, switchBox k-TSP, and the rule-based random forest are described
+    with feature-selection rules, parameters, missing-gene imputation, voting/probability outputs, and
+    software dependencies. The multiclassPairs R package preserves the training and prediction workflow
+    and enables single-sample execution after artifacts are fixed.
+  evidence_locations:
+  - "Methods \u2014 Centroid classifiers"
+  - "Methods \u2014 Rule-based classifiers"
+  - Availability and implementation
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Bladder labels combine clustering, immunostaining curation, and prior centroids; SCAN-B PAM50
+    labels are centroid-derived. These are informative technical targets but not independent biological
+    truth, and training to reproduce them makes accuracy partly a measure of label imitation.
+  evidence_locations:
+  - "Methods \u2014 Bladder cancer datasets"
+  - "Results \u2014 Breast cancer"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: The work reports OOB accuracy, held-out accuracy, model-size behavior, prediction margins,
+    ties, feature importance, purity effects, and failures across many datasets. Numerous model variants
+    and datasets were explored without a study-wide multiplicity framework or confidence intervals, and
+    several reported training values reuse data employed in feature selection.
+  evidence_locations:
+  - "Results \u2014 Subtype prediction in bladder cancer"
+  - "Results \u2014 Results on additional datasets"
+  - Discussion
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: Training on one bladder platform and testing on another, multi-study lung testing, and mixed-platform
+    training directly probe transport. Failures on an unrepresented older array are retained. Breast validation
+    is only a random split of one RNA-seq population, no unchanged clinical assay is tested, and output
+    scores are informative rather than prospectively calibrated uncertainty.
+  evidence_locations:
+  - "Results \u2014 Absolute Intrinsic Molecular Subtyping \u2014 AIMS"
+  - "Results \u2014 Breast cancer"
+  - "Results \u2014 Lung cancer"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: low
+  rationale: Datasets, splits, transformations, model parameters, performance ranges, failure modes, and
+    package availability are reported, with supplementary tables and a public CRAN implementation. This
+    supports substantial computational reproduction despite dependence on previously assigned labels.
+  evidence_locations:
+  - Methods
+  - Supplementary Table S1
+  - Availability and implementation
+evidence_role: supporting
+key_strengths:
+- Directly compares cohort-dependent centroids with multiple true single-sample predictors.
+- Uses large breast, bladder, lung, and pan-cancer collections across platforms.
+- Preserves cross-platform failures and identifies unrepresented-platform risk.
+- Reports margins, tied scores, purity effects, feature importance, and missing-gene handling.
+- Provides an executable public R package.
+key_limitations:
+- Breast validation is a random split within SCAN-B, not an independent cohort.
+- Reference labels are derived from prior clustering or centroid classifiers.
+- Mixed-platform training improves transfer but does not guarantee new-platform compatibility.
+- Prediction scores are not calibrated patient-level uncertainty or abstention probabilities.
+conflicts_and_funding: "The authors declared no conflict of interest. Funding included Swedish Cancer\
+  \ Society awards CAN 2020/709 and 2019/51, Lund Medical Faculty ALF support, Sk\xE5ne University Hospital\
+  \ and County research funds, the Malm\xF6 General Hospital Cancer Research Fund, and Berta Kamprad's\
+  \ Cancer Foundation FBKS-2019-35."
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

@@ -105,9 +105,10 @@ pending lawful read-only, publisher-license, identity-correction, or restriction
 review in that immutable initial queue. A bounded dash-typography repair later
 resolved `PMC7299291` and `PMC11265146` under exact PMCID, PMID, and DOI agreement;
 both CC BY 4.0 articles were retrieved and verified. Current reconciled
-`citation_appraisal_progress_v1.0.0.yaml` records three completed appraisals,
-22 ready for appraisal, four access restrictions, and zero records awaiting full
-text. Ten verified ephemeral reviews now include eight official PMC pages, one
+`citation_appraisal_progress_v1.0.0.yaml` records 25 completed appraisals, zero
+ready for appraisal, four access restrictions, and zero records awaiting full
+text. The completed set contains seven `supporting` and 18 `context_only`
+appraisals. Ten verified ephemeral reviews include eight official PMC pages, one
 version-specific medRxiv representation, and one institutional author-copy PDF;
 every exact content representation was hashed in memory and no article content was
 stored. The UNC Lineberger copy for PMID 23907291 is bound to SHA-256
@@ -133,42 +134,35 @@ are locked as `context_only`. The original proposal files correctly retain
 `founder_decision_recorded=false` because authority resides in the separate,
 append-only confirmation artifact.
 
-Citation appraisal batch 0002 now proposes judgments for four single-sample
-method papers under packet SHA-256 `f45518a3…f92e2`. `PMC6219008` and
-`PMC8796360` are proposed as `supporting`; `PMC8479681` and `PMC10848444` are
-proposed as `context_only`. The proposals remain non-authoritative and the live
-progress ledger remains at three completed, 22 ready, four access-restricted,
-and zero awaiting full text until the founder confirms the exact packet.
+Citation appraisal batch 0002 covers four single-sample method papers under
+packet SHA-256 `f45518a3…f92e2`. `PMC6219008` and `PMC8796360` are locked as
+`supporting`; `PMC8479681` and `PMC10848444` are locked as `context_only`.
 
-Citation appraisal batch 0003 now proposes judgments for the six remaining
-checksum-verified full texts. `PMC4546262`, `PMC4818440`, `PMC7470374`, and
-`PMC8657125` are proposed as `supporting`; `PMC1557722` and `PMC10771357` are
-proposed as `context_only`. The batch adds direct evidence about fixed commercial
+Citation appraisal batch 0003 covers six checksum-verified full texts.
+`PMC4546262`, `PMC4818440`, `PMC7470374`, and `PMC8657125` are locked as
+`supporting`; `PMC1557722` and `PMC10771357` are locked as `context_only`. The
+batch adds direct evidence about fixed commercial
 assay development, paired specimen perturbations, peri-surgical variation,
-commercial-test reconstruction, and real-world IHC/PAM50 disagreement. It remains
-non-authoritative pending its own exact founder confirmation and does not alter
-the live progress counts.
+commercial-test reconstruction, and real-world IHC/PAM50 disagreement.
 
 The typed appraisal-confirmation contract is no longer batch-0001-specific. It
 derives the exact statement from the four-digit batch number, binds that number to
 the packet filename, verifies the packet and every proposal checksum, rejects
 missing or substituted proposal sets, verifies screening and study identities,
-and then derives founder-authorized appraisals in memory. Authorization-readiness
-tests cover the real batch-0002 and batch-0003 bytes without recording a founder
-decision. Only a separate exact founder confirmation artifact can cross this gate.
-The three batch-0001 locked appraisals are materialized in
-`citation-appraisals/`; the proposal files remain unchanged and non-authoritative.
+and then derives founder-authorized appraisals in memory. Separate append-only
+confirmation artifacts crossed this gate for batches 0001 through 0008. All 25
+locked appraisals are materialized in `citation-appraisals/`; the proposal files
+remain unchanged and non-authoritative.
 
-Citation appraisal batch 0004 proposes the `PPR1259744` Prosigna
+Citation appraisal batch 0004 locks the `PPR1259744` Prosigna
 nCounter-to-whole-transcriptome-NGS analytical bridge as `supporting`. The packet
 is bound to SHA-256 `b03ea215…d7eda` and the proposal to
 `2bc1b32d…c93f3`. The proposal records the separated bridge and validation
 cohorts, paired comparator, prespecified analytical criteria, archival testing,
 preprint status, Veracyte funding, proprietary data, and incomplete public
-calibration artifact. It remains non-authoritative until the founder separately
-confirms batch 0004 exactly.
+calibration artifact.
 
-Citation appraisal batch 0005 proposes the PMID 23907291 genomic-versus-pathology
+Citation appraisal batch 0005 locks the PMID 23907291 genomic-versus-pathology
 comparison as `context_only`. Its institutional author copy was reverified against
 the prior 518,968-byte receipt and SHA-256 `5ffda151…805a` through a structured
 no-storage proposal gate. That gate limits derivative narrative sizes, rejects
@@ -176,11 +170,10 @@ long verbatim source sequences, and retains no article text. Packet SHA-256
 `990c74c2…b8117` binds proposal SHA-256 `e10db278…a8cd6`. The proposal records
 moderate overall agreement alongside cohort-level centering, selected population,
 small subgroup analyses, crossover treatment sequence, absent multiplicity
-control, and no external validation. It remains non-authoritative until the
-founder separately confirms batch 0005 exactly.
+control, and no external validation.
 
-Citation appraisal batch 0006 contains two non-authoritative `context_only`
-proposals for direct IHC/PAM50 comparisons in Korean and South African cohorts.
+Citation appraisal batch 0006 contains two locked `context_only` appraisals for
+direct IHC/PAM50 comparisons in Korean and South African cohorts.
 Packet SHA-256 `a1bbada9…c002` binds proposal SHA-256 values
 `6e918cf4…84d2` and `7effc650…a917`.
 Their official publisher PDFs passed the delayed exact-byte, article-identity,
@@ -207,17 +200,16 @@ license grant; durable storage and redistribution remain prohibited unless
 separately authorized.
 
 Citation appraisal batch 0007 uses those canonical routes for `PMC3283537`,
-`PMC3508193`, and `PMC7791620`. All three proposals are `context_only` and remain
-non-authoritative under packet SHA-256 `43410b02…21d5`. Together they show that
+`PMC3508193`, and `PMC7791620`. All three are locked as `context_only` under
+packet SHA-256 `43410b02…21d5`. Together they show that
 single-sample microarray normalization is feasible, that simplified classifier
 robustness does not remove cohort-level fitting or establish biological truth,
 and that IHC surrogates show only poor-to-moderate four-class agreement with
 PAM50 in two Swedish cohorts. These observations do not validate a NaS method,
-patient-level subtype adjudication, or treatment utility. Exact founder
-confirmation is required before any proposal can enter the evidence ledger.
+patient-level subtype adjudication, or treatment utility.
 
-Citation appraisal batch 0008 completes proposal-stage review of the remaining
-five verified citation-pass full texts. Three canonical PMC OAI representations
+Citation appraisal batch 0008 completes review of the remaining five verified
+citation-pass full texts. Three canonical PMC OAI representations
 were re-fetched and verified with zero article bytes retained; two CC BY 4.0
 sources were reverified against the external object store. All five proposals are
 `context_only`. The set contributes direct evidence about IHC/PAM50 mismatch and
@@ -226,25 +218,32 @@ patient-independent classification and difficult molecular boundaries. It does
 not establish a correct biological label, validate a NaS classifier, or support a
 clinical decision. `PMC11696812` is the peer-reviewed successor to the already
 appraised `PMC10723508` preprint and must replace it as the canonical synthesis
-citation rather than count as an independent study. Exact founder confirmation is
-required before batch 0008 can enter the evidence ledger.
+citation rather than count as an independent study.
 
-Publication-version control is mechanically enforced. A non-authoritative link
-proposal has its own checksum and is included in the batch-0008 founder
-confirmation contract. Authorization requires the canonical publication to have
-an appraisal in that same confirmed batch. The reconciliation service then
+Publication-version control is mechanically enforced. The link proposal has its
+own checksum and was authorized through the batch-0008 founder confirmation
+contract. Authorization required the canonical publication to have an appraisal
+in that same confirmed batch. The reconciliation service then
 verifies both appraisals against exact screening IDs, normalized titles, PMIDs,
 and DOIs; rejects missing, overlapping, or cross-study links; and emits an
 immutable family receipt whose unique-study count is the appraisal count minus
-authorized version links. The CLI commands are
+authorized version links. The materialized receipt records 53 appraisal reports,
+one authorized version link, and 52 unique studies. The CLI commands are
 `citation-appraisal-authorize --version-link-proposal-dir ... --version-link-output-dir ...`
-and `citation-publication-version-reconcile`. No link decision or family receipt
-exists before founder confirmation.
+and `citation-publication-version-reconcile`.
 
-For founder review, `FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`
-indexes batches 0002 through 0008 with exact packet hashes, proposal counts,
-evidence-role totals, links, and the seven packet-specific confirmation statements.
-It is a convenience index, not a combined authorization.
+Delayed appraisals may bind a stable canonical source separately from the
+original access receipt. The progress command accepts repeatable
+`--appraisal-source-receipt-dir` arguments and records both the alternate receipt
+ID and checksum. It verifies inventory identity, title, PMCID, checksum, lawful
+read permission, and completed-appraisal status while preserving the original
+access receipt and decision.
+
+The historical filename
+`FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md` is retained for immutable
+links. Its current contents index the seven completed confirmations, exact packet
+hashes, proposal counts, evidence-role totals, and append-only confirmation
+artifacts. It is a convenience index, not a combined authorization.
 
 Required artifacts:
 

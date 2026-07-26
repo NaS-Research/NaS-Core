@@ -1,0 +1,106 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 09dcf1ec6b23a4c970b86dd3e3957ca742f02cac9b02196b9722686583978e11
+title: "Bridging and analytical validation of the Prosigna  <sup>\xAE</sup>  Breast Risk of Recurrence\
+  \ Test as a whole-transcriptome NGS lab developed test"
+doi: 10.64898/2026.06.23.26355479
+full_text_source_url: https://www.medrxiv.org/content/10.64898/2026.06.23.26355479v2.full.txt
+full_text_sha256: 47b4a207278aa19e0f19532dc47cb7e197d9e176b45001ee2761abb99ceb7576
+access_basis: Official medRxiv version 2 plain full text, reviewed ephemerally under CC BY-NC 4.0; zero
+  article bytes retained in the durable NaS corpus.
+study_design: analytical_validation
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Bridging and analytical-validation specimens came from a commercial tissue bank and were
+    deliberately selected to span ROR scores and intrinsic subtypes. This is appropriate for analytical
+    stress testing but is not a prevalence-representative clinical cohort. Oslo1 supplied an independent
+    archival cohort.
+  evidence_locations:
+  - "Methods \u2014 Breast cancer samples and synthetic controls"
+  - "Results \u2014 Study Design"
+  - Table 1
+- domain: specimen_and_measurement
+  judgment: low
+  rationale: The study used paired sections from the same FFPE blocks, pathologist-marked macrodissection,
+    prespecified inputs and QC, separate surgical-resection and core-biopsy analyses, extraction replicates,
+    interfering-substance tests, and long-term archival RNA and blocks.
+  evidence_locations:
+  - "Methods \u2014 Sample processing and RNA extraction"
+  - "Methods \u2014 NGS library preparation and sequencing"
+  - "Results \u2014 Analytical validation of the Prosigna test for NGS"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Software versions, VST normalization, PCA-based batch correction, platform calibration, centroid
+    correlation, proliferation, tumor size, and ROR calculation are described. The exact fitted calibration
+    artifact and complete executable transformation are not publicly frozen, preventing independent unchanged
+    implementation.
+  evidence_locations:
+  - "Methods \u2014 Alignment, NGS QC, and Prosigna test calculation"
+  - Data Availability
+- domain: reference_comparator
+  judgment: low
+  rationale: The established Prosigna IVD on the nCounter system was run under its instructions for use
+    on paired material and is the appropriate comparator for a platform-bridging claim. It does not serve
+    as an independent truth standard for clinical outcome utility.
+  evidence_locations:
+  - "Methods \u2014 Prosigna testing on the nCounter system"
+  - "Results \u2014 Analytical validation of the Prosigna test for NGS"
+- domain: analysis_and_statistics
+  judgment: low
+  rationale: The study prespecified SD, risk-category, subtype-concordance, precision, lower-limit, and
+    interference thresholds; used TOST equivalence bounds, kappa, pairwise concordance, confidence intervals,
+    and mixed-effects variance decomposition; and reported post-hoc analyses as such.
+  evidence_locations:
+  - "Methods \u2014 Statistical Analysis"
+  - "Methods \u2014 Variance Decomposition Analysis"
+  - "Supplementary Tables 1\u20138"
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: A 245-sample bridge was followed by a separate 187-sample analytical validation set and independent
+    Oslo1 archival testing. Both specimen types and several technical perturbations were covered, but
+    testing was centralized and the authors state that other laboratories, distributed kits, and wider
+    FFPE processing variation still require study.
+  evidence_locations:
+  - "Results \u2014 Analytical validation of the Prosigna test for NGS"
+  - "Results \u2014 Retrospective analysis of long-term stored archival patient specimens"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohort sizes, acceptance criteria, tools, and aggregate results are detailed, but underlying
+    datasets are proprietary and unavailable except by request, the fitted calibration artifact is not
+    released, and the full text contains no explicit competing-interest declaration despite company funding
+    and commercial assay development.
+  evidence_locations:
+  - Methods
+  - Data Availability
+  - "Declarations \u2014 Funding"
+evidence_role: supporting
+key_strengths:
+- Separates a 245-sample platform bridge from a 187-sample analytical validation cohort.
+- Uses paired nCounter and NGS results with prespecified equivalence and precision criteria.
+- Tests surgical resections, core biopsies, RNA inputs, extraction replicates, and contaminants.
+- Adds independent testing of long-term archival Oslo1 RNA and FFPE blocks.
+- Reports high ROR correlation and strong risk-group and subtype concordance.
+key_limitations:
+- This is a 2026 preprint that has not been certified by peer review.
+- The study was funded by Veracyte and evaluates a Veracyte commercial assay transition.
+- Commercial tissue-bank selection was balanced for analytical coverage, not population prevalence.
+- Proprietary datasets and an unfrozen calibration artifact prevent independent reproduction.
+- The work establishes analytical agreement, not clinical outcome validity or treatment utility.
+conflicts_and_funding: The study states that Veracyte, Inc. funded the work and that the datasets are
+  unavailable because of proprietary commercial development. The checksum-bound plain text does not include
+  an explicit competing-interest declaration; this absence is recorded rather than interpreted as evidence
+  of no conflict.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound, version-specific plain full text in memory,
+  stored zero article bytes, extracted section-located methodological evidence, and proposed the domain
+  judgments and evidence role. This is not a founder decision, locked appraisal, scientific result, novelty
+  finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

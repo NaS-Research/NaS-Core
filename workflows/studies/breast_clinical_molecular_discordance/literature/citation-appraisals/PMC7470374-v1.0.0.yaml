@@ -1,0 +1,91 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 3d181f219140a3b8504ea8cc4b791b829c9bb03a924c18c42e3e9e7abe52d6b6
+title: 'Computational approaches to support comparative analysis of multiparametric tests: Modelling versus
+  Training.'
+pmid: '32881987'
+doi: 10.1371/journal.pone.0238593
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7470374/fullTextXML
+full_text_sha256: 2060f691975521c268eb9ca7845e1c111a8390f6cb0911ddb7f7db4130be1aca
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: OPTIMA prelim randomized 313 participants; 302 specimens were available and 274 had multiple
+    commercial results. This is a strong head-to-head sample, but exclusions and the selected trial population
+    constrain generalization.
+  evidence_locations:
+  - "Methods \u2014 OPTIMA prelim"
+  - "Results \u2014 Samples available for analysis"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Commercial assays and NanoString expression were derived from the same tumor material where
+    possible, reducing biological variation. Proprietary preprocessing, references, and platform differences
+    could not be fully reconstructed.
+  evidence_locations:
+  - "Methods \u2014 Laboratory methods"
+  - "Methods \u2014 Modelling commercial tests"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Training procedures were explicit, but modeled assays necessarily estimated undocumented
+    proprietary centering, scaling, reference, and algorithm details. The resulting models are approximations
+    rather than exact assay implementations.
+  evidence_locations:
+  - "Methods \u2014 Modelling"
+  - "Methods \u2014 Training"
+- domain: reference_comparator
+  judgment: low
+  rationale: Actual commercial test outputs on the same tumors serve as the direct technical reference
+    for each approximation, matching the stated objective.
+  evidence_locations:
+  - "Methods \u2014 Commercial test results"
+  - "Results \u2014 Comparison with original tests"
+- domain: analysis_and_statistics
+  judgment: low
+  rationale: The cohort was split 50/50, model choices used five-fold cross-validation within training,
+    iterations were locked before held-out validation, and both correlations and clinically relevant categorical
+    concordance were reported.
+  evidence_locations:
+  - "Methods \u2014 Training and validation"
+  - Results
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: Held-out validation supports internal transport within OPTIMA prelim and trained approximations
+    achieved high agreement for several assays. There is no external cohort, new laboratory, or unchanged
+    prospective deployment.
+  evidence_locations:
+  - "Methods \u2014 Validation"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Splits, metrics, approaches, and extensive results are reported, but legal restrictions limit
+    the participant data and proprietary commercial algorithms prevent exact independent reconstruction.
+  evidence_locations:
+  - Methods
+  - Data Availability
+evidence_role: supporting
+key_strengths:
+- Uses true commercial outputs from the same trial specimens as references.
+- Separates model development and held-out validation.
+- Reports continuous, binary, and ternary agreement.
+- Demonstrates that training can outperform incomplete algorithm reconstruction.
+key_limitations:
+- Validation is internal to one trial cohort.
+- Proprietary assay details had to be estimated.
+- Participant-level data access is restricted.
+- Technical agreement does not establish equivalent clinical utility.
+conflicts_and_funding: Disclosures include consultancies, honoraria, research funding, patents, and assay-company
+  relationships; one author was a NanoString employee/shareholder and several authors were test inventors.
+  These relationships are material to interpretation of comparative assay modeling.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked appraisal, scientific result,
+  novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

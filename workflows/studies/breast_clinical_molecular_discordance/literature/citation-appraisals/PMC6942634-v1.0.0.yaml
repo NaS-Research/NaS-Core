@@ -1,0 +1,96 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 52fe49b5b6e74f571109fef3d844bd1690c8e3b18aa333ae1796812ad508e261
+title: Purity Independent Subtyping of Tumors (PurIST), A Clinically Robust, Single-sample Classifier
+  for Tumor Subtyping in Pancreatic Cancer.
+pmid: '31754050'
+doi: 10.1158/1078-0432.ccr-19-1467
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:6942634&metadataPrefix=pmc
+full_text_sha256: 220610032adfa252093635223e9e0e2395ceadf704a1b086a03e58f02ee1e2cf
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article subtree verified and
+  zero article bytes retained. No approved license authorizes a durable commercial corpus.
+study_design: prediction_model
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Training and validation combine public pancreatic-cancer datasets with different platforms,
+    specimen types, and clinical availability. This diversity supports transport testing, but training
+    labels excluded visually identified weak clusters and treatment analyses use selected observational
+    or trial subsets.
+  evidence_locations:
+  - "Methods \u2014 Public datasets"
+  - "Methods \u2014 Sample inclusion"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: The study evaluates bulk frozen tissue, FFPE, fine-needle aspirates, RNA sequencing, microarrays,
+    and NanoString. Matched-specimen experiments are small, and the NanoString-specific classifier uses
+    a reduced common-gene panel rather than the unchanged RNA-sequencing implementation.
+  evidence_locations:
+  - "Results \u2014 FFPE and FNA replicability"
+  - "Results \u2014 NanoString replicability"
+- domain: classifier_implementation
+  judgment: low
+  rationale: PurIST uses eight fixed within-sample gene-pair indicators, published coefficients, a basal-like
+    probability, and a fixed 0.5 threshold. It avoids receiving-cohort normalization and reports graded
+    confidence categories for individual patients.
+  evidence_locations:
+  - "Results \u2014 PurIST SSC"
+  - Supplementary Table 5
+- domain: reference_comparator
+  judgment: high
+  rationale: Validation targets consensus-clustering subtype labels rather than independent biological
+    truth. Those labels derive from expression data, include visually filtered training cases, and can
+    share signals with the rank-pair classifier.
+  evidence_locations:
+  - "Methods \u2014 Sample inclusion"
+  - "Results \u2014 External validation"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Leave-one-out error, study-level ROC curves, nonparametric meta-analysis, confidence strata,
+    agreement statistics, survival, and treatment associations are reported. The many secondary analyses
+    and selected treatment cohorts do not establish prospective predictive utility.
+  evidence_locations:
+  - "Results \u2014 External validation"
+  - "Results \u2014 Treatment decision-making"
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: Multiple independent datasets and platforms receive the fixed classifier, with additional
+    matched-specimen tests. However, the biological label remains clustering-derived, some platform work
+    uses PurIST-n, and prospective treatment utility is explicitly unvalidated.
+  evidence_locations:
+  - "Results \u2014 External validation"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Gene pairs, coefficients, threshold, public datasets, software approach, and supplemental
+    methods are reported. Some training-label filtering depends on visual judgment, and complete clinical
+    deployment, calibration, and immutable executable packaging are not provided.
+  evidence_locations:
+  - Supplementary Methods
+  - Supplementary Table 5
+evidence_role: context_only
+key_strengths:
+- Implements a genuinely patient-independent rank-pair classifier with a fixed threshold.
+- Tests independent datasets spanning RNA sequencing, microarray, NanoString, FFPE, and aspirates.
+- Reports confidence strata and shows lower-confidence calls are less reliable.
+- Separates classifier construction from several external dataset evaluations.
+key_limitations:
+- Pancreatic subtypes are indirect evidence for a breast PAM50 reliability question.
+- Consensus-clustering labels are not an independent biological truth standard.
+- Visual removal of weakly clustered training cases can make the target labels optimistic.
+- Treatment-response findings require prospective validation and cannot support clinical decisions.
+conflicts_and_funding: The study received support from NIH, NCI, Pancreatic Cancer Action Network, Department
+  of Defense, institutional programs, and philanthropic foundations. Several authors disclosed intellectual
+  property or advisory, consulting, equity, research-support, or employment relationships relevant to
+  pancreatic diagnostics and therapeutics.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound canonical article representation ephemerally
+  and proposed section-located judgments. This is not a founder decision, locked appraisal, scientific
+  conclusion, novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

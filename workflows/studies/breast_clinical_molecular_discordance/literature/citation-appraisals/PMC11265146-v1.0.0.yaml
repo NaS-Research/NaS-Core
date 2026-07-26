@@ -1,0 +1,96 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 6c3508f650680780e97d7bfb7d31a495365975d5227179be33bb493cb9f385df
+title: Feature-specific quantile normalization and feature-specific mean-variance normalization deliver
+  robust bi-directional classification and feature selection performance between microarray and RNAseq
+  data.
+pmid: '38549046'
+doi: 10.1186/s12859-024-05759-w
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11265146/fullTextXML
+full_text_sha256: 542412c6ba9b8253f799c9b8e1cecdd959536721cc8e9f26e060e0e408cdd425
+access_basis: Checksum-verified Europe PMC full text stored under the article's Creative Commons Attribution
+  4.0 International license.
+study_design: prediction_model
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: 'The gold-standard design uses the same TCGA patients measured by Agilent microarray and
+    RNA sequencing: 431 breast and 187 colon cases after filtering. This isolates platform effects well,
+    but only two cancer cohorts and selected cases with paired measurements and existing subtype labels
+    are studied.'
+  evidence_locations:
+  - "Methods \u2014 Study design"
+  - "Methods \u2014 Dataset descriptions and processing"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Paired assays on identical biological samples are a major strength. However, the source matrices
+    were already processed differently, low-expression genes were removed, microarray missingness was
+    imputed, and only shared annotated genes were retained.
+  evidence_locations:
+  - "Methods \u2014 Dataset descriptions and processing"
+  - "Methods \u2014 Cross-platform normalization"
+- domain: classifier_implementation
+  judgment: high
+  rationale: The study evaluates supervised machine-learning prediction of existing PAM50 and colon subtype
+    labels after feature-specific normalization. It does not execute a locked PAM50 centroid algorithm
+    on one patient or define subtype margins, unclassifiable states, or abstention thresholds.
+  evidence_locations:
+  - "Methods \u2014 Study design"
+  - "Methods \u2014 Machine learning"
+- domain: reference_comparator
+  judgment: high
+  rationale: Existing PAM50 and consensus molecular subtype labels serve as targets, but their derivation
+    and biological correctness are not independently adjudicated. Agreement with a learned target label
+    cannot identify the correct label for a discordant patient.
+  evidence_locations:
+  - "Methods \u2014 Dataset descriptions and processing"
+  - Discussion
+- domain: analysis_and_statistics
+  judgment: low
+  rationale: Identical nested cross-validation folds, positive and negative controls, balanced accuracy,
+    kappa, expression error, feature-selection comparisons, and multivariable models provide a controlled
+    bidirectional platform experiment.
+  evidence_locations:
+  - "Methods \u2014 Study design"
+  - "Methods \u2014 Statistical analysis"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: Bidirectional held-out folds test technological transfer within paired TCGA cohorts, but
+    there is no independent institution, prospective sample stream, alternative tissue context, or unchanged
+    end-to-end PAM50 validation. Distribution matching also requires a target cohort.
+  evidence_locations:
+  - Results
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: low
+  rationale: Public data sources, dimensions, preprocessing, normalization equations, software, nested
+    validation, outcomes, and an R implementation are reported. The public TCGA inputs permit substantial
+    independent replication.
+  evidence_locations:
+  - Methods
+  - Supplementary software
+evidence_role: context_only
+key_strengths:
+- Uses paired microarray and RNA-sequencing measurements from the same patients.
+- Tests both transfer directions with identical nested cross-validation folds.
+- Includes PAM50-labelled TCGA-BRCA as a direct normalization case.
+- Reports both classification and gene-expression reconstruction metrics.
+key_limitations:
+- Tests learned subtype prediction rather than the locked PAM50 centroid procedure.
+- Existing subtype labels are targets, not biological ground truth.
+- Feature-specific normalization requires a receiving distribution with identical genes.
+- No external clinical cohort, patient-level uncertainty, or decision utility is evaluated.
+conflicts_and_funding: The article reports Canadian Institutes of Health Research, Natural Sciences and
+  Engineering Research Council, Alberta Innovates, University of Calgary, and related academic support.
+  No material competing commercial interest was identified in the reviewed article.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-verified stored article and proposed section-located
+  judgments. This is not a founder decision, locked appraisal, scientific conclusion, novelty finding,
+  or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T13:46:43Z'
+scientific_conclusions_drawn: false

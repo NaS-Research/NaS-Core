@@ -204,11 +204,17 @@ def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
     )
     assert progress.full_texts_retrieved == 15
     assert progress.read_only_full_texts_reviewed == 10
-    assert progress.appraisals_completed == 3
+    assert progress.appraisals_completed == 25
     assert progress.access_restricted_count == 4
-    assert progress.context_only_count == 3
-    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 22
+    assert progress.supporting_count == 7
+    assert progress.context_only_count == 18
+    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 0
     assert sum(item.status == "awaiting_full_text" for item in progress.records) == 0
+    assert sum(
+        item.appraisal_source_review_id is not None
+        and item.appraisal_source_sha256 is not None
+        for item in progress.records
+    ) == 8
     read_only_receipts = [
         FullTextReadOnlyReviewReceipt.model_validate(yaml.safe_load(path.read_text()))
         for path in sorted(
