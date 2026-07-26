@@ -466,7 +466,7 @@ def test_real_appraisal_confirmation_authorizes_exact_proposal_set() -> None:
 
 @pytest.mark.parametrize(
     ("batch_number", "expected_supporting", "expected_context"),
-    [(2, 2, 2), (3, 4, 2), (4, 1, 0), (5, 0, 1)],
+    [(2, 2, 2), (3, 4, 2), (4, 1, 0), (5, 0, 1), (6, 0, 2)],
 )
 def test_pending_real_batches_are_authorization_ready(
     batch_number: int,

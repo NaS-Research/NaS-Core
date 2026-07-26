@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.26.0-working`
+Manuscript version: `0.27.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -249,6 +249,21 @@ FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml;
 citation-appraisal-proposals/batch-0001/PMC11217366-v1.0.0.yaml;
 citation-appraisal-proposals/batch-0001/PMC6547580-v1.0.0.yaml;
 citation-appraisal-proposals/batch-0001/PMC3487945-v1.0.0.yaml]
+
+Two additional direct comparisons are frozen as non-authoritative batch-0006
+proposals. A Korean multi-cohort study reported 38.4% IHC/PAM50 discordance, but
+its research classifier merged local NanoString expression with TCGA and applied
+batch adjustment before subtype assignment. A South African study showed large
+differences between clinical-surrogate and PAM50 subtype distributions in 378
+quality-passing Black African women, while its explored Ki67 thresholds lacked
+held-out calibration and outcome validation. These studies reinforce that
+agreement depends on population, assay, preprocessing, reference cohort, mapping,
+and threshold choices. They do not identify a universally correct label or show
+that relabeling improves outcomes. The synthesis remains outside the authoritative
+evidence base pending exact founder confirmation.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md;
+citation-appraisal-proposals/batch-0006/PMC6473265-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0006/PMC10147771-v1.0.0.yaml]
 
 ### Quality appraisal
 
@@ -966,6 +981,7 @@ checks, and internal reviews are complete.
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0004 | AI-assisted preprint appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0004_v1.0.0.md`; `citation-appraisal-proposals/batch-0004/PPR1259744-v1.0.0.yaml` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0005 | AI-assisted ephemeral appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md`; `citation-appraisal-proposals/batch-0005/PMID23907291-v1.0.0.yaml` | non-authoritative, founder review required |
+| Pending—citation appraisal batch 0006 | AI-assisted publisher-PDF appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md`; two files in `citation-appraisal-proposals/batch-0006/` | non-authoritative, founder review required |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -1003,6 +1019,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.27.0-working | 2026-07-25 | Added two checksum-bound, non-authoritative batch-0006 IHC/PAM50 comparison proposals and recorded fail-closed rejection of an unstable repository PDF. |
 | 0.26.0-working | 2026-07-25 | Added the bounded no-storage proposal validator, generalized `PMC`/`PMID`/`PPR` founder references, and non-authoritative batch-0005 genomic-versus-pathology appraisal proposal. |
 | 0.25.0-working | 2026-07-25 | Added the checksum-bound UNC institutional-PDF review receipt and explicit publisher decisions for three restricted records; citation state is 3 appraised, 22 ready, 3 restricted, and 1 pending access. |
 | 0.22.0-working | 2026-07-25 | Added a reproducible medRxiv version-2 no-storage receipt, CC BY-NC durable-storage restriction, and non-authoritative batch-0004 appraisal proposal; citation state is 3 appraised, 21 ready, and 5 pending access. |

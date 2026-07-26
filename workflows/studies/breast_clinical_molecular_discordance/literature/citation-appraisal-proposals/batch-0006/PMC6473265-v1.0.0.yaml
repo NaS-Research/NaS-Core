@@ -1,0 +1,93 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 4abea96b841f9e86c6903d6e12f03f105e572434ac83009e70b81a8bcfa2bfca
+title: 'Discordance of the PAM50 Intrinsic Subtypes Compared with Immunohistochemistry-Based Surrogate
+  in Breast Cancer Patients: Potential Implication of Genomic Alterations of Discordance.'
+pmid: '30189722'
+doi: 10.4143/crt.2018.342
+full_text_source_url: https://www.e-crt.org/upload/pdf/crt-2018-342.pdf
+full_text_sha256: 7ed5e9b9bb8a73734616f12ac300227330dca9e574c9a123b36a8c10f1ef2302
+access_basis: Official journal PDF reviewed ephemerally; zero article bytes retained. CC BY-NC 4.0 does
+  not authorize a durable commercial corpus.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: high
+  rationale: The retrospective sample combines five studies and one trial at one Korean center. Cohort-specific
+    enrollment, treatment, tissue availability, and follow-up can jointly affect subtype composition and
+    survival comparisons.
+  evidence_locations:
+  - "Methods \u2014 Patients"
+  - Supplementary Table 1
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: FFPE regions with more than 75% tumor were microdissected, IHC and HER2 testing were clinically
+    defined, and NanoString measured PAM50 genes. Nonetheless, six source cohorts may differ in archival
+    quality, and the targeted-mutation subset contains only 118 samples.
+  evidence_locations:
+  - "Methods \u2014 DNA/RNA extraction"
+  - "Methods \u2014 sequencing"
+- domain: classifier_implementation
+  judgment: high
+  rationale: The research PAM50 implementation merged Samsung NanoString expression with TCGA data, applied
+    ComBat, and then used Bioclassifier centroids. This cohort-dependent adjustment differs from a locked
+    commercial single-sample assay and may alter assignments when reference composition changes.
+  evidence_locations:
+  - "Methods \u2014 PAM50 prediction"
+  - "Discussion \u2014 limitations"
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: IHC and FISH are clinically meaningful comparators, but the paper defines concordance through
+    a chosen mapping between pathology and intrinsic labels. Neither measurement is established as the
+    universal ground truth for every discordant case.
+  evidence_locations:
+  - "Abstract \u2014 Methods"
+  - Supplementary Figure 1
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: The paper reports Fisher tests, false-discovery-rate correction, Kaplan-Meier, log-rank,
+    and Cox methods. Mutation analyses use a selected 118-case subset, survival contrasts are observational,
+    treatment differences can confound outcomes, and the headline treatment explanation is not causally
+    identified.
+  evidence_locations:
+  - "Methods \u2014 Statistical analysis"
+  - "Results \u2014 survival"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: No external cohort tests the same preprocessing and discordance associations. The single-center,
+    multi-cohort Korean sample and TCGA-adjusted classifier cannot establish prospective transport, treatment
+    benefit, or general population calibration.
+  evidence_locations:
+  - "Discussion \u2014 limitations"
+  - Supplementary Figure 7
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Assays, software versions, thresholds, mutation filters, correction methods, supplements,
+    and major limitations are reported. The exact integrated reference matrix and a frozen patient-level
+    classifier artifact are not supplied for independent reproduction.
+  evidence_locations:
+  - Methods
+  - Electronic Supplement
+proposed_evidence_role: context_only
+key_strengths:
+- Evaluates 607 patients with paired pathology and gene-expression subtype information.
+- Reports an overall discordance rate near 39% and subtype-specific patterns.
+- Includes long follow-up plus explicit mutation and survival analyses.
+- Acknowledges cohort configuration, sample quality, and small mutation subsets.
+key_limitations:
+- Retrospective aggregation of six cohorts creates selection and treatment heterogeneity.
+- TCGA merging and batch correction make subtype assignment reference dependent.
+- Mutation findings arise from only 118 selected samples.
+- Observed survival differences cannot prove that discordance or undertreatment caused outcomes.
+conflicts_and_funding: The article reports no relevant conflict of interest. Samsung Biomedical Research
+  Institute funded the work. The founder packet should retain the institutional funding relationship when
+  interpreting the single-center retrospective analyses.
+assistant_id: openai-codex
+assistant_disclosure: OpenAI Codex reviewed the exact checksum-bound PDF ephemerally and proposed section-located
+  judgments. This is not a founder decision, locked appraisal, scientific conclusion, novelty finding,
+  or clinical recommendation.
+proposed_at: '2026-07-25T22:31:00-05:00'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

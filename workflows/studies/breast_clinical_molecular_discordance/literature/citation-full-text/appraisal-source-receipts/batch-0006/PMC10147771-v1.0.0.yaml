@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: c07e8c9baa18449df809b2c2b136224617303dd9b57bbad1511a31cad61a0e43
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 564b9e536607f672f57571b54ba714470ea27d12068964b3e484a944f9ff7c72
+pmcid: PMC10147771
+pmid: '36867282'
+doi: 10.1007/s10549-023-06886-3
+title: Discordance between PAM50 intrinsic subtyping and immunohistochemistry in South African women with
+  breast cancer.
+source_url: https://link.springer.com/content/pdf/10.1007/s10549-023-06886-3.pdf
+access_mode: read_only_ephemeral
+access_basis: Official publisher PDF reviewed ephemerally; zero article bytes retained.
+observed_rights: Creative Commons Attribution 4.0 International.
+rights_url: https://creativecommons.org/licenses/by/4.0/
+content_sha256: 04a65edf61f9338abb12dafe0ab967477502dd6825d6afef33d42231083c2898
+content_size_bytes: 834928
+accessed_at: '2026-07-26T03:19:05.784612Z'
+verified_at: '2026-07-26T03:19:05.785017Z'
+code_revision: 6a85735fb4bcfa64250c0e35bf3b123e0b130b14
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

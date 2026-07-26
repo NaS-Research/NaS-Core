@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: b87e5cdf577a30261fdae74c31ad073b88176c29189a45087f71957dbdb11c70
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 4abea96b841f9e86c6903d6e12f03f105e572434ac83009e70b81a8bcfa2bfca
+pmcid: PMC6473265
+pmid: '30189722'
+doi: 10.4143/crt.2018.342
+title: 'Discordance of the PAM50 Intrinsic Subtypes Compared with Immunohistochemistry-Based Surrogate
+  in Breast Cancer Patients: Potential Implication of Genomic Alterations of Discordance.'
+source_url: https://www.e-crt.org/upload/pdf/crt-2018-342.pdf
+access_mode: read_only_ephemeral
+access_basis: Official journal PDF reviewed ephemerally; zero article bytes retained.
+observed_rights: Creative Commons Attribution-NonCommercial 4.0; commercial corpus reuse is not authorized.
+rights_url: https://creativecommons.org/licenses/by-nc/4.0/
+content_sha256: 7ed5e9b9bb8a73734616f12ac300227330dca9e574c9a123b36a8c10f1ef2302
+content_size_bytes: 1220150
+accessed_at: '2026-07-26T03:19:02.406786Z'
+verified_at: '2026-07-26T03:19:02.407418Z'
+code_revision: 6a85735fb4bcfa64250c0e35bf3b123e0b130b14
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

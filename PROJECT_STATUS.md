@@ -42,14 +42,17 @@ bridging preprint under packet SHA-256 `b03ea215…d7eda`; it is proposed as
 Batch 0005 contains the checksum-bound UNC institutional-copy appraisal under
 packet SHA-256 `990c74c2…b8117`; it is proposed as `context_only` and remains
 non-authoritative pending exact founder confirmation.
-Batch 0006 is in source preparation. A live re-fetch showed that PMC HTML can
-retain the same byte count while changing its SHA-256, so delayed appraisals will
-not rely on those dynamic pages. A fail-closed official publisher/repository PDF
-route now verifies allowlisted DOI-to-URL bindings, PDF completeness, article
-identity, exact bytes, bounded derivative summaries, and verbatim-leakage limits
-while retaining zero article bytes. Three direct papers have reproducible official
-PDF routes; the SCAN and Swedish concordance papers remain queued for separate
-stable-source resolution.
+Batch 0006 contains two checksum-bound direct IHC/PAM50 comparison proposals,
+both proposed as `context_only` and non-authoritative pending exact founder
+confirmation under packet SHA-256 `a1bbada9…c002`. A live re-fetch showed that
+PMC HTML can retain the same byte count while changing its SHA-256, so delayed
+appraisals will not rely on those dynamic pages. A fail-closed official
+publisher/repository PDF route now verifies allowlisted DOI-to-URL bindings, PDF
+completeness, article identity, exact bytes, bounded derivative summaries, and
+verbatim-leakage limits while retaining zero article bytes. The Korean and South
+African comparison PDFs passed the delayed exact-byte gate. The three-gene
+repository PDF changed bytes and was rejected; it joins the SCAN and Swedish
+concordance papers in the queue for separate stable-source resolution.
 
 Definition of done:
 
