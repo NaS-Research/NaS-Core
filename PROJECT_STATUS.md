@@ -8,19 +8,24 @@ and what comes next?
 
 ## Current focus
 
-### Execute the founder-authorized field-isolated metadata audit
+### Resolve GSE96058 technical-replicate linkage without widening data access
 
-The founder supplied the exact statement
-`I authorize field-isolated metadata audit 1.0.0 as written.` The append-only
-confirmation is bound to packet SHA-256 `503bdcc6…0d0ff`. A fail-closed
-projection engine and canonical receipt schema are implemented with synthetic
-tests. The engine allowlists exact GDC/GEO endpoints and fields, verifies source
-identities and checksums, parses only receptor/replicate metadata and gene
-identifiers, retains only aggregate derivatives, and explicitly prohibits raw
-artifact storage, patient-level retention, expression-value parsing, outcome
-parsing, cohort construction, and classifier execution. The implementation must
-be committed before remote execution so the live receipt can bind an exact code
-revision.
+Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
+`2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
+50 historical PAM50 genes without ambiguous mappings in both frozen source
+representations. It quantified TCGA receptor completeness across 1,098 records
+and GSE96058 receptor completeness across 3,409 records while retaining no
+patient/sample rows, molecular values, outcomes, raw artifacts, cohort, or
+classifier result.
+
+Four of five checks passed. The approved GEO characteristic fields contained no
+primary-versus-technical-replicate linkage, so all 3,409 sample records remained
+unclassified and the receipt correctly returned `changes_requested`. The official
+GEO description states that `!Sample_title` distinguishes titles such as `F30`
+and `F30repl`, but that field is outside audit `1.0.0`'s allowlist. Amendment
+`1.0.1` now proposes a strictly validated, aggregate-only title projection and
+source-specific `0`/`1` receptor normalization. It requires a new exact founder
+decision before implementation or execution.
 
 The completed citation-appraisal state remains:
 
@@ -73,14 +78,10 @@ checksums in addition to their original access receipts. This preserves the
 lawful-access decision while proving which stable, reverified representation
 supports each appraisal.
 
-Metadata feasibility audit `1.0.0` is complete under the existing no-patient-row
-Phase 0 boundary. It verified 1,231 open TCGA-BRCA STAR-count files, the current
-770-field GDC case mapping, and availability of the two declared GSE96058
-supplementary artifacts. The case mapping exposes no receptor-named field, and
-source-level/HEAD metadata cannot prove exact PAM50 row coverage. The audit
-therefore records `changes_requested`. A separate founder packet now defines the
-minimal transient field/schema isolation required to resolve those gates without
-authorizing molecular or outcome analysis.
+The earlier source-level audit and the new field-isolated receipt together prove
+source availability, exact PAM50 row coverage, and receptor completeness. They do
+not prove assay equivalence, lock a transformation, validate a classifier, or
+authorize molecular or outcome analysis.
 
 Definition of done:
 
@@ -294,8 +295,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Commit the tested field-isolated projection implementation, then execute it
-   from that frozen revision and record a checksum-bound feasibility receipt.
+1. Obtain exact founder authorization for field-isolated metadata amendment
+   `1.0.1`; only then implement and execute its sample-title projection.
 2. Execute sequential
    citation passes until two consecutive fully screened passes add zero eligible
    evidence.
@@ -330,6 +331,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-26 — Field-isolated metadata audit 1.0.0 executed
+
+Recorded the founder's exact checksum-bound authorization, implemented a
+synthetic-tested no-retention projection engine, froze it before source access,
+and executed the live audit. Both TCGA and GSE96058 contain all 50 historical
+PAM50 genes without ambiguous canonical mappings. TCGA has 981 of 1,098 records
+with all three receptor fields present; GSE96058 has 2,931 of 3,409. The approved
+GEO characteristics did not encode primary/technical linkage, so the audit
+returned `changes_requested`. No patient-level row, molecular value, outcome,
+raw source, cohort, or classifier output was retained.
 
 ### 2026-07-26 — Citation appraisal batches 0002–0008 authorized
 
@@ -389,6 +401,8 @@ scientific conclusion was drawn from the abstract.
 Reconciled citation progress is now three completed, 22 ready for appraisal,
 four restricted, and zero awaiting full text. All 29 net-new citation-pass
 inclusions have a terminal access route or a verified review source.
+
+## Historical implementation log
 
 ### 2026-07-25 — Publisher access queue reduced to one unresolved record
 
@@ -696,8 +710,11 @@ concordance, but omitting macrodissection produced ROR bias as large as -19 unit
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.
-- GSE96058 is approved only as a processed-data validation candidate. PAM50 gene
-  coverage and the locked cross-platform transformation remain unresolved.
+- GSE96058 is approved only as a processed-data validation candidate. All 50
+  historical PAM50 genes and receptor completeness are verified, but
+  primary-versus-technical-replicate linkage requires founder authorization of
+  sample-title amendment `1.0.1`. The cross-platform transformation also remains
+  unresolved.
 - The Seagate volume currently reports approximately 4.2 TiB available. It is
   primary local storage, not an independent backup.
 - NAS-BRCA-001 public release is blocked by pending founder results review, a

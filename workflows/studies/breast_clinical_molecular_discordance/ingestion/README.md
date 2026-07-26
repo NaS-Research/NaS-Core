@@ -40,7 +40,31 @@ The authorized projection engine:
   prediction, raw artifact, or analytical cohort; and
 - fails closed to `changes_requested` unless all five feasibility checks verify.
 
-Synthetic fixtures must pass before live execution. The implementation must be
-committed first so the live receipt can bind the exact executed revision.
+Synthetic fixtures passed before live execution, and the implementation was
+committed before contact with remote sources. Immutable
+[`field_isolated_metadata_receipt_v1.0.0.yaml`](field_isolated_metadata_receipt_v1.0.0.yaml)
+is bound to code revision `2f0b15f…74d0c` and receipt SHA-256
+`b5f8c359…822a`.
+
+Audit `1.0.0` verified all 50 historical PAM50 genes without ambiguous panel
+mappings in both source representations. It quantified receptor completeness as:
+
+- TCGA-BRCA: 1,049 ER, 1,048 PR, 983 HER2, and 981 all-three-complete among
+  1,098 records;
+- GSE96058: 3,189 ER, 3,051 PR, 3,281 HER2, and 2,931 all-three-complete among
+  3,409 records.
+
+The audit returned `changes_requested` because no approved GEO characteristic
+encoded the primary-versus-technical-replicate linkage; all 3,409 samples
+remained unclassified for replicate state. The complete interpretation boundary
+is recorded in
+[`FIELD_ISOLATED_METADATA_REPORT_v1.0.0.md`](FIELD_ISOLATED_METADATA_REPORT_v1.0.0.md).
+
+The official GEO description documents titles such as `F30` and `F30repl`.
+Reading `!Sample_title` would expand the permitted field list, so it is not
+silently added. The separately reviewable
+[`FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md`](../reviews/FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md)
+defines the exact no-retention correction. Molecular and outcome execution remain
+prohibited.
 
 Completion gate: Governed immutable dataset snapshot is verified.

@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.33.0-working`
+Manuscript version: `0.34.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -398,19 +398,37 @@ A governed source-level metadata audit queried the current GDC service status an
 case-field mapping, ran a zero-row aggregate file query, and issued HEAD-only checks
 for the declared GSE96058 annotation and processed-expression artifacts. GDC Data
 Release 45.0 exposed 1,231 open TCGA-BRCA STAR-count files, and both GEO artifacts
-were available. However, none of the 770 indexed GDC case-field names identified
-ER, PR, HER2, estrogen, progesterone, or receptor status. Source-level metadata
-also could not enumerate expression-table genes. Receptor completeness and exact
-PAM50 coverage therefore remain unresolved; this is a feasibility result, not a
-cohort or molecular result.
+were available. None of the 770 indexed GDC case-field names identified receptor
+status, and source-level metadata could not enumerate expression-table genes.
 
-During pre-gate endpoint characterization, a public GEO family metadata response
-was found to co-mingle receptor and replicate annotations with patient-level
-treatment and survival fields. The response was not retained and no outcome
-analysis was performed. The endpoint is prohibited unless a separately authorized,
-fail-closed field-isolation procedure is implemented.
+During pre-gate endpoint characterization, a public GEO family response was found
+to co-mingle receptor and replicate annotations with treatment, survival,
+published subtype, and prediction fields. That response was not retained and no
+outcome analysis was performed. This disclosure remains part of the audit trail.
+
+The founder subsequently authorized a fail-closed field-isolation procedure.
+Executed code revision `2f0b15f…74d0c` streamed one registered BCR patient table,
+one deterministic STAR-count file, the GSE96058 processed-expression
+representation, and its family SOFT representation. The parser retained only
+aggregate derivatives and discarded all raw representations. It parsed no
+expression or outcome values and retained no patient/sample record. Both source
+representations contained all 50 historical PAM50 genes without ambiguous panel
+mappings. In TCGA, ER, PR, and HER2 were present for 1,049, 1,048, and 983 of
+1,098 records, respectively; all three were present for 981. In GSE96058, the
+corresponding counts were 3,189, 3,051, and 3,281 of 3,409, with all three present
+for 2,931.
+
+The approved GEO characteristic fields contained no primary-versus-technical
+replicate linkage, so all 3,409 records remained unclassified for replicate state
+and audit `1.0.0` returned `changes_requested`. The official GEO description says
+sample titles distinguish primary records such as `F30` from technical replicates
+such as `F30repl`; parsing that additional field requires separately versioned
+founder authorization. These are input-feasibility findings, not cohort,
+molecular, diagnostic, prognostic, or treatment results.
 [metadata_feasibility_receipt_v1.0.0.yaml;
-METADATA_FEASIBILITY_REPORT_v1.0.0.md]
+METADATA_FEASIBILITY_REPORT_v1.0.0.md;
+field_isolated_metadata_receipt_v1.0.0.yaml;
+FIELD_ISOLATED_METADATA_REPORT_v1.0.0.md]
 
 ## Results
 
@@ -991,8 +1009,14 @@ Status: `working`
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
   and no absence-of-prior-art claim may be inferred from that access boundary.
+- Field-isolated audit `1.0.0` verified both sources' PAM50 panel and receptor
+  completeness but could not classify GSE96058 primary and technical-replicate
+  records under the approved field allowlist. A separately authorized sample-title
+  projection is required.
 - No centroid, reference, transformation, technical-error model, or threshold is locked.
-- No molecular or outcome data have been accessed for question `0.3.0`.
+- Public representations containing molecular and prohibited metadata fields were
+  transiently transferred through the authorized projection gate. No molecular or
+  outcome value was parsed, retained, or analyzed for question `0.3.0`.
 - No external statistical or pathology review has been completed.
 - The current text is an internal working draft and has not undergone peer review.
 
@@ -1089,7 +1113,7 @@ checks, and internal reviews are complete.
 | Introduction ¶1–9 | External methodological evidence | 28 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
-| Methods—metadata feasibility | Five-request source-level audit and unresolved input gates | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/METADATA_FEASIBILITY_REPORT_v1.0.0.md` | verified, changes requested |
+| Methods—metadata feasibility | Source-level and field-isolated input audits | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.0.yaml`; both audit reports | PAM50 and receptor gates verified; replicate linkage changes requested |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
@@ -1141,6 +1165,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.34.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.0`: both sources contain all 50 PAM50 genes; receptor completeness is quantified for 1,098 TCGA and 3,409 GSE96058 records; replicate linkage remains unresolved and molecular/outcome execution remains prohibited. |
 | 0.33.0-working | 2026-07-26 | Materialized founder-confirmed citation appraisal batches 0002–0008, closed citation pass 1 at 25 appraised and 4 restricted records, bound delayed appraisals to stable source receipts, and reconciled 53 appraisal reports to 52 unique studies. |
 | 0.32.0-working | 2026-07-26 | Closed the final citation full-text access check for CC BY PMID 20181526 after official publisher, Unpaywall, Europe PMC, Crossref, and Elsevier API routes failed to provide a reproducible article body; citation state is 3 appraised, 22 ready, 4 restricted, and 0 awaiting full text. |
 | 0.31.0-working | 2026-07-26 | Added checksum-bound publication-version authorization and unique-study reconciliation so the mFISHseq preprint and version of record cannot be double-counted. |

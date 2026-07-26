@@ -1,0 +1,413 @@
+schema_version: 1.0.0
+audit_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+executed_at: '2026-07-26T14:44:20.791848+00:00'
+software_revision: 2f0b15f4c73043ba41864040861a22fe6bc74d0c
+authorization_path: workflows/studies/breast_clinical_molecular_discordance/reviews/FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_CONFIRMATION_v1.0.0.yaml
+authorization_sha256: 8505b5e6de56c39ae58a99fdd0e0923b2703e4793bd743814bfeb486d94edc88
+authorization_packet_path: workflows/studies/breast_clinical_molecular_discordance/reviews/FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_v1.0.0.md
+authorization_packet_sha256: 503bdcc6a28b3dd3ea1e16cac3e30c3ba64eb0abdd7a1a9689e98b9d2920d0ff
+transient_field_isolated_access: true
+prohibited_fields_transiently_transferred: true
+patient_level_records_retained: false
+molecular_values_parsed: false
+outcome_values_parsed: false
+raw_artifacts_stored: false
+cohort_constructed: false
+classifier_executed: false
+artifacts:
+- source_id: tcga-clinical-8162d394-8b64-4da2-9f5b-d164c54b9608
+  role: TCGA-BRCA receptor-field completeness
+  url: https://api.gdc.cancer.gov/data/8162d394-8b64-4da2-9f5b-d164c54b9608
+  file_id: 8162d394-8b64-4da2-9f5b-d164c54b9608
+  filename: nationwidechildrens.org_clinical_patient_brca.txt
+  declared_md5: f271f56d44b62d41bd6ddb0d26e525b4
+  representation_sha256: 465a3d7be11c2f887c853d622037fadb15d45bea40aee65bc685fffbe20cfda7
+  representation_size_bytes: 1700943
+  parser_name: tcga-bcr-biotab-plain-field-projection-v1
+  raw_artifact_stored: false
+  permitted_field_names:
+  - bcr_patient_barcode
+  - bcr_patient_uuid
+  - breast_carcinoma_estrogen_receptor_status
+  - breast_carcinoma_progesterone_receptor_status
+  - lab_proc_her2_neu_immunohistochemistry_receptor_status
+  - lab_procedure_her2_neu_in_situ_hybrid_outcome_type
+  rejected_field_names:
+  - age_at_initial_pathologic_diagnosis
+  - anatomic_neoplasm_subdivision
+  - axillary_lymph_node_stage_method_type
+  - axillary_lymph_node_stage_other_method_descriptive_text
+  - breast_cancer_surgery_margin_status
+  - breast_carcinoma_immunohistochemistry_er_pos_finding_scale
+  - breast_carcinoma_immunohistochemistry_pos_cell_score
+  - breast_carcinoma_immunohistochemistry_progesterone_receptor_pos_finding_scale
+  - breast_carcinoma_primary_surgical_procedure_name
+  - breast_carcinoma_surgical_procedure_name
+  - breast_neoplasm_other_surgical_procedure_descriptive_text
+  - clinical_m
+  - clinical_n
+  - clinical_stage
+  - clinical_t
+  - cytokeratin_immunohistochemistry_staining_method_micrometastasis_indicator
+  - days_to_birth
+  - days_to_death
+  - days_to_initial_pathologic_diagnosis
+  - days_to_last_followup
+  - days_to_patient_progression_free
+  - days_to_tumor_progression
+  - disease_code
+  - distant_metastasis_present_ind2
+  - er_detection_method_text
+  - er_level_cell_percentage_category
+  - ethnicity
+  - extranodal_involvement
+  - fluorescence_in_situ_hybridization_diagnostic_procedure_chromosome_17_signal_result_range
+  - form_completion_date
+  - gender
+  - her2_and_centromere_17_positive_finding_other_measurement_scale_text
+  - her2_erbb_method_calculation_method_text
+  - her2_erbb_pos_finding_cell_percent_category
+  - her2_erbb_pos_finding_fluorescence_in_situ_hybridization_calculation_method_text
+  - her2_immunohistochemistry_level_result
+  - her2_neu_and_centromere_17_copy_number_analysis_input_total_number_count
+  - her2_neu_and_centromere_17_copy_number_metastatic_breast_carcinoma_analysis_input_total_number_count
+  - her2_neu_breast_carcinoma_copy_analysis_input_total_number
+  - her2_neu_chromosone_17_signal_ratio_value
+  - her2_neu_metastatic_breast_carcinoma_copy_analysis_input_total_number
+  - histological_type
+  - histological_type_other
+  - history_of_neoadjuvant_treatment
+  - icd_10
+  - icd_o_3_histology
+  - icd_o_3_site
+  - immunohistochemistry_positive_cell_score
+  - informed_consent_verified
+  - init_pathology_dx_method_other
+  - initial_pathologic_diagnosis_method
+  - lymph_node_examined_count
+  - margin_status
+  - menopause_status
+  - metastatic_breast_carcinoma_erbb2_immunohistochemistry_level_result
+  - metastatic_breast_carcinoma_estrogen_receptor_detection_method_text
+  - metastatic_breast_carcinoma_estrogen_receptor_level_cell_percent_category
+  - metastatic_breast_carcinoma_estrogen_receptor_status
+  - metastatic_breast_carcinoma_fluorescence_in_situ_hybridization_diagnostic_proc_centromere_17_signal_result_range
+  - metastatic_breast_carcinoma_her2_erbb_method_calculation_method_text
+  - metastatic_breast_carcinoma_her2_erbb_pos_finding_cell_percent_category
+  - metastatic_breast_carcinoma_her2_erbb_pos_finding_fluorescence_in_situ_hybridization_calculation_method_text
+  - metastatic_breast_carcinoma_her2_neu_chromosone_17_signal_ratio_value
+  - metastatic_breast_carcinoma_immunohistochemistry_er_pos_cell_score
+  - metastatic_breast_carcinoma_immunohistochemistry_pr_pos_cell_score
+  - metastatic_breast_carcinoma_lab_proc_her2_neu_immunohistochemistry_receptor_status
+  - metastatic_breast_carcinoma_lab_proc_her2_neu_in_situ_hybridization_outcome_type
+  - metastatic_breast_carcinoma_pos_finding_her2_erbb2_other_measure_scale_text
+  - metastatic_breast_carcinoma_pos_finding_other_scale_measurement_text
+  - metastatic_breast_carcinoma_pos_finding_progesterone_receptor_other_measure_scale_text
+  - metastatic_breast_carcinoma_progesterone_receptor_detection_method_text
+  - metastatic_breast_carcinoma_progesterone_receptor_level_cell_percent_category
+  - metastatic_breast_carcinoma_progesterone_receptor_status
+  - metastatic_site_at_diagnosis
+  - metastatic_site_at_diagnosis_other
+  - new_tumor_event_after_initial_treatment
+  - number_of_lymphnodes_positive_by_he
+  - number_of_lymphnodes_positive_by_ihc
+  - other_dx
+  - pathologic_m
+  - pathologic_n
+  - pathologic_stage
+  - pathologic_t
+  - patient_id
+  - person_neoplasm_cancer_status
+  - pgr_detection_method_text
+  - pos_finding_her2_erbb2_other_measurement_scale_text
+  - pos_finding_metastatic_breast_carcinoma_estrogen_receptor_other_measuremenet_scale_text
+  - pos_finding_progesterone_receptor_other_measurement_scale_text
+  - positive_finding_estrogen_receptor_other_measurement_scale_text
+  - postoperative_rx_tx
+  - primary_lymph_node_presentation_assessment
+  - progesterone_receptor_level_cell_percent_category
+  - project_code
+  - race
+  - radiation_therapy
+  - stage_other
+  - surgical_procedure_purpose_other_text
+  - system_version
+  - tissue_prospective_collection_indicator
+  - tissue_retrospective_collection_indicator
+  - tissue_source_site
+  - tumor_tissue_site
+  - tumor_tissue_site_other
+  - vital_status
+  - year_of_initial_pathologic_diagnosis
+- source_id: tcga-star-counts
+  role: TCGA-BRCA gene-identifier coverage
+  url: https://api.gdc.cancer.gov/data/0019c951-16c5-48d0-85c8-58d96b12d330
+  file_id: 0019c951-16c5-48d0-85c8-58d96b12d330
+  filename: ba295155-272e-43eb-9d6a-e4c9c392e68b.rna_seq.augmented_star_gene_counts.tsv
+  declared_md5: 603d5a827abe6b3f4921f12dbcaeb25b
+  representation_sha256: 24d1cab4d25a451973d9ad5e0331a01fdddf29cbca236d9f5d301bcecc8f723c
+  representation_size_bytes: 4251623
+  parser_name: gene-name-only-tsv-projection-v1
+  raw_artifact_stored: false
+  permitted_field_names:
+  - gene_name
+  rejected_field_names:
+  - expression_value_columns
+- source_id: gse96058-expression
+  role: GSE96058 gene-identifier coverage
+  url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96058/suppl/GSE96058_gene_expression_3273_samples_and_136_replicates_transformed.csv.gz
+  filename: GSE96058_gene_expression_3273_samples_and_136_replicates_transformed.csv.gz
+  representation_sha256: 3c717baf7960e1f1477a72744a399a42fabba113c9e7ecb3d55997574d7e9732
+  representation_size_bytes: 591676211
+  parser_name: gene-identifier-only-csv-projection-v1
+  raw_artifact_stored: false
+  permitted_field_names:
+  - gene_identifier
+  rejected_field_names:
+  - expression_value_columns
+- source_id: gse96058-family
+  role: GSE96058 receptor and technical-replicate completeness
+  url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96058/soft/GSE96058_family.soft.gz
+  filename: GSE96058_family.soft.gz
+  representation_sha256: 11e5ecb7488b70e4702298839997987d986cffe2af39ffa977231f13b42420f3
+  representation_size_bytes: 442723
+  parser_name: geo-soft-field-allowlist-projection-v1
+  raw_artifact_stored: false
+  permitted_field_names:
+  - er status
+  - her2 status
+  - pgr status
+  - sample accession
+  rejected_field_names:
+  - age at diagnosis
+  - chemo treated
+  - endocrine treated
+  - er prediction mgc
+  - er prediction sgc
+  - her2 prediction mgc
+  - her2 prediction sgc
+  - instrument model
+  - ki67 prediction mgc
+  - ki67 prediction sgc
+  - ki67 status
+  - lymph node group
+  - lymph node status
+  - nhg
+  - nhg prediction mgc
+  - overall survival days
+  - overall survival event
+  - pam50 subtype
+  - pgr prediction mgc
+  - pgr prediction sgc
+  - scan-b external id
+  - tumor size
+tcga_gene_coverage:
+  source_id: tcga-star-counts
+  required_gene_count: 50
+  observed_identifier_count: 60660
+  unique_identifier_count: 59427
+  canonical_genes_present:
+  - ACTR3B
+  - ANLN
+  - BAG1
+  - BCL2
+  - BIRC5
+  - BLVRA
+  - CCNB1
+  - CCNE1
+  - CDC20
+  - CDC6
+  - CDH3
+  - CENPF
+  - CEP55
+  - CXXC5
+  - EGFR
+  - ERBB2
+  - ESR1
+  - EXO1
+  - FGFR4
+  - FOXA1
+  - FOXC1
+  - GPR160
+  - GRB7
+  - KIF2C
+  - KRT14
+  - KRT17
+  - KRT5
+  - MAPT
+  - MDM2
+  - MELK
+  - MIA
+  - MKI67
+  - MLPH
+  - MMP11
+  - MYBL2
+  - MYC
+  - NAT1
+  - NDC80
+  - NUF2
+  - ORC6
+  - PGR
+  - PHGDH
+  - PTTG1
+  - RRM2
+  - SFRP1
+  - SLC39A6
+  - TMEM45B
+  - TYMS
+  - UBE2C
+  - UBE2T
+  alias_resolutions: {}
+  missing_canonical_genes: []
+  duplicate_canonical_mappings: []
+  unmapped_identifier_count: 60610
+  expression_values_parsed: false
+gse96058_gene_coverage:
+  source_id: gse96058-expression
+  required_gene_count: 50
+  observed_identifier_count: 30865
+  unique_identifier_count: 30863
+  canonical_genes_present:
+  - ACTR3B
+  - ANLN
+  - BAG1
+  - BCL2
+  - BIRC5
+  - BLVRA
+  - CCNB1
+  - CCNE1
+  - CDC20
+  - CDC6
+  - CDH3
+  - CENPF
+  - CEP55
+  - CXXC5
+  - EGFR
+  - ERBB2
+  - ESR1
+  - EXO1
+  - FGFR4
+  - FOXA1
+  - FOXC1
+  - GPR160
+  - GRB7
+  - KIF2C
+  - KRT14
+  - KRT17
+  - KRT5
+  - MAPT
+  - MDM2
+  - MELK
+  - MIA
+  - MKI67
+  - MLPH
+  - MMP11
+  - MYBL2
+  - MYC
+  - NAT1
+  - NDC80
+  - NUF2
+  - ORC6
+  - PGR
+  - PHGDH
+  - PTTG1
+  - RRM2
+  - SFRP1
+  - SLC39A6
+  - TMEM45B
+  - TYMS
+  - UBE2C
+  - UBE2T
+  alias_resolutions: {}
+  missing_canonical_genes: []
+  duplicate_canonical_mappings: []
+  unmapped_identifier_count: 30815
+  expression_values_parsed: false
+tcga_receptor_completeness:
+  source_id: tcga-clinical
+  record_count: 1098
+  er_present_count: 1049
+  pr_present_count: 1048
+  her2_present_count: 983
+  all_three_present_count: 981
+  er_category_counts:
+    indeterminate: 2
+    negative: 238
+    other: 1
+    positive: 808
+  pr_category_counts:
+    indeterminate: 4
+    negative: 344
+    other: 1
+    positive: 699
+  her2_category_counts:
+    equivocal: 179
+    indeterminate: 12
+    negative: 618
+    other: 1
+    positive: 173
+gse96058_receptor_completeness:
+  source_id: gse96058-family
+  record_count: 3409
+  er_present_count: 3189
+  pr_present_count: 3051
+  her2_present_count: 3281
+  all_three_present_count: 2931
+  er_category_counts:
+    other: 3189
+  pr_category_counts:
+    other: 3051
+  her2_category_counts:
+    other: 3281
+gse96058_replicates:
+  source_id: gse96058-family
+  sample_record_count: 3409
+  primary_record_count: 0
+  technical_replicate_count: 0
+  linked_technical_replicate_count: 0
+  unclassified_record_count: 3409
+checks:
+- check_id: tcga-pam50-gene-coverage
+  status: verified
+  finding: Resolved 50 of 50 required PAM50 genes with 0 ambiguous duplicates.
+  evidence_source_ids:
+  - tcga-star-counts
+- check_id: gse96058-pam50-gene-coverage
+  status: verified
+  finding: Resolved 50 of 50 required PAM50 genes with 0 ambiguous duplicates.
+  evidence_source_ids:
+  - gse96058-expression
+- check_id: tcga-receptor-completeness
+  status: verified
+  finding: Among 1098 records, ER/PR/HER2 are present for 1049/1048/983; all three
+    are present for 981.
+  evidence_source_ids:
+  - tcga-clinical
+- check_id: gse96058-receptor-completeness
+  status: verified
+  finding: Among 3409 records, ER/PR/HER2 are present for 3189/3051/3281; all three
+    are present for 2931.
+  evidence_source_ids:
+  - gse96058-family
+- check_id: gse96058-primary-replicate-linkage
+  status: unresolved
+  finding: Classified 0 primary and 0 technical-replicate records; 0 technical replicates
+    have an explicit primary link and 3409 records are unclassified.
+  evidence_source_ids:
+  - gse96058-family
+  limitation: The approved GEO fields do not completely identify and link primary
+    and technical-replicate records.
+decision: changes_requested
+decision_rationale: At least one bounded input-feasibility check remains unresolved;
+  molecular and outcome execution remain prohibited.
+limitations:
+- Gene presence does not establish assay equivalence, numerical compatibility, or
+  a valid cross-platform transformation.
+- Receptor completeness does not establish diagnostic correctness or clinical utility.
+- The audit parsed only founder-authorized fields and did not construct an analytical
+  cohort.
+next_authorization_required:
+- Resolve every nonverified field-isolation check and execute a new versioned audit.

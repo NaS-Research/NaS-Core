@@ -4,6 +4,7 @@ import gzip
 import hashlib
 import io
 import json
+import re
 from contextlib import AbstractContextManager, nullcontext
 from datetime import UTC, datetime
 from pathlib import Path
@@ -55,6 +56,11 @@ REAL_AUTHORIZATION_PATH = (
     STUDY_ROOT
     / "reviews"
     / "FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_CONFIRMATION_v1.0.0.yaml"
+)
+REAL_RECEIPT_PATH = (
+    STUDY_ROOT
+    / "ingestion"
+    / "field_isolated_metadata_receipt_v1.0.0.yaml"
 )
 
 
@@ -333,3 +339,34 @@ def test_real_authorization_is_exact_and_packet_bound() -> None:
     assert authorization.patient_level_data_retention_authorized is False
     assert authorization.molecular_value_analysis_authorized is False
     assert authorization.outcome_data_access_authorized is False
+
+
+def test_real_receipt_is_safe_valid_and_changes_requested() -> None:
+    receipt = FieldIsolatedMetadataReceipt.model_validate(
+        yaml.safe_load(REAL_RECEIPT_PATH.read_text(encoding="utf-8"))
+    )
+    serialized = REAL_RECEIPT_PATH.read_text(encoding="utf-8")
+
+    assert receipt.decision is FieldIsolationDecision.CHANGES_REQUESTED
+    assert receipt.software_revision == "2f0b15f4c73043ba41864040861a22fe6bc74d0c"
+    assert receipt.authorization_sha256 == hashlib.sha256(
+        REAL_AUTHORIZATION_PATH.read_bytes()
+    ).hexdigest()
+    assert receipt.authorization_packet_sha256 == hashlib.sha256(
+        REAL_PACKET_PATH.read_bytes()
+    ).hexdigest()
+    assert receipt.tcga_gene_coverage.missing_canonical_genes == []
+    assert receipt.gse96058_gene_coverage.missing_canonical_genes == []
+    assert receipt.tcga_receptor_completeness.record_count == 1098
+    assert receipt.tcga_receptor_completeness.all_three_present_count == 981
+    assert receipt.gse96058_receptor_completeness.record_count == 3409
+    assert receipt.gse96058_receptor_completeness.all_three_present_count == 2931
+    assert receipt.gse96058_replicates.unclassified_record_count == 3409
+    assert receipt.patient_level_records_retained is False
+    assert receipt.molecular_values_parsed is False
+    assert receipt.outcome_values_parsed is False
+    assert receipt.raw_artifacts_stored is False
+    assert receipt.cohort_constructed is False
+    assert receipt.classifier_executed is False
+    assert re.search(r"GSM[0-9]+", serialized) is None
+    assert re.search(r"TCGA-[A-Z0-9]{2}-[A-Z0-9]{4}", serialized) is None
