@@ -49,11 +49,14 @@ gate was satisfied.
 
 ### Immediate working queue
 
-1. Lock the minimum implementation set and patient-level uncertainty outputs
-   without outcome-guided selection.
+1. Extend the completed synthetic single-sample scoring and leave-one-gene-out
+   kernel only after resolving the independently calibrated technical-error
+   component and real governed method artifacts; do not select thresholds from
+   molecular or outcome results.
 2. Complete the revised evidence review and two-pass citation-chain stopping rule.
-3. Verify TCGA receptor fields and both sources' PAM50 gene coverage using
-   metadata-only checks.
+3. Preserve the completed metadata-only verification of TCGA/GSE96058 receptor
+   fields, PAM50 coverage, and GSE96058 replicate linkage while resolving the
+   cross-platform transformation separately.
 4. Complete the three founder review perspectives in
    `reviews/QUESTION_REVIEW_PACKET.md`.
 5. Return revised version `0.3.0` for `go`, `change`, `hold`, or `reject`.
@@ -95,6 +98,9 @@ authorize a formal literature review.
 - a structured multidisciplinary self-review packet;
 - a typed Phase 0 novelty/data-feasibility plan, reproducible draft search
   strategy, evidence-matrix structure, and candidate-source requirements;
+- a synthetic-only deterministic single-sample kernel covering exact-panel
+  validation, fixed-centroid Spearman scoring, runner-up margin, all 50
+  leave-one-gene-out runs, failure states, and abstention;
 - a completed AI-assisted adversarial review with explicit scientific and
   operational blockers;
 - explicit nonclinical, nonpredictive, and no-gold-standard boundaries;
@@ -105,10 +111,11 @@ authorize a formal literature review.
 
 ### What is deliberately not implemented yet
 
-- automated literature retrieval or full-text processing;
-- the final list of PAM50 implementations and preprocessing configurations;
-- consensus, confidence, centroid-margin, instability, or abstention thresholds;
-- TCGA field extraction or biomedical-data snapshots;
+- founder-confirmed closure of citation pass 2 and later saturation passes;
+- approved real PAM50 centroid/reference artifacts and preprocessing configurations;
+- independently calibrated technical-error perturbations or scientific reliability
+  and abstention thresholds;
+- patient-level TCGA/GSE96058 molecular snapshots;
 - cohort construction, molecular analyses, survival models, or figures;
 - an external validation dataset integration; and
 - paper or website content based on study results.

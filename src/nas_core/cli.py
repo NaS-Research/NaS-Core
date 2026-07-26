@@ -6,6 +6,7 @@ from pathlib import Path
 from nas_core.ai.gateway import OpenAIScreeningGateway
 from nas_core.ai.screening import AIAdvisoryScreeningService
 from nas_core.analysis.cohort import CohortBuildService
+from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.config import get_settings
 from nas_core.domain.advisory import (
@@ -111,7 +112,9 @@ from nas_core.domain.literature import (
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.reliability import (
+    load_reliability_method_inputs,
     load_reliability_specification,
+    load_single_sample_expression,
     write_reliability_schema,
 )
 from nas_core.domain.screening_confirmation import load_screening_confirmation
@@ -415,6 +418,19 @@ def build_parser() -> argparse.ArgumentParser:
         "schema", help="Write the canonical reliability JSON Schema"
     )
     reliability_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+    reliability_synthetic_score = reliability_commands.add_parser(
+        "synthetic-score",
+        help="Exercise the single-sample reliability kernel on a synthetic fixture",
+    )
+    reliability_synthetic_score.add_argument("specification_path", type=Path)
+    reliability_synthetic_score.add_argument("method_path", type=Path)
+    reliability_synthetic_score.add_argument("sample_path", type=Path)
+    reliability_synthetic_score.add_argument(
+        "--synthetic-only",
+        action="store_true",
+        required=True,
+        help="Acknowledge that the input is synthetic and the result has no scientific use",
+    )
 
     evidence_review = commands.add_parser(
         "evidence-review", help="Manage bounded evidence reviews and citation-chain saturation"
@@ -1458,6 +1474,18 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "reliability" and args.reliability_command == "schema":
         write_reliability_schema(args.path)
         print(f"Wrote reliability schema: {args.path}")
+        return 0
+
+    if args.command == "reliability" and args.reliability_command == "synthetic-score":
+        specification = load_reliability_specification(args.specification_path)
+        method = load_reliability_method_inputs(args.method_path)
+        sample = load_single_sample_expression(args.sample_path)
+        result = SyntheticSingleSampleReliabilityKernel().score(
+            specification,
+            method,
+            sample,
+        )
+        print(json.dumps(result.model_dump(mode="json"), indent=2, sort_keys=True))
         return 0
 
     if args.command == "evidence-review" and args.evidence_review_command == "validate":

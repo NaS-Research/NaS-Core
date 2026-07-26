@@ -138,6 +138,119 @@ class ReportAction(StrEnum):
     ABSTAIN = "abstain"
 
 
+class ReliabilityMethodInputs(ReliabilityModel):
+    """Synthetic method inputs used to test the scoring contract without patient data."""
+
+    method_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    gene_order: list[str] = Field(min_length=50, max_length=50)
+    reference_values: dict[str, float]
+    centroids: dict[str, dict[str, float]]
+    margin_threshold: float = Field(ge=0.0, le=1.0)
+    label_retention_threshold: float = Field(ge=0.0, le=1.0)
+    numerical_tolerance: float = Field(gt=0.0, le=1e-6)
+
+    @model_validator(mode="after")
+    def validate_method_shape(self) -> ReliabilityMethodInputs:
+        if len(self.gene_order) != len(set(self.gene_order)):
+            raise ValueError("synthetic method gene order must be unique")
+        if set(self.gene_order) != PAM50_HISTORICAL_GENES:
+            raise ValueError("synthetic method must use the historical PAM50 panel")
+        if set(self.reference_values) != PAM50_HISTORICAL_GENES:
+            raise ValueError("synthetic reference must contain exactly 50 PAM50 genes")
+        expected_subtypes = {
+            "Luminal A",
+            "Luminal B",
+            "HER2-enriched",
+            "Basal-like",
+            "Normal-like",
+        }
+        if set(self.centroids) != expected_subtypes:
+            raise ValueError("synthetic method must contain exactly five PAM50 centroids")
+        if any(set(values) != PAM50_HISTORICAL_GENES for values in self.centroids.values()):
+            raise ValueError("every synthetic centroid must contain exactly 50 PAM50 genes")
+        return self
+
+
+class SingleSampleExpression(ReliabilityModel):
+    sample_id: str = Field(pattern=r"^SYNTHETIC-[A-Za-z0-9._-]+$")
+    expression_values: dict[str, float] = Field(min_length=1)
+
+
+class SingleSampleReliabilityResult(ReliabilityModel):
+    schema_version: str = "1.0.0"
+    sample_id: str = Field(pattern=r"^SYNTHETIC-[A-Za-z0-9._-]+$")
+    method_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    input_artifact_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    data_quality_state: DataQualityState
+    canonical_subtype: str | None
+    top_score: float | None
+    runner_up_subtype: str | None
+    runner_up_score: float | None
+    margin: float | None
+    valid_perturbation_count: int = Field(ge=0, le=50)
+    total_perturbation_count: int = Field(ge=0, le=50)
+    valid_perturbation_fraction: float | None = Field(default=None, ge=0.0, le=1.0)
+    canonical_label_retention_fraction: float | None = Field(
+        default=None,
+        ge=0.0,
+        le=1.0,
+    )
+    reliability_state: ReliabilityState
+    report_action: ReportAction
+    reason_codes: list[str]
+    provenance: dict[str, str]
+    limitations: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_result_contract(self) -> SingleSampleReliabilityResult:
+        if len(self.reason_codes) != len(set(self.reason_codes)):
+            raise ValueError("reliability reason codes must be unique")
+        if self.valid_perturbation_count > self.total_perturbation_count:
+            raise ValueError("valid perturbation count cannot exceed total count")
+        if self.total_perturbation_count == 0:
+            if (
+                self.valid_perturbation_fraction is not None
+                or self.canonical_label_retention_fraction is not None
+            ):
+                raise ValueError("unrun perturbations cannot report fractions")
+        else:
+            expected_valid_fraction = (
+                self.valid_perturbation_count / self.total_perturbation_count
+            )
+            if (
+                self.valid_perturbation_fraction is None
+                or abs(self.valid_perturbation_fraction - expected_valid_fraction) > 1e-12
+            ):
+                raise ValueError("valid perturbation fraction does not match its counts")
+        if self.data_quality_state is not DataQualityState.VALID:
+            if self.reliability_state is not ReliabilityState.INSUFFICIENT_DATA:
+                raise ValueError("invalid input quality must produce insufficient_data")
+            if self.report_action is not ReportAction.ABSTAIN:
+                raise ValueError("invalid input quality must abstain")
+        if self.reliability_state is ReliabilityState.RELIABLE:
+            if self.report_action is not ReportAction.REPORT_LABEL:
+                raise ValueError("a reliable result must report its label")
+        elif self.report_action is not ReportAction.ABSTAIN:
+            raise ValueError("every non-reliable result must abstain")
+        scored = (
+            self.canonical_subtype is not None,
+            self.top_score is not None,
+            self.runner_up_subtype is not None,
+            self.runner_up_score is not None,
+            self.margin is not None,
+        )
+        if any(scored) and not all(scored):
+            raise ValueError("canonical and runner-up score fields must be all present or absent")
+        if self.reliability_state in {
+            ReliabilityState.RELIABLE,
+            ReliabilityState.UNSTABLE,
+        } and not all(scored):
+            raise ValueError("a classified result requires canonical and runner-up scores")
+        if self.provenance.get("execution_scope") != "synthetic_method_validation_only":
+            raise ValueError("this result contract is restricted to synthetic method validation")
+        return self
+
+
 class GovernedArtifact(ReliabilityModel):
     artifact_id: str = Field(min_length=1)
     role: str = Field(min_length=1)
@@ -379,6 +492,18 @@ class SingleSampleReliabilitySpecification(ReliabilityModel):
 
 def load_reliability_specification(path: Path) -> SingleSampleReliabilitySpecification:
     return SingleSampleReliabilitySpecification.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_reliability_method_inputs(path: Path) -> ReliabilityMethodInputs:
+    return ReliabilityMethodInputs.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_single_sample_expression(path: Path) -> SingleSampleExpression:
+    return SingleSampleExpression.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

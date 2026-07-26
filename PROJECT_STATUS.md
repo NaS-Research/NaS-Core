@@ -55,6 +55,15 @@ identity-level evidence state is 62 eligible, 56 appraisal-complete, six
 access-restricted, and zero pending. Because pass 1 added evidence, the
 consecutive-zero stopping count remains zero.
 
+The proposed analytical contract now has an executable synthetic-only kernel.
+It accepts only `SYNTHETIC-*` identifiers; validates the exact historical
+50-gene panel and declared aliases; fails closed on missing, ambiguous, nonfinite,
+or invalid method inputs; computes five-centroid Spearman scores, runner-up
+margin, and all 50 leave-one-gene-out runs; and makes every non-reliable state
+abstain. It does not resolve the real centroid/reference artifacts, platform
+transforms, technical-error calibration, numerical tolerance, or scientific
+thresholds and cannot authorize or execute patient-level molecular analysis.
+
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
 50 historical PAM50 genes without ambiguous mappings in both frozen source
@@ -424,6 +433,20 @@ access-restricted identities, and zero pending. Pass 1 contributed 32 eligible
 identities, so it does not count toward the required two consecutive zero-yield
 passes. No molecular or outcome access and no scientific conclusion were
 authorized.
+
+### 2026-07-26 — Synthetic single-sample reliability kernel implemented
+
+Implemented the first executable component of the proposed NaS method without
+accessing patient or observed molecular data. Typed method, sample, and result
+contracts enforce the exact panel, five subtype centroids, deterministic
+provenance, explicit quality and reliability states, and synthetic-only identity
+scope. The engine computes canonical and runner-up scores, margins, 50
+leave-one-gene-out runs, label retention, failure reasons, and report-versus-
+abstain action. A CLI exposes only explicitly acknowledged synthetic execution.
+Focused tests cover deterministic output, order-invariant hashing, aliases,
+collisions, missingness, nonfinite values, ties, thresholds, and rejection of
+non-synthetic identifiers. Real method selection and molecular execution remain
+prohibited.
 
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 

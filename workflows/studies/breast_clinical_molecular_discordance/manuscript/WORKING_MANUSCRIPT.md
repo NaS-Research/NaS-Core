@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.37.0-working`
+Manuscript version: `0.38.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -404,6 +404,19 @@ The draft procedure is defined in reliability specification `0.1.0`, but exact
 centroids, external reference values, platform transformations, technical-error
 calibration, numerical tolerances, and reliability thresholds remain unresolved.
 No molecular execution is authorized.
+
+A synthetic-only deterministic kernel now tests the proposed state machine without
+patient data. It requires exactly the historical 50-gene panel, resolves only the
+three declared historical aliases, fails closed on incomplete, ambiguous, or
+nonfinite inputs, calculates Spearman correlations against five supplied synthetic
+centroids, preserves the best and runner-up scores and margin, and performs exactly
+50 leave-one-gene-out sensitivity runs. Caller-supplied synthetic thresholds map
+valid results to `reliable` or `unstable`; invalid scores or perturbations map to
+`unclassifiable`, and input failures map to `insufficient_data`. Every state other
+than `reliable` abstains. The kernel accepts only identifiers beginning
+`SYNTHETIC-` and labels its output `synthetic_method_validation_only`. These are
+software-verification capabilities, not an approved analytical method or scientific
+result.
 
 ### Data sources, cohort, and statistical analysis
 
@@ -1192,6 +1205,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.38.0-working | 2026-07-26 | Added the synthetic-only single-sample reliability kernel: exact-panel validation, alias handling, five-centroid Spearman scoring, top/runner-up margin, 50 leave-one-gene-out runs, explicit failure states, and abstention; no real method artifact, threshold, molecular access, or result was authorized. |
 | 0.37.0-working | 2026-07-26 | Materially closed citation pass 1 from frozen receipt lineage; the bound review state is 62 eligible identities, 56 appraisal-complete, six access-restricted, zero pending, and zero consecutive zero-yield passes. |
 | 0.36.0-working | 2026-07-26 | Added citation pass-2 cumulative retrieval and nondecisional screening: 7,135 non-seed records reduced to 2,479 genuinely new candidates, with nine proposed inclusions, 2,470 proposed exclusions, zero unclear, and exact founder confirmation pending. |
 | 0.35.0-working | 2026-07-26 | Added founder-authorized field-isolated audit `1.0.1`: unchanged sources classified 3,273 primary records and 136 linked technical replicates with zero unclassified; all five input-feasibility checks pass while molecular/outcome execution remains prohibited. |
