@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 04b03b991b78f12d067d437bb0c5d02d4c9d513ecc35cf2dfcd194bf12f30b37
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 32e12824107b966d709986b71feae6a8da760c6e25d9c1312229ebbf06f2494a
+pmcid: PMC7791620
+pmid: '33442660'
+doi: 10.1093/jncics/pkaa087
+title: Concordance of Immunohistochemistry-Based and Gene Expression-Based Subtyping in Breast Cancer.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC7791620/
+access_mode: read_only_ephemeral
+access_basis: Complete article lawfully viewable through official PubMed Central HTML; reviewed ephemerally
+  without durable NaS corpus storage.
+observed_rights: Creative Commons Attribution-NonCommercial 4.0; commercial reuse requires permission.
+rights_url: https://creativecommons.org/licenses/by-nc/4.0/
+content_sha256: 12c27f042a63d227a06fbe39e36b09fcae53a0048b3409d109626f64a121532d
+content_size_bytes: 193857
+accessed_at: '2026-07-26T01:47:35.573015Z'
+verified_at: '2026-07-26T01:47:35.573175Z'
+code_revision: 86d0134d813c8e0d3fe817748ae39ba5be6c5392
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

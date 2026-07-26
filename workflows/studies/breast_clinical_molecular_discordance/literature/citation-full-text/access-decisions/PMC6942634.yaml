@@ -1,0 +1,19 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 52fe49b5b6e74f571109fef3d844bd1690c8e3b18aa333ae1796812ad508e261
+pmcid: PMC6942634
+pmid: '31754050'
+doi: 10.1158/1078-0432.ccr-19-1467
+title: Purity Independent Subtyping of Tumors (PurIST), A Clinically Robust, Single-sample Classifier for Tumor Subtyping in Pancreatic Cancer.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6942634/
+observed_license: PMC author manuscript; no approved CC BY license displayed.
+license_url: https://pmc.ncbi.nlm.nih.gov/about/copyright/
+outcome: restricted
+policy_reason: >-
+  The author manuscript is lawfully viewable through PMC, but the item page does
+  not grant an approved commercial-reuse license. It may be reviewed ephemerally;
+  durable NaS corpus storage and redistribution are not authorized.
+checked_at: 2026-07-26T02:00:00Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

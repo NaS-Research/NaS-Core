@@ -106,7 +106,11 @@ review in that immutable initial queue. A bounded dash-typography repair later
 resolved `PMC7299291` and `PMC11265146` under exact PMCID, PMID, and DOI agreement;
 both CC BY 4.0 articles were retrieved and verified. Current reconciled
 `citation_appraisal_progress_v1.0.0.yaml` records three completed appraisals,
-12 ready for appraisal, and 14 awaiting full text.
+20 ready for appraisal, and six awaiting full text. The increase follows eight
+verified PMC ephemeral reviews: the exact HTML bytes were hashed in memory, no
+article content was stored, and seven non-commercial or publisher-reserved items
+have explicit durable-storage restriction decisions. `PMC10147771` declares CC BY
+4.0 but used the no-storage route because repository XML was unavailable.
 
 Citation appraisal batch 0001 covers three direct studies: `PMC11217366`,
 `PMC6547580`, and `PMC3487945`. The founder supplied the exact confirmation bound
@@ -121,7 +125,7 @@ Citation appraisal batch 0002 now proposes judgments for four single-sample
 method papers under packet SHA-256 `f45518a3…f92e2`. `PMC6219008` and
 `PMC8796360` are proposed as `supporting`; `PMC8479681` and `PMC10848444` are
 proposed as `context_only`. The proposals remain non-authoritative and the live
-progress ledger remains at three completed, 12 ready, and 14 awaiting access
+progress ledger remains at three completed, 20 ready, and six awaiting access
 until the founder confirms the exact packet.
 
 Citation appraisal batch 0003 now proposes judgments for the six remaining

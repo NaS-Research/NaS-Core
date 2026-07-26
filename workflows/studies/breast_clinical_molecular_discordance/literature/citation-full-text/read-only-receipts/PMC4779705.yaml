@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 0553e1fffd24e8104b660fd4699250dd10798d45ad6efc21d132b632661d6f32
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 70d4cec79f5f314861c3e4f180268ce7fe9507eee0749cc0b06139b3680357c5
+pmcid: PMC4779705
+pmid: '26711328'
+doi: 10.1158/1055-9965.epi-15-0874
+title: Performance of Three-Biomarker Immunohistochemistry for Intrinsic Breast Cancer Subtyping in the
+  AMBER Consortium.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4779705/
+access_mode: read_only_ephemeral
+access_basis: Complete author manuscript lawfully viewable through official PubMed Central HTML; reviewed
+  ephemerally because durable commercial-corpus rights are not established.
+observed_rights: PMC author manuscript; item page provides the PMC Copyright Notice and no approved CC
+  BY license.
+rights_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4779705/
+content_sha256: 53deca1f95a172f3c2141970156c30af9f626f41601342da5f173c1ff943f5de
+content_size_bytes: 243526
+accessed_at: '2026-07-26T01:49:14.548044Z'
+verified_at: '2026-07-26T01:49:14.548230Z'
+code_revision: a9a1a537886a4d5f11fe5157b9fc2f6bfdf1caeb
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

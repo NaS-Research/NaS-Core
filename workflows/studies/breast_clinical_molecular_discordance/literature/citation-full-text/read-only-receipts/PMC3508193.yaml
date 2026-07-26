@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: f20a4baa45158952c71ce2c5b2bbda6889d3d15fe2239642316cc3edc079ffc3
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 8c9185fd9f166320499f912f6342ef800ce81760560ae7946a86e0965170e194
+pmcid: PMC3508193
+pmid: '22959562'
+doi: 10.1016/j.ygeno.2012.08.003
+title: A single-sample microarray normalization method to facilitate personalized-medicine workflows.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3508193/
+access_mode: read_only_ephemeral
+access_basis: Complete article lawfully viewable through official PubMed Central HTML; reviewed ephemerally
+  because durable commercial-corpus rights are not established.
+observed_rights: "\xA9 2012 Elsevier Inc. All rights reserved."
+rights_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3508193/
+content_sha256: 47aa61149e20bdb1b9c0ee93a4db5585dc7176fc2f1f962f424d19d8a6f0e0b0
+content_size_bytes: 179135
+accessed_at: '2026-07-26T01:47:25.163545Z'
+verified_at: '2026-07-26T01:47:25.163700Z'
+code_revision: 86d0134d813c8e0d3fe817748ae39ba5be6c5392
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

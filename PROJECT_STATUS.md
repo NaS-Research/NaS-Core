@@ -25,10 +25,11 @@ with the active 30-record inventory, three previously appraised studies, and 29
 net-new records. Founder-approved amendment `0.2.5` is active. Official Europe PMC
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
 repository candidates. The founder confirmed checksum-bound appraisal batch 0001.
-Bounded Unicode-dash identity normalization subsequently resolved two exact-ID,
-CC BY 4.0 records. Citation progress now has three completed `context_only`
-appraisals, 12 records ready for appraisal, and 14 awaiting governed access
-resolution. Batch 0002
+Bounded title normalization subsequently resolved two exact-ID, CC BY 4.0 records.
+Eight additional PMC-hosted articles now have verified ephemeral-review receipts
+with zero article bytes stored; seven have explicit durable-storage restrictions.
+Citation progress now has three completed `context_only` appraisals, 20 records
+ready for appraisal, and six awaiting governed access resolution. Batch 0002
 contains four validated single-sample/classifier proposals bound to packet
 SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
 ledger. Batch 0003 contains the remaining six verified full texts and is frozen
@@ -287,6 +288,20 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Eight PMC records cleared for no-storage appraisal
+
+Implemented an official-PMC-only ephemeral review service. It enforces HTTPS host
+and path allowlists, minimum complete-page size, exact PMID and DOI, bounded title
+normalization, the page's canonical full-text URL, raw-byte hashing, and a receipt
+that forbids durable storage and redistribution.
+
+Eight complete PMC pages passed. Seven publisher-reserved, CC BY-NC, or CC
+BY-NC-ND items received explicit durable-storage restrictions; `PMC10147771`
+declares CC BY 4.0 but was reviewed ephemerally because repository XML was
+unavailable. Citation progress now records 15 durable retrievals, eight read-only
+reviews, three completed appraisals, 20 ready for appraisal, and six awaiting
+publisher or preprint resolution.
 
 ### 2026-07-25 — Two citation identity failures repaired and retrieved
 

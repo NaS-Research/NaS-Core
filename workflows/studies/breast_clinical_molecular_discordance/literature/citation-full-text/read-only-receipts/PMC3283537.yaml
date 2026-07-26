@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: e92128422180573fa75e350755568a80da4355e44cb20fd36e557c0c027b3ab4
+study_id: NAS-BRCA-002
+queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
+screening_id: 6533ac2ac734cebe16bd375cbf0adbedffacd5bf69e216dca3bd0112ba470b30
+pmcid: PMC3283537
+pmid: '22262870'
+doi: 10.1093/jnci/djr545
+title: A three-gene model to robustly identify breast cancer molecular subtypes.
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3283537/
+access_mode: read_only_ephemeral
+access_basis: Complete article lawfully viewable through official PubMed Central HTML; reviewed ephemerally
+  because durable commercial-corpus rights are not established.
+observed_rights: "\xA9 The Author 2012. Published by Oxford University Press; PMC Copyright Notice applies."
+rights_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3283537/
+content_sha256: 2bc08d1044f49ae8f1da5f46ee9909336fc8a83f9aaff07d584a604df341a6ca
+content_size_bytes: 297886
+accessed_at: '2026-07-26T01:47:22.646725Z'
+verified_at: '2026-07-26T01:47:22.646923Z'
+code_revision: 86d0134d813c8e0d3fe817748ae39ba5be6c5392
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false
