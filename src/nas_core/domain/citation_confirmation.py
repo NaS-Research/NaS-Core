@@ -8,9 +8,17 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from nas_core.domain.literature import ScreeningDecision, ScreeningExclusionReason
 from nas_core.domain.snapshots import StoredObject
 
 CONFIRMATION_STATEMENT = "I confirm both checksum-bound citation pass 1 packets as written."
+
+
+def citation_confirmation_statement(pass_number: int) -> str:
+    return (
+        f"I confirm both checksum-bound citation pass {pass_number} "
+        "packets as written."
+    )
 
 
 class CitationConfirmationModel(BaseModel):
@@ -35,12 +43,43 @@ class CitationFounderConfirmation(CitationConfirmationModel):
 
     @model_validator(mode="after")
     def validate_authority(self) -> CitationFounderConfirmation:
-        if self.confirmation_statement != CONFIRMATION_STATEMENT:
+        if self.confirmation_statement != citation_confirmation_statement(
+            self.pass_number
+        ):
             raise ValueError("citation confirmation statement is not exact")
         if not self.founder_authorized:
             raise ValueError("citation confirmation requires founder authorization")
         if not self.founder_role_conflict_disclosed:
             raise ValueError("citation confirmation requires founder-role disclosure")
+        return self
+
+
+class CitationDecisionLedgerRecord(CitationConfirmationModel):
+    record_key: str = Field(pattern=r"^[A-Z]+:.+$")
+    rank: int = Field(ge=1)
+    title: str = Field(min_length=1)
+    pmid: str | None = Field(default=None, pattern=r"^[0-9]+$")
+    pmcid: str | None = Field(default=None, pattern=r"^PMC[0-9]+$")
+    doi: str | None = Field(default=None, min_length=1)
+    decision: ScreeningDecision
+    exclusion_reason: ScreeningExclusionReason | None = None
+    reviewer_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    reviewer_name: str = Field(min_length=1)
+    reviewer_role: str = Field(pattern=r"^founder_internal_reviewer$")
+    decided_at: datetime
+    founder_authorized: bool
+    ai_decision: bool
+
+    @model_validator(mode="after")
+    def validate_decision(self) -> CitationDecisionLedgerRecord:
+        if self.decision not in {ScreeningDecision.INCLUDE, ScreeningDecision.EXCLUDE}:
+            raise ValueError("citation decision ledger cannot contain pending or unclear")
+        if (self.decision is ScreeningDecision.EXCLUDE) != (
+            self.exclusion_reason is not None
+        ):
+            raise ValueError("only excluded citation decisions require an exclusion reason")
+        if not self.founder_authorized or self.ai_decision:
+            raise ValueError("citation ledger requires founder, not AI, decisions")
         return self
 
 

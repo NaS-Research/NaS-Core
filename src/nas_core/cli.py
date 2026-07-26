@@ -39,12 +39,14 @@ from nas_core.domain.citation_access import (
 from nas_core.domain.citation_chain import (
     CitationSeed,
     load_citation_chain_receipt,
+    load_citation_cumulative_seed_receipt,
     load_citation_enrichment_receipt,
     load_citation_founder_packet_receipt,
     load_citation_prioritization_receipt,
     load_citation_recommendation_receipt,
     load_citation_screening_preparation_receipt,
     write_citation_chain_receipt,
+    write_citation_cumulative_seed_receipt,
     write_citation_enrichment_receipt,
     write_citation_founder_packet_receipt,
     write_citation_prioritization_receipt,
@@ -148,6 +150,7 @@ from nas_core.retrieval.citation_reconciliation import (
     CitationInclusionReconciliationService,
 )
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
+from nas_core.retrieval.citation_seeds import CitationCumulativeSeedService
 from nas_core.retrieval.ephemeral_appraisal import (
     ApprovedPublisherHtmlAppraisalProposalService,
     ApprovedPublisherPdfAppraisalProposalService,
@@ -424,7 +427,12 @@ def build_parser() -> argparse.ArgumentParser:
         "citation-retrieve",
         help="Retrieve and verify one backward-plus-forward Europe PMC citation pass",
     )
-    citation_retrieve.add_argument("inventory_path", type=Path)
+    citation_retrieve.add_argument("inventory_path", type=Path, nargs="?")
+    citation_retrieve.add_argument(
+        "--seed-receipt",
+        type=Path,
+        help="Verified cumulative seed receipt for citation pass 2 or later",
+    )
     citation_retrieve.add_argument("--pass-number", required=True, type=int)
     citation_retrieve.add_argument("--code-revision", required=True)
     citation_retrieve.add_argument("--receipt-output", required=True, type=Path)
@@ -437,12 +445,33 @@ def build_parser() -> argparse.ArgumentParser:
     )
     citation_prepare.add_argument("citation_receipt", type=Path)
     citation_prepare.add_argument("prior_search_receipt", type=Path)
+    citation_prepare.add_argument(
+        "--prior-decision-receipt",
+        action="append",
+        default=[],
+        type=Path,
+        help="Completed founder decision ledger for a prior citation pass; repeatable",
+    )
     citation_prepare.add_argument("--code-revision", required=True)
     citation_prepare.add_argument("--receipt-output", required=True, type=Path)
     citation_prepare.add_argument(
         "--execute",
         action="store_true",
         help="Persist the verified deduplication inventory and screening candidate set",
+    )
+    citation_seed_build = evidence_review_commands.add_parser(
+        "citation-seed-build",
+        help="Build the cumulative founder-included seed set for the next citation pass",
+    )
+    citation_seed_build.add_argument("direct_inventory", type=Path)
+    citation_seed_build.add_argument("amendment_activation", type=Path)
+    citation_seed_build.add_argument("--next-pass-number", required=True, type=int)
+    citation_seed_build.add_argument("--code-revision", required=True)
+    citation_seed_build.add_argument("--receipt-output", required=True, type=Path)
+    citation_seed_build.add_argument(
+        "--execute",
+        action="store_true",
+        help="Verify inputs and persist the immutable cumulative seed object",
     )
     citation_prioritize = evidence_review_commands.add_parser(
         "citation-prioritize",
@@ -1408,20 +1437,77 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "evidence-review"
+        and args.evidence_review_command == "citation-seed-build"
+    ):
+        direct_inventory = load_full_text_inventory(args.direct_inventory)
+        amendment_activation = load_evidence_cap_amendment_activation_receipt(
+            args.amendment_activation
+        )
+        if not args.execute:
+            print(
+                f"Cumulative citation seed set ready: "
+                f"{direct_inventory.provisional_inclusion_count} direct and "
+                f"{amendment_activation.confirmed_inclusion_count} prior-pass inclusions "
+                f"for pass {args.next_pass_number}"
+            )
+            print("Dry run only; no cumulative seed object was stored.")
+            return 0
+        seed_service = CitationCumulativeSeedService(store=get_object_store())
+        cumulative_seeds = seed_service.build(
+            direct_inventory,
+            amendment_activation,
+            direct_inventory_path=args.direct_inventory,
+            activation_receipt_path=args.amendment_activation,
+            next_pass_number=args.next_pass_number,
+            code_revision=args.code_revision,
+        )
+        write_citation_cumulative_seed_receipt(
+            args.receipt_output,
+            cumulative_seeds,
+        )
+        print(
+            f"Built citation pass {cumulative_seeds.next_pass_number} seed set: "
+            f"{cumulative_seeds.cumulative_seed_count} unique PMIDs from "
+            f"{cumulative_seeds.direct_inclusion_count} direct and "
+            f"{cumulative_seeds.prior_pass_inclusion_count} prior-pass inclusions"
+        )
+        print(f"Wrote cumulative seed receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
         and args.evidence_review_command == "citation-retrieve"
     ):
-        inventory = load_full_text_inventory(args.inventory_path)
-        seeds = [
-            CitationSeed(
-                evidence_id=f"PMID:{record.pmid}",
-                pmid=record.pmid,
-                title=record.title,
+        if (args.inventory_path is None) == (args.seed_receipt is None):
+            raise SystemExit(
+                "provide exactly one inventory_path or --seed-receipt"
             )
-            for record in inventory.records
-            if record.pmid is not None
-        ]
-        if len(seeds) != inventory.provisional_inclusion_count:
-            raise SystemExit("every included citation seed requires a PMID")
+        if args.seed_receipt is not None:
+            cumulative_receipt = load_citation_cumulative_seed_receipt(
+                args.seed_receipt
+            )
+            if cumulative_receipt.next_pass_number != args.pass_number:
+                raise SystemExit(
+                    "cumulative seed receipt is bound to a different citation pass"
+                )
+            seeds = CitationCumulativeSeedService(
+                store=get_object_store()
+            ).load_seeds(cumulative_receipt)
+            study_id = cumulative_receipt.study_id
+        else:
+            inventory = load_full_text_inventory(args.inventory_path)
+            seeds = [
+                CitationSeed(
+                    evidence_id=f"PMID:{record.pmid}",
+                    pmid=record.pmid,
+                    title=record.title,
+                )
+                for record in inventory.records
+                if record.pmid is not None
+            ]
+            if len(seeds) != inventory.provisional_inclusion_count:
+                raise SystemExit("every included citation seed requires a PMID")
+            study_id = inventory.study_id
         if not args.execute:
             print(
                 f"Citation pass {args.pass_number} ready: {len(seeds)} seeds, "
@@ -1432,7 +1518,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         service = CitationChainRetrievalService(store=get_object_store())
         citation_snapshot = service.retrieve(
             seeds,
-            study_id=inventory.study_id,
+            study_id=study_id,
             pass_number=args.pass_number,
             code_revision=args.code_revision,
         )
@@ -1455,6 +1541,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         prior_search_receipt = load_literature_search_receipt(
             args.prior_search_receipt
         )
+        prior_decision_receipts = [
+            load_citation_decision_ledger_receipt(path)
+            for path in args.prior_decision_receipt
+        ]
         if not args.execute:
             print(
                 f"Citation screening preparation ready: pass "
@@ -1470,6 +1560,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             citation_receipt,
             prior_search_receipt,
             code_revision=args.code_revision,
+            prior_decision_receipts=prior_decision_receipts,
         )
         write_citation_screening_preparation_receipt(
             args.receipt_output, preparation

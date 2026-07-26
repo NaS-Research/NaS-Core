@@ -239,7 +239,8 @@ class CitationFounderPacketService:
                 "",
                 "Exact confirmation statement:",
                 "",
-                "`I confirm the proposed citation pass 1 decisions in the checksum-bound packet.`",
+                f"`I confirm the proposed citation pass {receipt.pass_number} "
+                "decisions in the checksum-bound packet.`",
                 "",
             ]
         )

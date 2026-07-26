@@ -29,6 +29,89 @@ class CitationSeed(CitationChainModel):
     title: str = Field(min_length=1)
 
 
+class CitationSeedOrigin(StrEnum):
+    DIRECT_SEARCH = "direct_search"
+    CITATION_PASS = "citation_pass"
+
+
+class CitationCumulativeSeedRecord(CitationChainModel):
+    evidence_id: str = Field(pattern=r"^PMID:[0-9]+$")
+    pmid: str = Field(pattern=r"^[0-9]+$")
+    title: str = Field(min_length=1)
+    origins: list[CitationSeedOrigin] = Field(min_length=1, max_length=2)
+    source_record_keys: list[str] = Field(min_length=1)
+    founder_inclusion_preserved: bool
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_seed(self) -> CitationCumulativeSeedRecord:
+        if self.evidence_id != f"PMID:{self.pmid}":
+            raise ValueError("cumulative citation seed PMID identity does not reconcile")
+        if len(self.origins) != len(set(self.origins)):
+            raise ValueError("cumulative citation seed origins must be unique")
+        if len(self.source_record_keys) != len(set(self.source_record_keys)):
+            raise ValueError("cumulative citation source keys must be unique")
+        if not self.founder_inclusion_preserved or self.scientific_conclusions_drawn:
+            raise ValueError(
+                "cumulative citation seeds cannot alter founder decisions or conclude"
+            )
+        return self
+
+
+class CitationCumulativeSeedReceipt(CitationChainModel):
+    schema_version: str = "1.0.0"
+    seed_set_version: str = "1.0.0"
+    seed_set_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    next_pass_number: int = Field(ge=2)
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    created_at: datetime
+    verified_at: datetime
+    direct_inventory_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    amendment_activation_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    amendment_activation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    direct_inclusion_count: int = Field(ge=1)
+    prior_pass_inclusion_count: int = Field(ge=1)
+    duplicate_pmid_count: int = Field(ge=0)
+    cumulative_seed_count: int = Field(ge=1)
+    seeds_object: StoredObject
+    input_checksums_verified: bool
+    output_checksum_verified: bool
+    exact_pmid_deduplication: bool
+    all_founder_inclusions_preserved: bool
+    molecular_data_access_authorized: bool = False
+    outcome_data_access_authorized: bool = False
+    scientific_conclusions_drawn: bool = False
+
+    @model_validator(mode="after")
+    def validate_receipt(self) -> CitationCumulativeSeedReceipt:
+        expected = (
+            self.direct_inclusion_count
+            + self.prior_pass_inclusion_count
+            - self.duplicate_pmid_count
+        )
+        if expected != self.cumulative_seed_count:
+            raise ValueError("cumulative citation seed counts do not reconcile")
+        if not all(
+            (
+                self.input_checksums_verified,
+                self.output_checksum_verified,
+                self.exact_pmid_deduplication,
+                self.all_founder_inclusions_preserved,
+            )
+        ):
+            raise ValueError("cumulative citation seed receipt requires verified inputs")
+        if (
+            self.molecular_data_access_authorized
+            or self.outcome_data_access_authorized
+            or self.scientific_conclusions_drawn
+        ):
+            raise ValueError(
+                "cumulative citation seeds cannot authorize biomedical data or conclusions"
+            )
+        return self
+
+
 class CitationEndpointResult(CitationChainModel):
     seed_evidence_id: str = Field(pattern=r"^PMID:[0-9]+$")
     direction: CitationDirection
@@ -101,6 +184,7 @@ class CitationScreeningPreparationReceipt(CitationChainModel):
     pass_number: int = Field(ge=1)
     citation_execution_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     prior_search_execution_id: str = Field(pattern=r"^[a-f0-9]{64}$")
+    prior_decision_ids: list[str] = Field(default_factory=list)
     code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
     created_at: datetime
     verified_at: datetime
@@ -111,6 +195,7 @@ class CitationScreeningPreparationReceipt(CitationChainModel):
     inventory_object: StoredObject
     screening_candidates_object: StoredObject
     input_checksums_verified: bool
+    prior_decision_checksums_verified: bool = True
     output_checksums_verified: bool
     count_invariants_verified: bool
     final_screening_decisions_recorded: int = Field(default=0, ge=0)
@@ -118,6 +203,14 @@ class CitationScreeningPreparationReceipt(CitationChainModel):
 
     @model_validator(mode="after")
     def validate_preparation(self) -> CitationScreeningPreparationReceipt:
+        if len(self.prior_decision_ids) != len(set(self.prior_decision_ids)):
+            raise ValueError("prior citation decision IDs must be unique")
+        if self.pass_number == 1 and self.prior_decision_ids:
+            raise ValueError("citation pass 1 cannot cite prior citation decisions")
+        if self.pass_number > 1 and len(self.prior_decision_ids) != self.pass_number - 1:
+            raise ValueError(
+                "citation screening requires one decision ledger for every prior pass"
+            )
         total = (
             self.already_screened_count
             + self.duplicate_candidate_count
@@ -128,6 +221,7 @@ class CitationScreeningPreparationReceipt(CitationChainModel):
         if not all(
             (
                 self.input_checksums_verified,
+                self.prior_decision_checksums_verified,
                 self.output_checksums_verified,
                 self.count_invariants_verified,
             )
@@ -502,6 +596,28 @@ def write_citation_chain_receipt(path: Path, receipt: CitationChainReceipt) -> N
 
 def load_citation_chain_receipt(path: Path) -> CitationChainReceipt:
     return CitationChainReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_citation_cumulative_seed_receipt(
+    path: Path,
+    receipt: CitationCumulativeSeedReceipt,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def load_citation_cumulative_seed_receipt(
+    path: Path,
+) -> CitationCumulativeSeedReceipt:
+    return CitationCumulativeSeedReceipt.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

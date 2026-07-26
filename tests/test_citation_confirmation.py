@@ -8,6 +8,7 @@ from nas_core.domain.citation_chain import load_citation_founder_packet_receipt
 from nas_core.domain.citation_confirmation import (
     CONFIRMATION_STATEMENT,
     CitationFounderConfirmation,
+    citation_confirmation_statement,
 )
 from nas_core.retrieval.citation_confirmation import (
     CitationConfirmationError,
@@ -88,6 +89,18 @@ def test_confirmation_contract_rejects_standing_authorization_alone() -> None:
 
     with pytest.raises(ValidationError, match="founder authorization"):
         CitationFounderConfirmation.model_validate(payload)
+
+
+def test_confirmation_statement_is_bound_to_pass_number() -> None:
+    payload = _confirmation().model_dump()
+    payload["pass_number"] = 2
+    payload["confirmation_statement"] = citation_confirmation_statement(2)
+
+    confirmation = CitationFounderConfirmation.model_validate(payload)
+
+    assert confirmation.confirmation_statement == (
+        "I confirm both checksum-bound citation pass 2 packets as written."
+    )
 
 
 def test_confirmation_rejects_tampered_packet_bytes(tmp_path: Path) -> None:

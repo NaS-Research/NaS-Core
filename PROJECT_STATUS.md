@@ -10,6 +10,15 @@ and what comes next?
 
 ### Continue sequential citation chaining after closing input feasibility
 
+Citation pass 2 requires the cumulative founder-included evidence set, not only
+the original direct-search inventory. The deterministic pass-2 boundary now
+derives 62 unique PMID seeds from the 30 direct inclusions and all 32 pass-1
+inclusions, verifies the founder-authorized uncapped amendment queue, preserves
+every inclusion, and stores only a checksum-bound seed object. Pass-2 screening
+preparation also requires the complete pass-1 founder decision ledger so previously
+screened citation records cannot silently re-enter the founder queue. The
+implementation must be frozen before live Europe PMC retrieval.
+
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
 50 historical PAM50 genes without ambiguous mappings in both frozen source

@@ -17,6 +17,10 @@ from nas_core.domain.citation_chain import (
     CitationScreeningInventoryRecord,
     CitationScreeningPreparationReceipt,
 )
+from nas_core.domain.citation_confirmation import (
+    CitationDecisionLedgerReceipt,
+    CitationDecisionLedgerRecord,
+)
 from nas_core.domain.literature import BibliographicRecord, LiteratureSearchReceipt
 from nas_core.domain.snapshots import StoredObject
 from nas_core.ingestion.gdc import ImmutableObjectConflictError, canonical_json, sha256
@@ -26,6 +30,7 @@ ALGORITHM_VERSION = "citation-screening-preparation-1.0.0"
 JSON_MEDIA_TYPE = "application/json"
 _CANDIDATES = TypeAdapter(list[CitationCandidate])
 _PRIOR_RECORDS = TypeAdapter(list[BibliographicRecord])
+_PRIOR_DECISIONS = TypeAdapter(list[CitationDecisionLedgerRecord])
 
 
 class CitationScreeningPreparationError(RuntimeError):
@@ -48,16 +53,41 @@ class CitationScreeningPreparationService:
         prior_receipt: LiteratureSearchReceipt,
         *,
         code_revision: str,
+        prior_decision_receipts: list[CitationDecisionLedgerReceipt] | None = None,
     ) -> CitationScreeningPreparationReceipt:
-        self._validate_inputs(citation_receipt, prior_receipt, code_revision)
+        decision_receipts = prior_decision_receipts or []
+        self._validate_inputs(
+            citation_receipt,
+            prior_receipt,
+            decision_receipts,
+            code_revision,
+        )
         candidates = self._load_candidates(citation_receipt)
         prior_records = self._load_prior_records(prior_receipt)
+        prior_decisions = [
+            record
+            for receipt in decision_receipts
+            for record in self._load_prior_decisions(receipt)
+        ]
         prior_by_pmid = {
             record.pmid: record.record_key for record in prior_records if record.pmid
         }
+        prior_by_pmid.update(
+            {
+                record.pmid: record.record_key
+                for record in prior_decisions
+                if record.pmid
+            }
+        )
         prior_by_title = {
             self.normalize_title(record.title): record.record_key for record in prior_records
         }
+        prior_by_title.update(
+            {
+                self.normalize_title(record.title): record.record_key
+                for record in prior_decisions
+            }
+        )
 
         records: list[CitationScreeningInventoryRecord] = []
         canonical_by_title: dict[str, str] = {}
@@ -113,6 +143,9 @@ class CitationScreeningPreparationService:
             "code_revision": code_revision,
             "created_at": created_at.isoformat(),
             "prior_search_execution_id": prior_receipt.execution_id,
+            "prior_decision_ids": [
+                receipt.decision_id for receipt in decision_receipts
+            ],
             "study_id": citation_receipt.study_id,
         }
         preparation_id = sha256(canonical_json(identity))
@@ -140,6 +173,9 @@ class CitationScreeningPreparationService:
             pass_number=citation_receipt.pass_number,
             citation_execution_id=citation_receipt.execution_id,
             prior_search_execution_id=prior_receipt.execution_id,
+            prior_decision_ids=[
+                receipt.decision_id for receipt in decision_receipts
+            ],
             code_revision=code_revision,
             created_at=created_at,
             verified_at=self._clock(),
@@ -154,6 +190,7 @@ class CitationScreeningPreparationService:
             inventory_object=inventory_object,
             screening_candidates_object=screening_object,
             input_checksums_verified=True,
+            prior_decision_checksums_verified=True,
             output_checksums_verified=True,
             count_invariants_verified=True,
         )
@@ -215,6 +252,30 @@ class CitationScreeningPreparationService:
             )
         return records
 
+    def _load_prior_decisions(
+        self,
+        receipt: CitationDecisionLedgerReceipt,
+    ) -> list[CitationDecisionLedgerRecord]:
+        body = self._verified_body(receipt.ledger_object)
+        try:
+            records = _PRIOR_DECISIONS.validate_python(json.loads(body))
+        except (UnicodeDecodeError, json.JSONDecodeError, ValidationError) as error:
+            raise CitationScreeningPreparationError(
+                "prior citation decision ledger is invalid"
+            ) from error
+        if len(records) != receipt.candidate_count:
+            raise CitationScreeningPreparationError(
+                "prior citation decision count does not reconcile"
+            )
+        included = sum(
+            record.decision.value == "include" for record in records
+        )
+        if included != receipt.included_count:
+            raise CitationScreeningPreparationError(
+                "prior citation inclusion count does not reconcile"
+            )
+        return records
+
     def _verified_body(self, stored: StoredObject) -> bytes:
         body = self._store.get_bytes(stored.object_key)
         if len(body) != stored.size_bytes or sha256(body) != stored.sha256:
@@ -227,11 +288,27 @@ class CitationScreeningPreparationService:
     def _validate_inputs(
         citation_receipt: CitationChainReceipt,
         prior_receipt: LiteratureSearchReceipt,
+        prior_decisions: list[CitationDecisionLedgerReceipt],
         code_revision: str,
     ) -> None:
         if citation_receipt.study_id != prior_receipt.study_id:
             raise CitationScreeningPreparationError(
                 "citation and prior-search receipts identify different studies"
+            )
+        expected_passes = list(range(1, citation_receipt.pass_number))
+        actual_passes = sorted(receipt.pass_number for receipt in prior_decisions)
+        if actual_passes != expected_passes:
+            raise CitationScreeningPreparationError(
+                "citation screening requires one decision ledger for every prior pass"
+            )
+        if any(
+            receipt.study_id != citation_receipt.study_id
+            or not receipt.founder_authorized
+            or not receipt.record_coverage_verified
+            for receipt in prior_decisions
+        ):
+            raise CitationScreeningPreparationError(
+                "prior citation decisions require verified founder authority"
             )
         if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
             raise CitationScreeningPreparationError(

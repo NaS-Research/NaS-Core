@@ -8,6 +8,10 @@ from nas_core.domain.citation_chain import (
     CitationChainReceipt,
     CitationDirection,
 )
+from nas_core.domain.citation_confirmation import (
+    CitationDecisionLedgerReceipt,
+    CitationDecisionLedgerRecord,
+)
 from nas_core.domain.literature import (
     BibliographicRecord,
     LiteratureSearchReceipt,
@@ -37,7 +41,10 @@ def _stored(store: InMemoryObjectStore, key: str, payload: object) -> StoredObje
 
 
 def _citation_receipt(
-    store: InMemoryObjectStore, candidates: list[CitationCandidate]
+    store: InMemoryObjectStore,
+    candidates: list[CitationCandidate],
+    *,
+    pass_number: int = 1,
 ) -> CitationChainReceipt:
     candidate_object = _stored(
         store,
@@ -48,7 +55,7 @@ def _citation_receipt(
     return CitationChainReceipt(
         execution_id="a" * 64,
         study_id="NAS-BRCA-002",
-        pass_number=1,
+        pass_number=pass_number,
         code_revision="f9f1f46",
         retrieved_at=NOW,
         verified_at=NOW,
@@ -120,6 +127,41 @@ def _candidate(
     )
 
 
+def _decision_receipt(
+    store: InMemoryObjectStore,
+    records: list[CitationDecisionLedgerRecord],
+) -> CitationDecisionLedgerReceipt:
+    stored = _stored(
+        store,
+        "prior/decisions.json",
+        [item.model_dump(mode="json", exclude_none=True) for item in records],
+    )
+    included = sum(record.decision.value == "include" for record in records)
+    return CitationDecisionLedgerReceipt(
+        decision_id="e" * 64,
+        study_id="NAS-BRCA-002",
+        pass_number=1,
+        code_revision="abcdef0",
+        confirmed_at=NOW,
+        founder_id="founder",
+        founder_name="Founder",
+        first_packet_sha256="f" * 64,
+        first_appendix_sha256="1" * 64,
+        second_packet_sha256="2" * 64,
+        second_appendix_sha256="3" * 64,
+        candidate_count=len(records),
+        included_count=included,
+        excluded_count=len(records) - included,
+        unclear_count=0,
+        ledger_object=stored,
+        packet_checksums_verified=True,
+        appendix_checksums_verified=True,
+        record_coverage_verified=True,
+        founder_authorized=True,
+        founder_role_conflict_disclosed=True,
+    )
+
+
 def test_preparation_deduplicates_prior_and_cross_source_records() -> None:
     store = InMemoryObjectStore()
     candidates = [
@@ -169,6 +211,62 @@ def test_preparation_rejects_tampered_citation_candidates() -> None:
     with pytest.raises(CitationScreeningPreparationError, match="does not match"):
         service.prepare(
             citation,
+            _prior_receipt(store, []),
+            code_revision="f9f1f46",
+        )
+
+
+def test_pass_two_deduplicates_every_prior_founder_decision() -> None:
+    store = InMemoryObjectStore()
+    prior_record = CitationDecisionLedgerRecord(
+        record_key="MED:20",
+        rank=1,
+        title="A prior citation method",
+        pmid="20",
+        decision="include",
+        reviewer_id="founder",
+        reviewer_name="Founder",
+        reviewer_role="founder_internal_reviewer",
+        decided_at=NOW,
+        founder_authorized=True,
+        ai_decision=False,
+    )
+    candidates = [
+        _candidate("MED:20", "MED", "20", "A prior citation method"),
+        _candidate("MED:30", "MED", "30", "A newly linked method"),
+    ]
+    service = CitationScreeningPreparationService(store=store, clock=lambda: NOW)
+
+    receipt = service.prepare(
+        _citation_receipt(store, candidates, pass_number=2),
+        _prior_receipt(store, []),
+        code_revision="f9f1f46",
+        prior_decision_receipts=[_decision_receipt(store, [prior_record])],
+    )
+
+    assert receipt.prior_decision_ids == ["e" * 64]
+    assert receipt.already_screened_count == 1
+    assert receipt.requires_screening_count == 1
+    screening = json.loads(
+        store.get_bytes(receipt.screening_candidates_object.object_key)
+    )
+    assert [item["record_key"] for item in screening] == ["MED:30"]
+
+
+def test_pass_two_requires_complete_prior_decision_history() -> None:
+    store = InMemoryObjectStore()
+    service = CitationScreeningPreparationService(store=store, clock=lambda: NOW)
+
+    with pytest.raises(
+        CitationScreeningPreparationError,
+        match="one decision ledger for every prior pass",
+    ):
+        service.prepare(
+            _citation_receipt(
+                store,
+                [_candidate("MED:30", "MED", "30", "A newly linked method")],
+                pass_number=2,
+            ),
             _prior_receipt(store, []),
             code_revision="f9f1f46",
         )
