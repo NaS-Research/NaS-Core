@@ -1,0 +1,92 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 836ba23e9c8b33635e5052b861aed1be57af3d4664b37a424203248667942df7
+title: 'Predict ovarian cancer by pairing serum miRNAs: Construct of single sample classifiers.'
+pmid: '35983098'
+doi: 10.3389/fmed.2022.923275
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:9378834&metadataPrefix=pmc
+full_text_sha256: 3e2018b49d75102d08b406a869b8e3b803ee57bab6de22458566d2ba92ffba85
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article representation hashed;
+  zero article bytes retained.
+study_design: prediction_model
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: high
+  rationale: Training and internal testing split one public dataset, while external testing uses a second
+    dataset. All profiles come from Japanese participants measured in related source studies, and strong
+    case-control sampling does not reproduce screening prevalence or a consecutive diagnostic pathway.
+  evidence_locations:
+  - "Materials and methods \u2014 data sources"
+  - "Table 1 \u2014 datasets"
+- domain: specimen_and_measurement
+  judgment: high
+  rationale: Serum is clinically convenient and all datasets use the same 3D-Gene microarray generation.
+    That uniformity limits evidence for resistance to collection, processing, platform, laboratory, and
+    population shifts; source preprocessing is inherited rather than independently audited.
+  evidence_locations:
+  - "Materials and methods \u2014 data sources"
+  - "Discussion \u2014 limitations"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Relative-order rules, stability thresholds, reversal testing, pair selection, voting, and
+    final model composition are described. The large candidate search and optimization of pair count on
+    training performance create overfitting risk, and a deployable frozen implementation is absent.
+  evidence_locations:
+  - "Methods \u2014 diagnostic model design"
+  - "Results \u2014 13-miRNA-pair classifier"
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Public datasets provide cancer and noncancer labels, and the authors compare two published
+    expression models. The report does not fully detail blinded reference diagnosis or spectrum construction,
+    and other-cancer controls reveal that the first classifier is not ovarian-specific.
+  evidence_locations:
+  - "Materials and methods \u2014 data sources"
+  - "Results \u2014 other cancer types"
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: Sensitivity, specificity, predictive values, accuracy, AUC, Fisher tests, and false-discovery
+    adjustment are reported. Model selection searches many pairs, predictive values are computed in artificial
+    case-control mixtures, confidence intervals and calibration are absent, and no nested resampling protects
+    the full selection process.
+  evidence_locations:
+  - "Methods \u2014 statistical analyses"
+  - "Table 3 \u2014 diagnostic performance"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: A second GEO dataset supplies external testing and an ovarian-versus-other- cancer model
+    is also evaluated. Both datasets share population and platform constraints, there is no prospective
+    clinical cohort, and the authors call for clinical validation.
+  evidence_locations:
+  - "Results \u2014 diagnostic performance"
+  - "Discussion \u2014 limitations"
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: GEO accessions, sample counts, statistical methods, selected pairs, and declared funding
+    are available. Exact split seeds, complete selection code, fitted artifacts, and a reproducible environment
+    are not frozen.
+  evidence_locations:
+  - Data availability statement
+  - Materials and methods
+evidence_role: context_only
+key_strengths:
+- Uses within-sample relative ordering to avoid dependence on receiving-cohort normalization.
+- Tests a fixed selected classifier in both held-out and separate GEO datasets.
+- Explicitly examines confusion with twelve other cancer types.
+key_limitations:
+- Population and assay platform are narrowly shared across development and validation.
+- Predictive values from case-control mixtures are not transportable to screening prevalence.
+- Large feature search lacks nested validation and uncertainty intervals.
+conflicts_and_funding: The authors declared no commercial or financial conflict. Funding came from Chinese
+  national, university doctoral, and Jiangxi talent-program awards; no sponsor role in analysis or reporting
+  is specified in the article.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound official article in memory, retained zero
+  article bytes, and proposed domain judgments and an evidence role. This is not a founder decision, locked
+  appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T22:03:19Z'
+scientific_conclusions_drawn: false

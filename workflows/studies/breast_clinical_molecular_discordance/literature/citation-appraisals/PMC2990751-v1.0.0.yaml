@@ -1,0 +1,92 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 7862d57ea7aa91fe94ec0793640b5421200fb853329190e75fe2c5698b10cbad
+title: 'Nearest template prediction: a single-sample-based flexible class prediction with confidence assessment.'
+pmid: '21124904'
+doi: 10.1371/journal.pone.0015543
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:2990751&metadataPrefix=pmc
+full_text_sha256: c442e380aaf798bed1465f42aee9004afdf3e60bc2d9afc9b018cf41d4ab065e
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article representation hashed;
+  zero article bytes retained.
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Five retrospective public examples cover leukemia, breast cancer, liver disease, and tissue
+    origin. Several training and test cohorts are separate, but their selection follows available benchmark
+    datasets rather than a prespecified clinical population.
+  evidence_locations:
+  - "Results \u2014 prediction examples"
+  - "Table 1 \u2014 datasets"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: The evaluations span multiple microarray platforms and one cross-species comparison, which
+    is useful for technical stress testing. The paper relies on previously normalized public measurements
+    and does not audit original specimen handling or assay failures.
+  evidence_locations:
+  - "Materials and Methods \u2014 data preprocessing"
+  - "Table 1 \u2014 assay platforms"
+- domain: classifier_implementation
+  judgment: low
+  rationale: Template construction, distance calculation, gene resampling, nominal confidence, and optional
+    multiplicity correction are specified. An R implementation was distributed through GenePattern, and
+    predictions can be made without fitting against the receiving cohort.
+  evidence_locations:
+  - "Materials and Methods \u2014 NTP methodology"
+  - "Results \u2014 overview of NTP"
+- domain: reference_comparator
+  judgment: high
+  rationale: Some examples use accepted phenotype labels, but the breast subtype exercise measures agreement
+    with an earlier single-sample predictor rather than an independent biological truth. Comparator algorithms
+    therefore support engineering comparison, not clinical correctness.
+  evidence_locations:
+  - "Results \u2014 breast molecular subclass example"
+  - "Table 2 \u2014 prediction error"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: The study reports error rates, confidence strata, permutation-based significance, and false-discovery
+    control. It does not provide uncertainty intervals for comparative performance, calibration analysis,
+    or a locked primary endpoint across the heterogeneous demonstrations.
+  evidence_locations:
+  - "Results \u2014 prediction confidence"
+  - "Materials and Methods \u2014 prediction analyses"
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: Independent datasets, platforms, multiclass tasks, and cross-species data provide broad proof
+    of portability. However, the breast task shows substantial disagreement with its comparator and no
+    prospective deployment or clinical decision-impact validation is presented.
+  evidence_locations:
+  - "Results \u2014 examples 2 through 5"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Public datasets, algorithm equations, default parameters, and software availability are described.
+    The article does not freeze a modern executable environment, exact dependency set, or complete run
+    manifests for every example.
+  evidence_locations:
+  - Materials and Methods
+  - Supporting Information
+evidence_role: context_only
+key_strengths:
+- Defines a genuine patient-independent classifier with an explicit per-sample confidence calculation.
+- Exercises the same basic method across independent cohorts, platforms, species, and multiclass labels.
+- Makes the algorithm and benchmark data publicly available.
+key_limitations:
+- Breast subtype performance is agreement with another predictor, not biological truth.
+- Comparative results lack confidence intervals and prospective clinical validation.
+- Receiving-dataset standardization remains an available default when external reference parameters are
+  absent.
+conflicts_and_funding: The author declared no competing interests. Support came from a Charles A. King
+  fellowship, and the report states that the funder did not direct the design, analysis, publication decision,
+  or manuscript.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound official article in memory, retained zero
+  article bytes, and proposed domain judgments and an evidence role. This is not a founder decision, locked
+  appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T22:03:19Z'
+scientific_conclusions_drawn: false

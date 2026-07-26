@@ -1,0 +1,93 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: b4bb8ab9e862a849ced86ee26d09a7b9c49048ad56081ddb0ebe1188ea9acab3
+title: 'Purity Independent Subtyping of Tumors (PurIST) Pancreatic Cancer Classifier: Analytic Validation
+  of a 16-RNA Expression Signature Distinguishing Basal and Classical Subtypes.'
+pmid: '39181325'
+doi: 10.1016/j.jmoldx.2024.07.002
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11524322/
+full_text_sha256: 4cb21562b2db0eb37df34012e057fdb060770d9932b4617643953760512287b4
+access_basis: Official PMC HTML article reviewed ephemerally; exact source bytes checksum-verified; zero
+  article bytes retained.
+study_design: analytical_validation
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Seventy-four archived pancreatic tumors from one health system include resections, larger
+    biopsies, and core biopsies. Selection supports an analytical comparison but is not consecutive, multicenter,
+    or designed to estimate clinical subtype prevalence and treatment benefit.
+  evidence_locations:
+  - "Materials and Methods \u2014 tissue selection"
+  - "Results \u2014 tumor specimens"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Pathology review, malignant-cell estimates, RNA quantity and fragmentation checks, internal
+    system controls, external controls, and defined inputs strengthen measurement validity. Nineteen tumors
+    required a second block sampling, leaving some paired platform measurements vulnerable to spatial
+    variation.
+  evidence_locations:
+  - "Materials and Methods \u2014 RNA preparation"
+  - "Results \u2014 quality indicators"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Sixteen target RNAs, eight relative-expression pairs, weighting, a fixed score threshold,
+    and raw-count operation are described. The fitted weights, exact executable implementation, and production
+    artifact are referenced to prior work rather than independently frozen in this report.
+  evidence_locations:
+  - "Materials and Methods \u2014 NanoString testing"
+  - "Discussion \u2014 PurIST algorithm"
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Full-transcriptome RNA sequencing with the same PurIST algorithm is an appropriate platform-bridging
+    comparator. It is not independent biological truth, and the few disagreements could arise from either
+    platform, sampling, heterogeneity, or boundary instability.
+  evidence_locations:
+  - "Materials and Methods \u2014 RNA sequencing"
+  - "Results \u2014 cross-platform comparison"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: The report gives raw agreement, duplicate-score correlation, discrepant-case investigation,
+    and run-control reproducibility. It does not report agreement confidence intervals, a prespecified
+    equivalence margin, calibration, or comprehensive threshold sensitivity.
+  evidence_locations:
+  - "Materials and Methods \u2014 statistical analysis"
+  - "Results \u2014 cross-platform agreement"
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: Both biopsy types, separate-day duplicates, platform bridging, run controls, and turnaround
+    assessment support laboratory feasibility. Validation is single-center, outcome utility is explicitly
+    still under study, and no external laboratory reproducibility test is included.
+  evidence_locations:
+  - "Results \u2014 turnaround time"
+  - "Discussion \u2014 ongoing clinical work"
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: The article reports specimen flow, assay inputs, controls, decision cutoff, discordant cases,
+    and patent interests. A complete software artifact, machine-readable validation dataset, and independently
+    executable environment are not supplied.
+  evidence_locations:
+  - Materials and Methods
+  - Disclosure Statement
+evidence_role: context_only
+key_strengths:
+- Bridges a fixed single-sample classifier from RNA sequencing to a rapid targeted assay.
+- Includes core biopsies, larger specimens, repeat runs, and multiple quality controls.
+- Investigates both discrepant platform calls instead of reporting agreement alone.
+key_limitations:
+- Same algorithm on both platforms is a technical comparator rather than independent subtype truth.
+- Single-center archived cohort lacks external laboratory replication.
+- Clinical validity and treatment-selection utility remain unproven in this report.
+conflicts_and_funding: Two authors hold patents on the PurIST technology. GeneCentric licensed related
+  rights from the University of North Carolina but is reported not to have participated in this study.
+  The article does not present this analytical work as independent commercial-product validation.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound official article in memory, retained zero
+  article bytes, and proposed domain judgments and an evidence role. This is not a founder decision, locked
+  appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-26T22:03:19Z'
+scientific_conclusions_drawn: false
