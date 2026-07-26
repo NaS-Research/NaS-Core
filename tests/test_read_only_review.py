@@ -520,3 +520,48 @@ def test_publisher_html_review_accepts_allowlisted_page_without_citation_meta() 
     )
 
     assert receipt.article_identity_verified
+
+
+def test_research_square_preprint_uses_exact_allowlisted_publisher_page() -> None:
+    title = (
+        "Multiregional transcriptomics identifies congruent consensus molecular "
+        "subtypes with prognostic value beyond tumor heterogeneity in colorectal "
+        "cancer."
+    )
+    record = _record().model_copy(
+        update={
+            "record_key": "PPR:PPR723583",
+            "title": title,
+            "pmid": None,
+            "pmcid": None,
+            "doi": "10.21203/rs.3.rs-3290125/v1",
+            "access_status": "access_check_required",
+        }
+    )
+    body = f"""<!doctype html><html><head>
+<meta name="citation_title" content="{title}">
+<meta name="citation_doi" content="10.21203/rs.3.rs-3290125/v1">
+</head><body><main><article>
+<h1>{title}</h1>
+<p>DOI 10.21203/rs.3.rs-3290125/v1</p>
+{"Methods and results. " * 1200}</article></main></body></html>""".encode()
+
+    receipt = ApprovedPublisherHtmlReadOnlyReviewService(
+        transport=FakeTransport(body),
+        clock=lambda: NOW,
+    ).review(
+        record,
+        study_id="NAS-BRCA-002",
+        queue_id="b" * 64,
+        progress_id="c" * 64,
+        code_revision="abcdef1",
+        access_basis="Official Research Square preprint reviewed ephemerally.",
+        observed_rights="Research Square page declares CC BY 4.0.",
+        rights_url="https://creativecommons.org/licenses/by/4.0/",
+    )
+
+    assert receipt.source_url == (
+        "https://www.researchsquare.com/article/rs-3290125/v1"
+    )
+    assert receipt.article_identity_verified
+    assert receipt.durable_full_text_stored is False

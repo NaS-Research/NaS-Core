@@ -45,6 +45,9 @@ APPROVED_PUBLISHER_HTML_URLS = {
     "10.1093/jnci/djr545": (
         "https://oup.silverchair-cdn.com/article-minimal/979947"
     ),
+    "10.21203/rs.3.rs-3290125/v1": (
+        "https://www.researchsquare.com/article/rs-3290125/v1"
+    ),
 }
 INSTITUTIONAL_PDF_URLS = {
     "10.1007/s12094-013-1088-z": (
@@ -414,10 +417,16 @@ class UrllibApprovedPublisherHtmlReadOnlyReviewTransport:
         if url not in APPROVED_PUBLISHER_HTML_URLS.values():
             raise ValueError("read-only review URL must be an approved publisher page")
         parsed = urlsplit(url)
+        approved_location = (
+            parsed.hostname == "oup.silverchair-cdn.com"
+            and parsed.path.startswith("/article-minimal/")
+        ) or (
+            parsed.hostname == "www.researchsquare.com"
+            and parsed.path == "/article/rs-3290125/v1"
+        )
         if (
             parsed.scheme != "https"
-            or parsed.hostname != "oup.silverchair-cdn.com"
-            or not parsed.path.startswith("/article-minimal/")
+            or not approved_location
             or parsed.query
             or parsed.fragment
         ):
