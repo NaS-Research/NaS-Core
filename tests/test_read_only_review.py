@@ -54,12 +54,13 @@ def _medrxiv_html(
         "CC BY-NC 4.0."
     ),
 ) -> bytes:
-    body = f"""<!doctype html>
-<html><head>
-<meta name="DC.Rights" content="{rights}">
-<meta name="citation_title" content="{title}">
-<meta name="citation_doi" content="10.1234/2026.01.01.12345678">
-</head><body><main><article>{"full text " * 1200}</article></main></body></html>"""
+    body = f"""{title}
+===========================
+
+{"full text " * 1200}
+
+{rights}
+"""
     return body.encode()
 
 
@@ -127,7 +128,7 @@ def test_medrxiv_review_emits_verified_no_storage_receipt() -> None:
         _medrxiv_record(),
         source_url=(
             "https://www.medrxiv.org/content/"
-            "10.1234/2026.01.01.12345678v2.full"
+            "10.1234/2026.01.01.12345678v2.full.txt"
         ),
         study_id="NAS-BRCA-002",
         queue_id="b" * 64,
@@ -151,18 +152,18 @@ def test_medrxiv_review_emits_verified_no_storage_receipt() -> None:
     ("source_url", "body", "error"),
     [
         (
-            "https://example.org/content/10.1234/2026.01.01.12345678v2.full",
+            "https://example.org/content/10.1234/2026.01.01.12345678v2.full.txt",
             _medrxiv_html(),
             "source URL",
         ),
         (
-            "https://www.medrxiv.org/content/10.1234/differentv2.full",
+            "https://www.medrxiv.org/content/10.1234/differentv2.full.txt",
             _medrxiv_html(),
             "source URL",
         ),
         (
             "https://www.medrxiv.org/content/"
-            "10.1234/2026.01.01.12345678v2.full",
+            "10.1234/2026.01.01.12345678v2.full.txt",
             _medrxiv_html(rights="All rights reserved."),
             "identity or rights",
         ),

@@ -30,6 +30,7 @@ from nas_core.retrieval.full_text_retrieval import normalize_article_title
 PMC_ARTICLE_URL = "https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/"
 MEDRXIV_HOST = "www.medrxiv.org"
 HTML_MEDIA_TYPE = "text/html"
+PLAIN_TEXT_MEDIA_TYPE = "text/plain"
 
 
 class ReadOnlyReviewError(RuntimeError):
@@ -97,7 +98,7 @@ class _CitationMetaParser(HTMLParser):
 
 
 class UrllibMedrxivReadOnlyReviewTransport:
-    """Fetch only exact medRxiv full-text pages over HTTPS."""
+    """Fetch only exact, reproducible medRxiv plain full-text pages over HTTPS."""
 
     def __init__(self, *, timeout_seconds: float = 60.0) -> None:
         self._timeout_seconds = timeout_seconds
@@ -109,16 +110,16 @@ class UrllibMedrxivReadOnlyReviewTransport:
             parsed.scheme != "https"
             or parsed.hostname != MEDRXIV_HOST
             or not parsed.path.startswith("/content/10.")
-            or not parsed.path.endswith(".full")
+            or not parsed.path.endswith(".full.txt")
             or parsed.query
             or parsed.fragment
         ):
             raise ValueError(
-                "read-only review URL must be an exact medRxiv full-text page"
+                "read-only review URL must be an exact medRxiv plain full-text page"
             )
         request = Request(
             url,
-            headers={"Accept": HTML_MEDIA_TYPE, "User-Agent": "NaS-Core/0.1"},
+            headers={"Accept": PLAIN_TEXT_MEDIA_TYPE, "User-Agent": "NaS-Core/0.1"},
         )
         try:
             with urlopen(  # noqa: S310
@@ -272,7 +273,7 @@ class MedrxivReadOnlyReviewService:
             parsed_url.scheme != "https"
             or parsed_url.hostname != MEDRXIV_HOST
             or record.doi.casefold() not in parsed_url.path.casefold()
-            or not re.search(r"v[0-9]+\.full$", parsed_url.path)
+            or not re.search(r"v[0-9]+\.full\.txt$", parsed_url.path)
         ):
             raise ReadOnlyReviewError(
                 "medRxiv source URL must bind the inventory DOI to an exact version"
@@ -282,14 +283,13 @@ class MedrxivReadOnlyReviewService:
             raise ReadOnlyReviewError(
                 "medRxiv full-text page is unavailable or incomplete"
             )
-        parser = _CitationMetaParser()
         try:
-            parser.feed(response.body.decode("utf-8"))
+            full_text = response.body.decode("utf-8")
         except UnicodeDecodeError as error:
             raise ReadOnlyReviewError(
-                "medRxiv full-text page is not UTF-8 HTML"
+                "medRxiv plain full text is not UTF-8"
             ) from error
-        self._verify_identity_and_rights(record, parser.metadata)
+        self._verify_identity_and_rights(record, full_text)
         accessed_at = self._clock()
         content_sha256 = sha256(response.body)
         review_id = sha256(
@@ -335,15 +335,16 @@ class MedrxivReadOnlyReviewService:
     @staticmethod
     def _verify_identity_and_rights(
         record: FullTextInventoryRecord,
-        metadata: dict[str, str],
+        full_text: str,
     ) -> None:
-        rights = metadata.get("dc.rights", "").casefold()
+        first_line = next(
+            (line.strip() for line in full_text.splitlines() if line.strip()),
+            "",
+        )
         if (
-            metadata.get("citation_doi", "").casefold()
-            != (record.doi or "").casefold()
-            or normalize_article_title(metadata.get("citation_title"))
+            normalize_article_title(first_line)
             != normalize_article_title(record.title)
-            or "cc by-nc 4.0" not in rights
+            or "cc by-nc 4.0" not in full_text.casefold()
         ):
             raise ReadOnlyReviewError(
                 "medRxiv full-text page identity or rights do not match inventory"
