@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.38.0-working`
+Manuscript version: `0.39.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -417,6 +417,16 @@ than `reliable` abstains. The kernel accepts only identifiers beginning
 `SYNTHETIC-` and labels its output `synthetic_method_validation_only`. These are
 software-verification capabilities, not an approved analytical method or scientific
 result.
+
+The kernel can also apply an explicit synthetic technical-error panel. Each panel
+declares its gene order, generator seed, and generation description; output
+provenance binds its complete contents by SHA-256. Leave-one-gene-out and
+technical-error totals, valid runs, and retained-label counts are reported
+separately and must reconcile to aggregate repeatability. A nonfinite or otherwise
+invalid technical perturbation remains in the denominator and makes the result
+unclassifiable rather than disappearing. These vectors test execution and failure
+logic only; they are not an empirical model of laboratory error and cannot select
+the real reliability threshold.
 
 ### Data sources, cohort, and statistical analysis
 
@@ -1205,6 +1215,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.39.0-working | 2026-07-26 | Extended synthetic-only method validation to explicit seed-bound technical-error panels with stable provenance hashes, family-level accounting, label-changing instability tests, and fail-closed invalid-run abstention; no empirical error model was approved. |
 | 0.38.0-working | 2026-07-26 | Added the synthetic-only single-sample reliability kernel: exact-panel validation, alias handling, five-centroid Spearman scoring, top/runner-up margin, 50 leave-one-gene-out runs, explicit failure states, and abstention; no real method artifact, threshold, molecular access, or result was authorized. |
 | 0.37.0-working | 2026-07-26 | Materially closed citation pass 1 from frozen receipt lineage; the bound review state is 62 eligible identities, 56 appraisal-complete, six access-restricted, zero pending, and zero consecutive zero-yield passes. |
 | 0.36.0-working | 2026-07-26 | Added citation pass-2 cumulative retrieval and nondecisional screening: 7,135 non-seed records reduced to 2,479 genuinely new candidates, with nine proposed inclusions, 2,470 proposed exclusions, zero unclear, and exact founder confirmation pending. |

@@ -176,6 +176,66 @@ class SingleSampleExpression(ReliabilityModel):
     expression_values: dict[str, float] = Field(min_length=1)
 
 
+class SyntheticTechnicalErrorPanel(ReliabilityModel):
+    panel_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    gene_order: list[str] = Field(min_length=50, max_length=50)
+    random_seed: int = Field(ge=0)
+    generation_description: str = Field(min_length=1)
+    perturbation_vectors: list[dict[str, float]] = Field(min_length=1, max_length=10000)
+
+    @model_validator(mode="after")
+    def validate_panel_shape(self) -> SyntheticTechnicalErrorPanel:
+        if len(self.gene_order) != len(set(self.gene_order)):
+            raise ValueError("synthetic technical-error gene order must be unique")
+        if set(self.gene_order) != PAM50_HISTORICAL_GENES:
+            raise ValueError("synthetic technical-error panel must use the PAM50 panel")
+        if any(
+            set(vector) != PAM50_HISTORICAL_GENES
+            for vector in self.perturbation_vectors
+        ):
+            raise ValueError(
+                "every synthetic technical-error vector must contain exactly 50 genes"
+            )
+        return self
+
+
+class PerturbationFamilySummary(ReliabilityModel):
+    perturbation_id: str = Field(min_length=1)
+    kind: PerturbationKind
+    total_count: int = Field(ge=1)
+    valid_count: int = Field(ge=0)
+    canonical_label_retained_count: int = Field(ge=0)
+    valid_fraction: float = Field(ge=0.0, le=1.0)
+    canonical_label_retention_fraction: float | None = Field(
+        default=None,
+        ge=0.0,
+        le=1.0,
+    )
+
+    @model_validator(mode="after")
+    def validate_family_counts(self) -> PerturbationFamilySummary:
+        if self.valid_count > self.total_count:
+            raise ValueError("valid family count cannot exceed total count")
+        if self.canonical_label_retained_count > self.valid_count:
+            raise ValueError("retained-label count cannot exceed valid family count")
+        if abs(self.valid_fraction - (self.valid_count / self.total_count)) > 1e-12:
+            raise ValueError("family valid fraction does not match its counts")
+        expected_retention = (
+            self.canonical_label_retained_count / self.valid_count
+            if self.valid_count
+            else None
+        )
+        if expected_retention is None:
+            if self.canonical_label_retention_fraction is not None:
+                raise ValueError("a family with no valid runs cannot report retention")
+        elif (
+            self.canonical_label_retention_fraction is None
+            or abs(self.canonical_label_retention_fraction - expected_retention) > 1e-12
+        ):
+            raise ValueError("family retention fraction does not match its counts")
+        return self
+
+
 class SingleSampleReliabilityResult(ReliabilityModel):
     schema_version: str = "1.0.0"
     sample_id: str = Field(pattern=r"^SYNTHETIC-[A-Za-z0-9._-]+$")
@@ -187,8 +247,8 @@ class SingleSampleReliabilityResult(ReliabilityModel):
     runner_up_subtype: str | None
     runner_up_score: float | None
     margin: float | None
-    valid_perturbation_count: int = Field(ge=0, le=50)
-    total_perturbation_count: int = Field(ge=0, le=50)
+    valid_perturbation_count: int = Field(ge=0)
+    total_perturbation_count: int = Field(ge=0)
     valid_perturbation_fraction: float | None = Field(default=None, ge=0.0, le=1.0)
     canonical_label_retention_fraction: float | None = Field(
         default=None,
@@ -197,7 +257,8 @@ class SingleSampleReliabilityResult(ReliabilityModel):
     )
     reliability_state: ReliabilityState
     report_action: ReportAction
-    reason_codes: list[str]
+    reason_codes: list[str] = Field(min_length=1)
+    perturbation_families: list[PerturbationFamilySummary]
     provenance: dict[str, str]
     limitations: list[str] = Field(min_length=1)
 
@@ -207,6 +268,20 @@ class SingleSampleReliabilityResult(ReliabilityModel):
             raise ValueError("reliability reason codes must be unique")
         if self.valid_perturbation_count > self.total_perturbation_count:
             raise ValueError("valid perturbation count cannot exceed total count")
+        if sum(item.total_count for item in self.perturbation_families) != (
+            self.total_perturbation_count
+        ):
+            raise ValueError("family totals must equal the aggregate perturbation total")
+        if sum(item.valid_count for item in self.perturbation_families) != (
+            self.valid_perturbation_count
+        ):
+            raise ValueError("family valid counts must equal the aggregate valid count")
+        family_ids = [item.perturbation_id for item in self.perturbation_families]
+        if len(family_ids) != len(set(family_ids)):
+            raise ValueError("perturbation family IDs must be unique")
+        retained_total = sum(
+            item.canonical_label_retained_count for item in self.perturbation_families
+        )
         if self.total_perturbation_count == 0:
             if (
                 self.valid_perturbation_fraction is not None
@@ -222,6 +297,19 @@ class SingleSampleReliabilityResult(ReliabilityModel):
                 or abs(self.valid_perturbation_fraction - expected_valid_fraction) > 1e-12
             ):
                 raise ValueError("valid perturbation fraction does not match its counts")
+        expected_retention = (
+            retained_total / self.valid_perturbation_count
+            if self.valid_perturbation_count
+            else None
+        )
+        if expected_retention is None:
+            if self.canonical_label_retention_fraction is not None:
+                raise ValueError("no valid perturbations cannot report label retention")
+        elif (
+            self.canonical_label_retention_fraction is None
+            or abs(self.canonical_label_retention_fraction - expected_retention) > 1e-12
+        ):
+            raise ValueError("aggregate label retention does not match family counts")
         if self.data_quality_state is not DataQualityState.VALID:
             if self.reliability_state is not ReliabilityState.INSUFFICIENT_DATA:
                 raise ValueError("invalid input quality must produce insufficient_data")
@@ -504,6 +592,12 @@ def load_reliability_method_inputs(path: Path) -> ReliabilityMethodInputs:
 
 def load_single_sample_expression(path: Path) -> SingleSampleExpression:
     return SingleSampleExpression.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_synthetic_technical_error_panel(path: Path) -> SyntheticTechnicalErrorPanel:
+    return SyntheticTechnicalErrorPanel.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

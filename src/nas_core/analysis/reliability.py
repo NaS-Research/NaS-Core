@@ -12,12 +12,15 @@ import numpy as np
 
 from nas_core.domain.reliability import (
     DataQualityState,
+    PerturbationFamilySummary,
+    PerturbationKind,
     ReliabilityMethodInputs,
     ReliabilityState,
     ReportAction,
     SingleSampleExpression,
     SingleSampleReliabilityResult,
     SingleSampleReliabilitySpecification,
+    SyntheticTechnicalErrorPanel,
 )
 
 KERNEL_VERSION: Final = "pam50-synthetic-reliability-0.1.0"
@@ -55,6 +58,7 @@ class SyntheticSingleSampleReliabilityKernel:
         specification: SingleSampleReliabilitySpecification,
         method: ReliabilityMethodInputs,
         sample: SingleSampleExpression,
+        technical_error_panel: SyntheticTechnicalErrorPanel | None = None,
     ) -> SingleSampleReliabilityResult:
         input_hash = self._input_hash(sample)
         provenance = {
@@ -66,6 +70,17 @@ class SyntheticSingleSampleReliabilityKernel:
             "specification_version": specification.specification_version,
             "study_id": specification.study_id,
         }
+        if technical_error_panel is not None:
+            if technical_error_panel.gene_order != method.gene_order:
+                raise ReliabilityKernelError(
+                    "synthetic technical-error and method gene order must match"
+                )
+            provenance["technical_error_panel_sha256"] = self._model_hash(
+                technical_error_panel
+            )
+            provenance["technical_error_panel_version"] = (
+                technical_error_panel.panel_version
+            )
 
         method_issue = self._validate_numeric_method(method)
         if method_issue is not None:
@@ -135,12 +150,13 @@ class SyntheticSingleSampleReliabilityKernel:
                 reason_codes=[
                     canonical_attempt.failure_reason or "canonical_score_invalid"
                 ],
+                perturbation_families=[],
                 provenance=provenance,
                 limitations=[SYNTHETIC_LIMITATION],
             )
 
-        valid_runs = 0
-        retained_label_runs = 0
+        logo_valid_runs = 0
+        logo_retained_label_runs = 0
         for omitted_index in range(LOGO_RUN_COUNT):
             retained_indices = np.delete(np.arange(LOGO_RUN_COUNT), omitted_index)
             perturbation = self._score_vectors(
@@ -150,19 +166,69 @@ class SyntheticSingleSampleReliabilityKernel:
             ).call
             if perturbation is None:
                 continue
-            valid_runs += 1
+            logo_valid_runs += 1
             if perturbation.canonical_subtype == canonical.canonical_subtype:
-                retained_label_runs += 1
+                logo_retained_label_runs += 1
 
-        valid_fraction = valid_runs / LOGO_RUN_COUNT
+        families = [
+            self._family_summary(
+                perturbation_id="logo-50-v1",
+                kind=PerturbationKind.LEAVE_ONE_GENE_OUT,
+                total_count=LOGO_RUN_COUNT,
+                valid_count=logo_valid_runs,
+                retained_count=logo_retained_label_runs,
+            )
+        ]
+        if technical_error_panel is not None:
+            technical_valid_runs = 0
+            technical_retained_label_runs = 0
+            for vector in technical_error_panel.perturbation_vectors:
+                delta = np.asarray(
+                    [vector[gene] for gene in method.gene_order],
+                    dtype=float,
+                )
+                if not np.isfinite(delta).all():
+                    continue
+                perturbation = self._score_vectors(
+                    centered + delta,
+                    method,
+                    retained_indices=np.arange(LOGO_RUN_COUNT),
+                ).call
+                if perturbation is None:
+                    continue
+                technical_valid_runs += 1
+                if perturbation.canonical_subtype == canonical.canonical_subtype:
+                    technical_retained_label_runs += 1
+            families.append(
+                self._family_summary(
+                    perturbation_id="technical-error-synthetic-v1",
+                    kind=PerturbationKind.TECHNICAL_MEASUREMENT_ERROR,
+                    total_count=len(technical_error_panel.perturbation_vectors),
+                    valid_count=technical_valid_runs,
+                    retained_count=technical_retained_label_runs,
+                )
+            )
+
+        total_runs = sum(item.total_count for item in families)
+        valid_runs = sum(item.valid_count for item in families)
+        retained_label_runs = sum(
+            item.canonical_label_retained_count for item in families
+        )
+        valid_fraction = valid_runs / total_runs
         retention_fraction = (
             retained_label_runs / valid_runs if valid_runs else None
         )
         reasons: list[str] = []
-        if valid_runs != LOGO_RUN_COUNT:
+        if valid_runs != total_runs:
             state = ReliabilityState.UNCLASSIFIABLE
             action = ReportAction.ABSTAIN
-            reasons.append("invalid_logo_run")
+            if logo_valid_runs != LOGO_RUN_COUNT:
+                reasons.append("invalid_logo_run")
+            if (
+                technical_error_panel is not None
+                and families[-1].valid_count != families[-1].total_count
+            ):
+                reasons.append("invalid_technical_error_run")
         elif retention_fraction is None:
             state = ReliabilityState.UNCLASSIFIABLE
             action = ReportAction.ABSTAIN
@@ -191,28 +257,23 @@ class SyntheticSingleSampleReliabilityKernel:
             runner_up_score=canonical.runner_up_score,
             margin=canonical.margin,
             valid_perturbation_count=valid_runs,
-            total_perturbation_count=LOGO_RUN_COUNT,
+            total_perturbation_count=total_runs,
             valid_perturbation_fraction=valid_fraction,
             canonical_label_retention_fraction=retention_fraction,
             reliability_state=state,
             report_action=action,
             reason_codes=reasons,
+            perturbation_families=families,
             provenance=provenance,
             limitations=[SYNTHETIC_LIMITATION],
         )
 
     @staticmethod
     def _input_hash(sample: SingleSampleExpression) -> str:
-        hashable_values: dict[str, float | str] = {}
-        for gene, value in sample.expression_values.items():
-            if math.isnan(value):
-                hashable_values[gene] = "NaN"
-            elif value == math.inf:
-                hashable_values[gene] = "Infinity"
-            elif value == -math.inf:
-                hashable_values[gene] = "-Infinity"
-            else:
-                hashable_values[gene] = value
+        hashable_values = {
+            gene: SyntheticSingleSampleReliabilityKernel._hashable_float(value)
+            for gene, value in sample.expression_values.items()
+        }
         body = json.dumps(
             {
                 "expression_values": hashable_values,
@@ -222,6 +283,55 @@ class SyntheticSingleSampleReliabilityKernel:
             sort_keys=True,
         ).encode("utf-8")
         return hashlib.sha256(body).hexdigest()
+
+    @staticmethod
+    def _model_hash(model: SyntheticTechnicalErrorPanel) -> str:
+        payload = model.model_dump(mode="json", exclude={"perturbation_vectors"})
+        payload["perturbation_vectors"] = [
+            {
+                gene: SyntheticSingleSampleReliabilityKernel._hashable_float(value)
+                for gene, value in vector.items()
+            }
+            for vector in model.perturbation_vectors
+        ]
+        body = json.dumps(
+            payload,
+            allow_nan=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8")
+        return hashlib.sha256(body).hexdigest()
+
+    @staticmethod
+    def _hashable_float(value: float) -> float | str:
+        if math.isnan(value):
+            return "NaN"
+        if value == math.inf:
+            return "Infinity"
+        if value == -math.inf:
+            return "-Infinity"
+        return value
+
+    @staticmethod
+    def _family_summary(
+        *,
+        perturbation_id: str,
+        kind: PerturbationKind,
+        total_count: int,
+        valid_count: int,
+        retained_count: int,
+    ) -> PerturbationFamilySummary:
+        return PerturbationFamilySummary(
+            perturbation_id=perturbation_id,
+            kind=kind,
+            total_count=total_count,
+            valid_count=valid_count,
+            canonical_label_retained_count=retained_count,
+            valid_fraction=valid_count / total_count,
+            canonical_label_retention_fraction=(
+                retained_count / valid_count if valid_count else None
+            ),
+        )
 
     @staticmethod
     def _validate_numeric_method(method: ReliabilityMethodInputs) -> str | None:
@@ -364,6 +474,7 @@ class SyntheticSingleSampleReliabilityKernel:
             reliability_state=ReliabilityState.INSUFFICIENT_DATA,
             report_action=ReportAction.ABSTAIN,
             reason_codes=[reason],
+            perturbation_families=[],
             provenance=provenance,
             limitations=[SYNTHETIC_LIMITATION],
         )

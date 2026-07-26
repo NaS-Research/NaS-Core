@@ -15,6 +15,7 @@ from nas_core.domain.reliability import (
     PAM50_HISTORICAL_ALIASES,
     ReliabilityMethodInputs,
     SingleSampleExpression,
+    SyntheticTechnicalErrorPanel,
     load_reliability_specification,
 )
 
@@ -61,6 +62,19 @@ def _sample(method: ReliabilityMethodInputs) -> SingleSampleExpression:
     )
 
 
+def _technical_panel(
+    method: ReliabilityMethodInputs,
+    vectors: list[dict[str, float]],
+) -> SyntheticTechnicalErrorPanel:
+    return SyntheticTechnicalErrorPanel(
+        panel_version="0.1.0",
+        gene_order=method.gene_order,
+        random_seed=20260726,
+        generation_description="Deterministic synthetic vectors for software tests only.",
+        perturbation_vectors=vectors,
+    )
+
+
 def test_synthetic_kernel_scores_one_sample_deterministically() -> None:
     specification = load_reliability_specification(SPECIFICATION_PATH)
     method = _method()
@@ -76,6 +90,8 @@ def test_synthetic_kernel_scores_one_sample_deterministically() -> None:
     assert first.report_action == "report_label"
     assert first.valid_perturbation_count == 50
     assert first.canonical_label_retention_fraction == 1.0
+    assert len(first.perturbation_families) == 1
+    assert first.perturbation_families[0].kind == "leave_one_gene_out"
     assert first.provenance["execution_scope"] == "synthetic_method_validation_only"
 
 
@@ -244,6 +260,76 @@ def test_prespecified_threshold_can_force_unstable_abstention() -> None:
     assert "margin_below_threshold" in result.reason_codes
 
 
+def test_combined_panel_reports_each_perturbation_family() -> None:
+    specification = load_reliability_specification(SPECIFICATION_PATH)
+    method = _method()
+    zero_vector = {gene: 0.0 for gene in method.gene_order}
+    panel = _technical_panel(method, [zero_vector, zero_vector, zero_vector])
+
+    result = SyntheticSingleSampleReliabilityKernel().score(
+        specification,
+        method,
+        _sample(method),
+        panel,
+    )
+
+    assert result.reliability_state == "reliable"
+    assert result.total_perturbation_count == 53
+    assert result.valid_perturbation_count == 53
+    assert len(result.perturbation_families) == 2
+    assert result.perturbation_families[1].kind == "technical_measurement_error"
+    assert result.perturbation_families[1].canonical_label_retention_fraction == 1.0
+    assert "technical_error_panel_sha256" in result.provenance
+
+
+def test_synthetic_technical_error_label_change_triggers_instability() -> None:
+    specification = load_reliability_specification(SPECIFICATION_PATH)
+    method = _method()
+    luminal_a = method.centroids["Luminal A"]
+    luminal_b = method.centroids["Luminal B"]
+    label_changing_vector = {
+        gene: luminal_b[gene] - luminal_a[gene] for gene in method.gene_order
+    }
+    panel = _technical_panel(method, [label_changing_vector])
+
+    result = SyntheticSingleSampleReliabilityKernel().score(
+        specification,
+        method,
+        _sample(method),
+        panel,
+    )
+
+    assert result.canonical_subtype == "Luminal A"
+    assert result.reliability_state == "unstable"
+    assert result.report_action == "abstain"
+    assert result.total_perturbation_count == 51
+    assert result.canonical_label_retention_fraction == pytest.approx(50 / 51)
+    assert "label_retention_below_threshold" in result.reason_codes
+
+
+def test_invalid_technical_error_run_is_preserved_and_abstains() -> None:
+    specification = load_reliability_specification(SPECIFICATION_PATH)
+    method = _method()
+    invalid_vector = {gene: 0.0 for gene in method.gene_order}
+    invalid_vector[method.gene_order[0]] = float("nan")
+    panel = _technical_panel(method, [invalid_vector])
+
+    result = SyntheticSingleSampleReliabilityKernel().score(
+        specification,
+        method,
+        _sample(method),
+        panel,
+    )
+
+    assert result.data_quality_state == "valid"
+    assert result.reliability_state == "unclassifiable"
+    assert result.report_action == "abstain"
+    assert result.total_perturbation_count == 51
+    assert result.valid_perturbation_count == 50
+    assert result.perturbation_families[1].valid_count == 0
+    assert result.reason_codes == ["invalid_technical_error_run"]
+
+
 def test_cli_scores_only_an_explicitly_synthetic_fixture(
     tmp_path: Path,
     capsys: pytest.CaptureFixture[str],
@@ -252,12 +338,19 @@ def test_cli_scores_only_an_explicitly_synthetic_fixture(
     sample = _sample(method)
     method_path = tmp_path / "method.yaml"
     sample_path = tmp_path / "sample.yaml"
+    panel_path = tmp_path / "technical-panel.yaml"
+    zero_vector = {gene: 0.0 for gene in method.gene_order}
+    panel = _technical_panel(method, [zero_vector, zero_vector, zero_vector])
     method_path.write_text(
         yaml.safe_dump(method.model_dump(mode="json"), sort_keys=False),
         encoding="utf-8",
     )
     sample_path.write_text(
         yaml.safe_dump(sample.model_dump(mode="json"), sort_keys=False),
+        encoding="utf-8",
+    )
+    panel_path.write_text(
+        yaml.safe_dump(panel.model_dump(mode="json"), sort_keys=False),
         encoding="utf-8",
     )
 
@@ -268,6 +361,8 @@ def test_cli_scores_only_an_explicitly_synthetic_fixture(
             str(SPECIFICATION_PATH),
             str(method_path),
             str(sample_path),
+            "--technical-error-panel",
+            str(panel_path),
             "--synthetic-only",
         ]
     )
@@ -276,3 +371,4 @@ def test_cli_scores_only_an_explicitly_synthetic_fixture(
     output = capsys.readouterr().out
     assert '"execution_scope": "synthetic_method_validation_only"' in output
     assert '"canonical_subtype": "Luminal A"' in output
+    assert '"total_perturbation_count": 53' in output

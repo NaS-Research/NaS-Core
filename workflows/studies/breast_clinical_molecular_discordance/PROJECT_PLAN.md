@@ -49,10 +49,10 @@ gate was satisfied.
 
 ### Immediate working queue
 
-1. Extend the completed synthetic single-sample scoring and leave-one-gene-out
-   kernel only after resolving the independently calibrated technical-error
-   component and real governed method artifacts; do not select thresholds from
-   molecular or outcome results.
+1. Use the completed synthetic two-family scoring kernel to resolve software
+   behavior while separately identifying an independently calibrated real
+   technical-error model and governed method artifacts; do not treat synthetic
+   vectors as calibration or select thresholds from molecular/outcome results.
 2. Complete the revised evidence review and two-pass citation-chain stopping rule.
 3. Preserve the completed metadata-only verification of TCGA/GSE96058 receptor
    fields, PAM50 coverage, and GSE96058 replicate linkage while resolving the
@@ -100,7 +100,8 @@ authorize a formal literature review.
   strategy, evidence-matrix structure, and candidate-source requirements;
 - a synthetic-only deterministic single-sample kernel covering exact-panel
   validation, fixed-centroid Spearman scoring, runner-up margin, all 50
-  leave-one-gene-out runs, failure states, and abstention;
+  leave-one-gene-out runs, explicit synthetic technical-error panels, family-level
+  reconciliation, failure states, and abstention;
 - a completed AI-assisted adversarial review with explicit scientific and
   operational blockers;
 - explicit nonclinical, nonpredictive, and no-gold-standard boundaries;

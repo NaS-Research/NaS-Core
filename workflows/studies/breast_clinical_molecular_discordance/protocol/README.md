@@ -25,16 +25,21 @@ The deterministic scoring contract now has a synthetic-only execution kernel. It
 normalizes the three historical gene aliases, fails closed on missing, duplicate,
 ambiguous, or nonfinite inputs, computes five Spearman centroid scores, preserves
 top and runner-up scores and their margin, executes all 50 leave-one-gene-out
-runs, and applies caller-supplied synthetic thresholds to `reliable`, `unstable`,
-`unclassifiable`, or `insufficient_data` states. Every non-reliable state abstains.
+runs, and can additionally execute an explicit synthetic technical-error panel.
+Family-level totals, valid runs, and retained-label counts reconcile exactly to
+the aggregate repeatability output. Caller-supplied synthetic thresholds map
+results to `reliable`, `unstable`, `unclassifiable`, or `insufficient_data`
+states. Every non-reliable state abstains.
 The input model accepts only `SYNTHETIC-*` sample identifiers and every output is
 marked `synthetic_method_validation_only`.
 
-This implementation validates algorithms and state transitions; it does **not**
-resolve or approve the real centroid matrix, external reference, transformation,
-technical-error model, numerical tolerance, or scientific thresholds. It cannot
-read patient identifiers, authorize molecular access, or produce a NaS research
-result.
+This implementation validates algorithms and state transitions. Synthetic
+technical-error vectors must be explicit, complete, seed-bound, and checksummed
+in output provenance; invalid vectors remain counted and force abstention. It
+does **not** resolve or approve the real centroid matrix, external reference,
+transformation, empirically calibrated technical-error model, numerical
+tolerance, or scientific thresholds. It cannot read patient identifiers,
+authorize molecular access, or produce a NaS research result.
 
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
@@ -43,6 +48,7 @@ uv run nas-core reliability synthetic-score \
   workflows/studies/breast_clinical_molecular_discordance/protocol/reliability_specification.yaml \
   /path/to/synthetic-method.yaml \
   /path/to/SYNTHETIC-sample.yaml \
+  --technical-error-panel /path/to/synthetic-technical-panel.yaml \
   --synthetic-only
 ```
 

@@ -115,6 +115,7 @@ from nas_core.domain.reliability import (
     load_reliability_method_inputs,
     load_reliability_specification,
     load_single_sample_expression,
+    load_synthetic_technical_error_panel,
     write_reliability_schema,
 )
 from nas_core.domain.screening_confirmation import load_screening_confirmation
@@ -425,6 +426,11 @@ def build_parser() -> argparse.ArgumentParser:
     reliability_synthetic_score.add_argument("specification_path", type=Path)
     reliability_synthetic_score.add_argument("method_path", type=Path)
     reliability_synthetic_score.add_argument("sample_path", type=Path)
+    reliability_synthetic_score.add_argument(
+        "--technical-error-panel",
+        type=Path,
+        help="Optional explicit synthetic technical-error perturbation panel",
+    )
     reliability_synthetic_score.add_argument(
         "--synthetic-only",
         action="store_true",
@@ -1480,10 +1486,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         specification = load_reliability_specification(args.specification_path)
         method = load_reliability_method_inputs(args.method_path)
         sample = load_single_sample_expression(args.sample_path)
+        technical_error_panel = (
+            load_synthetic_technical_error_panel(args.technical_error_panel)
+            if args.technical_error_panel is not None
+            else None
+        )
         result = SyntheticSingleSampleReliabilityKernel().score(
             specification,
             method,
             sample,
+            technical_error_panel,
         )
         print(json.dumps(result.model_dump(mode="json"), indent=2, sort_keys=True))
         return 0

@@ -59,10 +59,13 @@ The proposed analytical contract now has an executable synthetic-only kernel.
 It accepts only `SYNTHETIC-*` identifiers; validates the exact historical
 50-gene panel and declared aliases; fails closed on missing, ambiguous, nonfinite,
 or invalid method inputs; computes five-centroid Spearman scores, runner-up
-margin, and all 50 leave-one-gene-out runs; and makes every non-reliable state
-abstain. It does not resolve the real centroid/reference artifacts, platform
-transforms, technical-error calibration, numerical tolerance, or scientific
-thresholds and cannot authorize or execute patient-level molecular analysis.
+margin, all 50 leave-one-gene-out runs, and optional explicit synthetic
+technical-error vectors; and makes every non-reliable state abstain. Family-level
+counts reconcile to aggregate repeatability, label-changing vectors expose
+instability, and invalid vectors remain counted and force abstention. It does not
+resolve the real centroid/reference artifacts, platform transforms, empirical
+technical-error calibration, numerical tolerance, or scientific thresholds and
+cannot authorize or execute patient-level molecular analysis.
 
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
@@ -447,6 +450,18 @@ Focused tests cover deterministic output, order-invariant hashing, aliases,
 collisions, missingness, nonfinite values, ties, thresholds, and rejection of
 non-synthetic identifiers. Real method selection and molecular execution remain
 prohibited.
+
+### 2026-07-26 — Synthetic technical-error family implemented
+
+Extended synthetic method validation across the second perturbation family
+required by specification `0.1.0`. Typed panels require the exact 50-gene order,
+an explicit generator seed and description, complete perturbation vectors, and
+stable provenance hashing. Each family reports total, valid, and retained-label
+counts that reconcile to the aggregate result. Synthetic stable vectors preserve
+the label, label-changing vectors trigger threshold-based instability, and
+nonfinite vectors remain in the denominator and force `unclassifiable` abstention.
+This validates execution logic only; no empirical technical-error distribution,
+real threshold, molecular access, or scientific result was approved.
 
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 
