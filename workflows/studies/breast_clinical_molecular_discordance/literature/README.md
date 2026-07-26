@@ -201,6 +201,16 @@ verbatim limits, and retain no source content. A canonical checksum is not a
 license grant; durable storage and redistribution remain prohibited unless
 separately authorized.
 
+Citation appraisal batch 0007 uses those canonical routes for `PMC3283537`,
+`PMC3508193`, and `PMC7791620`. All three proposals are `context_only` and remain
+non-authoritative under packet SHA-256 `43410b02…21d5`. Together they show that
+single-sample microarray normalization is feasible, that simplified classifier
+robustness does not remove cohort-level fitting or establish biological truth,
+and that IHC surrogates show only poor-to-moderate four-class agreement with
+PAM50 in two Swedish cohorts. These observations do not validate a NaS method,
+patient-level subtype adjudication, or treatment utility. Exact founder
+confirmation is required before any proposal can enter the evidence ledger.
+
 Required artifacts:
 
 - `literature/protocol.md`

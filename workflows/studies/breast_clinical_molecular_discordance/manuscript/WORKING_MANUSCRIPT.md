@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.27.0-working`
+Manuscript version: `0.28.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -264,6 +264,23 @@ evidence base pending exact founder confirmation.
 [FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md;
 citation-appraisal-proposals/batch-0006/PMC6473265-v1.0.0.yaml;
 citation-appraisal-proposals/batch-0006/PMC10147771-v1.0.0.yaml]
+
+Three canonical-source appraisals are frozen as non-authoritative batch-0007
+proposals. SCAN demonstrates that within-array normalization without external
+reference samples is technically feasible, but its benchmarks do not validate a
+PAM50 decision rule. A 5,715-tumor classifier comparison shows that a simpler
+three-gene model can be empirically robust while retaining dataset-level scaling
+and an unknown biological truth. A two-cohort Swedish comparison reports only
+poor-to-moderate four-class IHC/PAM50 agreement, with substantially better
+agreement only after Luminal A and B are collapsed. Collectively, these studies
+strengthen the rationale for patient-independent preprocessing, explicit label
+ambiguity, uncertainty, and abstention. They do not validate the proposed NaS
+method or show clinical utility. The synthesis remains outside the authoritative
+evidence base pending exact founder confirmation.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md;
+citation-appraisal-proposals/batch-0007/PMC3283537-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0007/PMC3508193-v1.0.0.yaml;
+citation-appraisal-proposals/batch-0007/PMC7791620-v1.0.0.yaml]
 
 ### Quality appraisal
 
@@ -982,6 +999,7 @@ checks, and internal reviews are complete.
 | Pending—citation appraisal batch 0004 | AI-assisted preprint appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0004_v1.0.0.md`; `citation-appraisal-proposals/batch-0004/PPR1259744-v1.0.0.yaml` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0005 | AI-assisted ephemeral appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md`; `citation-appraisal-proposals/batch-0005/PMID23907291-v1.0.0.yaml` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0006 | AI-assisted publisher-PDF appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0006_v1.0.0.md`; two files in `citation-appraisal-proposals/batch-0006/` | non-authoritative, founder review required |
+| Pending—citation appraisal batch 0007 | AI-assisted canonical-source appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0007_v1.0.0.md`; three files in `citation-appraisal-proposals/batch-0007/` | non-authoritative, founder review required |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -1019,6 +1037,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.28.0-working | 2026-07-25 | Added three checksum-bound, non-authoritative batch-0007 proposals covering SCAN normalization, simplified subtype robustness, and Swedish IHC/PAM50 concordance. |
 | 0.27.0-working | 2026-07-25 | Added two checksum-bound, non-authoritative batch-0006 IHC/PAM50 comparison proposals and recorded fail-closed rejection of an unstable repository PDF. |
 | 0.26.0-working | 2026-07-25 | Added the bounded no-storage proposal validator, generalized `PMC`/`PMID`/`PPR` founder references, and non-authoritative batch-0005 genomic-versus-pathology appraisal proposal. |
 | 0.25.0-working | 2026-07-25 | Added the checksum-bound UNC institutional-PDF review receipt and explicit publisher decisions for three restricted records; citation state is 3 appraised, 22 ready, 3 restricted, and 1 pending access. |

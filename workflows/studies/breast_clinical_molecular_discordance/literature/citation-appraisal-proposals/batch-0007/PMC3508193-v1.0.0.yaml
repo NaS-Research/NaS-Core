@@ -1,0 +1,93 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 8c9185fd9f166320499f912f6342ef800ce81760560ae7946a86e0965170e194
+title: A single-sample microarray normalization method to facilitate personalized-medicine workflows.
+pmid: '22959562'
+doi: 10.1016/j.ygeno.2012.08.003
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:3508193&metadataPrefix=pmc
+full_text_sha256: 031e6a137da78fba560ecae7ea5529c823737d56b27931536950051f9f5b1cd4
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article subtree hashed and
+  zero article bytes retained.
+study_design: methods_normalization
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: This is a methods study using public spike-in arrays, brain arrays, cell-line compendia,
+    and selected cross-platform examples rather than a prespecified clinical cohort. The datasets cover
+    useful technical scenarios but do not represent a patient-decision population.
+  evidence_locations:
+  - "Results \u2014 benchmark datasets"
+  - Materials and methods
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Raw Affymetrix CEL files span several one-color platforms, known spike-in concentrations,
+    and independently generated cell-line experiments. Probe sequence files and gene mappings are described,
+    but selected examples and heterogeneous laboratory conditions limit a single measurement-error estimate.
+  evidence_locations:
+  - "Results \u2014 GC bias and spike-ins"
+  - "Methods \u2014 Data summarization"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: SCAN fits a sequence-aware linear model and two-component Gaussian mixture within each array,
+    then standardizes probe values in intensity-matched bins and summarizes genes with a trimmed mean.
+    This is genuinely single-sample, but it normalizes measurements rather than freezing a downstream
+    subtype classifier or abstention rule.
+  evidence_locations:
+  - "Methods \u2014 Model-based adjustment"
+  - "Methods \u2014 Software"
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: RMA, fRMA, and MAS5 are relevant normalization comparators, and spike-in concentrations provide
+    limited technical truth. Real-data concordance, pathway predictions, and platform comparisons lack
+    an independent biological ground truth for deciding which normalized value is correct.
+  evidence_locations:
+  - "Results \u2014 spike-in comparison"
+  - "Results \u2014 cell-line compendia"
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: The paper reports signal-to-noise summaries, ROC AUCs, concordance, and pathway prediction
+    comparisons, but does not present a unified prespecified inferential plan, uncertainty intervals,
+    multiplicity control, or independent analyst replication. Developer-selected benchmarks support feasibility,
+    not calibrated clinical performance.
+  evidence_locations:
+  - Results
+  - Supplementary figures
+- domain: validation_and_transportability
+  judgment: high
+  rationale: SCAN is tested across public platforms and independent cell-line laboratories, including
+    one cross-platform tumor example. No locked external clinical validation shows that unchanged SCAN
+    preprocessing improves PAM50 reliability, patient classification, treatment decisions, or outcomes.
+  evidence_locations:
+  - "Results \u2014 cross-platform analyses"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: The equations, parameter counts, probe sampling, binning, gene summarization, comparator
+    software, public datasets, and an open-source implementation are reported. The article does not freeze
+    a complete modern environment or end-to-end clinical workflow.
+  evidence_locations:
+  - "Methods \u2014 Software"
+  - "Methods \u2014 Data summarization"
+proposed_evidence_role: context_only
+key_strengths:
+- Defines a true within-array normalization method without reference samples.
+- Uses known-concentration spike-ins and multiple public microarray platforms.
+- Compares SCAN with RMA, fRMA, and MAS5 under several technical scenarios.
+- Reports equations, implementation details, and public source datasets.
+key_limitations:
+- Benchmark selection and analysis were performed by the method developers.
+- Several real-data comparisons lack independent biological ground truth.
+- Uncertainty, multiplicity, and independent replication are limited.
+- No clinical validation connects SCAN to PAM50 decision reliability or patient benefit.
+conflicts_and_funding: The work was supported in part by NIH grants and a Brigham Young University computing
+  allocation. The reviewed article reports author contributions and acknowledgments but no explicit competing-interest
+  statement was located.
+assistant_id: openai-codex
+assistant_disclosure: OpenAI Codex reviewed the exact checksum-bound canonical article representation
+  ephemerally and proposed section-located judgments. This is not a founder decision, locked appraisal,
+  scientific conclusion, novelty finding, or clinical recommendation.
+proposed_at: '2026-07-25T23:01:00-05:00'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

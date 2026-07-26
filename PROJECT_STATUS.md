@@ -56,7 +56,11 @@ concordance papers in the queue for separate stable-source resolution. Canonical
 source routes are now implemented for exact PMC OAI article XML and allowlisted
 publisher HTML. They exclude dynamic delivery-envelope fields, verify article
 identity, hash the canonical article representation, enforce bounded derivative
-summaries and verbatim-leakage limits, and retain zero article bytes.
+summaries and verbatim-leakage limits, and retain zero article bytes. All three
+remaining papers passed those canonical gates and are frozen as batch-0007
+`context_only` proposals under packet SHA-256 `43410b02…21d5`, pending exact
+founder confirmation. There are no remaining unresolved lawful-viewing routes in
+this citation subset.
 
 Definition of done:
 
