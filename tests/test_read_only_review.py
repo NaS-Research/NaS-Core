@@ -48,7 +48,7 @@ def _record() -> FullTextInventoryRecord:
 
 def _medrxiv_html(
     *,
-    title: str = "Synthetic preprint study",
+    title: str = "Synthetic® preprint study",
     rights: str = (
         "© 2026, Posted by openRxiv. This pre-print is available under "
         "CC BY-NC 4.0."
@@ -67,7 +67,7 @@ def _medrxiv_record() -> FullTextInventoryRecord:
     return FullTextInventoryRecord(
         screening_id="d" * 64,
         record_key="PPR:PPR123",
-        title="Synthetic <sup>preprint</sup> study.",
+        title="Synthetic  <sup>®</sup>  preprint study.",
         doi="10.1234/2026.01.01.12345678",
         access_status="repository_candidate",
     )

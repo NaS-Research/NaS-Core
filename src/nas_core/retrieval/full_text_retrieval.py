@@ -71,6 +71,7 @@ TITLE_DASH_EQUIVALENTS = str.maketrans(
 def normalize_article_title(title: str | None) -> str:
     """Normalize bibliographic markup, whitespace, case, and hyphen typography."""
     text_only = re.sub(r"<[^>]+>", "", title or "")
+    text_only = re.sub(r"\s*([®™©])\s*", r"\1 ", text_only)
     normalized = (
         " ".join(html.unescape(text_only).split())
         .translate(TITLE_DASH_EQUIVALENTS)
