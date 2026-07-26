@@ -5,6 +5,8 @@ import pytest
 from nas_core.domain.appraisal import FullTextInventoryRecord
 from nas_core.ingestion.gdc import HTTPResponse
 from nas_core.retrieval.read_only_review import (
+    APPROVED_PUBLISHER_PDF_URLS,
+    ApprovedPublisherPdfReadOnlyReviewService,
     InstitutionalPdfReadOnlyReviewService,
     MedrxivReadOnlyReviewService,
     PmcReadOnlyReviewService,
@@ -14,7 +16,13 @@ from nas_core.retrieval.read_only_review import (
 NOW = datetime(2026, 7, 25, 23, 0, tzinfo=UTC)
 
 
-def _html(*, title: str = "Synthetic single-sample study") -> bytes:
+def _html(
+    *,
+    title: str = "Synthetic single-sample study",
+    pdf_url: str = (
+        "https://pmc.ncbi.nlm.nih.gov/articles/PMC123/pdf/synthetic.pdf"
+    ),
+) -> bytes:
     body = f"""<!doctype html>
 <html><head>
 <meta name="citation_title" content="{title}">
@@ -22,6 +30,7 @@ def _html(*, title: str = "Synthetic single-sample study") -> bytes:
 <meta name="citation_pmid" content="456">
 <meta name="citation_fulltext_html_url"
  content="https://pmc.ncbi.nlm.nih.gov/articles/PMC123/">
+<meta name="citation_pdf_url" content="{pdf_url}">
 </head><body><main><article>{"full text " * 1200}</article></main></body></html>"""
     return body.encode()
 
@@ -266,4 +275,72 @@ def test_institutional_pdf_review_rejects_wrong_identity() -> None:
             access_basis="Public institutional author copy; ephemeral review only.",
             observed_rights="Publisher copyright; no reuse license verified.",
             rights_url="https://link.springer.com/article/10.1007/s12094-013-1088-z",
+        )
+
+
+def _publisher_record() -> FullTextInventoryRecord:
+    return FullTextInventoryRecord(
+        screening_id="f" * 64,
+        record_key="MED:22262870",
+        title="A three-gene model to robustly identify breast cancer molecular subtypes.",
+        pmid="22262870",
+        pmcid="PMC3283537",
+        doi="10.1093/jnci/djr545",
+        access_status="access_check_required",
+    )
+
+
+def _publisher_pdf_text() -> str:
+    return (
+        "A three-gene model to robustly identify breast cancer molecular subtypes. "
+        "DOI 10.1093/jnci/djr545 "
+        + ("Methods and results. " * 100)
+    )
+
+
+def test_publisher_pdf_review_emits_verified_no_storage_receipt() -> None:
+    body = b"%PDF-1.7\n" + (b"synthetic " * 1200) + b"\n%%EOF"
+    service = ApprovedPublisherPdfReadOnlyReviewService(
+        transport=FakeTransport(body),
+        pdf_parser=lambda value: {"text": _publisher_pdf_text()},
+        clock=lambda: NOW,
+    )
+
+    receipt = service.review(
+        _publisher_record(),
+        study_id="NAS-BRCA-002",
+        queue_id="b" * 64,
+        progress_id="c" * 64,
+        code_revision="abcdef1",
+        access_basis="Official repository PDF; zero article bytes retained.",
+        observed_rights="CC BY-NC 3.0.",
+        rights_url="https://creativecommons.org/licenses/by-nc/3.0/",
+    )
+
+    assert receipt.source_url == APPROVED_PUBLISHER_PDF_URLS[
+        "10.1093/jnci/djr545"
+    ]
+    assert receipt.content_size_bytes == len(body)
+    assert receipt.checksum_verified
+    assert receipt.article_identity_verified
+    assert receipt.durable_full_text_stored is False
+
+
+def test_publisher_pdf_review_rejects_unapproved_doi() -> None:
+    service = ApprovedPublisherPdfReadOnlyReviewService(
+        transport=FakeTransport(b"unused"),
+        pdf_parser=lambda value: {"text": _publisher_pdf_text()},
+        clock=lambda: NOW,
+    )
+
+    with pytest.raises(ReadOnlyReviewError, match="approved DOI"):
+        service.review(
+            _record(),
+            study_id="NAS-BRCA-002",
+            queue_id="b" * 64,
+            progress_id="c" * 64,
+            code_revision="abcdef1",
+            access_basis="Ephemeral review only.",
+            observed_rights="All rights reserved.",
+            rights_url="https://example.org/rights",
         )

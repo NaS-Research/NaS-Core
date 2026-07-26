@@ -14,8 +14,10 @@ from nas_core.ingestion.gdc import sha256
 from nas_core.retrieval.full_text_retrieval import normalize_article_title
 from nas_core.retrieval.licensed_pdf import LicensedPdfImportService
 from nas_core.retrieval.read_only_review import (
+    APPROVED_PUBLISHER_PDF_URLS,
     INSTITUTIONAL_PDF_URLS,
     ReadOnlyReviewTransport,
+    UrllibApprovedPublisherPdfReadOnlyReviewTransport,
     UrllibInstitutionalPdfReadOnlyReviewTransport,
 )
 
@@ -205,3 +207,62 @@ class InstitutionalPdfAppraisalProposalService:
             tuple(words[index : index + size])
             for index in range(len(words) - size + 1)
         }
+
+
+class ApprovedPublisherPdfAppraisalProposalService:
+    """Verify a bounded proposal against an approved publisher PDF."""
+
+    def __init__(
+        self,
+        *,
+        transport: ReadOnlyReviewTransport | None = None,
+        pdf_parser: Callable[[bytes], dict[str, str]] | None = None,
+    ) -> None:
+        self._transport = (
+            transport or UrllibApprovedPublisherPdfReadOnlyReviewTransport()
+        )
+        self._pdf_parser = pdf_parser or LicensedPdfImportService._parse_pdf  # noqa: SLF001
+
+    def validate(
+        self,
+        *,
+        record: FullTextInventoryRecord,
+        receipt: FullTextReadOnlyReviewReceipt,
+        proposal: FullTextAppraisalProposal,
+    ) -> FullTextAppraisalProposal:
+        source_url = APPROVED_PUBLISHER_PDF_URLS.get(
+            (record.doi or "").casefold()
+        )
+        if source_url is None or receipt.source_url != source_url:
+            raise EphemeralAppraisalError(
+                "receipt is not bound to an approved publisher PDF"
+            )
+        response = self._transport.get(source_url)
+        if response.status_code != 200:
+            raise EphemeralAppraisalError("publisher PDF is unavailable")
+        if (
+            len(response.body) != receipt.content_size_bytes
+            or sha256(response.body) != receipt.content_sha256
+        ):
+            raise EphemeralAppraisalError(
+                "ephemeral publisher PDF no longer matches the review receipt"
+            )
+        try:
+            source_text = self._pdf_parser(response.body).get("text", "")
+        except RuntimeError as error:
+            raise EphemeralAppraisalError(
+                "publisher PDF failed in-memory parsing"
+            ) from error
+        InstitutionalPdfAppraisalProposalService._verify_record_and_receipt(  # noqa: SLF001
+            record, receipt, source_text
+        )
+        InstitutionalPdfAppraisalProposalService._verify_proposal_identity(  # noqa: SLF001
+            proposal, receipt
+        )
+        InstitutionalPdfAppraisalProposalService._verify_narrative_limits(  # noqa: SLF001
+            proposal
+        )
+        InstitutionalPdfAppraisalProposalService._reject_verbatim_passages(  # noqa: SLF001
+            proposal, source_text
+        )
+        return proposal

@@ -39,6 +39,19 @@ INSTITUTIONAL_PDF_URLS = {
         "2013/10/July-16.pdf"
     ),
 }
+APPROVED_PUBLISHER_PDF_URLS = {
+    "10.1093/jnci/djr545": (
+        "https://dash.harvard.edu/bitstreams/"
+        "7312037d-e3d9-6bd4-e053-0100007fdf3b/download"
+    ),
+    "10.4143/crt.2018.342": (
+        "https://www.e-crt.org/upload/pdf/crt-2018-342.pdf"
+    ),
+    "10.1007/s10549-023-06886-3": (
+        "https://link.springer.com/content/pdf/"
+        "10.1007/s10549-023-06886-3.pdf"
+    ),
+}
 UNC_REFERER = "https://unclineberger.org/peroulab/publications/"
 BROWSER_USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
@@ -207,6 +220,56 @@ class UrllibInstitutionalPdfReadOnlyReviewTransport:
         except (TimeoutError, URLError) as error:
             raise RemoteResponseError(
                 "institutional PDF read-only review request failed"
+            ) from error
+
+
+class UrllibApprovedPublisherPdfReadOnlyReviewTransport:
+    """Fetch only explicitly approved official publisher/repository PDFs."""
+
+    def __init__(self, *, timeout_seconds: float = 60.0) -> None:
+        self._timeout_seconds = timeout_seconds
+        self._ssl_context = ssl.create_default_context(cafile=certifi.where())
+
+    def get(self, url: str) -> HTTPResponse:
+        if url not in APPROVED_PUBLISHER_PDF_URLS.values():
+            raise ValueError(
+                "read-only review URL must be an approved publisher PDF"
+            )
+        parsed = urlsplit(url)
+        if (
+            parsed.scheme != "https"
+            or parsed.hostname
+            not in {"dash.harvard.edu", "www.e-crt.org", "link.springer.com"}
+            or parsed.query
+            or parsed.fragment
+        ):
+            raise ValueError(
+                "publisher PDF URL failed exact HTTPS host/path validation"
+            )
+        request = Request(
+            url,
+            headers={"Accept": PDF_MEDIA_TYPE, "User-Agent": BROWSER_USER_AGENT},
+        )
+        try:
+            with urlopen(  # noqa: S310
+                request,
+                timeout=self._timeout_seconds,
+                context=self._ssl_context,
+            ) as response:
+                return HTTPResponse(
+                    status_code=response.status,
+                    headers=dict(response.headers.items()),
+                    body=response.read(),
+                )
+        except HTTPError as error:
+            return HTTPResponse(
+                status_code=error.code,
+                headers=dict(error.headers.items()),
+                body=error.read(),
+            )
+        except (TimeoutError, URLError) as error:
+            raise RemoteResponseError(
+                "publisher PDF read-only review request failed"
             ) from error
 
 
@@ -531,3 +594,102 @@ class InstitutionalPdfReadOnlyReviewService:
             raise ReadOnlyReviewError(
                 "institutional PDF identity does not match inventory"
             )
+
+
+class ApprovedPublisherPdfReadOnlyReviewService:
+    """Review an approved publisher/repository PDF without retaining it."""
+
+    def __init__(
+        self,
+        *,
+        transport: ReadOnlyReviewTransport | None = None,
+        pdf_parser: Callable[[bytes], dict[str, str]] | None = None,
+        clock: Callable[[], datetime] | None = None,
+    ) -> None:
+        self._transport = (
+            transport or UrllibApprovedPublisherPdfReadOnlyReviewTransport()
+        )
+        self._pdf_parser = pdf_parser or LicensedPdfImportService._parse_pdf  # noqa: SLF001
+        self._clock = clock or (lambda: datetime.now(UTC))
+
+    def review(
+        self,
+        record: FullTextInventoryRecord,
+        *,
+        study_id: str,
+        queue_id: str,
+        progress_id: str,
+        code_revision: str,
+        access_basis: str,
+        observed_rights: str,
+        rights_url: str,
+    ) -> FullTextReadOnlyReviewReceipt:
+        source_url = APPROVED_PUBLISHER_PDF_URLS.get(
+            (record.doi or "").casefold()
+        )
+        if source_url is None:
+            raise ReadOnlyReviewError(
+                "publisher PDF review requires an approved DOI-to-URL binding"
+            )
+        if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
+            raise ReadOnlyReviewError("code revision is invalid")
+        response = self._transport.get(source_url)
+        if (
+            response.status_code != 200
+            or len(response.body) < 10_000
+            or not response.body.startswith(b"%PDF-")
+            or b"%%EOF" not in response.body[-2048:]
+        ):
+            raise ReadOnlyReviewError(
+                "publisher full-text PDF is unavailable or incomplete"
+            )
+        try:
+            source_text = self._pdf_parser(response.body).get("text", "")
+        except RuntimeError as error:
+            raise ReadOnlyReviewError(
+                "publisher full-text PDF failed parsing"
+            ) from error
+        InstitutionalPdfReadOnlyReviewService._verify_identity(  # noqa: SLF001
+            record, source_text
+        )
+        accessed_at = self._clock()
+        content_sha256 = sha256(response.body)
+        review_id = sha256(
+            canonical_json(
+                {
+                    "accessed_at": accessed_at.isoformat(),
+                    "code_revision": code_revision,
+                    "content_sha256": content_sha256,
+                    "screening_id": record.screening_id,
+                    "source_url": source_url,
+                }
+            )
+        )
+        return FullTextReadOnlyReviewReceipt(
+            receipt_version="1.0.0",
+            review_id=review_id,
+            study_id=study_id,
+            queue_id=queue_id,
+            progress_id=progress_id,
+            screening_id=record.screening_id,
+            pmcid=record.pmcid,
+            pmid=record.pmid,
+            doi=record.doi,
+            title=record.title,
+            source_url=source_url,
+            access_mode=FullTextReviewAccessMode.READ_ONLY_EPHEMERAL,
+            access_basis=access_basis,
+            observed_rights=observed_rights,
+            rights_url=rights_url,
+            content_sha256=content_sha256,
+            content_size_bytes=len(response.body),
+            accessed_at=accessed_at,
+            verified_at=self._clock(),
+            code_revision=code_revision,
+            checksum_verified=True,
+            article_identity_verified=True,
+            lawful_read_access_verified=True,
+            durable_full_text_stored=False,
+            redistribution_authorized=False,
+            scientific_conclusions_drawn=False,
+        )

@@ -174,6 +174,17 @@ small subgroup analyses, crossover treatment sequence, absent multiplicity
 control, and no external validation. It remains non-authoritative until the
 founder separately confirms batch 0005 exactly.
 
+Citation appraisal batch 0006 is being prepared from stable official file
+representations. Re-fetching the prior PMC HTML pages demonstrated that dynamic
+page bytes can change without a byte-count change, so those receipts remain
+access-provenance records but are not sufficient for a delayed exact-byte appraisal
+gate. The new allowlisted publisher/repository PDF route verifies the DOI-to-source
+binding, complete PDF boundaries, title and DOI identity, exact SHA-256, proposal
+provenance, bounded derivative text, and absence of copied 12-word passages. It
+retains no article bytes. Official stable PDFs are verified as available for
+`PMC3283537`, `PMC6473265`, and `PMC10147771`; `PMC3508193` and `PMC7791620`
+remain outside batch 0006 until their separate stable-source routes are governed.
+
 Required artifacts:
 
 - `literature/protocol.md`

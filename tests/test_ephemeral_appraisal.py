@@ -9,6 +9,7 @@ from nas_core.domain.appraisal import (
 )
 from nas_core.ingestion.gdc import HTTPResponse, sha256
 from nas_core.retrieval.ephemeral_appraisal import (
+    ApprovedPublisherPdfAppraisalProposalService,
     EphemeralAppraisalError,
     InstitutionalPdfAppraisalProposalService,
 )
@@ -24,6 +25,10 @@ SOURCE_URL = (
     "https://unclineberger.org/peroulab/wp-content/uploads/sites/1008/"
     "2013/10/July-16.pdf"
 )
+PUBLISHER_SOURCE_URL = (
+    "https://dash.harvard.edu/bitstreams/"
+    "7312037d-e3d9-6bd4-e053-0100007fdf3b/download"
+)
 
 
 class FakeTransport:
@@ -32,6 +37,15 @@ class FakeTransport:
 
     def get(self, url: str) -> HTTPResponse:
         assert url == SOURCE_URL
+        return HTTPResponse(status_code=200, headers={}, body=self.body)
+
+
+class StaticTransport:
+    def __init__(self, body: bytes) -> None:
+        self.body = body
+
+    def get(self, url: str) -> HTTPResponse:
+        del url
         return HTTPResponse(status_code=200, headers={}, body=self.body)
 
 
@@ -129,6 +143,10 @@ def _source_text() -> str:
     )
 
 
+def _synthetic_pdf() -> bytes:
+    return b"%PDF-1.7\n" + (b"stable source bytes " * 1200) + b"\n%%EOF"
+
+
 def test_ephemeral_proposal_reconciles_without_retaining_source() -> None:
     proposal = InstitutionalPdfAppraisalProposalService(
         transport=FakeTransport(),
@@ -170,3 +188,51 @@ def test_ephemeral_proposal_rejects_identity_mismatch() -> None:
             transport=FakeTransport(),
             pdf_parser=lambda value: {"text": _source_text()},
         ).validate(record=_record(), receipt=_receipt(), proposal=proposal)
+
+
+def test_publisher_pdf_proposal_reconciles_without_retaining_source() -> None:
+    body = _synthetic_pdf()
+    publisher_title = (
+        "A three-gene model to robustly identify breast cancer molecular subtypes."
+    )
+    record = _record().model_copy(
+        update={
+            "title": publisher_title,
+            "pmid": "22262870",
+            "pmcid": "PMC3283537",
+            "doi": "10.1093/jnci/djr545",
+        }
+    )
+    receipt = _receipt().model_copy(
+        update={
+            "title": publisher_title,
+            "pmid": "22262870",
+            "pmcid": "PMC3283537",
+            "doi": "10.1093/jnci/djr545",
+            "source_url": PUBLISHER_SOURCE_URL,
+            "content_sha256": sha256(body),
+            "content_size_bytes": len(body),
+        }
+    )
+    proposal = _proposal().model_copy(
+        update={
+            "title": publisher_title,
+            "pmid": "22262870",
+            "doi": "10.1093/jnci/djr545",
+            "full_text_source_url": PUBLISHER_SOURCE_URL,
+            "full_text_sha256": sha256(body),
+        }
+    )
+    source_text = (
+        f"{publisher_title}\nDOI 10.1093/jnci/djr545\n"
+        "A bounded synthetic source used for verification."
+    )
+
+    verified = ApprovedPublisherPdfAppraisalProposalService(
+        transport=StaticTransport(body),
+        pdf_parser=lambda value: {"text": source_text},
+    ).validate(record=record, receipt=receipt, proposal=proposal)
+
+    assert verified.full_text_sha256 == sha256(body)
+    assert verified.founder_decision_recorded is False
+    assert verified.scientific_conclusions_drawn is False
