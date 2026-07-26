@@ -190,6 +190,17 @@ retains no article bytes. `PMC3283537` failed the delayed checksum gate because
 its repository PDF changed bytes; `PMC3508193` and `PMC7791620` also remain
 outside batch 0006 until separate stable-source routes are governed.
 
+For dynamic delivery envelopes, Cortex provides two additional fail-closed
+routes. The PMC OAI route isolates and canonicalizes the single JATS `article`
+subtree, excluding the changing OAI response timestamp before hashing. The
+publisher-HTML route is restricted to an explicit DOI-to-URL allowlist, removes
+non-article script/style/template content, and hashes canonical citation metadata
+plus visible text. Both routes re-fetch and re-canonicalize the source during
+proposal validation, verify PMID/PMCID/DOI/title identity, enforce narrative and
+verbatim limits, and retain no source content. A canonical checksum is not a
+license grant; durable storage and redistribution remain prohibited unless
+separately authorized.
+
 Required artifacts:
 
 - `literature/protocol.md`

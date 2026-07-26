@@ -9,9 +9,17 @@ from nas_core.domain.appraisal import (
 )
 from nas_core.ingestion.gdc import HTTPResponse, sha256
 from nas_core.retrieval.ephemeral_appraisal import (
+    ApprovedPublisherHtmlAppraisalProposalService,
     ApprovedPublisherPdfAppraisalProposalService,
     EphemeralAppraisalError,
     InstitutionalPdfAppraisalProposalService,
+    PmcOaiAppraisalProposalService,
+)
+from nas_core.retrieval.read_only_review import (
+    APPROVED_PUBLISHER_HTML_URLS,
+    PMC_OAI_ARTICLE_URL,
+    ApprovedPublisherHtmlReadOnlyReviewService,
+    PmcOaiReadOnlyReviewService,
 )
 
 NOW = datetime(2026, 7, 26, tzinfo=UTC)
@@ -26,8 +34,7 @@ SOURCE_URL = (
     "2013/10/July-16.pdf"
 )
 PUBLISHER_SOURCE_URL = (
-    "https://dash.harvard.edu/bitstreams/"
-    "7312037d-e3d9-6bd4-e053-0100007fdf3b/download"
+    "https://www.e-crt.org/upload/pdf/crt-2018-342.pdf"
 )
 
 
@@ -193,22 +200,24 @@ def test_ephemeral_proposal_rejects_identity_mismatch() -> None:
 def test_publisher_pdf_proposal_reconciles_without_retaining_source() -> None:
     body = _synthetic_pdf()
     publisher_title = (
-        "A three-gene model to robustly identify breast cancer molecular subtypes."
+        "Discordance of the PAM50 Intrinsic Subtypes Compared with "
+        "Immunohistochemistry-Based Surrogate in Breast Cancer Patients: "
+        "Potential Implication of Genomic Alterations of Discordance."
     )
     record = _record().model_copy(
         update={
             "title": publisher_title,
-            "pmid": "22262870",
-            "pmcid": "PMC3283537",
-            "doi": "10.1093/jnci/djr545",
+            "pmid": "30189722",
+            "pmcid": "PMC6473265",
+            "doi": "10.4143/crt.2018.342",
         }
     )
     receipt = _receipt().model_copy(
         update={
             "title": publisher_title,
-            "pmid": "22262870",
-            "pmcid": "PMC3283537",
-            "doi": "10.1093/jnci/djr545",
+            "pmid": "30189722",
+            "pmcid": "PMC6473265",
+            "doi": "10.4143/crt.2018.342",
             "source_url": PUBLISHER_SOURCE_URL,
             "content_sha256": sha256(body),
             "content_size_bytes": len(body),
@@ -217,14 +226,14 @@ def test_publisher_pdf_proposal_reconciles_without_retaining_source() -> None:
     proposal = _proposal().model_copy(
         update={
             "title": publisher_title,
-            "pmid": "22262870",
-            "doi": "10.1093/jnci/djr545",
+            "pmid": "30189722",
+            "doi": "10.4143/crt.2018.342",
             "full_text_source_url": PUBLISHER_SOURCE_URL,
             "full_text_sha256": sha256(body),
         }
     )
     source_text = (
-        f"{publisher_title}\nDOI 10.1093/jnci/djr545\n"
+        f"{publisher_title}\nDOI 10.4143/crt.2018.342\n"
         "A bounded synthetic source used for verification."
     )
 
@@ -236,3 +245,146 @@ def test_publisher_pdf_proposal_reconciles_without_retaining_source() -> None:
     assert verified.full_text_sha256 == sha256(body)
     assert verified.founder_decision_recorded is False
     assert verified.scientific_conclusions_drawn is False
+
+
+def _oai_body(
+    *,
+    response_date: str = "2026-07-26T03:00:00Z",
+    source_phrase: str = "A bounded synthetic source used for verification.",
+) -> bytes:
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/">
+  <responseDate>{response_date}</responseDate>
+  <GetRecord><record><metadata>
+    <article><front><article-meta>
+      <article-id pub-id-type="pmcid">PMC123</article-id>
+      <article-id pub-id-type="pmid">23907291</article-id>
+      <article-id pub-id-type="doi">{DOI}</article-id>
+      <title-group><article-title>{TITLE}</article-title></title-group>
+    </article-meta></front>
+    <body><sec><title>Methods</title><p>{source_phrase * 800}</p></sec></body></article>
+  </metadata></record></GetRecord>
+</OAI-PMH>""".encode()
+
+
+def _oai_record() -> FullTextInventoryRecord:
+    return _record().model_copy(update={"pmcid": "PMC123"})
+
+
+def _oai_receipt(body: bytes) -> FullTextReadOnlyReviewReceipt:
+    return PmcOaiReadOnlyReviewService(
+        transport=StaticTransport(body),
+        clock=lambda: NOW,
+    ).review(
+        _oai_record(),
+        study_id="NAS-BRCA-002",
+        queue_id="c" * 64,
+        progress_id="d" * 64,
+        code_revision="abcdef1",
+        access_basis=(
+            "Official PMC OAI article XML reviewed ephemerally; canonical article "
+            "representation hashed; zero article bytes retained."
+        ),
+        observed_rights="All rights reserved.",
+        rights_url="https://pmc.ncbi.nlm.nih.gov/about/copyright/",
+    )
+
+
+def test_pmc_oai_proposal_ignores_changed_delivery_envelope() -> None:
+    receipt = _oai_receipt(_oai_body())
+    proposal = _proposal().model_copy(
+        update={
+            "full_text_source_url": PMC_OAI_ARTICLE_URL.format(
+                pmc_numeric_id="123"
+            ),
+            "full_text_sha256": receipt.content_sha256,
+        }
+    )
+
+    verified = PmcOaiAppraisalProposalService(
+        transport=StaticTransport(
+            _oai_body(response_date="2026-07-26T04:00:00Z")
+        )
+    ).validate(record=_oai_record(), receipt=receipt, proposal=proposal)
+
+    assert verified.full_text_sha256 == receipt.content_sha256
+    assert verified.founder_decision_recorded is False
+
+
+def test_pmc_oai_proposal_rejects_changed_article_content() -> None:
+    receipt = _oai_receipt(_oai_body())
+    proposal = _proposal().model_copy(
+        update={
+            "full_text_source_url": receipt.source_url,
+            "full_text_sha256": receipt.content_sha256,
+        }
+    )
+
+    with pytest.raises(EphemeralAppraisalError, match="no longer matches"):
+        PmcOaiAppraisalProposalService(
+            transport=StaticTransport(
+                _oai_body(source_phrase="Changed article content.")
+            )
+        ).validate(record=_oai_record(), receipt=receipt, proposal=proposal)
+
+
+def _publisher_html() -> bytes:
+    title = (
+        "A three-gene model to robustly identify breast cancer molecular subtypes."
+    )
+    return f"""<!doctype html><html><head>
+<meta name="citation_title" content="{title}">
+<meta name="citation_doi" content="10.1093/jnci/djr545">
+<meta name="citation_pmid" content="22262870">
+</head><body><article>
+<h1>{title}</h1>
+{"Methods and results. " * 1200}</article>
+<script>dynamic = "ignored";</script></body></html>""".encode()
+
+
+def test_publisher_html_proposal_reconciles_canonical_article() -> None:
+    publisher_title = (
+        "A three-gene model to robustly identify breast cancer molecular subtypes."
+    )
+    record = _record().model_copy(
+        update={
+            "title": publisher_title,
+            "pmid": "22262870",
+            "pmcid": "PMC3283537",
+            "doi": "10.1093/jnci/djr545",
+        }
+    )
+    receipt = ApprovedPublisherHtmlReadOnlyReviewService(
+        transport=StaticTransport(_publisher_html()),
+        clock=lambda: NOW,
+    ).review(
+        record,
+        study_id="NAS-BRCA-002",
+        queue_id="c" * 64,
+        progress_id="d" * 64,
+        code_revision="abcdef1",
+        access_basis=(
+            "Official publisher HTML reviewed ephemerally; canonical article "
+            "representation hashed; zero article bytes retained."
+        ),
+        observed_rights="Publisher open-access article; corpus reuse not assumed.",
+        rights_url="https://academic.oup.com/jnci/article/104/4/311/979947",
+    )
+    proposal = _proposal().model_copy(
+        update={
+            "title": publisher_title,
+            "pmid": "22262870",
+            "doi": "10.1093/jnci/djr545",
+            "full_text_source_url": APPROVED_PUBLISHER_HTML_URLS[
+                "10.1093/jnci/djr545"
+            ],
+            "full_text_sha256": receipt.content_sha256,
+        }
+    )
+
+    verified = ApprovedPublisherHtmlAppraisalProposalService(
+        transport=StaticTransport(_publisher_html())
+    ).validate(record=record, receipt=receipt, proposal=proposal)
+
+    assert verified.full_text_sha256 == receipt.content_sha256
+    assert verified.founder_decision_recorded is False

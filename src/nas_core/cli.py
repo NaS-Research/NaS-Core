@@ -118,8 +118,10 @@ from nas_core.retrieval.citation_reconciliation import (
 )
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
 from nas_core.retrieval.ephemeral_appraisal import (
+    ApprovedPublisherHtmlAppraisalProposalService,
     ApprovedPublisherPdfAppraisalProposalService,
     InstitutionalPdfAppraisalProposalService,
+    PmcOaiAppraisalProposalService,
 )
 from nas_core.retrieval.evidence_amendment import (
     CitationAccessInventoryService,
@@ -134,9 +136,11 @@ from nas_core.retrieval.literature import (
 )
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
 from nas_core.retrieval.read_only_review import (
+    ApprovedPublisherHtmlReadOnlyReviewService,
     ApprovedPublisherPdfReadOnlyReviewService,
     InstitutionalPdfReadOnlyReviewService,
     MedrxivReadOnlyReviewService,
+    PmcOaiReadOnlyReviewService,
     PmcReadOnlyReviewService,
 )
 from nas_core.retrieval.reconciliation import InventoryReconciliationService
@@ -736,6 +740,40 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Read the PMC page in memory; never persist article content",
     )
+    citation_pmc_oai_review = literature_commands.add_parser(
+        "citation-pmc-oai-read-only-review",
+        help="Review canonical PMC OAI article XML without storing it",
+    )
+    citation_pmc_oai_review.add_argument("inventory", type=Path)
+    citation_pmc_oai_review.add_argument("screening_id")
+    citation_pmc_oai_review.add_argument("--code-revision", required=True)
+    citation_pmc_oai_review.add_argument("--access-basis", required=True)
+    citation_pmc_oai_review.add_argument("--observed-rights", required=True)
+    citation_pmc_oai_review.add_argument("--rights-url", required=True)
+    citation_pmc_oai_review.add_argument(
+        "--receipt-output", required=True, type=Path
+    )
+    citation_pmc_oai_review.add_argument(
+        "--execute",
+        action="store_true",
+        help="Canonicalize article XML in memory; never persist article content",
+    )
+    citation_pmc_oai_proposal = literature_commands.add_parser(
+        "citation-pmc-oai-appraisal-propose",
+        help="Verify a bounded proposal against canonical PMC OAI article XML",
+    )
+    citation_pmc_oai_proposal.add_argument("inventory", type=Path)
+    citation_pmc_oai_proposal.add_argument("screening_id")
+    citation_pmc_oai_proposal.add_argument("review_receipt", type=Path)
+    citation_pmc_oai_proposal.add_argument("draft", type=Path)
+    citation_pmc_oai_proposal.add_argument(
+        "--proposal-output", required=True, type=Path
+    )
+    citation_pmc_oai_proposal.add_argument(
+        "--execute",
+        action="store_true",
+        help="Verify canonical XML in memory and retain only the proposal",
+    )
     citation_medrxiv_read_only_review = literature_commands.add_parser(
         "citation-medrxiv-read-only-review",
         help="Review an exact medRxiv preprint version and emit a no-storage receipt",
@@ -822,6 +860,40 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Verify the draft against PDF bytes and retain only the proposal",
+    )
+    citation_publisher_html_review = literature_commands.add_parser(
+        "citation-publisher-html-read-only-review",
+        help="Review canonical allowlisted publisher HTML without storing it",
+    )
+    citation_publisher_html_review.add_argument("inventory", type=Path)
+    citation_publisher_html_review.add_argument("screening_id")
+    citation_publisher_html_review.add_argument("--code-revision", required=True)
+    citation_publisher_html_review.add_argument("--access-basis", required=True)
+    citation_publisher_html_review.add_argument("--observed-rights", required=True)
+    citation_publisher_html_review.add_argument("--rights-url", required=True)
+    citation_publisher_html_review.add_argument(
+        "--receipt-output", required=True, type=Path
+    )
+    citation_publisher_html_review.add_argument(
+        "--execute",
+        action="store_true",
+        help="Canonicalize publisher HTML in memory; never persist article content",
+    )
+    citation_publisher_html_proposal = literature_commands.add_parser(
+        "citation-publisher-html-appraisal-propose",
+        help="Verify a bounded proposal against canonical allowlisted publisher HTML",
+    )
+    citation_publisher_html_proposal.add_argument("inventory", type=Path)
+    citation_publisher_html_proposal.add_argument("screening_id")
+    citation_publisher_html_proposal.add_argument("review_receipt", type=Path)
+    citation_publisher_html_proposal.add_argument("draft", type=Path)
+    citation_publisher_html_proposal.add_argument(
+        "--proposal-output", required=True, type=Path
+    )
+    citation_publisher_html_proposal.add_argument(
+        "--execute",
+        action="store_true",
+        help="Verify canonical HTML in memory and retain only the proposal",
     )
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
@@ -2064,6 +2136,44 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
+        and args.literature_command == "citation-pmc-oai-read-only-review"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        if not args.execute:
+            print(
+                f"PMC OAI review ready: {matches[0].pmcid}, "
+                f"screening {matches[0].screening_id}, code {args.code_revision}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        review_receipt = PmcOaiReadOnlyReviewService().review(
+            matches[0],
+            study_id=inventory.study_id,
+            queue_id=inventory.queue_id,
+            progress_id=inventory.progress_id,
+            code_revision=args.code_revision,
+            access_basis=args.access_basis,
+            observed_rights=args.observed_rights,
+            rights_url=args.rights_url,
+        )
+        write_full_text_read_only_review_receipt(
+            args.receipt_output, review_receipt
+        )
+        print(
+            f"Reviewed {review_receipt.pmcid} canonical OAI article ephemerally: "
+            f"{review_receipt.content_size_bytes} canonical bytes hashed, "
+            "zero article bytes stored"
+        )
+        print(f"Wrote verified no-storage receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "literature"
         and args.literature_command
         == "citation-institutional-pdf-read-only-review"
     ):
@@ -2178,6 +2288,41 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
+        and args.literature_command == "citation-pmc-oai-appraisal-propose"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        review_receipt = load_full_text_read_only_review_receipt(
+            args.review_receipt
+        )
+        draft = load_full_text_appraisal_proposal(args.draft)
+        if not args.execute:
+            print(
+                f"PMC OAI proposal verification ready: {matches[0].pmcid}, "
+                f"screening {matches[0].screening_id}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        proposal = PmcOaiAppraisalProposalService().validate(
+            record=matches[0],
+            receipt=review_receipt,
+            proposal=draft,
+        )
+        write_full_text_appraisal_proposal(args.proposal_output, proposal)
+        print(
+            f"Verified structured proposal for {proposal.pmid} against "
+            f"{review_receipt.content_size_bytes} canonical ephemeral bytes; "
+            "zero article bytes stored"
+        )
+        print(f"Wrote non-authoritative proposal: {args.proposal_output}")
+        return 0
+
+    if (
+        args.command == "literature"
         and args.literature_command
         == "citation-publisher-pdf-appraisal-propose"
     ):
@@ -2207,6 +2352,81 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             f"Verified structured proposal for DOI {proposal.doi} against "
             f"{review_receipt.content_size_bytes} ephemeral bytes; "
+            "zero article bytes stored"
+        )
+        print(f"Wrote non-authoritative proposal: {args.proposal_output}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command
+        == "citation-publisher-html-read-only-review"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        if not args.execute:
+            print(
+                f"Publisher HTML review ready: {matches[0].doi}, "
+                f"screening {matches[0].screening_id}, code {args.code_revision}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        review_receipt = ApprovedPublisherHtmlReadOnlyReviewService().review(
+            matches[0],
+            study_id=inventory.study_id,
+            queue_id=inventory.queue_id,
+            progress_id=inventory.progress_id,
+            code_revision=args.code_revision,
+            access_basis=args.access_basis,
+            observed_rights=args.observed_rights,
+            rights_url=args.rights_url,
+        )
+        write_full_text_read_only_review_receipt(
+            args.receipt_output, review_receipt
+        )
+        print(
+            f"Reviewed publisher HTML DOI {review_receipt.doi} ephemerally: "
+            f"{review_receipt.content_size_bytes} canonical bytes hashed, "
+            "zero article bytes stored"
+        )
+        print(f"Wrote verified no-storage receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command
+        == "citation-publisher-html-appraisal-propose"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        review_receipt = load_full_text_read_only_review_receipt(
+            args.review_receipt
+        )
+        draft = load_full_text_appraisal_proposal(args.draft)
+        if not args.execute:
+            print(
+                f"Publisher HTML proposal verification ready: {matches[0].doi}, "
+                f"screening {matches[0].screening_id}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        proposal = ApprovedPublisherHtmlAppraisalProposalService().validate(
+            record=matches[0],
+            receipt=review_receipt,
+            proposal=draft,
+        )
+        write_full_text_appraisal_proposal(args.proposal_output, proposal)
+        print(
+            f"Verified structured proposal for DOI {proposal.doi} against "
+            f"{review_receipt.content_size_bytes} canonical ephemeral bytes; "
             "zero article bytes stored"
         )
         print(f"Wrote non-authoritative proposal: {args.proposal_output}")

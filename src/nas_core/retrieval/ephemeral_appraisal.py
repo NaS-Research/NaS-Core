@@ -7,6 +7,7 @@ from collections.abc import Callable, Sequence
 
 from nas_core.domain.appraisal import (
     FullTextAppraisalProposal,
+    FullTextContentRepresentation,
     FullTextInventoryRecord,
     FullTextReadOnlyReviewReceipt,
 )
@@ -14,11 +15,19 @@ from nas_core.ingestion.gdc import sha256
 from nas_core.retrieval.full_text_retrieval import normalize_article_title
 from nas_core.retrieval.licensed_pdf import LicensedPdfImportService
 from nas_core.retrieval.read_only_review import (
+    APPROVED_PUBLISHER_HTML_URLS,
     APPROVED_PUBLISHER_PDF_URLS,
     INSTITUTIONAL_PDF_URLS,
+    PMC_OAI_ARTICLE_URL,
+    ApprovedPublisherHtmlReadOnlyReviewService,
+    PmcOaiReadOnlyReviewService,
     ReadOnlyReviewTransport,
+    UrllibApprovedPublisherHtmlReadOnlyReviewTransport,
     UrllibApprovedPublisherPdfReadOnlyReviewTransport,
     UrllibInstitutionalPdfReadOnlyReviewTransport,
+    UrllibPmcOaiReadOnlyReviewTransport,
+    _CanonicalPublisherHtmlParser,
+    canonicalize_pmc_oai_article,
 )
 
 MAX_TOTAL_NARRATIVE_WORDS = 2_000
@@ -256,6 +265,158 @@ class ApprovedPublisherPdfAppraisalProposalService:
         InstitutionalPdfAppraisalProposalService._verify_record_and_receipt(  # noqa: SLF001
             record, receipt, source_text
         )
+        InstitutionalPdfAppraisalProposalService._verify_proposal_identity(  # noqa: SLF001
+            proposal, receipt
+        )
+        InstitutionalPdfAppraisalProposalService._verify_narrative_limits(  # noqa: SLF001
+            proposal
+        )
+        InstitutionalPdfAppraisalProposalService._reject_verbatim_passages(  # noqa: SLF001
+            proposal, source_text
+        )
+        return proposal
+
+
+class PmcOaiAppraisalProposalService:
+    """Verify a bounded proposal against stable canonical PMC article XML."""
+
+    def __init__(
+        self,
+        *,
+        transport: ReadOnlyReviewTransport | None = None,
+    ) -> None:
+        self._transport = transport or UrllibPmcOaiReadOnlyReviewTransport()
+
+    def validate(
+        self,
+        *,
+        record: FullTextInventoryRecord,
+        receipt: FullTextReadOnlyReviewReceipt,
+        proposal: FullTextAppraisalProposal,
+    ) -> FullTextAppraisalProposal:
+        if record.pmcid is None:
+            raise EphemeralAppraisalError("PMC OAI proposal requires a PMCID")
+        source_url = PMC_OAI_ARTICLE_URL.format(
+            pmc_numeric_id=record.pmcid.removeprefix("PMC")
+        )
+        if receipt.source_url != source_url:
+            raise EphemeralAppraisalError(
+                "receipt is not bound to the exact PMC OAI record"
+            )
+        if (
+            receipt.content_representation
+            is not FullTextContentRepresentation.CANONICAL_PMC_OAI_ARTICLE_XML_V1
+        ):
+            raise EphemeralAppraisalError(
+                "receipt does not declare canonical PMC OAI article XML"
+            )
+        response = self._transport.get(source_url)
+        if (
+            response.status_code != 200
+            or not 10_000 <= len(response.body) <= 20_000_000
+        ):
+            raise EphemeralAppraisalError("PMC OAI article is unavailable")
+        try:
+            canonical_bytes, source_text, identity = canonicalize_pmc_oai_article(
+                response.body
+            )
+        except RuntimeError as error:
+            raise EphemeralAppraisalError(
+                "PMC OAI article failed canonicalization"
+            ) from error
+        if (
+            len(canonical_bytes) != receipt.content_size_bytes
+            or sha256(canonical_bytes) != receipt.content_sha256
+        ):
+            raise EphemeralAppraisalError(
+                "canonical PMC OAI article no longer matches the review receipt"
+            )
+        try:
+            PmcOaiReadOnlyReviewService._verify_identity(  # noqa: SLF001
+                record, identity
+            )
+        except RuntimeError as error:
+            raise EphemeralAppraisalError(
+                "inventory and canonical PMC OAI article identity do not reconcile"
+            ) from error
+        if receipt.pmcid != record.pmcid:
+            raise EphemeralAppraisalError(
+                "receipt PMCID does not match the inventory record"
+            )
+        InstitutionalPdfAppraisalProposalService._verify_proposal_identity(  # noqa: SLF001
+            proposal, receipt
+        )
+        InstitutionalPdfAppraisalProposalService._verify_narrative_limits(  # noqa: SLF001
+            proposal
+        )
+        InstitutionalPdfAppraisalProposalService._reject_verbatim_passages(  # noqa: SLF001
+            proposal, source_text
+        )
+        return proposal
+
+
+class ApprovedPublisherHtmlAppraisalProposalService:
+    """Verify a bounded proposal against canonical allowlisted publisher HTML."""
+
+    def __init__(
+        self,
+        *,
+        transport: ReadOnlyReviewTransport | None = None,
+    ) -> None:
+        self._transport = (
+            transport or UrllibApprovedPublisherHtmlReadOnlyReviewTransport()
+        )
+
+    def validate(
+        self,
+        *,
+        record: FullTextInventoryRecord,
+        receipt: FullTextReadOnlyReviewReceipt,
+        proposal: FullTextAppraisalProposal,
+    ) -> FullTextAppraisalProposal:
+        source_url = APPROVED_PUBLISHER_HTML_URLS.get(
+            (record.doi or "").casefold()
+        )
+        if source_url is None or receipt.source_url != source_url:
+            raise EphemeralAppraisalError(
+                "receipt is not bound to an approved publisher HTML page"
+            )
+        if (
+            receipt.content_representation
+            is not FullTextContentRepresentation.CANONICAL_PUBLISHER_HTML_V1
+        ):
+            raise EphemeralAppraisalError(
+                "receipt does not declare canonical publisher HTML"
+            )
+        response = self._transport.get(source_url)
+        if (
+            response.status_code != 200
+            or not 10_000 <= len(response.body) <= 20_000_000
+        ):
+            raise EphemeralAppraisalError("publisher HTML is unavailable")
+        parser = _CanonicalPublisherHtmlParser()
+        try:
+            parser.feed(response.body.decode("utf-8"))
+        except UnicodeDecodeError as error:
+            raise EphemeralAppraisalError(
+                "publisher HTML failed in-memory parsing"
+            ) from error
+        canonical_bytes, source_text = parser.canonical_representation()
+        if (
+            len(canonical_bytes) != receipt.content_size_bytes
+            or sha256(canonical_bytes) != receipt.content_sha256
+        ):
+            raise EphemeralAppraisalError(
+                "canonical publisher HTML no longer matches the review receipt"
+            )
+        try:
+            ApprovedPublisherHtmlReadOnlyReviewService._verify_identity(  # noqa: SLF001
+                record, parser.metadata, source_text
+            )
+        except RuntimeError as error:
+            raise EphemeralAppraisalError(
+                "inventory and publisher HTML identity do not reconcile"
+            ) from error
         InstitutionalPdfAppraisalProposalService._verify_proposal_identity(  # noqa: SLF001
             proposal, receipt
         )

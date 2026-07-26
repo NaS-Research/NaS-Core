@@ -52,7 +52,11 @@ completeness, article identity, exact bytes, bounded derivative summaries, and
 verbatim-leakage limits while retaining zero article bytes. The Korean and South
 African comparison PDFs passed the delayed exact-byte gate. The three-gene
 repository PDF changed bytes and was rejected; it joins the SCAN and Swedish
-concordance papers in the queue for separate stable-source resolution.
+concordance papers in the queue for separate stable-source resolution. Canonical
+source routes are now implemented for exact PMC OAI article XML and allowlisted
+publisher HTML. They exclude dynamic delivery-envelope fields, verify article
+identity, hash the canonical article representation, enforce bounded derivative
+summaries and verbatim-leakage limits, and retain zero article bytes.
 
 Definition of done:
 

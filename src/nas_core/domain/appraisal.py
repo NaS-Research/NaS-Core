@@ -92,6 +92,12 @@ class FullTextReviewAccessMode(StrEnum):
     READ_ONLY_EPHEMERAL = "read_only_ephemeral"
 
 
+class FullTextContentRepresentation(StrEnum):
+    RAW_SOURCE_BYTES = "raw_source_bytes"
+    CANONICAL_PMC_OAI_ARTICLE_XML_V1 = "canonical_pmc_oai_article_xml_v1"
+    CANONICAL_PUBLISHER_HTML_V1 = "canonical_publisher_html_v1"
+
+
 class DuplicateRelationship(StrEnum):
     PREPRINT_OF = "preprint_of"
     DUPLICATE_REPORT = "duplicate_report"
@@ -271,6 +277,9 @@ class FullTextReadOnlyReviewReceipt(AppraisalModel):
     title: str = Field(min_length=1)
     source_url: str = Field(min_length=1)
     access_mode: FullTextReviewAccessMode
+    content_representation: FullTextContentRepresentation = (
+        FullTextContentRepresentation.RAW_SOURCE_BYTES
+    )
     access_basis: str = Field(min_length=1)
     observed_rights: str = Field(min_length=1)
     rights_url: str | None = Field(default=None, min_length=1)
