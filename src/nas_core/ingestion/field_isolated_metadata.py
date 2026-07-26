@@ -7,12 +7,15 @@ import hashlib
 import json
 import re
 import ssl
+import time
 from collections import Counter
 from collections.abc import Callable, Iterable, Iterator, Mapping
 from contextlib import AbstractContextManager, contextmanager
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from http.client import RemoteDisconnected
 from typing import BinaryIO, Protocol, cast
+from urllib.error import URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 
@@ -145,8 +148,20 @@ class ReceptorProjection(Protocol):
 
 
 class UrllibFieldIsolatedMetadataTransport:
-    def __init__(self, *, timeout_seconds: float = 120.0) -> None:
+    def __init__(
+        self,
+        *,
+        timeout_seconds: float = 120.0,
+        open_attempts: int = 4,
+        retry_delay_seconds: float = 0.5,
+    ) -> None:
+        if open_attempts < 1:
+            raise ValueError("open_attempts must be at least one")
+        if retry_delay_seconds < 0:
+            raise ValueError("retry_delay_seconds must be non-negative")
         self._timeout_seconds = timeout_seconds
+        self._open_attempts = open_attempts
+        self._retry_delay_seconds = retry_delay_seconds
         self._ssl_context = ssl.create_default_context(cafile=certifi.where())
 
     def post_json(self, url: str, payload: dict[str, object]) -> ManifestResponse:
@@ -183,11 +198,22 @@ class UrllibFieldIsolatedMetadataTransport:
                 "User-Agent": "NaS-Core/0.1",
             },
         )
-        with urlopen(  # noqa: S310
-            request,
-            timeout=self._timeout_seconds,
-            context=self._ssl_context,
-        ) as response:
+        response = None
+        for attempt in range(1, self._open_attempts + 1):
+            try:
+                response = urlopen(  # noqa: S310
+                    request,
+                    timeout=self._timeout_seconds,
+                    context=self._ssl_context,
+                )
+                break
+            except (RemoteDisconnected, TimeoutError, URLError):
+                if attempt == self._open_attempts:
+                    raise
+                time.sleep(self._retry_delay_seconds * attempt)
+        if response is None:
+            raise AssertionError("bounded response-open attempts were exhausted")
+        with response:
             yield StreamingResponse(
                 status_code=response.status,
                 headers={

@@ -7,6 +7,7 @@ import json
 import re
 from contextlib import AbstractContextManager, nullcontext
 from datetime import UTC, datetime
+from http.client import RemoteDisconnected
 from pathlib import Path
 
 import pytest
@@ -30,6 +31,7 @@ from nas_core.ingestion.field_isolated_metadata import (
     FieldIsolatedMetadataError,
     ManifestResponse,
     StreamingResponse,
+    UrllibFieldIsolatedMetadataTransport,
     build_gdc_clinical_manifest_query,
     build_gdc_star_manifest_query,
 )
@@ -295,6 +297,42 @@ def test_queries_are_project_scoped_and_field_limited() -> None:
     for forbidden in ("vital_status", "days_to_death", "submitter_id"):
         assert forbidden not in clinical
         assert forbidden not in star
+
+
+def test_transport_retries_transient_disconnect_before_response(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class Response(io.BytesIO):
+        status = 200
+        headers: dict[str, str] = {}
+
+        def __enter__(self) -> Response:
+            return self
+
+        def __exit__(self, *_args: object) -> None:
+            self.close()
+
+    attempts = 0
+
+    def open_with_transient_failures(*_args: object, **_kwargs: object) -> Response:
+        nonlocal attempts
+        attempts += 1
+        if attempts < 3:
+            raise RemoteDisconnected("synthetic disconnect")
+        return Response(b"safe")
+
+    monkeypatch.setattr(
+        "nas_core.ingestion.field_isolated_metadata.urlopen",
+        open_with_transient_failures,
+    )
+    transport = UrllibFieldIsolatedMetadataTransport(
+        open_attempts=3,
+        retry_delay_seconds=0,
+    )
+
+    with transport.open_get(GEO_FAMILY_SOFT_URL) as response:
+        assert response.stream.read() == b"safe"
+    assert attempts == 3
 
 
 def test_field_isolation_passes_without_retaining_prohibited_values() -> None:
