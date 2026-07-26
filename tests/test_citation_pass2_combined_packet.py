@@ -1,8 +1,16 @@
 import csv
 import hashlib
+from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
+
+from nas_core.domain.citation_chain import load_citation_founder_packet_receipt
+from nas_core.domain.citation_confirmation import CitationFounderConfirmation
+from nas_core.retrieval.citation_confirmation import (
+    CitationDecisionConfirmationService,
+)
+from nas_core.storage.object_store import InMemoryObjectStore
 
 ROOT = Path(__file__).parents[1]
 LITERATURE = (
@@ -25,6 +33,7 @@ FIRST_RECEIPT = LITERATURE / "citation-chain" / "pass-0002-founder-packet.yaml"
 SECOND_RECEIPT = (
     LITERATURE / "citation-chain" / "pass-0002-adjudication-packet.yaml"
 )
+NOW = datetime(2026, 7, 26, 19, 0, tzinfo=UTC)
 
 
 def _rows(path: Path) -> list[dict[str, str]]:
@@ -75,3 +84,46 @@ def test_pass2_review_binds_both_verified_packet_pairs() -> None:
         "`I confirm both checksum-bound citation pass 2 packets as written.`"
         in text
     )
+
+
+def test_pass2_confirmation_path_reproduces_ledger_without_external_persistence() -> None:
+    first = load_citation_founder_packet_receipt(FIRST_RECEIPT)
+    second = load_citation_founder_packet_receipt(SECOND_RECEIPT)
+    confirmation = CitationFounderConfirmation(
+        study_id="NAS-BRCA-002",
+        pass_number=2,
+        first_packet_sha256=first.packet_sha256,
+        first_appendix_sha256=first.appendix_sha256,
+        second_packet_sha256=second.packet_sha256,
+        second_appendix_sha256=second.appendix_sha256,
+        confirmation_statement=(
+            "I confirm both checksum-bound citation pass 2 packets as written."
+        ),
+        founder_id="dalron-j-robertson",
+        founder_name="Dalron J. Robertson",
+        reviewer_role="founder_internal_reviewer",
+        confirmed_at=NOW,
+        founder_authorized=True,
+        founder_role_conflict_disclosed=True,
+    )
+    store = InMemoryObjectStore()
+
+    receipt = CitationDecisionConfirmationService(store=store).confirm(
+        first,
+        second,
+        confirmation,
+        first_packet_path=FIRST_PACKET,
+        first_appendix_path=FIRST_APPENDIX,
+        second_packet_path=SECOND_PACKET,
+        second_appendix_path=SECOND_APPENDIX,
+        code_revision="5a0e747",
+    )
+
+    assert receipt.pass_number == 2
+    assert receipt.candidate_count == 2479
+    assert receipt.included_count == 9
+    assert receipt.excluded_count == 2470
+    assert receipt.unclear_count == 0
+    assert receipt.ai_decisions_recorded == 0
+    assert receipt.scientific_conclusions_drawn is False
+    assert store.exists(receipt.ledger_object.object_key)
