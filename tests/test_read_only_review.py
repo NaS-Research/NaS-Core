@@ -5,6 +5,7 @@ import pytest
 from nas_core.domain.appraisal import FullTextInventoryRecord
 from nas_core.ingestion.gdc import HTTPResponse
 from nas_core.retrieval.read_only_review import (
+    InstitutionalPdfReadOnlyReviewService,
     MedrxivReadOnlyReviewService,
     PmcReadOnlyReviewService,
     ReadOnlyReviewError,
@@ -190,4 +191,79 @@ def test_medrxiv_review_rejects_invalid_source_or_rights(
             access_basis="Lawfully viewable medRxiv preprint; ephemeral review only.",
             observed_rights="CC BY-NC 4.0; durable storage not approved.",
             rights_url="https://creativecommons.org/licenses/by-nc/4.0/",
+        )
+
+
+def _institutional_record() -> FullTextInventoryRecord:
+    return FullTextInventoryRecord(
+        screening_id="e" * 64,
+        record_key="MED:23907291",
+        title=(
+            "Assignment of tumor subtype by genomic testing and pathologic-based "
+            "approximations: implications on patient's management and therapy "
+            "selection."
+        ),
+        pmid="23907291",
+        doi="10.1007/s12094-013-1088-z",
+        access_status="access_check_required",
+    )
+
+
+def _institutional_pdf_text() -> str:
+    return (
+        "Assignment of tumor subtype by genomic testing and pathologic-based "
+        "approximations: implications on patient's management and therapy selection. "
+        "DOI 10.1007/s12094-013-1088-z "
+        + ("Methods and results. " * 100)
+    )
+
+
+def test_institutional_pdf_review_emits_verified_no_storage_receipt() -> None:
+    body = b"%PDF-1.7\n" + (b"synthetic " * 1200) + b"\n%%EOF"
+    service = InstitutionalPdfReadOnlyReviewService(
+        transport=FakeTransport(body),
+        pdf_parser=lambda value: {"text": _institutional_pdf_text()},
+        clock=lambda: NOW,
+    )
+
+    receipt = service.review(
+        _institutional_record(),
+        study_id="NAS-BRCA-002",
+        queue_id="b" * 64,
+        progress_id="c" * 64,
+        code_revision="abcdef1",
+        access_basis="Public institutional author copy; ephemeral review only.",
+        observed_rights="Publisher copyright; no reuse license verified.",
+        rights_url="https://link.springer.com/article/10.1007/s12094-013-1088-z",
+    )
+
+    assert receipt.pmid == "23907291"
+    assert receipt.doi == "10.1007/s12094-013-1088-z"
+    assert receipt.content_size_bytes == len(body)
+    assert receipt.checksum_verified
+    assert receipt.article_identity_verified
+    assert receipt.lawful_read_access_verified
+    assert receipt.durable_full_text_stored is False
+
+
+def test_institutional_pdf_review_rejects_wrong_identity() -> None:
+    body = b"%PDF-1.7\n" + (b"synthetic " * 1200) + b"\n%%EOF"
+    service = InstitutionalPdfReadOnlyReviewService(
+        transport=FakeTransport(body),
+        pdf_parser=lambda value: {
+            "text": "Different title. DOI 10.1007/s12094-013-1088-z"
+        },
+        clock=lambda: NOW,
+    )
+
+    with pytest.raises(ReadOnlyReviewError, match="identity"):
+        service.review(
+            _institutional_record(),
+            study_id="NAS-BRCA-002",
+            queue_id="b" * 64,
+            progress_id="c" * 64,
+            code_revision="abcdef1",
+            access_basis="Public institutional author copy; ephemeral review only.",
+            observed_rights="Publisher copyright; no reuse license verified.",
+            rights_url="https://link.springer.com/article/10.1007/s12094-013-1088-z",
         )

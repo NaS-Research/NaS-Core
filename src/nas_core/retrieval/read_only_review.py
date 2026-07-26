@@ -26,11 +26,25 @@ from nas_core.ingestion.gdc import (
     sha256,
 )
 from nas_core.retrieval.full_text_retrieval import normalize_article_title
+from nas_core.retrieval.licensed_pdf import LicensedPdfImportService
 
 PMC_ARTICLE_URL = "https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/"
 MEDRXIV_HOST = "www.medrxiv.org"
 HTML_MEDIA_TYPE = "text/html"
 PLAIN_TEXT_MEDIA_TYPE = "text/plain"
+PDF_MEDIA_TYPE = "application/pdf"
+INSTITUTIONAL_PDF_URLS = {
+    "10.1007/s12094-013-1088-z": (
+        "https://unclineberger.org/peroulab/wp-content/uploads/sites/1008/"
+        "2013/10/July-16.pdf"
+    ),
+}
+UNC_REFERER = "https://unclineberger.org/peroulab/publications/"
+BROWSER_USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/138.0.0.0 Safari/537.36"
+)
 
 
 class ReadOnlyReviewError(RuntimeError):
@@ -140,6 +154,60 @@ class UrllibMedrxivReadOnlyReviewTransport:
             )
         except (TimeoutError, URLError) as error:
             raise RemoteResponseError("medRxiv read-only review request failed") from error
+
+
+class UrllibInstitutionalPdfReadOnlyReviewTransport:
+    """Fetch only explicitly approved institutional author-copy PDFs."""
+
+    def __init__(self, *, timeout_seconds: float = 60.0) -> None:
+        self._timeout_seconds = timeout_seconds
+        self._ssl_context = ssl.create_default_context(cafile=certifi.where())
+
+    def get(self, url: str) -> HTTPResponse:
+        if url not in INSTITUTIONAL_PDF_URLS.values():
+            raise ValueError(
+                "read-only review URL must be an approved institutional PDF"
+            )
+        parsed = urlsplit(url)
+        if (
+            parsed.scheme != "https"
+            or parsed.hostname != "unclineberger.org"
+            or not parsed.path.endswith(".pdf")
+            or parsed.query
+            or parsed.fragment
+        ):
+            raise ValueError(
+                "institutional PDF URL failed exact HTTPS host/path validation"
+            )
+        request = Request(
+            url,
+            headers={
+                "Accept": PDF_MEDIA_TYPE,
+                "Referer": UNC_REFERER,
+                "User-Agent": BROWSER_USER_AGENT,
+            },
+        )
+        try:
+            with urlopen(  # noqa: S310
+                request,
+                timeout=self._timeout_seconds,
+                context=self._ssl_context,
+            ) as response:
+                return HTTPResponse(
+                    status_code=response.status,
+                    headers=dict(response.headers.items()),
+                    body=response.read(),
+                )
+        except HTTPError as error:
+            return HTTPResponse(
+                status_code=error.code,
+                headers=dict(error.headers.items()),
+                body=error.read(),
+            )
+        except (TimeoutError, URLError) as error:
+            raise RemoteResponseError(
+                "institutional PDF read-only review request failed"
+            ) from error
 
 
 class PmcReadOnlyReviewService:
@@ -348,4 +416,118 @@ class MedrxivReadOnlyReviewService:
         ):
             raise ReadOnlyReviewError(
                 "medRxiv full-text page identity or rights do not match inventory"
+            )
+
+
+class InstitutionalPdfReadOnlyReviewService:
+    """Review one approved institutional author-copy PDF without retaining it."""
+
+    def __init__(
+        self,
+        *,
+        transport: ReadOnlyReviewTransport | None = None,
+        pdf_parser: Callable[[bytes], dict[str, str]] | None = None,
+        clock: Callable[[], datetime] | None = None,
+    ) -> None:
+        self._transport = (
+            transport or UrllibInstitutionalPdfReadOnlyReviewTransport()
+        )
+        self._pdf_parser = pdf_parser or LicensedPdfImportService._parse_pdf  # noqa: SLF001
+        self._clock = clock or (lambda: datetime.now(UTC))
+
+    def review(
+        self,
+        record: FullTextInventoryRecord,
+        *,
+        study_id: str,
+        queue_id: str,
+        progress_id: str,
+        code_revision: str,
+        access_basis: str,
+        observed_rights: str,
+        rights_url: str,
+    ) -> FullTextReadOnlyReviewReceipt:
+        normalized_doi = (record.doi or "").casefold()
+        source_url = INSTITUTIONAL_PDF_URLS.get(normalized_doi)
+        if source_url is None:
+            raise ReadOnlyReviewError(
+                "institutional PDF review requires an approved DOI-to-URL binding"
+            )
+        if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
+            raise ReadOnlyReviewError("code revision is invalid")
+        response = self._transport.get(source_url)
+        if (
+            response.status_code != 200
+            or len(response.body) < 10_000
+            or not response.body.startswith(b"%PDF-")
+            or b"%%EOF" not in response.body[-2048:]
+        ):
+            raise ReadOnlyReviewError(
+                "institutional full-text PDF is unavailable or incomplete"
+            )
+        try:
+            identity = self._pdf_parser(response.body)
+        except RuntimeError as error:
+            raise ReadOnlyReviewError(
+                "institutional full-text PDF failed parsing"
+            ) from error
+        self._verify_identity(record, identity.get("text", ""))
+        accessed_at = self._clock()
+        content_sha256 = sha256(response.body)
+        review_id = sha256(
+            canonical_json(
+                {
+                    "accessed_at": accessed_at.isoformat(),
+                    "code_revision": code_revision,
+                    "content_sha256": content_sha256,
+                    "screening_id": record.screening_id,
+                    "source_url": source_url,
+                }
+            )
+        )
+        return FullTextReadOnlyReviewReceipt(
+            receipt_version="1.0.0",
+            review_id=review_id,
+            study_id=study_id,
+            queue_id=queue_id,
+            progress_id=progress_id,
+            screening_id=record.screening_id,
+            pmcid=record.pmcid,
+            pmid=record.pmid,
+            doi=record.doi,
+            title=record.title,
+            source_url=source_url,
+            access_mode=FullTextReviewAccessMode.READ_ONLY_EPHEMERAL,
+            access_basis=access_basis,
+            observed_rights=observed_rights,
+            rights_url=rights_url,
+            content_sha256=content_sha256,
+            content_size_bytes=len(response.body),
+            accessed_at=accessed_at,
+            verified_at=self._clock(),
+            code_revision=code_revision,
+            checksum_verified=True,
+            article_identity_verified=True,
+            lawful_read_access_verified=True,
+            durable_full_text_stored=False,
+            redistribution_authorized=False,
+            scientific_conclusions_drawn=False,
+        )
+
+    @staticmethod
+    def _verify_identity(
+        record: FullTextInventoryRecord,
+        text: str,
+    ) -> None:
+        normalized_text = re.sub(r"[^a-z0-9]+", "", text.casefold())
+        normalized_title = re.sub(r"[^a-z0-9]+", "", record.title.casefold())
+        normalized_doi = (record.doi or "").casefold()
+        if (
+            not normalized_title
+            or normalized_title not in normalized_text
+            or not normalized_doi
+            or normalized_doi not in text.casefold()
+        ):
+            raise ReadOnlyReviewError(
+                "institutional PDF identity does not match inventory"
             )

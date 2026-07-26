@@ -128,6 +128,7 @@ from nas_core.retrieval.literature import (
 )
 from nas_core.retrieval.prioritization import DeterministicPrioritizationService
 from nas_core.retrieval.read_only_review import (
+    InstitutionalPdfReadOnlyReviewService,
     MedrxivReadOnlyReviewService,
     PmcReadOnlyReviewService,
 )
@@ -746,6 +747,24 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Read the medRxiv page in memory; never persist article content",
+    )
+    citation_institutional_pdf_review = literature_commands.add_parser(
+        "citation-institutional-pdf-read-only-review",
+        help="Review an approved institutional author-copy PDF without storing it",
+    )
+    citation_institutional_pdf_review.add_argument("inventory", type=Path)
+    citation_institutional_pdf_review.add_argument("screening_id")
+    citation_institutional_pdf_review.add_argument("--code-revision", required=True)
+    citation_institutional_pdf_review.add_argument("--access-basis", required=True)
+    citation_institutional_pdf_review.add_argument("--observed-rights", required=True)
+    citation_institutional_pdf_review.add_argument("--rights-url", required=True)
+    citation_institutional_pdf_review.add_argument(
+        "--receipt-output", required=True, type=Path
+    )
+    citation_institutional_pdf_review.add_argument(
+        "--execute",
+        action="store_true",
+        help="Read the PDF in memory; never persist article content",
     )
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
@@ -1980,6 +1999,45 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             f"Reviewed medRxiv DOI {review_receipt.doi} ephemerally: "
+            f"{review_receipt.content_size_bytes} bytes hashed, "
+            "zero article bytes stored"
+        )
+        print(f"Wrote verified no-storage receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command
+        == "citation-institutional-pdf-read-only-review"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        if not args.execute:
+            print(
+                f"Institutional PDF read-only review ready: {matches[0].doi}, "
+                f"screening {matches[0].screening_id}, code {args.code_revision}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        review_receipt = InstitutionalPdfReadOnlyReviewService().review(
+            matches[0],
+            study_id=inventory.study_id,
+            queue_id=inventory.queue_id,
+            progress_id=inventory.progress_id,
+            code_revision=args.code_revision,
+            access_basis=args.access_basis,
+            observed_rights=args.observed_rights,
+            rights_url=args.rights_url,
+        )
+        write_full_text_read_only_review_receipt(
+            args.receipt_output, review_receipt
+        )
+        print(
+            f"Reviewed institutional PDF DOI {review_receipt.doi} ephemerally: "
             f"{review_receipt.content_size_bytes} bytes hashed, "
             "zero article bytes stored"
         )
