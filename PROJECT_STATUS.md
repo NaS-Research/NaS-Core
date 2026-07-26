@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Resolve GSE96058 technical-replicate linkage without widening data access
+### Execute authorized field-isolated metadata audit amendment 1.0.1
 
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
@@ -22,10 +22,13 @@ Four of five checks passed. The approved GEO characteristic fields contained no
 primary-versus-technical-replicate linkage, so all 3,409 sample records remained
 unclassified and the receipt correctly returned `changes_requested`. The official
 GEO description states that `!Sample_title` distinguishes titles such as `F30`
-and `F30repl`, but that field is outside audit `1.0.0`'s allowlist. Amendment
-`1.0.1` now proposes a strictly validated, aggregate-only title projection and
-source-specific `0`/`1` receptor normalization. It requires a new exact founder
-decision before implementation or execution.
+and `F30repl`, but that field is outside audit `1.0.0`'s allowlist. The founder
+authorized amendment `1.0.1` exactly on 2026-07-26. The implementation now permits
+only a strictly validated, aggregate-only title projection and source-specific
+`0`/`1`/`NA` receptor normalization, binds execution to the prior receipt and
+unchanged source-representation checksums, and retains none of the transient
+titles. Synthetic fail-closed validation must pass and the implementation revision
+must be frozen before the live audit executes.
 
 The completed citation-appraisal state remains:
 
@@ -295,8 +298,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain exact founder authorization for field-isolated metadata amendment
-   `1.0.1`; only then implement and execute its sample-title projection.
+1. Freeze the validated field-isolated metadata amendment `1.0.1` implementation,
+   execute it against the unchanged source representations, and record the
+   immutable aggregate-only receipt and report.
 2. Execute sequential
    citation passes until two consecutive fully screened passes add zero eligible
    evidence.

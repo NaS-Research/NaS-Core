@@ -64,7 +64,12 @@ The official GEO description documents titles such as `F30` and `F30repl`.
 Reading `!Sample_title` would expand the permitted field list, so it is not
 silently added. The separately reviewable
 [`FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md`](../reviews/FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md)
-defines the exact no-retention correction. Molecular and outcome execution remain
-prohibited.
+defines the exact no-retention correction. The founder supplied its checksum-bound
+exact authorization in
+[`FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_CONFIRMATION_v1.0.1.yaml`](../reviews/FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_CONFIRMATION_v1.0.1.yaml).
+Audit `1.0.1` must verify that every source representation is checksum-identical
+to audit `1.0.0`, accept only the declared `F<number>`/`F<number>repl` title
+grammar and `0`/`1`/`NA` receptor categories, and retain only aggregate counts.
+Molecular and outcome execution remain prohibited.
 
 Completion gate: Governed immutable dataset snapshot is verified.

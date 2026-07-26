@@ -20,6 +20,7 @@ from nas_core.domain.field_isolated_metadata import (
 )
 from nas_core.domain.reliability import PAM50_HISTORICAL_GENES
 from nas_core.ingestion.field_isolated_metadata import (
+    AMENDMENT_AUTHORIZATION_STATEMENT,
     AUTHORIZATION_STATEMENT,
     GDC_FILES_URL,
     GEO_EXPRESSION_URL,
@@ -37,6 +38,7 @@ from nas_core.ingestion.gdc import canonical_json
 NOW = datetime(2026, 7, 26, 14, 30, tzinfo=UTC)
 SOFTWARE_REVISION = "a" * 40
 PACKET = b"frozen field-isolated metadata packet"
+AMENDMENT_PACKET = b"frozen field-isolated metadata amendment"
 CLINICAL_ID = "11111111-1111-4111-8111-111111111111"
 STAR_ID = "22222222-2222-4222-8222-222222222222"
 ROOT = Path(__file__).parents[1]
@@ -61,6 +63,16 @@ REAL_RECEIPT_PATH = (
     STUDY_ROOT
     / "ingestion"
     / "field_isolated_metadata_receipt_v1.0.0.yaml"
+)
+REAL_AMENDMENT_PATH = (
+    STUDY_ROOT
+    / "reviews"
+    / "FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md"
+)
+REAL_AMENDMENT_AUTHORIZATION_PATH = (
+    STUDY_ROOT
+    / "reviews"
+    / "FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_CONFIRMATION_v1.0.1.yaml"
 )
 
 
@@ -99,16 +111,18 @@ def _geo_expression() -> bytes:
 
 def _geo_family() -> bytes:
     payload = """^SAMPLE = GSM1000001
-!Sample_characteristics_ch1 = er status: Positive
-!Sample_characteristics_ch1 = pgr status: Negative
-!Sample_characteristics_ch1 = her2 status: Negative
+!Sample_title = F1
+!Sample_characteristics_ch1 = er status: 1
+!Sample_characteristics_ch1 = pgr status: 0
+!Sample_characteristics_ch1 = her2 status: 0
 !Sample_characteristics_ch1 = sample group: Primary
 !Sample_characteristics_ch1 = overall survival days: PROHIBITED-OUTCOME
 !Sample_characteristics_ch1 = pam50 subtype: PROHIBITED-LABEL
 ^SAMPLE = GSM1000002
-!Sample_characteristics_ch1 = er status: Positive
-!Sample_characteristics_ch1 = pgr status: Negative
-!Sample_characteristics_ch1 = her2 status: Negative
+!Sample_title = F1repl
+!Sample_characteristics_ch1 = er status: 1
+!Sample_characteristics_ch1 = pgr status: 0
+!Sample_characteristics_ch1 = her2 status: 0
 !Sample_characteristics_ch1 = technical replicate of: GSM1000001
 !Sample_characteristics_ch1 = chemo treated: PROHIBITED-TREATMENT
 """
@@ -116,11 +130,16 @@ def _geo_family() -> bytes:
 
 
 class FakeTransport:
-    def __init__(self, *, missing_tcga_gene: str | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        missing_tcga_gene: str | None = None,
+        geo_family: bytes | None = None,
+    ) -> None:
         self.clinical = _clinical_table()
         self.star = _star_counts(omit_gene=missing_tcga_gene)
         self.geo_expression = _geo_expression()
-        self.geo_family = _geo_family()
+        self.geo_family = geo_family or _geo_family()
         self.requests: list[tuple[str, str]] = []
 
     def post_json(
@@ -173,16 +192,31 @@ class FakeTransport:
         }
 
 
-def _authorization() -> tuple[FieldIsolatedMetadataAuthorization, bytes]:
+def _authorization(
+    *,
+    audit_version: str = "1.0.0",
+    prior_receipt_bytes: bytes | None = None,
+) -> tuple[FieldIsolatedMetadataAuthorization, bytes]:
+    amended = audit_version == "1.0.1"
     payload = {
         "schema_version": "1.0.0",
         "study_id": "NAS-BRCA-002",
         "question_id": "NAS-RQ-BRCA002",
         "question_version": "0.3.0",
-        "audit_version": "1.0.0",
-        "packet_filename": "FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_v1.0.0.md",
-        "packet_sha256": hashlib.sha256(PACKET).hexdigest(),
-        "authorization_statement": AUTHORIZATION_STATEMENT,
+        "audit_version": audit_version,
+        "packet_filename": (
+            "FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md"
+            if amended
+            else "FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_v1.0.0.md"
+        ),
+        "packet_sha256": hashlib.sha256(
+            AMENDMENT_PACKET if amended else PACKET
+        ).hexdigest(),
+        "authorization_statement": (
+            AMENDMENT_AUTHORIZATION_STATEMENT
+            if amended
+            else AUTHORIZATION_STATEMENT
+        ),
         "founder_id": "founder",
         "founder_name": "Founder",
         "founder_role": "Founder and internal reviewer",
@@ -197,6 +231,15 @@ def _authorization() -> tuple[FieldIsolatedMetadataAuthorization, bytes]:
         "scientific_conclusions_authorized": False,
         "ai_assistance_disclosure": "Synthetic test authorization.",
     }
+    if amended:
+        if prior_receipt_bytes is None:
+            raise AssertionError("amended synthetic authorization requires prior bytes")
+        payload["prior_receipt_filename"] = (
+            "field_isolated_metadata_receipt_v1.0.0.yaml"
+        )
+        payload["prior_receipt_sha256"] = hashlib.sha256(
+            prior_receipt_bytes
+        ).hexdigest()
     encoded = yaml.safe_dump(payload, sort_keys=False).encode()
     return FieldIsolatedMetadataAuthorization.model_validate(payload), encoded
 
@@ -205,8 +248,23 @@ def _execute(
     *,
     transport: FakeTransport | None = None,
     packet: bytes = PACKET,
+    audit_version: str = "1.0.0",
 ) -> FieldIsolatedMetadataReceipt:
-    authorization, authorization_bytes = _authorization()
+    prior_receipt: FieldIsolatedMetadataReceipt | None = None
+    prior_receipt_bytes: bytes | None = None
+    prior_receipt_path: str | None = None
+    if audit_version == "1.0.1":
+        prior_receipt = _execute(transport=FakeTransport())
+        prior_receipt_bytes = yaml.safe_dump(
+            prior_receipt.model_dump(mode="json", exclude_none=True),
+            sort_keys=False,
+        ).encode()
+        prior_receipt_path = "field_isolated_metadata_receipt_v1.0.0.yaml"
+        packet = AMENDMENT_PACKET
+    authorization, authorization_bytes = _authorization(
+        audit_version=audit_version,
+        prior_receipt_bytes=prior_receipt_bytes,
+    )
     return FieldIsolatedMetadataAuditService(
         transport=transport or FakeTransport(),
         clock=lambda: NOW,
@@ -217,6 +275,9 @@ def _execute(
         packet_path="authorization.md",
         packet_bytes=packet,
         software_revision=SOFTWARE_REVISION,
+        prior_receipt=prior_receipt,
+        prior_receipt_path=prior_receipt_path,
+        prior_receipt_bytes=prior_receipt_bytes,
     )
 
 
@@ -287,6 +348,93 @@ def test_missing_pam50_gene_fails_closed_to_changes_requested() -> None:
     assert receipt.next_authorization_required
 
 
+def test_amended_audit_uses_titles_without_retaining_them() -> None:
+    receipt = _execute(audit_version="1.0.1")
+    serialized = json.dumps(receipt.model_dump(mode="json"))
+
+    assert receipt.audit_version == "1.0.1"
+    assert receipt.decision is FieldIsolationDecision.PASS
+    assert receipt.prior_receipt_sha256 is not None
+    assert receipt.gse96058_replicates.primary_record_count == 1
+    assert receipt.gse96058_replicates.technical_replicate_count == 1
+    assert receipt.gse96058_replicates.linked_technical_replicate_count == 1
+    assert receipt.gse96058_replicates.unclassified_record_count == 0
+    assert receipt.gse96058_receptor_completeness.er_category_counts == {
+        "positive": 2
+    }
+    assert receipt.gse96058_receptor_completeness.pr_category_counts == {
+        "negative": 2
+    }
+    assert "sample title" in {
+        field
+        for artifact in receipt.artifacts
+        for field in artifact.permitted_field_names
+    }
+    assert "F1" not in serialized
+    assert "F1repl" not in serialized
+    assert "GSM1000001" not in serialized
+
+
+def test_amended_audit_rejects_unapproved_sample_title() -> None:
+    invalid_family = gzip.compress(
+        gzip.decompress(_geo_family()).replace(b"F1repl", b"sample-1-replicate"),
+        mtime=0,
+    )
+
+    with pytest.raises(FieldIsolatedMetadataError, match="title violates"):
+        _execute(
+            audit_version="1.0.1",
+            transport=FakeTransport(geo_family=invalid_family),
+        )
+
+
+def test_amended_audit_rejects_unapproved_receptor_category() -> None:
+    invalid_family = gzip.compress(
+        gzip.decompress(_geo_family()).replace(
+            b"er status: 1",
+            b"er status: positive",
+        ),
+        mtime=0,
+    )
+
+    with pytest.raises(FieldIsolatedMetadataError, match="0/1/NA contract"):
+        _execute(
+            audit_version="1.0.1",
+            transport=FakeTransport(geo_family=invalid_family),
+        )
+
+
+def test_amended_audit_rejects_source_representation_drift() -> None:
+    prior_receipt = _execute(transport=FakeTransport())
+    prior_receipt_bytes = yaml.safe_dump(
+        prior_receipt.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+    ).encode()
+    authorization, authorization_bytes = _authorization(
+        audit_version="1.0.1",
+        prior_receipt_bytes=prior_receipt_bytes,
+    )
+
+    with pytest.raises(
+        FieldIsolatedMetadataError,
+        match="source representations changed",
+    ):
+        FieldIsolatedMetadataAuditService(
+            transport=FakeTransport(missing_tcga_gene="ACTR3B"),
+            clock=lambda: NOW,
+        ).execute(
+            authorization=authorization,
+            authorization_path="confirmation.yaml",
+            authorization_bytes=authorization_bytes,
+            packet_path="authorization.md",
+            packet_bytes=AMENDMENT_PACKET,
+            software_revision=SOFTWARE_REVISION,
+            prior_receipt=prior_receipt,
+            prior_receipt_path="field_isolated_metadata_receipt_v1.0.0.yaml",
+            prior_receipt_bytes=prior_receipt_bytes,
+        )
+
+
 def test_packet_checksum_mismatch_blocks_before_network() -> None:
     transport = FakeTransport()
     with pytest.raises(PermissionError, match="checksum mismatch"):
@@ -339,6 +487,31 @@ def test_real_authorization_is_exact_and_packet_bound() -> None:
     assert authorization.patient_level_data_retention_authorized is False
     assert authorization.molecular_value_analysis_authorized is False
     assert authorization.outcome_data_access_authorized is False
+
+
+def test_real_amendment_authorization_is_exact_and_prior_receipt_bound() -> None:
+    authorization = FieldIsolatedMetadataAuthorization.model_validate(
+        yaml.safe_load(
+            REAL_AMENDMENT_AUTHORIZATION_PATH.read_text(encoding="utf-8")
+        )
+    )
+
+    assert authorization.audit_version == "1.0.1"
+    assert authorization.authorization_statement == AMENDMENT_AUTHORIZATION_STATEMENT
+    assert authorization.packet_sha256 == hashlib.sha256(
+        REAL_AMENDMENT_PATH.read_bytes()
+    ).hexdigest()
+    assert authorization.prior_receipt_sha256 == hashlib.sha256(
+        REAL_RECEIPT_PATH.read_bytes()
+    ).hexdigest()
+    assert authorization.founder_authorized is True
+    assert authorization.transient_field_isolated_access_authorized is True
+    assert authorization.patient_level_data_retention_authorized is False
+    assert authorization.molecular_value_analysis_authorized is False
+    assert authorization.outcome_data_access_authorized is False
+    assert authorization.cohort_construction_authorized is False
+    assert authorization.classifier_execution_authorized is False
+    assert authorization.scientific_conclusions_authorized is False
 
 
 def test_real_receipt_is_safe_valid_and_changes_requested() -> None:

@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+audit_version: 1.0.1
+packet_filename: FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md
+packet_sha256: 25b9d1d9c93739c0a9e0921af74f3065d3deea5d88bcf52dc62295f47cc1f356
+prior_receipt_filename: field_isolated_metadata_receipt_v1.0.0.yaml
+prior_receipt_sha256: b5f8c3599219c8b13aa218e9aff3e380cbdf789aa7897b30c5ae6dfd4fea822a
+authorization_statement: I authorize field-isolated metadata audit amendment 1.0.1 as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+founder_role: Founder, Study Lead, and Internal Phase 0 Reviewer
+authorized_at: '2026-07-26T16:48:34Z'
+founder_authorized: true
+transient_field_isolated_access_authorized: true
+patient_level_data_retention_authorized: false
+molecular_value_analysis_authorized: false
+outcome_data_access_authorized: false
+cohort_construction_authorized: false
+classifier_execution_authorized: false
+scientific_conclusions_authorized: false
+ai_assistance_disclosure: >-
+  OpenAI Codex prepared the bounded amendment and will implement the
+  mechanically enforced sample-title projection. The founder supplied the exact
+  authorization statement and remains accountable for this internal self-review.

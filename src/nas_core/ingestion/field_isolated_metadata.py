@@ -47,6 +47,9 @@ GEO_FAMILY_SOFT_URL = (
     "GSE96058_family.soft.gz"
 )
 AUTHORIZATION_STATEMENT = "I authorize field-isolated metadata audit 1.0.0 as written."
+AMENDMENT_AUTHORIZATION_STATEMENT = (
+    "I authorize field-isolated metadata audit amendment 1.0.1 as written."
+)
 MAX_MANIFEST_BYTES = 5_000_000
 MAX_LINE_BYTES = 4_000_000
 MAX_ARTIFACT_BYTES = 2_000_000_000
@@ -54,6 +57,7 @@ GDC_UUID = re.compile(
     r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
 )
 GSM_ACCESSION = re.compile(r"^GSM[0-9]+$")
+GEO_SAMPLE_TITLE = re.compile(r"^F[0-9]+(?:repl)?$")
 
 TCGA_RECORD_FIELDS = frozenset({"bcr_patient_uuid", "bcr_patient_barcode"})
 TCGA_RECEPTOR_FIELDS = {
@@ -216,6 +220,7 @@ class GeoSampleRecord:
     her2: str | None = None
     replicate_state: str = "unclassified"
     replicate_linked: bool = False
+    title: str | None = None
 
 
 class DigestingReader:
@@ -360,11 +365,16 @@ class FieldIsolatedMetadataAuditService:
         packet_path: str,
         packet_bytes: bytes,
         software_revision: str,
+        prior_receipt: FieldIsolatedMetadataReceipt | None = None,
+        prior_receipt_path: str | None = None,
+        prior_receipt_bytes: bytes | None = None,
     ) -> FieldIsolatedMetadataReceipt:
         self._verify_authorization(
             authorization=authorization,
             authorization_bytes=authorization_bytes,
             packet_bytes=packet_bytes,
+            prior_receipt=prior_receipt,
+            prior_receipt_bytes=prior_receipt_bytes,
         )
 
         clinical_files = self._manifest(
@@ -402,8 +412,15 @@ class FieldIsolatedMetadataAuditService:
         artifacts.append(star_artifact)
         geo_expression_artifact, geo_identifiers = self._project_geo_gene_names()
         artifacts.append(geo_expression_artifact)
-        geo_family_artifact, geo_samples = self._project_geo_family()
+        geo_family_artifact, geo_samples = self._project_geo_family(
+            audit_version=authorization.audit_version
+        )
         artifacts.append(geo_family_artifact)
+        if prior_receipt is not None:
+            self._verify_representation_continuity(
+                prior_receipt=prior_receipt,
+                artifacts=artifacts,
+            )
 
         tcga_gene_coverage = self._gene_coverage("tcga-star-counts", star_identifiers)
         geo_gene_coverage = self._gene_coverage("gse96058-expression", geo_identifiers)
@@ -424,7 +441,7 @@ class FieldIsolatedMetadataAuditService:
         )
         return FieldIsolatedMetadataReceipt(
             schema_version="1.0.0",
-            audit_version="1.0.0",
+            audit_version=authorization.audit_version,
             study_id="NAS-BRCA-002",
             question_id="NAS-RQ-BRCA002",
             question_version="0.3.0",
@@ -434,6 +451,12 @@ class FieldIsolatedMetadataAuditService:
             authorization_sha256=sha256(authorization_bytes),
             authorization_packet_path=packet_path,
             authorization_packet_sha256=sha256(packet_bytes),
+            prior_receipt_path=prior_receipt_path,
+            prior_receipt_sha256=(
+                sha256(prior_receipt_bytes)
+                if prior_receipt_bytes is not None
+                else None
+            ),
             transient_field_isolated_access=True,
             prohibited_fields_transiently_transferred=True,
             patient_level_records_retained=False,
@@ -485,16 +508,56 @@ class FieldIsolatedMetadataAuditService:
         authorization: FieldIsolatedMetadataAuthorization,
         authorization_bytes: bytes,
         packet_bytes: bytes,
+        prior_receipt: FieldIsolatedMetadataReceipt | None,
+        prior_receipt_bytes: bytes | None,
     ) -> None:
         loaded = FieldIsolatedMetadataAuthorization.model_validate(
             json.loads(json.dumps(authorization.model_dump(mode="json")))
         )
-        if loaded.authorization_statement != AUTHORIZATION_STATEMENT:
+        expected_statement = {
+            "1.0.0": AUTHORIZATION_STATEMENT,
+            "1.0.1": AMENDMENT_AUTHORIZATION_STATEMENT,
+        }[loaded.audit_version]
+        if loaded.authorization_statement != expected_statement:
             raise PermissionError("exact field-isolated authorization is missing")
         if sha256(packet_bytes) != loaded.packet_sha256:
             raise PermissionError("authorization packet checksum mismatch")
         if sha256(authorization_bytes) == sha256(packet_bytes):
             raise PermissionError("confirmation must be separate from its review packet")
+        if loaded.audit_version == "1.0.1":
+            if prior_receipt is None or prior_receipt_bytes is None:
+                raise PermissionError("audit 1.0.1 requires its immutable prior receipt")
+            if prior_receipt.audit_version != "1.0.0":
+                raise PermissionError("audit 1.0.1 prior receipt has the wrong version")
+            if sha256(prior_receipt_bytes) != loaded.prior_receipt_sha256:
+                raise PermissionError("audit 1.0.1 prior receipt checksum mismatch")
+        elif prior_receipt is not None or prior_receipt_bytes is not None:
+            raise PermissionError("audit 1.0.0 cannot receive a prior receipt")
+
+    @staticmethod
+    def _verify_representation_continuity(
+        *,
+        prior_receipt: FieldIsolatedMetadataReceipt,
+        artifacts: list[SourceArtifactEvidence],
+    ) -> None:
+        prior = {
+            artifact.source_id: artifact.representation_sha256
+            for artifact in prior_receipt.artifacts
+        }
+        current = {
+            artifact.source_id: artifact.representation_sha256
+            for artifact in artifacts
+        }
+        if current != prior:
+            changed = sorted(
+                source_id
+                for source_id in set(prior) | set(current)
+                if prior.get(source_id) != current.get(source_id)
+            )
+            raise FieldIsolatedMetadataError(
+                "audit 1.0.1 source representations changed: "
+                + ", ".join(changed)
+            )
 
     def _manifest(
         self,
@@ -647,12 +710,17 @@ class FieldIsolatedMetadataAuditService:
 
     def _project_geo_family(
         self,
+        *,
+        audit_version: str,
     ) -> tuple[SourceArtifactEvidence, dict[str, GeoSampleRecord]]:
         self._validate_url(GEO_FAMILY_SOFT_URL)
         with self._transport.open_get(GEO_FAMILY_SOFT_URL) as response:
             self._checked_stream(response, context="GSE96058 family metadata")
             digest = DigestingReader(response.stream)
-            samples, permitted, rejected = self._parse_geo_family(digest)
+            samples, permitted, rejected = self._parse_geo_family(
+                digest,
+                audit_version=audit_version,
+            )
             digest.drain()
         return (
             SourceArtifactEvidence(
@@ -662,7 +730,11 @@ class FieldIsolatedMetadataAuditService:
                 filename=GEO_FAMILY_SOFT_URL.rsplit("/", 1)[-1],
                 representation_sha256=digest.hexdigest(),
                 representation_size_bytes=digest.size,
-                parser_name="geo-soft-field-allowlist-projection-v1",
+                parser_name=(
+                    "geo-soft-sample-title-projection-v2"
+                    if audit_version == "1.0.1"
+                    else "geo-soft-field-allowlist-projection-v1"
+                ),
                 raw_artifact_stored=False,
                 permitted_field_names=sorted(permitted),
                 rejected_field_names=sorted(rejected),
@@ -778,6 +850,8 @@ class FieldIsolatedMetadataAuditService:
     @staticmethod
     def _parse_geo_family(
         digest: DigestingReader,
+        *,
+        audit_version: str,
     ) -> tuple[dict[str, GeoSampleRecord], set[str], set[str]]:
         samples: dict[str, GeoSampleRecord] = {}
         permitted = {"sample accession"}
@@ -796,6 +870,21 @@ class FieldIsolatedMetadataAuditService:
                     current_accession = accession
                     samples.setdefault(accession, GeoSampleRecord())
                     continue
+                if raw_line.startswith(b"!Sample_title = "):
+                    if audit_version != "1.0.1":
+                        continue
+                    if current_accession is None:
+                        raise FieldIsolatedMetadataError(
+                            "GEO sample title appeared outside a sample record"
+                        )
+                    title = raw_line.split(b"=", 1)[1].strip().decode("ascii")
+                    if GEO_SAMPLE_TITLE.fullmatch(title) is None:
+                        raise FieldIsolatedMetadataError(
+                            "GEO sample title violates the approved F<number>[repl] contract"
+                        )
+                    samples[current_accession].title = title
+                    permitted.add("sample title")
+                    continue
                 if not raw_line.startswith(b"!Sample_characteristics_ch1 = "):
                     continue
                 payload = raw_line.split(b"=", 1)[1].strip()
@@ -810,8 +899,9 @@ class FieldIsolatedMetadataAuditService:
                     )
                 if key in GEO_RECEPTOR_FIELDS:
                     permitted.add(key)
-                    status = FieldIsolatedMetadataAuditService._status(
-                        value_bytes.decode("utf-8", errors="strict")
+                    status = FieldIsolatedMetadataAuditService._geo_status(
+                        value_bytes.decode("utf-8", errors="strict"),
+                        audit_version=audit_version,
                     )
                     if status is not None:
                         setattr(
@@ -831,7 +921,32 @@ class FieldIsolatedMetadataAuditService:
                     rejected.add(key)
         if not samples:
             raise FieldIsolatedMetadataError("GEO family projection returned no samples")
+        if audit_version == "1.0.1":
+            FieldIsolatedMetadataAuditService._classify_geo_titles(samples)
         return samples, permitted, rejected
+
+    @staticmethod
+    def _classify_geo_titles(samples: dict[str, GeoSampleRecord]) -> None:
+        titles = [record.title for record in samples.values()]
+        if any(title is None for title in titles):
+            raise FieldIsolatedMetadataError(
+                "audit 1.0.1 requires exactly one approved title per GEO sample"
+            )
+        materialized_titles = [title for title in titles if title is not None]
+        if len(materialized_titles) != len(set(materialized_titles)):
+            raise FieldIsolatedMetadataError("GEO sample titles must be unique")
+        primary_titles = {
+            title for title in materialized_titles if not title.endswith("repl")
+        }
+        for record in samples.values():
+            if record.title is None:
+                raise AssertionError("title completeness was checked above")
+            if record.title.endswith("repl"):
+                record.replicate_state = "technical_replicate"
+                record.replicate_linked = record.title.removesuffix("repl") in primary_titles
+            else:
+                record.replicate_state = "primary"
+                record.replicate_linked = False
 
     @staticmethod
     def _project_replicate_value(
@@ -855,6 +970,18 @@ class FieldIsolatedMetadataAuditService:
         if normalized in MISSING_STATUS_VALUES:
             return None
         return KNOWN_STATUS_VALUES.get(normalized, "other")
+
+    @staticmethod
+    def _geo_status(value: str, *, audit_version: str) -> str | None:
+        if audit_version == "1.0.0":
+            return FieldIsolatedMetadataAuditService._status(value)
+        normalized = value.strip().upper()
+        mapping = {"1": "positive", "0": "negative", "NA": None}
+        if normalized not in mapping:
+            raise FieldIsolatedMetadataError(
+                "GSE96058 receptor category violates the approved 0/1/NA contract"
+            )
+        return mapping[normalized]
 
     @staticmethod
     def _bounded_lines(stream: ByteReader) -> Iterator[bytes]:

@@ -32,14 +32,12 @@ class FieldIsolatedMetadataAuthorization(FieldIsolationModel):
     study_id: str = Field(pattern=r"^NAS-BRCA-002$")
     question_id: str = Field(pattern=r"^NAS-RQ-BRCA002$")
     question_version: str = Field(pattern=r"^0\.3\.0$")
-    audit_version: str = Field(pattern=r"^1\.0\.0$")
-    packet_filename: str = Field(
-        pattern=r"^FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_v1\.0\.0\.md$"
-    )
+    audit_version: str = Field(pattern=r"^1\.0\.[01]$")
+    packet_filename: str = Field(min_length=1)
     packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
-    authorization_statement: str = Field(
-        pattern=r"^I authorize field-isolated metadata audit 1\.0\.0 as written\.$"
-    )
+    prior_receipt_filename: str | None = None
+    prior_receipt_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
+    authorization_statement: str = Field(min_length=1)
     founder_id: str = Field(min_length=1)
     founder_name: str = Field(min_length=1)
     founder_role: str = Field(min_length=1)
@@ -68,6 +66,30 @@ class FieldIsolatedMetadataAuthorization(FieldIsolationModel):
         )
         if any(prohibited):
             raise ValueError("authorization exceeds the field-isolated Phase 0 boundary")
+        expected = {
+            "1.0.0": (
+                "FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_v1.0.0.md",
+                "I authorize field-isolated metadata audit 1.0.0 as written.",
+            ),
+            "1.0.1": (
+                "FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md",
+                "I authorize field-isolated metadata audit amendment 1.0.1 as written.",
+            ),
+        }
+        expected_packet, expected_statement = expected[self.audit_version]
+        if self.packet_filename != expected_packet:
+            raise ValueError("authorization packet filename does not match audit version")
+        if self.authorization_statement != expected_statement:
+            raise ValueError("authorization statement does not match audit version")
+        if self.audit_version == "1.0.1":
+            if (
+                self.prior_receipt_filename
+                != "field_isolated_metadata_receipt_v1.0.0.yaml"
+                or self.prior_receipt_sha256 is None
+            ):
+                raise ValueError("audit 1.0.1 must bind the immutable 1.0.0 receipt")
+        elif self.prior_receipt_filename is not None or self.prior_receipt_sha256 is not None:
+            raise ValueError("audit 1.0.0 cannot declare a prior receipt")
         return self
 
 
@@ -182,7 +204,7 @@ class FieldIsolationCheck(FieldIsolationModel):
 
 class FieldIsolatedMetadataReceipt(FieldIsolationModel):
     schema_version: str = Field(pattern=r"^1\.0\.0$")
-    audit_version: str = Field(pattern=r"^1\.0\.0$")
+    audit_version: str = Field(pattern=r"^1\.0\.[01]$")
     study_id: str = Field(pattern=r"^NAS-BRCA-002$")
     question_id: str = Field(pattern=r"^NAS-RQ-BRCA002$")
     question_version: str = Field(pattern=r"^0\.3\.0$")
@@ -192,6 +214,8 @@ class FieldIsolatedMetadataReceipt(FieldIsolationModel):
     authorization_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     authorization_packet_path: str = Field(min_length=1)
     authorization_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    prior_receipt_path: str | None = None
+    prior_receipt_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     transient_field_isolated_access: bool
     prohibited_fields_transiently_transferred: bool
     patient_level_records_retained: bool
@@ -230,6 +254,11 @@ class FieldIsolatedMetadataReceipt(FieldIsolationModel):
             check.status is not FieldIsolationStatus.VERIFIED for check in self.checks
         ):
             raise ValueError("a passing receipt cannot contain a nonverified check")
+        if self.audit_version == "1.0.1":
+            if self.prior_receipt_path is None or self.prior_receipt_sha256 is None:
+                raise ValueError("audit 1.0.1 must bind its prior immutable receipt")
+        elif self.prior_receipt_path is not None or self.prior_receipt_sha256 is not None:
+            raise ValueError("audit 1.0.0 cannot bind a prior receipt")
         return self
 
 
@@ -237,6 +266,12 @@ def load_field_isolated_metadata_authorization(
     path: Path,
 ) -> FieldIsolatedMetadataAuthorization:
     return FieldIsolatedMetadataAuthorization.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_field_isolated_metadata_receipt(path: Path) -> FieldIsolatedMetadataReceipt:
+    return FieldIsolatedMetadataReceipt.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

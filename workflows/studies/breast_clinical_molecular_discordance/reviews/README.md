@@ -14,8 +14,11 @@ classifier execution, or scientific conclusions.
 
 Executed audit `1.0.0` returned `changes_requested` because its approved GEO
 characteristic fields did not contain primary-versus-technical-replicate
-linkage. The proposed
+linkage. The
 [`FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md`](FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_v1.0.1.md)
-would permit only a validated, no-retention `!Sample_title` projection and
-source-specific `0`/`1` receptor category normalization. It is non-authoritative
-until the founder supplies its own exact confirmation.
+permits only a validated, no-retention `!Sample_title` projection and
+source-specific `0`/`1`/`NA` receptor category normalization. The founder supplied
+the exact checksum-bound authorization in
+[`FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_CONFIRMATION_v1.0.1.yaml`](FOUNDER_FIELD_ISOLATED_METADATA_AMENDMENT_CONFIRMATION_v1.0.1.yaml)
+on 2026-07-26. It does not authorize patient-level retention, molecular analysis,
+outcome access, cohort construction, classifier execution, or scientific conclusions.

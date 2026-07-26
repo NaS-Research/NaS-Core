@@ -82,6 +82,7 @@ from nas_core.domain.feasibility import (
 )
 from nas_core.domain.field_isolated_metadata import (
     load_field_isolated_metadata_authorization,
+    load_field_isolated_metadata_receipt,
     write_field_isolated_metadata_receipt,
     write_field_isolated_metadata_schema,
 )
@@ -291,6 +292,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         required=True,
         help="Checksum-bound founder field-isolated review packet",
+    )
+    field_isolated.add_argument(
+        "--prior-receipt",
+        type=Path,
+        help="Immutable audit 1.0.0 receipt required by amendment 1.0.1",
     )
     field_isolated.add_argument(
         "--software-revision",
@@ -1235,6 +1241,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         authorization_bytes = args.authorization.read_bytes()
         packet_bytes = args.packet.read_bytes()
+        field_prior_receipt_bytes = (
+            args.prior_receipt.read_bytes()
+            if args.prior_receipt is not None
+            else None
+        )
+        field_prior_receipt = (
+            load_field_isolated_metadata_receipt(args.prior_receipt)
+            if args.prior_receipt is not None
+            else None
+        )
         field_authorization = load_field_isolated_metadata_authorization(
             args.authorization
         )
@@ -1245,6 +1261,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             packet_path=str(args.packet),
             packet_bytes=packet_bytes,
             software_revision=args.software_revision,
+            prior_receipt=field_prior_receipt,
+            prior_receipt_path=(
+                str(args.prior_receipt) if args.prior_receipt is not None else None
+            ),
+            prior_receipt_bytes=field_prior_receipt_bytes,
         )
         write_field_isolated_metadata_receipt(args.output, field_isolated_receipt)
         print(
