@@ -70,6 +70,7 @@ APPRAISAL_DIRS = (
     LITERATURE / "revised-appraisals",
     LITERATURE / "citation-appraisals",
 )
+PASS2_PROPOSAL_DIR = LITERATURE / "citation-appraisal-proposals" / "batch-0009"
 ACTIVE_AMENDMENT = (
     LITERATURE / "evidence-cap-amendment-activation-v0.2.5.yaml"
 )
@@ -124,10 +125,19 @@ def _simulate_reconciliation(
     decision: CitationDecisionLedgerReceipt,
 ) -> CitationInclusionReconciliationReceipt:
     inventory = load_full_text_inventory(INVENTORY)
+    pass2_screening_ids = {
+        yaml.safe_load(path.read_text(encoding="utf-8"))["screening_id"]
+        for path in PASS2_PROPOSAL_DIR.glob("*.yaml")
+    }
     appraisal_paths = sorted(
         path for directory in APPRAISAL_DIRS for path in directory.glob("*.yaml")
     )
-    appraisals = [load_full_text_appraisal(path) for path in appraisal_paths]
+    appraisals = [
+        appraisal
+        for path in appraisal_paths
+        if (appraisal := load_full_text_appraisal(path)).screening_id
+        not in pass2_screening_ids
+    ]
     return CitationInclusionReconciliationService(store=store).reconcile(
         decision,
         inventory,
@@ -193,7 +203,7 @@ def test_pass2_confirmation_path_reproduces_ledger_without_external_persistence(
     assert store.exists(receipt.ledger_object.object_key)
 
 
-def test_pass2_proposed_inclusions_reconcile_against_all_locked_evidence() -> None:
+def test_pass2_inclusions_reproduce_historical_pre_appraisal_boundary() -> None:
     store = InMemoryObjectStore()
     decision = _simulate_confirmation(store)
     receipt = _simulate_reconciliation(store, decision)

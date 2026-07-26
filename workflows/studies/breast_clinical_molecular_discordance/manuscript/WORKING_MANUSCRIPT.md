@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.40.0-working`
+Manuscript version: `0.41.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -217,18 +217,18 @@ that same route, Europe PMC has no repository copy, and the credential-free
 Elsevier API returns metadata only. It is now recorded as access-restricted for
 governed appraisal despite the permissive license. No challenge was bypassed,
 third-party copy retained, or appraisal inferred from its abstract.
-The founder authorized all eight checksum-bound citation appraisal batches.
-Twenty-five citation-pass full texts are complete: seven are `supporting`, 18 are
-`context_only`, four are access-restricted, and none remain ready or awaiting full
-text. These counts are workflow results, not scientific findings. The locked
+The founder authorized all nine checksum-bound citation appraisal batches.
+Thirty citation-pass full texts are complete: seven are `supporting`, 23 are
+`context_only`, eight are access-restricted, and none remain ready or awaiting
+full text. These counts are workflow results, not scientific findings. The locked
 appraisals retain the exact proposal, packet, confirmation, access-receipt, and,
 where needed, stable appraisal-source checksums. The medRxiv analytical bridge and
 UNC genomic-versus-pathology comparison were reviewed through bounded zero-storage
 gates that reverified their source checksums and rejected long verbatim passages.
-Receipt-derived closure `3f7037ca…d9676`, executed from frozen revision `8c94614`,
-then independently reverified the entire pass lineage and closed pass 1. The bound
-identity-level review state is 62 eligible, 56 appraisal-complete, six access-
-restricted, and zero pending. The 32 pass-1 additions reset rather than advance the
+Receipt-derived closures independently reverified the complete lineage for pass 1
+(`3f7037ca…d9676`) and pass 2 (`995b8b3f…f6f9a7`). The bound identity-level review
+state is 71 eligible, 61 appraisal-complete, 10 access-restricted, and zero
+pending. Both passes added evidence and therefore reset rather than advance the
 required two-consecutive-zero-pass stopping rule.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
@@ -243,16 +243,35 @@ Citation pass 2 used all 62 founder-included persistent identities from the
 direct search and pass 1. Official Europe PMC retrieval returned 2,053 backward
 and 8,163 forward links, yielding 7,135 unique non-seed candidates. Exact
 reconciliation against the direct-search inventory, the complete pass-1 founder
-ledger, and within-pass duplicates left 2,479 genuinely new records. Advisory
-screening and a separate adjudication stage now propose nine inclusions and 2,470
-exclusions with zero unclear. Both checksum-bound packets remain nondecisional;
-no pass-2 founder decision or scientific conclusion has been recorded.
+ledger, and within-pass duplicates left 2,479 genuinely new records. The founder
+confirmed nine inclusions and 2,470 exclusions with zero unclear. Five official
+full texts were appraised and locked as `context_only`; four additional inclusions
+are access-restricted. Pass-2 closure added all nine identities with no pending
+record and no scientific conclusion.
 [citation-chain/pass-0002-seeds.yaml;
 citation-chain/pass-0002-retrieval.yaml;
 citation-chain/pass-0002-screening-preparation.yaml;
 citation-chain/pass-0002-recommendations.yaml;
 citation-chain/pass-0002-unclear-adjudication.yaml;
 FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md]
+
+The pass-2 appraisal set adds convergent but indirect reliability context. NTP
+defines per-sample confidence without a receiving-cohort training set; paired
+paraffin and frozen breast tissue shows that preservation and normalization alter
+expression comparability; ovarian miRNA rank pairs and targeted PurIST validation
+show that within-sample rules can be operationally portable while retaining
+population, platform, comparator, and clinical-utility limits; and multiregional
+colorectal transcriptomics illustrates spatial subtype discordance and
+primary-metastasis plasticity. All five reports are `context_only`. They constrain
+engineering and validation claims but do not validate PAM50 correctness, a NaS
+reliability threshold, or patient treatment benefit.
+[FOUNDER_CITATION_APPRAISAL_BATCH_0009_CONFIRMATION_v1.0.0.yaml;
+citation-chain/pass-0002-closure.yaml;
+citation-appraisals/PMC2990751-v1.0.0.yaml;
+citation-appraisals/PMC3037966-v1.0.0.yaml;
+citation-appraisals/PMC9378834-v1.0.0.yaml;
+citation-appraisals/PMC11524322-v1.0.0.yaml;
+citation-appraisals/PPR723583-v1.0.0.yaml]
 
 The first citation appraisal batch adds a deliberately bounded contrast. A paired
 triple-negative series reported 92.7% raw RNA-seq/NanoString subtype agreement,
@@ -1030,7 +1049,7 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 53 locked appraisal reports, covering 56 eligible evidence identities after
+The 58 locked appraisal reports, covering 61 eligible evidence identities after
 three exact prior-appraisal reuses, show that the broad problem is established:
 PAM50 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
@@ -1039,10 +1058,10 @@ single-sample execution, recurrence-risk stratification, group-level prognostic
 separation, runner-up margins, perturbation-stability labeling, multi-method
 comparison, discordance entropy, empirical permutation confidence, explicit
 Ambiguous or Not Assigned states, direct commercial-assay discordance, and
-technical-versus-spatial repeatability differences. The new batch additionally
-shows that explicit ambiguous/unclassifiable states, cohort-adaptive attempts to
-increase clinical concordance, and continuous whole-transcriptome subtype-purity
-scores are prior art. A defensible NaS contribution cannot therefore be merely a
+technical-versus-spatial repeatability differences. The latest batch additionally
+adds permutation confidence, preservation-dependent expression comparability,
+rank-pair portability, targeted assay bridging, and spatial subtype heterogeneity
+as prior art. A defensible NaS contribution cannot therefore be merely a
 classifier, risk predictor, margin, perturbation experiment, ensemble-disagreement
 score, uncertainty test, abstention label, or cohort-derived purity score. It
 would need to reproduce a fixed classifier unchanged, calibrate perturbations
@@ -1058,11 +1077,11 @@ novelty conclusion.
 
 Status: `working`
 
-- Primary and citation-pass-1 title-and-abstract screening are complete. Fifty-three
-  appraisal reports representing 52 unique studies are complete across the direct
-  and citation sets. Pass 1 has 29 net-new records in an authorized governed queue:
-  25 are founder-locked, four are access-restricted, and zero remain ready or await
-  full text; sequential citation chaining is incomplete.
+- Primary screening and citation passes 1–2 are complete. Fifty-eight appraisal
+  reports are locked across the direct and citation sets. Pass 2 contributed five
+  appraisals and four access restrictions, with zero records ready or awaiting full
+  text; sequential citation chaining remains incomplete because neither completed
+  pass was zero-yield.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -1175,7 +1194,7 @@ checks, and internal reviews are complete.
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
-| Methods—citation pass 2 | Cumulative retrieval and advisory screening | `citation-chain/pass-0002-seeds.yaml`; `citation-chain/pass-0002-retrieval.yaml`; `citation-chain/pass-0002-screening-preparation.yaml`; `FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md` | 2,479 new candidates; 9 include and 2,470 exclude recommendations; founder confirmation pending |
+| Methods—citation pass 2 | Cumulative retrieval, founder screening, lawful access, appraisal, and closure | `citation-chain/pass-0002-decision-ledger.yaml`; `citation-pass-0002-full-text/appraisal-progress-v1.0.0.yaml`; `citation-chain/pass-0002-closure.yaml` | pass closed; 9 eligible identities added; 5 context only, 4 restricted |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
 | Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 25 materialized, 0 ready, 4 restricted, 0 unresolved full texts |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
@@ -1186,7 +1205,8 @@ checks, and internal reviews are complete.
 | Results—citation appraisal batch 0006 | Founder-authorized AI-assisted publisher-PDF appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0006_CONFIRMATION_v1.0.0.yaml`; two files in `citation-appraisals/` | 2 context only |
 | Results—citation appraisal batch 0007 | Founder-authorized AI-assisted canonical-source appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0007_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | 3 context only |
 | Results—citation appraisal batch 0008 | Founder-authorized AI-assisted canonical and durable-source appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0008_CONFIRMATION_v1.0.0.yaml`; five files in `citation-appraisals/` | 5 context only; mFISHseq pair counts once |
-| Results—mFISHseq publication-version link | Founder-authorized same-study decision | `citation-version-links/PMC10723508-to-PMC11696812-v1.0.0.yaml`; `citation-publication-version-reconciliation-v1.0.0.yaml` | materialized; 53 reports reconcile to 52 unique studies |
+| Results—citation appraisal batch 0009 | Founder-authorized AI-assisted canonical-source appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0009_CONFIRMATION_v1.0.0.yaml`; five files in `citation-appraisals/` | 5 context only |
+| Results—mFISHseq publication-version link | Founder-authorized same-study decision | `citation-version-links/PMC10723508-to-PMC11696812-v1.0.0.yaml`; `citation-publication-version-reconciliation-v1.0.0.yaml` | materialized; the linked pair counts as one study |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -1224,6 +1244,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.41.0-working | 2026-07-26 | Founder-authorized citation appraisal batch 0009, locked five context-only appraisals, formally accounted for four restrictions, closed citation pass 2, and updated the evidence state to 71 eligible, 61 appraisal-complete, 10 restricted, and zero pending. |
 | 0.40.0-working | 2026-07-26 | Added synthetic batch execution as independent single-sample composition, with duplicate-identity rejection, ordered batch provenance, and tests proving that companion fixtures and batch order cannot change an individual result. |
 | 0.39.0-working | 2026-07-26 | Extended synthetic-only method validation to explicit seed-bound technical-error panels with stable provenance hashes, family-level accounting, label-changing instability tests, and fail-closed invalid-run abstention; no empirical error model was approved. |
 | 0.38.0-working | 2026-07-26 | Added the synthetic-only single-sample reliability kernel: exact-panel validation, alias handling, five-centroid Spearman scoring, top/runner-up margin, 50 leave-one-gene-out runs, explicit failure states, and abstention; no real method artifact, threshold, molecular access, or result was authorized. |

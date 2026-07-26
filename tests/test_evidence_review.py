@@ -2,6 +2,7 @@ import json
 import re
 from copy import deepcopy
 from pathlib import Path
+from typing import Any
 
 import pytest
 import yaml
@@ -31,13 +32,13 @@ PRIORITY_PACKET_PATH = (
 )
 
 
-def load_progress_payload() -> dict[str, object]:
+def load_progress_payload() -> dict[str, Any]:
     payload = yaml.safe_load(PROGRESS_PATH.read_text(encoding="utf-8"))
     assert isinstance(payload, dict)
     return payload
 
 
-def load_priority_payload() -> dict[str, object]:
+def load_priority_payload() -> dict[str, Any]:
     payload = yaml.safe_load(PRIORITY_PATH.read_text(encoding="utf-8"))
     assert isinstance(payload, dict)
     return payload
@@ -96,17 +97,22 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
         "literature/revised-screening-progress/batch-0002.yaml"
     )
     assert progress.primary_screening_complete is True
-    assert progress.eligible_evidence_count == 62
-    assert progress.completed_appraisal_count == 56
-    assert progress.access_restricted_count == 6
+    assert progress.eligible_evidence_count == 71
+    assert progress.completed_appraisal_count == 61
+    assert progress.access_restricted_count == 10
     assert progress.pending_candidate_count == 0
     assert progress.uncapped_saturation_inventory_active is True
     assert progress.core_synthesis_maximum == 30
-    assert len(progress.citation_passes) == 1
+    assert len(progress.citation_passes) == 2
     assert len(progress.citation_passes[0].new_eligible_evidence_ids) == 32
     assert (
         progress.citation_passes[0].closure_id
         == "3f7037cada1872601b75a79a1d13a831c7f7a57c5543038a3e0e3c5803cd9676"
+    )
+    assert len(progress.citation_passes[1].new_eligible_evidence_ids) == 9
+    assert (
+        progress.citation_passes[1].closure_id
+        == "995b8b3f93410642ef508366eccad225e3c3c8003867e1988d3cb89513f6f9a7"
     )
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False
@@ -172,8 +178,8 @@ def test_priority_set_cannot_make_autonomous_decisions() -> None:
 
 def test_final_candidate_state_requires_founder_decision() -> None:
     payload = load_priority_payload()
-    candidates = payload["candidates"]  # type: ignore[assignment]
-    candidates[0]["founder_decision_recorded"] = False  # type: ignore[index]
+    candidates = payload["candidates"]
+    candidates[0]["founder_decision_recorded"] = False
 
     with pytest.raises(ValidationError, match="founder decision"):
         PriorityEvidenceSet.model_validate(payload)
@@ -181,8 +187,8 @@ def test_final_candidate_state_requires_founder_decision() -> None:
 
 def test_reappraisal_candidate_requires_prior_artifact() -> None:
     payload = load_priority_payload()
-    candidates = payload["candidates"]  # type: ignore[assignment]
-    candidate = candidates[0]  # type: ignore[index]
+    candidates = payload["candidates"]
+    candidate = candidates[0]
     candidate["review_state"] = "pending_reappraisal"
     candidate["founder_decision_recorded"] = False
     candidate["prior_artifact"] = None
@@ -324,12 +330,14 @@ def test_trailing_planned_pass_prevents_stopping_rule() -> None:
 def test_loader_rejects_progress_that_disagrees_with_closure(tmp_path: Path) -> None:
     progress_payload = load_progress_payload()
     progress_payload["citation_passes"][0]["backward_candidate_count"] = 980
-    progress_payload["citation_passes"][0]["closure_receipt_path"] = str(
-        STUDY_ROOT
-        / "literature"
-        / "citation-chain"
-        / "pass-0001-closure.yaml"
-    )
+    for citation_pass in progress_payload["citation_passes"]:
+        pass_number = citation_pass["pass_number"]
+        citation_pass["closure_receipt_path"] = str(
+            STUDY_ROOT
+            / "literature"
+            / "citation-chain"
+            / f"pass-{pass_number:04d}-closure.yaml"
+        )
     mismatched_path = tmp_path / "progress.yaml"
     mismatched_path.write_text(
         yaml.safe_dump(progress_payload, sort_keys=False),
@@ -343,12 +351,14 @@ def test_loader_rejects_progress_that_disagrees_with_closure(tmp_path: Path) -> 
 def test_priority_and_progress_versions_must_match(tmp_path: Path) -> None:
     progress_payload = load_progress_payload()
     progress_payload["priority_set_version"] = "9.9.9"
-    progress_payload["citation_passes"][0]["closure_receipt_path"] = str(
-        STUDY_ROOT
-        / "literature"
-        / "citation-chain"
-        / "pass-0001-closure.yaml"
-    )
+    for citation_pass in progress_payload["citation_passes"]:
+        pass_number = citation_pass["pass_number"]
+        citation_pass["closure_receipt_path"] = str(
+            STUDY_ROOT
+            / "literature"
+            / "citation-chain"
+            / f"pass-{pass_number:04d}-closure.yaml"
+        )
     mismatched_path = tmp_path / "progress.yaml"
     mismatched_path.write_text(
         yaml.safe_dump(progress_payload, sort_keys=False),

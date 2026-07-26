@@ -23,12 +23,14 @@ Four publisher-only records have typed restriction decisions. Two are
 purchase- or license-restricted, while two declare CC BY 4.0 but lack a
 credential-free, checksum-verifiable official delivery route.
 
-Five bounded, anti-copy-validated appraisal proposals are frozen in citation
-appraisal batch `0009`, all with a proposed `context_only` role. The current gate
-is founder review of
-`FOUNDER_CITATION_APPRAISAL_BATCH_0009_v1.0.0.md` using the exact statement
-`I confirm citation appraisal batch 0009 as written.` No proposal is a locked
-appraisal, scientific conclusion, novelty claim, or clinical recommendation.
+The founder confirmed citation appraisal batch `0009`. All five accessible
+pass-2 studies are locked as `context_only`; four additional inclusions remain
+formally access-restricted. Receipt-derived closure `995b8b3f…f6f9a7`
+independently verified the complete pass and added nine eligible identities.
+The bound review state is now 71 eligible, 61 appraisal-complete, 10
+access-restricted, and zero pending. Because pass 2 added evidence, the
+consecutive-zero stopping count remains zero. The next evidence-review action is
+cumulative citation pass 3 using all 71 founder-included identities.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -45,10 +47,10 @@ and appraisal progress before deriving new eligible evidence IDs. Pass 1 is now
 materially closed from frozen revision `8c94614` under immutable closure
 `3f7037ca…d9676`. It reconciles 4,628 unique citation records, 4,495 founder
 decisions, 32 inclusions, three exact appraisal reuses, 25 completed appraisals,
-four access restrictions, and 32 new eligible evidence records. The bound
-identity-level evidence state is 62 eligible, 56 appraisal-complete, six
-access-restricted, and zero pending. Because pass 1 added evidence, the
-consecutive-zero stopping count remains zero.
+four access restrictions, and 32 new eligible evidence records. After pass 2,
+the bound identity-level evidence state is 71 eligible, 61 appraisal-complete,
+10 access-restricted, and zero pending. Both completed passes added evidence, so
+the consecutive-zero stopping count remains zero.
 
 The proposed analytical contract now has an executable synthetic-only kernel.
 It accepts only `SYNTHETIC-*` identifiers; validates the exact historical
@@ -396,6 +398,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-26 — Citation appraisal batch 0009 authorized and pass 2 closed
+
+Recorded the founder's exact checksum-bound confirmation, materialized five
+AI-assisted locked appraisals, and reconciled them with four typed access
+restrictions. All five appraised studies are `context_only`; none is an anchor,
+scientific conclusion, novelty finding, or clinical recommendation.
+
+Executed fail-closed pass-2 closure from committed revision `2bac508`. Closure
+`995b8b3f…f6f9a7` verifies all retrieval, screening, founder-decision,
+reconciliation, access, and appraisal inputs and adds nine eligible identities.
+Aggregate evidence progress now reports 71 eligible, 61 complete, 10 restricted,
+zero pending, and a zero consecutive-zero-pass count.
 
 ### 2026-07-26 — Citation pass 2 decisions and access audit materialized
 

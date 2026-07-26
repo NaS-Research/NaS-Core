@@ -72,10 +72,10 @@ Exact-identifier reconciliation against the active inventory and all locked
 appraisals classified the nine inclusions as net new. Access review accounts for
 all nine: five official sources were reviewed ephemerally with canonical
 checksums and zero retained article bytes, and four publisher-only records have
-typed restriction decisions. The five accessible studies are represented in
-checksum-bound appraisal batch `0009`, all proposed as `context_only`. They remain
-non-authoritative until the founder supplies the exact batch-0009 confirmation
-statement.
+typed restriction decisions. The founder confirmed checksum-bound appraisal
+batch `0009`; all five accessible studies are locked as `context_only`.
+Receipt-derived closure `995b8b3f…f6f9a7` adds all nine eligible identities and
+proves complete appraisal accounting.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
@@ -93,12 +93,11 @@ inventory, and final appraisal progress. Unresolved full-text or appraisal work
 prevents closure. Pass 1 was materially closed from frozen revision `8c94614`
 under closure `3f7037ca…d9676`. It reconciles 4,628 unique records, 4,495
 founder-screened records, 32 inclusions, three prior-appraisal reuses, 25 completed
-appraisals, four access restrictions, and 32 new eligible identities. The bound
-review state now contains 62 eligible identities, 56 appraisal-complete identities,
-six access-restricted identities, and zero pending. Because the pass added evidence,
-the consecutive-zero stopping count remains zero.
-evidence records. Pass 1 therefore resets rather than advances the two-zero-pass
-stopping counter.
+appraisals, four access restrictions, and 32 new eligible identities. After pass
+2, the bound review state contains 71 eligible identities, 61 appraisal-complete
+identities, 10 access-restricted identities, and zero pending. Because both
+completed passes added evidence, the consecutive-zero stopping count remains
+zero.
 
 Transparent title prioritization version `1.0.1` ranks—but does not decide—all
 4,495 candidates: 80 direct, 400 supporting, and 4,015 context. Full official
