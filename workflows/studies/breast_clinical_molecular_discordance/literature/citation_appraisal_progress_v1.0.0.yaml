@@ -2,10 +2,10 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
 progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
-generated_at: '2026-07-26T01:52:00.265763Z'
+generated_at: '2026-07-26T02:05:56.758297Z'
 provisional_inclusion_count: 29
 full_texts_retrieved: 15
-read_only_full_texts_reviewed: 8
+read_only_full_texts_reviewed: 9
 appraisals_completed: 3
 access_restricted_count: 0
 duplicate_resolved_count: 0
@@ -194,5 +194,7 @@ records:
 - screening_id: 09dcf1ec6b23a4c970b86dd3e3957ca742f02cac9b02196b9722686583978e11
   title: "Bridging and analytical validation of the Prosigna  <sup>\xAE</sup>  Breast Risk of Recurrence\
     \ Test as a whole-transcriptome NGS lab developed test"
-  status: awaiting_full_text
+  status: ready_for_appraisal
+  read_only_review_id: 957bdbe4b125e17625f6fe57cb6a53a0a398817626949e29941eb3df2e76344b
+  full_text_sha256: 47b4a207278aa19e0f19532dc47cb7e197d9e176b45001ee2761abb99ceb7576
 scientific_conclusions_drawn: false

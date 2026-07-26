@@ -26,15 +26,18 @@ net-new records. Founder-approved amendment `0.2.5` is active. Official Europe P
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
 repository candidates. The founder confirmed checksum-bound appraisal batch 0001.
 Bounded title normalization subsequently resolved two exact-ID, CC BY 4.0 records.
-Eight additional PMC-hosted articles now have verified ephemeral-review receipts
-with zero article bytes stored; seven have explicit durable-storage restrictions.
-Citation progress now has three completed `context_only` appraisals, 20 records
-ready for appraisal, and six awaiting governed access resolution. Batch 0002
+Eight additional PMC-hosted articles and one version-specific medRxiv preprint now
+have verified ephemeral-review receipts with zero article bytes stored; eight have
+explicit durable-storage restrictions. Citation progress now has three completed
+`context_only` appraisals, 21 records ready for appraisal, and five awaiting
+governed publisher access resolution. Batch 0002
 contains four validated single-sample/classifier proposals bound to packet
 SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
 ledger. Batch 0003 contains the remaining six verified full texts and is frozen
 for founder review; it likewise remains outside the evidence ledger until exact
-confirmation.
+confirmation. Batch 0004 contains the CC BY-NC medRxiv version-2 analytical
+bridging preprint under packet SHA-256 `b03ea215…d7eda`; it is proposed as
+`supporting` and remains non-authoritative pending exact founder confirmation.
 
 Definition of done:
 
@@ -248,46 +251,63 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Resolve the 16-record governed access-check queue through exact identity,
-   publisher/repository rights, and read-only-versus-restricted decisions.
-2. Appraise the remaining ten verified CC BY citation studies, prioritizing direct
-   single-sample, normalization, perturbation, and external-transport evidence.
-3. Appraise every additionally accessible methodological or external-transport study,
+1. Obtain separate exact founder decisions for citation appraisal batches 0002,
+   0003, and 0004; materialize only the batches explicitly confirmed.
+2. Resolve the five remaining publisher-controlled records through exact identity,
+   publisher rights, and read-only-versus-restricted decisions.
+3. Appraise the remaining verified read-only and durable full texts, prioritizing
+   direct single-sample, normalization, perturbation, and external-transport evidence.
+4. Appraise every additionally accessible methodological or external-transport study,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
-4. Update the living manuscript and its evidence-to-text ledger after every material
+5. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-5. Resolve and approve the exact centroid and external-reference artifacts,
+6. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-6. Define an independently calibrated technical-error model and lock the margin
+7. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-7. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+8. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-8. Complete the founder scientific/product, molecular/pathology, and statistical
+9. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-9. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+10. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-10. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+11. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-11. Implement persisted evidence claims, citations, provenance, contradictory
+12. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-12. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+13. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-13. Expand the screening model gateway into general evidence reasoning with
+14. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-14. Build evaluation suites for retrieval, citation validity, numerical
+15. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-15. Generate an immutable research release containing the protocol, dataset
+16. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-16. Generate a reviewable white-paper draft whose substantive claims trace to
+17. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-17. Build the internal workbench for projects, protocols, datasets, runs,
+18. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-18. Complete repeated internal oncology pilots before selecting the first
+19. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — medRxiv preprint access and appraisal packet verified
+
+Implemented a source-specific medRxiv no-storage verifier with exact HTTPS host,
+DOI-in-path, version, title, rights, and content checks. The verifier uses the
+official `.full.txt` representation because repeated tests proved its checksum is
+stable; dynamic HTML was explicitly rejected as an appraisal-binding artifact.
+
+Version 2 of `PPR1259744` produced reproducible content SHA-256
+`47b4a207…7576`, with 70,291 bytes reviewed in memory and zero article bytes
+stored. A CC BY-NC durable-storage restriction is recorded. Batch 0004 proposes
+the preprint as `supporting` analytical-bridging evidence while preserving its
+preprint status, sponsor interest, proprietary data, and incomplete artifact
+availability as limitations. Reconciled citation progress is three completed,
+21 ready for appraisal, and five awaiting publisher resolution.
 
 ### 2026-07-25 — Eight PMC records cleared for no-storage appraisal
 

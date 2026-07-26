@@ -203,11 +203,11 @@ def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
         )
     )
     assert progress.full_texts_retrieved == 15
-    assert progress.read_only_full_texts_reviewed == 8
+    assert progress.read_only_full_texts_reviewed == 9
     assert progress.appraisals_completed == 3
     assert progress.context_only_count == 3
-    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 20
-    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 6
+    assert sum(item.status == "ready_for_appraisal" for item in progress.records) == 21
+    assert sum(item.status == "awaiting_full_text" for item in progress.records) == 5
     read_only_receipts = [
         FullTextReadOnlyReviewReceipt.model_validate(yaml.safe_load(path.read_text()))
         for path in sorted(
@@ -218,7 +218,7 @@ def test_checked_in_repository_batch_and_access_queue_reconcile() -> None:
         FullTextAccessDecision.model_validate(yaml.safe_load(path.read_text()))
         for path in sorted((CITATION_FULL_TEXT / "access-decisions").glob("*.yaml"))
     ]
-    assert len(read_only_receipts) == 8
-    assert len(access_decisions) == 7
+    assert len(read_only_receipts) == 9
+    assert len(access_decisions) == 8
     assert all(not item.durable_full_text_stored for item in read_only_receipts)
     assert all(not item.durable_full_text_stored for item in access_decisions)

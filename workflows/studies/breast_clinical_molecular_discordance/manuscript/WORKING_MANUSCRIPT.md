@@ -951,10 +951,11 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 20 ready, 6 pending access |
+| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 21 ready, 5 pending access |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
 | Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
+| Pending—citation appraisal batch 0004 | AI-assisted preprint appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0004_v1.0.0.md`; `citation-appraisal-proposals/batch-0004/PPR1259744-v1.0.0.yaml` | non-authoritative, founder review required |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -992,6 +993,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.22.0-working | 2026-07-25 | Added a reproducible medRxiv version-2 no-storage receipt, CC BY-NC durable-storage restriction, and non-authoritative batch-0004 appraisal proposal; citation state is 3 appraised, 21 ready, and 5 pending access. |
 | 0.21.0-working | 2026-07-25 | Added eight verified PMC no-storage review receipts and seven durable-storage restrictions; citation state is 3 appraised, 20 ready, and 6 pending access. |
 | 0.20.0-working | 2026-07-25 | Repaired two exact-ID Unicode-dash title mismatches, retrieved both CC BY 4.0 full texts, and materialized batch-0001 locked appraisals; citation state is 3 appraised, 12 ready, and 14 pending access. |
 | 0.19.0-working | 2026-07-25 | Recorded non-authoritative batch 0002 and batch 0003 appraisal proposals; evidence synthesis and completed-appraisal counts remain unchanged pending exact founder authorization. |

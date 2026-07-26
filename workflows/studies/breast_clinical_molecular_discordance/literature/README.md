@@ -106,11 +106,14 @@ review in that immutable initial queue. A bounded dash-typography repair later
 resolved `PMC7299291` and `PMC11265146` under exact PMCID, PMID, and DOI agreement;
 both CC BY 4.0 articles were retrieved and verified. Current reconciled
 `citation_appraisal_progress_v1.0.0.yaml` records three completed appraisals,
-20 ready for appraisal, and six awaiting full text. The increase follows eight
+21 ready for appraisal, and five awaiting full text. The increase follows eight
 verified PMC ephemeral reviews: the exact HTML bytes were hashed in memory, no
 article content was stored, and seven non-commercial or publisher-reserved items
 have explicit durable-storage restriction decisions. `PMC10147771` declares CC BY
-4.0 but used the no-storage route because repository XML was unavailable.
+4.0 but used the no-storage route because repository XML was unavailable. The
+version-2 `PPR1259744` medRxiv preprint was separately verified against its stable
+official `.full.txt` representation (SHA-256 `47b4a207…7576`), reviewed with zero
+durable article bytes, and restricted from the reusable corpus under CC BY-NC 4.0.
 
 Citation appraisal batch 0001 covers three direct studies: `PMC11217366`,
 `PMC6547580`, and `PMC3487945`. The founder supplied the exact confirmation bound
@@ -146,6 +149,15 @@ tests cover the real batch-0002 and batch-0003 bytes without recording a founder
 decision. Only a separate exact founder confirmation artifact can cross this gate.
 The three batch-0001 locked appraisals are materialized in
 `citation-appraisals/`; the proposal files remain unchanged and non-authoritative.
+
+Citation appraisal batch 0004 proposes the `PPR1259744` Prosigna
+nCounter-to-whole-transcriptome-NGS analytical bridge as `supporting`. The packet
+is bound to SHA-256 `b03ea215…d7eda` and the proposal to
+`2bc1b32d…c93f3`. The proposal records the separated bridge and validation
+cohorts, paired comparator, prespecified analytical criteria, archival testing,
+preprint status, Veracyte funding, proprietary data, and incomplete public
+calibration artifact. It remains non-authoritative until the founder separately
+confirms batch 0004 exactly.
 
 Required artifacts:
 
