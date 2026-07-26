@@ -1,0 +1,19 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 6e71578597a0700e630b89ee2b7c6aab3ff0807ff760a869864071f6b62903eb
+pmid: '31435878'
+doi: 10.1007/s12094-019-02203-x
+title: Standardized versus research-based PAM50 intrinsic subtyping of breast cancer.
+source_url: https://link.springer.com/article/10.1007/s12094-019-02203-x
+observed_license: Springer Nature publisher copyright; subscription preview and purchase-only full text.
+license_url: https://link.springer.com/article/10.1007/s12094-019-02203-x
+outcome: restricted
+policy_reason: >-
+  The official publisher page identifies the article as subscription content
+  and offers paid PDF access without a reusable open license. No paywall was
+  bypassed, no full text was stored, and no appraisal or scientific conclusion
+  may be inferred from the preview.
+checked_at: 2026-07-26T02:26:40Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

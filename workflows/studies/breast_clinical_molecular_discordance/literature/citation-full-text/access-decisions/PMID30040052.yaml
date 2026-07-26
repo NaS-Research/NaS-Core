@@ -1,0 +1,20 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 77cd45b21d9039a053fbe1876c53efded277771111ae89f209e233de8ecdc6fe
+pmid: '30040052'
+doi: 10.1148/radiol.2018171118
+title: 'Receptor-based Surrogate Subtypes and Discrepancies with Breast Cancer Intrinsic Subtypes: Implications
+  for Image Biomarker Development.'
+source_url: https://pubs.rsna.org/doi/10.1148/radiol.2018171118
+observed_license: RSNA publisher copyright; full text requires purchase or subscription.
+license_url: https://pubs.rsna.org/doi/10.1148/radiol.2018171118
+outcome: restricted
+policy_reason: >-
+  The official RSNA page offers purchase or subscription access and does not
+  declare a reusable open license. No paywall was bypassed, no full text was
+  stored, and the abstract cannot support a quality appraisal or scientific
+  conclusion.
+checked_at: 2026-07-26T02:26:40Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

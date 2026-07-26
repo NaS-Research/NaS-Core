@@ -2,12 +2,12 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
 progress_id: 0a6d4893abac2103704ff9ee81f0a0aa6e64bac247d0f33592ed66dbd4b580b4
-generated_at: '2026-07-26T02:05:56.758297Z'
+generated_at: '2026-07-26T02:28:00.933681Z'
 provisional_inclusion_count: 29
 full_texts_retrieved: 15
-read_only_full_texts_reviewed: 9
+read_only_full_texts_reviewed: 10
 appraisals_completed: 3
-access_restricted_count: 0
+access_restricted_count: 3
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
@@ -47,7 +47,9 @@ records:
 - screening_id: 630314e3504ea43f55fbbf4a9b13d36cd24bacb736f44ba8f0ce712802ea34be
   title: 'Assignment of tumor subtype by genomic testing and pathologic-based approximations: implications
     on patient''s management and therapy selection.'
-  status: awaiting_full_text
+  status: ready_for_appraisal
+  read_only_review_id: 2f386b9c2da81cb5ee912a8c20e322cab70594a8b5f24f3f99e9c2a8854f8f30
+  full_text_sha256: 5ffda15140cd4ecd7b7d49626a06964c007d7bd1b626a392e39d1e2e9255805a
 - screening_id: 0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a
   title: Development and verification of the PAM50-based Prosigna breast cancer gene signature assay.
   pmcid: PMC4546262
@@ -71,11 +73,13 @@ records:
 - screening_id: 91d111ceabb0aba006b39083ad8442818920e0c585a97e76a5804286a2997394
   title: "Denaturing fixatives are compatible with the NanoString nCounter<sup>\xAE</sup> platform and\
     \ the Prosigna<sup>\xAE</sup> assay."
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: Elsevier publisher copyright; no open full-text or reusable license verified.
 - screening_id: 77cd45b21d9039a053fbe1876c53efded277771111ae89f209e233de8ecdc6fe
   title: 'Receptor-based Surrogate Subtypes and Discrepancies with Breast Cancer Intrinsic Subtypes: Implications
     for Image Biomarker Development.'
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: RSNA publisher copyright; full text requires purchase or subscription.
 - screening_id: 4abea96b841f9e86c6903d6e12f03f105e572434ac83009e70b81a8bcfa2bfca
   title: 'Discordance of the PAM50 Intrinsic Subtypes Compared with Immunohistochemistry-Based Surrogate
     in Breast Cancer Patients: Potential Implication of Genomic Alterations of Discordance.'
@@ -107,7 +111,8 @@ records:
   evidence_role: context_only
 - screening_id: 6e71578597a0700e630b89ee2b7c6aab3ff0807ff760a869864071f6b62903eb
   title: Standardized versus research-based PAM50 intrinsic subtyping of breast cancer.
-  status: awaiting_full_text
+  status: access_restricted
+  observed_license: Springer Nature publisher copyright; subscription preview and purchase-only full text.
 - screening_id: 52fe49b5b6e74f571109fef3d844bd1690c8e3b18aa333ae1796812ad508e261
   title: Purity Independent Subtyping of Tumors (PurIST), A Clinically Robust, Single-sample Classifier
     for Tumor Subtyping in Pancreatic Cancer.

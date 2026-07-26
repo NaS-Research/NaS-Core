@@ -106,14 +106,18 @@ review in that immutable initial queue. A bounded dash-typography repair later
 resolved `PMC7299291` and `PMC11265146` under exact PMCID, PMID, and DOI agreement;
 both CC BY 4.0 articles were retrieved and verified. Current reconciled
 `citation_appraisal_progress_v1.0.0.yaml` records three completed appraisals,
-21 ready for appraisal, and five awaiting full text. The increase follows eight
-verified PMC ephemeral reviews: the exact HTML bytes were hashed in memory, no
-article content was stored, and seven non-commercial or publisher-reserved items
-have explicit durable-storage restriction decisions. `PMC10147771` declares CC BY
-4.0 but used the no-storage route because repository XML was unavailable. The
-version-2 `PPR1259744` medRxiv preprint was separately verified against its stable
-official `.full.txt` representation (SHA-256 `47b4a207…7576`), reviewed with zero
-durable article bytes, and restricted from the reusable corpus under CC BY-NC 4.0.
+22 ready for appraisal, three access restrictions, and one record awaiting full
+text. Ten verified ephemeral reviews now include eight official PMC pages, one
+version-specific medRxiv representation, and one institutional author-copy PDF;
+every exact content representation was hashed in memory and no article content was
+stored. The UNC Lineberger copy for PMID 23907291 is bound to SHA-256
+`5ffda151…805a` and remains outside the reusable corpus because no redistribution
+license was verified. Official publisher checks separately restrict PMIDs 28069519,
+30040052, and 31435878 without inferring an appraisal from abstracts or previews.
+The sole unresolved record is the 2010 Lancet Oncology paper PMID 20181526: the
+publisher declares it CC BY 4.0, but the approved client does not yet have a
+reproducible checksum-verifiable full-text route. The version-2 `PPR1259744`
+medRxiv preprint remains restricted from the reusable corpus under CC BY-NC 4.0.
 
 Citation appraisal batch 0001 covers three direct studies: `PMC11217366`,
 `PMC6547580`, and `PMC3487945`. The founder supplied the exact confirmation bound

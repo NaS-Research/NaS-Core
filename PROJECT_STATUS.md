@@ -26,11 +26,12 @@ net-new records. Founder-approved amendment `0.2.5` is active. Official Europe P
 assessment retrieved 13 exact-identity CC BY full texts and failed closed on ten
 repository candidates. The founder confirmed checksum-bound appraisal batch 0001.
 Bounded title normalization subsequently resolved two exact-ID, CC BY 4.0 records.
-Eight additional PMC-hosted articles and one version-specific medRxiv preprint now
-have verified ephemeral-review receipts with zero article bytes stored; eight have
-explicit durable-storage restrictions. Citation progress now has three completed
-`context_only` appraisals, 21 records ready for appraisal, and five awaiting
-governed publisher access resolution. Batch 0002
+Eight additional PMC-hosted articles, one version-specific medRxiv preprint, and
+one institutional author-copy PDF now have verified ephemeral-review receipts
+with zero article bytes stored. Citation progress now has three completed
+`context_only` appraisals, 22 records ready for appraisal, three explicit
+publisher-access restrictions, and one open-access publisher record awaiting a
+reproducible full-text route. Batch 0002
 contains four validated single-sample/classifier proposals bound to packet
 SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
 ledger. Batch 0003 contains the remaining six verified full texts and is frozen
@@ -253,46 +254,63 @@ Current gate state:
 
 1. Obtain separate exact founder decisions for citation appraisal batches 0002,
    0003, and 0004; materialize only the batches explicitly confirmed.
-2. Resolve the five remaining publisher-controlled records through exact identity,
-   publisher rights, and read-only-versus-restricted decisions.
-3. Appraise the remaining verified read-only and durable full texts, prioritizing
+2. Resolve the remaining 2010 Lancet Oncology record through a reproducible,
+   checksum-verifiable CC BY full-text route.
+3. Add a structured no-storage review-and-propose route for institutional and
+   publisher copies so appraisal evidence can be emitted without disclosing or
+   retaining article text.
+4. Appraise the remaining verified read-only and durable full texts, prioritizing
    direct single-sample, normalization, perturbation, and external-transport evidence.
-4. Appraise every additionally accessible methodological or external-transport study,
+5. Appraise every additionally accessible methodological or external-transport study,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
-5. Update the living manuscript and its evidence-to-text ledger after every material
+6. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-6. Resolve and approve the exact centroid and external-reference artifacts,
+7. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-7. Define an independently calibrated technical-error model and lock the margin
+8. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-8. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+9. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-9. Complete the founder scientific/product, molecular/pathology, and statistical
+10. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-10. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+11. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-11. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+12. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-12. Implement persisted evidence claims, citations, provenance, contradictory
+13. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-13. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+14. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-14. Expand the screening model gateway into general evidence reasoning with
+15. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-15. Build evaluation suites for retrieval, citation validity, numerical
+16. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-16. Generate an immutable research release containing the protocol, dataset
+17. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-17. Generate a reviewable white-paper draft whose substantive claims trace to
+18. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-18. Build the internal workbench for projects, protocols, datasets, runs,
+19. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-19. Complete repeated internal oncology pilots before selecting the first
+20. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Publisher access queue reduced to one unresolved record
+
+Implemented an exact-allowlist institutional-PDF no-storage route with HTTPS
+host/path validation, complete-PDF checks, in-memory parsing, exact title and DOI
+verification, byte hashing, and a mechanically zero-storage receipt.
+
+The public UNC Lineberger author copy for PMID 23907291 was verified at 518,968
+bytes with SHA-256 `5ffda151…805a`; no article bytes were retained. Separate
+decisions record its publisher copyright and prohibit durable corpus reuse.
+Official publisher checks classified PMIDs 28069519, 30040052, and 31435878 as
+access-restricted without appraisal or inference from abstracts. Reconciled
+citation progress is three completed, 22 ready for appraisal, three restricted,
+and one awaiting a reproducible CC BY full-text route.
 
 ### 2026-07-25 — medRxiv preprint access and appraisal packet verified
 

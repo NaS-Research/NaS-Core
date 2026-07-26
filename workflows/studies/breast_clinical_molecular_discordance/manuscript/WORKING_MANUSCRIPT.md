@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.24.0-working`
+Manuscript version: `0.25.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -207,10 +207,14 @@ CC BY 4.0 and were immutably retrieved, leaving 14 access records unresolved.
 Eight of those 14 were subsequently reviewed through the official PMC HTML
 interface under a no-storage protocol. Exact page bytes were hashed in memory and
 discarded; seven records have explicit durable-storage restrictions and one
-declares CC BY 4.0 but lacked repository XML. Six publisher or preprint access
-records remain unresolved.
+declares CC BY 4.0 but lacked repository XML. A version-specific medRxiv preprint
+and a public UNC Lineberger author-copy PDF were then verified and hashed through
+separate zero-storage routes. Official publisher checks restricted three
+abstract-, preview-, or purchase-only records without appraisal. One CC BY 4.0
+Lancet Oncology paper still lacks a reproducible checksum-verifiable full-text
+route.
 The founder authorized the first checksum-bound appraisal batch: three studies are
-complete as context-only and 20 verified full texts remain ready for appraisal.
+complete as context-only and 22 verified full texts remain ready for appraisal.
 These counts are workflow results, not scientific findings.
 Four of those ten now have a checksum-bound batch-0002 appraisal proposal under
 founder review. Their proposed judgments are not incorporated into the manuscript
@@ -842,8 +846,9 @@ Status: `working`
 
 - Primary and citation-pass-1 title-and-abstract screening are complete. Thirty-one
   appraisals are complete across the direct and citation sets. Pass 1 has 29 net-new
-  records in an authorized governed queue: three are appraised, 20 are ready for
-  appraisal, and six await access resolution;
+  records in an authorized governed queue: three are appraised, 22 are ready for
+  appraisal, three are access-restricted, and one awaits a reproducible full-text
+  route;
   sequential citation chaining is incomplete.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
@@ -951,7 +956,7 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions and identity routing | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml` | screening verified, appraisal pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
-| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 21 ready, 5 pending access |
+| Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 22 ready, 3 restricted, 1 pending access |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
 | Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
@@ -993,6 +998,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.25.0-working | 2026-07-25 | Added the checksum-bound UNC institutional-PDF review receipt and explicit publisher decisions for three restricted records; citation state is 3 appraised, 22 ready, 3 restricted, and 1 pending access. |
 | 0.22.0-working | 2026-07-25 | Added a reproducible medRxiv version-2 no-storage receipt, CC BY-NC durable-storage restriction, and non-authoritative batch-0004 appraisal proposal; citation state is 3 appraised, 21 ready, and 5 pending access. |
 | 0.21.0-working | 2026-07-25 | Added eight verified PMC no-storage review receipts and seven durable-storage restrictions; citation state is 3 appraised, 20 ready, and 6 pending access. |
 | 0.20.0-working | 2026-07-25 | Repaired two exact-ID Unicode-dash title mismatches, retrieved both CC BY 4.0 full texts, and materialized batch-0001 locked appraisals; citation state is 3 appraised, 12 ready, and 14 pending access. |

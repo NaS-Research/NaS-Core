@@ -1,0 +1,20 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 91d111ceabb0aba006b39083ad8442818920e0c585a97e76a5804286a2997394
+pmid: '28069519'
+doi: 10.1016/j.nbt.2017.01.001
+title: "Denaturing fixatives are compatible with the NanoString nCounter<sup>\xAE</sup> platform and\
+  \ the Prosigna<sup>\xAE</sup> assay."
+source_url: https://www.sciencedirect.com/science/article/abs/pii/S1871678417300014
+observed_license: Elsevier publisher copyright; no open full-text or reusable license verified.
+license_url: https://www.sciencedirect.com/science/article/abs/pii/S1871678417300014
+outcome: restricted
+policy_reason: >-
+  The official publisher page exposes bibliographic material, highlights, and
+  an abstract but does not provide lawful full-text access or a reusable
+  license. Abstract-only content is insufficient for quality appraisal, and no
+  scientific conclusion may be inferred from it.
+checked_at: 2026-07-26T02:26:40Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false
