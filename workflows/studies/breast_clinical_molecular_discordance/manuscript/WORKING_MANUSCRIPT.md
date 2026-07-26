@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.39.0-working`
+Manuscript version: `0.40.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -427,6 +427,15 @@ invalid technical perturbation remains in the denominator and makes the result
 unclassifiable rather than disappearing. These vectors test execution and failure
 logic only; they are not an empirical model of laboratory error and cannot select
 the real reliability threshold.
+
+Synthetic batch execution is defined as repeated independent single-sample calls;
+the scoring function receives no batch statistic or companion expression. The
+batch contract rejects duplicate identifiers and binds ordered inputs by SHA-256
+while leaving each sample result bound only to its own input. Automated tests show
+that the complete target result is unchanged when processed alone, before or after
+an unrelated synthetic companion, or after batch-order reversal. This establishes
+software-level companion invariance, not analytical performance or transport in a
+real cohort.
 
 ### Data sources, cohort, and statistical analysis
 
@@ -1215,6 +1224,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.40.0-working | 2026-07-26 | Added synthetic batch execution as independent single-sample composition, with duplicate-identity rejection, ordered batch provenance, and tests proving that companion fixtures and batch order cannot change an individual result. |
 | 0.39.0-working | 2026-07-26 | Extended synthetic-only method validation to explicit seed-bound technical-error panels with stable provenance hashes, family-level accounting, label-changing instability tests, and fail-closed invalid-run abstention; no empirical error model was approved. |
 | 0.38.0-working | 2026-07-26 | Added the synthetic-only single-sample reliability kernel: exact-panel validation, alias handling, five-centroid Spearman scoring, top/runner-up margin, 50 leave-one-gene-out runs, explicit failure states, and abstention; no real method artifact, threshold, molecular access, or result was authorized. |
 | 0.37.0-working | 2026-07-26 | Materially closed citation pass 1 from frozen receipt lineage; the bound review state is 62 eligible identities, 56 appraisal-complete, six access-restricted, zero pending, and zero consecutive zero-yield passes. |

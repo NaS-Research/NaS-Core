@@ -15,6 +15,7 @@ from nas_core.domain.reliability import (
     PAM50_HISTORICAL_ALIASES,
     ReliabilityMethodInputs,
     SingleSampleExpression,
+    SyntheticExpressionBatch,
     SyntheticTechnicalErrorPanel,
     load_reliability_specification,
 )
@@ -119,6 +120,63 @@ def test_expression_key_order_does_not_change_result_or_input_hash() -> None:
     second = kernel.score(specification, method, reversed_sample)
 
     assert first == second
+
+
+def test_batch_companions_and_order_cannot_change_single_sample_result() -> None:
+    specification = load_reliability_specification(SPECIFICATION_PATH)
+    method = _method()
+    target = _sample(method)
+    companion = SingleSampleExpression(
+        sample_id="SYNTHETIC-COMPANION",
+        expression_values=deepcopy(method.centroids["Normal-like"]),
+    )
+    kernel = SyntheticSingleSampleReliabilityKernel()
+
+    alone = kernel.score_batch(
+        specification,
+        method,
+        SyntheticExpressionBatch(
+            batch_id="SYNTHETIC-BATCH-ALONE",
+            samples=[target],
+        ),
+    )
+    companion_first = kernel.score_batch(
+        specification,
+        method,
+        SyntheticExpressionBatch(
+            batch_id="SYNTHETIC-BATCH-COMPANION-FIRST",
+            samples=[companion, target],
+        ),
+    )
+    target_first = kernel.score_batch(
+        specification,
+        method,
+        SyntheticExpressionBatch(
+            batch_id="SYNTHETIC-BATCH-TARGET-FIRST",
+            samples=[target, companion],
+        ),
+    )
+
+    target_results = [
+        next(result for result in batch.results if result.sample_id == target.sample_id)
+        for batch in (alone, companion_first, target_first)
+    ]
+    assert target_results[0] == target_results[1] == target_results[2]
+    assert companion_first.provenance["sample_execution"] == (
+        "independent_single_sample_calls"
+    )
+    assert companion_first.batch_input_sha256 != target_first.batch_input_sha256
+
+
+def test_synthetic_batch_rejects_duplicate_sample_identity() -> None:
+    method = _method()
+    target = _sample(method)
+
+    with pytest.raises(ValidationError, match="sample IDs must be unique"):
+        SyntheticExpressionBatch(
+            batch_id="SYNTHETIC-BATCH-DUPLICATE",
+            samples=[target, target],
+        )
 
 
 def test_missing_gene_fails_closed_without_scoring() -> None:
@@ -372,3 +430,45 @@ def test_cli_scores_only_an_explicitly_synthetic_fixture(
     assert '"execution_scope": "synthetic_method_validation_only"' in output
     assert '"canonical_subtype": "Luminal A"' in output
     assert '"total_perturbation_count": 53' in output
+
+
+def test_cli_batch_score_records_independent_sample_execution(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    method = _method()
+    target = _sample(method)
+    companion = SingleSampleExpression(
+        sample_id="SYNTHETIC-COMPANION",
+        expression_values=deepcopy(method.centroids["Basal-like"]),
+    )
+    batch = SyntheticExpressionBatch(
+        batch_id="SYNTHETIC-BATCH-CLI",
+        samples=[companion, target],
+    )
+    method_path = tmp_path / "method.yaml"
+    batch_path = tmp_path / "batch.yaml"
+    method_path.write_text(
+        yaml.safe_dump(method.model_dump(mode="json"), sort_keys=False),
+        encoding="utf-8",
+    )
+    batch_path.write_text(
+        yaml.safe_dump(batch.model_dump(mode="json"), sort_keys=False),
+        encoding="utf-8",
+    )
+
+    result = main(
+        [
+            "reliability",
+            "synthetic-batch-score",
+            str(SPECIFICATION_PATH),
+            str(method_path),
+            str(batch_path),
+            "--synthetic-only",
+        ]
+    )
+
+    assert result == 0
+    output = capsys.readouterr().out
+    assert '"sample_execution": "independent_single_sample_calls"' in output
+    assert '"sample_count": 2' in output

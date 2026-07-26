@@ -176,6 +176,18 @@ class SingleSampleExpression(ReliabilityModel):
     expression_values: dict[str, float] = Field(min_length=1)
 
 
+class SyntheticExpressionBatch(ReliabilityModel):
+    batch_id: str = Field(pattern=r"^SYNTHETIC-BATCH-[A-Za-z0-9._-]+$")
+    samples: list[SingleSampleExpression] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_sample_identities(self) -> SyntheticExpressionBatch:
+        sample_ids = [sample.sample_id for sample in self.samples]
+        if len(sample_ids) != len(set(sample_ids)):
+            raise ValueError("synthetic batch sample IDs must be unique")
+        return self
+
+
 class SyntheticTechnicalErrorPanel(ReliabilityModel):
     panel_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     gene_order: list[str] = Field(min_length=50, max_length=50)
@@ -336,6 +348,28 @@ class SingleSampleReliabilityResult(ReliabilityModel):
             raise ValueError("a classified result requires canonical and runner-up scores")
         if self.provenance.get("execution_scope") != "synthetic_method_validation_only":
             raise ValueError("this result contract is restricted to synthetic method validation")
+        return self
+
+
+class SyntheticReliabilityBatchResult(ReliabilityModel):
+    schema_version: str = "1.0.0"
+    batch_id: str = Field(pattern=r"^SYNTHETIC-BATCH-[A-Za-z0-9._-]+$")
+    batch_input_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    sample_count: int = Field(ge=1)
+    results: list[SingleSampleReliabilityResult] = Field(min_length=1)
+    provenance: dict[str, str]
+
+    @model_validator(mode="after")
+    def validate_batch_result(self) -> SyntheticReliabilityBatchResult:
+        if len(self.results) != self.sample_count:
+            raise ValueError("synthetic batch result count must match sample count")
+        sample_ids = [result.sample_id for result in self.results]
+        if len(sample_ids) != len(set(sample_ids)):
+            raise ValueError("synthetic batch results must have unique sample IDs")
+        if self.provenance.get("execution_scope") != "synthetic_method_validation_only":
+            raise ValueError("batch results are restricted to synthetic method validation")
+        if self.provenance.get("sample_execution") != "independent_single_sample_calls":
+            raise ValueError("batch results must derive from independent single-sample calls")
         return self
 
 
@@ -592,6 +626,12 @@ def load_reliability_method_inputs(path: Path) -> ReliabilityMethodInputs:
 
 def load_single_sample_expression(path: Path) -> SingleSampleExpression:
     return SingleSampleExpression.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_synthetic_expression_batch(path: Path) -> SyntheticExpressionBatch:
+    return SyntheticExpressionBatch.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 

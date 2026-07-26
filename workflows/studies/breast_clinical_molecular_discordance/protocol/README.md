@@ -41,6 +41,14 @@ transformation, empirically calibrated technical-error model, numerical
 tolerance, or scientific thresholds. It cannot read patient identifiers,
 authorize molecular access, or produce a NaS research result.
 
+The synthetic batch boundary composes only independent calls to this single-sample
+kernel. It accepts no batch statistics, rejects duplicate synthetic identities,
+retains each result's sample-only input hash, and records
+`sample_execution: independent_single_sample_calls`. Tests prove that adding a
+companion fixture or reversing batch order changes the batch hash but cannot
+change either sample's reliability result. This is software evidence for
+patient-independent execution, not validation on patients.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console
@@ -49,6 +57,16 @@ uv run nas-core reliability synthetic-score \
   /path/to/synthetic-method.yaml \
   /path/to/SYNTHETIC-sample.yaml \
   --technical-error-panel /path/to/synthetic-technical-panel.yaml \
+  --synthetic-only
+```
+
+The corresponding batch command accepts a `SyntheticExpressionBatch` YAML:
+
+```console
+uv run nas-core reliability synthetic-batch-score \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/reliability_specification.yaml \
+  /path/to/synthetic-method.yaml \
+  /path/to/SYNTHETIC-batch.yaml \
   --synthetic-only
 ```
 

@@ -115,6 +115,7 @@ from nas_core.domain.reliability import (
     load_reliability_method_inputs,
     load_reliability_specification,
     load_single_sample_expression,
+    load_synthetic_expression_batch,
     load_synthetic_technical_error_panel,
     write_reliability_schema,
 )
@@ -436,6 +437,24 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         required=True,
         help="Acknowledge that the input is synthetic and the result has no scientific use",
+    )
+    reliability_synthetic_batch_score = reliability_commands.add_parser(
+        "synthetic-batch-score",
+        help="Prove independent single-sample execution within a synthetic batch",
+    )
+    reliability_synthetic_batch_score.add_argument("specification_path", type=Path)
+    reliability_synthetic_batch_score.add_argument("method_path", type=Path)
+    reliability_synthetic_batch_score.add_argument("batch_path", type=Path)
+    reliability_synthetic_batch_score.add_argument(
+        "--technical-error-panel",
+        type=Path,
+        help="Optional explicit synthetic technical-error perturbation panel",
+    )
+    reliability_synthetic_batch_score.add_argument(
+        "--synthetic-only",
+        action="store_true",
+        required=True,
+        help="Acknowledge that every batch input is synthetic and non-scientific",
     )
 
     evidence_review = commands.add_parser(
@@ -1491,13 +1510,46 @@ def main(argv: Sequence[str] | None = None) -> int:
             if args.technical_error_panel is not None
             else None
         )
-        result = SyntheticSingleSampleReliabilityKernel().score(
+        synthetic_result = SyntheticSingleSampleReliabilityKernel().score(
             specification,
             method,
             sample,
             technical_error_panel,
         )
-        print(json.dumps(result.model_dump(mode="json"), indent=2, sort_keys=True))
+        print(
+            json.dumps(
+                synthetic_result.model_dump(mode="json"),
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "synthetic-batch-score"
+    ):
+        specification = load_reliability_specification(args.specification_path)
+        method = load_reliability_method_inputs(args.method_path)
+        synthetic_batch = load_synthetic_expression_batch(args.batch_path)
+        technical_error_panel = (
+            load_synthetic_technical_error_panel(args.technical_error_panel)
+            if args.technical_error_panel is not None
+            else None
+        )
+        synthetic_batch_result = SyntheticSingleSampleReliabilityKernel().score_batch(
+            specification,
+            method,
+            synthetic_batch,
+            technical_error_panel,
+        )
+        print(
+            json.dumps(
+                synthetic_batch_result.model_dump(mode="json"),
+                indent=2,
+                sort_keys=True,
+            )
+        )
         return 0
 
     if args.command == "evidence-review" and args.evidence_review_command == "validate":

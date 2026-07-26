@@ -101,7 +101,8 @@ authorize a formal literature review.
 - a synthetic-only deterministic single-sample kernel covering exact-panel
   validation, fixed-centroid Spearman scoring, runner-up margin, all 50
   leave-one-gene-out runs, explicit synthetic technical-error panels, family-level
-  reconciliation, failure states, and abstention;
+  reconciliation, failure states, abstention, and companion/order-invariant batch
+  composition through independent single-sample calls;
 - a completed AI-assisted adversarial review with explicit scientific and
   operational blockers;
 - explicit nonclinical, nonpredictive, and no-gold-standard boundaries;

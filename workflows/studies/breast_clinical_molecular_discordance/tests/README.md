@@ -11,4 +11,9 @@ combined execution of explicit synthetic technical-error panels. Tests prove
 family-to-aggregate reconciliation, stable-vector retention, label-changing
 instability, and fail-closed handling of invalid perturbation vectors.
 
+Batch tests prove the question's patient-independence property at the software
+boundary: the target fixture's full result remains equal when run alone, after a
+companion, before a companion, or in reversed batch order. Duplicate sample
+identities are rejected before execution.
+
 No fixture contains a patient identifier or observed molecular value.

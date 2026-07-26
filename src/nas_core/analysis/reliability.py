@@ -20,6 +20,8 @@ from nas_core.domain.reliability import (
     SingleSampleExpression,
     SingleSampleReliabilityResult,
     SingleSampleReliabilitySpecification,
+    SyntheticExpressionBatch,
+    SyntheticReliabilityBatchResult,
     SyntheticTechnicalErrorPanel,
 )
 
@@ -52,6 +54,44 @@ class _ScoreAttempt:
 
 class SyntheticSingleSampleReliabilityKernel:
     """Exercise the declared scoring and abstention logic on synthetic fixtures only."""
+
+    def score_batch(
+        self,
+        specification: SingleSampleReliabilitySpecification,
+        method: ReliabilityMethodInputs,
+        batch: SyntheticExpressionBatch,
+        technical_error_panel: SyntheticTechnicalErrorPanel | None = None,
+    ) -> SyntheticReliabilityBatchResult:
+        results = [
+            self.score(
+                specification,
+                method,
+                sample,
+                technical_error_panel,
+            )
+            for sample in batch.samples
+        ]
+        provenance = {
+            "execution_scope": "synthetic_method_validation_only",
+            "kernel_version": KERNEL_VERSION,
+            "method_version": method.method_version,
+            "question_id": specification.question_id,
+            "question_version": specification.question_version,
+            "sample_execution": "independent_single_sample_calls",
+            "specification_version": specification.specification_version,
+            "study_id": specification.study_id,
+        }
+        if technical_error_panel is not None:
+            provenance["technical_error_panel_sha256"] = self._model_hash(
+                technical_error_panel
+            )
+        return SyntheticReliabilityBatchResult(
+            batch_id=batch.batch_id,
+            batch_input_sha256=self._batch_hash(batch),
+            sample_count=len(batch.samples),
+            results=results,
+            provenance=provenance,
+        )
 
     def score(
         self,
@@ -279,6 +319,31 @@ class SyntheticSingleSampleReliabilityKernel:
                 "expression_values": hashable_values,
                 "sample_id": sample.sample_id,
             },
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8")
+        return hashlib.sha256(body).hexdigest()
+
+    @staticmethod
+    def _batch_hash(batch: SyntheticExpressionBatch) -> str:
+        payload = {
+            "batch_id": batch.batch_id,
+            "samples": [
+                {
+                    "expression_values": {
+                        gene: SyntheticSingleSampleReliabilityKernel._hashable_float(
+                            value
+                        )
+                        for gene, value in sample.expression_values.items()
+                    },
+                    "sample_id": sample.sample_id,
+                }
+                for sample in batch.samples
+            ],
+        }
+        body = json.dumps(
+            payload,
+            allow_nan=False,
             separators=(",", ":"),
             sort_keys=True,
         ).encode("utf-8")

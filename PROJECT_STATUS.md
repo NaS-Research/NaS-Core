@@ -67,6 +67,13 @@ resolve the real centroid/reference artifacts, platform transforms, empirical
 technical-error calibration, numerical tolerance, or scientific thresholds and
 cannot authorize or execute patient-level molecular analysis.
 
+The patient-independence claim is now executable at the software boundary.
+Synthetic batch scoring is only a list of independent single-sample calls: it
+accepts no cohort statistic, rejects duplicate identities, retains sample-only
+result hashes, and separately hashes ordered batch provenance. Tests prove that
+the same target result is unchanged alone, before or after an unrelated
+companion, and under reversed batch order. This is not patient validation.
+
 Founder-authorized field-isolated audit `1.0.0` executed from frozen code revision
 `2f0b15f…74d0c` and produced receipt SHA-256 `b5f8c359…822a`. It verified all
 50 historical PAM50 genes without ambiguous mappings in both frozen source
@@ -462,6 +469,16 @@ the label, label-changing vectors trigger threshold-based instability, and
 nonfinite vectors remain in the denominator and force `unclassifiable` abstention.
 This validates execution logic only; no empirical technical-error distribution,
 real threshold, molecular access, or scientific result was approved.
+
+### 2026-07-26 — Synthetic companion and order invariance proved
+
+Added typed synthetic batch input and result contracts plus a CLI that composes
+independent single-sample calls without cohort statistics. Duplicate identities
+fail before execution; each result retains sample-only provenance; and the batch
+receives a separate ordered-input SHA-256. Tests demonstrate byte-equivalent
+target results when run alone, after a companion, before a companion, and after
+batch-order reversal. This satisfies a software prerequisite for patient-
+independent execution but does not validate real molecular performance.
 
 ### 2026-07-26 — Field-isolated metadata audit amendment 1.0.1 passed
 
