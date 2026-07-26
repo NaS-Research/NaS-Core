@@ -429,16 +429,20 @@ def test_pmc_oai_review_hashes_only_stable_article_subtree() -> None:
     assert first.durable_full_text_stored is False
 
 
-def _publisher_html() -> bytes:
+def _publisher_html(*, include_citation_metadata: bool = True) -> bytes:
     title = (
         "A three-gene model to robustly identify breast cancer molecular subtypes."
     )
-    body = f"""<!doctype html><html><head>
-<meta name="citation_title" content="{title}">
+    metadata = ""
+    if include_citation_metadata:
+        metadata = f"""<meta name="citation_title" content="{title}">
 <meta name="citation_doi" content="10.1093/jnci/djr545">
-<meta name="citation_pmid" content="22262870">
+<meta name="citation_pmid" content="22262870">"""
+    body = f"""<!doctype html><html><head>
+{metadata}
 </head><body><main><article>
 <h1>{title}</h1>
+<p>DOI 10.1093/jnci/djr545</p>
 {"Methods and results. " * 1200}</article></main>
 <script>dynamicToken = "ignored";</script></body></html>"""
     return body.encode()
@@ -470,3 +474,26 @@ def test_publisher_html_review_emits_canonical_no_storage_receipt() -> None:
     assert receipt.checksum_verified
     assert receipt.article_identity_verified
     assert receipt.durable_full_text_stored is False
+
+
+def test_publisher_html_review_accepts_allowlisted_page_without_citation_meta() -> None:
+    receipt = ApprovedPublisherHtmlReadOnlyReviewService(
+        transport=FakeTransport(
+            _publisher_html(include_citation_metadata=False)
+        ),
+        clock=lambda: NOW,
+    ).review(
+        _publisher_record(),
+        study_id="NAS-BRCA-002",
+        queue_id="b" * 64,
+        progress_id="c" * 64,
+        code_revision="abcdef1",
+        access_basis=(
+            "Official publisher HTML reviewed ephemerally; canonical article "
+            "representation hashed; zero article bytes retained."
+        ),
+        observed_rights="Publisher open-access article; corpus reuse not assumed.",
+        rights_url="https://academic.oup.com/jnci/article/104/4/311/979947",
+    )
+
+    assert receipt.article_identity_verified

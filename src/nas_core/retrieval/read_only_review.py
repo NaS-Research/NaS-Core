@@ -1068,14 +1068,22 @@ class ApprovedPublisherHtmlReadOnlyReviewService:
     ) -> None:
         normalized_source = re.sub(r"[^a-z0-9]+", "", source_text.casefold())
         normalized_title = re.sub(r"[^a-z0-9]+", "", record.title.casefold())
+        normalized_doi = (record.doi or "").casefold()
+        metadata_title = metadata.get("citation_title")
+        metadata_doi = metadata.get("citation_doi")
+        metadata_pmid = metadata.get("citation_pmid")
         if (
-            normalize_article_title(metadata.get("citation_title"))
-            != normalize_article_title(record.title)
-            or metadata.get("citation_doi", "").casefold()
-            != (record.doi or "").casefold()
-            or metadata.get("citation_pmid") != record.pmid
+            (metadata_title is not None and normalize_article_title(metadata_title)
+             != normalize_article_title(record.title))
+            or (metadata_doi is not None and metadata_doi.casefold() != normalized_doi)
+            or (metadata_pmid is not None and metadata_pmid != record.pmid)
             or not normalized_title
             or normalized_title not in normalized_source
+            or not normalized_doi
+            or (
+                metadata_doi is None
+                and normalized_doi not in source_text.casefold()
+            )
         ):
             raise ReadOnlyReviewError(
                 "publisher HTML identity does not match inventory"
