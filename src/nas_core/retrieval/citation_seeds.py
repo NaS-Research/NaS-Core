@@ -64,15 +64,18 @@ class CitationCumulativeSeedService:
         activation_sha = sha256(activation_receipt_path.read_bytes())
         queue = self._load_queue(activation)
 
-        by_pmid: dict[str, CitationCumulativeSeedRecord] = {}
+        by_identifier: dict[str, CitationCumulativeSeedRecord] = {}
         duplicate_count = 0
         for direct_record in direct_inventory.records:
             if direct_record.pmid is None:
                 raise CitationCumulativeSeedError(
                     "every direct founder inclusion requires a PMID"
                 )
-            by_pmid[direct_record.pmid] = CitationCumulativeSeedRecord(
-                evidence_id=f"PMID:{direct_record.pmid}",
+            evidence_id = f"PMID:{direct_record.pmid}"
+            by_identifier[evidence_id] = CitationCumulativeSeedRecord(
+                evidence_id=evidence_id,
+                source="MED",
+                external_id=direct_record.pmid,
                 pmid=direct_record.pmid,
                 title=direct_record.title,
                 origins=[CitationSeedOrigin.DIRECT_SEARCH],
@@ -80,14 +83,24 @@ class CitationCumulativeSeedService:
                 founder_inclusion_preserved=True,
             )
         for queue_record in queue:
-            if queue_record.pmid is None:
+            if queue_record.pmid is not None:
+                source = "MED"
+                external_id = queue_record.pmid
+                evidence_id = f"PMID:{queue_record.pmid}"
+            elif re.fullmatch(r"PPR:PPR[0-9]+", queue_record.record_key):
+                source, external_id = queue_record.record_key.split(":", maxsplit=1)
+                evidence_id = queue_record.record_key
+            else:
                 raise CitationCumulativeSeedError(
-                    "every prior-pass founder inclusion requires a PMID"
+                    "every prior-pass founder inclusion requires a supported "
+                    "Europe PMC MED or PPR identity"
                 )
-            prior = by_pmid.get(queue_record.pmid)
+            prior = by_identifier.get(evidence_id)
             if prior is None:
-                by_pmid[queue_record.pmid] = CitationCumulativeSeedRecord(
-                    evidence_id=f"PMID:{queue_record.pmid}",
+                by_identifier[evidence_id] = CitationCumulativeSeedRecord(
+                    evidence_id=evidence_id,
+                    source=source,
+                    external_id=external_id,
                     pmid=queue_record.pmid,
                     title=queue_record.title,
                     origins=[CitationSeedOrigin.CITATION_PASS],
@@ -102,7 +115,7 @@ class CitationCumulativeSeedService:
                 raise CitationCumulativeSeedError(
                     "duplicate cumulative PMID has conflicting titles"
                 )
-            by_pmid[queue_record.pmid] = prior.model_copy(
+            by_identifier[evidence_id] = prior.model_copy(
                 update={
                     "origins": sorted(
                         {*prior.origins, CitationSeedOrigin.CITATION_PASS}
@@ -113,7 +126,10 @@ class CitationCumulativeSeedService:
                 }
             )
 
-        records = sorted(by_pmid.values(), key=lambda item: int(item.pmid))
+        records = sorted(
+            by_identifier.values(),
+            key=lambda item: (item.source, item.external_id),
+        )
         seed_body = canonical_json(
             [item.model_dump(mode="json", exclude_none=True) for item in records]
         )
@@ -144,12 +160,12 @@ class CitationCumulativeSeedService:
             amendment_activation_id=activation.activation_id,
             direct_inclusion_count=len(direct_inventory.records),
             prior_pass_inclusion_count=len(queue),
-            duplicate_pmid_count=duplicate_count,
+            duplicate_identifier_count=duplicate_count,
             cumulative_seed_count=len(records),
             seeds_object=stored,
             input_checksums_verified=True,
             output_checksum_verified=True,
-            exact_pmid_deduplication=True,
+            exact_identifier_deduplication=True,
             all_founder_inclusions_preserved=True,
             molecular_data_access_authorized=False,
             outcome_data_access_authorized=False,
@@ -179,6 +195,8 @@ class CitationCumulativeSeedService:
         return [
             CitationSeed(
                 evidence_id=item.evidence_id,
+                source=item.source,
+                external_id=item.external_id,
                 pmid=item.pmid,
                 title=item.title,
             )

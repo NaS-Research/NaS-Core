@@ -53,8 +53,9 @@ checksummed external object storage; aggregate receipts are in `citation-chain/`
 
 Sequential pass retrieval uses a typed cumulative-seed boundary. For pass 2, it
 must combine the 30 direct founder inclusions with all 32 pass-1 founder inclusions
-from the checksum-verified evidence-cap activation queue. Exact PMID deduplication
-is permitted, but no founder inclusion may be dropped because of appraisal role,
+from the checksum-verified evidence-cap activation queue. Exact persistent-
+identifier deduplication is permitted across 61 `MED` PMIDs and one Europe PMC
+`PPR` preprint identity, but no founder inclusion may be dropped because of appraisal role,
 access restriction, result direction, or core-synthesis limits. Screening
 preparation for pass 2 must bind the complete pass-1 founder decision ledger in
 addition to the locked direct-search inventory, preventing previously screened

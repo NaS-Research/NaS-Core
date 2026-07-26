@@ -12,8 +12,9 @@ and what comes next?
 
 Citation pass 2 requires the cumulative founder-included evidence set, not only
 the original direct-search inventory. The deterministic pass-2 boundary now
-derives 62 unique PMID seeds from the 30 direct inclusions and all 32 pass-1
-inclusions, verifies the founder-authorized uncapped amendment queue, preserves
+derives 62 unique Europe PMC seeds (61 `MED` PMIDs and one `PPR` preprint) from
+the 30 direct inclusions and all 32 pass-1 inclusions, verifies the founder-
+authorized uncapped amendment queue, preserves
 every inclusion, and stores only a checksum-bound seed object. Pass-2 screening
 preparation also requires the complete pass-1 founder decision ledger so previously
 screened citation records cannot silently re-enter the founder queue. The

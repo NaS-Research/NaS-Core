@@ -76,6 +76,13 @@ def _activation(
             founder_inclusion_preserved=True,
         ),
         CitationAppraisalQueueRecord(
+            record_key="PPR:PPR4",
+            title="Preprint method four",
+            doi="10.1101/example",
+            route=CitationAppraisalRoute.ACCESS_CHECK_REQUIRED,
+            founder_inclusion_preserved=True,
+        ),
+        CitationAppraisalQueueRecord(
             record_key="MED:3",
             title="Citation method three",
             pmid="3",
@@ -101,11 +108,11 @@ def _activation(
         amendment_sha256="f" * 64,
         reconciliation_id="1" * 64,
         reconciliation_receipt_sha256="2" * 64,
-        confirmed_inclusion_count=2,
+        confirmed_inclusion_count=3,
         repository_candidate_count=1,
-        access_check_required_count=1,
+        access_check_required_count=2,
         prior_appraisal_reuse_count=0,
-        net_new_count=2,
+        net_new_count=3,
         core_synthesis_maximum=30,
         queue_object=stored,
         amendment_checksum_verified=True,
@@ -137,14 +144,23 @@ def test_builds_verified_cumulative_seed_set_without_losing_inclusions(
     seeds = service.load_seeds(receipt)
 
     assert receipt.direct_inclusion_count == 2
-    assert receipt.prior_pass_inclusion_count == 2
-    assert receipt.duplicate_pmid_count == 1
-    assert receipt.cumulative_seed_count == 3
-    assert [seed.evidence_id for seed in seeds] == ["PMID:1", "PMID:2", "PMID:3"]
+    assert receipt.prior_pass_inclusion_count == 3
+    assert receipt.duplicate_identifier_count == 1
+    assert receipt.cumulative_seed_count == 4
+    assert {seed.evidence_id for seed in seeds} == {
+        "PMID:1",
+        "PMID:2",
+        "PMID:3",
+        "PPR:PPR4",
+    }
     rows = json.loads(store.get_bytes(receipt.seeds_object.object_key))
     shared = next(row for row in rows if row["pmid"] == "2")
     assert shared["origins"] == ["citation_pass", "direct_search"]
     assert shared["source_record_keys"] == ["MED:2", "pmid:2"]
+    preprint = next(row for row in rows if row["evidence_id"] == "PPR:PPR4")
+    assert preprint["source"] == "PPR"
+    assert preprint["external_id"] == "PPR4"
+    assert "pmid" not in preprint
 
 
 def test_rejects_tampered_activation_queue(tmp_path: Path) -> None:

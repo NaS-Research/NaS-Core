@@ -66,7 +66,10 @@ class CitationChainRetrievalService:
         endpoint_results: list[CitationEndpointResult] = []
         raw_responses: list[dict[str, object]] = []
         candidates: dict[str, dict[str, object]] = {}
-        seed_pmids = {item.pmid for item in seeds}
+        seed_identities = {
+            (item.source, item.external_id)
+            for item in seeds
+        }
 
         for seed in seeds:
             for direction in CitationDirection:
@@ -88,7 +91,7 @@ class CitationChainRetrievalService:
                         title = " ".join(str(item.get("title", "")).split())
                         if not external_id or not source or not title:
                             continue
-                        if source == "MED" and external_id in seed_pmids:
+                        if (source, external_id) in seed_identities:
                             continue
                         record_key = f"{source}:{external_id}"
                         candidate = candidates.setdefault(
@@ -261,7 +264,10 @@ class CitationChainRetrievalService:
         seed: CitationSeed,
         direction: CitationDirection,
     ) -> tuple[CitationEndpointResult, list[dict[str, object]]]:
-        endpoint = f"{EUROPE_PMC_ROOT}/MED/{seed.pmid}/{self._endpoint_name(direction)}"
+        endpoint = (
+            f"{EUROPE_PMC_ROOT}/{seed.source}/{seed.external_id}/"
+            f"{self._endpoint_name(direction)}"
+        )
         first = self._request_page(endpoint, page=1)
         hit_count = self._hit_count(first)
         responses = [first]

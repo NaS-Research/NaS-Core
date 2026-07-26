@@ -24,9 +24,34 @@ class CitationDirection(StrEnum):
 
 
 class CitationSeed(CitationChainModel):
-    evidence_id: str = Field(pattern=r"^PMID:[0-9]+$")
-    pmid: str = Field(pattern=r"^[0-9]+$")
+    evidence_id: str = Field(pattern=r"^(?:PMID:[0-9]+|PPR:PPR[0-9]+)$")
+    source: str = Field(default="MED", pattern=r"^(?:MED|PPR)$")
+    external_id: str | None = Field(
+        default=None,
+        pattern=r"^(?:[0-9]+|PPR[0-9]+)$",
+    )
+    pmid: str | None = Field(default=None, pattern=r"^[0-9]+$")
     title: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_identity(self) -> CitationSeed:
+        if self.source == "MED":
+            if self.pmid is None:
+                raise ValueError("MED citation seed requires a PMID")
+            if self.external_id is None:
+                self.external_id = self.pmid
+            if (
+                self.external_id != self.pmid
+                or self.evidence_id != f"PMID:{self.pmid}"
+            ):
+                raise ValueError("MED citation seed identity does not reconcile")
+        elif (
+            self.pmid is not None
+            or self.external_id is None
+            or self.evidence_id != f"PPR:{self.external_id}"
+        ):
+            raise ValueError("PPR citation seed identity does not reconcile")
+        return self
 
 
 class CitationSeedOrigin(StrEnum):
@@ -35,8 +60,10 @@ class CitationSeedOrigin(StrEnum):
 
 
 class CitationCumulativeSeedRecord(CitationChainModel):
-    evidence_id: str = Field(pattern=r"^PMID:[0-9]+$")
-    pmid: str = Field(pattern=r"^[0-9]+$")
+    evidence_id: str = Field(pattern=r"^(?:PMID:[0-9]+|PPR:PPR[0-9]+)$")
+    source: str = Field(pattern=r"^(?:MED|PPR)$")
+    external_id: str = Field(pattern=r"^(?:[0-9]+|PPR[0-9]+)$")
+    pmid: str | None = Field(default=None, pattern=r"^[0-9]+$")
     title: str = Field(min_length=1)
     origins: list[CitationSeedOrigin] = Field(min_length=1, max_length=2)
     source_record_keys: list[str] = Field(min_length=1)
@@ -45,8 +72,15 @@ class CitationCumulativeSeedRecord(CitationChainModel):
 
     @model_validator(mode="after")
     def validate_seed(self) -> CitationCumulativeSeedRecord:
-        if self.evidence_id != f"PMID:{self.pmid}":
-            raise ValueError("cumulative citation seed PMID identity does not reconcile")
+        expected = (
+            f"PMID:{self.external_id}"
+            if self.source == "MED"
+            else f"PPR:{self.external_id}"
+        )
+        if self.evidence_id != expected:
+            raise ValueError("cumulative citation seed identity does not reconcile")
+        if (self.source == "MED") != (self.pmid == self.external_id):
+            raise ValueError("cumulative citation seed source and PMID disagree")
         if len(self.origins) != len(set(self.origins)):
             raise ValueError("cumulative citation seed origins must be unique")
         if len(self.source_record_keys) != len(set(self.source_record_keys)):
@@ -72,12 +106,12 @@ class CitationCumulativeSeedReceipt(CitationChainModel):
     amendment_activation_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     direct_inclusion_count: int = Field(ge=1)
     prior_pass_inclusion_count: int = Field(ge=1)
-    duplicate_pmid_count: int = Field(ge=0)
+    duplicate_identifier_count: int = Field(ge=0)
     cumulative_seed_count: int = Field(ge=1)
     seeds_object: StoredObject
     input_checksums_verified: bool
     output_checksum_verified: bool
-    exact_pmid_deduplication: bool
+    exact_identifier_deduplication: bool
     all_founder_inclusions_preserved: bool
     molecular_data_access_authorized: bool = False
     outcome_data_access_authorized: bool = False
@@ -88,7 +122,7 @@ class CitationCumulativeSeedReceipt(CitationChainModel):
         expected = (
             self.direct_inclusion_count
             + self.prior_pass_inclusion_count
-            - self.duplicate_pmid_count
+            - self.duplicate_identifier_count
         )
         if expected != self.cumulative_seed_count:
             raise ValueError("cumulative citation seed counts do not reconcile")
@@ -96,7 +130,7 @@ class CitationCumulativeSeedReceipt(CitationChainModel):
             (
                 self.input_checksums_verified,
                 self.output_checksum_verified,
-                self.exact_pmid_deduplication,
+                self.exact_identifier_deduplication,
                 self.all_founder_inclusions_preserved,
             )
         ):
@@ -113,7 +147,9 @@ class CitationCumulativeSeedReceipt(CitationChainModel):
 
 
 class CitationEndpointResult(CitationChainModel):
-    seed_evidence_id: str = Field(pattern=r"^PMID:[0-9]+$")
+    seed_evidence_id: str = Field(
+        pattern=r"^(?:PMID:[0-9]+|PPR:PPR[0-9]+)$"
+    )
     direction: CitationDirection
     endpoint_url: str = Field(min_length=1)
     reported_result_count: int = Field(ge=0)

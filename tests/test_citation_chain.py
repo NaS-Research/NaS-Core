@@ -106,6 +106,36 @@ def test_retrieves_deduplicates_and_verifies_both_citation_directions() -> None:
     assert set(by_key["MED:222"]["directions"]) == {"backward", "forward"}
 
 
+def test_retrieves_europe_pmc_preprint_seed_by_ppr_identity() -> None:
+    store = InMemoryObjectStore()
+    service = CitationChainRetrievalService(
+        store=store,
+        transport=FakeCitationTransport(),
+        clock=lambda: NOW,
+    )
+    seed = CitationSeed(
+        evidence_id="PPR:PPR1259744",
+        source="PPR",
+        external_id="PPR1259744",
+        title="Synthetic preprint seed",
+    )
+
+    snapshot = service.retrieve(
+        [seed],
+        study_id="NAS-BRCA-002",
+        pass_number=2,
+        code_revision="f9f1f46",
+    )
+
+    assert {
+        item.endpoint_url
+        for item in snapshot.endpoint_results
+    } == {
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/PPR/PPR1259744/citations",
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/PPR/PPR1259744/references",
+    }
+
+
 def test_verification_detects_tampered_candidate_object() -> None:
     store = InMemoryObjectStore()
     service = CitationChainRetrievalService(

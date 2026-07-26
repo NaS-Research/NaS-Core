@@ -1499,6 +1499,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             seeds = [
                 CitationSeed(
                     evidence_id=f"PMID:{record.pmid}",
+                    source="MED",
+                    external_id=record.pmid,
                     pmid=record.pmid,
                     title=record.title,
                 )
