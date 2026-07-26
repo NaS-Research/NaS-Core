@@ -23,14 +23,22 @@ Four publisher-only records have typed restriction decisions. Two are
 purchase- or license-restricted, while two declare CC BY 4.0 but lack a
 credential-free, checksum-verifiable official delivery route.
 
-The founder confirmed citation appraisal batch `0009`. All five accessible
-pass-2 studies are locked as `context_only`; four additional inclusions remain
-formally access-restricted. Receipt-derived closure `995b8b3f…f6f9a7`
-independently verified the complete pass and added nine eligible identities.
-The bound review state is now 71 eligible, 61 appraisal-complete, 10
-access-restricted, and zero pending. Because pass 2 added evidence, the
-consecutive-zero stopping count remains zero. The next evidence-review action is
-cumulative citation pass 3 using all 71 founder-included identities.
+Citation pass 3 has executed from the governed 71-identity cumulative seed set.
+Europe PMC returned 2,393 backward and 8,617 forward links, producing 7,728
+unique non-seed records. Reconciliation against the direct search and both prior
+founder ledgers removed 7,127 already-screened records and eight within-pass
+duplicates, leaving 593 genuinely new candidates.
+
+Complete metadata enrichment matched 592 records and supplied 575 abstracts;
+one unresolved metadata identity and 18 records without abstracts remain
+explicitly visible. Conservative advisory screening plus field-isolated
+second-stage adjudication proposes seven high-confidence inclusions and 586
+exclusions with zero unclear. Both checksum-bound packets are frozen. The current
+gate is founder review of
+`FOUNDER_CITATION_PASS_0003_COMBINED_REVIEW_v1.0.0.md` using the exact statement
+`I confirm both checksum-bound citation pass 3 packets as written.` No founder
+decision, scientific conclusion, molecular access, or outcome access has been
+recorded.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -398,6 +406,21 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-26 — Citation pass 3 prepared for founder confirmation
+
+Built a checksum-bound seed receipt from all 71 founder-included persistent
+identities, retrieved and verified the complete bidirectional Europe PMC citation
+graph, and deduplicated it against every prior screened record. Of 7,728 unique
+non-seed records, 593 require new founder decisions.
+
+Ranked all 593 records transparently, enriched all tiers, and preserved the one
+unresolved metadata record and every missing abstract. Conservative advisory
+screening proposed 564 exclusions and held 29 records for individual review.
+The field-isolated adjudication retained seven records under the approved
+high-confidence standard and excluded 22, leaving zero unclear. Two immutable
+packet/appendix pairs now cover every candidate exactly once. They remain
+advisory until the founder supplies the exact pass-3 confirmation statement.
 
 ### 2026-07-26 — Citation appraisal batch 0009 authorized and pass 2 closed
 

@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.41.0-working`
+Manuscript version: `0.42.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -254,6 +254,22 @@ citation-chain/pass-0002-screening-preparation.yaml;
 citation-chain/pass-0002-recommendations.yaml;
 citation-chain/pass-0002-unclear-adjudication.yaml;
 FOUNDER_CITATION_PASS_0002_COMBINED_REVIEW_v1.0.0.md]
+
+Citation pass 3 used all 71 founder-included persistent identities from the
+direct search and passes 1–2. Official Europe PMC retrieval returned 2,393
+backward and 8,617 forward links, yielding 7,728 unique non-seed candidates.
+Exact reconciliation against the direct-search inventory and both prior founder
+ledgers left 593 genuinely new records. Enrichment matched 592 records and
+supplied 575 abstracts; the unresolved metadata identity remains visible.
+Checksum-bound advisory screening proposes seven inclusions and 586 exclusions
+with zero unclear. These are not founder decisions, and they do not change the
+eligible evidence set or support a scientific conclusion.
+[citation-chain/pass-0003-seeds.yaml;
+citation-chain/pass-0003-retrieval.yaml;
+citation-chain/pass-0003-screening-preparation.yaml;
+citation-chain/pass-0003-recommendations.yaml;
+citation-chain/pass-0003-unclear-adjudication.yaml;
+FOUNDER_CITATION_PASS_0003_COMBINED_REVIEW_v1.0.0.md]
 
 The pass-2 appraisal set adds convergent but indirect reliability context. NTP
 defines per-sample confidence without a receiving-cohort training set; paired
@@ -1077,11 +1093,13 @@ novelty conclusion.
 
 Status: `working`
 
-- Primary screening and citation passes 1–2 are complete. Fifty-eight appraisal
+- Primary screening and citation passes 1–2 are complete, while pass 3 awaits
+  founder screening confirmation. Fifty-eight appraisal
   reports are locked across the direct and citation sets. Pass 2 contributed five
   appraisals and four access restrictions, with zero records ready or awaiting full
-  text; sequential citation chaining remains incomplete because neither completed
-  pass was zero-yield.
+  text. Pass 3 currently proposes seven inclusions and 586 exclusions; none is a
+  decision. Sequential citation chaining remains incomplete because neither
+  completed pass was zero-yield.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -1195,6 +1213,7 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
 | Methods—citation pass 2 | Cumulative retrieval, founder screening, lawful access, appraisal, and closure | `citation-chain/pass-0002-decision-ledger.yaml`; `citation-pass-0002-full-text/appraisal-progress-v1.0.0.yaml`; `citation-chain/pass-0002-closure.yaml` | pass closed; 9 eligible identities added; 5 context only, 4 restricted |
+| Methods—citation pass 3 | Cumulative retrieval, deduplication, enrichment, and advisory screening | `citation-chain/pass-0003-seeds.yaml`; `citation-chain/pass-0003-screening-preparation.yaml`; `FOUNDER_CITATION_PASS_0003_COMBINED_REVIEW_v1.0.0.md` | 593 new candidates; 7 include and 586 exclude recommendations; founder confirmation pending |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
 | Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 25 materialized, 0 ready, 4 restricted, 0 unresolved full texts |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
@@ -1244,6 +1263,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.42.0-working | 2026-07-26 | Executed cumulative citation pass 3 from all 71 governed seeds, reduced 7,728 non-seed records to 593 new candidates, and froze advisory packets proposing seven inclusions and 586 exclusions with zero unclear; no founder decision or scientific conclusion was recorded. |
 | 0.41.0-working | 2026-07-26 | Founder-authorized citation appraisal batch 0009, locked five context-only appraisals, formally accounted for four restrictions, closed citation pass 2, and updated the evidence state to 71 eligible, 61 appraisal-complete, 10 restricted, and zero pending. |
 | 0.40.0-working | 2026-07-26 | Added synthetic batch execution as independent single-sample composition, with duplicate-identity rejection, ordered batch provenance, and tests proving that companion fixtures and batch order cannot change an individual result. |
 | 0.39.0-working | 2026-07-26 | Extended synthetic-only method validation to explicit seed-bound technical-error panels with stable provenance hashes, family-level accounting, label-changing instability tests, and fail-closed invalid-run abstention; no empirical error model was approved. |

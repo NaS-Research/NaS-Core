@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+policy_version: 1.0.0
+study_id: NAS-BRCA-002
+pass_number: 3
+based_on_recommendation_id: 5ceb95593da71417212217c32257b0de5bb7157a815aa8c797b0bb8d62c0562b
+include_record_keys:
+  - MED:41275314
+  - MED:32690604
+  - MED:33332369
+  - MED:35982221
+  - MED:31678167
+  - MED:23274563
+  - MED:22187034
+rationale: >-
+  Second-stage title-and-abstract review retains only high-confidence records
+  with a direct single-sample classifier and explicit perturbation tests,
+  molecular-versus-image classifier comparison, multiregional subtype
+  discordance, tumor-composition sensitivity, cross-platform classification
+  disagreement, or paired frozen-versus-FFPE subtype validation relevant to
+  question 0.3.0. Secondary commentary, outcome-only studies, unrelated
+  molecular taxonomy, deconvolution without a direct subtype-reliability
+  comparison, and records lacking sufficient metadata remain recommended for
+  exclusion. Recommendations remain advisory until the founder confirms both
+  checksum-bound pass-3 packets.
+founder_confirmation_required: true
+autonomous_decisions_allowed: false
