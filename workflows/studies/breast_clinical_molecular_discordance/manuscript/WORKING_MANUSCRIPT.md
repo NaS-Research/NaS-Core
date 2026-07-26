@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.25.0-working`
+Manuscript version: `0.26.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -222,6 +222,10 @@ evidence synthesis and do not change completion counts until exact authorization
 The other six verified full texts now have a separate checksum-bound batch-0003
 proposal packet. Those proposed judgments are also excluded from the evidence
 synthesis and completion counts until independently confirmed by the founder.
+The medRxiv analytical bridge and UNC genomic-versus-pathology comparison have
+separate batch-0004 and batch-0005 proposals. Both remain non-authoritative; the
+UNC proposal was produced through a bounded zero-storage gate that reverified its
+source checksum and rejected long verbatim passages.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
@@ -961,6 +965,7 @@ checks, and internal reviews are complete.
 | Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
 | Pending—citation appraisal batch 0004 | AI-assisted preprint appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0004_v1.0.0.md`; `citation-appraisal-proposals/batch-0004/PPR1259744-v1.0.0.yaml` | non-authoritative, founder review required |
+| Pending—citation appraisal batch 0005 | AI-assisted ephemeral appraisal proposal | `FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md`; `citation-appraisal-proposals/batch-0005/PMID23907291-v1.0.0.yaml` | non-authoritative, founder review required |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -998,6 +1003,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.26.0-working | 2026-07-25 | Added the bounded no-storage proposal validator, generalized `PMC`/`PMID`/`PPR` founder references, and non-authoritative batch-0005 genomic-versus-pathology appraisal proposal. |
 | 0.25.0-working | 2026-07-25 | Added the checksum-bound UNC institutional-PDF review receipt and explicit publisher decisions for three restricted records; citation state is 3 appraised, 22 ready, 3 restricted, and 1 pending access. |
 | 0.22.0-working | 2026-07-25 | Added a reproducible medRxiv version-2 no-storage receipt, CC BY-NC durable-storage restriction, and non-authoritative batch-0004 appraisal proposal; citation state is 3 appraised, 21 ready, and 5 pending access. |
 | 0.21.0-working | 2026-07-25 | Added eight verified PMC no-storage review receipts and seven durable-storage restrictions; citation state is 3 appraised, 20 ready, and 6 pending access. |

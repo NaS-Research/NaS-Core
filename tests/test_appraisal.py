@@ -264,6 +264,32 @@ def test_third_citation_appraisal_batch_is_non_authoritative() -> None:
     assert all(item.scientific_conclusions_drawn is False for item in proposals)
 
 
+@pytest.mark.parametrize(
+    ("batch_number", "expected_stem", "expected_role"),
+    [
+        (4, "PPR1259744-v1.0.0", "supporting"),
+        (5, "PMID23907291-v1.0.0", "context_only"),
+    ],
+)
+def test_non_pmc_citation_appraisal_batch_is_non_authoritative(
+    batch_number: int,
+    expected_stem: str,
+    expected_role: str,
+) -> None:
+    paths = sorted(
+        (PROPOSAL_ROOT / f"batch-{batch_number:04d}").glob("*.yaml")
+    )
+    proposals = [
+        FullTextAppraisalProposal.model_validate(yaml.safe_load(path.read_text()))
+        for path in paths
+    ]
+
+    assert [path.stem for path in paths] == [expected_stem]
+    assert [item.proposed_evidence_role for item in proposals] == [expected_role]
+    assert all(item.founder_decision_recorded is False for item in proposals)
+    assert all(item.scientific_conclusions_drawn is False for item in proposals)
+
+
 def test_appraisal_batch_confirmation_requires_exact_statement() -> None:
     payload = {
         "confirmation_version": "1.0.0",
@@ -318,6 +344,43 @@ def test_appraisal_batch_confirmation_statement_is_batch_specific() -> None:
 
     with pytest.raises(ValidationError, match="statement is not exact"):
         FullTextAppraisalBatchConfirmation.model_validate(payload)
+
+
+@pytest.mark.parametrize(
+    "filename",
+    [
+        "PMC123-v1.0.0.yaml",
+        "PMID23907291-v1.0.0.yaml",
+        "PPR1259744-v1.0.0.yaml",
+    ],
+)
+def test_appraisal_confirmation_accepts_supported_record_filename(
+    filename: str,
+) -> None:
+    confirmation = FullTextAppraisalBatchConfirmation(
+        confirmation_version="1.0.0",
+        study_id="NAS-BRCA-002",
+        batch_number=5,
+        packet_filename="FOUNDER_CITATION_APPRAISAL_BATCH_0005_v1.0.0.md",
+        packet_sha256="a" * 64,
+        proposal_count=1,
+        proposals=[
+            {
+                "filename": filename,
+                "screening_id": "b" * 64,
+                "sha256": "c" * 64,
+            }
+        ],
+        confirmation_statement=appraisal_batch_confirmation_statement(5),
+        founder_id="dalron-j-robertson",
+        founder_name="Dalron J. Robertson",
+        reviewer_role="founder_internal_reviewer",
+        confirmed_at=datetime(2026, 7, 26, tzinfo=UTC),
+        founder_authorized=True,
+        founder_role_conflict_disclosed=True,
+    )
+
+    assert confirmation.proposals[0].filename == filename
 
 
 def test_appraisal_batch_confirmation_rejects_cross_batch_packet() -> None:
@@ -403,7 +466,7 @@ def test_real_appraisal_confirmation_authorizes_exact_proposal_set() -> None:
 
 @pytest.mark.parametrize(
     ("batch_number", "expected_supporting", "expected_context"),
-    [(2, 2, 2), (3, 4, 2)],
+    [(2, 2, 2), (3, 4, 2), (4, 1, 0), (5, 0, 1)],
 )
 def test_pending_real_batches_are_authorization_ready(
     batch_number: int,

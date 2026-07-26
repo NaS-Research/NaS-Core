@@ -39,6 +39,9 @@ for founder review; it likewise remains outside the evidence ledger until exact
 confirmation. Batch 0004 contains the CC BY-NC medRxiv version-2 analytical
 bridging preprint under packet SHA-256 `b03ea215…d7eda`; it is proposed as
 `supporting` and remains non-authoritative pending exact founder confirmation.
+Batch 0005 contains the checksum-bound UNC institutional-copy appraisal under
+packet SHA-256 `990c74c2…b8117`; it is proposed as `context_only` and remains
+non-authoritative pending exact founder confirmation.
 
 Definition of done:
 
@@ -253,50 +256,62 @@ Current gate state:
 ## Next implementation queue
 
 1. Obtain separate exact founder decisions for citation appraisal batches 0002,
-   0003, and 0004; materialize only the batches explicitly confirmed.
+   0003, 0004, and 0005; materialize only the batches explicitly confirmed.
 2. Resolve the remaining 2010 Lancet Oncology record through a reproducible,
    checksum-verifiable CC BY full-text route.
-3. Add a structured no-storage review-and-propose route for institutional and
-   publisher copies so appraisal evidence can be emitted without disclosing or
-   retaining article text.
-4. Appraise the remaining verified read-only and durable full texts, prioritizing
+3. Appraise the remaining verified read-only and durable full texts, prioritizing
    direct single-sample, normalization, perturbation, and external-transport evidence.
-5. Appraise every additionally accessible methodological or external-transport study,
+4. Appraise every additionally accessible methodological or external-transport study,
    then execute sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
-6. Update the living manuscript and its evidence-to-text ledger after every material
+5. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-7. Resolve and approve the exact centroid and external-reference artifacts,
+6. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-8. Define an independently calibrated technical-error model and lock the margin
+7. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-9. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
+8. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
    GSE96058 through logged metadata-only queries.
-10. Complete the founder scientific/product, molecular/pathology, and statistical
+9. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-11. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+10. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-12. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+11. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-13. Implement persisted evidence claims, citations, provenance, contradictory
+12. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-14. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+13. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-15. Expand the screening model gateway into general evidence reasoning with
+14. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-16. Build evaluation suites for retrieval, citation validity, numerical
+15. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-17. Generate an immutable research release containing the protocol, dataset
+16. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-18. Generate a reviewable white-paper draft whose substantive claims trace to
+17. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-19. Build the internal workbench for projects, protocols, datasets, runs,
+18. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-20. Complete repeated internal oncology pilots before selecting the first
+19. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Structured no-storage appraisal proposal path completed
+
+Implemented a purpose-built institutional-PDF appraisal proposal gate. It
+re-fetches only an approved source, requires exact receipt byte count and SHA-256,
+reconciles inventory and proposal identities, constrains derivative-summary sizes,
+rejects long verbatim source sequences, and writes only a typed non-authoritative
+proposal. No article bytes or extracted text are retained.
+
+The gate produced batch 0005 for PMID 23907291. The proposal is `context_only`
+because the paired genomic/pathology comparison is directly relevant but uses
+cohort-level centering, a selected 94-patient cohort, exploratory treatment
+subgroups, no declared multiplicity control, treatment crossover, and no external
+validation. The founder-confirmation filename contract now supports `PMC`, `PMID`,
+and `PPR` records, repairing the latent authorization failure for batch 0004.
 
 ### 2026-07-25 — Publisher access queue reduced to one unresolved record
 

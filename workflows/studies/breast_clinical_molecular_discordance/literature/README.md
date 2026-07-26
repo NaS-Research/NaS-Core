@@ -163,6 +163,17 @@ preprint status, Veracyte funding, proprietary data, and incomplete public
 calibration artifact. It remains non-authoritative until the founder separately
 confirms batch 0004 exactly.
 
+Citation appraisal batch 0005 proposes the PMID 23907291 genomic-versus-pathology
+comparison as `context_only`. Its institutional author copy was reverified against
+the prior 518,968-byte receipt and SHA-256 `5ffda151…805a` through a structured
+no-storage proposal gate. That gate limits derivative narrative sizes, rejects
+long verbatim source sequences, and retains no article text. Packet SHA-256
+`990c74c2…b8117` binds proposal SHA-256 `e10db278…a8cd6`. The proposal records
+moderate overall agreement alongside cohort-level centering, selected population,
+small subgroup analyses, crossover treatment sequence, absent multiplicity
+control, and no external validation. It remains non-authoritative until the
+founder separately confirms batch 0005 exactly.
+
 Required artifacts:
 
 - `literature/protocol.md`

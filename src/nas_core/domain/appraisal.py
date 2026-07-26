@@ -459,7 +459,9 @@ class FullTextAppraisalProposal(AppraisalModel):
 
 
 class FullTextAppraisalProposalReference(AppraisalModel):
-    filename: str = Field(pattern=r"^PMC[0-9]+-v[0-9]+\.[0-9]+\.[0-9]+\.yaml$")
+    filename: str = Field(
+        pattern=r"^(?:PMC|PMID|PPR)[0-9]+-v[0-9]+\.[0-9]+\.[0-9]+\.yaml$"
+    )
     screening_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
 
@@ -715,6 +717,20 @@ def write_full_text_appraisal(path: Path, appraisal: FullTextAppraisal) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = yaml.safe_dump(
         appraisal.model_dump(mode="json", exclude_none=True),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
+
+
+def write_full_text_appraisal_proposal(
+    path: Path, proposal: FullTextAppraisalProposal
+) -> None:
+    """Write one non-authoritative proposal without overwriting prior review."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        proposal.model_dump(mode="json", exclude_none=True),
         sort_keys=False,
         width=100,
     )

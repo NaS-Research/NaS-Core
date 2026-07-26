@@ -1,0 +1,102 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 630314e3504ea43f55fbbf4a9b13d36cd24bacb736f44ba8f0ce712802ea34be
+title: 'Assignment of tumor subtype by genomic testing and pathologic-based approximations: implications
+  on patient''s management and therapy selection.'
+pmid: '23907291'
+doi: 10.1007/s12094-013-1088-z
+full_text_source_url: https://unclineberger.org/peroulab/wp-content/uploads/sites/1008/2013/10/July-16.pdf
+full_text_sha256: 5ffda15140cd4ecd7b7d49626a06964c007d7bd1b626a392e39d1e2e9255805a
+access_basis: Public UNC Lineberger institutional author copy reviewed ephemerally; zero article bytes
+  were retained in the durable NaS corpus.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: The paired comparison used 94 women from a prospective randomized neoadjuvant trial, but
+    enrollment was limited to locally advanced, operable-stage disease at one Spanish program. That selected
+    population does not represent screening-detected or broadly distributed breast cancer.
+  evidence_locations:
+  - "Methods \u2014 Study population"
+  - Table 1
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Pretreatment biopsies had a stated tumor-content threshold, and the microarray, immunohistochemistry,
+    FISH, marker clones, scoring cutoffs, and blinded pathology review were described. The paired modalities
+    nevertheless measured different biological features and no repeat-measure precision study quantified
+    analytical error.
+  evidence_locations:
+  - "Methods \u2014 RNA isolation and microarray expression profiling"
+  - "Methods \u2014 IHC FISH and tumor grading"
+- domain: classifier_implementation
+  judgment: high
+  rationale: PAM50 and the claudin-low predictor were invoked through earlier methods, while the available
+    report does not freeze executable code, software versions, centroids, or a complete transformation
+    artifact. Expression was median-centered across this 94-sample cohort, making the genomic calls dependent
+    on other study samples rather than patient-independent.
+  evidence_locations:
+  - "Methods \u2014 RNA isolation and microarray expression profiling"
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Pathology surrogates used explicit ER, PR, HER2, Ki-67, EGFR, and CK5/6 rules and offer a
+    clinically familiar comparator. They are approximations rather than an independent biological truth
+    standard, so disagreement cannot by itself identify which classification is correct.
+  evidence_locations:
+  - "Methods \u2014 IHC FISH and tumor grading"
+  - "Results \u2014 Agreement between genomic and IHC-FISH-based subtype assessment"
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: Agreement used kappa with confidence intervals, and outcome models included clinical covariates,
+    likelihood-ratio comparisons, and concordance indices. However, the cohort and event counts were small
+    for subtype-by-treatment analyses, intervals were wide, one survival model did not converge, multiple
+    subgroup tests lacked a declared multiplicity strategy, and treatment crossover complicates causal
+    interpretation.
+  evidence_locations:
+  - "Methods \u2014 Statistical analysis"
+  - "Results \u2014 Prognostic information provided by breast cancer molecular subtypes"
+  - "Results \u2014 Chemosensitivity of triple negative tumors"
+- domain: validation_and_transportability
+  judgment: high
+  rationale: The report contains no unchanged external validation cohort for concordance, prognosis, or
+    treatment interaction. The authors explicitly characterize the sample as small and call for larger
+    validation, while the cohort-specific centering further limits direct transport to a new patient or
+    platform.
+  evidence_locations:
+  - Discussion
+  - Conclusion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: The cohort, assays, statistical tools, aggregate results, public expression accession GSE21997,
+    funding, and conflicts were reported. Reproduction is still limited by reliance on earlier classifier
+    descriptions, absent executable analysis code, restricted supplementary material, and no frozen patient-independent
+    implementation artifact.
+  evidence_locations:
+  - Methods
+  - Discussion
+  - Acknowledgments and conflict of interest
+proposed_evidence_role: context_only
+key_strengths:
+- Uses paired genomic and pathology-based subtype assignments in a defined prospective trial cohort.
+- Reports agreement with confidence intervals and separates overall from subtype-specific mappings.
+- Provides public microarray data through GEO accession GSE21997.
+- Transparently reports study funding and a PAM50-related commercial and patent interest.
+key_limitations:
+- The cohort contains only 94 women with locally advanced disease from one clinical program.
+- Genomic preprocessing median-centers across the study cohort and is not patient-independent.
+- Exploratory treatment-subgroup estimates are imprecise and lack multiplicity control.
+- Treatment crossover and protocol deviations prevent a clean treatment-effect interpretation.
+- No independent cohort validates concordance, prognosis, or treatment interaction.
+- The paper does not release a complete executable classifier and analysis artifact.
+conflicts_and_funding: Funding came from Instituto de Salud Carlos III and FEDER grants, an NCI Breast
+  SPORE award, and the Breast Cancer Research Foundation. Charles M. Perou disclosed equity in BioClassifier
+  LLC and a filed PAM50 patent; the remaining authors reported no conflicts.
+assistant_id: openai-codex
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound institutional author copy through a governed
+  ephemeral workflow, retained zero article bytes, and proposed section-located methodological judgments
+  for founder review. This proposal is not a founder decision, locked appraisal, scientific conclusion,
+  novelty finding, causal treatment claim, or clinical recommendation.
+proposed_at: '2026-07-26T02:41:25Z'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

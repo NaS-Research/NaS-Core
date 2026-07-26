@@ -18,10 +18,12 @@ from nas_core.domain.appraisal import (
     load_full_text_access_decision,
     load_full_text_appraisal,
     load_full_text_appraisal_batch_confirmation,
+    load_full_text_appraisal_proposal,
     load_full_text_inventory,
     load_full_text_read_only_review_receipt,
     write_full_text_appraisal,
     write_full_text_appraisal_progress,
+    write_full_text_appraisal_proposal,
     write_full_text_inventory,
     write_full_text_read_only_review_receipt,
     write_full_text_retrieval_receipt,
@@ -115,6 +117,9 @@ from nas_core.retrieval.citation_reconciliation import (
     CitationInclusionReconciliationService,
 )
 from nas_core.retrieval.citation_screening import CitationScreeningPreparationService
+from nas_core.retrieval.ephemeral_appraisal import (
+    InstitutionalPdfAppraisalProposalService,
+)
 from nas_core.retrieval.evidence_amendment import (
     CitationAccessInventoryService,
     EvidenceCapAmendmentActivationService,
@@ -765,6 +770,22 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Read the PDF in memory; never persist article content",
+    )
+    citation_institutional_pdf_proposal = literature_commands.add_parser(
+        "citation-institutional-pdf-appraisal-propose",
+        help="Verify a bounded structured proposal against an ephemeral PDF",
+    )
+    citation_institutional_pdf_proposal.add_argument("inventory", type=Path)
+    citation_institutional_pdf_proposal.add_argument("screening_id")
+    citation_institutional_pdf_proposal.add_argument("review_receipt", type=Path)
+    citation_institutional_pdf_proposal.add_argument("draft", type=Path)
+    citation_institutional_pdf_proposal.add_argument(
+        "--proposal-output", required=True, type=Path
+    )
+    citation_institutional_pdf_proposal.add_argument(
+        "--execute",
+        action="store_true",
+        help="Verify the draft against PDF bytes in memory and retain only the proposal",
     )
     full_text_fetch = literature_commands.add_parser(
         "full-text-fetch",
@@ -2042,6 +2063,42 @@ def main(argv: Sequence[str] | None = None) -> int:
             "zero article bytes stored"
         )
         print(f"Wrote verified no-storage receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command
+        == "citation-institutional-pdf-appraisal-propose"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        review_receipt = load_full_text_read_only_review_receipt(
+            args.review_receipt
+        )
+        draft = load_full_text_appraisal_proposal(args.draft)
+        if not args.execute:
+            print(
+                f"Institutional PDF proposal verification ready: {matches[0].doi}, "
+                f"screening {matches[0].screening_id}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        proposal = InstitutionalPdfAppraisalProposalService().validate(
+            record=matches[0],
+            receipt=review_receipt,
+            proposal=draft,
+        )
+        write_full_text_appraisal_proposal(args.proposal_output, proposal)
+        print(
+            f"Verified structured proposal for DOI {proposal.doi} against "
+            f"{review_receipt.content_size_bytes} ephemeral bytes; "
+            "zero article bytes stored"
+        )
+        print(f"Wrote non-authoritative proposal: {args.proposal_output}")
         return 0
 
     if args.command == "literature" and args.literature_command == "full-text-fetch":
