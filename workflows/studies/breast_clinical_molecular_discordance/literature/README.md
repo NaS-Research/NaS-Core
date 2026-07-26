@@ -211,6 +211,11 @@ PAM50 in two Swedish cohorts. These observations do not validate a NaS method,
 patient-level subtype adjudication, or treatment utility. Exact founder
 confirmation is required before any proposal can enter the evidence ledger.
 
+For founder review, `FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`
+indexes batches 0002 through 0007 with exact packet hashes, proposal counts,
+evidence-role totals, links, and the six packet-specific confirmation statements.
+It is a convenience index, not a combined authorization.
+
 Required artifacts:
 
 - `literature/protocol.md`

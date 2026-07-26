@@ -62,6 +62,11 @@ remaining papers passed those canonical gates and are frozen as batch-0007
 founder confirmation. There are no remaining unresolved lawful-viewing routes in
 this citation subset.
 
+The six pending appraisal packets are indexed in
+`FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md`: 17 proposals total,
+including seven proposed `supporting` and ten proposed `context_only` appraisals.
+Each batch requires its own exact founder confirmation before materialization.
+
 Definition of done:
 
 - Question version `0.3.0` defines a fixed single-sample method and a specific

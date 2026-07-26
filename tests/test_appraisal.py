@@ -39,6 +39,10 @@ APPRAISAL_CONFIRMATION = (
     REAL_APPRAISAL_DIR.parent
     / "FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml"
 )
+PENDING_REVIEW_INDEX = (
+    REAL_APPRAISAL_DIR.parent
+    / "FOUNDER_PENDING_CITATION_APPRAISAL_REVIEW_v1.0.0.md"
+)
 
 
 def _test_confirmation(
@@ -506,6 +510,33 @@ def test_pending_real_batches_are_authorization_ready(
         expected_context
     )
     assert all(item.founder_authorized for item in appraisals)
+
+
+def test_pending_review_index_binds_real_packet_hashes_and_counts() -> None:
+    review_index = PENDING_REVIEW_INDEX.read_text(encoding="utf-8")
+
+    for batch_number in range(2, 8):
+        packet = (
+            REAL_APPRAISAL_DIR.parent
+            / f"FOUNDER_CITATION_APPRAISAL_BATCH_{batch_number:04d}_v1.0.0.md"
+        )
+        proposal_count = len(
+            list(
+                (
+                    PROPOSAL_ROOT / f"batch-{batch_number:04d}"
+                ).glob("*.yaml")
+            )
+        )
+        packet_sha256 = hashlib.sha256(packet.read_bytes()).hexdigest()
+
+        assert (
+            f"| `{batch_number:04d}` | `{packet_sha256}` | {proposal_count} |"
+            in review_index
+        )
+        assert (
+            appraisal_batch_confirmation_statement(batch_number)
+            in review_index
+        )
 
 
 def test_appraisal_confirmation_rejects_cross_study_proposal(tmp_path: Path) -> None:
