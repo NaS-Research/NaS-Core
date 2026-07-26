@@ -63,6 +63,11 @@ PAM50_HISTORICAL_GENES = frozenset(
         "UBE2T",
     }
 )
+PAM50_HISTORICAL_ALIASES = {
+    "CDCA1": "NUF2",
+    "KNTC2": "NDC80",
+    "ORC6L": "ORC6",
+}
 
 REQUIRED_RELIABILITY_OUTPUT_FIELDS = frozenset(
     {
@@ -166,8 +171,7 @@ class InputContract(ReliabilityModel):
             raise ValueError("canonical PAM50 gene symbols must be unique")
         if set(self.canonical_gene_symbols) != PAM50_HISTORICAL_GENES:
             raise ValueError("canonical symbols must match the historical PAM50 50-gene panel")
-        required_aliases = {"CDCA1": "NUF2", "KNTC2": "NDC80", "ORC6L": "ORC6"}
-        if self.historical_aliases != required_aliases:
+        if self.historical_aliases != PAM50_HISTORICAL_ALIASES:
             raise ValueError("historical PAM50 aliases must be explicit and complete")
         if self.imputation_allowed:
             raise ValueError("the canonical run cannot impute missing PAM50 genes")

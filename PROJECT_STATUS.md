@@ -8,7 +8,21 @@ and what comes next?
 
 ## Current focus
 
-### Complete citation appraisals and governed access resolution
+### Execute the founder-authorized field-isolated metadata audit
+
+The founder supplied the exact statement
+`I authorize field-isolated metadata audit 1.0.0 as written.` The append-only
+confirmation is bound to packet SHA-256 `503bdcc6…0d0ff`. A fail-closed
+projection engine and canonical receipt schema are implemented with synthetic
+tests. The engine allowlists exact GDC/GEO endpoints and fields, verifies source
+identities and checksums, parses only receptor/replicate metadata and gene
+identifiers, retains only aggregate derivatives, and explicitly prohibits raw
+artifact storage, patient-level retention, expression-value parsing, outcome
+parsing, cohort construction, and classifier execution. The implementation must
+be committed before remote execution so the live receipt can bind an exact code
+revision.
+
+The completed citation-appraisal state remains:
 
 Primary title-and-abstract screening is complete. Founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
@@ -280,8 +294,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain exact founder authorization for field-isolated metadata audit `1.0.0`;
-   only then implement and execute its transient projection gates.
+1. Commit the tested field-isolated projection implementation, then execute it
+   from that frozen revision and record a checksum-bound feasibility receipt.
 2. Execute sequential
    citation passes until two consecutive fully screened passes add zero eligible
    evidence.
@@ -291,30 +305,28 @@ Current gate state:
    redistribution rights, expression transformations, and numerical tolerances.
 5. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Verify TCGA receptor-field completeness and PAM50 gene coverage in TCGA and
-   GSE96058 through logged metadata-only queries.
-7. Complete the founder scientific/product, molecular/pathology, and statistical
+6. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-8. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-9. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-10. Implement persisted evidence claims, citations, provenance, contradictory
+9. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-11. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-12. Expand the screening model gateway into general evidence reasoning with
+11. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-13. Build evaluation suites for retrieval, citation validity, numerical
+12. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-14. Generate an immutable research release containing the protocol, dataset
+13. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-15. Generate a reviewable white-paper draft whose substantive claims trace to
+14. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-16. Build the internal workbench for projects, protocols, datasets, runs,
+15. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-17. Complete repeated internal oncology pilots before selecting the first
+16. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed

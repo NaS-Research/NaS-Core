@@ -1,0 +1,534 @@
+{
+  "$defs": {
+    "FieldIsolationCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "check_id": {
+          "minLength": 1,
+          "title": "Check Id",
+          "type": "string"
+        },
+        "evidence_source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Source Ids",
+          "type": "array"
+        },
+        "finding": {
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "limitation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limitation"
+        },
+        "status": {
+          "$ref": "#/$defs/FieldIsolationStatus"
+        }
+      },
+      "required": [
+        "check_id",
+        "status",
+        "finding",
+        "evidence_source_ids"
+      ],
+      "title": "FieldIsolationCheck",
+      "type": "object"
+    },
+    "FieldIsolationDecision": {
+      "enum": [
+        "pass",
+        "changes_requested",
+        "hold",
+        "fail"
+      ],
+      "title": "FieldIsolationDecision",
+      "type": "string"
+    },
+    "FieldIsolationStatus": {
+      "enum": [
+        "verified",
+        "unresolved",
+        "failed"
+      ],
+      "title": "FieldIsolationStatus",
+      "type": "string"
+    },
+    "GeneCoverageSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "alias_resolutions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Alias Resolutions",
+          "type": "object"
+        },
+        "canonical_genes_present": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Canonical Genes Present",
+          "type": "array"
+        },
+        "duplicate_canonical_mappings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Duplicate Canonical Mappings",
+          "type": "array"
+        },
+        "expression_values_parsed": {
+          "title": "Expression Values Parsed",
+          "type": "boolean"
+        },
+        "missing_canonical_genes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Missing Canonical Genes",
+          "type": "array"
+        },
+        "observed_identifier_count": {
+          "minimum": 0,
+          "title": "Observed Identifier Count",
+          "type": "integer"
+        },
+        "required_gene_count": {
+          "minimum": 1,
+          "title": "Required Gene Count",
+          "type": "integer"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "unique_identifier_count": {
+          "minimum": 0,
+          "title": "Unique Identifier Count",
+          "type": "integer"
+        },
+        "unmapped_identifier_count": {
+          "minimum": 0,
+          "title": "Unmapped Identifier Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_id",
+        "required_gene_count",
+        "observed_identifier_count",
+        "unique_identifier_count",
+        "canonical_genes_present",
+        "alias_resolutions",
+        "missing_canonical_genes",
+        "duplicate_canonical_mappings",
+        "unmapped_identifier_count",
+        "expression_values_parsed"
+      ],
+      "title": "GeneCoverageSummary",
+      "type": "object"
+    },
+    "ReceptorCompletenessSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "all_three_present_count": {
+          "minimum": 0,
+          "title": "All Three Present Count",
+          "type": "integer"
+        },
+        "er_category_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Er Category Counts",
+          "type": "object"
+        },
+        "er_present_count": {
+          "minimum": 0,
+          "title": "Er Present Count",
+          "type": "integer"
+        },
+        "her2_category_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Her2 Category Counts",
+          "type": "object"
+        },
+        "her2_present_count": {
+          "minimum": 0,
+          "title": "Her2 Present Count",
+          "type": "integer"
+        },
+        "pr_category_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Pr Category Counts",
+          "type": "object"
+        },
+        "pr_present_count": {
+          "minimum": 0,
+          "title": "Pr Present Count",
+          "type": "integer"
+        },
+        "record_count": {
+          "minimum": 1,
+          "title": "Record Count",
+          "type": "integer"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "record_count",
+        "er_present_count",
+        "pr_present_count",
+        "her2_present_count",
+        "all_three_present_count",
+        "er_category_counts",
+        "pr_category_counts",
+        "her2_category_counts"
+      ],
+      "title": "ReceptorCompletenessSummary",
+      "type": "object"
+    },
+    "ReplicateSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "linked_technical_replicate_count": {
+          "minimum": 0,
+          "title": "Linked Technical Replicate Count",
+          "type": "integer"
+        },
+        "primary_record_count": {
+          "minimum": 0,
+          "title": "Primary Record Count",
+          "type": "integer"
+        },
+        "sample_record_count": {
+          "minimum": 1,
+          "title": "Sample Record Count",
+          "type": "integer"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "technical_replicate_count": {
+          "minimum": 0,
+          "title": "Technical Replicate Count",
+          "type": "integer"
+        },
+        "unclassified_record_count": {
+          "minimum": 0,
+          "title": "Unclassified Record Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_id",
+        "sample_record_count",
+        "primary_record_count",
+        "technical_replicate_count",
+        "linked_technical_replicate_count",
+        "unclassified_record_count"
+      ],
+      "title": "ReplicateSummary",
+      "type": "object"
+    },
+    "SourceArtifactEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "declared_md5": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{32}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Declared Md5"
+        },
+        "file_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File Id"
+        },
+        "filename": {
+          "minLength": 1,
+          "title": "Filename",
+          "type": "string"
+        },
+        "parser_name": {
+          "minLength": 1,
+          "title": "Parser Name",
+          "type": "string"
+        },
+        "permitted_field_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Permitted Field Names",
+          "type": "array"
+        },
+        "raw_artifact_stored": {
+          "title": "Raw Artifact Stored",
+          "type": "boolean"
+        },
+        "rejected_field_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rejected Field Names",
+          "type": "array"
+        },
+        "representation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Representation Sha256",
+          "type": "string"
+        },
+        "representation_size_bytes": {
+          "minimum": 1,
+          "title": "Representation Size Bytes",
+          "type": "integer"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "url": {
+          "pattern": "^https://",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "role",
+        "url",
+        "filename",
+        "representation_sha256",
+        "representation_size_bytes",
+        "parser_name",
+        "raw_artifact_stored",
+        "permitted_field_names",
+        "rejected_field_names"
+      ],
+      "title": "SourceArtifactEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/SourceArtifactEvidence"
+      },
+      "minItems": 4,
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "audit_version": {
+      "pattern": "^1\\.0\\.0$",
+      "title": "Audit Version",
+      "type": "string"
+    },
+    "authorization_packet_path": {
+      "minLength": 1,
+      "title": "Authorization Packet Path",
+      "type": "string"
+    },
+    "authorization_packet_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Packet Sha256",
+      "type": "string"
+    },
+    "authorization_path": {
+      "minLength": 1,
+      "title": "Authorization Path",
+      "type": "string"
+    },
+    "authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Sha256",
+      "type": "string"
+    },
+    "checks": {
+      "items": {
+        "$ref": "#/$defs/FieldIsolationCheck"
+      },
+      "minItems": 5,
+      "title": "Checks",
+      "type": "array"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "cohort_constructed": {
+      "title": "Cohort Constructed",
+      "type": "boolean"
+    },
+    "decision": {
+      "$ref": "#/$defs/FieldIsolationDecision"
+    },
+    "decision_rationale": {
+      "minLength": 1,
+      "title": "Decision Rationale",
+      "type": "string"
+    },
+    "executed_at": {
+      "minLength": 1,
+      "title": "Executed At",
+      "type": "string"
+    },
+    "gse96058_gene_coverage": {
+      "$ref": "#/$defs/GeneCoverageSummary"
+    },
+    "gse96058_receptor_completeness": {
+      "$ref": "#/$defs/ReceptorCompletenessSummary"
+    },
+    "gse96058_replicates": {
+      "$ref": "#/$defs/ReplicateSummary"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "next_authorization_required": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Next Authorization Required",
+      "type": "array"
+    },
+    "outcome_values_parsed": {
+      "title": "Outcome Values Parsed",
+      "type": "boolean"
+    },
+    "patient_level_records_retained": {
+      "title": "Patient Level Records Retained",
+      "type": "boolean"
+    },
+    "prohibited_fields_transiently_transferred": {
+      "title": "Prohibited Fields Transiently Transferred",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-BRCA002$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^0\\.3\\.0$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "raw_artifacts_stored": {
+      "title": "Raw Artifacts Stored",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "pattern": "^1\\.0\\.0$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "software_revision": {
+      "pattern": "^[a-f0-9]{40}$",
+      "title": "Software Revision",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-BRCA-002$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "tcga_gene_coverage": {
+      "$ref": "#/$defs/GeneCoverageSummary"
+    },
+    "tcga_receptor_completeness": {
+      "$ref": "#/$defs/ReceptorCompletenessSummary"
+    },
+    "transient_field_isolated_access": {
+      "title": "Transient Field Isolated Access",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "audit_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "executed_at",
+    "software_revision",
+    "authorization_path",
+    "authorization_sha256",
+    "authorization_packet_path",
+    "authorization_packet_sha256",
+    "transient_field_isolated_access",
+    "prohibited_fields_transiently_transferred",
+    "patient_level_records_retained",
+    "molecular_values_parsed",
+    "outcome_values_parsed",
+    "raw_artifacts_stored",
+    "cohort_constructed",
+    "classifier_executed",
+    "artifacts",
+    "tcga_gene_coverage",
+    "gse96058_gene_coverage",
+    "tcga_receptor_completeness",
+    "gse96058_receptor_completeness",
+    "gse96058_replicates",
+    "checks",
+    "decision",
+    "decision_rationale",
+    "limitations",
+    "next_authorization_required"
+  ],
+  "title": "FieldIsolatedMetadataReceipt",
+  "type": "object"
+}

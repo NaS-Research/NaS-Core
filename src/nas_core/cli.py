@@ -80,6 +80,11 @@ from nas_core.domain.feasibility import (
     write_metadata_feasibility_receipt,
     write_metadata_feasibility_schema,
 )
+from nas_core.domain.field_isolated_metadata import (
+    load_field_isolated_metadata_authorization,
+    write_field_isolated_metadata_receipt,
+    write_field_isolated_metadata_schema,
+)
 from nas_core.domain.literature import (
     load_literature_search_receipt,
     load_screening_decision_batch,
@@ -103,6 +108,20 @@ from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.governance.registry import SourceRegistry
+from nas_core.ingestion.field_isolated_metadata import (
+    GDC_FILES_URL as FIELD_ISOLATED_GDC_FILES_URL,
+)
+from nas_core.ingestion.field_isolated_metadata import (
+    GEO_EXPRESSION_URL as FIELD_ISOLATED_GEO_EXPRESSION_URL,
+)
+from nas_core.ingestion.field_isolated_metadata import (
+    GEO_FAMILY_SOFT_URL as FIELD_ISOLATED_GEO_FAMILY_SOFT_URL,
+)
+from nas_core.ingestion.field_isolated_metadata import (
+    FieldIsolatedMetadataAuditService,
+    build_gdc_clinical_manifest_query,
+    build_gdc_star_manifest_query,
+)
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
 from nas_core.ingestion.metadata_feasibility import (
     ALLOWED_URLS as METADATA_AUDIT_URLS,
@@ -257,6 +276,47 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write the canonical metadata-feasibility receipt JSON Schema",
     )
     metadata_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+    field_isolated = feasibility_commands.add_parser(
+        "field-isolated-metadata",
+        help="Verify receptor completeness and PAM50 gene coverage without retention",
+    )
+    field_isolated.add_argument(
+        "--authorization",
+        type=Path,
+        required=True,
+        help="Founder field-isolated authorization confirmation YAML",
+    )
+    field_isolated.add_argument(
+        "--packet",
+        type=Path,
+        required=True,
+        help="Checksum-bound founder field-isolated review packet",
+    )
+    field_isolated.add_argument(
+        "--software-revision",
+        required=True,
+        help="Exact 40-character Git revision containing the executed projection code",
+    )
+    field_isolated.add_argument(
+        "--output",
+        type=Path,
+        required=True,
+        help="Immutable YAML receipt path",
+    )
+    field_isolated.add_argument(
+        "--execute",
+        action="store_true",
+        help="Execute the allowlisted transient projections and write the receipt",
+    )
+    field_isolated_schema = feasibility_commands.add_parser(
+        "field-isolated-schema",
+        help="Write the canonical field-isolated metadata receipt JSON Schema",
+    )
+    field_isolated_schema.add_argument(
+        "path",
+        type=Path,
+        help="Output path for the JSON Schema",
+    )
 
     cohort = commands.add_parser("cohort", help="Build governed analysis-ready cohorts")
     cohort_commands = cohort.add_subparsers(dest="cohort_command", required=True)
@@ -1152,6 +1212,54 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "feasibility" and args.feasibility_command == "schema":
         write_metadata_feasibility_schema(args.path)
         print(f"Wrote metadata-feasibility schema: {args.path}")
+        return 0
+
+    if (
+        args.command == "feasibility"
+        and args.feasibility_command == "field-isolated-metadata"
+    ):
+        if not args.execute:
+            print(
+                json.dumps(
+                    {
+                        "gdc_manifest_url": FIELD_ISOLATED_GDC_FILES_URL,
+                        "gdc_clinical_query": build_gdc_clinical_manifest_query(),
+                        "gdc_star_query": build_gdc_star_manifest_query(),
+                        "geo_expression_url": FIELD_ISOLATED_GEO_EXPRESSION_URL,
+                        "geo_family_url": FIELD_ISOLATED_GEO_FAMILY_SOFT_URL,
+                    },
+                    indent=2,
+                )
+            )
+            print("Dry run only; no endpoint was contacted and no artifact was written.")
+            return 0
+        authorization_bytes = args.authorization.read_bytes()
+        packet_bytes = args.packet.read_bytes()
+        field_authorization = load_field_isolated_metadata_authorization(
+            args.authorization
+        )
+        field_isolated_receipt = FieldIsolatedMetadataAuditService().execute(
+            authorization=field_authorization,
+            authorization_path=str(args.authorization),
+            authorization_bytes=authorization_bytes,
+            packet_path=str(args.packet),
+            packet_bytes=packet_bytes,
+            software_revision=args.software_revision,
+        )
+        write_field_isolated_metadata_receipt(args.output, field_isolated_receipt)
+        print(
+            f"Wrote field-isolated metadata audit "
+            f"{field_isolated_receipt.audit_version}: "
+            f"{field_isolated_receipt.decision.value}"
+        )
+        return 0
+
+    if (
+        args.command == "feasibility"
+        and args.feasibility_command == "field-isolated-schema"
+    ):
+        write_field_isolated_metadata_schema(args.path)
+        print(f"Wrote field-isolated metadata schema: {args.path}")
         return 0
 
     if args.command == "cohort" and args.cohort_command == "build":

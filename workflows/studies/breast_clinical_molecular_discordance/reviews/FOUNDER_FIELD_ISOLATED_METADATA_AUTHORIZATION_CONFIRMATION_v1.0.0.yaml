@@ -1,0 +1,24 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+audit_version: 1.0.0
+packet_filename: FOUNDER_FIELD_ISOLATED_METADATA_AUTHORIZATION_v1.0.0.md
+packet_sha256: 503bdcc6a28b3dd3ea1e16cac3e30c3ba64eb0abdd7a1a9689e98b9d2920d0ff
+authorization_statement: I authorize field-isolated metadata audit 1.0.0 as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+founder_role: Founder, Study Lead, and Internal Phase 0 Reviewer
+authorized_at: '2026-07-26T14:25:52Z'
+founder_authorized: true
+transient_field_isolated_access_authorized: true
+patient_level_data_retention_authorized: false
+molecular_value_analysis_authorized: false
+outcome_data_access_authorized: false
+cohort_construction_authorized: false
+classifier_execution_authorized: false
+scientific_conclusions_authorized: false
+ai_assistance_disclosure: >-
+  OpenAI Codex prepared the bounded authorization packet and will implement the
+  mechanically enforced projection gate. The founder supplied the exact
+  authorization statement and remains accountable for this internal self-review.
