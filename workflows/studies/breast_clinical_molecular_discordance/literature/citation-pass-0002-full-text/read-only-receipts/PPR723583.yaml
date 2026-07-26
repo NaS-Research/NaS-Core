@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 05a1ac623d6a83928211ce1a00b3f7be294370c5a220d61293f14af2cb292905
+study_id: NAS-BRCA-002
+queue_id: 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+progress_id: 306decea61c9b8a3ed015914eaced206595f18182a1ced66bc28b4d824ca6e8b
+screening_id: 73eba22dd3ff40305ecbafada2cdff2b244d6bae246940725108249f6a2edaf9
+doi: 10.21203/rs.3.rs-3290125/v1
+title: Multiregional transcriptomics identifies congruent consensus molecular subtypes with prognostic
+  value beyond tumor heterogeneity in colorectal cancer.
+source_url: https://www.researchsquare.com/article/rs-3290125/v1
+access_mode: read_only_ephemeral
+content_representation: canonical_publisher_html_v1
+access_basis: Official Research Square version 1 article reviewed ephemerally under CC BY 4.0; canonical
+  visible-text representation hashed; zero article bytes retained.
+observed_rights: Official Research Square article declares Creative Commons Attribution 4.0.
+rights_url: https://creativecommons.org/licenses/by/4.0/
+content_sha256: e016fae9277b87b575fc7793138b6d42c60988ab8ddf16aabfed49b9009e8c6d
+content_size_bytes: 65444
+accessed_at: '2026-07-26T20:26:47.062502Z'
+verified_at: '2026-07-26T20:26:47.062579Z'
+code_revision: 6de9e51
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

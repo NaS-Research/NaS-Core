@@ -1,0 +1,73 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+queue_id: 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+progress_id: 306decea61c9b8a3ed015914eaced206595f18182a1ced66bc28b4d824ca6e8b
+generated_at: '2026-07-26T20:30:06.307626Z'
+provisional_inclusion_count: 9
+full_texts_retrieved: 0
+read_only_full_texts_reviewed: 5
+appraisals_completed: 0
+access_restricted_count: 4
+duplicate_resolved_count: 0
+anchor_count: 0
+supporting_count: 0
+context_only_count: 0
+excluded_count: 0
+records:
+- screening_id: 7862d57ea7aa91fe94ec0793640b5421200fb853329190e75fe2c5698b10cbad
+  title: 'Nearest template prediction: a single-sample-based flexible class prediction with confidence
+    assessment.'
+  pmcid: PMC2990751
+  status: ready_for_appraisal
+  read_only_review_id: 3e4b6faba646a2b3e4e92095a6ef292678c61f4482209182f99a79397a6a106e
+  full_text_sha256: c442e380aaf798bed1465f42aee9004afdf3e60bc2d9afc9b018cf41d4ab065e
+- screening_id: 7465ec9237f1827c3e254be55fd03907568543bbfe7451d17f43e08f4292b8a1
+  title: Gene expression profiles from formalin fixed paraffin embedded breast cancer tissue are largely
+    comparable to fresh frozen matched tissue.
+  pmcid: PMC3037966
+  status: ready_for_appraisal
+  read_only_review_id: ca03dec15d92497f3e00886726b576de4dd358018b640b0771c0b0436cd720e9
+  full_text_sha256: 3a6cd17a156109c96a25f4a534b5562e09f527334207b0c95b03fb8dbdc77857
+- screening_id: 01f6d8f99f087a059a5c7ee6c52b72b28b9d09621fa19b4ae15de2b53ed9fef3
+  title: Breast cancer subtype discrimination using standardized 4-IHC and digital image analysis.
+  status: access_restricted
+  observed_license: Crossref exposes Springer text-mining terms rather than a Creative Commons version-of-record
+    license, and the official article page requires purchase or institutional access for the article.
+- screening_id: 238c00fbbe87123948f200e4679f885a417d5a82f10caa1d2f560ae4099d02e2
+  title: Validation of a neuroendocrine-like classifier confirms poor outcomes in patients with bladder
+    cancer treated with cisplatin-based neoadjuvant chemotherapy.
+  status: access_restricted
+  observed_license: PubMed marks the version of record as Elsevier copyright, and Crossref exposes Elsevier
+    text-and-data-mining terms rather than a Creative Commons version-of-record license.
+- screening_id: 836ba23e9c8b33635e5052b861aed1be57af3d4664b37a424203248667942df7
+  title: 'Predict ovarian cancer by pairing serum miRNAs: Construct of single sample classifiers.'
+  pmcid: PMC9378834
+  status: ready_for_appraisal
+  read_only_review_id: b653b412a9a7ebe8f0bf176c9063fc9511752fe743d5c888be03346aa29874cc
+  full_text_sha256: 3e2018b49d75102d08b406a869b8e3b803ee57bab6de22458566d2ba92ffba85
+- screening_id: b4bb8ab9e862a849ced86ee26d09a7b9c49048ad56081ddb0ebe1188ea9acab3
+  title: 'Purity Independent Subtyping of Tumors (PurIST) Pancreatic Cancer Classifier: Analytic Validation
+    of a 16-RNA Expression Signature Distinguishing Basal and Classical Subtypes.'
+  pmcid: PMC11524322
+  status: ready_for_appraisal
+  read_only_review_id: 89005d7fc5256edafa79458dc36d0a70683e646b852d99a2431506c572390d30
+  full_text_sha256: cc96d12255ae7bbeaeee4ef4dfcb65519e7515ebe991950066c66e2d147319bb
+- screening_id: 5d79612d3cb4aa5d076ec1f174955620f3e432d73a231193032c26d79c4fc783
+  title: A Versatile and Upgraded Version of the LundTax Classification Algorithm Applied to Independent
+    Cohorts.
+  status: access_restricted
+  observed_license: Crossref declares the version of record open access under Creative Commons Attribution
+    4.0.
+- screening_id: f0222156b5206a5f95c265db42935b18990732ee897cf8a86732aa10673240d4
+  title: Stage-Independent Real-Time Subtype Classification and Comprehensive Biopsy Profiling of Urothelial
+    Carcinomas by the Lund Taxonomy System.
+  status: access_restricted
+  observed_license: Crossref declares the version of record open access under Creative Commons Attribution
+    4.0.
+- screening_id: 73eba22dd3ff40305ecbafada2cdff2b244d6bae246940725108249f6a2edaf9
+  title: Multiregional transcriptomics identifies congruent consensus molecular subtypes with prognostic
+    value beyond tumor heterogeneity in colorectal cancer.
+  status: ready_for_appraisal
+  read_only_review_id: 05a1ac623d6a83928211ce1a00b3f7be294370c5a220d61293f14af2cb292905
+  full_text_sha256: e016fae9277b87b575fc7793138b6d42c60988ab8ddf16aabfed49b9009e8c6d
+scientific_conclusions_drawn: false

@@ -1,0 +1,24 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 238c00fbbe87123948f200e4679f885a417d5a82f10caa1d2f560ae4099d02e2
+pmid: '31812633'
+doi: 10.1016/j.urolonc.2019.11.004
+title: Validation of a neuroendocrine-like classifier confirms poor outcomes in patients with bladder cancer treated with cisplatin-based neoadjuvant chemotherapy.
+source_url: https://www.sciencedirect.com/science/article/pii/S1078143919304594
+observed_license: >-
+  PubMed marks the version of record as Elsevier copyright, and Crossref exposes
+  Elsevier text-and-data-mining terms rather than a Creative Commons
+  version-of-record license.
+license_url: https://www.elsevier.com/legal/tdmrep-license
+outcome: restricted
+policy_reason: >-
+  The official publisher and PubMed pages expose bibliographic metadata and the
+  abstract, but no approved repository identifier is present. The Elsevier
+  full-text API requires an API key and the publisher page did not provide a
+  reproducible, checksum-verifiable credential-free article route. No access
+  control was bypassed, no third-party copy was retained, and abstract-only
+  content is insufficient for a governed quality appraisal.
+checked_at: 2026-07-26T20:28:23Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

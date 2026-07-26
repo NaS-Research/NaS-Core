@@ -13,13 +13,16 @@ from nas_core.retrieval.ephemeral_appraisal import (
     ApprovedPublisherPdfAppraisalProposalService,
     EphemeralAppraisalError,
     InstitutionalPdfAppraisalProposalService,
+    PmcHtmlAppraisalProposalService,
     PmcOaiAppraisalProposalService,
 )
 from nas_core.retrieval.read_only_review import (
     APPROVED_PUBLISHER_HTML_URLS,
+    PMC_ARTICLE_URL,
     PMC_OAI_ARTICLE_URL,
     ApprovedPublisherHtmlReadOnlyReviewService,
     PmcOaiReadOnlyReviewService,
+    PmcReadOnlyReviewService,
 )
 
 NOW = datetime(2026, 7, 26, tzinfo=UTC)
@@ -326,6 +329,46 @@ def test_pmc_oai_proposal_rejects_changed_article_content() -> None:
                 _oai_body(source_phrase="Changed article content.")
             )
         ).validate(record=_oai_record(), receipt=receipt, proposal=proposal)
+
+
+def test_pmc_html_proposal_reconciles_raw_source_receipt() -> None:
+    source_url = PMC_ARTICLE_URL.format(pmcid="PMC123")
+    body = f"""<!doctype html><html><head>
+<meta name="citation_title" content="{TITLE}">
+<meta name="citation_doi" content="{DOI}">
+<meta name="citation_pmid" content="23907291">
+<meta name="citation_fulltext_html_url" content="{source_url}">
+</head><body><article><h1>{TITLE}</h1>
+<p>DOI {DOI}</p>
+<p>{"Source-specific analytical observations. " * 800}</p>
+</article></body></html>""".encode()
+    record = _oai_record()
+    receipt = PmcReadOnlyReviewService(
+        transport=StaticTransport(body),
+        clock=lambda: NOW,
+    ).review(
+        record,
+        study_id="NAS-BRCA-002",
+        queue_id="c" * 64,
+        progress_id="d" * 64,
+        code_revision="abcdef1",
+        access_basis="Official PMC HTML reviewed ephemerally; zero article bytes retained.",
+        observed_rights="PMC-hosted article; corpus reuse not assumed.",
+        rights_url="https://pmc.ncbi.nlm.nih.gov/about/copyright/",
+    )
+    proposal = _proposal().model_copy(
+        update={
+            "full_text_source_url": receipt.source_url,
+            "full_text_sha256": receipt.content_sha256,
+        }
+    )
+
+    verified = PmcHtmlAppraisalProposalService(
+        transport=StaticTransport(body)
+    ).validate(record=record, receipt=receipt, proposal=proposal)
+
+    assert verified.full_text_sha256 == receipt.content_sha256
+    assert verified.founder_decision_recorded is False
 
 
 def _publisher_html() -> bytes:

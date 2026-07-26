@@ -1,0 +1,24 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 01f6d8f99f087a059a5c7ee6c52b72b28b9d09621fa19b4ae15de2b53ed9fef3
+pmid: '28825136'
+doi: 10.1007/s00428-017-2194-z
+title: Breast cancer subtype discrimination using standardized 4-IHC and digital image analysis.
+source_url: https://link.springer.com/article/10.1007/s00428-017-2194-z
+observed_license: >-
+  Crossref exposes Springer text-mining terms rather than a Creative Commons
+  version-of-record license, and the official article page requires purchase or
+  institutional access for the article.
+license_url: https://link.springer.com/article/10.1007/s00428-017-2194-z
+outcome: restricted
+policy_reason: >-
+  The official Springer landing page provides citation metadata and an abstract,
+  but full-article access is purchase- or institution-gated. The advertised PDF
+  route returned the access page as HTML rather than a PDF, and no PMCID or other
+  approved repository copy is recorded. No access control was bypassed, no
+  third-party copy was retained, and abstract-only content is insufficient for a
+  governed quality appraisal.
+checked_at: 2026-07-26T20:28:23Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

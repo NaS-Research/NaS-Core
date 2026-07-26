@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: f0222156b5206a5f95c265db42935b18990732ee897cf8a86732aa10673240d4
+pmid: '41936844'
+doi: 10.1016/j.modpat.2026.100997
+title: Stage-Independent Real-Time Subtype Classification and Comprehensive Biopsy Profiling of Urothelial Carcinomas by the Lund Taxonomy System.
+source_url: https://www.sciencedirect.com/science/article/pii/S0893395226000402
+observed_license: >-
+  Crossref declares the version of record open access under Creative Commons
+  Attribution 4.0.
+license_url: https://creativecommons.org/licenses/by/4.0/
+outcome: restricted
+policy_reason: >-
+  The reuse license is compatible, but the official ScienceDirect PDF route
+  returned an access challenge and the official Elsevier FULL-view API requires
+  an API key. No PMCID or other approved repository copy is recorded, so a
+  reproducible, checksum-verifiable full-text delivery route was unavailable.
+  No access control was bypassed, no third-party copy was retained, and
+  abstract-only content is insufficient for a governed quality appraisal.
+checked_at: 2026-07-26T20:28:23Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

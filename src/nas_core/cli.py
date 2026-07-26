@@ -168,6 +168,7 @@ from nas_core.retrieval.ephemeral_appraisal import (
     ApprovedPublisherHtmlAppraisalProposalService,
     ApprovedPublisherPdfAppraisalProposalService,
     InstitutionalPdfAppraisalProposalService,
+    PmcHtmlAppraisalProposalService,
     PmcOaiAppraisalProposalService,
 )
 from nas_core.retrieval.evidence_amendment import (
@@ -1057,6 +1058,22 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Verify canonical XML in memory and retain only the proposal",
+    )
+    citation_pmc_html_proposal = literature_commands.add_parser(
+        "citation-pmc-html-appraisal-propose",
+        help="Verify a bounded proposal against an exact PMC HTML article",
+    )
+    citation_pmc_html_proposal.add_argument("inventory", type=Path)
+    citation_pmc_html_proposal.add_argument("screening_id")
+    citation_pmc_html_proposal.add_argument("review_receipt", type=Path)
+    citation_pmc_html_proposal.add_argument("draft", type=Path)
+    citation_pmc_html_proposal.add_argument(
+        "--proposal-output", required=True, type=Path
+    )
+    citation_pmc_html_proposal.add_argument(
+        "--execute",
+        action="store_true",
+        help="Verify PMC HTML in memory and retain only the proposal",
     )
     citation_medrxiv_read_only_review = literature_commands.add_parser(
         "citation-medrxiv-read-only-review",
@@ -2990,6 +3007,41 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             f"Verified structured proposal for {proposal.pmid} against "
             f"{review_receipt.content_size_bytes} canonical ephemeral bytes; "
+            "zero article bytes stored"
+        )
+        print(f"Wrote non-authoritative proposal: {args.proposal_output}")
+        return 0
+
+    if (
+        args.command == "literature"
+        and args.literature_command == "citation-pmc-html-appraisal-propose"
+    ):
+        inventory = load_full_text_inventory(args.inventory)
+        matches = [
+            item for item in inventory.records if item.screening_id == args.screening_id
+        ]
+        if len(matches) != 1:
+            raise SystemExit("screening ID is not in the citation access inventory")
+        review_receipt = load_full_text_read_only_review_receipt(
+            args.review_receipt
+        )
+        draft = load_full_text_appraisal_proposal(args.draft)
+        if not args.execute:
+            print(
+                f"PMC HTML proposal verification ready: {matches[0].pmcid}, "
+                f"screening {matches[0].screening_id}"
+            )
+            print("Dry run only; no article content was requested or stored.")
+            return 0
+        proposal = PmcHtmlAppraisalProposalService().validate(
+            record=matches[0],
+            receipt=review_receipt,
+            proposal=draft,
+        )
+        write_full_text_appraisal_proposal(args.proposal_output, proposal)
+        print(
+            f"Verified structured proposal for {proposal.pmid} against "
+            f"{review_receipt.content_size_bytes} ephemeral HTML bytes; "
             "zero article bytes stored"
         )
         print(f"Wrote non-authoritative proposal: {args.proposal_output}")

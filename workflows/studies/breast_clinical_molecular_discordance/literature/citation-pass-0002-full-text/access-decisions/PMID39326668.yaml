@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 5d79612d3cb4aa5d076ec1f174955620f3e432d73a231193032c26d79c4fc783
+pmid: '39326668'
+doi: 10.1016/j.jmoldx.2024.08.005
+title: A Versatile and Upgraded Version of the LundTax Classification Algorithm Applied to Independent Cohorts.
+source_url: https://www.sciencedirect.com/science/article/pii/S1525157824002071
+observed_license: >-
+  Crossref declares the version of record open access under Creative Commons
+  Attribution 4.0.
+license_url: https://creativecommons.org/licenses/by/4.0/
+outcome: restricted
+policy_reason: >-
+  The reuse license is compatible, but the official ScienceDirect PDF route
+  returned an access challenge and the official Elsevier FULL-view API requires
+  an API key. No PMCID or other approved repository copy is recorded, so a
+  reproducible, checksum-verifiable full-text delivery route was unavailable.
+  No access control was bypassed, no third-party copy was retained, and
+  abstract-only content is insufficient for a governed quality appraisal.
+checked_at: 2026-07-26T20:28:23Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

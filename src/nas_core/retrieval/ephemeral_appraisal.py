@@ -18,14 +18,17 @@ from nas_core.retrieval.read_only_review import (
     APPROVED_PUBLISHER_HTML_URLS,
     APPROVED_PUBLISHER_PDF_URLS,
     INSTITUTIONAL_PDF_URLS,
+    PMC_ARTICLE_URL,
     PMC_OAI_ARTICLE_URL,
     ApprovedPublisherHtmlReadOnlyReviewService,
     PmcOaiReadOnlyReviewService,
+    PmcReadOnlyReviewService,
     ReadOnlyReviewTransport,
     UrllibApprovedPublisherHtmlReadOnlyReviewTransport,
     UrllibApprovedPublisherPdfReadOnlyReviewTransport,
     UrllibInstitutionalPdfReadOnlyReviewTransport,
     UrllibPmcOaiReadOnlyReviewTransport,
+    UrllibReadOnlyReviewTransport,
     _CanonicalPublisherHtmlParser,
     canonicalize_pmc_oai_article,
 )
@@ -338,6 +341,82 @@ class PmcOaiAppraisalProposalService:
         except RuntimeError as error:
             raise EphemeralAppraisalError(
                 "inventory and canonical PMC OAI article identity do not reconcile"
+            ) from error
+        if receipt.pmcid != record.pmcid:
+            raise EphemeralAppraisalError(
+                "receipt PMCID does not match the inventory record"
+            )
+        InstitutionalPdfAppraisalProposalService._verify_proposal_identity(  # noqa: SLF001
+            proposal, receipt
+        )
+        InstitutionalPdfAppraisalProposalService._verify_narrative_limits(  # noqa: SLF001
+            proposal
+        )
+        InstitutionalPdfAppraisalProposalService._reject_verbatim_passages(  # noqa: SLF001
+            proposal, source_text
+        )
+        return proposal
+
+
+class PmcHtmlAppraisalProposalService:
+    """Verify a bounded proposal against an exact ephemeral PMC HTML page."""
+
+    def __init__(
+        self,
+        *,
+        transport: ReadOnlyReviewTransport | None = None,
+    ) -> None:
+        self._transport = transport or UrllibReadOnlyReviewTransport()
+
+    def validate(
+        self,
+        *,
+        record: FullTextInventoryRecord,
+        receipt: FullTextReadOnlyReviewReceipt,
+        proposal: FullTextAppraisalProposal,
+    ) -> FullTextAppraisalProposal:
+        if record.pmcid is None:
+            raise EphemeralAppraisalError("PMC HTML proposal requires a PMCID")
+        source_url = PMC_ARTICLE_URL.format(pmcid=record.pmcid)
+        if receipt.source_url != source_url:
+            raise EphemeralAppraisalError(
+                "receipt is not bound to the exact PMC HTML article"
+            )
+        if (
+            receipt.content_representation
+            is not FullTextContentRepresentation.RAW_SOURCE_BYTES
+        ):
+            raise EphemeralAppraisalError(
+                "receipt does not declare raw PMC HTML source bytes"
+            )
+        response = self._transport.get(source_url)
+        if (
+            response.status_code != 200
+            or not 10_000 <= len(response.body) <= 20_000_000
+        ):
+            raise EphemeralAppraisalError("PMC HTML article is unavailable")
+        if (
+            len(response.body) != receipt.content_size_bytes
+            or sha256(response.body) != receipt.content_sha256
+        ):
+            raise EphemeralAppraisalError(
+                "PMC HTML article no longer matches the review receipt"
+            )
+        parser = _CanonicalPublisherHtmlParser()
+        try:
+            parser.feed(response.body.decode("utf-8"))
+        except UnicodeDecodeError as error:
+            raise EphemeralAppraisalError(
+                "PMC HTML article failed in-memory parsing"
+            ) from error
+        _, source_text = parser.canonical_representation()
+        try:
+            PmcReadOnlyReviewService._verify_identity(  # noqa: SLF001
+                record, parser.metadata, source_url
+            )
+        except RuntimeError as error:
+            raise EphemeralAppraisalError(
+                "inventory and PMC HTML article identity do not reconcile"
             ) from error
         if receipt.pmcid != record.pmcid:
             raise EphemeralAppraisalError(
