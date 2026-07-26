@@ -1,0 +1,37 @@
+schema_version: 1.0.0
+queue_id: 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+study_id: NAS-BRCA-002
+pass_number: 2
+code_revision: c12f2de
+queued_at: '2026-07-26T20:16:33.080728Z'
+founder_id: dalron-j-robertson
+decision_id: 635e550166f66c9aecc20e82c09f47e4484be0b36876b25dd66ec4a77c9e6ad7
+decision_receipt_sha256: 0980a0b211e99c88fe4528225df393baf6ddd48204d41fa50fd373edf5d8f94a
+reconciliation_id: 306decea61c9b8a3ed015914eaced206595f18182a1ced66bc28b4d824ca6e8b
+reconciliation_receipt_sha256: c7b8e2b55f7278b4398eaa14889b933cfea1ab66dbca637fc08b9a23be6d0c5b
+active_amendment_activation_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+active_amendment_receipt_sha256: 047e433daa253f115cce3e5cd148697716f7dd0ac1db0311b066409893004b62
+active_protocol_version: 0.2.5
+confirmed_inclusion_count: 9
+repository_candidate_count: 4
+access_check_required_count: 5
+prior_appraisal_reuse_count: 0
+net_new_count: 9
+core_synthesis_maximum: 30
+queue_object:
+  object_key: evidence-review/NAS-BRCA-002/protocol-0.2.5/citation-pass-0002-appraisal-queue-7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2.json
+  media_type: application/json
+  size_bytes: 3000
+  sha256: a790cb338c4195b069ddf27141a289df7e0c9568914b1c3f6664ff5dbbc09de4
+  record_ids: []
+  file_ids: []
+decision_ledger_checksum_verified: true
+reconciliation_checksum_verified: true
+active_amendment_verified: true
+count_invariants_verified: true
+founder_authorized: true
+uncapped_saturation_inventory_active: true
+founder_decisions_changed: 0
+molecular_data_access_authorized: false
+outcome_data_access_authorized: false
+scientific_conclusions_drawn: false

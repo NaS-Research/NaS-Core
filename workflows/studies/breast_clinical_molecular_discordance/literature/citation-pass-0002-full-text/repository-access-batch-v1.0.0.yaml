@@ -1,0 +1,50 @@
+schema_version: 1.0.0
+batch_id: bd84ae69809139fc009cd1867eea85abd6e2fcc5529ba7168b3278e9f2162165
+study_id: NAS-BRCA-002
+inventory_queue_id: 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+inventory_progress_id: 306decea61c9b8a3ed015914eaced206595f18182a1ced66bc28b4d824ca6e8b
+code_revision: c12f2de
+assessed_at: '2026-07-26T20:17:39.398606Z'
+repository_candidate_count: 4
+retrieved_count: 0
+access_check_required_count: 4
+records:
+- screening_id: 7862d57ea7aa91fe94ec0793640b5421200fb853329190e75fe2c5698b10cbad
+  record_key: MED:21124904
+  pmcid: PMC2990751
+  title: 'Nearest template prediction: a single-sample-based flexible class prediction with confidence
+    assessment.'
+  outcome: license_not_approved
+  reason: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  scientific_conclusions_drawn: false
+- screening_id: 7465ec9237f1827c3e254be55fd03907568543bbfe7451d17f43e08f4292b8a1
+  record_key: MED:21347257
+  pmcid: PMC3037966
+  title: Gene expression profiles from formalin fixed paraffin embedded breast cancer tissue are largely
+    comparable to fresh frozen matched tissue.
+  outcome: license_not_approved
+  reason: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  scientific_conclusions_drawn: false
+- screening_id: 836ba23e9c8b33635e5052b861aed1be57af3d4664b37a424203248667942df7
+  record_key: MED:35983098
+  pmcid: PMC9378834
+  title: 'Predict ovarian cancer by pairing serum miRNAs: Construct of single sample classifiers.'
+  outcome: license_not_approved
+  reason: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  scientific_conclusions_drawn: false
+- screening_id: b4bb8ab9e862a849ced86ee26d09a7b9c49048ad56081ddb0ebe1188ea9acab3
+  record_key: MED:39181325
+  pmcid: PMC11524322
+  title: 'Purity Independent Subtyping of Tumors (PurIST) Pancreatic Cancer Classifier: Analytic Validation
+    of a 16-RNA Expression Signature Distinguishing Basal and Classical Subtypes.'
+  outcome: full_text_unavailable
+  reason: Europe PMC full-text request failed with status 404
+  durable_full_text_stored: false
+  scientific_conclusions_drawn: false
+complete_coverage_verified: true
+identity_and_license_fail_closed: true
+founder_decisions_changed: 0
+scientific_conclusions_drawn: false

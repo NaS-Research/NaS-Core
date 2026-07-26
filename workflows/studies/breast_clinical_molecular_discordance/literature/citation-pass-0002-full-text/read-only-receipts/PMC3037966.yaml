@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: ca03dec15d92497f3e00886726b576de4dd358018b640b0771c0b0436cd720e9
+study_id: NAS-BRCA-002
+queue_id: 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+progress_id: 306decea61c9b8a3ed015914eaced206595f18182a1ced66bc28b4d824ca6e8b
+screening_id: 7465ec9237f1827c3e254be55fd03907568543bbfe7451d17f43e08f4292b8a1
+pmcid: PMC3037966
+pmid: '21347257'
+doi: 10.1371/journal.pone.0017163
+title: Gene expression profiles from formalin fixed paraffin embedded breast cancer tissue are largely
+  comparable to fresh frozen matched tissue.
+source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:3037966&metadataPrefix=pmc
+access_mode: read_only_ephemeral
+content_representation: canonical_pmc_oai_article_xml_v1
+access_basis: Official PMC article reviewed ephemerally; zero article bytes retained.
+observed_rights: PMC-hosted article; durable commercial corpus storage not authorized by the active CC
+  BY allowlist.
+rights_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3037966/
+content_sha256: 3a6cd17a156109c96a25f4a534b5562e09f527334207b0c95b03fb8dbdc77857
+content_size_bytes: 167121
+accessed_at: '2026-07-26T20:19:18.998225Z'
+verified_at: '2026-07-26T20:19:18.998365Z'
+code_revision: c12f2de
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 89005d7fc5256edafa79458dc36d0a70683e646b852d99a2431506c572390d30
+study_id: NAS-BRCA-002
+queue_id: 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+progress_id: 306decea61c9b8a3ed015914eaced206595f18182a1ced66bc28b4d824ca6e8b
+screening_id: b4bb8ab9e862a849ced86ee26d09a7b9c49048ad56081ddb0ebe1188ea9acab3
+pmcid: PMC11524322
+pmid: '39181325'
+doi: 10.1016/j.jmoldx.2024.07.002
+title: 'Purity Independent Subtyping of Tumors (PurIST) Pancreatic Cancer Classifier: Analytic Validation
+  of a 16-RNA Expression Signature Distinguishing Basal and Classical Subtypes.'
+source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11524322/
+access_mode: read_only_ephemeral
+content_representation: raw_source_bytes
+access_basis: Official PMC article reviewed ephemerally; zero article bytes retained.
+observed_rights: PMC-hosted article; durable commercial corpus storage not authorized by the active CC
+  BY allowlist.
+rights_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11524322/
+content_sha256: cc96d12255ae7bbeaeee4ef4dfcb65519e7515ebe991950066c66e2d147319bb
+content_size_bytes: 195948
+accessed_at: '2026-07-26T20:19:37.240900Z'
+verified_at: '2026-07-26T20:19:37.241093Z'
+code_revision: c12f2de
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

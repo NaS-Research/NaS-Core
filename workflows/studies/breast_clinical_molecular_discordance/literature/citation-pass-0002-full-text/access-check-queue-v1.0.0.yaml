@@ -1,0 +1,107 @@
+schema_version: 1.0.0
+queue_version: 1.0.0
+queue_id: fa3c189ecce3f5842be4455f54e92000fbb9a39269162ca6214312d6fefc2049
+study_id: NAS-BRCA-002
+code_revision: c12f2de
+inventory_queue_id: 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+repository_batch_id: bd84ae69809139fc009cd1867eea85abd6e2fcc5529ba7168b3278e9f2162165
+record_count: 9
+records:
+- screening_id: 7862d57ea7aa91fe94ec0793640b5421200fb853329190e75fe2c5698b10cbad
+  record_key: MED:21124904
+  title: 'Nearest template prediction: a single-sample-based flexible class prediction with confidence
+    assessment.'
+  pmid: '21124904'
+  pmcid: PMC2990751
+  doi: 10.1371/journal.pone.0015543
+  reason: license_not_approved
+  prior_repository_detail: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 7465ec9237f1827c3e254be55fd03907568543bbfe7451d17f43e08f4292b8a1
+  record_key: MED:21347257
+  title: Gene expression profiles from formalin fixed paraffin embedded breast cancer tissue are largely
+    comparable to fresh frozen matched tissue.
+  pmid: '21347257'
+  pmcid: PMC3037966
+  doi: 10.1371/journal.pone.0017163
+  reason: license_not_approved
+  prior_repository_detail: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 01f6d8f99f087a059a5c7ee6c52b72b28b9d09621fa19b4ae15de2b53ed9fef3
+  record_key: MED:28825136
+  title: Breast cancer subtype discrimination using standardized 4-IHC and digital image analysis.
+  pmid: '28825136'
+  doi: 10.1007/s00428-017-2194-z
+  reason: no_repository_identifier
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 238c00fbbe87123948f200e4679f885a417d5a82f10caa1d2f560ae4099d02e2
+  record_key: MED:31812633
+  title: Validation of a neuroendocrine-like classifier confirms poor outcomes in patients with bladder
+    cancer treated with cisplatin-based neoadjuvant chemotherapy.
+  pmid: '31812633'
+  doi: 10.1016/j.urolonc.2019.11.004
+  reason: no_repository_identifier
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 836ba23e9c8b33635e5052b861aed1be57af3d4664b37a424203248667942df7
+  record_key: MED:35983098
+  title: 'Predict ovarian cancer by pairing serum miRNAs: Construct of single sample classifiers.'
+  pmid: '35983098'
+  pmcid: PMC9378834
+  doi: 10.3389/fmed.2022.923275
+  reason: license_not_approved
+  prior_repository_detail: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: b4bb8ab9e862a849ced86ee26d09a7b9c49048ad56081ddb0ebe1188ea9acab3
+  record_key: MED:39181325
+  title: 'Purity Independent Subtyping of Tumors (PurIST) Pancreatic Cancer Classifier: Analytic Validation
+    of a 16-RNA Expression Signature Distinguishing Basal and Classical Subtypes.'
+  pmid: '39181325'
+  pmcid: PMC11524322
+  doi: 10.1016/j.jmoldx.2024.07.002
+  reason: full_text_unavailable
+  prior_repository_detail: Europe PMC full-text request failed with status 404
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 5d79612d3cb4aa5d076ec1f174955620f3e432d73a231193032c26d79c4fc783
+  record_key: MED:39326668
+  title: A Versatile and Upgraded Version of the LundTax Classification Algorithm Applied to Independent
+    Cohorts.
+  pmid: '39326668'
+  doi: 10.1016/j.jmoldx.2024.08.005
+  reason: no_repository_identifier
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: f0222156b5206a5f95c265db42935b18990732ee897cf8a86732aa10673240d4
+  record_key: MED:41936844
+  title: Stage-Independent Real-Time Subtype Classification and Comprehensive Biopsy Profiling of Urothelial
+    Carcinomas by the Lund Taxonomy System.
+  pmid: '41936844'
+  doi: 10.1016/j.modpat.2026.100997
+  reason: no_repository_identifier
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 73eba22dd3ff40305ecbafada2cdff2b244d6bae246940725108249f6a2edaf9
+  record_key: PPR:PPR723583
+  title: Multiregional transcriptomics identifies congruent consensus molecular subtypes with prognostic
+    value beyond tumor heterogeneity in colorectal cancer.
+  doi: 10.21203/rs.3.rs-3290125/v1
+  reason: no_repository_identifier
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+complete_coverage_verified: true
+final_access_decisions_recorded: 0
+scientific_conclusions_drawn: false
