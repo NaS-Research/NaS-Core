@@ -121,6 +121,15 @@ proposed as `context_only`. The proposals remain non-authoritative and the live
 progress ledger remains at three completed, ten ready, and 16 awaiting access
 until the founder confirms the exact packet.
 
+Citation appraisal batch 0003 now proposes judgments for the six remaining
+checksum-verified full texts. `PMC4546262`, `PMC4818440`, `PMC7470374`, and
+`PMC8657125` are proposed as `supporting`; `PMC1557722` and `PMC10771357` are
+proposed as `context_only`. The batch adds direct evidence about fixed commercial
+assay development, paired specimen perturbations, peri-surgical variation,
+commercial-test reconstruction, and real-world IHC/PAM50 disagreement. It remains
+non-authoritative pending its own exact founder confirmation and does not alter
+the live progress counts.
+
 Required artifacts:
 
 - `literature/protocol.md`

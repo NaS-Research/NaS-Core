@@ -1,0 +1,100 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: ba99ecf554bc228f6a445ac9d9f7f1e3fb6d15fc19bb0bef7efa81ffc6210874
+title: Classification and risk stratification of invasive breast carcinomas using a real-time quantitative RT-PCR assay.
+pmid: '16626501'
+doi: 10.1186/bcr1399
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC1557722/fullTextXML
+full_text_sha256: 69768c592366da9f96d33f8c57159a093bb6e6d4d9d30053b450bd562a4344d3
+access_basis: Creative Commons Attribution 2.0 International (CC-BY-2.0).
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The assay comparison included 123 breast specimens, including 117 invasive
+      cancers, plus controls and cell lines. Outcome exploration added 337 public
+      cases, but the primary series was small and follow-up was short.
+    evidence_locations:
+      - Materials and methods — Tissue samples
+      - Results — Patient classification and risk stratification
+  - domain: specimen_and_measurement
+    judgment: low
+    rationale: >-
+      Microarray and 53-gene quantitative RT-PCR measurements were generated from
+      paired material, enabling a direct platform comparison with documented
+      laboratory methods and quality controls.
+    evidence_locations:
+      - Materials and methods — RNA isolation and amplification
+      - Materials and methods — Real-time RT-PCR analysis
+  - domain: classifier_implementation
+    judgment: high
+    rationale: >-
+      Subtypes were assigned through hierarchical clustering and cross-platform
+      distance-weighted discrimination. The procedure depends on the analyzed
+      cohort and is not a fixed, deployable single-patient classifier.
+    evidence_locations:
+      - Materials and methods — Data analysis
+      - Results — Breast tumor classification by real-time RT-PCR
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Paired microarray assignments provide a relevant technical comparator, but
+      neither platform supplies independent biological truth and the shared
+      clustering framework can induce correlated agreement.
+    evidence_locations:
+      - Results — Comparison of microarray and RT-PCR classifications
+      - Discussion
+  - domain: analysis_and_statistics
+    judgment: high
+    rationale: >-
+      The paper reports concordance and exploratory relapse associations, including
+      a large relative-risk estimate, but the outcome series was small, follow-up
+      was limited, and numerous genes, clusters, and outcome contrasts were
+      examined without a locked analysis or study-wide multiplicity control.
+    evidence_locations:
+      - Materials and methods — Statistical analysis
+      - Results — Relapse-free survival analysis
+  - domain: validation_and_transportability
+    judgment: high
+    rationale: >-
+      Paired-platform concordance is informative, but cohort correction and
+      clustering were reused during evaluation. No unchanged single-sample artifact
+      was transported to an independent clinical laboratory or prospective cohort.
+    evidence_locations:
+      - Results — Comparison of microarray and RT-PCR classifications
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Laboratory and analytic methods are described and microarray data are
+      available as GEO GSE2607, but the historical clustering workflow and all
+      intermediate artifacts are not packaged for exact modern reproduction.
+    evidence_locations:
+      - Materials and methods
+      - Supplementary information
+proposed_evidence_role: context_only
+key_strengths:
+  - Uses paired microarray and quantitative RT-PCR measurements.
+  - Reports 93% cross-platform classification concordance.
+  - Provides early evidence that a compact expression panel can retain subtype signal.
+  - Makes the microarray data available through GEO GSE2607.
+key_limitations:
+  - Uses cohort-dependent clustering and correction rather than a fixed single-sample rule.
+  - Has a small outcome cohort and short median follow-up.
+  - Exploratory gene and survival analyses create substantial multiplicity risk.
+  - Does not establish external clinical transport or patient utility.
+conflicts_and_funding: >-
+  The article reports support from NCI grants R33-CA97769-01 and
+  P50-CA58223-09A1. No competing-interest declaration identifying a commercial
+  conflict was reported in the full text reviewed.
+assistant_id: openai-codex
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked
+  appraisal, scientific result, novelty finding, or clinical recommendation.
+proposed_at: 2026-07-25T22:00:00-05:00
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

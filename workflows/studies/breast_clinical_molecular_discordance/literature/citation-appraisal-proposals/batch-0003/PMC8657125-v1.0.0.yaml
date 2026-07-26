@@ -1,0 +1,103 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 27f9996e6647cda5fb31e1351ea4aa3353640fbdf5a0d021c87bbeb8b970516a
+title: Sample Preparation Approach Influences PAM50 Risk of Recurrence Score in Early Breast Cancer.
+pmid: '34885228'
+doi: 10.3390/cancers13236118
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC8657125/fullTextXML
+full_text_sha256: b39b132075598410a7bead763b8358b42134fdf999cc6e0ca6b4148573bb6ed6
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: analytical_validation
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      The study used 94 operable breast cancers diagnosed in 2015–2016 within the
+      Oslo2 observational cohort; the clinically relevant comparison was limited
+      to 54 node-negative ER-positive/HER2-negative cases.
+    evidence_locations:
+      - Materials and Methods — Patient and Tumor Characteristics
+      - Table 1
+  - domain: specimen_and_measurement
+    judgment: some_concerns
+    rationale: >-
+      Each tumor contributed macrodissected FFPE nCounter material and fresh-frozen
+      bulk RNA-seq material. This paired design is strong, but tissue region,
+      preparation, tumor enrichment, preservation, and platform all differ, so
+      their effects cannot be separated.
+    evidence_locations:
+      - Materials and Methods — RNA Extraction and Gene Expression Analysis
+      - Discussion
+  - domain: classifier_implementation
+    judgment: some_concerns
+    rationale: >-
+      The research implementation reports centering, 46 genes, five centroids,
+      proliferation, tumor size, and the ROR equation. Centering was performed
+      separately by dataset and every case received a subtype, making results
+      cohort dependent and lacking abstention.
+    evidence_locations:
+      - Materials and Methods — Gene Centering and Subtype Classification
+      - Materials and Methods — Risk of Recurrence Score
+  - domain: reference_comparator
+    judgment: low
+    rationale: >-
+      The clinically approved Prosigna result from macrodissected FFPE tissue is an
+      appropriate benchmark for testing research-derived FFPE and bulk-tissue
+      estimates in the same tumors.
+    evidence_locations:
+      - Results — ROR-Macro recapitulates ROR-Prosigna
+      - Figure 2
+  - domain: analysis_and_statistics
+    judgment: some_concerns
+    rationale: >-
+      Paired correlations, categorical thresholds, per-gene comparisons, and
+      specimen-level discrepancies are transparent. The sample is small,
+      confidence intervals for discordance are not emphasized, and hypothetical
+      treatment changes were not prospectively adjudicated.
+    evidence_locations:
+      - Results — Comparison of ROR scores
+      - Table 2
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      The study directly tests an alternative research workflow against approved
+      results, finding 13 of 54 risk-category discordances. It is a single cohort
+      without repeat sampling, external replication, or prospective decisions.
+    evidence_locations:
+      - Results — Comparison of ROR scores
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: low
+    rationale: >-
+      Cohort characteristics, formulas, thresholds, sample-level discrepancies,
+      code supplements, and data accessions EGA EGAS00001003631 and GEO GSE135298
+      are reported.
+    evidence_locations:
+      - Materials and Methods
+      - Data Availability Statement
+proposed_evidence_role: supporting
+key_strengths:
+  - Uses paired preparations from the same 94 tumors.
+  - Benchmarks research calculations against approved Prosigna outputs.
+  - Reports 13 of 54 discordant risk groups and the affected specimen details.
+  - Provides code and public normalized data.
+key_limitations:
+  - Multiple specimen and platform factors differ simultaneously.
+  - Clinically eligible subgroup contains only 54 cases.
+  - Dataset-specific centering is cohort dependent.
+  - Treatment effects are hypothetical and no outcome utility is tested.
+conflicts_and_funding: >-
+  The authors declared no conflicts of interest. Funding came from the Norwegian
+  Cancer Society, South-Eastern Norway Regional Health Authority, Oslo University
+  Hospital open-access support, Mats Paulsson Foundation, and Berta Kamprad
+  Foundation.
+assistant_id: openai-codex
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked
+  appraisal, scientific result, novelty finding, or clinical recommendation.
+proposed_at: 2026-07-25T22:00:00-05:00
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

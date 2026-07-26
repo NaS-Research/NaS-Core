@@ -1,0 +1,101 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 0ea72101e4257d4c2db02f2561edfcc2b746c2edde1eba6b34dba12a4657647a
+title: Development and verification of the PAM50-based Prosigna breast cancer gene signature assay.
+pmid: '26297356'
+doi: 10.1186/s12920-015-0129-6
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC4546262/fullTextXML
+full_text_sha256: 9f17b6fba248976e33fc2dd13bd79a84669b0ef9c916d597aa46f60b37c27052
+access_basis: Creative Commons Attribution 4.0 International (CC-BY-4.0).
+study_design: prediction_model
+eligibility: eligible
+domains:
+  - domain: population_selection
+    judgment: some_concerns
+    rationale: >-
+      Centroids were trained on 514 FFPE samples, the ROR model on 304 untreated
+      cases, and verification used an independent 232-case tamoxifen cohort.
+      Historical treatment and selected tissue availability limit current
+      representativeness.
+    evidence_locations:
+      - Methods — Clinical samples
+      - Results — Sample processing and assay success
+  - domain: specimen_and_measurement
+    judgment: low
+    rationale: >-
+      The fixed nCounter FFPE workflow specifies macrodissection, 46 classifier
+      genes, eight housekeeping genes, positive and negative controls, and a
+      reference sample. Assay-quality exclusions are explicitly reported.
+    evidence_locations:
+      - Methods — Prosigna assay
+      - Results — RNA and FFPE sample testing
+  - domain: classifier_implementation
+    judgment: low
+    rationale: >-
+      Training-set normalization, four fixed subtype centroids, Pearson
+      correlations, the proliferation score, tumor size, and the ridge-regression
+      ROR equation are specified as a locked single-patient algorithm.
+    evidence_locations:
+      - Methods — PAM50 classifier
+      - Methods — Risk of recurrence model
+  - domain: reference_comparator
+    judgment: some_concerns
+    rationale: >-
+      Verification compares the assay with the published research predictor and
+      evaluates association with recurrence, but no independent biological subtype
+      truth exists and the outcome comparator reflects historical care.
+    evidence_locations:
+      - Methods — Verification study
+      - Results — Verification of the clinical algorithm
+  - domain: analysis_and_statistics
+    judgment: low
+    rationale: >-
+      Model construction, ridge regression, continuous and categorical ROR,
+      hazard ratios, concordance indices, and 1,000 bootstrap comparisons are
+      described, with development and verification cohorts kept separate.
+    evidence_locations:
+      - Methods — Statistical methods
+      - Results — Clinical verification
+  - domain: validation_and_transportability
+    judgment: some_concerns
+    rationale: >-
+      The independent tamoxifen cohort supports verification of the locked
+      algorithm, including Luminal B and HER2-enriched hazard ratios, but the
+      cohort is historical, Basal-like cases were sparse, and prospective
+      decision utility was not evaluated in this report.
+    evidence_locations:
+      - Results — BC TAM verification cohort
+      - Discussion
+  - domain: reporting_and_reproducibility
+    judgment: some_concerns
+    rationale: >-
+      Assay components, transformations, model terms, cohorts, and statistical
+      procedures are documented, but commercial reference materials and the full
+      production implementation are not independently reproducible from the paper.
+    evidence_locations:
+      - Methods
+      - Discussion
+proposed_evidence_role: supporting
+key_strengths:
+  - Separates centroid training, ROR development, and independent verification.
+  - Describes a fixed single-patient FFPE assay with internal controls.
+  - Uses a prespecified multicomponent ROR model and bootstrap comparisons.
+  - Reports clinically relevant recurrence associations in an independent cohort.
+key_limitations:
+  - Verification reflects historical treatment and specimen selection.
+  - Very few Basal-like cases were available for verification.
+  - Commercial components prevent complete independent reproduction.
+  - The report does not test prospective clinical decision utility.
+conflicts_and_funding: >-
+  Several authors were PAM50 or Prosigna inventors, Bioclassifier founders, paid
+  NanoString consultants, or NanoString employees/shareholders. UNC sample work
+  was supported by NCI grants U01 CA114722-01 and P50-CA58223-09A1.
+assistant_id: openai-codex
+assistant_disclosure: >-
+  OpenAI Codex extracted section-located methodological evidence and proposed the
+  domain judgments and evidence role. This is not a founder decision, locked
+  appraisal, scientific result, novelty finding, or clinical recommendation.
+proposed_at: 2026-07-25T22:00:00-05:00
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

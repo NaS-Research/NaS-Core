@@ -29,7 +29,9 @@ Citation progress now has three completed `context_only` appraisals, ten records
 ready for appraisal, and 16 awaiting governed access resolution. Batch 0002
 contains four validated single-sample/classifier proposals bound to packet
 SHA-256 `f45518a3…f92e2`; it awaits founder confirmation and does not change the
-ledger.
+ledger. Batch 0003 contains the remaining six verified full texts and is frozen
+for founder review; it likewise remains outside the evidence ledger until exact
+confirmation.
 
 Definition of done:
 
@@ -281,6 +283,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-25 — Citation appraisal batch 0003 frozen for review
+
+Completed seven-domain proposals for all six remaining checksum-verified citation
+full texts. Four are proposed as supporting evidence and two as context-only.
+The batch covers early compact qRT-PCR classification, locked Prosigna development,
+paired peri-surgical sampling, commercial-test approximation, paired
+specimen-preparation effects, and real-world IHC/PAM50 discordance.
+
+The packet binds six proposal checksums and requires the exact statement
+`I confirm citation appraisal batch 0003 as written.` No founder decision,
+completion-ledger change, scientific conclusion, novelty claim, or patient-level
+recommendation was recorded. Batches 0002 and 0003 remain independently pending.
 
 ### 2026-07-25 — Citation appraisal batch 0002 frozen for review
 

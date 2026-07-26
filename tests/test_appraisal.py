@@ -192,6 +192,28 @@ def test_second_citation_appraisal_batch_is_non_authoritative() -> None:
     assert all(item.scientific_conclusions_drawn is False for item in proposals)
 
 
+def test_third_citation_appraisal_batch_is_non_authoritative() -> None:
+    paths = sorted((PROPOSAL_ROOT / "batch-0003").glob("*.yaml"))
+
+    proposals = [
+        FullTextAppraisalProposal.model_validate(yaml.safe_load(path.read_text()))
+        for path in paths
+    ]
+
+    assert [path.stem for path in paths] == [
+        "PMC10771357-v1.0.0",
+        "PMC1557722-v1.0.0",
+        "PMC4546262-v1.0.0",
+        "PMC4818440-v1.0.0",
+        "PMC7470374-v1.0.0",
+        "PMC8657125-v1.0.0",
+    ]
+    assert sum(item.proposed_evidence_role == "supporting" for item in proposals) == 4
+    assert sum(item.proposed_evidence_role == "context_only" for item in proposals) == 2
+    assert all(item.founder_decision_recorded is False for item in proposals)
+    assert all(item.scientific_conclusions_drawn is False for item in proposals)
+
+
 def test_appraisal_batch_confirmation_requires_exact_statement() -> None:
     payload = {
         "confirmation_version": "1.0.0",

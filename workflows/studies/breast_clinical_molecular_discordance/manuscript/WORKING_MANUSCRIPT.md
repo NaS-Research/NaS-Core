@@ -207,6 +207,9 @@ These counts are workflow results, not scientific findings.
 Four of those ten now have a checksum-bound batch-0002 appraisal proposal under
 founder review. Their proposed judgments are not incorporated into the manuscript
 evidence synthesis and do not change completion counts until exact authorization.
+The other six verified full texts now have a separate checksum-bound batch-0003
+proposal packet. Those proposed judgments are also excluded from the evidence
+synthesis and completion counts until independently confirmed by the founder.
 [CITATION_PASS_0001_ADJUDICATION_POLICY_v1.0.0.yaml;
 citation-chain/pass-0001-adjudication-packet.yaml;
 FOUNDER_CITATION_PASS_0001_COMBINED_REVIEW_v1.0.0.md;
@@ -942,6 +945,8 @@ checks, and internal reviews are complete.
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
 | Methods—citation lawful access | Repository retrieval and pending access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 3 appraised, 10 ready, 16 pending access |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisal-proposals/` | context only |
+| Pending—citation appraisal batch 0002 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0002_v1.0.0.md`; four files in `citation-appraisal-proposals/batch-0002/` | non-authoritative, founder review required |
+| Pending—citation appraisal batch 0003 | AI-assisted appraisal proposals | `FOUNDER_CITATION_APPRAISAL_BATCH_0003_v1.0.0.md`; six files in `citation-appraisal-proposals/batch-0003/` | non-authoritative, founder review required |
 | Methods—full-text access | Access and appraisal state | `revised_appraisal_progress_v0.4.0.yaml` | verified, accessible-set appraisal complete |
 | Results—measurement error | External evidence appraisal | `revised-appraisals/PMC3275466-v1.0.0.yaml` | context only |
 | Results—foundational PAM50 | External evidence appraisal | `revised-appraisals/PMC2667820-v1.0.0.yaml` | supporting |
@@ -979,6 +984,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.19.0-working | 2026-07-25 | Recorded non-authoritative batch 0002 and batch 0003 appraisal proposals; evidence synthesis and completed-appraisal counts remain unchanged pending exact founder authorization. |
 | 0.18.0-working | 2026-07-25 | Added founder-authorized citation appraisal batch 0001 and the bounded cross-study platform, population, implementation, and ambiguity synthesis; 31 total appraisals are complete. |
 | 0.17.0-working | 2026-07-25 | Added the governed IEEE publisher-PDF receipt and CDLS appraisal; all 28 lawfully accessible records are appraised, with two access restrictions retained. |
 | 0.16.0-working | 2026-07-25 | Added cross-platform microarray/nCounter discordance, classifieR, and spatially guided mFISHseq appraisals; all 27 lawfully accessible records are now appraised. |
