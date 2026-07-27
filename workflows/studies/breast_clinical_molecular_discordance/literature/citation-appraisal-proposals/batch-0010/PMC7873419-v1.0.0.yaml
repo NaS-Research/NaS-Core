@@ -1,0 +1,56 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: efb4a129e90f1ae2d3c039d45346c3fe339faace985763af888000fdf3be5612
+title: Image-based consensus molecular subtype (imCMS) classification of colorectal cancer using deep learning.
+pmid: '32690604'
+doi: 10.1136/gutjnl-2019-319866
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7873419/fullTextXML
+full_text_sha256: 66b2036b2daea46845162daff36deb1c956bef59d2c59073fb077a9225cf2890
+access_basis: Official Europe PMC article XML stored in governed object storage under CC BY 4.0.
+study_design: prediction_model
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Development and testing use three retrospective colorectal trial or registry collections with separate test cohorts. Molecularly unclassified cases are omitted from primary label-performance evaluation, which favors cleaner cases.
+  evidence_locations: [Methods — patient cohorts, Results — study populations]
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Digitized tissue sections and nearby RNA-profiled sections provide a plausible image-to-molecular bridge, with pathology annotation. Scanner, staining, section, and site shifts remain possible despite domain-adversarial training.
+  evidence_locations: [Methods — image processing, Methods — tissue annotation]
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: The convolutional architecture, domain adaptation, patch aggregation, and ensemble are described. The report does not preserve a fully locked deployable model with a reproducible execution environment for independent audit.
+  evidence_locations: [Methods — deep learning model, Supplementary methods]
+- domain: reference_comparator
+  judgment: high
+  rationale: Molecular CMS calls from existing algorithms act as ground truth even though those calls can disagree or abstain. Predicted labels for molecularly unclassified tumors have no independent definitive reference.
+  evidence_locations: [Methods — CMS classification, Results — unclassified cases]
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Discrimination metrics and independent-cohort comparisons are reported, with additional biological and outcome associations. Calibration, decision-curve utility, and uncertainty for individual predictions are not established.
+  evidence_locations: [Statistical analysis, Results — classifier performance]
+- domain: validation_and_transportability
+  judgment: some_concerns
+  rationale: Two external cohorts test a fixed image approach across sources, which is a meaningful strength. Validation remains retrospective, colorectal-specific, and anchored to transcriptomic surrogate labels rather than patient benefit.
+  evidence_locations: [Results — validation cohorts, Discussion]
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohorts, labels, architecture, and major analyses are reported, but model weights, a locked image pipeline, and an independently executable environment are not established in this appraisal.
+  evidence_locations: [Methods, Data availability]
+proposed_evidence_role: context_only
+key_strengths:
+- Uses separate development and external test cohorts.
+- Attempts to reduce site-specific image effects through domain adaptation.
+- Examines spatial prediction and tumors lacking molecular labels.
+key_limitations:
+- The comparator is an imperfect transcriptomic classification rather than biological truth.
+- Retrospective discrimination does not establish calibration or clinical utility.
+- Colorectal histology cannot validate a breast transcriptomic classifier.
+conflicts_and_funding: The article reports charity, government, institutional, and industry-linked support; disclosed author relationships require interpretation alongside the methodological evidence.
+assistant_id: openai-codex
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound licensed article and proposed domain judgments and an evidence role. This is not a founder decision, locked appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+proposed_at: '2026-07-27T02:20:44Z'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false

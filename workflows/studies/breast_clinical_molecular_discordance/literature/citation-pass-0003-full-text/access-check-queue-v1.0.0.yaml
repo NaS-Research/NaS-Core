@@ -1,0 +1,54 @@
+schema_version: 1.0.0
+queue_version: 1.0.0
+queue_id: 7a7e35190c4295878bc2eca041177833910c576cbd6badb9f51f3e54a8260a33
+study_id: NAS-BRCA-002
+code_revision: 94c750b
+inventory_queue_id: 546fcc17f0511c491d7f4e001bd3ca0ce90a33382db58d11e3fc2b917ccecbac
+repository_batch_id: 935f8626f121820323e495d55a001b3905d543d52b68cfe1aa98d25034aadce9
+record_count: 4
+records:
+- screening_id: 243893a627e5f4890a9af5be9f0fe9af0e0fe77e8a167b9221ce7a56da1d6f21
+  record_key: MED:23274563
+  title: Validation of ovarian cancer gene expression signatures for survival and subtype in formalin
+    fixed paraffin embedded tissues.
+  pmid: '23274563'
+  pmcid: PMC3733243
+  doi: 10.1016/j.ygyno.2012.12.030
+  reason: full_text_unavailable
+  prior_repository_detail: Europe PMC full-text request failed with status 404
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 05259efdede6bc5f52c3ee8df8216fdff84e0f9ffaa162a244651b73e789e813
+  record_key: MED:31678167
+  title: Technical differences between sequencing and microarray platforms impact transcriptomic subtyping
+    of colorectal cancer.
+  pmid: '31678167'
+  doi: 10.1016/j.canlet.2019.10.040
+  reason: no_repository_identifier
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: b373549e3a256765200ceefab2c4ace4f61385417297dd03e97d89cbdebed63b
+  record_key: MED:35982221
+  title: Hidden patterns of gene expression provide prognostic insight for colorectal cancer.
+  pmid: '35982221'
+  doi: 10.1038/s41417-022-00520-y
+  reason: no_repository_identifier
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+- screening_id: 65fccd707f7154399e0f53b6ddf92e8a2630df40a6c2c9f16b2b03075ad59de4
+  record_key: MED:41275314
+  title: A robust classifier for the intrinsic consensus molecular subtypes in colorectal cancer.
+  pmid: '41275314'
+  pmcid: PMC12764145
+  doi: 10.1186/s12967-025-07363-9
+  reason: license_not_approved
+  prior_repository_detail: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  final_access_decision_recorded: false
+  scientific_conclusions_drawn: false
+complete_coverage_verified: true
+final_access_decisions_recorded: 0
+scientific_conclusions_drawn: false

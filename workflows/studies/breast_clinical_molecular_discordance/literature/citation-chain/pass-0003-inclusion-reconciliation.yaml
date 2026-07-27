@@ -1,0 +1,25 @@
+schema_version: 1.0.0
+reconciliation_id: ed1c1bd02ce875823d421ba1ae2eb887045551a2636836f28fa12ca780b08e60
+study_id: NAS-BRCA-002
+pass_number: 3
+decision_id: cd85fc1829a740b023dccc1ab99fb2448761a9c97bf7a809867c8c7bb34e8e6e
+code_revision: 94c750b
+reconciled_at: '2026-07-27T02:12:09.643566Z'
+confirmed_inclusion_count: 7
+active_inventory_match_count: 0
+prior_appraisal_match_count: 0
+net_new_count: 7
+inventory_record_count: 30
+prior_appraisal_count: 58
+reconciliation_object:
+  object_key: citation-screening/NAS-BRCA-002/pass-0003/inclusion-reconciliation-ed1c1bd02ce875823d421ba1ae2eb887045551a2636836f28fa12ca780b08e60.json
+  media_type: application/json
+  size_bytes: 1841
+  sha256: 2b554a7a862cfff6ae65bc6407046bb427deeb325838c381bdac4f68a2da5b07
+  record_ids: []
+  file_ids: []
+decision_ledger_checksum_verified: true
+exact_identifier_matching_only: true
+count_invariants_verified: true
+founder_decisions_changed: 0
+scientific_conclusions_drawn: false

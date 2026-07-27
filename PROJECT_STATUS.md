@@ -8,37 +8,28 @@ and what comes next?
 
 ## Current focus
 
-### Continue sequential citation chaining after closing input feasibility
+### Founder review of citation appraisal batch 0010
 
-Citation pass 2 has executed and its two checksum-bound review packets were
-confirmed by the founder. The frozen decision ledger records 2,479 decisions:
-9 inclusions, 2,470 exclusions, and zero unclear. Identifier-only reconciliation
-against the active inventory and all locked appraisal reports classifies all nine
+The founder confirmed both checksum-bound citation pass 3 packets. The frozen
+ledger records all 593 decisions: seven inclusions, 586 exclusions, zero unclear,
+and zero AI decisions. Exact-identifier reconciliation classifies all seven
 inclusions as net new.
 
-Lawful-access reconciliation now accounts for every inclusion. Four official PMC
-articles and one CC BY Research Square preprint were reviewed ephemerally with
-source identity and canonical checksums verified; zero article bytes were retained.
-Four publisher-only records have typed restriction decisions. Two are
-purchase- or license-restricted, while two declare CC BY 4.0 but lack a
-credential-free, checksum-verifiable official delivery route.
+Lawful-access accounting is complete. Three exact CC BY 4.0 Europe PMC articles
+are stored in governed external object storage. Two official PMC OAI articles
+were reviewed ephemerally with canonical checksums and zero retained article
+bytes. Two publisher records have typed restriction decisions; no abstract-only
+appraisal was substituted.
 
-Citation pass 3 has executed from the governed 71-identity cumulative seed set.
-Europe PMC returned 2,393 backward and 8,617 forward links, producing 7,728
-unique non-seed records. Reconciliation against the direct search and both prior
-founder ledgers removed 7,127 already-screened records and eight within-pass
-duplicates, leaving 593 genuinely new candidates.
-
-Complete metadata enrichment matched 592 records and supplied 575 abstracts;
-one unresolved metadata identity and 18 records without abstracts remain
-explicitly visible. Conservative advisory screening plus field-isolated
-second-stage adjudication proposes seven high-confidence inclusions and 586
-exclusions with zero unclear. Both checksum-bound packets are frozen. The current
-gate is founder review of
-`FOUNDER_CITATION_PASS_0003_COMBINED_REVIEW_v1.0.0.md` using the exact statement
-`I confirm both checksum-bound citation pass 3 packets as written.` No founder
-decision, scientific conclusion, molecular access, or outcome access has been
-recorded.
+Five checksum-bound, bounded-derivative appraisal proposals are frozen in batch
+`0010`. All are proposed as `context_only` because they provide indirect
+methodological evidence about preservation, platform effects, spatial
+heterogeneity, image classification, or colorectal single-sample methods rather
+than breast-method validation or clinical utility. The current gate is founder
+review of `FOUNDER_CITATION_APPRAISAL_BATCH_0010_v1.0.0.md` using the exact
+statement `I confirm citation appraisal batch 0010 as written.` No locked
+appraisal, pass-3 closure, scientific conclusion, molecular access, or outcome
+access has been recorded.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -407,6 +398,17 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-26 — Citation pass 3 confirmed and appraisal batch 0010 prepared
+
+Recorded the founder's exact checksum-bound pass-3 confirmation and materialized
+all 593 decisions. Reconciliation produced seven net-new inclusions with no
+active-inventory or prior-appraisal reuse.
+
+Completed lawful-access accounting for every inclusion: three licensed durable
+full texts, two official checksum-bound no-storage reviews, and two explicit
+publisher restrictions. Prepared five typed appraisal proposals, all
+`context_only`, and froze their hashes in founder packet `0010`.
+
 ### 2026-07-26 — Citation pass 3 prepared for founder confirmation
 
 Built a checksum-bound seed receipt from all 71 founder-included persistent
@@ -462,6 +464,8 @@ unstarted or blocked. The audit replaces stale claims that evidence retrieval,
 metadata verification, synthetic method execution, and manuscript work had not
 begun. It records the exact pass-2 founder statement as the next human action and
 explicitly rejects a misleading percent-complete estimate.
+
+## Historical implementation log
 
 ### 2026-07-26 — Citation pass 2 prepared for founder confirmation
 
@@ -620,8 +624,6 @@ scientific conclusion was drawn from the abstract.
 Reconciled citation progress is now three completed, 22 ready for appraisal,
 four restricted, and zero awaiting full text. All 29 net-new citation-pass
 inclusions have a terminal access route or a verified review source.
-
-## Historical implementation log
 
 ### 2026-07-25 — Publisher access queue reduced to one unresolved record
 

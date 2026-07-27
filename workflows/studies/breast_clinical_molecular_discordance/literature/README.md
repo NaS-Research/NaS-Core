@@ -81,10 +81,18 @@ Citation pass 3 used all 71 founder-included persistent identities. Official
 Europe PMC retrieval returned 2,393 backward and 8,617 forward links, yielding
 7,728 unique non-seed candidates. Prior-screening and within-pass reconciliation
 left 593 genuinely new records. Enrichment matched 592 records and supplied 575
-abstracts while preserving one unresolved identity. Two checksum-bound advisory
-packets propose seven inclusions and 586 exclusions with zero unclear. No
-founder decision or scientific conclusion is recorded until the exact pass-3
-confirmation statement is supplied.
+abstracts while preserving one unresolved identity. The founder confirmed both
+checksum-bound packets, producing seven inclusions, 586 exclusions, zero unclear,
+and zero AI decisions.
+
+All seven inclusions are lawfully accounted for. Three CC BY 4.0 Europe PMC
+articles are retained in governed external object storage, two official PMC OAI
+articles were reviewed ephemerally with zero article bytes retained, and two
+publisher records have explicit restricted-access decisions. Five bounded
+appraisal proposals are frozen as batch `0010`, all proposed as `context_only`.
+The current gate is the exact founder statement
+`I confirm citation appraisal batch 0010 as written.` No proposal is a locked
+appraisal or scientific conclusion before that confirmation.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search

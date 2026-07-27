@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: 89133b5002644fbee9da7a69f2de00bf67afde029a07577a2bc48d67a303b99e
+study_id: NAS-BRCA-002
+queue_id: 546fcc17f0511c491d7f4e001bd3ca0ce90a33382db58d11e3fc2b917ccecbac
+progress_id: ed1c1bd02ce875823d421ba1ae2eb887045551a2636836f28fa12ca780b08e60
+screening_id: 243893a627e5f4890a9af5be9f0fe9af0e0fe77e8a167b9221ce7a56da1d6f21
+pmcid: PMC3733243
+pmid: '23274563'
+doi: 10.1016/j.ygyno.2012.12.030
+title: Validation of ovarian cancer gene expression signatures for survival and subtype in formalin fixed
+  paraffin embedded tissues.
+source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:3733243&metadataPrefix=pmc
+access_mode: read_only_ephemeral
+content_representation: canonical_pmc_oai_article_xml_v1
+access_basis: Official PMC OAI article XML reviewed ephemerally under lawful public read access; zero
+  article bytes retained.
+observed_rights: PMC author manuscript available for text mining and fair use; no redistribution license
+  established.
+rights_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3733243/
+content_sha256: 89ee9f6da46ff3068c7d0cbef35c5368e8729b407a47b6e85acf97faba654232
+content_size_bytes: 72783
+accessed_at: '2026-07-27T02:16:33.744596Z'
+verified_at: '2026-07-27T02:16:33.744752Z'
+code_revision: 94c750b
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

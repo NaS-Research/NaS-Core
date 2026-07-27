@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 05259efdede6bc5f52c3ee8df8216fdff84e0f9ffaa162a244651b73e789e813
+pmid: '31678167'
+doi: 10.1016/j.canlet.2019.10.040
+title: Technical differences between sequencing and microarray platforms impact transcriptomic subtyping of colorectal cancer.
+source_url: https://www.sciencedirect.com/science/article/pii/S0304383519305439
+observed_license: >-
+  The official Elsevier API identifies the article as open access under Creative
+  Commons Attribution-NonCommercial-NoDerivatives 4.0, but exposes metadata only
+  through the credential-free route.
+license_url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+outcome: restricted
+policy_reason: >-
+  The official publisher page and PDF returned an access challenge, while the
+  credential-free Elsevier API exposed metadata but no checksum-verifiable article
+  body. No approved repository identifier is present. No access control was
+  bypassed, no third-party copy was retained, and abstract-only content is
+  insufficient for a governed quality appraisal.
+checked_at: 2026-07-27T02:20:44Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

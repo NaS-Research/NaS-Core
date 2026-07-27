@@ -1,0 +1,21 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: b373549e3a256765200ceefab2c4ace4f61385417297dd03e97d89cbdebed63b
+pmid: '35982221'
+doi: 10.1038/s41417-022-00520-y
+title: Hidden patterns of gene expression provide prognostic insight for colorectal cancer.
+source_url: https://www.nature.com/articles/s41417-022-00520-y
+observed_license: >-
+  The official Nature page provides a subscription preview and states that
+  Springer Nature holds exclusive rights under a publishing agreement.
+license_url: https://www.nature.com/articles/s41417-022-00520-y
+outcome: restricted
+policy_reason: >-
+  The official publisher requires subscription, purchase, or institutional access
+  for the full article, and no approved repository identifier is present. No
+  access control was bypassed, no third-party copy was retained, and abstract-only
+  content is insufficient for a governed quality appraisal.
+checked_at: 2026-07-27T02:20:44Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

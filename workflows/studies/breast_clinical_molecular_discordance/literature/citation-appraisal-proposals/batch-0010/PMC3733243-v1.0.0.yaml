@@ -1,0 +1,56 @@
+schema_version: 1.0.0
+proposal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 243893a627e5f4890a9af5be9f0fe9af0e0fe77e8a167b9221ce7a56da1d6f21
+title: Validation of ovarian cancer gene expression signatures for survival and subtype in formalin fixed paraffin embedded tissues.
+pmid: '23274563'
+doi: 10.1016/j.ygyno.2012.12.030
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:3733243&metadataPrefix=pmc
+full_text_sha256: 89ee9f6da46ff3068c7d0cbef35c5368e8729b407a47b6e85acf97faba654232
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article representation hashed; zero article bytes retained.
+study_design: analytical_validation
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: The study combines banked and population-based ovarian cases and includes thirty paired preserved and frozen specimens. Survival analysis uses a restricted high-grade advanced-stage subgroup, with no prospective enrollment.
+  evidence_locations: [Methods — tumor specimens, Results — study population]
+- domain: specimen_and_measurement
+  judgment: high
+  rationale: Paired tissue is a strong preservation design, but frozen and paraffin material used different microarray platforms. Quality failures, degraded RNA, and batch effects required post hoc handling.
+  evidence_locations: [Methods — expression profiling, Results — quality control]
+- domain: classifier_implementation
+  judgment: high
+  rationale: Published signatures are adapted through probe matching and weights estimated from the same paired samples used to assess transport. That supervised bridge is not an unchanged frozen classifier.
+  evidence_locations: [Methods — signature validation, Methods — cross-platform weighting]
+- domain: reference_comparator
+  judgment: some_concerns
+  rationale: Paired frozen measurements, histology, and observed survival provide relevant comparators. Subtype clusters and frozen-platform signatures remain imperfect proxies rather than independent molecular truth.
+  evidence_locations: [Methods — signatures, Results — subtype and survival]
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: Correlation, clustering, and adjusted survival models are reported. Adaptation and evaluation share paired data, multiple signatures are explored, and uncertainty around classification performance is incomplete.
+  evidence_locations: [Statistical methods, Results]
+- domain: validation_and_transportability
+  judgment: high
+  rationale: The adapted signatures are not validated in a separate paraffin cohort with frozen comparators. Ovarian tissue, legacy assays, and retrospective outcome association do not establish breast-method reliability or treatment utility.
+  evidence_locations: [Results, Discussion]
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohort sources, platforms, transformations, and signature analyses are described. A locked implementation, dependency environment, and externally reusable fitted bridge are not preserved.
+  evidence_locations: [Methods, Data availability]
+proposed_evidence_role: context_only
+key_strengths:
+- Includes thirty paired preserved and frozen ovarian specimens.
+- Reports assay failures and batch effects.
+- Evaluates both molecular grouping and outcome association.
+key_limitations:
+- Preservation is confounded with platform and requires learned cross-platform adaptation.
+- Adaptation and evaluation are not independently separated.
+- The retrospective ovarian evidence does not validate a breast classifier.
+conflicts_and_funding: The article reports National Cancer Institute support and contains no basis for a NaS clinical-performance claim.
+assistant_id: openai-codex
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound official article in memory, retained zero article bytes, and proposed domain judgments and an evidence role. This is not a founder decision, locked appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+proposed_at: '2026-07-27T02:20:44Z'
+founder_decision_recorded: false
+scientific_conclusions_drawn: false
