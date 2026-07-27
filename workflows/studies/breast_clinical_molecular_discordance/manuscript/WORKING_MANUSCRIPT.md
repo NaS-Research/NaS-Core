@@ -8,10 +8,11 @@ Study: `NAS-BRCA-002`
 
 Question version: `0.3.0`
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
-Overall status: **working—evidence review and input feasibility incomplete; no
-molecular values or outcome dataset used or retained**
+Overall status: **working—citation review saturated and metadata input feasibility
+passed; claim synthesis awaits founder scientific review; no molecular values or
+outcome dataset used or retained**
 
 ## Abstract
 
@@ -430,6 +431,32 @@ reconciliation preserves 53 appraisal reports and counts 52 unique studies.
 [citation-version-link-proposals/batch-0008/PMC10723508-to-PMC11696812-v1.0.0.yaml;
 FOUNDER_CITATION_APPRAISAL_BATCH_0008_CONFIRMATION_v1.0.0.yaml;
 citation-publication-version-reconciliation-v1.0.0.yaml]
+
+### Citation saturation and claim synthesis
+
+Seven sequential bidirectional citation passes are now materially closed. Passes
+1–5 added eligible evidence identities. Pass 6 screened 38 genuinely new records
+and added zero eligible identities. Pass 7 independently re-queried the same
+81-identity seed boundary; all 8,227 non-seed records were already covered by the
+direct search or prior founder ledgers, leaving zero new candidates. Passes 6 and
+7 are therefore consecutive zero-yield passes. The typed cumulative validator
+reports 81 eligible identities, 68 completed appraisals, 13 explicit access
+restrictions, zero pending records, `review_status=complete`, and
+`stopping_rule_satisfied=true`.
+[revised_evidence_review_progress.yaml;
+citation-chain/pass-0006-closure.yaml;
+citation-chain/pass-0007-closure.yaml]
+
+A non-authoritative claim-level synthesis proposal now reconciles all 68 active
+appraisals: 22 supporting and 46 context-only, with no anchor evidence. It
+distinguishes supporting, limiting or contradictory, null or negative, and
+contextual evidence across eight proposed claims. The proposal is checksum-bound
+to the saturated progress receipt and fails validation if an appraisal is omitted,
+an unknown identity is cited, or context-only evidence is presented as supporting.
+It authorizes no novelty claim or scientific conclusion and must not be treated as
+final manuscript interpretation until founder scientific review.
+[saturated_evidence_synthesis_proposal_v1.0.0.yaml;
+FOUNDER_SATURATED_EVIDENCE_SYNTHESIS_REVIEW_v1.0.0.md]
 
 ### Proposed analytical procedure
 

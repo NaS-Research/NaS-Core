@@ -1,0 +1,230 @@
+schema_version: 1.0.0
+synthesis_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+progress_sha256: 70d74f60001efe4ac7e722d0d7e59f9f6730e2c34fe40c6cb344c46f8c395358
+eligible_evidence_count: 81
+completed_appraisal_count: 68
+access_restricted_count: 13
+anchor_count: 0
+supporting_count: 22
+context_only_count: 46
+claims:
+  - claim_id: CLM-001
+    claim: >-
+      PAM50 assignments can change under analytically defensible changes to test-set
+      composition, reference construction, gene content, and expression measurement.
+    proposed_status: established
+    evidence:
+      - evidence_id: PMID:25788628
+        direction: supports
+        rationale: >-
+          The locked appraisal identifies direct evidence that test-set size and
+          composition can change otherwise locked genomic-classifier outputs.
+      - evidence_id: PMID:32826944
+        direction: supports
+        rationale: >-
+          The locked appraisal identifies reference-cohort and preprocessing-family
+          sensitivity in RNA-seq PAM50 implementations.
+      - evidence_id: PMID:37857634
+        direction: supports
+        rationale: >-
+          The locked appraisal covers repeated reference sets, runner-up correlations,
+          and systematic gene-cluster perturbation in 6,233 tumors.
+    synthesis: >-
+      Analytical contingency of subtype assignment is well supported. This establishes
+      the reliability problem but not a universally correct alternative label.
+    residual_uncertainty:
+      - No independent biological gold standard adjudicates every changed call.
+      - The magnitude of each dependency may differ by platform and preprocessing family.
+  - claim_id: CLM-002
+    claim: Fixed patient-independent breast-cancer subtyping is prior art.
+    proposed_status: established
+    evidence:
+      - evidence_id: PMID:33255759
+        direction: supports
+        rationale: >-
+          MiniABS is appraised as an absolute single-sample classifier evaluated across
+          multiple assay platforms.
+      - evidence_id: PMID:37008073
+        direction: supports
+        rationale: >-
+          MPAM50 is appraised as a reference-subtraction-free single-sample alternative
+          evaluated across a large multi-dataset collection.
+      - evidence_id: PMID:35974007
+        direction: supports
+        rationale: >-
+          RNA-seq single-sample subtype and recurrence-risk predictors were externally
+          evaluated against established comparators.
+    synthesis: >-
+      NaS cannot claim novelty for cohort-independent or single-sample classification
+      itself. Any contribution must concern a narrower reliability, calibration, or
+      validation layer.
+    residual_uncertainty:
+      - Implementations optimize different targets and are not interchangeable.
+      - Cross-platform evaluation does not by itself establish analytical equivalence.
+  - claim_id: CLM-003
+    claim: Patient-level ambiguity, non-assignment, and abstention are prior art for PAM50.
+    proposed_status: established
+    evidence:
+      - evidence_id: PMID:28062443
+        direction: supports
+        rationale: >-
+          The appraised PBCMC method uses permutations, subtype-specific empirical nulls,
+          multiple-testing control, a runner-up margin, and Assigned, Ambiguous, or Not
+          Assigned states for one specimen.
+      - evidence_id: PMID:37857634
+        direction: contextualizes
+        rationale: >-
+          Runner-up correlations and perturbation-stability categories provide additional
+          prior art around patient-level confidence signals.
+    synthesis: >-
+      An abstention state and a leading-versus-runner-up margin are not novel in
+      isolation. The unresolved question is whether a rule can be calibrated to
+      independently measured technical error and transported unchanged.
+    residual_uncertainty:
+      - Published thresholds were not independently calibrated to NaS target platforms.
+      - Clinical consequences of abstention have not been prospectively established.
+  - claim_id: CLM-004
+    claim: Specimen handling, tumor composition, and intratumoral heterogeneity can affect PAM50 measurements or assignments.
+    proposed_status: established
+    evidence:
+      - evidence_id: PMID:34885228
+        direction: supports
+        rationale: >-
+          The locked appraisal evaluates sample-preparation effects on PAM50 risk and
+          subtype-related outputs.
+      - evidence_id: PMID:36892725
+        direction: supports
+        rationale: >-
+          The locked appraisal directly evaluates PAM50 reproducibility and
+          intratumoral heterogeneity.
+      - evidence_id: PMID:27036195
+        direction: supports
+        rationale: >-
+          Peri-surgical biopsy comparisons provide direct evidence of within-patient
+          expression heterogeneity across specimens.
+      - evidence_id: PMID:21718502
+        direction: supports
+        rationale: >-
+          Non-neoplastic tissue contamination is appraised as a systematic source of
+          genomic-classification bias.
+    synthesis: >-
+      Reliability cannot be reduced to classifier code. Pre-analytic and specimen-level
+      variation must be represented as limitations or explicit data-quality states.
+    residual_uncertainty:
+      - Existing studies do not yield one transportable error distribution for TCGA and SCAN-B.
+      - Bulk-tissue sampling cannot isolate all biological from technical variation.
+  - claim_id: CLM-005
+    claim: Clinical receptor or immunohistochemical categories and expression-derived subtype labels can disagree.
+    proposed_status: partly_established
+    evidence:
+      - evidence_id: PMID:27130929
+        direction: contextualizes
+        rationale: >-
+          Comparative multiparameter-test evidence demonstrates disagreement among
+          clinically relevant genomic tests without establishing a universal truth label.
+      - evidence_id: PMID:32881987
+        direction: contextualizes
+        rationale: >-
+          Computational comparison evidence shows that modeling and training choices can
+          produce materially different test classifications.
+      - evidence_id: PMID:37857634
+        direction: contextualizes
+        rationale: >-
+          Population-scale analyses stratify molecular assignments and stability by
+          clinically defined receptor groups.
+    synthesis: >-
+      Discordance is credible and clinically interesting, but it cannot be interpreted as
+      molecular correctness versus clinical error without an independent reference.
+    residual_uncertainty:
+      - Assay thresholds, timing, tissue blocks, and treatment exposure vary across studies.
+      - No comparator establishes a universally correct patient-level subtype.
+  - claim_id: CLM-006
+    claim: A score margin or perturbation-stability label alone is not a novel contribution.
+    proposed_status: established
+    evidence:
+      - evidence_id: PMID:37857634
+        direction: supports
+        rationale: >-
+          The appraised study explicitly evaluates best and second-best correlations and
+          systematic perturbation-derived stability categories.
+      - evidence_id: PMID:28062443
+        direction: supports
+        rationale: >-
+          PBCMC already combines subtype testing with a leading-versus-runner-up margin
+          and non-assignment.
+    synthesis: >-
+      The proposed method must add independently justified calibration, unchanged
+      external validation, or another bounded contribution beyond these existing ideas.
+    residual_uncertainty:
+      - Whether a specific combined rule outperforms each prior approach remains untested.
+  - claim_id: CLM-007
+    claim: >-
+      A fixed patient-independent reliability rule calibrated to independently measured
+      technical error and validated unchanged across TCGA and SCAN-B remains unresolved.
+    proposed_status: unresolved
+    evidence:
+      - evidence_id: PMID:24625003
+        direction: contextualizes
+        rationale: >-
+          Prosigna analytical validation demonstrates rigorous repeatability concepts but
+          does not supply the open, unchanged cross-platform NaS rule.
+      - evidence_id: PMID:37857634
+        direction: limits_or_contradicts
+        rationale: >-
+          Existing large-scale perturbation work substantially overlaps margin and
+          stability concepts and narrows the remaining contribution.
+      - evidence_id: PMID:28062443
+        direction: limits_or_contradicts
+        rationale: >-
+          Existing patient-level uncertainty and non-assignment further narrow what can
+          be claimed as new.
+      - evidence_id: DOI:10.64898/2026.06.23.26355479
+        direction: contextualizes
+        rationale: >-
+          The appraised Prosigna NGS bridge demonstrates analytical-validation design but
+          lacks a publicly frozen calibration artifact for unchanged independent execution.
+    synthesis: >-
+      The exact question 0.3.0 contribution remains plausible only as a tightly bounded
+      analytical-validation problem. Saturated literature does not establish that the
+      proposed combined rule is novel, valid, or clinically useful.
+    residual_uncertainty:
+      - Exact reusable centroid, calibration, and transformation artifacts remain unresolved.
+      - No outcome-independent thresholds are locked.
+      - The proposed rule has not been executed or externally validated.
+  - claim_id: CLM-008
+    claim: The proposed reliability framework improves patient treatment decisions or clinical outcomes.
+    proposed_status: unresolved
+    evidence:
+      - evidence_id: PMID:35974007
+        direction: limits_or_contradicts
+        rationale: >-
+          Existing retrospective outcome evaluation supports group-level prognostic
+          feasibility but does not establish benefit from NaS reliability states.
+      - evidence_id: PMID:27130929
+        direction: null_or_negative
+        rationale: >-
+          Comparative test discordance underscores that different recommendations can
+          occur without demonstrating that one strategy improves outcomes.
+      - evidence_id: PMID:37857634
+        direction: limits_or_contradicts
+        rationale: >-
+          Reported outcome associations are exploratory and explicitly require further
+          validation before clinical use.
+    synthesis: >-
+      No patient-decision, treatment-selection, or clinical-utility claim is currently
+      supportable. The active study must remain an analytical research-method evaluation.
+    residual_uncertainty:
+      - No prospective decision-impact or utility study has been performed.
+      - Retrospective association cannot establish treatment benefit.
+assistant_disclosure: >-
+  OpenAI Codex proposed claim groupings and bounded narrative from founder-locked
+  appraisals. The validator checks evidence identity, role, saturation lineage, and
+  nonauthorization boundaries; it does not convert this proposal into scientific
+  conclusions. Founder scientific review remains required.
+prepared_at: '2026-07-27T22:06:52Z'
+founder_decision_recorded: false
+novelty_claim_authorized: false
+scientific_conclusions_authorized: false

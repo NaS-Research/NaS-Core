@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Evidence synthesis after verified citation saturation
+### Founder scientific review of saturated evidence synthesis
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -101,6 +101,20 @@ saturation rule. This does not itself authorize a novelty claim, scientific
 conclusion, classifier artifact choice, molecular access, outcome access, or
 clinical recommendation. The next work is evidence synthesis and explicit
 resolution of the remaining scientific and implementation uncertainties.
+
+A typed claim-level synthesis proposal now binds all 68 active appraisals to the
+exact saturated progress receipt. It reconciles 22 supporting and 46
+context-only studies, rejects missing appraisal coverage and unknown citations,
+and prevents context-only evidence from being presented as supporting. Eight
+claim dispositions distinguish established prior art, partly established
+discordance, and unresolved NaS reliability and clinical-utility questions.
+
+The proposal and founder packet authorize zero conclusions by themselves. The
+current scientific gate is the exact statement `I confirm saturated evidence
+synthesis proposal 1.0.0 as written.` Confirmation would authorize the eight
+dispositions as the working synthesis for manuscript and novelty-memorandum
+revision, but not novelty, data access, method parameters, clinical claims, or
+publication.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -432,11 +446,9 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Reconcile the saturated 81-identity inventory into a claim-level evidence
-   synthesis covering support, contradiction, null findings, limitations, and
-   unresolved questions without authorizing novelty.
-2. Refresh the living manuscript and novelty memorandum from the saturated
-   evidence state, preserving explicit founder scientific review gates.
+1. Confirm or revise saturated evidence synthesis proposal `1.0.0`.
+2. After confirmation, materialize the working synthesis and refresh the novelty
+   memorandum without authorizing an affirmative novelty claim.
 3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
 4. Resolve and approve the exact centroid and external-reference artifacts,
@@ -469,6 +481,17 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-27 — Saturated claim synthesis prepared for founder review
+
+Implemented typed claim, evidence-direction, proposed-status, and aggregate
+synthesis contracts plus a deterministic validator. The checked-in proposal is
+bound to all 68 active appraisals and the exact completed progress receipt.
+
+Eight proposed claims preserve supporting, limiting or contradictory, null or
+negative, contextual, and unresolved evidence. The founder packet is
+checksum-bound and explicitly authorizes neither novelty nor scientific
+conclusions.
+
 ### 2026-07-27 — Citation saturation formally satisfied
 
 Recorded the founder's exact empty pass-7 confirmation and froze a two-byte
@@ -492,6 +515,8 @@ preserve zero candidates, zero recommendations, and zero pending records. The
 empty checksum-bound packet awaits its explicit administrative founder
 confirmation before saturation can close.
 
+## Historical implementation log
+
 ### 2026-07-27 — Citation pass 6 confirmed and closed at zero yield
 
 Recorded the founder's exact single-packet confirmation and froze all 38
@@ -502,8 +527,6 @@ for complete, unique, zero-pending packets.
 Closure `a14073f0…da6f13` verifies the empty inclusion reconciliation and empty
 appraisal queue. Pass 6 is the first zero-yield pass; pass 7 is required before
 the stopping rule can be satisfied.
-
-## Historical implementation log
 
 ### 2026-07-27 — Citation pass 6 prepared for founder confirmation
 

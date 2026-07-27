@@ -157,6 +157,17 @@ passes. The locked citation-saturation stopping rule is satisfied. Saturation
 does not itself authorize novelty, scientific conclusions, molecular or outcome
 access, or clinical recommendations.
 
+The saturated evidence state now has a typed, non-authoritative claim synthesis
+proposal. It binds all 68 active locked appraisals—22 supporting and 46
+context-only—to the exact completed progress receipt and organizes eight claims
+using supporting, limiting or contradictory, null or negative, and contextual
+directions. Validation fails on missing appraisal coverage, unknown evidence
+identities, aggregate-count drift, or use of context-only evidence as support.
+The current scientific gate is the exact statement `I confirm saturated evidence
+synthesis proposal 1.0.0 as written.` The proposal authorizes no novelty,
+scientific conclusion, data access, method parameter, clinical claim, or
+publication.
+
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
 inventory, the pass-1 activation queue, and one ordered founder-authorized queue

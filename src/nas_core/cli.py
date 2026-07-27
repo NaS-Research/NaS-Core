@@ -86,6 +86,9 @@ from nas_core.domain.evidence_review import (
     load_priority_evidence_set,
     write_evidence_review_schemas,
 )
+from nas_core.domain.evidence_synthesis import (
+    load_saturated_evidence_synthesis_proposal,
+)
 from nas_core.domain.feasibility import (
     write_metadata_feasibility_receipt,
     write_metadata_feasibility_schema,
@@ -175,6 +178,9 @@ from nas_core.retrieval.evidence_amendment import (
     CitationAccessInventoryService,
     CitationPassAppraisalQueueService,
     EvidenceCapAmendmentActivationService,
+)
+from nas_core.retrieval.evidence_synthesis import (
+    SaturatedEvidenceSynthesisService,
 )
 from nas_core.retrieval.full_text import FullTextInventoryService
 from nas_core.retrieval.full_text_retrieval import FullTextRetrievalService
@@ -690,6 +696,26 @@ def build_parser() -> argparse.ArgumentParser:
         "--execute",
         action="store_true",
         help="Write the verified citation-pass closure receipt",
+    )
+    synthesis_validate = evidence_review_commands.add_parser(
+        "synthesis-validate",
+        help="Validate a non-authoritative claim synthesis against saturated evidence",
+    )
+    synthesis_validate.add_argument("progress", type=Path)
+    synthesis_validate.add_argument("proposal", type=Path)
+    synthesis_validate.add_argument(
+        "--appraisal-dir",
+        action="append",
+        default=[],
+        type=Path,
+        help="Directory of locked appraisals; repeatable",
+    )
+    synthesis_validate.add_argument(
+        "--appraisal",
+        action="append",
+        default=[],
+        type=Path,
+        help="Individual locked appraisal reused by the active review; repeatable",
     )
     activate_cap = evidence_review_commands.add_parser(
         "activate-cap-amendment",
@@ -2124,6 +2150,41 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{len(closure.new_eligible_evidence_ids)} new eligible evidence records"
         )
         print(f"Wrote citation-pass closure receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "synthesis-validate"
+    ):
+        synthesis_progress = load_evidence_review_progress(args.progress)
+        synthesis_proposal = load_saturated_evidence_synthesis_proposal(
+            args.proposal
+        )
+        appraisal_paths = sorted(
+            {
+                *args.appraisal,
+                *(
+                    path
+                    for directory in args.appraisal_dir
+                    for path in directory.glob("*.yaml")
+                ),
+            }
+        )
+        synthesis_appraisals = [
+            load_full_text_appraisal(path) for path in appraisal_paths
+        ]
+        validated = SaturatedEvidenceSynthesisService().validate(
+            synthesis_proposal,
+            synthesis_progress,
+            synthesis_appraisals,
+            progress_path=args.progress,
+        )
+        print(
+            f"Evidence synthesis proposal is valid: {validated.study_id}, "
+            f"{len(validated.claims)} claims, "
+            f"{validated.completed_appraisal_count} appraisals, "
+            "zero authorized conclusions"
+        )
         return 0
 
     if (
