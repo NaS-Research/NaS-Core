@@ -1,0 +1,87 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.1
+study_id: NAS-BRCA-002
+screening_id: 2aa3e888adc3c251e0e7d0282adba335d9e6773231940db3f9c4edbd5eb5db23
+title: Correlation of Immunological and Histopathological Features with Gene Expression-Based Classifiers
+  in Colon Cancer Patients.
+pmid: '36293565'
+doi: 10.3390/ijms232012707
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC9604175/fullTextXML
+full_text_sha256: 7ef0ce57c28959daa8be1624c22fe0595c16dbcb4f404f0afa353eb5331ed142
+access_basis: Official Europe PMC article XML stored in governed object storage under CC BY 4.0.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: Two retrospective Dutch cohorts contain 218 surgically treated stage II or III colon cancers
+    with both tissue sections and expression data. Cohort restriction and historical treatment periods
+    limit broader transport.
+  evidence_locations:
+  - "Methods \u2014 patient cohorts"
+  - "Results \u2014 patient characteristics"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Blinded scoring of four pathology features on paraffin sections supports a controlled comparison.
+    Most features were scored by one observer, while expression used different platforms across cohorts.
+  evidence_locations:
+  - "Methods \u2014 histopathological features"
+  - "Methods \u2014 classification"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Published CMS random-forest and CRIS package methods are identified, but nearest CMS labels
+    are used and the complete frozen implementations and preprocessing are not preserved here.
+  evidence_locations:
+  - "Methods \u2014 CMS and CRIS classification"
+- domain: reference_comparator
+  judgment: high
+  rationale: Molecular subtype calls are treated as the comparison target despite classifier uncertainty
+    and overlapping CMS-CRIS biology. Histopathology and expression are related measurements, not an independent
+    biological truth standard.
+  evidence_locations:
+  - "Results \u2014 subtype distributions"
+  - Discussion
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Contingency tests, odds ratios with intervals, corrections for zero cells, and observer agreement
+    are described. Multiple feature-subtype comparisons lack an explicit multiplicity correction and combined-feature
+    analyses are exploratory.
+  evidence_locations:
+  - "Methods \u2014 statistical analysis"
+  - Results
+- domain: validation_and_transportability
+  judgment: high
+  rationale: Two cohorts provide limited replication, but there is no held-out predictive model, external
+    pathology workflow, prospective decision study, or breast-cancer validation.
+  evidence_locations:
+  - Results
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohorts, scoring, classifiers, statistical software, funding, and conflicts are reported.
+    Data are available only on request and no frozen executable environment accompanies the article.
+  evidence_locations:
+  - Materials and methods
+  - Data availability statement
+evidence_role: context_only
+key_strengths:
+- Uses two cohorts and blinded pathology scoring.
+- Reports effect estimates and confidence intervals for pathology-subtype associations.
+- Retains the null or limiting result that morphology alone is insufficient.
+key_limitations:
+- Exploratory multiplicity and partly single-observer scoring increase bias risk.
+- Molecular classifier calls are not independent biological ground truth.
+- Retrospective colorectal concordance cannot establish breast clinical utility.
+conflicts_and_funding: Dutch Cancer Society, Alpe d'HuZes, and Oncode funded the study. One author reports
+  advisory roles and institutional grants from several pharmaceutical and biotechnology organizations;
+  the article states that funders had no study or publication role.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound licensed article and proposed domain judgments
+  and an evidence role. This correction changes only the DOI identity field from the superseded batch-0011
+  proposal; it is not a founder decision, locked appraisal, scientific conclusion, novelty finding, or
+  clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-27T17:41:35Z'
+scientific_conclusions_drawn: false

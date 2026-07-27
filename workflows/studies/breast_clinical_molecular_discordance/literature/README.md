@@ -110,8 +110,12 @@ reconciliation failed closed on one DOI mismatch. `PMC5947827` is correctly
 locked. Corrective batch `0012` binds `PMC9604175` to the official DOI
 `10.3390/ijms232012707` while changing no scientific judgment, source checksum,
 or proposed `context_only` role. The current gate is the exact founder statement
-`I confirm citation appraisal batch 0012 as written.` Pass 4 cannot close until
-the correction is confirmed.
+`I confirm citation appraisal batch 0012 as written.` The founder confirmed the
+correction, both appraisals are locked as `context_only`, and receipt-derived
+closure `7880f29b…d5a1ff` adds two eligible identities. The cumulative review
+now contains 80 eligible identities: 68 appraisal-complete and 12
+access-restricted, with zero pending. Pass 5 is required because pass 4 yielded
+new evidence.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search

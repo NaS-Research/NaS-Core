@@ -97,13 +97,13 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
         "literature/revised-screening-progress/batch-0002.yaml"
     )
     assert progress.primary_screening_complete is True
-    assert progress.eligible_evidence_count == 78
-    assert progress.completed_appraisal_count == 66
+    assert progress.eligible_evidence_count == 80
+    assert progress.completed_appraisal_count == 68
     assert progress.access_restricted_count == 12
     assert progress.pending_candidate_count == 0
     assert progress.uncapped_saturation_inventory_active is True
     assert progress.core_synthesis_maximum == 30
-    assert len(progress.citation_passes) == 3
+    assert len(progress.citation_passes) == 4
     assert len(progress.citation_passes[0].new_eligible_evidence_ids) == 32
     assert (
         progress.citation_passes[0].closure_id
@@ -118,6 +118,11 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert (
         progress.citation_passes[2].closure_id
         == "08fcf9c6fa1fec051fd33ed2daee0cc8aa119dff855f921735dab97eff4a33d9"
+    )
+    assert len(progress.citation_passes[3].new_eligible_evidence_ids) == 2
+    assert (
+        progress.citation_passes[3].closure_id
+        == "7880f29b90aed61ba21c0f8c73515ae03423c1b3cacd20caf2265e7c98d5a1ff"
     )
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False

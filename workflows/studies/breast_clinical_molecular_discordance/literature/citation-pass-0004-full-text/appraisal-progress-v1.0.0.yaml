@@ -2,16 +2,16 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 7b3a659d4985ef25db4b6bfa4a4cd8708c1b5e1e5b2a600d4f728074dbac7945
 progress_id: bfe3f53da46ca38de6205192ee86a587b9e7e7725d663e1c9f5238b4d3f0cc2f
-generated_at: '2026-07-27T16:37:41.612855Z'
+generated_at: '2026-07-27T17:55:32.383309Z'
 provisional_inclusion_count: 2
 full_texts_retrieved: 1
 read_only_full_texts_reviewed: 1
-appraisals_completed: 1
+appraisals_completed: 2
 access_restricted_count: 0
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
-context_only_count: 1
+context_only_count: 2
 excluded_count: 0
 records:
 - screening_id: 8f6ec9d63401c647b75a1a3204107e4750a6a7a878e3f9ee9e6ac7edd806659c
@@ -27,7 +27,9 @@ records:
   title: Correlation of Immunological and Histopathological Features with Gene Expression-Based Classifiers
     in Colon Cancer Patients.
   pmcid: PMC9604175
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: aecc43a8841e861a305008a71f59cda204b2b51a52a95d3f6dfe810e677d11e1
   full_text_sha256: 7ef0ce57c28959daa8be1624c22fe0595c16dbcb4f404f0afa353eb5331ed142
+  appraisal_version: 1.0.1
+  evidence_role: context_only
 scientific_conclusions_drawn: false

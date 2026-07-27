@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder review of DOI correction batch 0012
+### Execute cumulative citation pass 5
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -36,15 +36,17 @@ current official Europe PMC metadata, and verified `PMC9604175` identity all
 bind DOI `10.3390/ijms232012707`. The incorrect locked appraisal was removed
 before commit; it was not substituted into evidence progress.
 
-Corrective batch `0012` changes only that DOI and its disclosure. All scientific
-judgments, evidence locations, strengths, limitations, conflicts, source bytes,
-and the `context_only` role remain unchanged. Current pass-4 progress is one
-completed and one ready appraisal with zero access restrictions or missing full
-texts. The current gate is founder review of
-`FOUNDER_CITATION_APPRAISAL_BATCH_0012_v1.0.0.md` using the exact statement
-`I confirm citation appraisal batch 0012 as written.` Pass-4 closure, molecular
-access, outcome access, novelty claims, and scientific conclusions remain
-prohibited.
+The founder confirmed corrective batch `0012`; the DOI-corrected appraisal is
+locked as `context_only`. Pass-4 closure `7880f29b…d5a1ff` verifies all 367
+screening decisions, both correct appraisals, exact source receipts, and zero
+unresolved access records. It adds two eligible identities.
+
+The cumulative state is 80 eligible identities: 68 appraisal-complete, 12
+access-restricted, and zero pending. All four completed citation passes added
+evidence, so no zero-yield stopping pass has occurred. The current target is
+cumulative pass 5 from all 80 identities, deduplicated against the direct search
+and all four prior founder ledgers. Molecular access, outcome access, novelty
+claims, and scientific conclusions remain prohibited.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -413,6 +415,16 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-27 — DOI correction authorized and citation pass 4 closed
+
+Recorded founder correction batch `0012`, locked the correct `PMC9604175`
+appraisal, and reconciled both pass-4 inclusions. Closure
+`7880f29b…d5a1ff` adds two eligible identities with two completed appraisals,
+zero restrictions, and zero pending records.
+
+Aggregate evidence progress now reports 80 eligible, 68 complete, 12 restricted,
+and zero pending. All four passes yielded evidence, so pass 5 remains required.
+
 ### 2026-07-27 — Citation pass 4 confirmed and appraisal batch 0011 prepared
 
 Recorded the founder's checksum-bound confirmation and materialized all 367
@@ -459,6 +471,8 @@ full texts, two official checksum-bound no-storage reviews, and two explicit
 publisher restrictions. Prepared five typed appraisal proposals, all
 `context_only`, and froze their hashes in founder packet `0010`.
 
+## Historical implementation log
+
 ### 2026-07-26 — Citation pass 3 prepared for founder confirmation
 
 Built a checksum-bound seed receipt from all 71 founder-included persistent
@@ -473,8 +487,6 @@ The field-isolated adjudication retained seven records under the approved
 high-confidence standard and excluded 22, leaving zero unclear. Two immutable
 packet/appendix pairs now cover every candidate exactly once. They remain
 advisory until the founder supplies the exact pass-3 confirmation statement.
-
-## Historical implementation log
 
 ### 2026-07-26 — Citation appraisal batch 0009 authorized and pass 2 closed
 

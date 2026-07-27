@@ -18,8 +18,8 @@ deduplication_complete: true
 screening_progress_id: 7b90c37aa7fcab3607b5fde99c6aa97a0a3e440889b0d44727ba4f685863218c
 screening_progress_receipt_path: literature/revised-screening-progress/batch-0002.yaml
 primary_screening_complete: true
-eligible_evidence_count: 78
-completed_appraisal_count: 66
+eligible_evidence_count: 80
+completed_appraisal_count: 68
 access_restricted_count: 12
 pending_candidate_count: 0
 uncapped_saturation_inventory_active: true
@@ -277,6 +277,99 @@ citation_passes:
     completed_at: '2026-07-27T02:50:47.137009Z'
     closure_id: 08fcf9c6fa1fec051fd33ed2daee0cc8aa119dff855f921735dab97eff4a33d9
     closure_receipt_path: literature/citation-chain/pass-0003-closure.yaml
+  - pass_number: 4
+    status: complete
+    seed_evidence_ids:
+      - PMID:16626501
+      - PMID:16643655
+      - PMID:19204204
+      - PMID:20181526
+      - PMID:21124904
+      - PMID:21347257
+      - PMID:21718502
+      - PMID:22187034
+      - PMID:22196354
+      - PMID:22262870
+      - PMID:22752290
+      - PMID:22959562
+      - PMID:23035882
+      - PMID:23046482
+      - PMID:23274563
+      - PMID:23907291
+      - PMID:24490149
+      - PMID:24625003
+      - PMID:25479802
+      - PMID:25788628
+      - PMID:25849221
+      - PMID:26297356
+      - PMID:26711328
+      - PMID:27036195
+      - PMID:27130929
+      - PMID:27556419
+      - PMID:28062443
+      - PMID:28069519
+      - PMID:28825136
+      - PMID:30040052
+      - PMID:30189722
+      - PMID:30400809
+      - PMID:30591591
+      - PMID:30721923
+      - PMID:30849944
+      - PMID:31138829
+      - PMID:31159741
+      - PMID:31435878
+      - PMID:31678167
+      - PMID:31754050
+      - PMID:31812633
+      - PMID:32690604
+      - PMID:32789507
+      - PMID:32826944
+      - PMID:32881987
+      - PMID:32997146
+      - PMID:33255759
+      - PMID:33332369
+      - PMID:33442660
+      - PMID:33543757
+      - PMID:34387660
+      - PMID:34788787
+      - PMID:34885228
+      - PMID:35361119
+      - PMID:35974007
+      - PMID:35982221
+      - PMID:35983098
+      - PMID:36867282
+      - PMID:36892725
+      - PMID:37008073
+      - PMID:37209182
+      - PMID:37773555
+      - PMID:37857634
+      - PMID:38105959
+      - PMID:38321494
+      - PMID:38549046
+      - PMID:38951507
+      - PMID:39181325
+      - PMID:39326668
+      - PMID:39747865
+      - PMID:41064593
+      - PMID:41275314
+      - PMID:41390542
+      - PMID:41671586
+      - PMID:41936844
+      - PMID:42172162
+      - PPR:PPR1259744
+      - PPR:PPR723583
+    backward_source: europe_pmc_references
+    forward_source: europe_pmc_citations
+    backward_candidate_count: 2617
+    forward_candidate_count: 8873
+    unique_candidate_count: 8092
+    screened_candidate_count: 8092
+    new_eligible_evidence_ids:
+      - PMID:29412457
+      - PMID:36293565
+    completed_at: '2026-07-27T17:55:34.971077Z'
+    closure_id: 7880f29b90aed61ba21c0f8c73515ae03423c1b3cacd20caf2265e7c98d5a1ff
+    closure_receipt_path: literature/citation-chain/pass-0004-closure.yaml
 unresolved_claims:
   - >-
     Whether the published AWCA artifacts provide lawfully reusable, sufficiently frozen

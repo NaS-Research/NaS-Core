@@ -49,12 +49,12 @@ def test_pass4_progress_accounts_for_both_readable_inclusions() -> None:
     assert progress["provisional_inclusion_count"] == 2
     assert progress["full_texts_retrieved"] == 1
     assert progress["read_only_full_texts_reviewed"] == 1
-    assert progress["appraisals_completed"] == 1
+    assert progress["appraisals_completed"] == 2
     assert progress["access_restricted_count"] == 0
     assert sum(
         item["status"] == "ready_for_appraisal" for item in progress["records"]
-    ) == 1
-    assert sum(item["status"] == "completed" for item in progress["records"]) == 1
+    ) == 0
+    assert sum(item["status"] == "completed" for item in progress["records"]) == 2
     assert progress["scientific_conclusions_drawn"] is False
 
 
