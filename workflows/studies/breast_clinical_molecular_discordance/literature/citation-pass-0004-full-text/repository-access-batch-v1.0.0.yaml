@@ -1,0 +1,33 @@
+schema_version: 1.0.0
+batch_id: e1be0cb964a372dd55a0219dbf282e860b68e4d15d56f8f397fac331e8301245
+study_id: NAS-BRCA-002
+inventory_queue_id: 7b3a659d4985ef25db4b6bfa4a4cd8708c1b5e1e5b2a600d4f728074dbac7945
+inventory_progress_id: bfe3f53da46ca38de6205192ee86a587b9e7e7725d663e1c9f5238b4d3f0cc2f
+code_revision: 7bb912f
+assessed_at: '2026-07-27T16:13:52.007121Z'
+repository_candidate_count: 2
+retrieved_count: 1
+access_check_required_count: 1
+records:
+- screening_id: 8f6ec9d63401c647b75a1a3204107e4750a6a7a878e3f9ee9e6ac7edd806659c
+  record_key: MED:29412457
+  pmcid: PMC5947827
+  title: Prospective patient stratification into robust cancer-cell intrinsic subtypes from colorectal
+    cancer biopsies.
+  outcome: license_not_approved
+  reason: article license is not in the approved CC BY set
+  durable_full_text_stored: false
+  scientific_conclusions_drawn: false
+- screening_id: 2aa3e888adc3c251e0e7d0282adba335d9e6773231940db3f9c4edbd5eb5db23
+  record_key: MED:36293565
+  pmcid: PMC9604175
+  title: Correlation of Immunological and Histopathological Features with Gene Expression-Based Classifiers
+    in Colon Cancer Patients.
+  outcome: retrieved
+  retrieval_receipt_path: workflows/studies/breast_clinical_molecular_discordance/literature/citation-pass-0004-full-text/retrieval-receipts/PMC9604175.yaml
+  durable_full_text_stored: true
+  scientific_conclusions_drawn: false
+complete_coverage_verified: true
+identity_and_license_fail_closed: true
+founder_decisions_changed: 0
+scientific_conclusions_drawn: false

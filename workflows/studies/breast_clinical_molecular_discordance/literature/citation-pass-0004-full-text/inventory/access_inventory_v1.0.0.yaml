@@ -1,0 +1,32 @@
+schema_version: 1.0.0
+inventory_version: 1.0.0
+study_id: NAS-BRCA-002
+queue_id: 7b3a659d4985ef25db4b6bfa4a4cd8708c1b5e1e5b2a600d4f728074dbac7945
+progress_id: bfe3f53da46ca38de6205192ee86a587b9e7e7725d663e1c9f5238b4d3f0cc2f
+provisional_inclusion_count: 2
+repository_candidate_count: 2
+access_check_required_count: 0
+records:
+- screening_id: 8f6ec9d63401c647b75a1a3204107e4750a6a7a878e3f9ee9e6ac7edd806659c
+  record_key: MED:29412457
+  title: Prospective patient stratification into robust cancer-cell intrinsic subtypes from colorectal
+    cancer biopsies.
+  pmid: '29412457'
+  pmcid: PMC5947827
+  doi: 10.1002/path.5051
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+- screening_id: 2aa3e888adc3c251e0e7d0282adba335d9e6773231940db3f9c4edbd5eb5db23
+  record_key: MED:36293565
+  title: Correlation of Immunological and Histopathological Features with Gene Expression-Based Classifiers
+    in Colon Cancer Patients.
+  pmid: '36293565'
+  pmcid: PMC9604175
+  doi: 10.3390/ijms232012707
+  access_status: repository_candidate
+  full_text_retrieved: false
+  full_text_appraised: false
+full_texts_retrieved: 0
+appraisals_completed: 0
+scientific_conclusions_drawn: false

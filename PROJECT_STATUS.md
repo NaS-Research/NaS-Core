@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder review of checksum-bound citation pass 4
+### Founder review of citation appraisal batch 0011
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -23,12 +23,18 @@ exclusions and held ten records. Field-isolated review retains one additional
 primary comparison study and excludes nine, producing a combined advisory set
 of two inclusions, 365 exclusions, and zero unclear.
 
-Both packet/appendix pairs are immutable and mechanically cover all 367 records
-exactly once. The current gate is founder review of
-`FOUNDER_CITATION_PASS_0004_COMBINED_REVIEW_v1.0.0.md` using the exact statement
-`I confirm both checksum-bound citation pass 4 packets as written.` No founder
-decision, pass-4 evidence inclusion, molecular access, outcome access, novelty
-claim, or scientific conclusion has been recorded.
+The founder confirmed both checksum-bound packets. The frozen ledger records two
+inclusions, 365 exclusions, zero unclear, and zero AI decisions. Both inclusions
+are net new. One CC BY 4.0 article is stored in governed external object storage;
+the other was reviewed through canonical PMC OAI XML with zero retained article
+bytes. No access item remains unresolved.
+
+Two checksum-bound appraisal proposals are frozen in batch `0011`, both as
+`context_only`. The current gate is founder review of
+`FOUNDER_CITATION_APPRAISAL_BATCH_0011_v1.0.0.md` using the exact statement
+`I confirm citation appraisal batch 0011 as written.` No locked pass-4
+appraisal, closure, molecular access, outcome access, novelty claim, or scientific
+conclusion has been recorded.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -397,6 +403,16 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-27 — Citation pass 4 confirmed and appraisal batch 0011 prepared
+
+Recorded the founder's checksum-bound confirmation and materialized all 367
+decisions: two inclusions, 365 exclusions, zero unclear, and zero AI decisions.
+Both inclusions are net new.
+
+Completed lawful-access accounting with one licensed durable full text and one
+official checksum-bound no-storage review. Prepared two bounded appraisal
+proposals as `context_only`; founder appraisal confirmation is now required.
+
 ### 2026-07-27 — Citation pass 4 prepared for founder confirmation
 
 Built the checksum-bound 78-identity cumulative seed set, retrieved and verified
@@ -448,6 +464,8 @@ high-confidence standard and excluded 22, leaving zero unclear. Two immutable
 packet/appendix pairs now cover every candidate exactly once. They remain
 advisory until the founder supplies the exact pass-3 confirmation statement.
 
+## Historical implementation log
+
 ### 2026-07-26 — Citation appraisal batch 0009 authorized and pass 2 closed
 
 Recorded the founder's exact checksum-bound confirmation, materialized five
@@ -460,8 +478,6 @@ Executed fail-closed pass-2 closure from committed revision `2bac508`. Closure
 reconciliation, access, and appraisal inputs and adds nine eligible identities.
 Aggregate evidence progress now reports 71 eligible, 61 complete, 10 restricted,
 zero pending, and a zero consecutive-zero-pass count.
-
-## Historical implementation log
 
 ### 2026-07-26 — Citation pass 2 decisions and access audit materialized
 

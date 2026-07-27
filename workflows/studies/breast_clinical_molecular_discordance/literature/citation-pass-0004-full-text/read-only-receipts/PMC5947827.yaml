@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+review_id: e6974989f7616d80ef65fa0c752019445799e989c5e810609bb9a2ea8ad4527f
+study_id: NAS-BRCA-002
+queue_id: 7b3a659d4985ef25db4b6bfa4a4cd8708c1b5e1e5b2a600d4f728074dbac7945
+progress_id: bfe3f53da46ca38de6205192ee86a587b9e7e7725d663e1c9f5238b4d3f0cc2f
+screening_id: 8f6ec9d63401c647b75a1a3204107e4750a6a7a878e3f9ee9e6ac7edd806659c
+pmcid: PMC5947827
+pmid: '29412457'
+doi: 10.1002/path.5051
+title: Prospective patient stratification into robust cancer-cell intrinsic subtypes from colorectal cancer
+  biopsies.
+source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:5947827&metadataPrefix=pmc
+access_mode: read_only_ephemeral
+content_representation: canonical_pmc_oai_article_xml_v1
+access_basis: Official PMC OAI article XML reviewed ephemerally under lawful public read access; zero
+  article bytes retained.
+observed_rights: Creative Commons Attribution 4.0 International (CC BY 4.0).
+rights_url: https://creativecommons.org/licenses/by/4.0/
+content_sha256: a8ec9db3b49d6fdd63439710e53f5375554ae75c97bc014866c617307193f637
+content_size_bytes: 100076
+accessed_at: '2026-07-27T16:14:47.856952Z'
+verified_at: '2026-07-27T16:14:47.857038Z'
+code_revision: 7bb912f
+checksum_verified: true
+article_identity_verified: true
+lawful_read_access_verified: true
+durable_full_text_stored: false
+redistribution_authorized: false
+scientific_conclusions_drawn: false

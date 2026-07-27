@@ -102,9 +102,12 @@ non-seed candidates. Prior-screening and within-pass reconciliation left 367
 genuinely new records. Complete enrichment matched 366 records and supplied 359
 abstracts while preserving one unresolved identity. Two checksum-bound advisory
 packets propose two inclusions and 365 exclusions with zero unclear. The current
-gate is the exact founder statement
-`I confirm both checksum-bound citation pass 4 packets as written.` No pass-4
-founder decision or scientific conclusion has been recorded.
+founder confirmation produced two inclusions, 365 exclusions, zero unclear, and
+zero AI decisions. Both inclusions are net new and lawfully readable: one
+licensed durable full text and one canonical official PMC OAI no-storage review.
+Appraisal batch `0011` proposes both as `context_only`. The current gate is the
+exact founder statement `I confirm citation appraisal batch 0011 as written.`
+No locked pass-4 appraisal or scientific conclusion has been recorded.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
