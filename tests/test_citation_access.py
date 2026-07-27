@@ -133,6 +133,49 @@ def test_repository_batch_routes_unapproved_license_without_storage() -> None:
     )
     assert queue.record_count == 1
     assert queue.records[0].reason == "license_not_approved"
+
+
+def test_zero_repository_batch_still_routes_direct_access_checks() -> None:
+    inventory = FullTextInventory(
+        study_id="NAS-BRCA-002",
+        queue_id="a" * 64,
+        progress_id="b" * 64,
+        provisional_inclusion_count=1,
+        repository_candidate_count=0,
+        access_check_required_count=1,
+        records=[
+            FullTextInventoryRecord(
+                screening_id="d" * 64,
+                record_key="MED:789",
+                title="Synthetic publisher-only study.",
+                pmid="789",
+                doi="10.1/publisher",
+                access_status="access_check_required",
+            )
+        ],
+    )
+
+    batch, receipts = _service(
+        _xml(license_url="https://creativecommons.org/licenses/by/4.0/")
+    ).assess(
+        inventory,
+        code_revision="abcdef0",
+        receipt_directory="literature/citation-full-text",
+    )
+
+    assert batch.repository_candidate_count == 0
+    assert batch.retrieved_count == 0
+    assert batch.access_check_required_count == 0
+    assert batch.records == []
+    assert receipts == []
+
+    queue = CitationAccessCheckQueueService().build(
+        inventory,
+        batch,
+        code_revision="abcdef0",
+    )
+    assert queue.record_count == 1
+    assert queue.records[0].reason == "no_repository_identifier"
     assert queue.records[0].final_access_decision_recorded is False
 
 

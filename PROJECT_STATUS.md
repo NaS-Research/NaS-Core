@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder review of checksum-bound citation pass 5
+### Citation pass 6 retrieval and screening preparation
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -41,19 +41,27 @@ locked as `context_only`. Pass-4 closure `7880f29b…d5a1ff` verifies all 367
 screening decisions, both correct appraisals, exact source receipts, and zero
 unresolved access records. It adds two eligible identities.
 
-The cumulative state is 80 eligible identities: 68 appraisal-complete, 12
-access-restricted, and zero pending. Pass 5 preserved all 80 seed identities.
+The prior cumulative state was 80 eligible identities: 68 appraisal-complete,
+12 access-restricted, and zero pending. Pass 5 preserved all 80 seed identities.
 Official retrieval returned 2,696 backward and 8,927 forward links, producing
 8,190 unique non-seed records. Reconciliation removed 8,091 already-screened
 records and found no within-pass duplicates, leaving 99 new candidates.
 
 All 99 matched official metadata and 96 have abstracts. Conservative advisory
-screening plus field-isolated review proposes one inclusion and 98 exclusions
-with zero unclear. The current gate is founder review of
-`FOUNDER_CITATION_PASS_0005_COMBINED_REVIEW_v1.0.0.md` using the exact statement
-`I confirm both checksum-bound citation pass 5 packets as written.` No pass-5
-founder decision, molecular access, outcome access, novelty claim, or scientific
-conclusion has been recorded.
+screening plus field-isolated review proposed one inclusion and 98 exclusions
+with zero unclear. The founder confirmed both checksum-bound packets. The frozen
+ledger records one inclusion, 98 exclusions, zero unclear, and zero AI decisions.
+The included colon-cancer study has no PMCID; Oxford's official HTML and PDF
+endpoints returned an automated-access challenge. No control was bypassed and no
+abstract-only appraisal was substituted.
+
+Pass-5 closure `efb35a2c…cf9dc` verifies every retrieval, screening, founder,
+access, and appraisal-accounting input. It adds PMID `28376187` as an eligible
+but access-restricted identity. Cumulative progress is now 81 eligible, 68
+appraisal-complete, 13 access-restricted, and zero pending. Because pass 5 added
+one eligible identity, the consecutive-zero stopping count remains zero and
+pass 6 is required. No molecular access, outcome access, novelty claim, or
+scientific conclusion was authorized.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -385,9 +393,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Confirm or revise the two checksum-bound citation pass-2 packets, materialize
-   the append-only founder decision ledger, and appraise all lawfully accessible
-   inclusions.
+1. Build the 81-identity pass-6 seed boundary, execute official bidirectional
+   citation retrieval, and prepare the checksum-bound new-candidate inventory.
 2. Execute later sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
 3. Update the living manuscript and its evidence-to-text ledger after every material
@@ -421,6 +428,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-27 — Citation pass 5 confirmed and materially closed
+
+Recorded the founder's exact checksum-bound confirmation and materialized all
+99 decisions: one inclusion, 98 exclusions, zero unclear, and zero AI decisions.
+The inclusion is net new.
+
+Oxford's official article and PDF endpoints returned an automated-access
+challenge and no approved repository identifier exists. A typed restriction
+decision prevents abstract-only appraisal. Closure `efb35a2c…cf9dc` adds one
+eligible identity and reconciles aggregate progress to 81 eligible, 68 complete,
+13 restricted, and zero pending. Pass 6 is required.
 
 ### 2026-07-27 — Citation pass 5 prepared for founder confirmation
 
@@ -465,6 +484,8 @@ Conservative advisory screening plus field-isolated review proposes two
 high-confidence inclusions and 365 exclusions with zero unclear. Two immutable
 packet/appendix pairs cover every candidate exactly once and remain advisory.
 
+## Historical implementation log
+
 ### 2026-07-26 — Citation appraisal batch 0010 authorized and pass 3 closed
 
 Recorded the founder's exact checksum-bound confirmation and materialized five
@@ -477,8 +498,6 @@ fail-closed pass-3 closure from committed revision `0153c33`. Closure
 `08fcf9c6…4a33d9` adds seven eligible identities. Aggregate evidence progress
 now reports 78 eligible, 66 complete, 12 restricted, zero pending, and no
 zero-yield pass toward the two-pass stopping rule.
-
-## Historical implementation log
 
 ### 2026-07-26 — Citation pass 3 confirmed and appraisal batch 0010 prepared
 

@@ -1,0 +1,24 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 663c59a4794b6d8822b9514d9c301b0d171c2ee65585bdfab39ccc76aece9164
+pmid: '28376187'
+doi: 10.1093/jnci/djw303
+title: >-
+  A Novel Diagnostic Tool for Selecting Patients With Mesenchymal-Type Colon
+  Cancer Reveals Intratumor Subtype Heterogeneity.
+source_url: https://academic.oup.com/jnci/article/109/7/djw303/3064533
+observed_license: >-
+  PubMed labels the record a free article and the official Oxford Academic
+  article page is publicly readable in a browser, but no reusable
+  full-text license was established.
+license_url: https://academic.oup.com/jnci/article/109/7/djw303/3064533
+outcome: restricted
+policy_reason: >-
+  The official publisher HTML and PDF endpoints returned an automated-access
+  challenge, while no PMCID or other approved repository copy is registered.
+  No access control was bypassed, no third-party copy was retained, and
+  abstract-only content is insufficient for a governed quality appraisal.
+checked_at: 2026-07-27T20:17:12Z
+durable_full_text_stored: false
+scientific_conclusions_drawn: false

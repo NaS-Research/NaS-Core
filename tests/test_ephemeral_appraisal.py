@@ -431,3 +431,9 @@ def test_publisher_html_proposal_reconciles_canonical_article() -> None:
 
     assert verified.full_text_sha256 == receipt.content_sha256
     assert verified.founder_decision_recorded is False
+
+
+def test_publisher_html_allowlist_binds_confirmed_oxford_article() -> None:
+    assert APPROVED_PUBLISHER_HTML_URLS["10.1093/jnci/djw303"] == (
+        "https://academic.oup.com/jnci/article/109/7/djw303/3064533"
+    )

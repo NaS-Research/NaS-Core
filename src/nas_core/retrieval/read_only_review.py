@@ -45,6 +45,9 @@ APPROVED_PUBLISHER_HTML_URLS = {
     "10.1093/jnci/djr545": (
         "https://oup.silverchair-cdn.com/article-minimal/979947"
     ),
+    "10.1093/jnci/djw303": (
+        "https://academic.oup.com/jnci/article/109/7/djw303/3064533"
+    ),
     "10.21203/rs.3.rs-3290125/v1": (
         "https://www.researchsquare.com/article/rs-3290125/v1"
     ),
@@ -420,6 +423,9 @@ class UrllibApprovedPublisherHtmlReadOnlyReviewTransport:
         approved_location = (
             parsed.hostname == "oup.silverchair-cdn.com"
             and parsed.path.startswith("/article-minimal/")
+        ) or (
+            parsed.hostname == "academic.oup.com"
+            and parsed.path == "/jnci/article/109/7/djw303/3064533"
         ) or (
             parsed.hostname == "www.researchsquare.com"
             and parsed.path == "/article/rs-3290125/v1"

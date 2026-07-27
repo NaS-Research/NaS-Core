@@ -59,10 +59,10 @@ class RepositoryAccessBatchReceipt(CitationAccessModel):
     inventory_progress_id: str = Field(pattern=r"^[a-f0-9]{64}$")
     code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
     assessed_at: datetime
-    repository_candidate_count: int = Field(ge=1)
+    repository_candidate_count: int = Field(ge=0)
     retrieved_count: int = Field(ge=0)
     access_check_required_count: int = Field(ge=0)
-    records: list[RepositoryAccessAssessmentRecord] = Field(min_length=1)
+    records: list[RepositoryAccessAssessmentRecord]
     complete_coverage_verified: bool
     identity_and_license_fail_closed: bool
     founder_decisions_changed: int = Field(default=0, ge=0)

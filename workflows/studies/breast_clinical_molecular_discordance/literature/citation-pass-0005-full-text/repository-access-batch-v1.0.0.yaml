@@ -1,0 +1,15 @@
+schema_version: 1.0.0
+batch_id: 9f0bfabcc7e846b8dbc708c65f05874158a17067b198cd88795f3bb1e666543f
+study_id: NAS-BRCA-002
+inventory_queue_id: 8873b397d371a2b3f3f60b6197b94cb1b2019fea9b8c9324340f9e739d996652
+inventory_progress_id: 1d4b8acc6f425b0bb29cb78c0e1de4000ea687b6c4b0f3575e70df0768497663
+code_revision: be46a36
+assessed_at: '2026-07-27T20:14:28.032399Z'
+repository_candidate_count: 0
+retrieved_count: 0
+access_check_required_count: 0
+records: []
+complete_coverage_verified: true
+identity_and_license_fail_closed: true
+founder_decisions_changed: 0
+scientific_conclusions_drawn: false

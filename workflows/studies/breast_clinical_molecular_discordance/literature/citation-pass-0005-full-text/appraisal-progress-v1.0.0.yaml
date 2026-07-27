@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+queue_id: 8873b397d371a2b3f3f60b6197b94cb1b2019fea9b8c9324340f9e739d996652
+progress_id: 1d4b8acc6f425b0bb29cb78c0e1de4000ea687b6c4b0f3575e70df0768497663
+generated_at: '2026-07-27T20:19:17.454844Z'
+provisional_inclusion_count: 1
+full_texts_retrieved: 0
+read_only_full_texts_reviewed: 0
+appraisals_completed: 0
+access_restricted_count: 1
+duplicate_resolved_count: 0
+anchor_count: 0
+supporting_count: 0
+context_only_count: 0
+excluded_count: 0
+records:
+- screening_id: 663c59a4794b6d8822b9514d9c301b0d171c2ee65585bdfab39ccc76aece9164
+  title: A Novel Diagnostic Tool for Selecting Patients With Mesenchymal-Type Colon Cancer Reveals Intratumor
+    Subtype Heterogeneity.
+  status: access_restricted
+  observed_license: PubMed labels the record a free article and the official Oxford Academic article page
+    is publicly readable in a browser, but no reusable full-text license was established.
+scientific_conclusions_drawn: false

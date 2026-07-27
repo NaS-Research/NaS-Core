@@ -120,10 +120,16 @@ new evidence.
 Citation pass 5 preserved all 80 cumulative identities. Official retrieval
 returned 2,696 backward and 8,927 forward links and 8,190 unique non-seed
 candidates. Prior-screening reconciliation left 99 new records; all matched
-official metadata and 96 have abstracts. Two advisory packets propose one
-inclusion and 98 exclusions with zero unclear. The current gate is the exact
-founder statement `I confirm both checksum-bound citation pass 5 packets as
-written.` No pass-5 founder decision or scientific conclusion is recorded.
+official metadata and 96 have abstracts. The founder confirmed the two
+checksum-bound packets, freezing one inclusion, 98 exclusions, zero unclear,
+and zero AI decisions. The included Oxford article has no PMCID, and its
+official HTML and PDF endpoints returned an automated-access challenge. No
+control was bypassed, no article text was retained, and no abstract-only
+appraisal was substituted. Receipt-derived closure `efb35a2c…cf9dc` adds PMID
+`28376187` as access-restricted. The cumulative review now contains 81 eligible
+identities: 68 appraisal-complete and 13 access-restricted, with zero pending.
+Because pass 5 added evidence, pass 6 is required and the consecutive-zero
+stopping count remains zero.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
