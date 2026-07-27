@@ -1,0 +1,32 @@
+schema_version: 1.0.0
+confirmation_version: 1.0.0
+study_id: NAS-BRCA-002
+batch_number: 10
+packet_filename: FOUNDER_CITATION_APPRAISAL_BATCH_0010_v1.0.0.md
+packet_sha256: 820141036f143f7439d203c3f4fbbd3863749a076b5da3de435c6cd8eade4907
+proposal_count: 5
+proposals:
+  - filename: PMC12764145-v1.0.0.yaml
+    screening_id: 65fccd707f7154399e0f53b6ddf92e8a2630df40a6c2c9f16b2b03075ad59de4
+    sha256: babe487f294fd817865b32c805fe9d5b92aa37de6236a7f6d771f4d40c2cdb44
+  - filename: PMC3273349-v1.0.0.yaml
+    screening_id: 99ca2eedbf18275db73a1dd5ba1e862b4d348e853416298bb98199d464aa5d5e
+    sha256: a9ffc2f079f20c53eb1466eca1b75c4a06ccaa8407b5757f9443f57e947585a1
+  - filename: PMC3733243-v1.0.0.yaml
+    screening_id: 243893a627e5f4890a9af5be9f0fe9af0e0fe77e8a167b9221ce7a56da1d6f21
+    sha256: 40ec1ef98400c3c99a25be45102c0cff2f481652d2742a3abe1448e5bc7a5e10
+  - filename: PMC7746197-v1.0.0.yaml
+    screening_id: 78182621f67df06ca55d297c34f9614697f3d93b30e737a993ae77134523dd14
+    sha256: 02f67b940a3c8182512982927fa592246082cf52764538df00eac19d9bc6b1ce
+  - filename: PMC7873419-v1.0.0.yaml
+    screening_id: efb4a129e90f1ae2d3c039d45346c3fe339faace985763af888000fdf3be5612
+    sha256: 7bbedad60858dd07289a482df450368192c3410deff9b1f636fda02161206a40
+version_link_count: 0
+version_links: []
+confirmation_statement: I confirm citation appraisal batch 0010 as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-27T02:48:22Z'
+founder_authorized: true
+founder_role_conflict_disclosed: true

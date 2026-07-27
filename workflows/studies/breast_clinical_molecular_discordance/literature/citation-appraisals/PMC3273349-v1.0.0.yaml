@@ -1,0 +1,86 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 99ca2eedbf18275db73a1dd5ba1e862b4d348e853416298bb98199d464aa5d5e
+title: Gene expression profiles of gliomas in formalin-fixed paraffin-embedded material.
+pmid: '22187034'
+doi: 10.1038/bjc.2011.547
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC3273349/fullTextXML
+full_text_sha256: f1350e6a7eafa5780b69251834dc5b80aebe557a16117d71c71878654541e552
+access_basis: Official Europe PMC article XML stored in governed object storage under CC BY 4.0.
+study_design: analytical_validation
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: high
+  rationale: Fifty-five paired glioma specimens came from one archival source and were selected for high
+    tumor content. The narrow disease, institution, and specimen spectrum limits transfer to breast tumors
+    or prospective workflows.
+  evidence_locations:
+  - "Methods \u2014 tissue specimens"
+  - "Results \u2014 patient cohort"
+- domain: specimen_and_measurement
+  judgment: high
+  rationale: Parallel fresh-frozen and paraffin samples support preservation comparison, including old
+    blocks and degraded RNA. However, preservation was entangled with different array platforms and assay
+    years, preventing isolation of a storage effect.
+  evidence_locations:
+  - "Methods \u2014 RNA isolation and arrays"
+  - "Results \u2014 RNA quality"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Probe filtering and cluster reproduction are described, but the variable-probe selection
+    is data dependent and the historical cluster procedure is not supplied as a frozen deployable classifier.
+  evidence_locations:
+  - "Methods \u2014 data analysis"
+  - "Results \u2014 clustering"
+- domain: reference_comparator
+  judgment: high
+  rationale: Agreement with frozen-tissue expression clusters is the principal comparator. Those clusters
+    are not independent biological truth, and a same-platform preservation comparator indicates that platform
+    choice contributes materially.
+  evidence_locations:
+  - "Results \u2014 subtype assignment"
+  - Discussion
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Correlations, differential-expression agreement, and cluster assignment rates are reported.
+    Precision intervals, prespecified equivalence margins, and protection against the feature-selection
+    search are absent.
+  evidence_locations:
+  - "Results \u2014 comparison of profiles"
+  - Tables and figures
+- domain: validation_and_transportability
+  judgment: high
+  rationale: No independent cohort, laboratory, disease, or current assay validates the approach. Excluding
+    an unstable cluster improves apparent agreement and further narrows the transported result.
+  evidence_locations:
+  - "Results \u2014 clustering"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Specimen processing, platforms, filtering, and accession information are reported, but a
+    locked environment and complete executable analysis are not preserved with this review.
+  evidence_locations:
+  - Methods
+  - Data availability
+evidence_role: context_only
+key_strengths:
+- Uses paired material and explicitly examines highly degraded archival RNA.
+- Separately discusses preservation and platform contributions to disagreement.
+- Reports unsuccessful and unstable classifications rather than hiding them.
+key_limitations:
+- Preservation, platform, and assay year are confounded.
+- The small single-source glioma series is indirect for breast classification.
+- No external validation, calibrated uncertainty, or clinical utility assessment is provided.
+conflicts_and_funding: The article reports public and nonprofit research support; no commercial classifier
+  validation claim is accepted by this appraisal.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound licensed article and proposed domain judgments
+  and an evidence role. This is not a founder decision, locked appraisal, scientific conclusion, novelty
+  finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-27T02:48:22Z'
+scientific_conclusions_drawn: false

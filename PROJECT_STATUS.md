@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder review of citation appraisal batch 0010
+### Execute cumulative citation pass 4
 
 The founder confirmed both checksum-bound citation pass 3 packets. The frozen
 ledger records all 593 decisions: seven inclusions, 586 exclusions, zero unclear,
@@ -21,15 +21,21 @@ were reviewed ephemerally with canonical checksums and zero retained article
 bytes. Two publisher records have typed restriction decisions; no abstract-only
 appraisal was substituted.
 
-Five checksum-bound, bounded-derivative appraisal proposals are frozen in batch
-`0010`. All are proposed as `context_only` because they provide indirect
-methodological evidence about preservation, platform effects, spatial
-heterogeneity, image classification, or colorectal single-sample methods rather
-than breast-method validation or clinical utility. The current gate is founder
-review of `FOUNDER_CITATION_APPRAISAL_BATCH_0010_v1.0.0.md` using the exact
-statement `I confirm citation appraisal batch 0010 as written.` No locked
-appraisal, pass-3 closure, scientific conclusion, molecular access, or outcome
-access has been recorded.
+The founder confirmed appraisal batch `0010`. Five AI-assisted appraisals are
+locked as `context_only`; two access restrictions remain fully accounted for.
+Immutable closure `08fcf9c6…4a33d9` verifies the complete pass-3 retrieval,
+screening, founder, access, and appraisal lineage and adds seven eligible
+identities.
+
+The cumulative evidence state is now 78 eligible identities: 66
+appraisal-complete, 12 access-restricted, and zero pending. Passes 1, 2, and 3
+all added eligible evidence, so the required two consecutive zero-yield passes
+have not begun. The current implementation target is cumulative citation pass 4
+from all 78 founder-included identities. It must deduplicate against the direct
+search and all three prior founder ledgers, preserve unresolved metadata, screen
+every genuinely new record, and either close with complete appraisal accounting
+or stop at the next checksum-bound founder decision packet. Molecular access,
+outcome access, novelty claims, and scientific conclusions remain prohibited.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -46,10 +52,10 @@ and appraisal progress before deriving new eligible evidence IDs. Pass 1 is now
 materially closed from frozen revision `8c94614` under immutable closure
 `3f7037ca…d9676`. It reconciles 4,628 unique citation records, 4,495 founder
 decisions, 32 inclusions, three exact appraisal reuses, 25 completed appraisals,
-four access restrictions, and 32 new eligible evidence records. After pass 2,
-the bound identity-level evidence state is 71 eligible, 61 appraisal-complete,
-10 access-restricted, and zero pending. Both completed passes added evidence, so
-the consecutive-zero stopping count remains zero.
+four access restrictions, and 32 new eligible evidence records. After pass 3,
+the bound identity-level evidence state is 78 eligible, 66 appraisal-complete,
+12 access-restricted, and zero pending. All three completed passes added evidence,
+so the consecutive-zero stopping count remains zero.
 
 The proposed analytical contract now has an executable synthetic-only kernel.
 It accepts only `SYNTHETIC-*` identifiers; validates the exact historical
@@ -398,6 +404,19 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-26 — Citation appraisal batch 0010 authorized and pass 3 closed
+
+Recorded the founder's exact checksum-bound confirmation and materialized five
+AI-assisted locked appraisals. All five are `context_only`; none is anchor
+evidence, a scientific conclusion, a novelty finding, or a clinical
+recommendation.
+
+Reconciled those appraisals with two typed access restrictions and executed
+fail-closed pass-3 closure from committed revision `0153c33`. Closure
+`08fcf9c6…4a33d9` adds seven eligible identities. Aggregate evidence progress
+now reports 78 eligible, 66 complete, 12 restricted, zero pending, and no
+zero-yield pass toward the two-pass stopping rule.
+
 ### 2026-07-26 — Citation pass 3 confirmed and appraisal batch 0010 prepared
 
 Recorded the founder's exact checksum-bound pass-3 confirmation and materialized
@@ -453,6 +472,8 @@ Prepared appraisal batch `0009` with five checksum-bound, bounded-derivative
 proposals. All five are proposed as `context_only`; founder confirmation is now
 required before any locked appraisal or evidence synthesis update.
 
+## Historical implementation log
+
 ### 2026-07-26 — Project-to-publication completion audit reconciled
 
 Reconciled every phase in `NAS-BRCA-002/PROJECT_PLAN.md` against current immutable
@@ -464,8 +485,6 @@ unstarted or blocked. The audit replaces stale claims that evidence retrieval,
 metadata verification, synthetic method execution, and manuscript work had not
 begun. It records the exact pass-2 founder statement as the next human action and
 explicitly rejects a misleading percent-complete estimate.
-
-## Historical implementation log
 
 ### 2026-07-26 — Citation pass 2 prepared for founder confirmation
 

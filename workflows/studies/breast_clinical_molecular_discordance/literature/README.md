@@ -88,11 +88,13 @@ and zero AI decisions.
 All seven inclusions are lawfully accounted for. Three CC BY 4.0 Europe PMC
 articles are retained in governed external object storage, two official PMC OAI
 articles were reviewed ephemerally with zero article bytes retained, and two
-publisher records have explicit restricted-access decisions. Five bounded
-appraisal proposals are frozen as batch `0010`, all proposed as `context_only`.
-The current gate is the exact founder statement
-`I confirm citation appraisal batch 0010 as written.` No proposal is a locked
-appraisal or scientific conclusion before that confirmation.
+publisher records have explicit restricted-access decisions. The founder
+confirmed appraisal batch `0010`; all five accessible studies are now locked as
+`context_only`. Receipt-derived closure `08fcf9c6…4a33d9` adds all seven
+eligible identities and proves complete appraisal accounting. The cumulative
+review now contains 78 eligible identities: 66 appraisal-complete and 12
+access-restricted, with zero pending. Pass 3 added evidence, so citation pass 4
+must execute and the two-consecutive-zero stopping rule is not yet satisfied.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
@@ -111,8 +113,8 @@ prevents closure. Pass 1 was materially closed from frozen revision `8c94614`
 under closure `3f7037ca…d9676`. It reconciles 4,628 unique records, 4,495
 founder-screened records, 32 inclusions, three prior-appraisal reuses, 25 completed
 appraisals, four access restrictions, and 32 new eligible identities. After pass
-2, the bound review state contains 71 eligible identities, 61 appraisal-complete
-identities, 10 access-restricted identities, and zero pending. Because both
+3, the bound review state contains 78 eligible identities, 66 appraisal-complete
+identities, 12 access-restricted identities, and zero pending. Because all three
 completed passes added evidence, the consecutive-zero stopping count remains
 zero.
 

@@ -2,31 +2,35 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 546fcc17f0511c491d7f4e001bd3ca0ce90a33382db58d11e3fc2b917ccecbac
 progress_id: ed1c1bd02ce875823d421ba1ae2eb887045551a2636836f28fa12ca780b08e60
-generated_at: '2026-07-27T02:25:21.864241Z'
+generated_at: '2026-07-27T02:49:59.430074Z'
 provisional_inclusion_count: 7
 full_texts_retrieved: 3
 read_only_full_texts_reviewed: 2
-appraisals_completed: 0
+appraisals_completed: 5
 access_restricted_count: 2
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
-context_only_count: 0
+context_only_count: 5
 excluded_count: 0
 records:
 - screening_id: 99ca2eedbf18275db73a1dd5ba1e862b4d348e853416298bb98199d464aa5d5e
   title: Gene expression profiles of gliomas in formalin-fixed paraffin-embedded material.
   pmcid: PMC3273349
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: edfcfd24254923bbe433a36799d8d635b1d552ddb867e78b3a14102a02293368
   full_text_sha256: f1350e6a7eafa5780b69251834dc5b80aebe557a16117d71c71878654541e552
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 243893a627e5f4890a9af5be9f0fe9af0e0fe77e8a167b9221ce7a56da1d6f21
   title: Validation of ovarian cancer gene expression signatures for survival and subtype in formalin
     fixed paraffin embedded tissues.
   pmcid: PMC3733243
-  status: ready_for_appraisal
+  status: completed
   read_only_review_id: 89133b5002644fbee9da7a69f2de00bf67afde029a07577a2bc48d67a303b99e
   full_text_sha256: 89ee9f6da46ff3068c7d0cbef35c5368e8729b407a47b6e85acf97faba654232
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 05259efdede6bc5f52c3ee8df8216fdff84e0f9ffaa162a244651b73e789e813
   title: Technical differences between sequencing and microarray platforms impact transcriptomic subtyping
     of colorectal cancer.
@@ -38,16 +42,20 @@ records:
   title: Image-based consensus molecular subtype (imCMS) classification of colorectal cancer using deep
     learning.
   pmcid: PMC7873419
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 5fe2a3e0568b2040755249a4478446376beb4d27742b136fa606e67cfb5fd16b
   full_text_sha256: 66b2036b2daea46845162daff36deb1c956bef59d2c59073fb077a9225cf2890
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 78182621f67df06ca55d297c34f9614697f3d93b30e737a993ae77134523dd14
   title: Transcriptomic and proteomic intra-tumor heterogeneity of colorectal cancer varies depending
     on tumor location within the colorectum.
   pmcid: PMC7746197
-  status: ready_for_appraisal
+  status: completed
   retrieval_id: 8f8df915a8cb4e532a57a3c2ef08bc25c43764c44e01dda86ed39d4ac79c8bd4
   full_text_sha256: 7b51ea838f5ec71a0b6795c0c86f2e8b5ad572c69b7a773f7b6d22341f9ecb9f
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: b373549e3a256765200ceefab2c4ace4f61385417297dd03e97d89cbdebed63b
   title: Hidden patterns of gene expression provide prognostic insight for colorectal cancer.
   status: access_restricted
@@ -56,7 +64,9 @@ records:
 - screening_id: 65fccd707f7154399e0f53b6ddf92e8a2630df40a6c2c9f16b2b03075ad59de4
   title: A robust classifier for the intrinsic consensus molecular subtypes in colorectal cancer.
   pmcid: PMC12764145
-  status: ready_for_appraisal
+  status: completed
   read_only_review_id: 3167b7bfae183f785d1b7a2e95e57b6086e1e2224d6ef07908c014f2518fe25c
   full_text_sha256: c26e305c216896ee459293540061fc51bca77205312ff128209d2f11a045fc4c
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 scientific_conclusions_drawn: false

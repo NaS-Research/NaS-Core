@@ -1,0 +1,89 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 78182621f67df06ca55d297c34f9614697f3d93b30e737a993ae77134523dd14
+title: Transcriptomic and proteomic intra-tumor heterogeneity of colorectal cancer varies depending on
+  tumor location within the colorectum.
+pmid: '33332369'
+doi: 10.1371/journal.pone.0241148
+full_text_source_url: https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7746197/fullTextXML
+full_text_sha256: 7b51ea838f5ec71a0b6795c0c86f2e8b5ad572c69b7a773f7b6d22341f9ecb9f
+access_basis: Official Europe PMC article XML stored in governed object storage under CC BY 4.0.
+study_design: observational_concordance
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: high
+  rationale: Multiregional sampling included fourteen untreated stage II or III tumors for RNA and twenty-nine
+    for protein from one regional setting. Consecutive recruitment helps, but the small location-stratified
+    groups are fragile and indirect for breast disease.
+  evidence_locations:
+  - "Methods \u2014 patient inclusion"
+  - "Results \u2014 patient characteristics"
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Several spatial biopsies per tumor and paired transcript and protein measurements directly
+    test sampling heterogeneity. Tissue handling is described, but sampling density and analyte availability
+    vary by patient.
+  evidence_locations:
+  - "Methods \u2014 tissue biopsies"
+  - "Methods \u2014 molecular analyses"
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Three published colorectal classification systems are applied, allowing comparison across
+    taxonomies. Their implementations and unclassified behavior are inherited rather than prospectively
+    locked for this study.
+  evidence_locations:
+  - "Methods \u2014 molecular classification"
+  - Supplementary methods
+- domain: reference_comparator
+  judgment: high
+  rationale: Concordance among regional biopsies is treated as the target, but no biopsy supplies definitive
+    whole-tumor truth. Protein clustering and transcript correlation offer supporting measurements rather
+    than an independent reference standard.
+  evidence_locations:
+  - "Results \u2014 intra-tumor heterogeneity"
+  - "Results \u2014 protein analysis"
+- domain: analysis_and_statistics
+  judgment: high
+  rationale: Concordance proportions, correlations, clustering, and selected tests are reported. Very
+    small strata, numerous exploratory comparisons, and no clear multiplicity strategy make effect estimates
+    uncertain.
+  evidence_locations:
+  - Statistical analysis
+  - Results
+- domain: validation_and_transportability
+  judgment: high
+  rationale: A larger one-biopsy cohort supports selected protein associations but does not externally
+    validate multiregional classification discordance. There is no separate multiregional cohort, assay,
+    or breast-cancer replication.
+  evidence_locations:
+  - "Methods \u2014 validation cohort"
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Cohort construction, assays, classifiers, and public data access are described. The complete
+    frozen computational environment and prespecified analysis plan are not supplied.
+  evidence_locations:
+  - Methods
+  - Data availability
+evidence_role: context_only
+key_strengths:
+- Uses multiple spatial biopsies rather than assuming one sample represents a tumor.
+- Compares three transcriptomic classification systems and protein heterogeneity.
+- Retains site-dependent discordance as a central result.
+key_limitations:
+- Multiregional transcriptomic inference rests on fourteen tumors.
+- No independent multiregional validation cohort is used.
+- Colorectal heterogeneity cannot validate the NaS breast method.
+conflicts_and_funding: The article reports Danish public, foundation, university, and cancer-research
+  support and states that funders had no role in the study.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound licensed article and proposed domain judgments
+  and an evidence role. This is not a founder decision, locked appraisal, scientific conclusion, novelty
+  finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-27T02:48:22Z'
+scientific_conclusions_drawn: false

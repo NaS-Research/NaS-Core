@@ -3,7 +3,10 @@ from pathlib import Path
 
 import yaml
 
-from nas_core.domain.appraisal import FullTextAppraisalProposal
+from nas_core.domain.appraisal import (
+    FullTextAppraisalProposal,
+    load_full_text_appraisal_batch_confirmation,
+)
 
 ROOT = Path(__file__).parents[1]
 LITERATURE = (
@@ -15,6 +18,10 @@ LITERATURE = (
 )
 PROPOSAL_DIR = LITERATURE / "citation-appraisal-proposals" / "batch-0010"
 PACKET = LITERATURE / "FOUNDER_CITATION_APPRAISAL_BATCH_0010_v1.0.0.md"
+CONFIRMATION = (
+    LITERATURE
+    / "FOUNDER_CITATION_APPRAISAL_BATCH_0010_CONFIRMATION_v1.0.0.yaml"
+)
 PROGRESS = (
     LITERATURE
     / "citation-pass-0003-full-text"
@@ -56,11 +63,24 @@ def test_pass3_access_and_appraisal_progress_accounts_for_every_inclusion() -> N
     assert progress["full_texts_retrieved"] == 3
     assert progress["read_only_full_texts_reviewed"] == 2
     assert progress["access_restricted_count"] == 2
-    assert progress["appraisals_completed"] == 0
+    assert progress["appraisals_completed"] == 5
     assert sum(
-        item["status"] == "ready_for_appraisal" for item in progress["records"]
+        item["status"] == "completed" for item in progress["records"]
     ) == 5
     assert sum(
         item["status"] == "access_restricted" for item in progress["records"]
     ) == 2
     assert progress["scientific_conclusions_drawn"] is False
+
+
+def test_batch_0010_confirmation_is_bound_to_the_exact_packet() -> None:
+    confirmation = load_full_text_appraisal_batch_confirmation(CONFIRMATION)
+
+    assert confirmation.batch_number == 10
+    assert confirmation.packet_sha256 == _sha256(PACKET)
+    assert confirmation.proposal_count == 5
+    assert confirmation.confirmation_statement == (
+        "I confirm citation appraisal batch 0010 as written."
+    )
+    assert confirmation.founder_authorized is True
+    assert confirmation.founder_role_conflict_disclosed is True
