@@ -120,7 +120,7 @@ class CitationDecisionLedgerReceipt(CitationConfirmationModel):
     second_appendix_sha256: str | None = Field(
         default=None, pattern=r"^[a-f0-9]{64}$"
     )
-    candidate_count: int = Field(ge=1)
+    candidate_count: int = Field(ge=0)
     included_count: int = Field(ge=0)
     excluded_count: int = Field(ge=0)
     unclear_count: int = Field(ge=0)

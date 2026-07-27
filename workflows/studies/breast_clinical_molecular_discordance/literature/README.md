@@ -149,9 +149,13 @@ Official retrieval again returned 2,733 backward and 8,954 forward links and
 six prior founder ledgers classified every record as already screened, leaving
 zero new candidates and zero duplicates. Typed prioritization, enrichment,
 recommendation, packet, and appendix artifacts preserve the empty set. The
-current gate is the exact statement `I confirm the proposed citation pass 7
-decisions in the checksum-bound packet.` Confirmation would permit empty-pass
-closure and formal evaluation of the two-consecutive-zero-pass saturation rule.
+founder confirmed the exact packet. Closure `cb97a2d8…65f2be` verifies the
+empty decision ledger, inclusion reconciliation, and appraisal queue. The
+cumulative validator reports 81 eligible identities, 68 completed appraisals,
+13 access restrictions, zero pending records, and two consecutive zero-yield
+passes. The locked citation-saturation stopping rule is satisfied. Saturation
+does not itself authorize novelty, scientific conclusions, molecular or outcome
+access, or clinical recommendations.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search

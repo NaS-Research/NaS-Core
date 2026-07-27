@@ -41,6 +41,9 @@ NOW = datetime(2026, 7, 25, 23, 30, tzinfo=UTC)
 PASS6_PACKET = LITERATURE / "FOUNDER_CITATION_PASS_0006_REVIEW_v1.0.0.md"
 PASS6_APPENDIX = LITERATURE / "FOUNDER_CITATION_PASS_0006_APPENDIX_v1.0.0.csv"
 PASS6_RECEIPT = LITERATURE / "citation-chain" / "pass-0006-founder-packet.yaml"
+PASS7_PACKET = LITERATURE / "FOUNDER_CITATION_PASS_0007_REVIEW_v1.0.0.md"
+PASS7_APPENDIX = LITERATURE / "FOUNDER_CITATION_PASS_0007_APPENDIX_v1.0.0.csv"
+PASS7_RECEIPT = LITERATURE / "citation-chain" / "pass-0007-founder-packet.yaml"
 
 
 def _confirmation() -> CitationFounderConfirmation:
@@ -159,6 +162,38 @@ def test_single_packet_confirmation_rejects_pending_records() -> None:
             appendix_path=FIRST_APPENDIX,
             code_revision="15374c5",
         )
+
+
+def test_single_packet_confirmation_freezes_header_only_empty_ledger() -> None:
+    packet = load_citation_founder_packet_receipt(PASS7_RECEIPT)
+    confirmation = CitationFounderConfirmation(
+        study_id="NAS-BRCA-002",
+        pass_number=7,
+        first_packet_sha256=packet.packet_sha256,
+        first_appendix_sha256=packet.appendix_sha256,
+        confirmation_statement=single_citation_confirmation_statement(7),
+        founder_id="dalron-j-robertson",
+        founder_name="Dalron J. Robertson",
+        reviewer_role="founder_internal_reviewer",
+        confirmed_at=NOW,
+        founder_authorized=True,
+        founder_role_conflict_disclosed=True,
+    )
+
+    receipt = CitationDecisionConfirmationService(
+        store=InMemoryObjectStore()
+    ).confirm_single(
+        packet,
+        confirmation,
+        packet_path=PASS7_PACKET,
+        appendix_path=PASS7_APPENDIX,
+        code_revision="7d61230",
+    )
+
+    assert receipt.candidate_count == 0
+    assert receipt.included_count == 0
+    assert receipt.excluded_count == 0
+    assert receipt.ledger_object.size_bytes == 2
 
 
 def test_confirmation_rejects_tampered_packet_bytes(tmp_path: Path) -> None:

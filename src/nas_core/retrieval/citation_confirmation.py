@@ -190,7 +190,10 @@ class CitationDecisionConfirmationService:
             packet.appendix_sha256,
             confirmation.first_appendix_sha256,
         )
-        rows = self._read_appendix(appendix_path)
+        rows = self._read_appendix(
+            appendix_path,
+            allow_empty=packet.candidate_count == 0,
+        )
         record_keys = [row["record_key"] for row in rows]
         if (
             len(rows) != packet.candidate_count
@@ -322,9 +325,15 @@ class CitationDecisionConfirmationService:
             )
 
     @staticmethod
-    def _read_appendix(path: Path) -> list[dict[str, str]]:
+    def _read_appendix(
+        path: Path,
+        *,
+        allow_empty: bool = False,
+    ) -> list[dict[str, str]]:
         with path.open(encoding="utf-8", newline="") as source:
-            rows = list(csv.DictReader(source))
+            reader = csv.DictReader(source)
+            rows = list(reader)
+            fieldnames = set(reader.fieldnames or [])
         required = {
             "rank",
             "record_key",
@@ -336,7 +345,11 @@ class CitationDecisionConfirmationService:
             "title",
             "founder_decision_recorded",
         }
-        if not rows or any(set(row) < required for row in rows):
+        if (
+            fieldnames < required
+            or (not rows and not allow_empty)
+            or any(set(row) < required for row in rows)
+        ):
             raise CitationConfirmationError("citation appendix columns are invalid")
         return rows
 

@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder confirmation of the empty citation pass 7 packet
+### Evidence synthesis after verified citation saturation
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -89,11 +89,18 @@ search and all six prior founder ledgers classified all 8,227 as already
 screened, leaving zero new candidates and zero duplicates.
 
 The typed prioritization, enrichment, recommendation, packet, and appendix
-artifacts all preserve the empty set. The current administrative governance gate
-is the exact statement `I confirm the proposed citation pass 7 decisions in the
-checksum-bound packet.` No scientific choice exists in the packet. If confirmed,
-the system can freeze an empty founder ledger, close the second consecutive
-zero-yield pass, and test the saturation stopping rule.
+artifacts all preserve the empty set. The founder confirmed the exact
+checksum-bound packet. Pass-7 closure `cb97a2d8…65f2be` verifies the empty
+decision ledger, reconciliation, and routing queue.
+
+The cumulative validator now reports `review_status=complete` and
+`stopping_rule_satisfied=true`. The evidence inventory contains 81 eligible
+identities: 68 appraisal-complete, 13 access-restricted, and zero pending.
+Passes 6 and 7 are consecutive zero-yield passes, satisfying the locked
+saturation rule. This does not itself authorize a novelty claim, scientific
+conclusion, classifier artifact choice, molecular access, outcome access, or
+clinical recommendation. The next work is evidence synthesis and explicit
+resolution of the remaining scientific and implementation uncertainties.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -425,10 +432,11 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Confirm the checksum-bound empty pass-7 packet, freeze its empty decision
-   ledger and routing queue, close the pass, and validate evidence saturation.
-2. Execute later sequential citation passes until two consecutive fully screened
-   passes add zero eligible evidence.
+1. Reconcile the saturated 81-identity inventory into a claim-level evidence
+   synthesis covering support, contradiction, null findings, limitations, and
+   unresolved questions without authorizing novelty.
+2. Refresh the living manuscript and novelty memorandum from the saturated
+   evidence state, preserving explicit founder scientific review gates.
 3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
 4. Resolve and approve the exact centroid and external-reference artifacts,
@@ -461,6 +469,18 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-27 — Citation saturation formally satisfied
+
+Recorded the founder's exact empty pass-7 confirmation and froze a two-byte
+empty decision ledger. The header-only appendix path is accepted only when its
+verified packet declares exactly zero candidates; regression tests retain all
+nonempty and pending-record safeguards.
+
+Closure `cb97a2d8…65f2be` verifies the empty reconciliation and routing queue.
+The cumulative evidence validator now reports 81 eligible identities, 68
+completed appraisals, 13 access restrictions, zero pending records, two
+consecutive zero-yield passes, and a satisfied stopping rule.
+
 ### 2026-07-27 — Citation pass 7 produced a verified empty review set
 
 Re-queried the complete official graph from the frozen 81-identity seed
@@ -483,6 +503,8 @@ Closure `a14073f0…da6f13` verifies the empty inclusion reconciliation and empt
 appraisal queue. Pass 6 is the first zero-yield pass; pass 7 is required before
 the stopping rule can be satisfied.
 
+## Historical implementation log
+
 ### 2026-07-27 — Citation pass 6 prepared for founder confirmation
 
 Built and verified the 81-identity cumulative seed set. Official retrieval
@@ -493,8 +515,6 @@ records.
 Official enrichment resolved every identity and abstract. Conservative advisory
 screening proposes zero inclusions and 38 exclusions with zero unclear. The
 single immutable packet and complete CSV appendix remain nondecisional.
-
-## Historical implementation log
 
 ### 2026-07-27 — Citation pass 5 confirmed and materially closed
 

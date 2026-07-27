@@ -76,7 +76,7 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert all(item.review_state == "eligible" for item in priority.candidates)
     assert search.status == "locked"
     assert search.retrieval_authorized is True
-    assert progress.review_status == "active"
+    assert progress.review_status == "complete"
     assert progress.protocol_version == "0.2.5"
     assert progress.locked_search_executed is True
     assert (
@@ -103,7 +103,7 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert progress.pending_candidate_count == 0
     assert progress.uncapped_saturation_inventory_active is True
     assert progress.core_synthesis_maximum == 30
-    assert len(progress.citation_passes) == 6
+    assert len(progress.citation_passes) == 7
     assert len(progress.citation_passes[0].new_eligible_evidence_ids) == 32
     assert (
         progress.citation_passes[0].closure_id
@@ -136,7 +136,12 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
         progress.citation_passes[5].closure_id
         == "a14073f06b8806fdd5ab47405c5b90aba8831c931d0396ff232e396bd8da6f13"
     )
-    assert progress.stopping_rule_satisfied is False
+    assert progress.citation_passes[6].new_eligible_evidence_ids == []
+    assert (
+        progress.citation_passes[6].closure_id
+        == "cb97a2d8c217db8cefc7d59e9f60adb58a451d0bd0bad816e4956353b965f2be"
+    )
+    assert progress.stopping_rule_satisfied is True
     assert progress.novelty_claim_authorized is False
     assert progress.molecular_data_access_authorized is False
     assert progress.outcome_data_access_authorized is False
@@ -187,7 +192,7 @@ def test_cli_validates_bound_evidence_review_artifacts(
     assert result == 0
     output = capsys.readouterr().out
     assert "13 priority records" in output
-    assert "stopping rule satisfied: False" in output
+    assert "stopping rule satisfied: True" in output
 
 
 def test_priority_set_cannot_make_autonomous_decisions() -> None:
@@ -244,6 +249,7 @@ def test_false_stopping_rule_claim_is_rejected() -> None:
     payload = load_progress_payload()
     payload["stopping_rule_satisfied"] = True
     payload["review_status"] = "complete"
+    payload["citation_passes"] = [complete_pass(1)]
 
     with pytest.raises(ValidationError, match="does not match the audited review state"):
         EvidenceReviewProgress.model_validate(payload)
@@ -299,6 +305,7 @@ def test_new_eligible_study_resets_two_pass_saturation() -> None:
     payload = load_progress_payload()
     payload.update(
         {
+            "review_status": "active",
             "locked_search_executed": True,
             "deduplication_complete": True,
             "primary_screening_complete": True,
@@ -310,6 +317,7 @@ def test_new_eligible_study_resets_two_pass_saturation() -> None:
                 complete_pass(1),
                 complete_pass(2, new_ids=["PMID:NEW"]),
             ],
+            "stopping_rule_satisfied": False,
         }
     )
 
