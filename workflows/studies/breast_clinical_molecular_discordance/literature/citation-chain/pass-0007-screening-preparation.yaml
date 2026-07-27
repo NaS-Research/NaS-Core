@@ -1,0 +1,40 @@
+schema_version: 1.0.0
+preparation_id: 9f3c756a29fa7723d55e0e7568b53cddbfc2d6d3771d41f36e8e9a8d22f22298
+study_id: NAS-BRCA-002
+pass_number: 7
+citation_execution_id: 4b1d5c2ff3f311276edbeac2ed016e5752e103ec78169417ae11b65c4f0d338a
+prior_search_execution_id: a2500aba7ae0277cdd0c572553b74d53622b2d9c8bf011b87bb55fe4f2f1ea9f
+prior_decision_ids:
+- 1ca4b716aba59a2ec3a005a07120fdc9052ddeb62c991b972b7ef4197e281caf
+- 635e550166f66c9aecc20e82c09f47e4484be0b36876b25dd66ec4a77c9e6ad7
+- cd85fc1829a740b023dccc1ab99fb2448761a9c97bf7a809867c8c7bb34e8e6e
+- 3b4f35f5641417875c48744543e1ac4e881c875cf920352ec8055b462636d40b
+- 9c69a9537f4c45dbf6c6c5da9dbcf80ac4bfb4903723a500dea884569c4cfea1
+- b8318cdf1bad6f527688efcdb8620b775b1bcd09a3c386f126ef2a228660b52e
+code_revision: ad146b7
+created_at: '2026-07-27T20:40:56.084072Z'
+verified_at: '2026-07-27T20:40:56.249589Z'
+input_candidate_count: 8227
+already_screened_count: 8227
+duplicate_candidate_count: 0
+requires_screening_count: 0
+inventory_object:
+  object_key: citation-screening/NAS-BRCA-002/pass-0007/9f3c756a29fa7723d55e0e7568b53cddbfc2d6d3771d41f36e8e9a8d22f22298/deduplication-inventory.json
+  media_type: application/json
+  size_bytes: 3798086
+  sha256: 11915d98ee323da0b9957ad48b7ed903b94250597ef2c7dc75a6ad623ba9587c
+  record_ids: []
+  file_ids: []
+screening_candidates_object:
+  object_key: citation-screening/NAS-BRCA-002/pass-0007/9f3c756a29fa7723d55e0e7568b53cddbfc2d6d3771d41f36e8e9a8d22f22298/screening-candidates.json
+  media_type: application/json
+  size_bytes: 2
+  sha256: 4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945
+  record_ids: []
+  file_ids: []
+input_checksums_verified: true
+prior_decision_checksums_verified: true
+output_checksums_verified: true
+count_invariants_verified: true
+final_screening_decisions_recorded: 0
+scientific_conclusions_drawn: false
