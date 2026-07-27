@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Citation pass 6 retrieval and screening preparation
+### Founder review of checksum-bound citation pass 6
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -62,6 +62,20 @@ appraisal-complete, 13 access-restricted, and zero pending. Because pass 5 added
 one eligible identity, the consecutive-zero stopping count remains zero and
 pass 6 is required. No molecular access, outcome access, novelty claim, or
 scientific conclusion was authorized.
+
+Pass 6 now preserves all 81 cumulative identities. Official Europe PMC
+retrieval returned 2,733 backward and 8,954 forward links, producing 8,227
+unique non-seed records. Reconciliation against the direct search and all five
+prior founder ledgers removed 8,189 already-screened records and found no
+within-pass duplicates, leaving 38 genuinely new candidates.
+
+Official enrichment matched all 38 records and supplied all 38 abstracts.
+Conservative advisory screening proposes zero inclusions and 38 exclusions with
+zero unclear. Packet `FOUNDER_CITATION_PASS_0006_REVIEW_v1.0.0.md` and its
+complete CSV appendix are checksum-bound and remain nondecisional. The current
+gate is the exact founder statement `I confirm the proposed citation pass 6
+decisions in the checksum-bound packet.` If confirmed unchanged, pass 6 will be
+the first zero-yield pass toward the two-consecutive-pass stopping rule.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -393,8 +407,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Build the 81-identity pass-6 seed boundary, execute official bidirectional
-   citation retrieval, and prepare the checksum-bound new-candidate inventory.
+1. Confirm or revise the checksum-bound citation pass-6 packet, materialize its
+   founder ledger, and close the zero-yield pass if no inclusion is added.
 2. Execute later sequential citation passes until two consecutive fully screened
    passes add zero eligible evidence.
 3. Update the living manuscript and its evidence-to-text ledger after every material
@@ -428,6 +442,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-27 — Citation pass 6 prepared for founder confirmation
+
+Built and verified the 81-identity cumulative seed set. Official retrieval
+returned 2,733 backward and 8,954 forward links, producing 8,227 unique non-seed
+candidates. Complete prior-screening reconciliation left 38 genuinely new
+records.
+
+Official enrichment resolved every identity and abstract. Conservative advisory
+screening proposes zero inclusions and 38 exclusions with zero unclear. The
+single immutable packet and complete CSV appendix remain nondecisional.
 
 ### 2026-07-27 — Citation pass 5 confirmed and materially closed
 
@@ -472,6 +497,8 @@ Completed lawful-access accounting with one licensed durable full text and one
 official checksum-bound no-storage review. Prepared two bounded appraisal
 proposals as `context_only`; founder appraisal confirmation is now required.
 
+## Historical implementation log
+
 ### 2026-07-27 — Citation pass 4 prepared for founder confirmation
 
 Built the checksum-bound 78-identity cumulative seed set, retrieved and verified
@@ -483,8 +510,6 @@ Enriched every candidate and retained the one unresolved metadata identity.
 Conservative advisory screening plus field-isolated review proposes two
 high-confidence inclusions and 365 exclusions with zero unclear. Two immutable
 packet/appendix pairs cover every candidate exactly once and remain advisory.
-
-## Historical implementation log
 
 ### 2026-07-26 — Citation appraisal batch 0010 authorized and pass 3 closed
 

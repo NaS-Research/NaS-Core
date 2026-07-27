@@ -131,6 +131,17 @@ identities: 68 appraisal-complete and 13 access-restricted, with zero pending.
 Because pass 5 added evidence, pass 6 is required and the consecutive-zero
 stopping count remains zero.
 
+Citation pass 6 preserves all 81 cumulative identities. Official retrieval
+returned 2,733 backward and 8,954 forward links, yielding 8,227 unique non-seed
+candidates. Reconciliation against the direct search and all five prior founder
+decision ledgers left 38 genuinely new records with no within-pass duplicates.
+Official enrichment matched all 38 records and supplied every abstract.
+Conservative advisory screening proposes zero inclusions and 38 exclusions with
+zero unclear. The current gate is the exact statement `I confirm the proposed
+citation pass 6 decisions in the checksum-bound packet.` Confirmation would
+freeze the first zero-yield pass; one additional consecutive fully screened
+zero-yield pass would still be required for saturation.
+
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
 inventory, the pass-1 activation queue, and one ordered founder-authorized queue
