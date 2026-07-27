@@ -103,7 +103,7 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert progress.pending_candidate_count == 0
     assert progress.uncapped_saturation_inventory_active is True
     assert progress.core_synthesis_maximum == 30
-    assert len(progress.citation_passes) == 5
+    assert len(progress.citation_passes) == 6
     assert len(progress.citation_passes[0].new_eligible_evidence_ids) == 32
     assert (
         progress.citation_passes[0].closure_id
@@ -130,6 +130,11 @@ def test_checked_in_revised_review_artifacts_are_valid_and_search_executed() -> 
     assert (
         progress.citation_passes[4].closure_id
         == "efb35a2c26615acd6a3433bc696237bf098d5180aa049f74935ce1ccfcbcf9dc"
+    )
+    assert progress.citation_passes[5].new_eligible_evidence_ids == []
+    assert (
+        progress.citation_passes[5].closure_id
+        == "a14073f06b8806fdd5ab47405c5b90aba8831c931d0396ff232e396bd8da6f13"
     )
     assert progress.stopping_rule_satisfied is False
     assert progress.novelty_claim_authorized is False

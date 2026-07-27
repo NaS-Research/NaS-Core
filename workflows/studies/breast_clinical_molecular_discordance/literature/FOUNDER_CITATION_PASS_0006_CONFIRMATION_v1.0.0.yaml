@@ -1,0 +1,13 @@
+schema_version: 1.0.0
+study_id: NAS-BRCA-002
+pass_number: 6
+first_packet_sha256: 74d3e29034799418b4a65a67c046ac3f9660f881fa82d8a4a337cc627f3fa840
+first_appendix_sha256: 9d0801ef4f396a10115679084bda169f597b94ea123c4a28f1e9277241ae0f37
+confirmation_statement: >-
+  I confirm the proposed citation pass 6 decisions in the checksum-bound packet.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-27T20:34:59Z'
+founder_authorized: true
+founder_role_conflict_disclosed: true

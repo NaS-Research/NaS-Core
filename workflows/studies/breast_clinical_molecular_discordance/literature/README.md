@@ -137,10 +137,11 @@ candidates. Reconciliation against the direct search and all five prior founder
 decision ledgers left 38 genuinely new records with no within-pass duplicates.
 Official enrichment matched all 38 records and supplied every abstract.
 Conservative advisory screening proposes zero inclusions and 38 exclusions with
-zero unclear. The current gate is the exact statement `I confirm the proposed
-citation pass 6 decisions in the checksum-bound packet.` Confirmation would
-freeze the first zero-yield pass; one additional consecutive fully screened
-zero-yield pass would still be required for saturation.
+zero unclear. The founder confirmed the single complete checksum-bound packet.
+Closure `a14073f0…da6f13` verifies all 38 exclusions, zero inclusions, an empty
+inclusion reconciliation, and a checksum-bound empty appraisal queue. Pass 6 is
+the first zero-yield pass. One additional consecutive fully screened zero-yield
+pass is required for saturation.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search

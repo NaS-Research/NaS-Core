@@ -615,6 +615,23 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Persist final founder decisions after exact confirmation",
     )
+    citation_confirm_single = evidence_review_commands.add_parser(
+        "citation-confirm-single",
+        help="Freeze a complete founder decision ledger from one zero-pending packet",
+    )
+    citation_confirm_single.add_argument("packet_receipt", type=Path)
+    citation_confirm_single.add_argument("packet", type=Path)
+    citation_confirm_single.add_argument("appendix", type=Path)
+    citation_confirm_single.add_argument("confirmation", type=Path)
+    citation_confirm_single.add_argument("--code-revision", required=True)
+    citation_confirm_single.add_argument(
+        "--receipt-output", required=True, type=Path
+    )
+    citation_confirm_single.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist final founder decisions after exact single-packet confirmation",
+    )
     citation_reconcile = evidence_review_commands.add_parser(
         "citation-reconcile",
         help="Reconcile confirmed inclusions against inventory and prior appraisals",
@@ -1948,6 +1965,43 @@ def main(argv: Sequence[str] | None = None) -> int:
             first_appendix_path=args.first_appendix,
             second_packet_path=args.second_packet,
             second_appendix_path=args.second_appendix,
+            code_revision=args.code_revision,
+        )
+        write_citation_decision_ledger_receipt(
+            args.receipt_output, decision_receipt
+        )
+        print(
+            f"Confirmed citation pass {decision_receipt.pass_number}: "
+            f"{decision_receipt.included_count} include, "
+            f"{decision_receipt.excluded_count} exclude, "
+            f"{decision_receipt.unclear_count} unclear"
+        )
+        print(f"Wrote final founder decision receipt: {args.receipt_output}")
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "citation-confirm-single"
+    ):
+        packet = load_citation_founder_packet_receipt(args.packet_receipt)
+        citation_confirmation = load_citation_founder_confirmation(
+            args.confirmation
+        )
+        if not args.execute:
+            print(
+                f"Single citation packet confirmation ready: "
+                f"{packet.proposed_decision_count} decisions bound to founder "
+                f"{citation_confirmation.founder_name}"
+            )
+            print("Dry run only; no final decision ledger was stored.")
+            return 0
+        decision_receipt = CitationDecisionConfirmationService(
+            store=get_object_store()
+        ).confirm_single(
+            packet,
+            citation_confirmation,
+            packet_path=args.packet,
+            appendix_path=args.appendix,
             code_revision=args.code_revision,
         )
         write_citation_decision_ledger_receipt(

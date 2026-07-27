@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+decision_id: b8318cdf1bad6f527688efcdb8620b775b1bcd09a3c386f126ef2a228660b52e
+study_id: NAS-BRCA-002
+pass_number: 6
+code_revision: 15374c5
+confirmed_at: '2026-07-27T20:34:59Z'
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+first_packet_sha256: 74d3e29034799418b4a65a67c046ac3f9660f881fa82d8a4a337cc627f3fa840
+first_appendix_sha256: 9d0801ef4f396a10115679084bda169f597b94ea123c4a28f1e9277241ae0f37
+candidate_count: 38
+included_count: 0
+excluded_count: 38
+unclear_count: 0
+ledger_object:
+  object_key: citation-screening/NAS-BRCA-002/pass-0006/decisions-b8318cdf1bad6f527688efcdb8620b775b1bcd09a3c386f126ef2a228660b52e.json
+  media_type: application/json
+  size_bytes: 20516
+  sha256: 9049a1b6bd61504eb9130748772c027c1c610d961f7bd976899dd21203cd92cd
+  record_ids: []
+  file_ids: []
+packet_checksums_verified: true
+appendix_checksums_verified: true
+record_coverage_verified: true
+founder_authorized: true
+founder_role_conflict_disclosed: true
+ai_decisions_recorded: 0
+scientific_conclusions_drawn: false

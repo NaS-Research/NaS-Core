@@ -42,6 +42,8 @@ class CitationDecisionConfirmationService:
         self._validate_identities(
             first_packet, second_packet, confirmation, code_revision
         )
+        assert confirmation.second_packet_sha256 is not None
+        assert confirmation.second_appendix_sha256 is not None
         self._verify_file(
             first_packet_path,
             first_packet.packet_sha256,
@@ -149,6 +151,122 @@ class CitationDecisionConfirmationService:
             ai_decisions_recorded=0,
             scientific_conclusions_drawn=False,
         )
+
+    def confirm_single(
+        self,
+        packet: CitationFounderPacketReceipt,
+        confirmation: CitationFounderConfirmation,
+        *,
+        packet_path: Path,
+        appendix_path: Path,
+        code_revision: str,
+    ) -> CitationDecisionLedgerReceipt:
+        if not re.fullmatch(r"[a-f0-9]{7,40}", code_revision):
+            raise CitationConfirmationError(
+                "code revision must be a 7-to-40 character Git SHA"
+            )
+        if (
+            (packet.study_id, packet.pass_number)
+            != (confirmation.study_id, confirmation.pass_number)
+            or confirmation.first_packet_sha256 != packet.packet_sha256
+            or confirmation.first_appendix_sha256 != packet.appendix_sha256
+            or confirmation.second_packet_sha256 is not None
+            or confirmation.second_appendix_sha256 is not None
+        ):
+            raise CitationConfirmationError(
+                "single-packet confirmation identity or checksums differ"
+            )
+        if packet.pending_adjudication_count:
+            raise CitationConfirmationError(
+                "single-packet confirmation cannot authorize pending adjudication"
+            )
+        self._verify_file(
+            packet_path,
+            packet.packet_sha256,
+            confirmation.first_packet_sha256,
+        )
+        self._verify_file(
+            appendix_path,
+            packet.appendix_sha256,
+            confirmation.first_appendix_sha256,
+        )
+        rows = self._read_appendix(appendix_path)
+        record_keys = [row["record_key"] for row in rows]
+        if (
+            len(rows) != packet.candidate_count
+            or len(rows) != packet.proposed_decision_count
+            or len(record_keys) != len(set(record_keys))
+            or any(row["recommendation"] not in {"include", "exclude"} for row in rows)
+            or any(row["founder_decision_recorded"] != "false" for row in rows)
+        ):
+            raise CitationConfirmationError(
+                "single citation packet does not provide unique complete coverage"
+            )
+        ledger_rows = self._ledger_rows(rows, confirmation)
+        identity = {
+            "code_revision": code_revision,
+            "confirmed_at": confirmation.confirmed_at.isoformat(),
+            "first_appendix_sha256": confirmation.first_appendix_sha256,
+            "founder_id": confirmation.founder_id,
+            "second_appendix_sha256": None,
+            "study_id": confirmation.study_id,
+        }
+        decision_id = sha256(canonical_json(identity))
+        ledger_body = canonical_json(ledger_rows)
+        key = (
+            f"citation-screening/{confirmation.study_id}/"
+            f"pass-{confirmation.pass_number:04d}/decisions-{decision_id}.json"
+        )
+        ledger_object = self._store_object(key, ledger_body)
+        included = sum(row["decision"] == "include" for row in ledger_rows)
+        return CitationDecisionLedgerReceipt(
+            decision_id=decision_id,
+            study_id=confirmation.study_id,
+            pass_number=confirmation.pass_number,
+            code_revision=code_revision,
+            confirmed_at=confirmation.confirmed_at,
+            founder_id=confirmation.founder_id,
+            founder_name=confirmation.founder_name,
+            first_packet_sha256=confirmation.first_packet_sha256,
+            first_appendix_sha256=confirmation.first_appendix_sha256,
+            candidate_count=len(ledger_rows),
+            included_count=included,
+            excluded_count=len(ledger_rows) - included,
+            unclear_count=0,
+            ledger_object=ledger_object,
+            packet_checksums_verified=True,
+            appendix_checksums_verified=True,
+            record_coverage_verified=True,
+            founder_authorized=True,
+            founder_role_conflict_disclosed=True,
+            ai_decisions_recorded=0,
+            scientific_conclusions_drawn=False,
+        )
+
+    @staticmethod
+    def _ledger_rows(
+        rows: list[dict[str, str]],
+        confirmation: CitationFounderConfirmation,
+    ) -> list[dict[str, object]]:
+        return [
+            {
+                "record_key": row["record_key"],
+                "rank": int(row["rank"]),
+                "title": row["title"],
+                "pmid": row["pmid"] or None,
+                "pmcid": row["pmcid"] or None,
+                "doi": row["doi"] or None,
+                "decision": row["recommendation"],
+                "exclusion_reason": row["exclusion_reason"] or None,
+                "reviewer_id": confirmation.founder_id,
+                "reviewer_name": confirmation.founder_name,
+                "reviewer_role": confirmation.reviewer_role,
+                "decided_at": confirmation.confirmed_at.isoformat(),
+                "founder_authorized": True,
+                "ai_decision": False,
+            }
+            for row in sorted(rows, key=lambda item: int(item["rank"]))
+        ]
 
     @staticmethod
     def _validate_identities(

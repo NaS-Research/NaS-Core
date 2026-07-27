@@ -9,6 +9,7 @@ from nas_core.domain.citation_confirmation import (
     CONFIRMATION_STATEMENT,
     CitationFounderConfirmation,
     citation_confirmation_statement,
+    single_citation_confirmation_statement,
 )
 from nas_core.retrieval.citation_confirmation import (
     CitationConfirmationError,
@@ -37,6 +38,9 @@ SECOND_RECEIPT = (
     LITERATURE / "citation-chain" / "pass-0001-adjudication-packet.yaml"
 )
 NOW = datetime(2026, 7, 25, 23, 30, tzinfo=UTC)
+PASS6_PACKET = LITERATURE / "FOUNDER_CITATION_PASS_0006_REVIEW_v1.0.0.md"
+PASS6_APPENDIX = LITERATURE / "FOUNDER_CITATION_PASS_0006_APPENDIX_v1.0.0.csv"
+PASS6_RECEIPT = LITERATURE / "citation-chain" / "pass-0006-founder-packet.yaml"
 
 
 def _confirmation() -> CitationFounderConfirmation:
@@ -101,6 +105,60 @@ def test_confirmation_statement_is_bound_to_pass_number() -> None:
     assert confirmation.confirmation_statement == (
         "I confirm both checksum-bound citation pass 2 packets as written."
     )
+
+
+def test_single_packet_confirmation_freezes_zero_pending_ledger() -> None:
+    packet = load_citation_founder_packet_receipt(PASS6_RECEIPT)
+    confirmation = CitationFounderConfirmation(
+        study_id="NAS-BRCA-002",
+        pass_number=6,
+        first_packet_sha256=packet.packet_sha256,
+        first_appendix_sha256=packet.appendix_sha256,
+        confirmation_statement=single_citation_confirmation_statement(6),
+        founder_id="dalron-j-robertson",
+        founder_name="Dalron J. Robertson",
+        reviewer_role="founder_internal_reviewer",
+        confirmed_at=NOW,
+        founder_authorized=True,
+        founder_role_conflict_disclosed=True,
+    )
+
+    receipt = CitationDecisionConfirmationService(
+        store=InMemoryObjectStore()
+    ).confirm_single(
+        packet,
+        confirmation,
+        packet_path=PASS6_PACKET,
+        appendix_path=PASS6_APPENDIX,
+        code_revision="15374c5",
+    )
+
+    assert receipt.candidate_count == 38
+    assert receipt.included_count == 0
+    assert receipt.excluded_count == 38
+    assert receipt.second_packet_sha256 is None
+
+
+def test_single_packet_confirmation_rejects_pending_records() -> None:
+    packet = load_citation_founder_packet_receipt(FIRST_RECEIPT)
+    confirmation = _confirmation().model_copy(
+        update={
+            "second_packet_sha256": None,
+            "second_appendix_sha256": None,
+            "confirmation_statement": single_citation_confirmation_statement(1),
+        }
+    )
+
+    with pytest.raises(CitationConfirmationError, match="pending adjudication"):
+        CitationDecisionConfirmationService(
+            store=InMemoryObjectStore()
+        ).confirm_single(
+            packet,
+            confirmation,
+            packet_path=FIRST_PACKET,
+            appendix_path=FIRST_APPENDIX,
+            code_revision="15374c5",
+        )
 
 
 def test_confirmation_rejects_tampered_packet_bytes(tmp_path: Path) -> None:

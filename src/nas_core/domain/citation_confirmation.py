@@ -21,6 +21,13 @@ def citation_confirmation_statement(pass_number: int) -> str:
     )
 
 
+def single_citation_confirmation_statement(pass_number: int) -> str:
+    return (
+        f"I confirm the proposed citation pass {pass_number} decisions "
+        "in the checksum-bound packet."
+    )
+
+
 class CitationConfirmationModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -31,8 +38,12 @@ class CitationFounderConfirmation(CitationConfirmationModel):
     pass_number: int = Field(ge=1)
     first_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     first_appendix_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
-    second_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
-    second_appendix_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    second_packet_sha256: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
+    second_appendix_sha256: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
     confirmation_statement: str
     founder_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
     founder_name: str = Field(min_length=1)
@@ -43,9 +54,18 @@ class CitationFounderConfirmation(CitationConfirmationModel):
 
     @model_validator(mode="after")
     def validate_authority(self) -> CitationFounderConfirmation:
-        if self.confirmation_statement != citation_confirmation_statement(
-            self.pass_number
-        ):
+        second_packet_present = self.second_packet_sha256 is not None
+        second_appendix_present = self.second_appendix_sha256 is not None
+        if second_packet_present != second_appendix_present:
+            raise ValueError(
+                "citation confirmation requires both or neither second-packet hashes"
+            )
+        expected_statement = (
+            citation_confirmation_statement(self.pass_number)
+            if second_packet_present
+            else single_citation_confirmation_statement(self.pass_number)
+        )
+        if self.confirmation_statement != expected_statement:
             raise ValueError("citation confirmation statement is not exact")
         if not self.founder_authorized:
             raise ValueError("citation confirmation requires founder authorization")
@@ -94,8 +114,12 @@ class CitationDecisionLedgerReceipt(CitationConfirmationModel):
     founder_name: str = Field(min_length=1)
     first_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     first_appendix_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
-    second_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
-    second_appendix_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    second_packet_sha256: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
+    second_appendix_sha256: str | None = Field(
+        default=None, pattern=r"^[a-f0-9]{64}$"
+    )
     candidate_count: int = Field(ge=1)
     included_count: int = Field(ge=0)
     excluded_count: int = Field(ge=0)
@@ -111,6 +135,12 @@ class CitationDecisionLedgerReceipt(CitationConfirmationModel):
 
     @model_validator(mode="after")
     def validate_receipt(self) -> CitationDecisionLedgerReceipt:
+        if (self.second_packet_sha256 is None) != (
+            self.second_appendix_sha256 is None
+        ):
+            raise ValueError(
+                "citation decision ledger requires both or neither second-packet hashes"
+            )
         if self.included_count + self.excluded_count + self.unclear_count != self.candidate_count:
             raise ValueError("citation decision counts do not reconcile")
         if self.unclear_count:
