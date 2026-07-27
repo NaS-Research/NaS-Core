@@ -1,0 +1,25 @@
+schema_version: 1.0.0
+prioritization_id: 645924d445b6f5ad6ae4f743e21ce2780cb760c77717e36a62782e8ec5ac03de
+study_id: NAS-BRCA-002
+pass_number: 4
+preparation_id: 26617c99c6b04a4ce9292380b3459ae905f0788a2d6b3a1bdefc7db19acaa43e
+algorithm_version: citation-title-priority-1.0.1
+code_revision: 20b6ab1
+created_at: '2026-07-27T15:57:56.643019Z'
+verified_at: '2026-07-27T15:57:56.721550Z'
+candidate_count: 367
+direct_priority_count: 1
+supporting_priority_count: 11
+context_priority_count: 355
+ranking_object:
+  object_key: citation-screening/NAS-BRCA-002/pass-0004/26617c99c6b04a4ce9292380b3459ae905f0788a2d6b3a1bdefc7db19acaa43e/priority-645924d445b6f5ad6ae4f743e21ce2780cb760c77717e36a62782e8ec5ac03de.json
+  media_type: application/json
+  size_bytes: 202771
+  sha256: 4bdedae9dd88bebbe47da1ec52cb270e983cbc25619cb42c1e6571126ee33742
+  record_ids: []
+  file_ids: []
+input_checksum_verified: true
+output_checksum_verified: true
+rank_invariants_verified: true
+final_screening_decisions_recorded: 0
+scientific_conclusions_drawn: false

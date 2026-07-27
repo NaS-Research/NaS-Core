@@ -8,34 +8,27 @@ and what comes next?
 
 ## Current focus
 
-### Execute cumulative citation pass 4
+### Founder review of checksum-bound citation pass 4
 
-The founder confirmed both checksum-bound citation pass 3 packets. The frozen
-ledger records all 593 decisions: seven inclusions, 586 exclusions, zero unclear,
-and zero AI decisions. Exact-identifier reconciliation classifies all seven
-inclusions as net new.
+Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
+PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
+unique non-seed records. Reconciliation against the direct search and all three
+prior founder ledgers removed 7,721 already-screened records and four within-pass
+duplicates, leaving 367 genuinely new candidates.
 
-Lawful-access accounting is complete. Three exact CC BY 4.0 Europe PMC articles
-are stored in governed external object storage. Two official PMC OAI articles
-were reviewed ephemerally with canonical checksums and zero retained article
-bytes. Two publisher records have typed restriction decisions; no abstract-only
-appraisal was substituted.
+Complete enrichment matched 366 records and supplied 359 abstracts while
+preserving one unresolved identity and every abstract-unavailable record.
+Conservative first-stage advisory screening proposes one inclusion and 356
+exclusions and held ten records. Field-isolated review retains one additional
+primary comparison study and excludes nine, producing a combined advisory set
+of two inclusions, 365 exclusions, and zero unclear.
 
-The founder confirmed appraisal batch `0010`. Five AI-assisted appraisals are
-locked as `context_only`; two access restrictions remain fully accounted for.
-Immutable closure `08fcf9c6…4a33d9` verifies the complete pass-3 retrieval,
-screening, founder, access, and appraisal lineage and adds seven eligible
-identities.
-
-The cumulative evidence state is now 78 eligible identities: 66
-appraisal-complete, 12 access-restricted, and zero pending. Passes 1, 2, and 3
-all added eligible evidence, so the required two consecutive zero-yield passes
-have not begun. The current implementation target is cumulative citation pass 4
-from all 78 founder-included identities. It must deduplicate against the direct
-search and all three prior founder ledgers, preserve unresolved metadata, screen
-every genuinely new record, and either close with complete appraisal accounting
-or stop at the next checksum-bound founder decision packet. Molecular access,
-outcome access, novelty claims, and scientific conclusions remain prohibited.
+Both packet/appendix pairs are immutable and mechanically cover all 367 records
+exactly once. The current gate is founder review of
+`FOUNDER_CITATION_PASS_0004_COMBINED_REVIEW_v1.0.0.md` using the exact statement
+`I confirm both checksum-bound citation pass 4 packets as written.` No founder
+decision, pass-4 evidence inclusion, molecular access, outcome access, novelty
+claim, or scientific conclusion has been recorded.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -404,6 +397,18 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-27 — Citation pass 4 prepared for founder confirmation
+
+Built the checksum-bound 78-identity cumulative seed set, retrieved and verified
+the complete bidirectional Europe PMC graph, and deduplicated it against every
+prior screened record. Of 8,092 unique non-seed records, 367 require new founder
+decisions.
+
+Enriched every candidate and retained the one unresolved metadata identity.
+Conservative advisory screening plus field-isolated review proposes two
+high-confidence inclusions and 365 exclusions with zero unclear. Two immutable
+packet/appendix pairs cover every candidate exactly once and remain advisory.
+
 ### 2026-07-26 — Citation appraisal batch 0010 authorized and pass 3 closed
 
 Recorded the founder's exact checksum-bound confirmation and materialized five
@@ -456,6 +461,8 @@ reconciliation, access, and appraisal inputs and adds nine eligible identities.
 Aggregate evidence progress now reports 71 eligible, 61 complete, 10 restricted,
 zero pending, and a zero consecutive-zero-pass count.
 
+## Historical implementation log
+
 ### 2026-07-26 — Citation pass 2 decisions and access audit materialized
 
 Recorded the founder's checksum-bound confirmation of both citation pass-2
@@ -471,8 +478,6 @@ raw page bytes before being repaired and regression-tested.
 Prepared appraisal batch `0009` with five checksum-bound, bounded-derivative
 proposals. All five are proposed as `context_only`; founder confirmation is now
 required before any locked appraisal or evidence synthesis update.
-
-## Historical implementation log
 
 ### 2026-07-26 — Project-to-publication completion audit reconciled
 

@@ -96,6 +96,16 @@ review now contains 78 eligible identities: 66 appraisal-complete and 12
 access-restricted, with zero pending. Pass 3 added evidence, so citation pass 4
 must execute and the two-consecutive-zero stopping rule is not yet satisfied.
 
+Citation pass 4 preserved all 78 cumulative identities. Official Europe PMC
+retrieval returned 2,617 backward and 8,873 forward links, yielding 8,092 unique
+non-seed candidates. Prior-screening and within-pass reconciliation left 367
+genuinely new records. Complete enrichment matched 366 records and supplied 359
+abstracts while preserving one unresolved identity. Two checksum-bound advisory
+packets propose two inclusions and 365 exclusions with zero unclear. The current
+gate is the exact founder statement
+`I confirm both checksum-bound citation pass 4 packets as written.` No pass-4
+founder decision or scientific conclusion has been recorded.
+
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
 inventory, the pass-1 activation queue, and one ordered founder-authorized queue

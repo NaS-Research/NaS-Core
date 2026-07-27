@@ -1,0 +1,21 @@
+schema_version: 1.0.0
+policy_version: 1.0.0
+study_id: NAS-BRCA-002
+pass_number: 4
+based_on_recommendation_id: 8a458ea1d2f4dfb47730cfc43610265c715fba05bc79794a4d3c2a77b55c700d
+include_record_keys:
+  - MED:36293565
+rationale: >-
+  Field-isolated second-stage title-and-abstract review retains the one held
+  primary study that directly compares histopathological features with two
+  expression classifiers in two cohorts and reports that morphology alone
+  cannot reproduce molecular subtype assignment. This is high-confidence
+  indirect evidence for clinical-molecular discordance and for retaining null
+  or limiting findings. A narrative precision-therapy review and eight
+  metadata-only or clearly general records remain recommended for exclusion
+  because they do not provide a direct classifier-reliability, specimen,
+  perturbation, concordance, or transport analysis relevant to question 0.3.0.
+  Recommendations remain advisory until the founder confirms both
+  checksum-bound pass-4 packets.
+founder_confirmation_required: true
+autonomous_decisions_allowed: false
