@@ -49,9 +49,33 @@ def test_pass4_progress_accounts_for_both_readable_inclusions() -> None:
     assert progress["provisional_inclusion_count"] == 2
     assert progress["full_texts_retrieved"] == 1
     assert progress["read_only_full_texts_reviewed"] == 1
-    assert progress["appraisals_completed"] == 0
+    assert progress["appraisals_completed"] == 1
     assert progress["access_restricted_count"] == 0
     assert sum(
         item["status"] == "ready_for_appraisal" for item in progress["records"]
-    ) == 2
+    ) == 1
+    assert sum(item["status"] == "completed" for item in progress["records"]) == 1
     assert progress["scientific_conclusions_drawn"] is False
+
+
+def test_batch_0012_corrects_only_the_mismatched_doi() -> None:
+    correction = (
+        LITERATURE
+        / "citation-appraisal-proposals"
+        / "batch-0012"
+        / "PMC9604175-v1.0.1.yaml"
+    )
+    proposal = FullTextAppraisalProposal.model_validate(
+        yaml.safe_load(correction.read_text())
+    )
+    packet = (
+        LITERATURE / "FOUNDER_CITATION_APPRAISAL_BATCH_0012_v1.0.0.md"
+    ).read_text(encoding="utf-8")
+
+    assert proposal.doi == "10.3390/ijms232012707"
+    assert proposal.full_text_sha256 == (
+        "7ef0ce57c28959daa8be1624c22fe0595c16dbcb4f404f0afa353eb5331ed142"
+    )
+    assert proposal.proposed_evidence_role == "context_only"
+    assert _sha256(correction) in packet
+    assert "`I confirm citation appraisal batch 0012 as written.`" in packet

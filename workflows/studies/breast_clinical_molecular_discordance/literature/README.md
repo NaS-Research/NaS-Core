@@ -105,9 +105,13 @@ packets propose two inclusions and 365 exclusions with zero unclear. The current
 founder confirmation produced two inclusions, 365 exclusions, zero unclear, and
 zero AI decisions. Both inclusions are net new and lawfully readable: one
 licensed durable full text and one canonical official PMC OAI no-storage review.
-Appraisal batch `0011` proposes both as `context_only`. The current gate is the
-exact founder statement `I confirm citation appraisal batch 0011 as written.`
-No locked pass-4 appraisal or scientific conclusion has been recorded.
+The founder confirmed appraisal batch `0011`, but post-confirmation
+reconciliation failed closed on one DOI mismatch. `PMC5947827` is correctly
+locked. Corrective batch `0012` binds `PMC9604175` to the official DOI
+`10.3390/ijms232012707` while changing no scientific judgment, source checksum,
+or proposed `context_only` role. The current gate is the exact founder statement
+`I confirm citation appraisal batch 0012 as written.` Pass 4 cannot close until
+the correction is confirmed.
 
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search

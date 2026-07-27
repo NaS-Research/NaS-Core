@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder review of citation appraisal batch 0011
+### Founder review of DOI correction batch 0012
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -29,12 +29,22 @@ are net new. One CC BY 4.0 article is stored in governed external object storage
 the other was reviewed through canonical PMC OAI XML with zero retained article
 bytes. No access item remains unresolved.
 
-Two checksum-bound appraisal proposals are frozen in batch `0011`, both as
-`context_only`. The current gate is founder review of
-`FOUNDER_CITATION_APPRAISAL_BATCH_0011_v1.0.0.md` using the exact statement
-`I confirm citation appraisal batch 0011 as written.` No locked pass-4
-appraisal, closure, molecular access, outcome access, novelty claim, or scientific
-conclusion has been recorded.
+The founder confirmed batch `0011`. `PMC5947827` materialized and reconciled
+correctly. The second appraisal failed closed because its confirmed proposal
+carried DOI `10.3390/cancers14204995`, while the authoritative inventory,
+current official Europe PMC metadata, and verified `PMC9604175` identity all
+bind DOI `10.3390/ijms232012707`. The incorrect locked appraisal was removed
+before commit; it was not substituted into evidence progress.
+
+Corrective batch `0012` changes only that DOI and its disclosure. All scientific
+judgments, evidence locations, strengths, limitations, conflicts, source bytes,
+and the `context_only` role remain unchanged. Current pass-4 progress is one
+completed and one ready appraisal with zero access restrictions or missing full
+texts. The current gate is founder review of
+`FOUNDER_CITATION_APPRAISAL_BATCH_0012_v1.0.0.md` using the exact statement
+`I confirm citation appraisal batch 0012 as written.` Pass-4 closure, molecular
+access, outcome access, novelty claims, and scientific conclusions remain
+prohibited.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1

@@ -2,25 +2,27 @@ schema_version: 1.0.0
 study_id: NAS-BRCA-002
 queue_id: 7b3a659d4985ef25db4b6bfa4a4cd8708c1b5e1e5b2a600d4f728074dbac7945
 progress_id: bfe3f53da46ca38de6205192ee86a587b9e7e7725d663e1c9f5238b4d3f0cc2f
-generated_at: '2026-07-27T16:16:07.530990Z'
+generated_at: '2026-07-27T16:37:41.612855Z'
 provisional_inclusion_count: 2
 full_texts_retrieved: 1
 read_only_full_texts_reviewed: 1
-appraisals_completed: 0
+appraisals_completed: 1
 access_restricted_count: 0
 duplicate_resolved_count: 0
 anchor_count: 0
 supporting_count: 0
-context_only_count: 0
+context_only_count: 1
 excluded_count: 0
 records:
 - screening_id: 8f6ec9d63401c647b75a1a3204107e4750a6a7a878e3f9ee9e6ac7edd806659c
   title: Prospective patient stratification into robust cancer-cell intrinsic subtypes from colorectal
     cancer biopsies.
   pmcid: PMC5947827
-  status: ready_for_appraisal
+  status: completed
   read_only_review_id: e6974989f7616d80ef65fa0c752019445799e989c5e810609bb9a2ea8ad4527f
   full_text_sha256: a8ec9db3b49d6fdd63439710e53f5375554ae75c97bc014866c617307193f637
+  appraisal_version: 1.0.0
+  evidence_role: context_only
 - screening_id: 2aa3e888adc3c251e0e7d0282adba335d9e6773231940db3f9c4edbd5eb5db23
   title: Correlation of Immunological and Histopathological Features with Gene Expression-Based Classifiers
     in Colon Cancer Patients.

@@ -1,0 +1,90 @@
+schema_version: 1.0.0
+appraisal_version: 1.0.0
+study_id: NAS-BRCA-002
+screening_id: 8f6ec9d63401c647b75a1a3204107e4750a6a7a878e3f9ee9e6ac7edd806659c
+title: Prospective patient stratification into robust cancer-cell intrinsic subtypes from colorectal cancer
+  biopsies.
+pmid: '29412457'
+doi: 10.1002/path.5051
+full_text_source_url: https://pmc.ncbi.nlm.nih.gov/api/oai/v1/mh/?verb=GetRecord&identifier=oai:pubmedcentral.nih.gov:5947827&metadataPrefix=pmc
+full_text_sha256: a8ec9db3b49d6fdd63439710e53f5375554ae75c97bc014866c617307193f637
+access_basis: Official PMC OAI article XML reviewed ephemerally; canonical article representation hashed;
+  zero article bytes retained.
+study_design: classifier_comparison
+eligibility: eligible
+domains:
+- domain: population_selection
+  judgment: some_concerns
+  rationale: The study combines eight public rectal-biopsy datasets with laser-captured, serial, multiregional,
+    and trial biopsy cohorts. The breadth is valuable, but several robustness strata contain only seven
+    or ten patients and all evidence is colorectal.
+  evidence_locations:
+  - "Materials and methods \u2014 cohorts"
+  - Results
+- domain: specimen_and_measurement
+  judgment: some_concerns
+  rationale: Biopsies, resection regions, frozen and paraffin material, and several microarray platforms
+    create realistic heterogeneity. Cross-cohort processing and platform differences can also contribute
+    to observed classifier behavior.
+  evidence_locations:
+  - "Materials and methods \u2014 cohort descriptions"
+  - Discussion
+- domain: classifier_implementation
+  judgment: some_concerns
+  rationale: Previously published CMS and CRIS implementations are applied alongside two patient-clustering
+    comparisons. Exact fitted artifacts and a fully locked reusable execution environment are not supplied
+    with this appraisal.
+  evidence_locations:
+  - "Methods \u2014 patient classification"
+  - "Methods \u2014 molecular subtyping"
+- domain: reference_comparator
+  judgment: high
+  rationale: Patient identity, repeated sampling, and agreement across regions provide useful repeatability
+    comparators, but neither CMS nor CRIS label is independent biological truth and greater stability
+    does not establish correctness.
+  evidence_locations:
+  - "Methods \u2014 patient classification"
+  - "Results \u2014 spatial and temporal analyses"
+- domain: analysis_and_statistics
+  judgment: some_concerns
+  rationale: Classification rates, clustering similarity, concordance, and selected hypothesis tests are
+    reported. Small repeated-sample strata, heterogeneous pooled datasets, and limited uncertainty reporting
+    constrain quantitative inference.
+  evidence_locations:
+  - Statistical analysis
+  - Results
+- domain: validation_and_transportability
+  judgment: high
+  rationale: Multiple datasets and prospective-trial specimens support technical breadth, but validation
+    is retrospective or secondary, colorectal-specific, and lacks a prespecified patient-level abstention
+    or clinical-benefit evaluation.
+  evidence_locations:
+  - Results
+  - Discussion
+- domain: reporting_and_reproducibility
+  judgment: some_concerns
+  rationale: Public accessions, cohort descriptions, classifiers, and major analyses are reported. A frozen
+    environment, complete executable workflow, and unchanged deployment artifact are not preserved.
+  evidence_locations:
+  - Materials and methods
+  - Data references
+evidence_role: context_only
+key_strengths:
+- Directly examines biopsy, spatial, and temporal stability rather than only resection-level association.
+- Uses several independent cohorts and multiple sampling settings.
+- Reports a materially larger unclassified fraction for one classifier in biopsies.
+key_limitations:
+- Stability between repeated samples is not proof of biological correctness.
+- Several multiregional and serial comparisons have very small patient counts.
+- Colorectal results do not validate the NaS breast classifier or clinical utility.
+conflicts_and_funding: The article declares no conflicts and reports charity, public, health-board, and
+  cancer-research support.
+reviewer_id: dalron-j-robertson
+reviewer_name: Dalron J. Robertson
+review_method: founder_with_ai_assistance
+assistant_disclosure: OpenAI Codex reviewed the checksum-bound official article in memory, retained zero
+  article bytes, and proposed domain judgments and an evidence role. This is not a founder decision, locked
+  appraisal, scientific conclusion, novelty finding, or clinical recommendation.
+founder_authorized: true
+assessed_at: '2026-07-27T16:34:13Z'
+scientific_conclusions_drawn: false
