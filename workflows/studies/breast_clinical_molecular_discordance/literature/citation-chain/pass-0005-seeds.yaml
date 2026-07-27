@@ -1,0 +1,117 @@
+schema_version: 1.0.0
+seed_set_version: 1.1.0
+seed_set_id: 4341031422a864b72dfe0855ca6b903fa8cec13a74fbba6477c6959734329652
+study_id: NAS-BRCA-002
+next_pass_number: 5
+code_revision: 7e31c30
+created_at: '2026-07-27T17:58:10.315062Z'
+verified_at: '2026-07-27T17:58:10.315066Z'
+direct_inventory_sha256: 3e7e239c194f709a8c7ee90289894a385262e344c3d24f56372b58ff4d05b9d3
+amendment_activation_sha256: 047e433daa253f115cce3e5cd148697716f7dd0ac1db0311b066409893004b62
+amendment_activation_id: 6769d9005283c715d0c3b9c4a74964812637f9a284385fbfefb24da2a2ab2f33
+prior_pass_queue_ids:
+- 7ec583f0fbf539e39ea1a63a19e77dd7a7741e6161ae8eaa956660af287889b2
+- 546fcc17f0511c491d7f4e001bd3ca0ce90a33382db58d11e3fc2b917ccecbac
+- 7b3a659d4985ef25db4b6bfa4a4cd8708c1b5e1e5b2a600d4f728074dbac7945
+prior_pass_queue_sha256s:
+- d167712edab1e66501652af9bc92594554924c0fdf8fa2c6725cdd580b417003
+- 56d229cb17207893a0559d7519b998d05edc1d3817856c6f9612a319479d71fd
+- aaa6943ab658da48d837f87e67c6adf1a50b999c728e0147e1e334c13d32241a
+direct_inclusion_count: 30
+prior_pass_inclusion_count: 50
+duplicate_identifier_count: 0
+cumulative_seed_count: 80
+seeds_object:
+  object_key: citation-chain/NAS-BRCA-002/pass-0005/seed-set-4341031422a864b72dfe0855ca6b903fa8cec13a74fbba6477c6959734329652.json
+  media_type: application/json
+  size_bytes: 28204
+  sha256: f09486174a719abbee86d2ff859feb6ff606adb7906c70191ee92876ba3df9c0
+  record_ids:
+  - PMID:16626501
+  - PMID:16643655
+  - PMID:19204204
+  - PMID:20181526
+  - PMID:21124904
+  - PMID:21347257
+  - PMID:21718502
+  - PMID:22187034
+  - PMID:22196354
+  - PMID:22262870
+  - PMID:22752290
+  - PMID:22959562
+  - PMID:23035882
+  - PMID:23046482
+  - PMID:23274563
+  - PMID:23907291
+  - PMID:24490149
+  - PMID:24625003
+  - PMID:25479802
+  - PMID:25788628
+  - PMID:25849221
+  - PMID:26297356
+  - PMID:26711328
+  - PMID:27036195
+  - PMID:27130929
+  - PMID:27556419
+  - PMID:28062443
+  - PMID:28069519
+  - PMID:28825136
+  - PMID:29412457
+  - PMID:30040052
+  - PMID:30189722
+  - PMID:30400809
+  - PMID:30591591
+  - PMID:30721923
+  - PMID:30849944
+  - PMID:31138829
+  - PMID:31159741
+  - PMID:31435878
+  - PMID:31678167
+  - PMID:31754050
+  - PMID:31812633
+  - PMID:32690604
+  - PMID:32789507
+  - PMID:32826944
+  - PMID:32881987
+  - PMID:32997146
+  - PMID:33255759
+  - PMID:33332369
+  - PMID:33442660
+  - PMID:33543757
+  - PMID:34387660
+  - PMID:34788787
+  - PMID:34885228
+  - PMID:35361119
+  - PMID:35974007
+  - PMID:35982221
+  - PMID:35983098
+  - PMID:36293565
+  - PMID:36867282
+  - PMID:36892725
+  - PMID:37008073
+  - PMID:37209182
+  - PMID:37773555
+  - PMID:37857634
+  - PMID:38105959
+  - PMID:38321494
+  - PMID:38549046
+  - PMID:38951507
+  - PMID:39181325
+  - PMID:39326668
+  - PMID:39747865
+  - PMID:41064593
+  - PMID:41275314
+  - PMID:41390542
+  - PMID:41671586
+  - PMID:41936844
+  - PMID:42172162
+  - PPR:PPR1259744
+  - PPR:PPR723583
+  file_ids: []
+input_checksums_verified: true
+output_checksum_verified: true
+exact_identifier_deduplication: true
+all_founder_inclusions_preserved: true
+molecular_data_access_authorized: false
+outcome_data_access_authorized: false
+scientific_conclusions_drawn: false

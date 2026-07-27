@@ -117,6 +117,14 @@ now contains 80 eligible identities: 68 appraisal-complete and 12
 access-restricted, with zero pending. Pass 5 is required because pass 4 yielded
 new evidence.
 
+Citation pass 5 preserved all 80 cumulative identities. Official retrieval
+returned 2,696 backward and 8,927 forward links and 8,190 unique non-seed
+candidates. Prior-screening reconciliation left 99 new records; all matched
+official metadata and 96 have abstracts. Two advisory packets propose one
+inclusion and 98 exclusions with zero unclear. The current gate is the exact
+founder statement `I confirm both checksum-bound citation pass 5 packets as
+written.` No pass-5 founder decision or scientific conclusion is recorded.
+
 For pass 3 and later, cumulative seeds are not reconstructed from memory or only
 the immediately preceding pass. The typed seed receipt binds the direct-search
 inventory, the pass-1 activation queue, and one ordered founder-authorized queue

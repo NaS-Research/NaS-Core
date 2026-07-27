@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Execute cumulative citation pass 5
+### Founder review of checksum-bound citation pass 5
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -42,11 +42,18 @@ screening decisions, both correct appraisals, exact source receipts, and zero
 unresolved access records. It adds two eligible identities.
 
 The cumulative state is 80 eligible identities: 68 appraisal-complete, 12
-access-restricted, and zero pending. All four completed citation passes added
-evidence, so no zero-yield stopping pass has occurred. The current target is
-cumulative pass 5 from all 80 identities, deduplicated against the direct search
-and all four prior founder ledgers. Molecular access, outcome access, novelty
-claims, and scientific conclusions remain prohibited.
+access-restricted, and zero pending. Pass 5 preserved all 80 seed identities.
+Official retrieval returned 2,696 backward and 8,927 forward links, producing
+8,190 unique non-seed records. Reconciliation removed 8,091 already-screened
+records and found no within-pass duplicates, leaving 99 new candidates.
+
+All 99 matched official metadata and 96 have abstracts. Conservative advisory
+screening plus field-isolated review proposes one inclusion and 98 exclusions
+with zero unclear. The current gate is founder review of
+`FOUNDER_CITATION_PASS_0005_COMBINED_REVIEW_v1.0.0.md` using the exact statement
+`I confirm both checksum-bound citation pass 5 packets as written.` No pass-5
+founder decision, molecular access, outcome access, novelty claim, or scientific
+conclusion has been recorded.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -415,6 +422,17 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-27 — Citation pass 5 prepared for founder confirmation
+
+Built the verified 80-identity cumulative seed set and retrieved the complete
+bidirectional Europe PMC graph. Deduplication reduced 8,190 unique non-seed
+records to 99 genuinely new candidates.
+
+Complete enrichment resolved every identity and supplied 96 abstracts.
+Conservative advisory screening and field-isolated adjudication propose one
+high-confidence inclusion and 98 exclusions with zero unclear. Both packet pairs
+are frozen and remain nondecisional.
+
 ### 2026-07-27 — DOI correction authorized and citation pass 4 closed
 
 Recorded founder correction batch `0012`, locked the correct `PMC9604175`
@@ -460,6 +478,8 @@ fail-closed pass-3 closure from committed revision `0153c33`. Closure
 now reports 78 eligible, 66 complete, 12 restricted, zero pending, and no
 zero-yield pass toward the two-pass stopping rule.
 
+## Historical implementation log
+
 ### 2026-07-26 — Citation pass 3 confirmed and appraisal batch 0010 prepared
 
 Recorded the founder's exact checksum-bound pass-3 confirmation and materialized
@@ -470,8 +490,6 @@ Completed lawful-access accounting for every inclusion: three licensed durable
 full texts, two official checksum-bound no-storage reviews, and two explicit
 publisher restrictions. Prepared five typed appraisal proposals, all
 `context_only`, and froze their hashes in founder packet `0010`.
-
-## Historical implementation log
 
 ### 2026-07-26 — Citation pass 3 prepared for founder confirmation
 

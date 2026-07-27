@@ -1,0 +1,17 @@
+schema_version: 1.0.0
+policy_version: 1.0.0
+study_id: NAS-BRCA-002
+pass_number: 5
+based_on_recommendation_id: 5fb67037654fdfdb58e10a16d9679d1361c74f29583cea0c09de1369dbcc33da
+include_record_keys:
+  - MED:28376187
+rationale: >-
+  Field-isolated review retains the one primary study that develops a
+  single-sample RT-qPCR subtype test, independently validates it, reports
+  calibration and net benefit, and directly measures multiregional subtype
+  heterogeneity. An editorial and three general or metadata-only records do not
+  provide a direct classifier reliability, concordance, transport, or
+  perturbation analysis and remain recommended for exclusion. Recommendations
+  remain advisory until the founder confirms both checksum-bound pass-5 packets.
+founder_confirmation_required: true
+autonomous_decisions_allowed: false
