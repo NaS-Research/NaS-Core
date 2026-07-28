@@ -49,6 +49,15 @@ companion fixture or reversing batch order changes the batch hash but cannot
 change either sample's reliability result. This is software evidence for
 patient-independent execution, not validation on patients.
 
+Method-dependency audit `1.0.0` is now bound to the founder-authorized saturated
+synthesis and this exact draft specification. It verifies Bioconductor `genefu`
+2.44.0 as a lawful, checksummed historical PAM50 centroid candidate while
+showing that the fixed reference, independent RNA-seq technical-error
+calibration, thresholds, and numerical conformance remain unresolved. The audit
+recommends holding molecular execution and acquiring independent calibration.
+The material choice is frozen in
+`reviews/FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md`.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console
@@ -74,6 +83,11 @@ Validate it with:
 
 ```console
 uv run nas-core reliability validate \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/reliability_specification.yaml
+
+uv run nas-core reliability audit-validate \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/method_dependency_audit_proposal_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/literature/saturated_evidence_synthesis_v1.0.0.yaml \
   workflows/studies/breast_clinical_molecular_discordance/protocol/reliability_specification.yaml
 ```
 

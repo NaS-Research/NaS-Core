@@ -6,6 +6,7 @@ from pathlib import Path
 from nas_core.ai.gateway import OpenAIScreeningGateway
 from nas_core.ai.screening import AIAdvisoryScreeningService
 from nas_core.analysis.cohort import CohortBuildService
+from nas_core.analysis.method_dependency import MethodDependencyAuditService
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.config import get_settings
@@ -87,6 +88,7 @@ from nas_core.domain.evidence_review import (
     write_evidence_review_schemas,
 )
 from nas_core.domain.evidence_synthesis import (
+    load_authorized_saturated_evidence_synthesis,
     load_evidence_synthesis_founder_confirmation,
     load_saturated_evidence_synthesis_proposal,
     write_authorized_saturated_evidence_synthesis,
@@ -114,6 +116,10 @@ from nas_core.domain.literature import (
     write_screening_progress_receipt,
     write_screening_queue_receipt,
     write_screening_review_schemas,
+)
+from nas_core.domain.method_dependency import (
+    load_method_dependency_audit,
+    write_method_dependency_audit_schema,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.reliability import (
@@ -425,6 +431,18 @@ def build_parser() -> argparse.ArgumentParser:
     reliability_validate.add_argument(
         "path", type=Path, help="Path to reliability_specification.yaml"
     )
+    reliability_audit_validate = reliability_commands.add_parser(
+        "audit-validate",
+        help="Validate a method-dependency audit against governed study artifacts",
+    )
+    reliability_audit_validate.add_argument("audit_path", type=Path)
+    reliability_audit_validate.add_argument("synthesis_path", type=Path)
+    reliability_audit_validate.add_argument("specification_path", type=Path)
+    reliability_audit_schema = reliability_commands.add_parser(
+        "audit-schema",
+        help="Write the method-dependency audit JSON Schema",
+    )
+    reliability_audit_schema.add_argument("path", type=Path)
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1384,6 +1402,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "audit-schema"
+    ):
+        write_method_dependency_audit_schema(args.path)
+        print(f"Wrote method dependency audit schema: {args.path}")
+        return 0
+
     if args.command == "plan" and args.plan_command == "schema":
         write_analysis_plan_schema(args.path)
         print(f"Wrote analysis-plan schema: {args.path}")
@@ -1582,6 +1608,32 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"question {specification.question_version}, "
             f"method {specification.specification_version} ({specification.status.value}); "
             f"execution authorized: {specification.execution_authorized}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "audit-validate"
+    ):
+        method_audit = load_method_dependency_audit(args.audit_path)
+        audit_synthesis = load_authorized_saturated_evidence_synthesis(
+            args.synthesis_path
+        )
+        audit_specification = load_reliability_specification(
+            args.specification_path
+        )
+        validated_audit = MethodDependencyAuditService().validate(
+            method_audit,
+            audit_synthesis,
+            audit_specification,
+            synthesis_path=args.synthesis_path,
+            specification_path=args.specification_path,
+        )
+        print(
+            f"Method dependency audit is valid: {validated_audit.study_id}, "
+            f"{len(validated_audit.dependencies)} dependencies, "
+            f"recommended {validated_audit.recommended_route_id}; "
+            "founder decision required"
         )
         return 0
 

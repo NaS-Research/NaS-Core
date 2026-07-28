@@ -1,0 +1,232 @@
+schema_version: 1.0.0
+audit_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+authorized_synthesis_sha256: e3374a8781e2e42b14d7b536e5df281d68eda9cc7efa1ffbaad1d9269de83e77
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+audited_at: '2026-07-28T17:01:57Z'
+source_retrieval_notes:
+  - >-
+    Official Bioconductor release 3.23 distributed genefu 2.44.0 under
+    Artistic-2.0. Its source package SHA-256 was calculated from the downloaded
+    release archive, and the embedded PAM50 model member was independently hashed.
+  - >-
+    The genefu documentation identifies pam50 as the official unscaled Parker
+    centroids and warns that scaled and robust variants depend on dataset-level
+    standardization and representative subtype composition.
+  - >-
+    GSE96058 publicly exposes 3,273 primaries and 136 technical replicates, but it
+    is the prespecified external-validation source. Deriving the error model from
+    those replicates would adapt the method to the validation source.
+  - >-
+    The 144-pair NanoString technical-reproducibility study reports aggregate
+    agreement, but its data-availability statement says the underlying datasets
+    are not public because of human-subject restrictions.
+  - >-
+    No patient-level, molecular, outcome, treatment, or classifier-result values
+    were accessed during this audit.
+artifact_candidates:
+  - artifact_id: genefu-2-44-0-pam50-model
+    role: Exact five-by-fifty historical PAM50 centroid candidate and gene mapping
+    source_url: https://bioconductor.org/packages/3.23/bioc/src/contrib/genefu_2.44.0.tar.gz
+    distribution_version: genefu 2.44.0; Bioconductor 3.23
+    license_id: Artistic-2.0
+    distribution_sha256: 666654431aa3b65a30eb23983fe8d7bc6c5daba0c957ddf33e4e990d7333b858
+    member_path: genefu/inst/extdata/pam50_model.csv
+    member_sha256: a189eb07569ee25b9aebd189c466faab4e4886559bae97ee5ad8e72a3c0aba4e
+    status: verified_candidate
+    verification_basis:
+      - Official Bioconductor release page identifies version 2.44.0 and Artistic-2.0.
+      - Package DESCRIPTION records git revision 8ec3c21 and publication 2026-04-28.
+      - Package manual identifies pam50 as official centroids with Spearman correlation and no scaling.
+      - The embedded model contains five 50-value centroid vectors and the 50-gene mapping.
+    candidate_only: true
+  - artifact_id: parker-2009-online-appendix
+    role: Primary-publication centroid source and provenance comparator
+    source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2667820/
+    distribution_version: Parker et al. 2009 online appendix
+    license_id: ASCO copyright; redistribution not established
+    distribution_sha256: null
+    member_path: null
+    member_sha256: null
+    status: insufficient
+    verification_basis:
+      - The article states that exact centroids are supplied in the online appendix.
+      - The article is not distributed under a permissive reuse license.
+      - It can verify scientific provenance but not yet serve as a redistributable NaS artifact.
+    candidate_only: true
+  - artifact_id: gse96058-technical-replicates
+    role: Candidate RNA-seq technical-error measurements
+    source_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96058
+    distribution_version: GEO GSE96058 public processed representation
+    license_id: public GEO access; raw sequence restricted
+    distribution_sha256: null
+    member_path: null
+    member_sha256: null
+    status: insufficient
+    verification_basis:
+      - GEO documents 136 technical replicates linked to primary samples.
+      - Replicates are mostly new libraries from the same RNA, with some library resequencing.
+      - The source is already reserved for external validation, so calibration would break independence.
+    candidate_only: true
+  - artifact_id: unc-nanostring-144-pairs
+    role: Independent same-RNA technical-reproducibility measurements
+    source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10147733/
+    distribution_version: Hurson et al. 2023
+    license_id: CC-BY-4.0 article; underlying participant data restricted
+    distribution_sha256: null
+    member_path: null
+    member_sha256: null
+    status: unavailable
+    verification_basis:
+      - The study reports 144 same-RNA replicate pairs and 90% subtype agreement.
+      - The article does not publish gene-level replicate values or a reusable error model.
+      - The data-availability statement requires a corresponding-author request.
+    candidate_only: true
+dependencies:
+  - dependency_id: DEP-001
+    dependency: Exact lawful five-by-fifty historical PAM50 centroid matrix
+    disposition: resolved_candidate
+    evidence_ids: [PMID:19204204, BIOC:GENEFU-2.44.0]
+    finding: >-
+      genefu 2.44.0 provides a versioned, permissively licensed, byte-verifiable
+      official-centroid candidate. It is not approved until founder selection and
+      governed import compare it against the primary appendix.
+    required_resolution: >-
+      Founder selects or rejects the genefu candidate; if selected, import the exact
+      member, normalize it losslessly, cross-check all 250 coefficients, and checksum
+      the canonical NaS artifact.
+  - dependency_id: DEP-002
+    dependency: Patient-independent external centering reference
+    disposition: blocked_missing_artifact
+    evidence_ids: [PMID:32826944, PMID:25849221, PMID:37857634]
+    finding: >-
+      The historical PAM50 centroids do not remove the need for a platform-matched
+      reference. Published AWCA and cohort-balancing approaches depend on cohort,
+      preprocessing family, or labels and do not supply one independently validated
+      reference that transports unchanged between the two sources.
+    required_resolution: >-
+      Acquire and validate an independent platform-matched reference, materially
+      change the canonical classifier to a no-reference method, or reject the question.
+  - dependency_id: DEP-003
+    dependency: TCGA and GSE96058 expression transformations
+    disposition: requires_founder_choice
+    evidence_ids: [PMID:32826944, PMID:37008073]
+    finding: >-
+      Both sources cover all 50 genes, but gene coverage does not establish numerical
+      compatibility. Historical PAM50 and MPAM50 require materially different
+      transformations, centering assumptions, and correlation metrics.
+    required_resolution: >-
+      Select the canonical classifier route before a platform-specific transformation
+      contract can be scientifically locked.
+  - dependency_id: DEP-004
+    dependency: Independent platform-appropriate technical-error model
+    disposition: blocked_missing_artifact
+    evidence_ids: [PMID:22196354, PMID:36892725, GEO:GSE96058]
+    finding: >-
+      The small qPCR model is not transportable, the stronger NanoString replicate
+      values are unavailable, and using GSE96058 replicates for calibration would
+      consume part of the designated external-validation source.
+    required_resolution: >-
+      Obtain an independent public RNA-seq replicate resource, receive lawful access
+      to suitable restricted replicate data, generate a NaS calibration experiment,
+      or approve a redesigned split-calibration study with reduced independence.
+  - dependency_id: DEP-005
+    dependency: Margin and canonical-label-retention thresholds
+    disposition: blocked_missing_artifact
+    evidence_ids: [PMID:28062443, PMID:37857634, PMID:36892725]
+    finding: >-
+      Prior thresholds are method-specific or selected without an independent
+      measurement-error calibration. A defensible retention threshold cannot be
+      derived before DEP-004 is resolved.
+    required_resolution: >-
+      Prespecify a calibration estimand, acceptable analytical error, uncertainty
+      interval, and decision rule using independent technical evidence.
+  - dependency_id: DEP-006
+    dependency: Numerical tie and reproducibility tolerances
+    disposition: requires_founder_choice
+    evidence_ids: [CODE:SYNTHETIC-KERNEL, BIOC:GENEFU-2.44.0]
+    finding: >-
+      The kernel fails closed on exact and near ties, but an engineering tolerance
+      must be justified across Python and the selected reference implementation.
+    required_resolution: >-
+      Run cross-language coefficient and score conformance fixtures after method
+      selection, then lock the smallest tolerance that covers deterministic
+      implementation differences without changing substantive calls.
+  - dependency_id: DEP-007
+    dependency: Saturated evidence review and working claim synthesis
+    disposition: resolved_candidate
+    evidence_ids: [ARTIFACT:SATURATED-SYNTHESIS-1.0.0]
+    finding: >-
+      Citation saturation is satisfied and all eight claim dispositions are
+      founder-authorized as working synthesis.
+    required_resolution: >-
+      Preserve the existing no-novelty, no-clinical-claim, and no-publication boundary
+      until a new founder gate is recorded.
+routes:
+  - route_id: ROUTE-A
+    label: Retain historical PAM50 with fixed external references
+    classifier_family: Historical PAM50; Spearman; platform-specific fixed reference subtraction
+    patient_independent_at_inference: true
+    external_reference_required: true
+    preserves_question_version_0_3_0: true
+    advantages:
+      - Preserves the current question and historical PAM50 interpretation.
+      - Uses the verified genefu centroid candidate.
+    limitations:
+      - No independent, lawfully frozen, cross-platform reference is currently approved.
+      - Reference construction remains a known source of assignment instability.
+      - No independent RNA-seq technical-error model is available.
+    recommendation: alternative
+    material_scope_change: false
+  - route_id: ROUTE-B
+    label: Change the canonical classifier to MPAM50
+    classifier_family: MPAM50; weighted uncentered centroids; Pearson correlation
+    patient_independent_at_inference: true
+    external_reference_required: false
+    preserves_question_version_0_3_0: false
+    advantages:
+      - Eliminates test-cohort and external-reference centering.
+      - Published centroids and research code are available.
+      - Maintains one-sample inference and a 50-gene nearest-centroid structure.
+    limitations:
+      - It is a different published classifier, so the question and manuscript require amendment.
+      - TCGA contributed to MPAM50 training and cannot be treated as fully independent validation.
+      - An independent technical-error calibration artifact is still missing.
+    recommendation: alternative
+    material_scope_change: true
+  - route_id: ROUTE-C
+    label: Hold molecular execution and acquire independent technical calibration
+    classifier_family: Undecided until centering and technical-error dependencies are resolved
+    patient_independent_at_inference: false
+    external_reference_required: true
+    preserves_question_version_0_3_0: true
+    advantages:
+      - Preserves genuine external validation and prevents validation leakage.
+      - Avoids arbitrary thresholds and a scientifically underpowered novelty claim.
+      - Allows the verified centroid candidate to proceed through artifact QA.
+    limitations:
+      - Molecular execution cannot begin immediately.
+      - May require author contact, a data-use review, or a future NaS replicate experiment.
+      - The current question remains on hold until an independent calibration path exists.
+    recommendation: preferred
+    material_scope_change: false
+recommended_route_id: ROUTE-C
+recommendation_rationale: >-
+  ROUTE-C is the only current route that preserves the declared independent-validation
+  logic and avoids outcome or validation leakage. ROUTE-A lacks a defensible fixed
+  reference and error model. ROUTE-B removes centering but materially changes the
+  classifier and still lacks independent technical calibration. The scientifically
+  defensible action is to verify and stage the centroid candidate while holding
+  molecular execution until the founder chooses an acquisition, generation, redesign,
+  or rejection path.
+founder_decision_required: true
+patient_level_data_accessed: false
+molecular_values_accessed: false
+outcome_data_accessed: false
+method_execution_authorized: false
+molecular_data_access_authorized: false
+outcome_data_access_authorized: false
+clinical_use_authorized: false
+publication_authorized: false

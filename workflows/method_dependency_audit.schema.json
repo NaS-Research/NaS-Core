@@ -1,0 +1,389 @@
+{
+  "$defs": {
+    "ArtifactCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "candidate_only": {
+          "default": true,
+          "title": "Candidate Only",
+          "type": "boolean"
+        },
+        "distribution_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distribution Sha256"
+        },
+        "distribution_version": {
+          "minLength": 1,
+          "title": "Distribution Version",
+          "type": "string"
+        },
+        "license_id": {
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "member_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Member Path"
+        },
+        "member_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Member Sha256"
+        },
+        "role": {
+          "minLength": 1,
+          "title": "Role",
+          "type": "string"
+        },
+        "source_url": {
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ArtifactCandidateStatus"
+        },
+        "verification_basis": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Verification Basis",
+          "type": "array"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "role",
+        "source_url",
+        "distribution_version",
+        "license_id",
+        "status",
+        "verification_basis"
+      ],
+      "title": "ArtifactCandidate",
+      "type": "object"
+    },
+    "ArtifactCandidateStatus": {
+      "enum": [
+        "verified_candidate",
+        "insufficient",
+        "unavailable"
+      ],
+      "title": "ArtifactCandidateStatus",
+      "type": "string"
+    },
+    "DependencyAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "dependency": {
+          "minLength": 1,
+          "title": "Dependency",
+          "type": "string"
+        },
+        "dependency_id": {
+          "pattern": "^DEP-[0-9]{3}$",
+          "title": "Dependency Id",
+          "type": "string"
+        },
+        "disposition": {
+          "$ref": "#/$defs/DependencyDisposition"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "finding": {
+          "minLength": 1,
+          "title": "Finding",
+          "type": "string"
+        },
+        "required_resolution": {
+          "minLength": 1,
+          "title": "Required Resolution",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dependency_id",
+        "dependency",
+        "disposition",
+        "evidence_ids",
+        "finding",
+        "required_resolution"
+      ],
+      "title": "DependencyAssessment",
+      "type": "object"
+    },
+    "DependencyDisposition": {
+      "enum": [
+        "resolved_candidate",
+        "requires_founder_choice",
+        "blocked_missing_artifact",
+        "rejected"
+      ],
+      "title": "DependencyDisposition",
+      "type": "string"
+    },
+    "MethodRoute": {
+      "additionalProperties": false,
+      "properties": {
+        "advantages": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Advantages",
+          "type": "array"
+        },
+        "classifier_family": {
+          "minLength": 1,
+          "title": "Classifier Family",
+          "type": "string"
+        },
+        "external_reference_required": {
+          "title": "External Reference Required",
+          "type": "boolean"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Limitations",
+          "type": "array"
+        },
+        "material_scope_change": {
+          "title": "Material Scope Change",
+          "type": "boolean"
+        },
+        "patient_independent_at_inference": {
+          "title": "Patient Independent At Inference",
+          "type": "boolean"
+        },
+        "preserves_question_version_0_3_0": {
+          "title": "Preserves Question Version 0 3 0",
+          "type": "boolean"
+        },
+        "recommendation": {
+          "$ref": "#/$defs/RouteRecommendation"
+        },
+        "route_id": {
+          "pattern": "^ROUTE-[A-Z]$",
+          "title": "Route Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "route_id",
+        "label",
+        "classifier_family",
+        "patient_independent_at_inference",
+        "external_reference_required",
+        "preserves_question_version_0_3_0",
+        "advantages",
+        "limitations",
+        "recommendation",
+        "material_scope_change"
+      ],
+      "title": "MethodRoute",
+      "type": "object"
+    },
+    "RouteRecommendation": {
+      "enum": [
+        "preferred",
+        "alternative",
+        "reject"
+      ],
+      "title": "RouteRecommendation",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifact_candidates": {
+      "items": {
+        "$ref": "#/$defs/ArtifactCandidate"
+      },
+      "minItems": 1,
+      "title": "Artifact Candidates",
+      "type": "array"
+    },
+    "audit_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Audit Version",
+      "type": "string"
+    },
+    "audited_at": {
+      "format": "date-time",
+      "title": "Audited At",
+      "type": "string"
+    },
+    "authorized_synthesis_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorized Synthesis Sha256",
+      "type": "string"
+    },
+    "clinical_use_authorized": {
+      "title": "Clinical Use Authorized",
+      "type": "boolean"
+    },
+    "dependencies": {
+      "items": {
+        "$ref": "#/$defs/DependencyAssessment"
+      },
+      "minItems": 1,
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "founder_decision_required": {
+      "title": "Founder Decision Required",
+      "type": "boolean"
+    },
+    "method_execution_authorized": {
+      "title": "Method Execution Authorized",
+      "type": "boolean"
+    },
+    "molecular_data_access_authorized": {
+      "title": "Molecular Data Access Authorized",
+      "type": "boolean"
+    },
+    "molecular_values_accessed": {
+      "title": "Molecular Values Accessed",
+      "type": "boolean"
+    },
+    "outcome_data_access_authorized": {
+      "title": "Outcome Data Access Authorized",
+      "type": "boolean"
+    },
+    "outcome_data_accessed": {
+      "title": "Outcome Data Accessed",
+      "type": "boolean"
+    },
+    "patient_level_data_accessed": {
+      "title": "Patient Level Data Accessed",
+      "type": "boolean"
+    },
+    "publication_authorized": {
+      "title": "Publication Authorized",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "recommendation_rationale": {
+      "minLength": 1,
+      "title": "Recommendation Rationale",
+      "type": "string"
+    },
+    "recommended_route_id": {
+      "pattern": "^ROUTE-[A-Z]$",
+      "title": "Recommended Route Id",
+      "type": "string"
+    },
+    "reliability_specification_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reliability Specification Sha256",
+      "type": "string"
+    },
+    "routes": {
+      "items": {
+        "$ref": "#/$defs/MethodRoute"
+      },
+      "minItems": 2,
+      "title": "Routes",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_retrieval_notes": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Source Retrieval Notes",
+      "type": "array"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "audit_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "authorized_synthesis_sha256",
+    "reliability_specification_sha256",
+    "audited_at",
+    "source_retrieval_notes",
+    "artifact_candidates",
+    "dependencies",
+    "routes",
+    "recommended_route_id",
+    "recommendation_rationale",
+    "founder_decision_required",
+    "patient_level_data_accessed",
+    "molecular_values_accessed",
+    "outcome_data_accessed",
+    "method_execution_authorized",
+    "molecular_data_access_authorized",
+    "outcome_data_access_authorized",
+    "clinical_use_authorized",
+    "publication_authorized"
+  ],
+  "title": "MethodDependencyAuditProposal",
+  "type": "object"
+}

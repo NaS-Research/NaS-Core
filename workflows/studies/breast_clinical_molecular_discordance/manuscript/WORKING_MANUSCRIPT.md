@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.43.0-working`
+Manuscript version: `0.44.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -11,8 +11,9 @@ Question version: `0.3.0`
 Last updated: 2026-07-28
 
 Overall status: **working—citation review saturated, evidence synthesis
-founder-authorized, and metadata input feasibility passed; novelty remains on hold;
-no molecular values or outcome dataset used or retained**
+founder-authorized, metadata input feasibility passed, and method dependencies
+audited; founder method-route decision pending; novelty remains on hold; no
+molecular values or outcome dataset used or retained**
 
 ## Abstract
 
@@ -469,6 +470,22 @@ The draft procedure is defined in reliability specification `0.1.0`, but exact
 centroids, external reference values, platform transformations, technical-error
 calibration, numerical tolerances, and reliability thresholds remain unresolved.
 No molecular execution is authorized.
+
+Dependency audit `1.0.0` identifies one verified centroid candidate: official
+Bioconductor `genefu` 2.44.0 distributes the historical unscaled PAM50 model
+under Artistic-2.0, and both the release archive and embedded model member are
+checksummed. This resolves candidate provenance, not method approval.
+
+The historical design still lacks an independently validated platform-matched
+centering reference and independent RNA-seq technical-error calibration.
+GSE96058's 136 technical replicates are public, but using them for calibration
+would adapt the method to the designated external-validation source. A separate
+144-pair NanoString study reports aggregate repeatability but does not release
+the underlying gene-level data. Molecular execution remains on hold pending the
+founder's choice among retaining historical PAM50, changing to MPAM50, or
+preserving the question while acquiring independent calibration.
+[method_dependency_audit_proposal_v1.0.0.yaml;
+FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1293,6 +1310,8 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.44.0-working | 2026-07-28 | Added the checksum-bound method-dependency audit, verified the official `genefu` 2.44.0 centroid candidate, documented the unresolved fixed-reference and independent technical-error dependencies, and froze Routes A–C for founder review without authorizing molecular execution. |
+| 0.43.0-working | 2026-07-28 | Materialized the founder-authorized saturated synthesis, updated the 81/68/13 evidence state and novelty hold, and preserved zero authorization for molecular access, outcomes, clinical claims, or publication. |
 | 0.42.0-working | 2026-07-26 | Executed cumulative citation pass 3 from all 71 governed seeds, reduced 7,728 non-seed records to 593 new candidates, and froze advisory packets proposing seven inclusions and 586 exclusions with zero unclear; no founder decision or scientific conclusion was recorded. |
 | 0.41.0-working | 2026-07-26 | Founder-authorized citation appraisal batch 0009, locked five context-only appraisals, formally accounted for four restrictions, closed citation pass 2, and updated the evidence state to 71 eligible, 61 appraisal-complete, 10 restricted, and zero pending. |
 | 0.40.0-working | 2026-07-26 | Added synthetic batch execution as independent single-sample composition, with duplicate-identity rejection, ordered batch provenance, and tests proving that companion fixtures and batch order cannot change an individual result. |

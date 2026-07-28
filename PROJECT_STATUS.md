@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Resolve method dependencies under a novelty hold
+### Founder method-route decision under a novelty hold
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -116,6 +116,18 @@ broad single-sample, margin, stability, ambiguity, non-assignment, and abstentio
 ideas are prior art; the exact independently calibrated and unchanged externally
 validated reliability contract remains unresolved. No novelty, data access,
 method parameters, clinical claims, or publication are authorized.
+
+Method-dependency audit `1.0.0` now binds that synthesis to the draft reliability
+specification. It verifies a lawful, byte-hashed historical PAM50 centroid
+candidate in official Bioconductor `genefu` 2.44.0. It also proves that the
+current method cannot yet be locked: no approved platform-matched centering
+reference or independent RNA-seq technical-error calibration artifact exists.
+
+Three routes are frozen for founder review. Route A retains historical PAM50 but
+requires new reference and calibration artifacts. Route B changes to MPAM50,
+removing centering while materially changing the question and leaving calibration
+unresolved. Recommended Route C preserves question `0.3.0`, stages centroid QA,
+and holds molecular execution while acquiring genuinely independent calibration.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -447,37 +459,50 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Resolve and approve the exact centroid and external-reference artifacts,
-   redistribution rights, expression transformations, and numerical tolerances.
-2. Define an independently calibrated technical-error model and lock the margin
-   and canonical-label-retention thresholds without molecular or outcome inspection.
-3. Complete the founder scientific/product, molecular/pathology, and statistical
+1. Record the founder's Route A, B, C, or redesign decision from
+   `FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md`.
+2. If Route C is selected, import and coefficient-verify the exact `genefu`
+   centroid candidate, then prepare the independent calibration acquisition plan.
+3. Resolve the selected route's reference, transformation, technical-error,
+   threshold, and numerical-conformance dependencies without outcome inspection.
+4. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-4. Update the living manuscript and its evidence-to-text ledger after every material
+5. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-7. Implement persisted evidence claims, citations, provenance, contradictory
+8. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-8. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-9. Expand the screening model gateway into general evidence reasoning with
+10. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-10. Build evaluation suites for retrieval, citation validity, numerical
+11. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-11. Generate an immutable research release containing the protocol, dataset
+12. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-12. Generate a reviewable white-paper draft whose substantive claims trace to
+13. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-13. Build the internal workbench for projects, protocols, datasets, runs,
+14. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-14. Complete repeated internal oncology pilots before selecting the first
+15. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Method dependencies audited and routes frozen
+
+Implemented typed artifact candidates, dependency assessments, method routes,
+hash-bound validation, a CLI, JSON Schema, and regression tests. The audit
+verifies the official `genefu` centroid candidate but prevents it from silently
+becoming an approved method artifact.
+
+The founder packet presents three routes and recommends Route C: preserve the
+independence of external validation and hold molecular execution until a
+genuinely independent technical calibration path is acquired or generated.
 
 ### 2026-07-28 — Saturated evidence synthesis founder-authorized
 
