@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
 
@@ -161,10 +162,64 @@ class TechnicalCalibrationAcquisitionPlan(TechnicalCalibrationModel):
         return self
 
 
+class TechnicalCalibrationSourceScoutReceipt(TechnicalCalibrationModel):
+    schema_version: str = "1.0.0"
+    receipt_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    acquisition_plan_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    searched_at: datetime
+    search_scope: list[str] = Field(min_length=1)
+    official_source_urls: list[str] = Field(min_length=1)
+    findings: list[CalibrationSourceCandidate] = Field(min_length=1)
+    recommended_actions: list[str] = Field(min_length=1)
+    search_complete: bool
+    patient_level_data_accessed: bool
+    molecular_values_accessed: bool
+    outcome_data_accessed: bool
+    source_selected: bool
+    external_contact_sent: bool
+    method_execution_authorized: bool
+
+    @model_validator(mode="after")
+    def validate_scout_boundary(self) -> TechnicalCalibrationSourceScoutReceipt:
+        source_ids = [source.source_id for source in self.findings]
+        if len(source_ids) != len(set(source_ids)):
+            raise ValueError("scout finding source IDs must be unique")
+        if any(source.candidate_for_threshold_calibration for source in self.findings):
+            raise ValueError(
+                "metadata-only scouting cannot declare a calibration source eligible"
+            )
+        if any(
+            (
+                self.patient_level_data_accessed,
+                self.molecular_values_accessed,
+                self.outcome_data_accessed,
+                self.source_selected,
+                self.external_contact_sent,
+                self.method_execution_authorized,
+            )
+        ):
+            raise ValueError(
+                "a metadata-only scout cannot access data, contact parties, "
+                "select a source, or authorize execution"
+            )
+        return self
+
+
 def load_technical_calibration_plan(
     path: Path,
 ) -> TechnicalCalibrationAcquisitionPlan:
     return TechnicalCalibrationAcquisitionPlan.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_technical_calibration_scout(
+    path: Path,
+) -> TechnicalCalibrationSourceScoutReceipt:
+    return TechnicalCalibrationSourceScoutReceipt.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 
@@ -174,6 +229,19 @@ def write_technical_calibration_schema(path: Path) -> None:
     path.write_text(
         json.dumps(
             TechnicalCalibrationAcquisitionPlan.model_json_schema(),
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
+def write_technical_calibration_scout_schema(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            TechnicalCalibrationSourceScoutReceipt.model_json_schema(),
             indent=2,
             sort_keys=True,
         )

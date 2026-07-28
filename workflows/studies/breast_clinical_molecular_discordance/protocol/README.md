@@ -81,6 +81,22 @@ uv run nas-core reliability calibration-plan-validate \
   workflows/studies/breast_clinical_molecular_discordance/protocol/artifact-candidates/genefu_2.44.0_pam50_candidate_v1.0.0.yaml
 ```
 
+Metadata-only source scouting is recorded in
+`technical_calibration_source_scout_v1.0.0.yaml`. It identifies GSE60788 and
+GSE130397 as relevant but currently ineligible small replicate resources and
+records zero molecular access, outcome access, source selection, or external
+contact. Validate it with:
+
+```console
+uv run nas-core reliability calibration-scout-validate \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/technical_calibration_source_scout_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/technical_calibration_acquisition_plan_v1.0.0.yaml
+```
+
+Two correspondence drafts are stored in
+`reviews/UNSENT_CALIBRATION_DATA_INQUIRIES_v1.0.0.md`. They are preparation
+artifacts only and have not been sent.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console

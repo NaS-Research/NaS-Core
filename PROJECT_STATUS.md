@@ -147,6 +147,15 @@ RNA-seq source has passed due diligence, and a future NaS experiment does not ye
 exist. The plan selects no source and authorizes no data access, threshold
 selection, method execution, external contact, spending, or publication.
 
+A bounded metadata-only source scout is complete. Official NCBI records identified
+GSE60788 with six labeled breast-tumor RNA-seq technical pairs and public processed
+expression, and GSE130397 with triplicate FFPE libraries for two source specimens
+under two library methods. Neither is eligible. GSE60788's non-overlap with
+GSE96058 is unresolved and six pairs require prospective precision justification;
+GSE130397 cannot represent patient-level subtype-margin diversity. The typed scout
+records zero molecular or outcome access, zero source selection, and zero external
+contact. Two inquiry drafts exist but remain unsent.
+
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
 activation queue, and exactly one ordered founder-authorized queue for every later
@@ -479,9 +488,9 @@ Current gate state:
 
 1. Record the founder's Route A, B, C, or redesign decision from
    `FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md`.
-2. Execute a bounded, metadata-only due-diligence search for an independent
-   RNA-seq technical-replicate calibration source and prepare an unsent data
-   availability inquiry; do not access molecular values or contact anyone.
+2. After route selection, authorize the exact next due-diligence action: send a
+   reviewed inquiry, run a field-isolated panel/pair audit, or design a
+   prospective NaS replicate experiment. No external contact is currently sent.
 3. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
 4. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -511,6 +520,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Calibration-source scout and unsent inquiries
+
+Implemented a typed, acquisition-plan-bound metadata scout with CLI validation,
+JSON Schema, nondecision guards, and regression tests. Official metadata identified
+GSE60788 and GSE130397 as relevant small RNA-seq replicate resources, but neither
+passes the locked calibration criteria.
+
+Prepared narrowly scoped inquiry drafts for the Hurson same-RNA resource and
+SCAN-B GSE60788 lineage clarification. The drafts request no identifiers or
+outcomes and were not sent.
 
 ### 2026-07-28 — Independent technical-calibration acquisition contract
 

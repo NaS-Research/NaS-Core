@@ -1,0 +1,74 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+acquisition_plan_sha256: 1c7333d2f2c6a771ae371b08cee3f88095b62c50d9c26ba78c0756a8b3be3f48
+searched_at: '2026-07-28T19:30:00Z'
+search_scope:
+  - Official NCBI GEO and SRA metadata for human breast-cancer bulk RNA-seq technical replicates.
+  - Exact same-RNA, library-replicate, and resequencing language.
+  - Public processed-expression availability, stable pair labels, assay platform, and PAM50 relevance.
+  - Classifier-training and GSE96058 external-validation overlap risks.
+official_source_urls:
+  - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE60788
+  - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE130397
+  - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96058
+  - https://pmc.ncbi.nlm.nih.gov/articles/PMC10147733/
+findings:
+  - source_id: CALSRC-005
+    label: GSE60788 SCAN-B pilot RNA-seq technical replicates
+    evidence_ids:
+      - GEO:GSE60788
+      - PMID:25722745
+    assay_or_platform: Illumina HiSeq 2000 paired-end bulk RNA sequencing
+    access_class: public_open
+    disposition: requires_due_diligence
+    independent_from_classifier_training: true
+    independent_from_external_validation: false
+    paired_measurements_reported: true
+    participant_level_molecular_values_available: true
+    stable_pair_identifiers_available: true
+    full_classifier_panel_confirmed: false
+    lawful_access_verified: true
+    candidate_for_threshold_calibration: false
+    limitations:
+      - Official GEO metadata reports 49 tumors and six labeled technical replicates with public processed expression.
+      - Both this pilot and GSE96058 arise from SCAN-B; sample non-overlap and analytic independence are not yet verified.
+      - Six pairs cannot be accepted without a prospective precision and power analysis.
+      - Metadata-only review did not inspect expression values or verify exact 50-gene coverage.
+      - Raw-read access and privacy language are internally nuanced, so only the public processed files are in scope.
+  - source_id: CALSRC-006
+    label: GSE130397 archival FFPE RNA-seq library-method replicates
+    evidence_ids:
+      - GEO:GSE130397
+      - PMID:31856832
+    assay_or_platform: Illumina HiSeq 2500; Illumina Access and NuGEN Ovation FFPE library methods
+    access_class: public_open
+    disposition: requires_due_diligence
+    independent_from_classifier_training: true
+    independent_from_external_validation: true
+    paired_measurements_reported: true
+    participant_level_molecular_values_available: true
+    stable_pair_identifiers_available: true
+    full_classifier_panel_confirmed: false
+    lawful_access_verified: true
+    candidate_for_threshold_calibration: false
+    limitations:
+      - Official GEO metadata reports triplicate libraries for only two ER-positive FFPE source specimens under two library methods.
+      - The resource can characterize within-specimen and library-method variation but cannot represent patient-level subtype-margin diversity.
+      - Additional resequenced singlets are present, but their exact role requires a frozen pairing audit.
+      - Metadata-only review did not inspect expression values or verify exact 50-gene coverage.
+recommended_actions:
+  - Treat GSE60788 and GSE130397 as feasibility or variance-component candidates, not threshold-calibration sources.
+  - Verify GSE60788 sample non-overlap with GSE96058 and confirm whether all six pairs are same-RNA library reconstructions.
+  - Run a future field-isolated panel and pair-lineage audit only after the founder selects a method route.
+  - Ask the Hurson corresponding author whether deidentified paired PAM50 values and stable replicate mappings can be shared under a research agreement.
+  - Do not combine small heterogeneous replicate studies into one error distribution without a prospective hierarchical model and statistical review.
+search_complete: true
+patient_level_data_accessed: false
+molecular_values_accessed: false
+outcome_data_accessed: false
+source_selected: false
+external_contact_sent: false
+method_execution_authorized: false

@@ -19,7 +19,9 @@ from nas_core.domain.method_dependency import (
 from nas_core.domain.technical_calibration import (
     CalibrationSourceDisposition,
     TechnicalCalibrationAcquisitionPlan,
+    TechnicalCalibrationSourceScoutReceipt,
     load_technical_calibration_plan,
+    load_technical_calibration_scout,
 )
 
 ROOT = Path(__file__).parents[1]
@@ -38,6 +40,10 @@ CANDIDATE = (
     / "genefu_2.44.0_pam50_candidate_v1.0.0.yaml"
 )
 SCHEMA = ROOT / "workflows" / "technical_calibration_acquisition_plan.schema.json"
+SCOUT = STUDY / "protocol" / "technical_calibration_source_scout_v1.0.0.yaml"
+SCOUT_SCHEMA = (
+    ROOT / "workflows" / "technical_calibration_source_scout_receipt.schema.json"
+)
 
 
 def _artifacts() -> tuple[
@@ -132,4 +138,51 @@ def test_plan_rejects_candidate_checksum_drift(tmp_path: Path) -> None:
 def test_checked_in_calibration_schema_matches_runtime_model() -> None:
     assert json.loads(SCHEMA.read_text(encoding="utf-8")) == (
         TechnicalCalibrationAcquisitionPlan.model_json_schema()
+    )
+
+
+def test_checked_in_source_scout_is_bound_and_nondecisional() -> None:
+    plan = load_technical_calibration_plan(PLAN)
+    scout = load_technical_calibration_scout(SCOUT)
+
+    validated = TechnicalCalibrationPlanService().validate_scout(
+        scout,
+        plan,
+        plan_path=PLAN,
+    )
+
+    assert len(validated.findings) == 2
+    assert {finding.source_id for finding in validated.findings} == {
+        "CALSRC-005",
+        "CALSRC-006",
+    }
+    assert validated.source_selected is False
+    assert validated.external_contact_sent is False
+    assert validated.molecular_values_accessed is False
+    assert validated.outcome_data_accessed is False
+
+
+def test_scout_cannot_declare_source_eligible() -> None:
+    scout = load_technical_calibration_scout(SCOUT)
+    payload = scout.model_dump(mode="json")
+    source = payload["findings"][0]
+    for field in (
+        "independent_from_classifier_training",
+        "independent_from_external_validation",
+        "paired_measurements_reported",
+        "participant_level_molecular_values_available",
+        "stable_pair_identifiers_available",
+        "full_classifier_panel_confirmed",
+        "lawful_access_verified",
+    ):
+        source[field] = True
+    source["candidate_for_threshold_calibration"] = True
+
+    with pytest.raises(ValidationError, match="metadata-only scouting"):
+        TechnicalCalibrationSourceScoutReceipt.model_validate(payload)
+
+
+def test_checked_in_scout_schema_matches_runtime_model() -> None:
+    assert json.loads(SCOUT_SCHEMA.read_text(encoding="utf-8")) == (
+        TechnicalCalibrationSourceScoutReceipt.model_json_schema()
     )

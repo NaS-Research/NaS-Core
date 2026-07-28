@@ -8,6 +8,7 @@ from nas_core.domain.method_dependency import (
 )
 from nas_core.domain.technical_calibration import (
     TechnicalCalibrationAcquisitionPlan,
+    TechnicalCalibrationSourceScoutReceipt,
 )
 from nas_core.ingestion.gdc import sha256
 
@@ -70,3 +71,30 @@ class TechnicalCalibrationPlanService:
                 "calibration planning requires a non-executable candidate"
             )
         return plan
+
+    def validate_scout(
+        self,
+        receipt: TechnicalCalibrationSourceScoutReceipt,
+        plan: TechnicalCalibrationAcquisitionPlan,
+        *,
+        plan_path: Path,
+    ) -> TechnicalCalibrationSourceScoutReceipt:
+        if (
+            receipt.study_id,
+            receipt.question_id,
+            receipt.question_version,
+        ) != (plan.study_id, plan.question_id, plan.question_version):
+            raise TechnicalCalibrationPlanError(
+                "calibration scout and acquisition plan identify different questions"
+            )
+        if receipt.acquisition_plan_sha256 != sha256(plan_path.read_bytes()):
+            raise TechnicalCalibrationPlanError(
+                "calibration scout is bound to a different acquisition plan"
+            )
+        known_ids = {source.source_id for source in plan.source_candidates}
+        scout_ids = {source.source_id for source in receipt.findings}
+        if known_ids & scout_ids:
+            raise TechnicalCalibrationPlanError(
+                "scout findings must use new source IDs"
+            )
+        return receipt

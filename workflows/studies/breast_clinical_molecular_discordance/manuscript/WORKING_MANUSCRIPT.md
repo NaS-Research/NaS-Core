@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.46.0-working`
+Manuscript version: `0.47.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -514,6 +514,18 @@ no source and authorizes no molecular access, outcome access, threshold selectio
 method execution, or external contact.
 [technical_calibration_acquisition_plan_v1.0.0.yaml;
 TECHNICAL_CALIBRATION_READINESS_v1.0.0.md]
+
+A bounded official-metadata scout found two additional small RNA-seq replicate
+resources. GSE60788 reports 49 breast tumors and six labeled technical replicates
+with public processed expression, but its sample independence from the GSE96058
+external-validation cohort is not yet established and statistical adequacy cannot
+be assumed from six pairs. GSE130397 reports triplicate FFPE libraries for only
+two ER-positive source specimens under Illumina Access and NuGEN Ovation methods;
+it may inform within-specimen or library-method variance but cannot represent
+patient-level subtype-margin diversity. Neither source was selected, no expression
+values were inspected, and no data inquiry was sent.
+[technical_calibration_source_scout_v1.0.0.yaml;
+UNSENT_CALIBRATION_DATA_INQUIRIES_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1339,6 +1351,7 @@ checks, and internal reviews are complete.
 | Version | Date | Change |
 |---|---|---|
 | 0.45.0-working | 2026-07-28 | Materialized the route-neutral `genefu` 2.44.0 PAM50 candidate through frozen importer revision `2843a6e`, reconciled all 250 coefficients and three historical aliases, and preserved zero founder approval or execution authorization. |
+| 0.47.0-working | 2026-07-28 | Added a typed metadata-only calibration-source scout: GSE60788 and GSE130397 are relevant but ineligible small RNA-seq replicate resources; two narrowly scoped inquiry drafts remain unsent. |
 | 0.46.0-working | 2026-07-28 | Added the checksum-bound technical-calibration acquisition contract: eight hard source requirements, four candidate paths, validation-leakage prohibitions, and a prospective power-analysis requirement; no source or route is selected and no data access or execution is authorized. |
 | 0.45.0-working | 2026-07-28 | Materialized the route-neutral historical PAM50 candidate with 250 verified coefficients, exact source hashes, and zero execution authorization. |
 | 0.44.0-working | 2026-07-28 | Added the checksum-bound method-dependency audit, verified the official `genefu` 2.44.0 centroid candidate, documented the unresolved fixed-reference and independent technical-error dependencies, and froze Routes A–C for founder review without authorizing molecular execution. |

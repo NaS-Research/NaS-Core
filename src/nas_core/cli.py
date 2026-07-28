@@ -142,7 +142,9 @@ from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.domain.technical_calibration import (
     load_technical_calibration_plan,
+    load_technical_calibration_scout,
     write_technical_calibration_schema,
+    write_technical_calibration_scout_schema,
 )
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.field_isolated_metadata import (
@@ -493,6 +495,17 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write the technical-calibration acquisition-plan JSON Schema",
     )
     reliability_calibration_schema.add_argument("path", type=Path)
+    reliability_calibration_scout_validate = reliability_commands.add_parser(
+        "calibration-scout-validate",
+        help="Validate a metadata-only calibration-source scout receipt",
+    )
+    reliability_calibration_scout_validate.add_argument("receipt_path", type=Path)
+    reliability_calibration_scout_validate.add_argument("plan_path", type=Path)
+    reliability_calibration_scout_schema = reliability_commands.add_parser(
+        "calibration-scout-schema",
+        help="Write the calibration-source scout-receipt JSON Schema",
+    )
+    reliability_calibration_scout_schema.add_argument("path", type=Path)
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1545,6 +1558,32 @@ def main(argv: Sequence[str] | None = None) -> int:
     ):
         write_technical_calibration_schema(args.path)
         print(f"Wrote technical-calibration schema: {args.path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-scout-validate"
+    ):
+        calibration_scout = load_technical_calibration_scout(args.receipt_path)
+        calibration_plan = load_technical_calibration_plan(args.plan_path)
+        TechnicalCalibrationPlanService().validate_scout(
+            calibration_scout,
+            calibration_plan,
+            plan_path=args.plan_path,
+        )
+        print(
+            "Technical-calibration scout receipt is valid: "
+            f"{len(calibration_scout.findings)} new findings; "
+            "zero data access, source selection, or external contact"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-scout-schema"
+    ):
+        write_technical_calibration_scout_schema(args.path)
+        print(f"Wrote technical-calibration scout schema: {args.path}")
         return 0
 
     if args.command == "plan" and args.plan_command == "schema":
