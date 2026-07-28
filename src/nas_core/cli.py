@@ -11,6 +11,7 @@ from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
+from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
 from nas_core.config import get_settings
 from nas_core.domain.advisory import (
     load_ai_advisory_policy,
@@ -121,6 +122,7 @@ from nas_core.domain.literature import (
 )
 from nas_core.domain.method_dependency import (
     load_method_dependency_audit,
+    load_pam50_centroid_candidate,
     write_centroid_candidate_import_receipt,
     write_centroid_candidate_schemas,
     write_method_dependency_audit_schema,
@@ -138,6 +140,10 @@ from nas_core.domain.reliability import (
 from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
+from nas_core.domain.technical_calibration import (
+    load_technical_calibration_plan,
+    write_technical_calibration_schema,
+)
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.field_isolated_metadata import (
     GDC_FILES_URL as FIELD_ISOLATED_GDC_FILES_URL,
@@ -475,6 +481,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_artifact_schema.add_argument("candidate_path", type=Path)
     reliability_artifact_schema.add_argument("receipt_path", type=Path)
+    reliability_calibration_validate = reliability_commands.add_parser(
+        "calibration-plan-validate",
+        help="Validate a technical-calibration acquisition plan",
+    )
+    reliability_calibration_validate.add_argument("plan_path", type=Path)
+    reliability_calibration_validate.add_argument("audit_path", type=Path)
+    reliability_calibration_validate.add_argument("candidate_path", type=Path)
+    reliability_calibration_schema = reliability_commands.add_parser(
+        "calibration-plan-schema",
+        help="Write the technical-calibration acquisition-plan JSON Schema",
+    )
+    reliability_calibration_schema.add_argument("path", type=Path)
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1497,6 +1515,36 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote centroid candidate schemas: "
             f"{args.candidate_path}, {args.receipt_path}"
         )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-plan-validate"
+    ):
+        calibration_plan = load_technical_calibration_plan(args.plan_path)
+        calibration_audit = load_method_dependency_audit(args.audit_path)
+        calibration_candidate = load_pam50_centroid_candidate(args.candidate_path)
+        TechnicalCalibrationPlanService().validate(
+            calibration_plan,
+            calibration_audit,
+            calibration_candidate,
+            audit_path=args.audit_path,
+            candidate_path=args.candidate_path,
+        )
+        print(
+            "Technical-calibration acquisition plan is valid: "
+            f"{calibration_plan.study_id} v{calibration_plan.plan_version}; "
+            f"{len(calibration_plan.source_candidates)} sources; "
+            "zero data access or execution authorization"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-plan-schema"
+    ):
+        write_technical_calibration_schema(args.path)
+        print(f"Wrote technical-calibration schema: {args.path}")
         return 0
 
     if args.command == "plan" and args.plan_command == "schema":

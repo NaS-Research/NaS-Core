@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.45.0-working`
+Manuscript version: `0.46.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -494,6 +494,26 @@ founder's choice among retaining historical PAM50, changing to MPAM50, or
 preserving the question while acquiring independent calibration.
 [method_dependency_audit_proposal_v1.0.0.yaml;
 FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md]
+
+A checksum-bound technical-calibration acquisition contract now makes that
+dependency executable as a governance gate. A calibration source must be
+independent of classifier training and external validation; provide lawful
+participant-level technical pairs and stable pair identifiers; distinguish
+measurement repeats from biological, spatial, longitudinal, or treatment-related
+change; cover the complete classifier panel; and expose sufficient assay,
+normalization, preprocessing, missingness, and quality-control metadata to freeze
+the measurement bridge. Minimum replicate-pair count and precision targets require
+a prospective power analysis.
+
+No assessed path currently meets every requirement. GSE96058 remains reserved for
+unchanged external validation. The Hurson et al. resource reports 144 same-RNA
+NanoString pairs but does not publicly expose participant-level values. No
+independent RNA-seq source has yet passed due diligence, and a prospective NaS
+experiment has not been designed or authorized. The contract therefore selects
+no source and authorizes no molecular access, outcome access, threshold selection,
+method execution, or external contact.
+[technical_calibration_acquisition_plan_v1.0.0.yaml;
+TECHNICAL_CALIBRATION_READINESS_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1319,6 +1339,8 @@ checks, and internal reviews are complete.
 | Version | Date | Change |
 |---|---|---|
 | 0.45.0-working | 2026-07-28 | Materialized the route-neutral `genefu` 2.44.0 PAM50 candidate through frozen importer revision `2843a6e`, reconciled all 250 coefficients and three historical aliases, and preserved zero founder approval or execution authorization. |
+| 0.46.0-working | 2026-07-28 | Added the checksum-bound technical-calibration acquisition contract: eight hard source requirements, four candidate paths, validation-leakage prohibitions, and a prospective power-analysis requirement; no source or route is selected and no data access or execution is authorized. |
+| 0.45.0-working | 2026-07-28 | Materialized the route-neutral historical PAM50 candidate with 250 verified coefficients, exact source hashes, and zero execution authorization. |
 | 0.44.0-working | 2026-07-28 | Added the checksum-bound method-dependency audit, verified the official `genefu` 2.44.0 centroid candidate, documented the unresolved fixed-reference and independent technical-error dependencies, and froze Routes A–C for founder review without authorizing molecular execution. |
 | 0.43.0-working | 2026-07-28 | Materialized the founder-authorized saturated synthesis, updated the 81/68/13 evidence state and novelty hold, and preserved zero authorization for molecular access, outcomes, clinical claims, or publication. |
 | 0.42.0-working | 2026-07-26 | Executed cumulative citation pass 3 from all 71 governed seeds, reduced 7,728 non-seed records to 593 new candidates, and froze advisory packets proposing seven inclusions and 586 exclusions with zero unclear; no founder decision or scientific conclusion was recorded. |

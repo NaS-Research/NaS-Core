@@ -137,6 +137,16 @@ founder approval, execution authorization, molecular access, and outcome access.
 This closes coefficient import but does not resolve the reference or calibration
 dependencies and does not select Route A, B, or C.
 
+Route-neutral technical-calibration planning is also complete. A typed acquisition
+contract is checksum-bound to the exact method audit and centroid candidate. It
+defines eight mandatory source requirements, four candidate paths, explicit
+validation-leakage prohibitions, and a prospective power-analysis requirement.
+No current source is eligible: GSE96058 is reserved for external validation,
+Hurson et al. lacks public participant-level replicate values, no independent
+RNA-seq source has passed due diligence, and a future NaS experiment does not yet
+exist. The plan selects no source and authorizes no data access, threshold
+selection, method execution, external contact, spending, or publication.
+
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
 activation queue, and exactly one ordered founder-authorized queue for every later
@@ -469,8 +479,9 @@ Current gate state:
 
 1. Record the founder's Route A, B, C, or redesign decision from
    `FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md`.
-2. If Route C is selected, import and coefficient-verify the exact `genefu`
-   centroid candidate, then prepare the independent calibration acquisition plan.
+2. Execute a bounded, metadata-only due-diligence search for an independent
+   RNA-seq technical-replicate calibration source and prepare an unsent data
+   availability inquiry; do not access molecular values or contact anyone.
 3. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
 4. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -500,6 +511,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Independent technical-calibration acquisition contract
+
+Implemented typed source dispositions, hard acceptance criteria, lineage and
+checksum validation, validation-leakage guards, CLI validation, JSON Schema, and
+regression tests. Four source paths are documented, but none is eligible.
+
+GSE96058 remains validation-only; the 144-pair NanoString resource lacks public
+participant-level values; independent RNA-seq discovery remains pending; and a
+future NaS experiment requires a separate protocol, power analysis, budget, and
+authorization. No source, pair count, threshold, or route was selected.
 
 ### 2026-07-28 — Historical PAM50 centroid candidate materialized
 

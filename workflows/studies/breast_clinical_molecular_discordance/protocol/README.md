@@ -65,6 +65,22 @@ finite coefficients. The candidate SHA-256 is
 `51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b`.
 Its receipt remains candidate-only, founder-unapproved, and non-executable.
 
+The route-neutral technical-calibration acquisition plan is now frozen at
+`technical_calibration_acquisition_plan_v1.0.0.yaml`. It rejects validation
+leakage, requires participant-level technical pairs with lawful access and stable
+pair identities, requires full classifier-panel and assay-process coverage, and
+defers any minimum pair count to a prospective power analysis. No listed source
+currently satisfies every criterion, and no source or founder route is selected.
+
+Validate the acquisition contract with:
+
+```console
+uv run nas-core reliability calibration-plan-validate \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/technical_calibration_acquisition_plan_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/method_dependency_audit_proposal_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/artifact-candidates/genefu_2.44.0_pam50_candidate_v1.0.0.yaml
+```
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console

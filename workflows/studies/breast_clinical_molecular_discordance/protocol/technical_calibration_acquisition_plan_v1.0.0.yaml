@@ -1,0 +1,149 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+method_dependency_audit_sha256: 595e32bf32af0a10f2960306318975704e9a998070ff3e05c0ae0a79eba48968
+centroid_candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+purpose: >-
+  Identify a lawful, classifier-independent, external-validation-independent paired
+  molecular resource capable of calibrating technical perturbations and a fixed
+  reliability-abstention rule without using outcomes or validation performance.
+prohibited_uses:
+  - Do not use GSE96058 to select perturbation distributions, margins, label-retention thresholds, or abstention thresholds.
+  - Do not use TCGA or GSE96058 outcomes to select or revise any reliability threshold.
+  - Do not infer participant-level error distributions from aggregate agreement percentages.
+  - Do not treat biological, spatial, longitudinal, or treatment-related pairs as technical replicates.
+  - Do not authorize molecular execution merely because a source is identified.
+acceptance_criteria:
+  - criterion_id: CAL-001
+    requirement: The calibration samples did not contribute to classifier or centroid training.
+    rationale: Training overlap would make the apparent technical performance optimistic.
+    mandatory: true
+    resolution_status: unresolved
+  - criterion_id: CAL-002
+    requirement: The calibration samples are absent from the locked external-validation population.
+    rationale: Reliability rules must be frozen before the external validation source is examined.
+    mandatory: true
+    resolution_status: unresolved
+  - criterion_id: CAL-003
+    requirement: Participant-level paired molecular values and stable pair identifiers are lawfully available.
+    rationale: Aggregate agreement cannot support perturbation distributions or patient-level abstention calibration.
+    mandatory: true
+    resolution_status: unresolved
+  - criterion_id: CAL-004
+    requirement: Each pair represents a declared technical repeat of the same RNA or same homogenized specimen.
+    rationale: Biological and spatial heterogeneity cannot be labeled measurement error.
+    mandatory: true
+    resolution_status: unresolved
+  - criterion_id: CAL-005
+    requirement: All governed classifier genes and required technical metadata are present without ambiguous mapping.
+    rationale: Partial panels or unresolved gene identities would change the declared classifier.
+    mandatory: true
+    resolution_status: unresolved
+  - criterion_id: CAL-006
+    requirement: Assay, normalization, preprocessing, missingness, QC, and replicate-generation procedures can be frozen.
+    rationale: Reproducibility requires an executable and auditable measurement bridge.
+    mandatory: true
+    resolution_status: unresolved
+  - criterion_id: CAL-007
+    requirement: Minimum pair count and precision targets are justified in a prospective power analysis.
+    rationale: A convenient pair count must not silently determine reliability claims.
+    mandatory: true
+    resolution_status: unresolved
+  - criterion_id: CAL-008
+    requirement: Threshold calibration excludes clinical outcomes and external-validation performance.
+    rationale: The reliability rule must measure technical evidence rather than optimize apparent clinical results.
+    mandatory: true
+    resolution_status: unresolved
+source_candidates:
+  - source_id: CALSRC-001
+    label: GSE96058 public RNA-seq technical replicates
+    evidence_ids:
+      - GEO:GSE96058
+    assay_or_platform: Illumina RNA sequencing
+    access_class: public_open
+    disposition: reserved_external_validation
+    independent_from_classifier_training: true
+    independent_from_external_validation: false
+    paired_measurements_reported: true
+    participant_level_molecular_values_available: true
+    stable_pair_identifiers_available: true
+    full_classifier_panel_confirmed: true
+    lawful_access_verified: true
+    candidate_for_threshold_calibration: false
+    limitations:
+      - This is the locked external-validation source and cannot calibrate the rule tested on itself.
+      - Its 136 replicate pairs may be used only for unchanged external validation after method lock.
+  - source_id: CALSRC-002
+    label: Hurson et al. 2023 UNC NanoString same-RNA replicate set
+    evidence_ids:
+      - PMID:36892725
+      - PMC:PMC10147733
+    assay_or_platform: NanoString nCounter or Prosigna research implementation
+    access_class: controlled
+    disposition: participant_level_data_unavailable
+    independent_from_classifier_training: true
+    independent_from_external_validation: true
+    paired_measurements_reported: true
+    participant_level_molecular_values_available: false
+    stable_pair_identifiers_available: false
+    full_classifier_panel_confirmed: true
+    lawful_access_verified: false
+    candidate_for_threshold_calibration: false
+    limitations:
+      - The article reports 144 same-RNA pairs and aggregate subtype agreement.
+      - The data-availability statement does not provide public participant-level replicate values.
+      - The NanoString measurement distribution is not automatically interchangeable with RNA sequencing.
+  - source_id: CALSRC-003
+    label: Independent public or permissioned RNA-seq replicate resource
+    evidence_ids:
+      - SEARCH:independent-rnaseq-replicates
+    assay_or_platform: Bulk RNA sequencing, exact platform and preparation unresolved
+    access_class: licensed
+    disposition: requires_due_diligence
+    independent_from_classifier_training: false
+    independent_from_external_validation: false
+    paired_measurements_reported: false
+    participant_level_molecular_values_available: false
+    stable_pair_identifiers_available: false
+    full_classifier_panel_confirmed: false
+    lawful_access_verified: false
+    candidate_for_threshold_calibration: false
+    limitations:
+      - No qualifying source has yet passed identity, lineage, access, panel, and replicate-design checks.
+      - Any candidate must be screened against classifier-training and external-validation membership.
+  - source_id: CALSRC-004
+    label: Prospective NaS same-RNA replicate experiment
+    evidence_ids:
+      - NAS:future-calibration-experiment
+    assay_or_platform: Bulk RNA sequencing under a future locked laboratory protocol
+    access_class: not_yet_created
+    disposition: future_nas_experiment
+    independent_from_classifier_training: true
+    independent_from_external_validation: true
+    paired_measurements_reported: false
+    participant_level_molecular_values_available: false
+    stable_pair_identifiers_available: false
+    full_classifier_panel_confirmed: true
+    lawful_access_verified: false
+    candidate_for_threshold_calibration: false
+    limitations:
+      - Requires prospective protocol, laboratory access, budget, governance review, and power analysis.
+      - No specimens, measurements, or execution authorization currently exist.
+selected_source_id: null
+founder_route_selected: false
+power_analysis_required_before_minimum_pair_count: true
+next_actions:
+  - Preserve GSE96058 as validation-only unless the founder formally redesigns the study.
+  - Prepare but do not send a data-access inquiry for the Hurson et al. participant-level replicate values and metadata.
+  - Run a bounded source-discovery audit for independent RNA-seq technical replicate resources.
+  - Draft a prospective NaS replicate-study design and power-analysis inputs without initiating procurement or laboratory work.
+  - Re-evaluate eligibility only after a founder method route is selected.
+patient_level_data_accessed: false
+molecular_values_accessed: false
+outcome_data_accessed: false
+threshold_selection_authorized: false
+method_execution_authorized: false
+clinical_use_authorized: false
+publication_authorized: false
