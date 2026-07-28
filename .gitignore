@@ -30,3 +30,6 @@ notebooks/.ipynb_checkpoints/
 
 # Local object-store and database volumes.
 .local/
+
+# Recoverable local Git-metadata backups must never enter repository history.
+.git.corrupt-backup-*/

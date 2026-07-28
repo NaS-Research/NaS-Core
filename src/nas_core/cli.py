@@ -12,6 +12,7 @@ from nas_core.analysis.calibration_precision import (
 from nas_core.analysis.cohort import CohortBuildService
 from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
+from nas_core.analysis.method_route import MethodRouteActivationService
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
@@ -129,10 +130,13 @@ from nas_core.domain.literature import (
 )
 from nas_core.domain.method_dependency import (
     load_method_dependency_audit,
+    load_method_route_founder_decision,
     load_pam50_centroid_candidate,
     write_centroid_candidate_import_receipt,
     write_centroid_candidate_schemas,
     write_method_dependency_audit_schema,
+    write_method_route_activation,
+    write_method_route_schemas,
     write_pam50_centroid_candidate,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
@@ -490,6 +494,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_artifact_schema.add_argument("candidate_path", type=Path)
     reliability_artifact_schema.add_argument("receipt_path", type=Path)
+    reliability_route_activate = reliability_commands.add_parser(
+        "route-activate",
+        help="Activate a checksum-bound founder-selected method route",
+    )
+    reliability_route_activate.add_argument("decision_path", type=Path)
+    reliability_route_activate.add_argument("audit_path", type=Path)
+    reliability_route_activate.add_argument("decision_packet_path", type=Path)
+    reliability_route_activate.add_argument("candidate_path", type=Path)
+    reliability_route_activate.add_argument("calibration_plan_path", type=Path)
+    reliability_route_activate.add_argument("--output-path", required=True, type=Path)
+    reliability_route_activate.add_argument("--code-revision", required=True)
+    reliability_route_activate.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the route activation receipt",
+    )
+    reliability_route_schema = reliability_commands.add_parser(
+        "route-schema",
+        help="Write method-route founder-decision and activation schemas",
+    )
+    reliability_route_schema.add_argument("decision_path", type=Path)
+    reliability_route_schema.add_argument("activation_path", type=Path)
     reliability_calibration_validate = reliability_commands.add_parser(
         "calibration-plan-validate",
         help="Validate a technical-calibration acquisition plan",
@@ -1551,6 +1577,57 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             "Wrote centroid candidate schemas: "
             f"{args.candidate_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "route-activate"
+    ):
+        route_decision = load_method_route_founder_decision(args.decision_path)
+        route_audit = load_method_dependency_audit(args.audit_path)
+        route_candidate = load_pam50_centroid_candidate(args.candidate_path)
+        route_calibration_plan = load_technical_calibration_plan(
+            args.calibration_plan_path
+        )
+        route_activation = MethodRouteActivationService().activate(
+            route_decision,
+            route_audit,
+            route_candidate,
+            route_calibration_plan,
+            decision_path=args.decision_path,
+            audit_path=args.audit_path,
+            decision_packet_path=args.decision_packet_path,
+            candidate_path=args.candidate_path,
+            calibration_plan_path=args.calibration_plan_path,
+            code_revision=args.code_revision,
+            activated_at=datetime.now(UTC),
+        )
+        if not args.execute:
+            print(
+                f"Method route verified: {route_activation.selected_route_id}; "
+                f"status={route_activation.activation_status.value}; "
+                "zero data access or execution authorization"
+            )
+            print("Dry run only; no route activation receipt was written.")
+            return 0
+        if args.output_path.exists():
+            raise FileExistsError("route activation output path must be new")
+        write_method_route_activation(args.output_path, route_activation)
+        print(f"Activated governed method route: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "route-schema"
+    ):
+        write_method_route_schemas(
+            args.decision_path,
+            args.activation_path,
+        )
+        print(
+            "Wrote method route schemas: "
+            f"{args.decision_path}, {args.activation_path}"
         )
         return 0
 

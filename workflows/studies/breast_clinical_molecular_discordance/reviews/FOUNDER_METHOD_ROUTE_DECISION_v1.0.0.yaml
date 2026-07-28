@@ -1,0 +1,21 @@
+schema_version: 1.0.0
+decision_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+method_dependency_audit_sha256: 595e32bf32af0a10f2960306318975704e9a998070ff3e05c0ae0a79eba48968
+decision_packet_sha256: 2a71e31f5f568e0aa7e183ee7c7a0a8227abb2e225f0deace6e203721326c065
+selected_route_id: ROUTE-C
+confirmation_statement: I approve NAS-BRCA-002 method dependency Route C as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-28T20:39:08Z'
+founder_authorized: true
+founder_role_conflict_disclosed: true
+patient_level_data_access_authorized: false
+molecular_data_access_authorized: false
+outcome_data_access_authorized: false
+method_execution_authorized: false
+clinical_use_authorized: false
+publication_authorized: false

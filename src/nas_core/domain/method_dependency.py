@@ -40,6 +40,12 @@ class RouteRecommendation(StrEnum):
     REJECT = "reject"
 
 
+class MethodRouteActivationStatus(StrEnum):
+    DEPENDENCIES_PENDING = "dependencies_pending"
+    QUESTION_REDESIGN_REQUIRED = "question_redesign_required"
+    INDEPENDENT_CALIBRATION_HOLD = "independent_calibration_hold"
+
+
 class ArtifactCandidate(MethodDependencyModel):
     artifact_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
     role: str = Field(min_length=1)
@@ -241,6 +247,134 @@ class CentroidCandidateImportReceipt(MethodDependencyModel):
         return self
 
 
+def method_route_confirmation_statement(study_id: str, route_id: str) -> str:
+    route_label = route_id.removeprefix("ROUTE-")
+    return f"I approve {study_id} method dependency Route {route_label} as written."
+
+
+class MethodRouteFounderDecision(MethodDependencyModel):
+    schema_version: str = "1.0.0"
+    decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    method_dependency_audit_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    decision_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    selected_route_id: str = Field(pattern=r"^ROUTE-[A-Z]$")
+    confirmation_statement: str
+    founder_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    founder_name: str = Field(min_length=1)
+    reviewer_role: str = Field(pattern=r"^founder_internal_reviewer$")
+    confirmed_at: datetime
+    founder_authorized: bool
+    founder_role_conflict_disclosed: bool
+    patient_level_data_access_authorized: bool
+    molecular_data_access_authorized: bool
+    outcome_data_access_authorized: bool
+    method_execution_authorized: bool
+    clinical_use_authorized: bool
+    publication_authorized: bool
+
+    @model_validator(mode="after")
+    def validate_founder_decision(self) -> MethodRouteFounderDecision:
+        expected = method_route_confirmation_statement(
+            self.study_id,
+            self.selected_route_id,
+        )
+        if self.confirmation_statement != expected:
+            raise ValueError("method-route founder confirmation statement is not exact")
+        if not self.founder_authorized or not self.founder_role_conflict_disclosed:
+            raise ValueError(
+                "method-route decision requires disclosed founder authority"
+            )
+        if any(
+            (
+                self.patient_level_data_access_authorized,
+                self.molecular_data_access_authorized,
+                self.outcome_data_access_authorized,
+                self.method_execution_authorized,
+                self.clinical_use_authorized,
+                self.publication_authorized,
+            )
+        ):
+            raise ValueError(
+                "route selection cannot itself authorize data, execution, "
+                "clinical use, or publication"
+            )
+        return self
+
+
+class MethodRouteActivationReceipt(MethodDependencyModel):
+    schema_version: str = "1.0.0"
+    activation_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    selected_route_id: str = Field(pattern=r"^ROUTE-[A-Z]$")
+    activation_status: MethodRouteActivationStatus
+    method_dependency_audit_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    founder_decision_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    centroid_candidate_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    calibration_acquisition_plan_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    activated_at: datetime
+    question_preserved: bool
+    centroid_candidate_staged: bool
+    calibration_acquisition_active: bool
+    founder_route_selected: bool
+    calibration_source_selected: bool
+    method_locked: bool
+    fixed_reference_resolved: bool
+    technical_calibration_resolved: bool
+    thresholds_resolved: bool
+    patient_level_data_accessed: bool
+    molecular_values_accessed: bool
+    outcome_data_accessed: bool
+    method_execution_authorized: bool
+    clinical_use_authorized: bool
+    publication_authorized: bool
+    next_required_actions: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_activation_boundary(self) -> MethodRouteActivationReceipt:
+        if (
+            not self.founder_route_selected
+            or not self.centroid_candidate_staged
+            or not self.calibration_acquisition_active
+        ):
+            raise ValueError(
+                "route activation must stage its governed preparation artifacts"
+            )
+        if self.selected_route_id == "ROUTE-C" and (
+            self.activation_status
+            is not MethodRouteActivationStatus.INDEPENDENT_CALIBRATION_HOLD
+            or not self.question_preserved
+        ):
+            raise ValueError(
+                "Route C must preserve the question under calibration hold"
+            )
+        if any(
+            (
+                self.calibration_source_selected,
+                self.method_locked,
+                self.fixed_reference_resolved,
+                self.technical_calibration_resolved,
+                self.thresholds_resolved,
+                self.patient_level_data_accessed,
+                self.molecular_values_accessed,
+                self.outcome_data_accessed,
+                self.method_execution_authorized,
+                self.clinical_use_authorized,
+                self.publication_authorized,
+            )
+        ):
+            raise ValueError(
+                "dependency-pending route activation cannot claim resolved "
+                "method state or authorize execution"
+            )
+        return self
+
+
 def load_method_dependency_audit(path: Path) -> MethodDependencyAuditProposal:
     return MethodDependencyAuditProposal.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -263,6 +397,20 @@ def load_centroid_candidate_import_receipt(
     )
 
 
+def load_method_route_founder_decision(path: Path) -> MethodRouteFounderDecision:
+    return MethodRouteFounderDecision.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_method_route_activation(
+    path: Path,
+) -> MethodRouteActivationReceipt:
+    return MethodRouteActivationReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_pam50_centroid_candidate(
     path: Path,
     artifact: Pam50CentroidCandidateArtifact,
@@ -273,6 +421,13 @@ def write_pam50_centroid_candidate(
 def write_centroid_candidate_import_receipt(
     path: Path,
     receipt: CentroidCandidateImportReceipt,
+) -> None:
+    _write_yaml_exclusive(path, receipt)
+
+
+def write_method_route_activation(
+    path: Path,
+    receipt: MethodRouteActivationReceipt,
 ) -> None:
     _write_yaml_exclusive(path, receipt)
 
@@ -308,6 +463,21 @@ def write_centroid_candidate_schemas(
     for path, model in (
         (candidate_path, Pam50CentroidCandidateArtifact),
         (receipt_path, CentroidCandidateImportReceipt),
+    ):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(model.model_json_schema(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+
+def write_method_route_schemas(
+    decision_path: Path,
+    activation_path: Path,
+) -> None:
+    for path, model in (
+        (decision_path, MethodRouteFounderDecision),
+        (activation_path, MethodRouteActivationReceipt),
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(
