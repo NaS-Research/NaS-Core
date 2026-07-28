@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.44.0-working`
+Manuscript version: `0.45.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -475,6 +475,14 @@ Dependency audit `1.0.0` identifies one verified centroid candidate: official
 Bioconductor `genefu` 2.44.0 distributes the historical unscaled PAM50 model
 under Artistic-2.0, and both the release archive and embedded model member are
 checksummed. This resolves candidate provenance, not method approval.
+
+The exact package member was subsequently imported through frozen revision
+`2843a6e`. Import validation reconciled all 250 finite coefficients, five subtype
+vectors, 50 canonical genes, and the three prespecified historical aliases. The
+canonical candidate SHA-256 is
+`51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b`.
+This is coefficient-conformance evidence only; the artifact remains
+founder-unapproved and cannot execute on study data.
 
 The historical design still lacks an independently validated platform-matched
 centering reference and independent RNA-seq technical-error calibration.
@@ -1310,6 +1318,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.45.0-working | 2026-07-28 | Materialized the route-neutral `genefu` 2.44.0 PAM50 candidate through frozen importer revision `2843a6e`, reconciled all 250 coefficients and three historical aliases, and preserved zero founder approval or execution authorization. |
 | 0.44.0-working | 2026-07-28 | Added the checksum-bound method-dependency audit, verified the official `genefu` 2.44.0 centroid candidate, documented the unresolved fixed-reference and independent technical-error dependencies, and froze Routes A–C for founder review without authorizing molecular execution. |
 | 0.43.0-working | 2026-07-28 | Materialized the founder-authorized saturated synthesis, updated the 81/68/13 evidence state and novelty hold, and preserved zero authorization for molecular access, outcomes, clinical claims, or publication. |
 | 0.42.0-working | 2026-07-26 | Executed cumulative citation pass 3 from all 71 governed seeds, reduced 7,728 non-seed records to 593 new candidates, and froze advisory packets proposing seven inclusions and 586 exclusions with zero unclear; no founder decision or scientific conclusion was recorded. |

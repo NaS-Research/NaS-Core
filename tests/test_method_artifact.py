@@ -1,5 +1,6 @@
 import hashlib
 import io
+import json
 import tarfile
 from pathlib import Path
 
@@ -11,11 +12,15 @@ from nas_core.analysis.method_artifact import (
     Pam50CandidateImportService,
 )
 from nas_core.domain.method_dependency import (
+    CentroidCandidateImportReceipt,
     MethodDependencyAuditProposal,
     Pam50CentroidCandidateArtifact,
+    load_centroid_candidate_import_receipt,
     load_method_dependency_audit,
+    load_pam50_centroid_candidate,
 )
 from nas_core.domain.reliability import PAM50_HISTORICAL_GENES
+from nas_core.ingestion.gdc import sha256
 
 ROOT = Path(__file__).parents[1]
 AUDIT = (
@@ -25,6 +30,13 @@ AUDIT = (
     / "breast_clinical_molecular_discordance"
     / "protocol"
     / "method_dependency_audit_proposal_v1.0.0.yaml"
+)
+ARTIFACT_DIR = AUDIT.parent / "artifact-candidates"
+CANDIDATE = ARTIFACT_DIR / "genefu_2.44.0_pam50_candidate_v1.0.0.yaml"
+RECEIPT = ARTIFACT_DIR / "genefu_2.44.0_pam50_import_receipt_v1.0.0.yaml"
+CANDIDATE_SCHEMA = ROOT / "workflows" / "pam50_centroid_candidate.schema.json"
+RECEIPT_SCHEMA = (
+    ROOT / "workflows" / "centroid_candidate_import_receipt.schema.json"
 )
 MEMBER_PATH = "genefu/inst/extdata/pam50_model.csv"
 
@@ -119,6 +131,39 @@ def test_importer_parses_exact_panel_and_remains_nonexecuting(
     assert artifact.candidate_only is True
     assert artifact.founder_approved is False
     assert artifact.method_execution_authorized is False
+
+
+def test_checked_in_candidate_is_exactly_bound_and_nonexecuting() -> None:
+    artifact = load_pam50_centroid_candidate(CANDIDATE)
+    receipt = load_centroid_candidate_import_receipt(RECEIPT)
+
+    assert receipt.method_dependency_audit_sha256 == sha256(AUDIT.read_bytes())
+    assert receipt.candidate_artifact_sha256 == sha256(CANDIDATE.read_bytes())
+    assert receipt.candidate_artifact_size_bytes == len(CANDIDATE.read_bytes())
+    assert receipt.coefficient_count == 250
+    assert artifact.centroids["Basal-like"]["ACTR3B"] == pytest.approx(
+        0.718331891
+    )
+    assert artifact.centroids["Luminal A"]["ESR1"] == pytest.approx(2.161411882)
+    assert artifact.centroids["Normal-like"]["UBE2T"] == pytest.approx(
+        -0.952381005
+    )
+    assert artifact.candidate_only is True
+    assert artifact.founder_approved is False
+    assert artifact.method_execution_authorized is False
+    assert receipt.candidate_only is True
+    assert receipt.method_execution_authorized is False
+    assert receipt.molecular_data_accessed is False
+    assert receipt.outcome_data_accessed is False
+
+
+def test_checked_in_candidate_schemas_match_runtime_models() -> None:
+    assert json.loads(CANDIDATE_SCHEMA.read_text(encoding="utf-8")) == (
+        Pam50CentroidCandidateArtifact.model_json_schema()
+    )
+    assert json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8")) == (
+        CentroidCandidateImportReceipt.model_json_schema()
+    )
 
 
 def test_importer_rejects_distribution_checksum_drift(tmp_path: Path) -> None:

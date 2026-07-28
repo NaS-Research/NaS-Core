@@ -299,3 +299,18 @@ def write_method_dependency_audit_schema(path: Path) -> None:
         + "\n",
         encoding="utf-8",
     )
+
+
+def write_centroid_candidate_schemas(
+    candidate_path: Path,
+    receipt_path: Path,
+) -> None:
+    for path, model in (
+        (candidate_path, Pam50CentroidCandidateArtifact),
+        (receipt_path, CentroidCandidateImportReceipt),
+    ):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(model.model_json_schema(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )

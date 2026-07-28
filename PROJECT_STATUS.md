@@ -129,6 +129,14 @@ removing centering while materially changing the question and leaving calibratio
 unresolved. Recommended Route C preserves question `0.3.0`, stages centroid QA,
 and holds molecular execution while acquiring genuinely independent calibration.
 
+Route-neutral centroid QA is now complete. Frozen importer revision `2843a6e`
+verified the official source archive and member hashes, applied exactly three
+historical aliases, and materialized five 50-gene subtype vectors with 250 finite
+coefficients. Candidate SHA-256 is `51a1b186…8c2b`. The receipt records zero
+founder approval, execution authorization, molecular access, and outcome access.
+This closes coefficient import but does not resolve the reference or calibration
+dependencies and does not select Route A, B, or C.
+
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
 activation queue, and exactly one ordered founder-authorized queue for every later
@@ -492,6 +500,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Historical PAM50 centroid candidate materialized
+
+Implemented a fail-closed official-package importer with distribution and member
+hash verification, safe member extraction, exact metadata checks, historical
+alias canonicalization, five-by-fifty structural validation, finite-coefficient
+validation, immutable receipt generation, and explicit nonauthorization.
+
+The first real import correctly failed on historical aliases before writing any
+artifact. Revision `2843a6e` added collision-checked canonicalization and then
+materialized all 250 coefficients under candidate SHA-256 `51a1b186…8c2b`.
 
 ### 2026-07-28 — Method dependencies audited and routes frozen
 

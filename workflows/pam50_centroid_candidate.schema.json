@@ -1,0 +1,130 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Artifact Version",
+      "type": "string"
+    },
+    "candidate_only": {
+      "title": "Candidate Only",
+      "type": "boolean"
+    },
+    "centroids": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "number"
+        },
+        "type": "object"
+      },
+      "title": "Centroids",
+      "type": "object"
+    },
+    "expression_standardization": {
+      "pattern": "^none$",
+      "title": "Expression Standardization",
+      "type": "string"
+    },
+    "founder_approved": {
+      "title": "Founder Approved",
+      "type": "boolean"
+    },
+    "gene_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50,
+      "minItems": 50,
+      "title": "Gene Order",
+      "type": "array"
+    },
+    "historical_aliases": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Historical Aliases",
+      "type": "object"
+    },
+    "license_id": {
+      "minLength": 1,
+      "title": "License Id",
+      "type": "string"
+    },
+    "method_centroids": {
+      "pattern": "^mean$",
+      "title": "Method Centroids",
+      "type": "string"
+    },
+    "method_correlation": {
+      "pattern": "^spearman$",
+      "title": "Method Correlation",
+      "type": "string"
+    },
+    "method_execution_authorized": {
+      "title": "Method Execution Authorized",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_distribution_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Distribution Sha256",
+      "type": "string"
+    },
+    "source_distribution_version": {
+      "minLength": 1,
+      "title": "Source Distribution Version",
+      "type": "string"
+    },
+    "source_member_path": {
+      "minLength": 1,
+      "title": "Source Member Path",
+      "type": "string"
+    },
+    "source_member_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Member Sha256",
+      "type": "string"
+    },
+    "source_notice": {
+      "minLength": 1,
+      "title": "Source Notice",
+      "type": "string"
+    },
+    "source_url": {
+      "minLength": 1,
+      "title": "Source Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_version",
+    "artifact_id",
+    "source_url",
+    "source_distribution_version",
+    "source_distribution_sha256",
+    "source_member_path",
+    "source_member_sha256",
+    "license_id",
+    "source_notice",
+    "method_correlation",
+    "method_centroids",
+    "expression_standardization",
+    "gene_order",
+    "historical_aliases",
+    "centroids",
+    "candidate_only",
+    "founder_approved",
+    "method_execution_authorized"
+  ],
+  "title": "Pam50CentroidCandidateArtifact",
+  "type": "object"
+}

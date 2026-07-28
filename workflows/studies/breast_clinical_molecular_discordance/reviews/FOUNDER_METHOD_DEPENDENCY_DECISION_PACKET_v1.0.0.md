@@ -26,6 +26,14 @@ embedded `genefu/inst/extdata/pam50_model.csv` SHA-256 is
 `a189eb07569ee25b9aebd189c466faab4e4886559bae97ee5ad8e72a3c0aba4e`.
 This is a verified candidate, not yet an approved NaS method artifact.
 
+Route-neutral artifact QA has since materialized the canonical candidate under
+frozen importer revision `2843a6e`. The candidate contains exactly 250 finite
+coefficients across five subtype vectors and 50 canonical genes. It applies only
+the three prespecified historical aliases. Candidate artifact SHA-256 is
+`51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b`.
+The import receipt records zero molecular or outcome access and zero method
+execution authorization. This additional verification does not select a route.
+
 ## What remains unresolved
 
 The historical-PAM50 design still lacks:

@@ -122,6 +122,7 @@ from nas_core.domain.literature import (
 from nas_core.domain.method_dependency import (
     load_method_dependency_audit,
     write_centroid_candidate_import_receipt,
+    write_centroid_candidate_schemas,
     write_method_dependency_audit_schema,
     write_pam50_centroid_candidate,
 )
@@ -468,6 +469,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Persist the candidate artifact and import receipt",
     )
+    reliability_artifact_schema = reliability_commands.add_parser(
+        "artifact-schema",
+        help="Write PAM50 candidate and import-receipt JSON Schemas",
+    )
+    reliability_artifact_schema.add_argument("candidate_path", type=Path)
+    reliability_artifact_schema.add_argument("receipt_path", type=Path)
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1476,6 +1483,20 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"Imported non-executable PAM50 candidate: {args.output_path}"
         )
         print(f"Wrote candidate import receipt: {args.receipt_path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "artifact-schema"
+    ):
+        write_centroid_candidate_schemas(
+            args.candidate_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote centroid candidate schemas: "
+            f"{args.candidate_path}, {args.receipt_path}"
+        )
         return 0
 
     if args.command == "plan" and args.plan_command == "schema":

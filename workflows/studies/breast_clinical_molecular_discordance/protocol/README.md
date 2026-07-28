@@ -58,6 +58,13 @@ recommends holding molecular execution and acquiring independent calibration.
 The material choice is frozen in
 `reviews/FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md`.
 
+The route-neutral candidate import is complete. Frozen importer revision
+`2843a6e` verified both official source hashes, canonicalized only `CDCA1` to
+`NUF2`, `KNTC2` to `NDC80`, and `ORC6L` to `ORC6`, and materialized exactly 250
+finite coefficients. The candidate SHA-256 is
+`51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b`.
+Its receipt remains candidate-only, founder-unapproved, and non-executable.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console
