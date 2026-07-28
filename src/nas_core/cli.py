@@ -1,11 +1,13 @@
 import argparse
 import json
 from collections.abc import Sequence
+from datetime import UTC, datetime
 from pathlib import Path
 
 from nas_core.ai.gateway import OpenAIScreeningGateway
 from nas_core.ai.screening import AIAdvisoryScreeningService
 from nas_core.analysis.cohort import CohortBuildService
+from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
@@ -119,7 +121,9 @@ from nas_core.domain.literature import (
 )
 from nas_core.domain.method_dependency import (
     load_method_dependency_audit,
+    write_centroid_candidate_import_receipt,
     write_method_dependency_audit_schema,
+    write_pam50_centroid_candidate,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.reliability import (
@@ -443,6 +447,27 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write the method-dependency audit JSON Schema",
     )
     reliability_audit_schema.add_argument("path", type=Path)
+    reliability_artifact_import = reliability_commands.add_parser(
+        "artifact-import-candidate",
+        help="Import a checksum-bound non-executable PAM50 centroid candidate",
+    )
+    reliability_artifact_import.add_argument("audit_path", type=Path)
+    reliability_artifact_import.add_argument("package_path", type=Path)
+    reliability_artifact_import.add_argument("--artifact-id", required=True)
+    reliability_artifact_import.add_argument("--output-path", required=True, type=Path)
+    reliability_artifact_import.add_argument("--receipt-path", required=True, type=Path)
+    reliability_artifact_import.add_argument("--code-revision", required=True)
+    reliability_artifact_import.add_argument(
+        "--candidate-only",
+        action="store_true",
+        required=True,
+        help="Acknowledge that import cannot approve or execute the method",
+    )
+    reliability_artifact_import.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the candidate artifact and import receipt",
+    )
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1408,6 +1433,49 @@ def main(argv: Sequence[str] | None = None) -> int:
     ):
         write_method_dependency_audit_schema(args.path)
         print(f"Wrote method dependency audit schema: {args.path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "artifact-import-candidate"
+    ):
+        artifact_audit = load_method_dependency_audit(args.audit_path)
+        artifact_service = Pam50CandidateImportService()
+        centroid_candidate = artifact_service.parse(
+            artifact_audit,
+            args.package_path,
+            artifact_id=args.artifact_id,
+        )
+        if not args.execute:
+            print(
+                f"PAM50 candidate verified: {centroid_candidate.artifact_id}, "
+                f"{len(centroid_candidate.centroids)} subtypes, "
+                f"{len(centroid_candidate.gene_order)} genes, "
+                "zero execution authorization"
+            )
+            print("Dry run only; no candidate artifact or receipt was written.")
+            return 0
+        if args.output_path.exists() or args.receipt_path.exists():
+            raise FileExistsError(
+                "candidate output and receipt paths must both be new"
+            )
+        write_pam50_centroid_candidate(args.output_path, centroid_candidate)
+        import_receipt = artifact_service.receipt(
+            artifact_audit,
+            audit_path=args.audit_path,
+            candidate=centroid_candidate,
+            candidate_path=args.output_path,
+            code_revision=args.code_revision,
+            imported_at=datetime.now(UTC),
+        )
+        write_centroid_candidate_import_receipt(
+            args.receipt_path,
+            import_receipt,
+        )
+        print(
+            f"Imported non-executable PAM50 candidate: {args.output_path}"
+        )
+        print(f"Wrote candidate import receipt: {args.receipt_path}")
         return 0
 
     if args.command == "plan" and args.plan_command == "schema":

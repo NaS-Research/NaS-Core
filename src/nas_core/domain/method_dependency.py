@@ -3,12 +3,18 @@
 from __future__ import annotations
 
 import json
+import math
 from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+from nas_core.domain.reliability import (
+    PAM50_HISTORICAL_ALIASES,
+    PAM50_HISTORICAL_GENES,
+)
 
 
 class MethodDependencyModel(BaseModel):
@@ -149,10 +155,137 @@ class MethodDependencyAuditProposal(MethodDependencyModel):
         return self
 
 
+class Pam50CentroidCandidateArtifact(MethodDependencyModel):
+    schema_version: str = "1.0.0"
+    artifact_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    artifact_id: str = Field(pattern=r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+    source_url: str = Field(min_length=1)
+    source_distribution_version: str = Field(min_length=1)
+    source_distribution_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    source_member_path: str = Field(min_length=1)
+    source_member_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    license_id: str = Field(min_length=1)
+    source_notice: str = Field(min_length=1)
+    method_correlation: str = Field(pattern=r"^spearman$")
+    method_centroids: str = Field(pattern=r"^mean$")
+    expression_standardization: str = Field(pattern=r"^none$")
+    gene_order: list[str] = Field(min_length=50, max_length=50)
+    historical_aliases: dict[str, str]
+    centroids: dict[str, dict[str, float]]
+    candidate_only: bool
+    founder_approved: bool
+    method_execution_authorized: bool
+
+    @model_validator(mode="after")
+    def validate_centroid_candidate(self) -> Pam50CentroidCandidateArtifact:
+        if len(self.gene_order) != len(set(self.gene_order)):
+            raise ValueError("PAM50 candidate gene order must be unique")
+        if set(self.gene_order) != PAM50_HISTORICAL_GENES:
+            raise ValueError("PAM50 candidate must contain the historical 50-gene panel")
+        if self.historical_aliases != PAM50_HISTORICAL_ALIASES:
+            raise ValueError("PAM50 candidate aliases must match the governed mapping")
+        expected = {
+            "Luminal A",
+            "Luminal B",
+            "HER2-enriched",
+            "Basal-like",
+            "Normal-like",
+        }
+        if set(self.centroids) != expected:
+            raise ValueError("PAM50 candidate must contain exactly five governed subtypes")
+        for values in self.centroids.values():
+            if set(values) != PAM50_HISTORICAL_GENES:
+                raise ValueError("each PAM50 centroid must contain exactly 50 genes")
+            if any(not math.isfinite(value) for value in values.values()):
+                raise ValueError("PAM50 centroid coefficients must be finite")
+        if not self.candidate_only or self.founder_approved:
+            raise ValueError("an imported candidate cannot record founder approval")
+        if self.method_execution_authorized:
+            raise ValueError("a centroid candidate cannot authorize method execution")
+        return self
+
+
+class CentroidCandidateImportReceipt(MethodDependencyModel):
+    schema_version: str = "1.0.0"
+    receipt_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    method_dependency_audit_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    source_distribution_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    source_member_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    candidate_artifact_path: str = Field(min_length=1)
+    candidate_artifact_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    candidate_artifact_size_bytes: int = Field(gt=0)
+    coefficient_count: int = Field(ge=250, le=250)
+    gene_count: int = Field(ge=50, le=50)
+    subtype_count: int = Field(ge=5, le=5)
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    imported_at: datetime
+    candidate_only: bool
+    founder_approved: bool
+    method_execution_authorized: bool
+    molecular_data_accessed: bool
+    outcome_data_accessed: bool
+
+    @model_validator(mode="after")
+    def validate_receipt_boundary(self) -> CentroidCandidateImportReceipt:
+        if (
+            not self.candidate_only
+            or self.founder_approved
+            or self.method_execution_authorized
+            or self.molecular_data_accessed
+            or self.outcome_data_accessed
+        ):
+            raise ValueError("candidate import receipt cannot authorize or access study data")
+        return self
+
+
 def load_method_dependency_audit(path: Path) -> MethodDependencyAuditProposal:
     return MethodDependencyAuditProposal.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
+
+
+def load_pam50_centroid_candidate(
+    path: Path,
+) -> Pam50CentroidCandidateArtifact:
+    return Pam50CentroidCandidateArtifact.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_centroid_candidate_import_receipt(
+    path: Path,
+) -> CentroidCandidateImportReceipt:
+    return CentroidCandidateImportReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_pam50_centroid_candidate(
+    path: Path,
+    artifact: Pam50CentroidCandidateArtifact,
+) -> None:
+    _write_yaml_exclusive(path, artifact)
+
+
+def write_centroid_candidate_import_receipt(
+    path: Path,
+    receipt: CentroidCandidateImportReceipt,
+) -> None:
+    _write_yaml_exclusive(path, receipt)
+
+
+def _write_yaml_exclusive(path: Path, model: MethodDependencyModel) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = yaml.safe_dump(
+        model.model_dump(mode="json"),
+        sort_keys=False,
+        width=100,
+    )
+    with path.open("x", encoding="utf-8") as destination:
+        destination.write(payload)
 
 
 def write_method_dependency_audit_schema(path: Path) -> None:
