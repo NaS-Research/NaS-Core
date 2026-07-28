@@ -31,6 +31,11 @@ MEMBER_PATH = "genefu/inst/extdata/pam50_model.csv"
 
 def _member_bytes() -> bytes:
     genes = sorted(PAM50_HISTORICAL_GENES)
+    source_aliases = {
+        "NUF2": "CDCA1",
+        "NDC80": "KNTC2",
+        "ORC6": "ORC6L",
+    }
     lines = [
         "# Test fixture. All rights reserved.",
         "# method.cor: spearman",
@@ -47,7 +52,13 @@ def _member_bytes() -> bytes:
     lines.extend(
         [
             '"probe","probe.centroids","EntrezGene.ID"',
-            *[f'"{gene}","{gene}","{index + 1}"' for index, gene in enumerate(genes)],
+            *[
+                (
+                    f'"{source_aliases.get(gene, gene)}",'
+                    f'"{source_aliases.get(gene, gene)}","{index + 1}"'
+                )
+                for index, gene in enumerate(genes)
+            ],
         ]
     )
     return ("\n".join(lines) + "\n").encode()
@@ -101,6 +112,10 @@ def test_importer_parses_exact_panel_and_remains_nonexecuting(
     assert len(artifact.gene_order) == 50
     assert len(artifact.centroids) == 5
     assert sum(len(values) for values in artifact.centroids.values()) == 250
+    assert "NUF2" in artifact.gene_order
+    assert "NDC80" in artifact.gene_order
+    assert "ORC6" in artifact.gene_order
+    assert "CDCA1" not in artifact.gene_order
     assert artifact.candidate_only is True
     assert artifact.founder_approved is False
     assert artifact.method_execution_authorized is False

@@ -151,7 +151,15 @@ class Pam50CandidateImportService:
             raise MethodArtifactImportError(
                 "source member must declare exactly 50 ordered probes"
             )
-        gene_order = [row["probe"] for row in rows]
+        source_gene_order = [row["probe"] for row in rows]
+        gene_order = [
+            PAM50_HISTORICAL_ALIASES.get(gene, gene)
+            for gene in source_gene_order
+        ]
+        if len(gene_order) != len(set(gene_order)):
+            raise MethodArtifactImportError(
+                "historical alias canonicalization creates a gene collision"
+            )
         centroids = {
             _CENTROID_LABELS[label]: dict(zip(gene_order, values, strict=True))
             for label, values in centroid_vectors.items()
