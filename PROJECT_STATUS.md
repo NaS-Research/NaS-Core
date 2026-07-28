@@ -156,6 +156,14 @@ GSE130397 cannot represent patient-level subtype-margin diversity. The typed sco
 records zero molecular or outcome access, zero source selection, and zero external
 contact. Two inquiry drafts exist but remain unsent.
 
+A route-neutral technical-replicate precision calculator is now implemented.
+It uses the expected Wilson interval, permits explicit cluster design-effect
+inflation, fails closed when a target cannot be met within the declared search
+range, and labels every result nondecisional. The checked-in synthetic scenario
+returns 141 independent pair observations for hypothetical 0.90 retention, 95%
+confidence, and ±0.05 expected precision. Those inputs are software fixtures—not
+approved NaS parameters, a sample-size recommendation, or PAM50 evidence.
+
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
 activation queue, and exactly one ordered founder-authorized queue for every later
@@ -520,6 +528,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Hypothetical technical-replicate precision calculator
+
+Implemented typed precision-design and result contracts, a deterministic expected
+Wilson-interval calculator, design-effect inflation, CLI execution, JSON Schemas,
+and tests proving minimality, deterministic inflation, fail-closed unattainable
+targets, and zero decision or execution authority.
+
+The synthetic 141-pair output demonstrates the algorithm only. Real retention,
+precision, clustering, missingness, subtype, margin, and multiplicity parameters
+still require scientific and statistical approval.
 
 ### 2026-07-28 — Calibration-source scout and unsent inquiries
 

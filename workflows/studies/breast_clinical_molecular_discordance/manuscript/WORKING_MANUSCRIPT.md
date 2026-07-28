@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.47.0-working`
+Manuscript version: `0.48.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -526,6 +526,18 @@ patient-level subtype-margin diversity. Neither source was selected, no expressi
 values were inspected, and no data inquiry was sent.
 [technical_calibration_source_scout_v1.0.0.yaml;
 UNSENT_CALIBRATION_DATA_INQUIRIES_v1.0.0.md]
+
+A deterministic precision-planning component now supports future replicate-study
+design. It searches for the smallest observed pair count whose expected Wilson
+interval meets a declared half-width and inflates observations by an explicit
+cluster design effect. A synthetic fixture returns 141 independent pairs for
+hypothetical 0.90 label retention, 95% confidence, and ±0.05 expected precision.
+This fixture is algorithm verification, not a sample-size recommendation or PAM50
+evidence. Continuous expression error, subtype-specific performance, margin and
+abstention calibration, missingness, multiplicity, and clinical utility require
+separate design objectives.
+[technical_calibration_precision_scenario_HYPOTHETICAL.yaml;
+TECHNICAL_CALIBRATION_PRECISION_TOOL_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1350,7 +1362,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
-| 0.45.0-working | 2026-07-28 | Materialized the route-neutral `genefu` 2.44.0 PAM50 candidate through frozen importer revision `2843a6e`, reconciled all 250 coefficients and three historical aliases, and preserved zero founder approval or execution authorization. |
+| 0.48.0-working | 2026-07-28 | Added a nondecisional technical-replicate precision calculator with expected Wilson intervals, design-effect inflation, fail-closed targets, and an explicitly hypothetical 141-pair software fixture. |
 | 0.47.0-working | 2026-07-28 | Added a typed metadata-only calibration-source scout: GSE60788 and GSE130397 are relevant but ineligible small RNA-seq replicate resources; two narrowly scoped inquiry drafts remain unsent. |
 | 0.46.0-working | 2026-07-28 | Added the checksum-bound technical-calibration acquisition contract: eight hard source requirements, four candidate paths, validation-leakage prohibitions, and a prospective power-analysis requirement; no source or route is selected and no data access or execution is authorized. |
 | 0.45.0-working | 2026-07-28 | Materialized the route-neutral historical PAM50 candidate with 250 verified coefficients, exact source hashes, and zero execution authorization. |

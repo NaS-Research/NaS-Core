@@ -1,0 +1,119 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "achieved_expected_half_width": {
+      "exclusiveMaximum": 0.5,
+      "exclusiveMinimum": 0.0,
+      "title": "Achieved Expected Half Width",
+      "type": "number"
+    },
+    "cluster_design_effect": {
+      "maximum": 20.0,
+      "minimum": 1.0,
+      "title": "Cluster Design Effect",
+      "type": "number"
+    },
+    "confidence_level": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.5,
+      "title": "Confidence Level",
+      "type": "number"
+    },
+    "data_accessed": {
+      "title": "Data Accessed",
+      "type": "boolean"
+    },
+    "estimand": {
+      "pattern": "^technical_label_retention_probability$",
+      "title": "Estimand",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "expected_retention_probability": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Expected Retention Probability",
+      "type": "number"
+    },
+    "interpretation_limits": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Interpretation Limits",
+      "type": "array"
+    },
+    "method": {
+      "pattern": "^wilson_expected_interval_precision$",
+      "title": "Method",
+      "type": "string"
+    },
+    "normal_quantile": {
+      "exclusiveMinimum": 0.0,
+      "title": "Normal Quantile",
+      "type": "number"
+    },
+    "planning_only": {
+      "title": "Planning Only",
+      "type": "boolean"
+    },
+    "required_effective_pair_equivalents": {
+      "exclusiveMinimum": 0.0,
+      "title": "Required Effective Pair Equivalents",
+      "type": "number"
+    },
+    "required_pair_observations": {
+      "minimum": 2,
+      "title": "Required Pair Observations",
+      "type": "integer"
+    },
+    "scenario_id": {
+      "pattern": "^SYNTHETIC-CAL-[A-Z0-9-]+$",
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_parameters_approved": {
+      "title": "Scientific Parameters Approved",
+      "type": "boolean"
+    },
+    "source_selected": {
+      "title": "Source Selected",
+      "type": "boolean"
+    },
+    "target_interval_half_width": {
+      "exclusiveMaximum": 0.5,
+      "exclusiveMinimum": 0.0,
+      "title": "Target Interval Half Width",
+      "type": "number"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "estimand",
+    "method",
+    "expected_retention_probability",
+    "confidence_level",
+    "target_interval_half_width",
+    "normal_quantile",
+    "cluster_design_effect",
+    "required_effective_pair_equivalents",
+    "required_pair_observations",
+    "achieved_expected_half_width",
+    "planning_only",
+    "scientific_parameters_approved",
+    "source_selected",
+    "data_accessed",
+    "execution_authorized",
+    "interpretation_limits"
+  ],
+  "title": "TechnicalReplicatePrecisionResult",
+  "type": "object"
+}

@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+design_version: 1.0.0
+scenario_id: SYNTHETIC-CAL-LABEL-RETENTION-PRECISION
+study_id: NAS-BRCA-002
+estimand: technical_label_retention_probability
+expected_retention_probability: 0.9
+confidence_level: 0.95
+target_interval_half_width: 0.05
+cluster_design_effect: 1.0
+minimum_pair_observations: 2
+maximum_pair_observations: 10000
+assumptions:
+  - The expected 0.90 retention probability is hypothetical and derives from no NaS data.
+  - Each pair observation is independent when the design effect is 1.0.
+  - The calculation targets the expected Wilson interval half-width at the declared probability.
+limitations:
+  - This scenario does not select a scientific retention target or acceptable error rate.
+  - It does not power margin, continuous expression error, subtype-specific performance, abstention, or clinical utility.
+  - A real design must address clustering, subtype representation, missingness, assay failures, and multiplicity.
+parameters_are_hypothetical: true
+source_selected: false
+patient_level_data_accessed: false
+molecular_values_accessed: false
+outcome_data_accessed: false
+threshold_selection_authorized: false
+study_execution_authorized: false

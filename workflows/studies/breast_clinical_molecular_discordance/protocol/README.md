@@ -97,6 +97,20 @@ Two correspondence drafts are stored in
 `reviews/UNSENT_CALIBRATION_DATA_INQUIRIES_v1.0.0.md`. They are preparation
 artifacts only and have not been sent.
 
+The route-neutral precision tool can verify hypothetical technical-replicate
+designs without selecting a scientific parameter or source:
+
+```console
+uv run nas-core reliability calibration-precision-design \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/technical_calibration_precision_scenario_HYPOTHETICAL.yaml \
+  --hypothetical-only
+```
+
+The checked-in fixture returns 141 independent pair observations for hypothetical
+0.90 retention, 95% confidence, and ±0.05 expected Wilson precision. This is
+software evidence only, not a NaS sample-size recommendation. See
+`reviews/TECHNICAL_CALIBRATION_PRECISION_TOOL_v1.0.0.md`.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console

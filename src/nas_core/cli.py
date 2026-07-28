@@ -6,6 +6,9 @@ from pathlib import Path
 
 from nas_core.ai.gateway import OpenAIScreeningGateway
 from nas_core.ai.screening import AIAdvisoryScreeningService
+from nas_core.analysis.calibration_precision import (
+    TechnicalReplicatePrecisionService,
+)
 from nas_core.analysis.cohort import CohortBuildService
 from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
@@ -36,6 +39,10 @@ from nas_core.domain.appraisal import (
     write_full_text_retrieval_receipt,
     write_publication_version_link_decision,
     write_publication_version_reconciliation_receipt,
+)
+from nas_core.domain.calibration_precision import (
+    load_technical_replicate_precision_design,
+    write_calibration_precision_schemas,
 )
 from nas_core.domain.citation_access import (
     load_repository_access_batch_receipt,
@@ -506,6 +513,23 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write the calibration-source scout-receipt JSON Schema",
     )
     reliability_calibration_scout_schema.add_argument("path", type=Path)
+    reliability_calibration_precision = reliability_commands.add_parser(
+        "calibration-precision-design",
+        help="Calculate a hypothetical technical-replicate precision scenario",
+    )
+    reliability_calibration_precision.add_argument("design_path", type=Path)
+    reliability_calibration_precision.add_argument(
+        "--hypothetical-only",
+        action="store_true",
+        required=True,
+        help="Acknowledge that the calculation cannot select a source or authorize a study",
+    )
+    reliability_calibration_precision_schema = reliability_commands.add_parser(
+        "calibration-precision-schema",
+        help="Write technical-replicate precision design and result schemas",
+    )
+    reliability_calibration_precision_schema.add_argument("design_path", type=Path)
+    reliability_calibration_precision_schema.add_argument("result_path", type=Path)
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1584,6 +1608,33 @@ def main(argv: Sequence[str] | None = None) -> int:
     ):
         write_technical_calibration_scout_schema(args.path)
         print(f"Wrote technical-calibration scout schema: {args.path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-precision-design"
+    ):
+        precision_design = load_technical_replicate_precision_design(
+            args.design_path
+        )
+        precision_result = TechnicalReplicatePrecisionService().calculate(
+            precision_design
+        )
+        print(precision_result.model_dump_json(indent=2))
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-precision-schema"
+    ):
+        write_calibration_precision_schemas(
+            args.design_path,
+            args.result_path,
+        )
+        print(
+            "Wrote calibration precision schemas: "
+            f"{args.design_path}, {args.result_path}"
+        )
         return 0
 
     if args.command == "plan" and args.plan_command == "schema":
