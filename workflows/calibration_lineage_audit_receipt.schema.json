@@ -1,0 +1,279 @@
+{
+  "$defs": {
+    "CalibrationLineageArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "molecular_values_parsed": {
+          "title": "Molecular Values Parsed",
+          "type": "boolean"
+        },
+        "outcome_values_parsed": {
+          "title": "Outcome Values Parsed",
+          "type": "boolean"
+        },
+        "parser_name": {
+          "pattern": "^geo_family_soft_title_projection_v1$",
+          "title": "Parser Name",
+          "type": "string"
+        },
+        "raw_artifact_stored": {
+          "title": "Raw Artifact Stored",
+          "type": "boolean"
+        },
+        "representation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Representation Sha256",
+          "type": "string"
+        },
+        "representation_size_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Representation Size Bytes",
+          "type": "integer"
+        },
+        "sample_rows_retained": {
+          "title": "Sample Rows Retained",
+          "type": "boolean"
+        },
+        "source_id": {
+          "pattern": "^GEO:GSE[0-9]+$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "url": {
+          "pattern": "^https://",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "url",
+        "representation_sha256",
+        "representation_size_bytes",
+        "parser_name",
+        "raw_artifact_stored",
+        "sample_rows_retained",
+        "molecular_values_parsed",
+        "outcome_values_parsed"
+      ],
+      "title": "CalibrationLineageArtifact",
+      "type": "object"
+    },
+    "CalibrationLineageSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "linked_replicate_record_count": {
+          "minimum": 0,
+          "title": "Linked Replicate Record Count",
+          "type": "integer"
+        },
+        "primary_or_unlabeled_record_count": {
+          "minimum": 0,
+          "title": "Primary Or Unlabeled Record Count",
+          "type": "integer"
+        },
+        "replicate_labeled_record_count": {
+          "minimum": 0,
+          "title": "Replicate Labeled Record Count",
+          "type": "integer"
+        },
+        "sample_record_count": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Record Count",
+          "type": "integer"
+        },
+        "sample_titles_retained": {
+          "title": "Sample Titles Retained",
+          "type": "boolean"
+        },
+        "source_id": {
+          "pattern": "^GEO:GSE[0-9]+$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "transient_title_count": {
+          "exclusiveMinimum": 0,
+          "title": "Transient Title Count",
+          "type": "integer"
+        },
+        "unique_replicate_group_count": {
+          "minimum": 0,
+          "title": "Unique Replicate Group Count",
+          "type": "integer"
+        },
+        "unrecognized_title_count": {
+          "minimum": 0,
+          "title": "Unrecognized Title Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_id",
+        "sample_record_count",
+        "primary_or_unlabeled_record_count",
+        "replicate_labeled_record_count",
+        "linked_replicate_record_count",
+        "unique_replicate_group_count",
+        "unrecognized_title_count",
+        "transient_title_count",
+        "sample_titles_retained"
+      ],
+      "title": "CalibrationLineageSummary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/CalibrationLineageArtifact"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "audit_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Audit Version",
+      "type": "string"
+    },
+    "biological_sample_nonoverlap_established": {
+      "title": "Biological Sample Nonoverlap Established",
+      "type": "boolean"
+    },
+    "calibration_source_selected": {
+      "title": "Calibration Source Selected",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "executed_at": {
+      "format": "date-time",
+      "title": "Executed At",
+      "type": "string"
+    },
+    "gse60788_gse96058_accession_overlap_count": {
+      "minimum": 0,
+      "title": "Gse60788 Gse96058 Accession Overlap Count",
+      "type": "integer"
+    },
+    "gse60788_gse96058_title_overlap_count": {
+      "minimum": 0,
+      "title": "Gse60788 Gse96058 Title Overlap Count",
+      "type": "integer"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "metadata_lineage_feasibility_established": {
+      "title": "Metadata Lineage Feasibility Established",
+      "type": "boolean"
+    },
+    "method_execution_authorized": {
+      "title": "Method Execution Authorized",
+      "type": "boolean"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "next_required_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Next Required Actions",
+      "type": "array"
+    },
+    "outcome_values_parsed": {
+      "title": "Outcome Values Parsed",
+      "type": "boolean"
+    },
+    "patient_level_records_retained": {
+      "title": "Patient Level Records Retained",
+      "type": "boolean"
+    },
+    "prohibited_fields_transiently_transferred": {
+      "title": "Prohibited Fields Transiently Transferred",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "raw_artifacts_stored": {
+      "title": "Raw Artifacts Stored",
+      "type": "boolean"
+    },
+    "route_activation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Route Activation Sha256",
+      "type": "string"
+    },
+    "sample_identifiers_retained": {
+      "title": "Sample Identifiers Retained",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "summaries": {
+      "items": {
+        "$ref": "#/$defs/CalibrationLineageSummary"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Summaries",
+      "type": "array"
+    }
+  },
+  "required": [
+    "audit_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "route_activation_sha256",
+    "code_revision",
+    "executed_at",
+    "artifacts",
+    "summaries",
+    "gse60788_gse96058_accession_overlap_count",
+    "gse60788_gse96058_title_overlap_count",
+    "biological_sample_nonoverlap_established",
+    "metadata_lineage_feasibility_established",
+    "prohibited_fields_transiently_transferred",
+    "patient_level_records_retained",
+    "sample_identifiers_retained",
+    "molecular_values_parsed",
+    "outcome_values_parsed",
+    "raw_artifacts_stored",
+    "calibration_source_selected",
+    "method_execution_authorized",
+    "limitations",
+    "next_required_actions"
+  ],
+  "title": "CalibrationLineageAuditReceipt",
+  "type": "object"
+}

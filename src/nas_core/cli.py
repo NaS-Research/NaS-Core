@@ -41,6 +41,10 @@ from nas_core.domain.appraisal import (
     write_publication_version_link_decision,
     write_publication_version_reconciliation_receipt,
 )
+from nas_core.domain.calibration_lineage import (
+    write_calibration_lineage_receipt,
+    write_calibration_lineage_schema,
+)
 from nas_core.domain.calibration_precision import (
     load_technical_replicate_precision_design,
     write_calibration_precision_schemas,
@@ -130,6 +134,7 @@ from nas_core.domain.literature import (
 )
 from nas_core.domain.method_dependency import (
     load_method_dependency_audit,
+    load_method_route_activation,
     load_method_route_founder_decision,
     load_pam50_centroid_candidate,
     write_centroid_candidate_import_receipt,
@@ -158,6 +163,10 @@ from nas_core.domain.technical_calibration import (
     write_technical_calibration_scout_schema,
 )
 from nas_core.governance.registry import SourceRegistry
+from nas_core.ingestion.calibration_lineage import (
+    CALIBRATION_LINEAGE_URLS,
+    CalibrationLineageAuditService,
+)
 from nas_core.ingestion.field_isolated_metadata import (
     GDC_FILES_URL as FIELD_ISOLATED_GDC_FILES_URL,
 )
@@ -539,6 +548,30 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write the calibration-source scout-receipt JSON Schema",
     )
     reliability_calibration_scout_schema.add_argument("path", type=Path)
+    reliability_calibration_lineage = reliability_commands.add_parser(
+        "calibration-lineage-audit",
+        help="Run a field-isolated GEO calibration-source lineage audit",
+    )
+    reliability_calibration_lineage.add_argument(
+        "route_activation_path",
+        type=Path,
+    )
+    reliability_calibration_lineage.add_argument(
+        "--output-path",
+        required=True,
+        type=Path,
+    )
+    reliability_calibration_lineage.add_argument("--code-revision", required=True)
+    reliability_calibration_lineage.add_argument(
+        "--execute",
+        action="store_true",
+        help="Fetch official GEO metadata and persist only the aggregate receipt",
+    )
+    reliability_calibration_lineage_schema = reliability_commands.add_parser(
+        "calibration-lineage-schema",
+        help="Write the calibration lineage audit-receipt JSON Schema",
+    )
+    reliability_calibration_lineage_schema.add_argument("path", type=Path)
     reliability_calibration_precision = reliability_commands.add_parser(
         "calibration-precision-design",
         help="Calculate a hypothetical technical-replicate precision scenario",
@@ -1685,6 +1718,40 @@ def main(argv: Sequence[str] | None = None) -> int:
     ):
         write_technical_calibration_scout_schema(args.path)
         print(f"Wrote technical-calibration scout schema: {args.path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-lineage-audit"
+    ):
+        if not args.execute:
+            print(json.dumps(CALIBRATION_LINEAGE_URLS, indent=2, sort_keys=True))
+            print("Dry run only; no metadata was fetched or stored.")
+            return 0
+        if args.output_path.exists():
+            raise FileExistsError("calibration lineage output path must be new")
+        lineage_activation = load_method_route_activation(
+            args.route_activation_path
+        )
+        lineage_receipt = CalibrationLineageAuditService().execute(
+            route_activation=lineage_activation,
+            route_activation_path=args.route_activation_path,
+            code_revision=args.code_revision,
+            executed_at=datetime.now(UTC),
+        )
+        write_calibration_lineage_receipt(
+            args.output_path,
+            lineage_receipt,
+        )
+        print(f"Wrote calibration lineage audit receipt: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-lineage-schema"
+    ):
+        write_calibration_lineage_schema(args.path)
+        print(f"Wrote calibration lineage audit schema: {args.path}")
         return 0
 
     if (
