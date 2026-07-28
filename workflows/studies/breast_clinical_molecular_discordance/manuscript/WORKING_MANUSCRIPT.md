@@ -2,17 +2,17 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.42.0-working`
+Manuscript version: `0.43.0-working`
 
 Study: `NAS-BRCA-002`
 
 Question version: `0.3.0`
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
-Overall status: **working—citation review saturated and metadata input feasibility
-passed; claim synthesis awaits founder scientific review; no molecular values or
-outcome dataset used or retained**
+Overall status: **working—citation review saturated, evidence synthesis
+founder-authorized, and metadata input feasibility passed; novelty remains on hold;
+no molecular values or outcome dataset used or retained**
 
 ## Abstract
 
@@ -447,16 +447,19 @@ restrictions, zero pending records, `review_status=complete`, and
 citation-chain/pass-0006-closure.yaml;
 citation-chain/pass-0007-closure.yaml]
 
-A non-authoritative claim-level synthesis proposal now reconciles all 68 active
+A founder-authorized working claim-level synthesis reconciles all 68 active
 appraisals: 22 supporting and 46 context-only, with no anchor evidence. It
 distinguishes supporting, limiting or contradictory, null or negative, and
-contextual evidence across eight proposed claims. The proposal is checksum-bound
+contextual evidence across eight claims. The authorization is checksum-bound
 to the saturated progress receipt and fails validation if an appraisal is omitted,
 an unknown identity is cited, or context-only evidence is presented as supporting.
-It authorizes no novelty claim or scientific conclusion and must not be treated as
-final manuscript interpretation until founder scientific review.
+The updated novelty memorandum places question `0.3.0` on hold: broad components
+are prior art, while the exact independently calibrated and unchanged externally
+validated reliability contract remains unresolved. This working synthesis
+authorizes no affirmative novelty, data access, clinical claim, or publication.
 [saturated_evidence_synthesis_proposal_v1.0.0.yaml;
-FOUNDER_SATURATED_EVIDENCE_SYNTHESIS_REVIEW_v1.0.0.md]
+FOUNDER_SATURATED_EVIDENCE_SYNTHESIS_CONFIRMATION_v1.0.0.yaml;
+saturated_evidence_synthesis_v1.0.0.yaml; novelty_memorandum.yaml]
 
 ### Proposed analytical procedure
 

@@ -87,7 +87,9 @@ from nas_core.domain.evidence_review import (
     write_evidence_review_schemas,
 )
 from nas_core.domain.evidence_synthesis import (
+    load_evidence_synthesis_founder_confirmation,
     load_saturated_evidence_synthesis_proposal,
+    write_authorized_saturated_evidence_synthesis,
 )
 from nas_core.domain.feasibility import (
     write_metadata_feasibility_receipt,
@@ -716,6 +718,33 @@ def build_parser() -> argparse.ArgumentParser:
         default=[],
         type=Path,
         help="Individual locked appraisal reused by the active review; repeatable",
+    )
+    synthesis_authorize = evidence_review_commands.add_parser(
+        "synthesis-authorize",
+        help="Authorize a checksum-bound saturated evidence synthesis",
+    )
+    synthesis_authorize.add_argument("progress", type=Path)
+    synthesis_authorize.add_argument("proposal", type=Path)
+    synthesis_authorize.add_argument("confirmation", type=Path)
+    synthesis_authorize.add_argument(
+        "--appraisal-dir",
+        action="append",
+        default=[],
+        type=Path,
+        help="Directory of locked appraisals; repeatable",
+    )
+    synthesis_authorize.add_argument(
+        "--appraisal",
+        action="append",
+        default=[],
+        type=Path,
+        help="Individual locked appraisal reused by the active review; repeatable",
+    )
+    synthesis_authorize.add_argument("--output-path", required=True, type=Path)
+    synthesis_authorize.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the founder-authorized working synthesis",
     )
     activate_cap = evidence_review_commands.add_parser(
         "activate-cap-amendment",
@@ -2185,6 +2214,58 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"{validated.completed_appraisal_count} appraisals, "
             "zero authorized conclusions"
         )
+        return 0
+
+    if (
+        args.command == "evidence-review"
+        and args.evidence_review_command == "synthesis-authorize"
+    ):
+        authorization_progress = load_evidence_review_progress(args.progress)
+        authorization_proposal = load_saturated_evidence_synthesis_proposal(
+            args.proposal
+        )
+        authorization_confirmation = (
+            load_evidence_synthesis_founder_confirmation(args.confirmation)
+        )
+        authorization_appraisal_paths = sorted(
+            {
+                *args.appraisal,
+                *(
+                    path
+                    for directory in args.appraisal_dir
+                    for path in directory.glob("*.yaml")
+                ),
+            }
+        )
+        authorization_appraisals = [
+            load_full_text_appraisal(path)
+            for path in authorization_appraisal_paths
+        ]
+        authorized_synthesis = SaturatedEvidenceSynthesisService().authorize(
+            authorization_proposal,
+            authorization_confirmation,
+            authorization_progress,
+            authorization_appraisals,
+            proposal_path=args.proposal,
+            progress_path=args.progress,
+        )
+        if not args.execute:
+            print(
+                f"Synthesis authorization verified: "
+                f"{authorized_synthesis.study_id}, "
+                f"{len(authorized_synthesis.claims)} working claims"
+            )
+            print("Dry run only; no authorized synthesis was written.")
+            return 0
+        write_authorized_saturated_evidence_synthesis(
+            args.output_path,
+            authorized_synthesis,
+        )
+        print(
+            f"Authorized saturated evidence synthesis: "
+            f"{authorized_synthesis.study_id}"
+        )
+        print(f"Wrote authorized synthesis: {args.output_path}")
         return 0
 
     if (

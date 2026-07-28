@@ -8,7 +8,9 @@ from pathlib import Path
 from nas_core.domain.appraisal import EvidenceRole, FullTextAppraisal
 from nas_core.domain.evidence_review import EvidenceReviewProgress
 from nas_core.domain.evidence_synthesis import (
+    AuthorizedSaturatedEvidenceSynthesis,
     EvidenceDirection,
+    EvidenceSynthesisFounderConfirmation,
     SaturatedEvidenceSynthesisProposal,
 )
 from nas_core.ingestion.gdc import sha256
@@ -118,3 +120,57 @@ class SaturatedEvidenceSynthesisService:
                         f"claim {claim.claim_id} treats context-only evidence as supporting"
                     )
         return proposal
+
+    def authorize(
+        self,
+        proposal: SaturatedEvidenceSynthesisProposal,
+        confirmation: EvidenceSynthesisFounderConfirmation,
+        progress: EvidenceReviewProgress,
+        appraisals: Sequence[FullTextAppraisal],
+        *,
+        proposal_path: Path,
+        progress_path: Path,
+    ) -> AuthorizedSaturatedEvidenceSynthesis:
+        validated = self.validate(
+            proposal,
+            progress,
+            appraisals,
+            progress_path=progress_path,
+        )
+        proposal_sha256 = sha256(proposal_path.read_bytes())
+        if (
+            confirmation.study_id != validated.study_id
+            or confirmation.synthesis_version != validated.synthesis_version
+            or confirmation.proposal_sha256 != proposal_sha256
+            or confirmation.progress_sha256 != validated.progress_sha256
+        ):
+            raise EvidenceSynthesisError(
+                "founder confirmation is bound to a different synthesis proposal"
+            )
+        return AuthorizedSaturatedEvidenceSynthesis(
+            synthesis_version=validated.synthesis_version,
+            study_id=validated.study_id,
+            question_id=validated.question_id,
+            question_version=validated.question_version,
+            proposal_sha256=proposal_sha256,
+            progress_sha256=validated.progress_sha256,
+            eligible_evidence_count=validated.eligible_evidence_count,
+            completed_appraisal_count=validated.completed_appraisal_count,
+            access_restricted_count=validated.access_restricted_count,
+            anchor_count=validated.anchor_count,
+            supporting_count=validated.supporting_count,
+            context_only_count=validated.context_only_count,
+            claims=validated.claims,
+            assistant_disclosure=validated.assistant_disclosure,
+            confirmation_statement=confirmation.confirmation_statement,
+            founder_id=confirmation.founder_id,
+            founder_name=confirmation.founder_name,
+            reviewer_role=confirmation.reviewer_role,
+            authorized_at=confirmation.confirmed_at,
+            working_synthesis_authorized=True,
+            novelty_claim_authorized=False,
+            molecular_data_access_authorized=False,
+            outcome_data_access_authorized=False,
+            clinical_claims_authorized=False,
+            publication_authorized=False,
+        )

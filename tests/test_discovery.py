@@ -130,7 +130,7 @@ def test_phase_zero_never_authorizes_outcome_data_access(tmp_path: Path) -> None
         load_phase_zero_artifacts(PLAN_PATH, SEARCH_PATH, authorized)
 
 
-def test_checked_in_phase_zero_outputs_preserve_no_go_boundary() -> None:
+def test_checked_in_phase_zero_outputs_preserve_governance_boundary() -> None:
     novelty = NoveltyMemorandum.model_validate(
         yaml.safe_load(NOVELTY_PATH.read_text())
     )
@@ -141,7 +141,9 @@ def test_checked_in_phase_zero_outputs_preserve_no_go_boundary() -> None:
         yaml.safe_load(GATE_DECISION_PATH.read_text())
     )
 
-    assert novelty.evidence_review.review_disposition == "terminated_by_no_go"
+    assert novelty.evidence_review.review_disposition == "stopping_rule_satisfied"
+    assert novelty.evidence_review.records_appraised == 68
+    assert novelty.recommended_action == "hold"
     assert novelty.novelty_claim_authorized is False
     assert feasibility.metadata_only is True
     assert feasibility.outcome_data_accessed is False

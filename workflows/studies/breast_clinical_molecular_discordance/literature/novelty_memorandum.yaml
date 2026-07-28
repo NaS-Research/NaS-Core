@@ -1,84 +1,100 @@
 schema_version: 1.0.0
-memorandum_version: 1.0.0
+memorandum_version: 1.1.0
 study_id: NAS-BRCA-002
 question_id: NAS-RQ-BRCA002
-question_version: 0.2.0
+question_version: 0.3.0
 evidence_review:
-  review_disposition: terminated_by_no_go
-  records_retrieved: 8
-  records_appraised: 8
+  review_disposition: stopping_rule_satisfied
+  records_retrieved: 81
+  records_appraised: 68
   duplicates_resolved: 1
-  access_restricted: 4
+  access_restricted: 13
   anchor_count: 0
-  supporting_count: 3
-  context_only_count: 5
-  stopping_rule_satisfied: false
+  supporting_count: 22
+  context_only_count: 46
+  stopping_rule_satisfied: true
   termination_rationale: >-
-    The review did not satisfy the locked saturation rule. It was terminated for
-    question-gate purposes after the highest-priority record proved to be a preprint
-    of the already-appraised peer-reviewed study PMC10587090 and that version of
-    record directly performed the proposed PAM50 perturbation/stability analysis in
-    6,233 population-based tumors. This supports an early change decision but does
-    not support any affirmative novelty claim.
+    The uncapped evidence inventory reached 81 eligible identities. Sixty-eight
+    completed founder-authorized appraisal, thirteen remain access-restricted, and
+    none remain pending. Citation passes 6 and 7 were independently closed at zero
+    yield, satisfying the locked two-consecutive-pass saturation rule.
 claims:
-  - claim: PAM50 assignments can change under defensible analytical perturbations.
+  - claim: >-
+      PAM50 assignments can change under defensible changes to test-set composition,
+      reference construction, gene content, and expression measurement.
     status: established
-    evidence_ids:
-      - PMC10587090
-      - PMC7442834
-      - PMC3275466
+    evidence_ids: [PMID:25788628, PMID:32826944, PMID:37857634]
     assessment: >-
-      Direct gene-cluster perturbation, reference-cohort sensitivity, and modeled
-      measurement uncertainty already demonstrate that analytical choices can alter
-      subtype assignment.
-  - claim: Nearest-versus-second-nearest PAM50 subtype information can be biologically or prognostically informative.
+      Multiple locked supporting appraisals establish analytical contingency of
+      subtype assignment, without establishing a universally correct alternative label.
+  - claim: Fixed patient-independent breast-cancer subtyping is prior art.
     status: established
-    evidence_ids:
-      - PMC10587090
+    evidence_ids: [PMID:33255759, PMID:37008073, PMID:35974007]
     assessment: >-
-      The SCAN-B study explicitly evaluated nearest and second-nearest centroids and
-      reported outcome associations in clinically defined subgroups. Those
-      associations were exploratory and not independently validated.
-  - claim: Clinical receptor categories and molecular subtype labels can disagree.
+      Single-sample and cohort-independent classifiers have already been published;
+      those properties cannot constitute the NaS novelty claim.
+  - claim: Patient-level ambiguity, non-assignment, and abstention are PAM50 prior art.
     status: established
-    evidence_ids:
-      - PMC7376512
-      - PMC3413822
-      - PMC10587090
+    evidence_ids: [PMID:28062443, PMID:37857634]
     assessment: >-
-      The reviewed studies document clinical-surrogate or classifier disagreement,
-      but no comparator establishes a universal biologically correct label.
-  - claim: A patient-level, single-sample reliability layer can distinguish robust non-luminal biology from analytical instability.
+      Existing methods use empirical nulls, multiple-testing control, score margins,
+      and explicit ambiguous or not-assigned states.
+  - claim: >-
+      Specimen handling, tumor composition, and intratumoral heterogeneity can affect
+      PAM50 measurements or assignments.
+    status: established
+    evidence_ids: [PMID:34885228, PMID:36892725, PMID:27036195, PMID:21718502]
+    assessment: >-
+      Reliability must include pre-analytic and specimen-level limitations rather
+      than treating classifier code as the sole source of variation.
+  - claim: >-
+      Clinical receptor or immunohistochemical categories and expression-derived
+      subtype labels can disagree.
+    status: partly_established
+    evidence_ids: [PMID:27130929, PMID:32881987, PMID:37857634]
+    assessment: >-
+      Discordance is supported, but no reviewed comparator establishes a universally
+      correct patient-level label or permits clinical error attribution.
+  - claim: A score margin or perturbation-stability label alone is not novel.
+    status: established
+    evidence_ids: [PMID:37857634, PMID:28062443]
+    assessment: >-
+      Both leading-versus-runner-up information and perturbation-derived stability
+      categories appear in prior work.
+  - claim: >-
+      A fixed patient-independent reliability rule calibrated to independently
+      measured technical error and validated unchanged across TCGA and SCAN-B remains
+      unresolved.
     status: unresolved
     evidence_ids:
-      - PMC10587090
-      - PMC5001207
-      - PMC7442834
+      - PMID:24625003
+      - PMID:37857634
+      - PMID:28062443
+      - DOI:10.64898/2026.06.23.26355479
     assessment: >-
-      Existing work tests perturbation and transportability, but the current evidence
-      set does not validate a fixed single-sample abstaining reliability layer across
-      independent cohorts and platforms. This narrower extension remains plausible,
-      not established as novel.
-  - claim: The exact question version 0.2.0 is sufficiently differentiated to preregister.
-    status: partly_established
-    evidence_ids:
-      - PMC10587090
-      - PMC7442834
+      The bounded question remains plausible, but exact reusable artifacts,
+      non-outcome thresholds, execution, and unchanged external validation are absent.
+  - claim: >-
+      The proposed reliability framework improves treatment decisions or outcomes.
+    status: unresolved
+    evidence_ids: [PMID:35974007, PMID:27130929, PMID:37857634]
     assessment: >-
-      Important components of the proposed thesis are already reported. A narrower
-      contribution may remain, but it must be rewritten around a fixed single-sample
-      reliability and abstention specification rather than broad PAM50 stability.
+      No prospective decision-impact or clinical-utility evidence supports this claim;
+      the active study remains an analytical research-method evaluation.
 no_go_criterion_triggered: >-
-  Prior evidence already resolves a substantial portion of the proposed contribution
-  without a clearly bounded extension: PMC10587090 used 6,233 SCAN-B tumors to test
-  PAM50 perturbation, nearest/second-nearest subtype relationships, clinical subgroup
-  differences, and exploratory survival associations.
+  Broad novelty is rejected because single-sample classification, PAM50 margins,
+  perturbation stability, ambiguity, non-assignment, and abstention are prior art.
+  The exact independently calibrated and unchanged externally validated reliability
+  contract is unresolved rather than affirmatively novel.
 novelty_claim_authorized: false
-recommended_action: change
+recommended_action: hold
 limitations:
-  - The locked search stopping rule was not satisfied and 423 queue records remain pending.
-  - Four included records are unavailable for company reuse under current policy.
-  - No reviewed study qualifies as low-risk anchor evidence.
-  - This memorandum supports changing the question, not claiming the revised idea is novel.
-  - AI assisted evidence extraction; the founder remains accountable for the gate decision.
-prepared_at: 2026-07-23T00:45:00-05:00
+  - Thirteen eligible studies remain access-restricted and were not appraised.
+  - No appraised study qualifies as a low-risk anchor.
+  - Saturated literature and founder-authorized synthesis do not authorize novelty.
+  - Exact centroids, reference artifacts, transformations, rights, and tolerances remain unresolved.
+  - No independently justified technical-error model or outcome-independent threshold is locked.
+  - The proposed rule has not been executed or externally validated.
+  - No clinical-validity, treatment-selection, decision-impact, or utility claim is authorized.
+  - AI assisted evidence synthesis; the founder retains scientific accountability.
+prepared_at: '2026-07-28T13:07:57Z'

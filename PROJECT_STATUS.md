@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-26
+Last updated: 2026-07-28
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder scientific review of saturated evidence synthesis
+### Resolve method dependencies under a novelty hold
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -109,12 +109,13 @@ and prevents context-only evidence from being presented as supporting. Eight
 claim dispositions distinguish established prior art, partly established
 discordance, and unresolved NaS reliability and clinical-utility questions.
 
-The proposal and founder packet authorize zero conclusions by themselves. The
-current scientific gate is the exact statement `I confirm saturated evidence
-synthesis proposal 1.0.0 as written.` Confirmation would authorize the eight
-dispositions as the working synthesis for manuscript and novelty-memorandum
-revision, but not novelty, data access, method parameters, clinical claims, or
-publication.
+The founder confirmed synthesis proposal `1.0.0`. A fail-closed authorization
+binds the exact proposal and saturated progress checksums, all 68 appraisals, and
+eight working claim dispositions. Novelty memorandum `1.1.0` now records a hold:
+broad single-sample, margin, stability, ambiguity, non-assignment, and abstention
+ideas are prior art; the exact independently calibrated and unchanged externally
+validated reliability contract remains unresolved. No novelty, data access,
+method parameters, clinical claims, or publication are authorized.
 
 The sequential stopping-rule boundary is generalized beyond pass 2. Each next
 seed receipt requires the original 30-record inventory, the complete pass-1
@@ -446,40 +447,49 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Confirm or revise saturated evidence synthesis proposal `1.0.0`.
-2. After confirmation, materialize the working synthesis and refresh the novelty
-   memorandum without authorizing an affirmative novelty claim.
-3. Update the living manuscript and its evidence-to-text ledger after every material
-   appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Resolve and approve the exact centroid and external-reference artifacts,
+1. Resolve and approve the exact centroid and external-reference artifacts,
    redistribution rights, expression transformations, and numerical tolerances.
-5. Define an independently calibrated technical-error model and lock the margin
+2. Define an independently calibrated technical-error model and lock the margin
    and canonical-label-retention thresholds without molecular or outcome inspection.
-6. Complete the founder scientific/product, molecular/pathology, and statistical
+3. Complete the founder scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+4. Update the living manuscript and its evidence-to-text ledger after every material
+   appraisal, protocol decision, executed analysis, figure, and review decision.
+5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-9. Implement persisted evidence claims, citations, provenance, contradictory
+7. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+8. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-11. Expand the screening model gateway into general evidence reasoning with
+9. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-12. Build evaluation suites for retrieval, citation validity, numerical
+10. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-13. Generate an immutable research release containing the protocol, dataset
+11. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-14. Generate a reviewable white-paper draft whose substantive claims trace to
+12. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-15. Build the internal workbench for projects, protocols, datasets, runs,
+13. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-16. Complete repeated internal oncology pilots before selecting the first
+14. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Saturated evidence synthesis founder-authorized
+
+Recorded the founder's exact confirmation against proposal checksum
+`20297d50…a5` and saturated-progress checksum `70d74f60…5358`. The executable
+authorization revalidates all 68 appraisals before materializing eight working
+claim dispositions.
+
+Novelty memorandum `1.1.0` now reflects 81 eligible identities, 68 appraisals,
+13 access restrictions, zero pending records, and satisfied saturation. It
+places question `0.3.0` on hold and explicitly preserves zero authorization for
+novelty, molecular or outcome access, clinical claims, and publication.
 
 ### 2026-07-27 — Saturated claim synthesis prepared for founder review
 
