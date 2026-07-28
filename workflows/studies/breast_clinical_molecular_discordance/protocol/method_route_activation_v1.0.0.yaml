@@ -1,0 +1,34 @@
+schema_version: 1.0.0
+activation_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+selected_route_id: ROUTE-C
+activation_status: independent_calibration_hold
+method_dependency_audit_sha256: 595e32bf32af0a10f2960306318975704e9a998070ff3e05c0ae0a79eba48968
+founder_decision_sha256: 01ffbe13e464e3c3f9ce8b623be60ee5f6bb8f27511b107ed71cc14a8bd1b747
+centroid_candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+calibration_acquisition_plan_sha256: 1c7333d2f2c6a771ae371b08cee3f88095b62c50d9c26ba78c0756a8b3be3f48
+code_revision: 74b3f2a
+activated_at: '2026-07-28T20:42:38.187716Z'
+question_preserved: true
+centroid_candidate_staged: true
+calibration_acquisition_active: true
+founder_route_selected: true
+calibration_source_selected: false
+method_locked: false
+fixed_reference_resolved: false
+technical_calibration_resolved: false
+thresholds_resolved: false
+patient_level_data_accessed: false
+molecular_values_accessed: false
+outcome_data_accessed: false
+method_execution_authorized: false
+clinical_use_authorized: false
+publication_authorized: false
+next_required_actions:
+- Resolve a lawful independent technical-calibration source.
+- Resolve the fixed platform-matched centering reference.
+- Approve calibration estimands, precision targets, and multiplicity.
+- Freeze cross-language numerical conformance tolerances.
+- Complete independent scientific, molecular, and statistical review.

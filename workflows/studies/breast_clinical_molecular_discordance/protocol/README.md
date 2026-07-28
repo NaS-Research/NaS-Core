@@ -70,7 +70,14 @@ The route-neutral technical-calibration acquisition plan is now frozen at
 leakage, requires participant-level technical pairs with lawful access and stable
 pair identities, requires full classifier-panel and assay-process coverage, and
 defers any minimum pair count to a prospective power analysis. No listed source
-currently satisfies every criterion, and no source or founder route is selected.
+currently satisfies every criterion, and no calibration source is selected.
+
+The founder selected Route C on 2026-07-28. The checksum-bound decision is stored
+at `reviews/FOUNDER_METHOD_ROUTE_DECISION_v1.0.0.yaml`; activation
+`method_route_activation_v1.0.0.yaml` preserves question `0.3.0`, stages the
+centroid candidate, and activates calibration acquisition while retaining zero
+method lock, molecular or outcome access, or execution authority. Accordingly,
+no calibration source is selected.
 
 Validate the acquisition contract with:
 

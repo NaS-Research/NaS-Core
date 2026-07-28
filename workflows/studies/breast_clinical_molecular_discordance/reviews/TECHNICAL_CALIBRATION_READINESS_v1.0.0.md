@@ -42,8 +42,10 @@ It does **not** authorize patient-level or molecular access, outcome access,
 threshold selection, method execution, clinical use, publication, contacting an
 external party, spending funds, or selecting a founder method route.
 
-## Next founder boundary
+## Route decision update
 
-The method route remains the immediate scientific decision. Codex continues to
-recommend Route C in
-`FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md`.
+The founder selected Route C exactly on 2026-07-28. The decision and activation
+are recorded in `FOUNDER_METHOD_ROUTE_DECISION_v1.0.0.yaml` and
+`method_route_activation_v1.0.0.yaml`. Independent-calibration acquisition is
+active, but no source, data access, threshold, method lock, or execution is
+authorized.

@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.48.0-working`
+Manuscript version: `0.49.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -11,9 +11,9 @@ Question version: `0.3.0`
 Last updated: 2026-07-28
 
 Overall status: **working—citation review saturated, evidence synthesis
-founder-authorized, metadata input feasibility passed, and method dependencies
-audited; founder method-route decision pending; novelty remains on hold; no
-molecular values or outcome dataset used or retained**
+founder-authorized, metadata input feasibility passed, and Route C activated
+under an independent-calibration hold; novelty remains on hold; no molecular
+values or outcome dataset used or retained**
 
 ## Abstract
 
@@ -494,6 +494,15 @@ founder's choice among retaining historical PAM50, changing to MPAM50, or
 preserving the question while acquiring independent calibration.
 [method_dependency_audit_proposal_v1.0.0.yaml;
 FOUNDER_METHOD_DEPENDENCY_DECISION_PACKET_v1.0.0.md]
+
+The founder subsequently selected Route C exactly. Checksum-bound activation
+preserves question `0.3.0`, stages the verified centroid candidate, and activates
+the independent-calibration acquisition plan. It selects no calibration source
+and leaves the fixed reference, technical-error model, thresholds, and numerical
+conformance unresolved. It authorizes no molecular or outcome access, classifier
+execution, clinical use, or publication.
+[FOUNDER_METHOD_ROUTE_DECISION_v1.0.0.yaml;
+method_route_activation_v1.0.0.yaml]
 
 A checksum-bound technical-calibration acquisition contract now makes that
 dependency executable as a governance gate. A calibration source must be
@@ -1362,6 +1371,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.49.0-working | 2026-07-28 | Recorded the founder's exact Route C decision and activated the independent-calibration hold under frozen revision `74b3f2a`; no source, method lock, data access, execution, clinical use, or publication is authorized. |
 | 0.48.0-working | 2026-07-28 | Added a nondecisional technical-replicate precision calculator with expected Wilson intervals, design-effect inflation, fail-closed targets, and an explicitly hypothetical 141-pair software fixture. |
 | 0.47.0-working | 2026-07-28 | Added a typed metadata-only calibration-source scout: GSE60788 and GSE130397 are relevant but ineligible small RNA-seq replicate resources; two narrowly scoped inquiry drafts remain unsent. |
 | 0.46.0-working | 2026-07-28 | Added the checksum-bound technical-calibration acquisition contract: eight hard source requirements, four candidate paths, validation-leakage prohibitions, and a prospective power-analysis requirement; no source or route is selected and no data access or execution is authorized. |
