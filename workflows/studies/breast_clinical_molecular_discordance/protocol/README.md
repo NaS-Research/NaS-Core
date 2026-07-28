@@ -118,6 +118,23 @@ The checked-in fixture returns 141 independent pair observations for hypothetica
 software evidence only, not a NaS sample-size recommendation. See
 `reviews/TECHNICAL_CALIBRATION_PRECISION_TOOL_v1.0.0.md`.
 
+Route C's metadata-only calibration-lineage audit executed from frozen revision
+`d256342`. It verifies aggregate sample-title and replicate-linkage counts across
+GSE60788, GSE96058, and GSE130397 and tests public accession/title overlap while
+retaining no identifiers, rows, expression values, outcomes, or raw artifacts:
+
+```console
+uv run nas-core reliability calibration-lineage-audit \
+  protocol/method_route_activation_v1.0.0.yaml \
+  ingestion/calibration_lineage_receipt_v1.0.0.yaml \
+  --execute
+```
+
+Receipt SHA-256 `ef3cce52…9d2` records zero public accession/title overlap
+between GSE60788 and GSE96058. That does not prove biological-specimen
+non-overlap, so no source is selected and authoritative lineage confirmation
+remains required.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console

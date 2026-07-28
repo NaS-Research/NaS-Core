@@ -33,6 +33,9 @@ STUDY = (
 )
 ACTIVATION = STUDY / "protocol" / "method_route_activation_v1.0.0.yaml"
 SCHEMA = ROOT / "workflows" / "calibration_lineage_audit_receipt.schema.json"
+REAL_RECEIPT = (
+    STUDY / "ingestion" / "calibration_lineage_receipt_v1.0.0.yaml"
+)
 NOW = datetime(2026, 7, 28, 21, 0, tzinfo=UTC)
 
 
@@ -127,3 +130,26 @@ def test_checked_in_lineage_schema_matches_runtime_model() -> None:
     assert json.loads(SCHEMA.read_text(encoding="utf-8")) == (
         CalibrationLineageAuditReceipt.model_json_schema()
     )
+
+
+def test_checked_in_lineage_receipt_records_only_verified_aggregates() -> None:
+    from nas_core.domain.calibration_lineage import (
+        load_calibration_lineage_receipt,
+    )
+
+    receipt = load_calibration_lineage_receipt(REAL_RECEIPT)
+    by_source = {summary.source_id: summary for summary in receipt.summaries}
+
+    assert receipt.code_revision == "d256342"
+    assert by_source["GEO:GSE60788"].sample_record_count == 55
+    assert by_source["GEO:GSE60788"].replicate_labeled_record_count == 6
+    assert by_source["GEO:GSE96058"].sample_record_count == 3409
+    assert by_source["GEO:GSE96058"].replicate_labeled_record_count == 136
+    assert by_source["GEO:GSE130397"].sample_record_count == 21
+    assert by_source["GEO:GSE130397"].replicate_labeled_record_count == 11
+    assert receipt.gse60788_gse96058_accession_overlap_count == 0
+    assert receipt.gse60788_gse96058_title_overlap_count == 0
+    assert receipt.biological_sample_nonoverlap_established is False
+    assert receipt.sample_identifiers_retained is False
+    assert receipt.molecular_values_parsed is False
+    assert receipt.outcome_values_parsed is False

@@ -137,6 +137,14 @@ independent-calibration acquisition plan. It selects no calibration source and
 retains zero method lock, molecular or outcome access, execution, clinical use,
 or publication authority.
 
+Field-isolated calibration-lineage audit `1.0.0` then executed from frozen
+revision `d256342`. Receipt `ef3cce52…9d2` records 55, 3,409, and 21 public
+sample records in GSE60788, GSE96058, and GSE130397, respectively, and links all
+6, 136, and 11 replicate-labeled records. GSE60788 and GSE96058 share zero
+public GEO accessions and zero public titles, but that does not establish
+biological-specimen non-overlap. No identifiers, rows, molecular values,
+outcomes, or raw artifacts were retained. No calibration source was selected.
+
 Route-neutral centroid QA is now complete. Frozen importer revision `2843a6e`
 verified the official source archive and member hashes, applied exactly three
 historical aliases, and materialized five 50-gene subtype vectors with 250 finite
@@ -502,13 +510,11 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Prepare the checksum-bound founder packet for the exact next due-diligence
-   action: send a reviewed inquiry, run a field-isolated panel/pair audit, or
-   design a prospective NaS replicate experiment. No external contact is
-   currently sent.
-2. After explicit authorization, execute the selected due-diligence action: send a
-   reviewed inquiry, run a field-isolated panel/pair audit, or design a
-   prospective NaS replicate experiment.
+1. Obtain the founder's exact checksum-bound decision on the prepared calibration
+   inquiry packet. No external contact has been sent.
+2. If explicitly authorized, send only the selected, checksum-bound inquiry or
+   inquiries and preserve the sent text, recipient, timestamp, and delivery
+   receipt without accepting an agreement or ingesting data.
 3. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
 4. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -538,6 +544,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Field-isolated calibration lineage audited
+
+Executed the metadata-only lineage audit from frozen revision `d256342`. It
+reconciled all declared GEO sample-title grammars and linked every labeled
+technical replicate while retaining no sample identifiers, titles, molecular
+values, outcomes, raw artifacts, or analytical rows.
+
+Zero public accession and title overlap between GSE60788 and GSE96058 narrows
+the uncertainty but cannot prove biological-specimen independence. The audit
+therefore leaves GSE60788 in due diligence, preserves GSE96058 for external
+validation, and selects no calibration source.
 
 ### 2026-07-28 — Founder Route C decision activated
 

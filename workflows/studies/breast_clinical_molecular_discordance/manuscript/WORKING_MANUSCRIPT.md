@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.49.0-working`
+Manuscript version: `0.50.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -535,6 +535,18 @@ patient-level subtype-margin diversity. Neither source was selected, no expressi
 values were inspected, and no data inquiry was sent.
 [technical_calibration_source_scout_v1.0.0.yaml;
 UNSENT_CALIBRATION_DATA_INQUIRIES_v1.0.0.md]
+
+A subsequent field-isolated lineage audit streamed the official GEO family SOFT
+representations without retaining sample identifiers, titles, rows, expression
+values, outcomes, or raw artifacts. It reconciled 55 records and six linked
+replicates in GSE60788, 3,409 records and 136 linked replicates in GSE96058, and
+21 records and 11 linked replicates in GSE130397. GSE60788 and GSE96058 shared
+zero public GEO sample accessions and zero public sample titles. This narrows the
+metadata uncertainty but does not establish biological-specimen or RNA-extraction
+non-overlap; authoritative lineage confirmation remains required. No calibration
+source was selected.
+[calibration_lineage_receipt_v1.0.0.yaml;
+CALIBRATION_LINEAGE_REPORT_v1.0.0.md]
 
 A deterministic precision-planning component now supports future replicate-study
 design. It searches for the smallest observed pair count whose expected Wilson
@@ -1371,6 +1383,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.50.0-working | 2026-07-28 | Recorded the frozen calibration-lineage audit: all declared GEO replicate labels reconcile and GSE60788/GSE96058 have zero public identifier overlap, but biological non-overlap remains unproven; no source or data access was authorized. |
 | 0.49.0-working | 2026-07-28 | Recorded the founder's exact Route C decision and activated the independent-calibration hold under frozen revision `74b3f2a`; no source, method lock, data access, execution, clinical use, or publication is authorized. |
 | 0.48.0-working | 2026-07-28 | Added a nondecisional technical-replicate precision calculator with expected Wilson intervals, design-effect inflation, fail-closed targets, and an explicitly hypothetical 141-pair software fixture. |
 | 0.47.0-working | 2026-07-28 | Added a typed metadata-only calibration-source scout: GSE60788 and GSE130397 are relevant but ineligible small RNA-seq replicate resources; two narrowly scoped inquiry drafts remain unsent. |

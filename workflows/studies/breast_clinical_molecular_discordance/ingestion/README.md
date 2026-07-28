@@ -80,4 +80,16 @@ records unclassified. The full boundary and aggregate interpretation are recorde
 in
 [`FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md`](FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md).
 
+Under activated Route C, calibration-lineage audit `1.0.0` streamed the official
+GEO family SOFT representations for GSE60788, GSE96058, and GSE130397. Immutable
+[`calibration_lineage_receipt_v1.0.0.yaml`](calibration_lineage_receipt_v1.0.0.yaml)
+has SHA-256 `ef3cce52…9d2` and is bound to frozen revision `d256342`. It linked
+all 6, 136, and 11 replicate-labeled records, respectively, and found zero public
+accession/title overlap between GSE60788 and GSE96058.
+
+The audit retained no identifiers, titles, rows, raw artifacts, molecular values,
+or outcomes. Public identifier non-overlap does not establish biological-specimen
+independence, so no calibration source is selected. See
+[`CALIBRATION_LINEAGE_REPORT_v1.0.0.md`](CALIBRATION_LINEAGE_REPORT_v1.0.0.md).
+
 Completion gate: Governed immutable dataset snapshot is verified.
