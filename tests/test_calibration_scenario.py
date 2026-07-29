@@ -15,6 +15,7 @@ from nas_core.domain.calibration_scenario import (
     MultiObjectiveCalibrationScenario,
     MultiObjectiveCalibrationScenarioResult,
     load_multi_objective_calibration_scenario,
+    load_multi_objective_calibration_scenario_result,
 )
 from nas_core.domain.prospective_calibration import (
     load_prospective_calibration_planning_activation,
@@ -142,3 +143,31 @@ def test_checked_in_calibration_scenario_schemas_match_runtime_models() -> None:
     assert json.loads(RESULT_SCHEMA.read_text(encoding="utf-8")) == (
         MultiObjectiveCalibrationScenarioResult.model_json_schema()
     )
+
+
+@pytest.mark.parametrize(
+    "scenario_name",
+    [
+        "HYPOTHETICAL_LEAN",
+        "HYPOTHETICAL_BALANCED",
+        "HYPOTHETICAL_HIGH_PRECISION",
+    ],
+)
+def test_checked_in_scenario_results_match_frozen_implementation(
+    scenario_name: str,
+) -> None:
+    scenario_path = SCENARIOS / f"{scenario_name}.yaml"
+    result = load_multi_objective_calibration_scenario_result(
+        SCENARIOS / f"{scenario_name}_RESULT.yaml"
+    )
+    regenerated = MultiObjectiveCalibrationScenarioService().calculate(
+        load_multi_objective_calibration_scenario(scenario_path),
+        load_prospective_calibration_planning_activation(ACTIVATION),
+        scenario_path=scenario_path,
+        activation_path=ACTIVATION,
+        code_revision=result.code_revision,
+        calculated_at=result.calculated_at,
+    )
+
+    assert result == regenerated
+    assert result.code_revision == "2a51d0b"

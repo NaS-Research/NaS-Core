@@ -154,6 +154,20 @@ external validation. It selects no assay, specimen, laboratory, pair count,
 budget, source, or threshold and authorizes no contact, spending, acquisition,
 data access, execution, clinical use, or publication.
 
+The founder approved design `0.1.0` for planning only. Decision SHA-256
+`30538ede…418` and planning activation `f92d0558…dbc` preserve the six unresolved
+decisions and authorize internal scientific, statistical, operational-scenario,
+and budget-scenario planning only. Contact, laboratory quotations, spending,
+procurement, specimens, data access, source or threshold selection, execution,
+clinical use, publication, and submission remain prohibited.
+
+Three activation-bound multi-objective scenarios now quantify hypothetical
+operational scale. Lean, balanced, and high-precision inputs require 82, 185, and
+945 attempted pairs, respectively, after their declared attrition and clustering
+assumptions. The balanced scenario is governed by continuous paired-error
+precision rather than binary retention. All inputs are software assumptions;
+none is an approved sample size or budget.
+
 Completion audit `1.0.0` now binds the lifecycle to repository evidence. It
 records Phase 0 complete, Phase 1 in progress, Phases 2–6 not started, and
 `ready_for_final_human_review=false`. The validator rejects changed evidence,
@@ -530,11 +544,11 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain the founder's checksum-bound decision on prospective calibration design
-   `0.1.0`. Approval is for internal planning only.
-2. If approved, prepare structured scientific and statistical decisions for the
-   platform, repeat architecture, precision targets, coverage, pilot design,
-   multiplicity, and feasibility—without external contact or spending.
+1. Obtain the founder's checksum-bound decision on Phase 1 scientific and
+   statistical planning recommendations `0.1.0`.
+2. If approved, implement the platform-compatibility audit, excluded-pilot
+   precision design, coverage plan, multiplicity plan, and symbolic budget model
+   without external contact or spending.
 3. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
 4. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -564,6 +578,19 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-29 — Phase 1 planning activated and scenario envelope calculated
+
+Recorded the founder's exact planning-only approval and generated an immutable
+activation receipt from frozen revision `00bfa89`. Implemented a deterministic,
+provenance-bound multi-objective scenario calculator covering binary retention,
+continuous precision, multiplicity, clustering, attrition, attempted pairs, and
+measurement counts.
+
+Three hypothetical results span 82, 185, and 945 attempted pairs. They expose
+operational sensitivity without selecting a source, sample size, threshold, or
+budget. A checksum-bound combined scientific and statistical review packet now
+contains NaS recommendations and the exact next founder decision.
 
 ### 2026-07-29 — Research completion audit made executable
 

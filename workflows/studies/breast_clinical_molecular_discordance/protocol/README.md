@@ -163,14 +163,15 @@ See `PROSPECTIVE_CALIBRATION_DESIGN_REPORT_v0.1.0.md` and the checksum-bound
 founder packet. The design authorizes no contact, spending, specimen or data
 acquisition, threshold selection, or execution.
 
-The cross-phase completion state is separately frozen in
-`../reviews/RESEARCH_COMPLETION_AUDIT_v1.0.0.yaml` with a human-readable
-`RESEARCH_COMPLETION_REPORT_v1.0.0.md`. Validate that every cited artifact still
+The current cross-phase completion state is separately frozen in
+`../reviews/RESEARCH_COMPLETION_AUDIT_v1.1.0.yaml` with a human-readable
+`RESEARCH_COMPLETION_REPORT_v1.1.0.md`. Version `1.0.0` remains immutable
+history. Validate that every cited artifact still
 exists with the exact frozen bytes:
 
 ```console
 uv run nas-core study completion-validate \
-  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.1.0.yaml \
   workflows/studies/breast_clinical_molecular_discordance \
   workflows/studies/breast_clinical_molecular_discordance/pipeline.yaml
 ```
@@ -178,6 +179,27 @@ uv run nas-core study completion-validate \
 The current receipt proves Phase 0 complete and Phase 1 in progress. It explicitly
 rejects final-review readiness, scientific conclusions, publication, and
 submission in the current state.
+
+The founder approved prospective design `0.1.0` for planning only. Immutable
+`prospective_calibration_planning_activation_v1.0.0.yaml` was generated from
+revision `00bfa89` and authorizes only internal scientific, statistical,
+operational-scenario, and budget-scenario planning.
+
+Three activation-bound multi-objective scenarios are stored under
+`calibration-scenarios/`. Recalculate any scenario with:
+
+```console
+uv run nas-core reliability calibration-scenario \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/calibration-scenarios/HYPOTHETICAL_BALANCED.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/prospective_calibration_planning_activation_v1.0.0.yaml \
+  --code-revision 2a51d0b \
+  --hypothetical-only
+```
+
+The lean, balanced, and high-precision scenarios require 82, 185, and 945
+attempted pairs under their hypothetical inputs. These are not approved sample
+sizes. See `CALIBRATION_SCENARIO_REPORT_v1.0.0.md` and the combined founder
+scientific/statistical planning packet.
 
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 

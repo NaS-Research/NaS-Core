@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.52.0-working`
+Manuscript version: `0.53.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -576,6 +576,23 @@ and budget review remain required before any external contact, procurement,
 specimen work, data access, or execution.
 [prospective_calibration_experiment_design_v0.1.0.yaml;
 PROSPECTIVE_CALIBRATION_DESIGN_REPORT_v0.1.0.md]
+
+The founder approved that design for planning only. A checksum-bound activation
+authorizes internal scientific, statistical, operational-scenario, and
+budget-scenario planning while preserving zero authority for contact, quotations,
+spending, specimens, data access, source selection, thresholds, or execution.
+
+Three provenance-bound hypothetical scenarios jointly evaluate binary
+label-retention precision and multiplicity-adjusted continuous paired-error
+precision. After their declared attrition and clustering assumptions, the lean,
+balanced, and high-precision scenarios require 82, 185, and 945 attempted pairs
+and twice as many measurements. The balanced scenario is governed by continuous
+precision at 166 effective pairs rather than binary retention at 141. These
+figures are planning outputs from assumed probabilities, variance, precision,
+multiplicity, attrition, and clustering; they are not NaS data, approved sample
+sizes, laboratory commitments, budgets, or study results.
+[prospective_calibration_planning_activation_v1.0.0.yaml;
+CALIBRATION_SCENARIO_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1405,6 +1422,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.53.0-working | 2026-07-29 | Recorded founder-approved internal Phase 1 planning and three provenance-bound hypothetical multi-objective scenarios requiring 82, 185, or 945 attempted pairs; none is an approved sample size, budget, or result. |
 | 0.52.0-working | 2026-07-29 | Reconciled stale pre-saturation prose and evidence-ledger rows to the frozen final state: 81 eligible identities, 68 appraisals, 13 restrictions, zero pending, seven closed passes, and the two-zero-yield stopping rule satisfied. |
 | 0.51.0-working | 2026-07-29 | Entered Phase 1 with a typed, nonexecuting prospective calibration design: excluded pilot, primary same-RNA calibration, optional extraction sensitivity, five technical estimands, validation firewalls, and zero contact, spending, data access, or execution authority. |
 | 0.50.0-working | 2026-07-28 | Recorded the frozen calibration-lineage audit: all declared GEO replicate labels reconcile and GSE60788/GSE96058 have zero public identifier overlap, but biological non-overlap remains unproven; no source or data access was authorized. |

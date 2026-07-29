@@ -131,6 +131,14 @@ def write_multi_objective_calibration_scenario_result(
     )
 
 
+def load_multi_objective_calibration_scenario_result(
+    path: Path,
+) -> MultiObjectiveCalibrationScenarioResult:
+    return MultiObjectiveCalibrationScenarioResult.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_calibration_scenario_schemas(
     scenario_path: Path,
     result_path: Path,

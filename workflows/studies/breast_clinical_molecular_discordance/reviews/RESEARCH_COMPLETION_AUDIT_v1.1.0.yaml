@@ -1,0 +1,151 @@
+schema_version: 1.0.0
+audit_version: 1.1.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+pipeline_manifest_sha256: 3a91bda02257fe97b2ba72fdd005376a20618fbfc27f1d3bb90c29befd6590fa
+current_phase: 1
+phases:
+  - phase_number: 0
+    name: Scientific foundation and feasibility
+    status: complete
+    completion_gate: >-
+      The decision-led question, evidence saturation, novelty boundary, public
+      source feasibility, governance, and method route are frozen without
+      molecular or outcome execution.
+    evidence:
+      - artifact_path: question/research_question.yaml
+        sha256: 6aeae3e745103be0725e2cce5ef5c1a8bba8fae9027a135fe5da972c94ebe7ae
+        proves: Active question identity, decision target, population, and proposed status.
+      - artifact_path: question/phase_zero_plan_v0.3.0.yaml
+        sha256: a3a11628e9cfb5de0108e94fedd215f10c686c3defe359d62cb09ab5d6f49518
+        proves: Phase 0 authorization and outcome-prohibition boundary.
+      - artifact_path: literature/revised_evidence_review_progress.yaml
+        sha256: 70d74f60001efe4ac7e722d0d7e59f9f6730e2c34fe40c6cb344c46f8c395358
+        proves: Seven-pass evidence review is complete and the stopping rule is satisfied.
+      - artifact_path: literature/saturated_evidence_synthesis_v1.0.0.yaml
+        sha256: e3374a8781e2e42b14d7b536e5df281d68eda9cc7efa1ffbaad1d9269de83e77
+        proves: Founder-authorized 81-identity, 68-appraisal, 13-restriction synthesis.
+      - artifact_path: literature/novelty_memorandum.yaml
+        sha256: 65a677d02101cdf0aa560b84def7390a5f9b8906cbac17ab536359459230c421
+        proves: Novelty is held and the remaining contribution is narrowly bounded.
+      - artifact_path: protocol/method_route_activation_v1.0.0.yaml
+        sha256: 33f4c74946b13c9e1524dc447438ff14f35ad09fadf6be27371bd345c0171413
+        proves: Route C is selected under an independent-calibration hold.
+      - artifact_path: ingestion/field_isolated_metadata_receipt_v1.0.1.yaml
+        sha256: a974bce9dedf65f2575d66da1728ffa9254db5291d75259371eb401f4803821b
+        proves: PAM50-panel, receptor, and technical-replicate input feasibility passed.
+    open_requirements: []
+  - phase_number: 1
+    name: Method and calibration lock
+    status: in_progress
+    completion_gate: >-
+      The assay bridge, reference, technical-error model, precision targets,
+      thresholds, abstention rule, and numerical conformance are approved and
+      frozen without validation or outcome leakage.
+    evidence:
+      - artifact_path: protocol/prospective_calibration_experiment_design_v0.1.0.yaml
+        sha256: 434e6177f2e31e861c213ac58f7eb48be25cc9aeb7640b7ad1f8d26fdda555b1
+        proves: Typed no-contact three-arm prospective calibration design.
+      - artifact_path: reviews/FOUNDER_PROSPECTIVE_CALIBRATION_DESIGN_DECISION_v0.1.0.yaml
+        sha256: 30538ede5f74aedfb022a1a5ffd1a4923fcd4333045d56d55beef3590d624418
+        proves: Founder planning-only approval bound to the exact design and decision packet.
+      - artifact_path: protocol/prospective_calibration_planning_activation_v1.0.0.yaml
+        sha256: f92d0558811d8ecb066d8dae96386c10582588093da737df3460c879aa393dbc
+        proves: Internal planning is activated with all execution and external-action prohibitions retained.
+      - artifact_path: protocol/calibration-scenarios/HYPOTHETICAL_LEAN_RESULT.yaml
+        sha256: fd13a7f50d364c68bea5805fd010187be787806f9b699694abc6f5b49fe3ae65
+        proves: The lean hypothetical envelope requires 82 attempted pairs under declared assumptions.
+      - artifact_path: protocol/calibration-scenarios/HYPOTHETICAL_BALANCED_RESULT.yaml
+        sha256: 29f6e9f875884bec26c86cbc56076b96c5edfc6b1c331326e9dd42dba2756f59
+        proves: The balanced hypothetical envelope requires 185 attempted pairs under declared assumptions.
+      - artifact_path: protocol/calibration-scenarios/HYPOTHETICAL_HIGH_PRECISION_RESULT.yaml
+        sha256: 98c30b7b6c0d7ff2522cb563b9c08b2426c84d2dbc192ec8cd3eb80cb88f61c0
+        proves: The high-precision hypothetical envelope requires 945 attempted pairs under declared assumptions.
+      - artifact_path: protocol/CALIBRATION_SCENARIO_REPORT_v1.0.0.md
+        sha256: da27beeb73f266120cafd04b5416758e89cb442f8672f1a22f7ce02882b097c0
+        proves: Scenario implications, limitations, and the nondecisional boundary are documented.
+      - artifact_path: reviews/FOUNDER_PHASE1_SCIENTIFIC_STATISTICAL_PLANNING_PACKET_v0.1.0.md
+        sha256: ea6086e33a50629c81783138381c70f639998ee077c7f253c00d52a8563f0a99
+        proves: The next material scientific and statistical decisions are isolated for founder review.
+    open_requirements:
+      - Founder decision on Phase 1 scientific and statistical planning recommendations 0.1.0.
+      - Approved assay platform and technical-repeat architecture.
+      - Approved pilot, precision, attrition, clustering, coverage, and multiplicity parameters.
+      - Lawful independent calibration data or a separately authorized prospective experiment.
+      - Frozen platform-matched reference and preprocessing bridge.
+      - Frozen technical-error model, reliability thresholds, abstention rule, and numerical tolerances.
+      - Founder scientific/product, molecular/pathology, and statistical reviews.
+  - phase_number: 2
+    name: Preregistration and immutable datasets
+    status: not_started
+    completion_gate: >-
+      The complete method and analysis plan are preregistered and Git-tagged, and
+      discovery and validation snapshots are independently frozen and verified.
+    evidence: []
+    open_requirements:
+      - Founder-approved preregistered analysis plan.
+      - Immutable TCGA-BRCA discovery snapshot.
+      - Immutable GSE96058 validation snapshot.
+      - Dataset-overlap, independence, access, license, and transformation verification.
+  - phase_number: 3
+    name: Discovery analysis
+    status: not_started
+    completion_gate: >-
+      Deterministic discovery analyses, diagnostics, sensitivity analyses, null
+      findings, tables, and figures are frozen under the preregistered protocol.
+    evidence: []
+    open_requirements:
+      - Execute the locked method on the discovery cohort.
+      - Complete classification, margin, stability, abstention, discordance, subgroup, and prespecified outcome analyses.
+      - Complete diagnostics, negative controls, multiplicity, and sensitivity analyses.
+      - Freeze all code, environment, inputs, warnings, results, tables, and figures.
+  - phase_number: 4
+    name: Unchanged external validation
+    status: not_started
+    completion_gate: >-
+      The discovery-frozen method is applied unchanged to the independent
+      validation snapshot and all prespecified performance and failure criteria
+      are reported.
+    evidence: []
+    open_requirements:
+      - Prove the method and thresholds were frozen before validation access.
+      - Execute unchanged GSE96058 validation.
+      - Report repeatability, abstention, transport degradation, subgroup results, failures, and null findings.
+      - Complete all prespecified external-validation sensitivity analyses.
+  - phase_number: 5
+    name: Translation and decision-support assessment
+    status: not_started
+    completion_gate: >-
+      Intended user, decision, alternatives, benefits, harms, abstention
+      consequences, prospective validation path, and nonclinical-use boundary are
+      supported by the completed evidence and analyses.
+    evidence: []
+    open_requirements:
+      - Compare the framework against simpler uncertainty indicators.
+      - Define the decision-impact hypothesis and prospective validation pathway.
+      - Evaluate benefits, harms, abstention consequences, and deployment no-go criteria.
+      - Complete founder scientific, product, and clinical-translation review.
+  - phase_number: 6
+    name: Frozen release, manuscript, and final human review
+    status: not_started
+    completion_gate: >-
+      A complete immutable research release and submission-ready manuscript pass
+      technical review and are presented to the founder for final human confirmation.
+    evidence:
+      - artifact_path: manuscript/WORKING_MANUSCRIPT.md
+        sha256: cc68dee0810f430e7d02b666ac82e09a1013c10e635161d3fb4689668c598dd6
+        proves: A traceable working manuscript scaffold exists but contains prohibited result and conclusion placeholders.
+    open_requirements:
+      - Replace all prohibited placeholders with reviewed executed evidence or retain explicit null statements.
+      - Reconcile every number, claim, table, figure, citation, limitation, and disclosure.
+      - Freeze the protocol, data manifests, code, environment, results, figures, and evidence into one release.
+      - Complete technical, statistical, molecular/pathology, and founder review.
+      - Present the complete release for final human confirmation.
+      - Obtain separate authorization before any website publication, preprint, or journal submission.
+ready_for_final_human_review: false
+final_human_review_preserved: true
+final_human_review_completed: false
+scientific_conclusion_authorized: false
+external_publication_authorized: false
+external_submission_authorized: false

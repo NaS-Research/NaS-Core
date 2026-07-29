@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+scenario_id: HYPOTHETICAL-CAL-LEAN
+scenario_sha256: 1781add72f4448e47e9a8012645c6af89145e1de13d2d681886503b20b5f53a0
+planning_activation_sha256: f92d0558811d8ecb066d8dae96386c10582588093da737df3460c879aa393dbc
+code_revision: 2a51d0b
+calculated_at: '2026-07-29T18:10:05.308576Z'
+binary_effective_pairs_required: 73
+continuous_effective_pairs_required: 49
+governing_objective: label_retention
+governing_effective_pairs: 73
+cluster_design_effect: 1.0
+expected_attrition_fraction: 0.1
+attempted_pairs_required: 82
+attempted_measurements_required: 164
+achieved_expected_effective_pairs: 73.8
+achieved_binary_half_width: 0.06960312747409425
+continuous_normal_quantile: 1.9599639845400536
+achieved_continuous_mean_half_width: 0.05703742605916794
+planning_only: true
+scientific_parameters_approved: false
+source_selected: false
+data_accessed: false
+execution_authorized: false
+interpretation_limits:
+- Every probability, variance, precision, multiplicity, attrition, and clustering
+  input is hypothetical.
+- Attempted pairs are an operational scenario, not an approved sample size.
+- The calculation does not establish subtype, margin-stratum, missingness, clinical-utility,
+  or budget sufficiency.
+- Pilot, founder, molecular, statistical, governance, and operational review remain
+  required.
