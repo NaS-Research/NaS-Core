@@ -17,6 +17,7 @@ from nas_core.analysis.cohort import CohortBuildService
 from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
 from nas_core.analysis.method_route import MethodRouteActivationService
+from nas_core.analysis.numerical_conformance import NumericalConformanceService
 from nas_core.analysis.platform_compatibility import (
     PlatformCompatibilityAuditService,
 )
@@ -163,6 +164,11 @@ from nas_core.domain.method_dependency import (
     write_method_route_activation,
     write_method_route_schemas,
     write_pam50_centroid_candidate,
+)
+from nas_core.domain.numerical_conformance import (
+    load_numerical_conformance_plan,
+    write_numerical_conformance_receipt,
+    write_numerical_conformance_schemas,
 )
 from nas_core.domain.platform_compatibility import (
     write_platform_compatibility_audit,
@@ -695,6 +701,29 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write the platform-compatibility audit JSON Schema",
     )
     reliability_platform_compatibility_schema.add_argument("path", type=Path)
+    reliability_numerical_conformance = reliability_commands.add_parser(
+        "numerical-conformance",
+        help="Run the independent synthetic numerical-conformance suite",
+    )
+    reliability_numerical_conformance.add_argument("plan_path", type=Path)
+    reliability_numerical_conformance.add_argument("centroid_candidate_path", type=Path)
+    reliability_numerical_conformance.add_argument(
+        "reliability_specification_path",
+        type=Path,
+    )
+    reliability_numerical_conformance.add_argument("--code-revision", required=True)
+    reliability_numerical_conformance.add_argument("--output-path", type=Path)
+    reliability_numerical_conformance.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the immutable numerical-conformance receipt",
+    )
+    reliability_numerical_conformance_schema = reliability_commands.add_parser(
+        "numerical-conformance-schema",
+        help="Write numerical-conformance plan and receipt JSON Schemas",
+    )
+    reliability_numerical_conformance_schema.add_argument("plan_path", type=Path)
+    reliability_numerical_conformance_schema.add_argument("receipt_path", type=Path)
     reliability_prospective_calibration = reliability_commands.add_parser(
         "prospective-calibration-validate",
         help="Validate a nonexecuting prospective Route C calibration design",
@@ -2088,6 +2117,59 @@ def main(argv: Sequence[str] | None = None) -> int:
     ):
         write_platform_compatibility_schema(args.path)
         print(f"Wrote platform compatibility schema: {args.path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "numerical-conformance"
+    ):
+        conformance_plan = load_numerical_conformance_plan(args.plan_path)
+        conformance_candidate = load_pam50_centroid_candidate(
+            args.centroid_candidate_path
+        )
+        conformance_specification = load_reliability_specification(
+            args.reliability_specification_path
+        )
+        conformance_receipt = NumericalConformanceService().execute(
+            conformance_plan,
+            conformance_candidate,
+            conformance_specification,
+            plan_path=args.plan_path,
+            candidate_path=args.centroid_candidate_path,
+            reliability_specification_path=args.reliability_specification_path,
+            code_revision=args.code_revision,
+            executed_at=datetime.now(UTC),
+        )
+        if not args.execute:
+            print(
+                "Numerical conformance completed: "
+                f"passed={conformance_receipt.passed_count}; "
+                f"failed={conformance_receipt.failed_count}; "
+                f"overall={conformance_receipt.overall_passed}"
+            )
+            print("Dry run only; no conformance receipt was written.")
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_numerical_conformance_receipt(
+            args.output_path,
+            conformance_receipt,
+        )
+        print(f"Wrote numerical conformance receipt: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "numerical-conformance-schema"
+    ):
+        write_numerical_conformance_schemas(
+            args.plan_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote numerical conformance schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
         return 0
 
     if (

@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+platform_audit_sha256: a0698fecfe9f7f1795e1b4b239e2a9468c593a2feca8c769a3fcfbc26e88db31
+centroid_candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+absolute_score_tolerance: 1.0e-12
+absolute_margin_tolerance: 1.0e-12
+required_case_ids:
+  - CONF-ARCHETYPE-LUMINAL-A
+  - CONF-ARCHETYPE-LUMINAL-B
+  - CONF-ARCHETYPE-HER2-ENRICHED
+  - CONF-ARCHETYPE-BASAL-LIKE
+  - CONF-ARCHETYPE-NORMAL-LIKE
+  - CONF-TIED-INPUT-RANKS
+  - CONF-TOP-SCORE-TIE
+  - CONF-RUNNER-UP-SCORE-TIE
+independent_reference_implementation: pure_python_no_numpy_no_scipy
+synthetic_only: true
+molecular_values_accessed: false
+outcomes_accessed: false
+method_lock_authorized: false
