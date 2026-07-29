@@ -1,0 +1,36 @@
+schema_version: 1.0.0
+decision_version: 0.1.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+planning_activation_sha256: f92d0558811d8ecb066d8dae96386c10582588093da737df3460c879aa393dbc
+decision_packet_sha256: ea6086e33a50629c81783138381c70f639998ee077c7f253c00d52a8563f0a99
+confirmation_statement: I approve NAS-BRCA-002 Phase 1 scientific and statistical planning recommendations 0.1.0 as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-29T19:55:46Z'
+authorized_internal_deliverables:
+  - platform_compatibility_audit
+  - excluded_pilot_precision_design
+  - coverage_plan
+  - multiplicity_plan
+  - symbolic_budget_model
+balanced_scenario_use: internal_operational_feasibility_reference_only
+final_pair_count_approved: false
+final_scientific_parameters_approved: false
+final_human_review_preserved: true
+external_contact_authorized: false
+laboratory_quote_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+data_access_authorized: false
+source_selection_authorized: false
+threshold_selection_authorized: false
+study_execution_authorized: false
+clinical_use_authorized: false
+scientific_conclusion_authorized: false
+publication_authorized: false
+submission_authorized: false

@@ -544,40 +544,48 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain the founder's checksum-bound decision on Phase 1 scientific and
-   statistical planning recommendations `0.1.0`.
-2. If approved, implement the platform-compatibility audit, excluded-pilot
+1. Implement the founder-approved platform-compatibility audit, excluded-pilot
    precision design, coverage plan, multiplicity plan, and symbolic budget model
    without external contact or spending.
-3. Resolve the selected route's reference, transformation, technical-error,
+2. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
-4. Complete the founder scientific/product, molecular/pathology, and statistical
+3. Complete the scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-5. Update the living manuscript and its evidence-to-text ledger after every material
+4. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-8. Implement persisted evidence claims, citations, provenance, contradictory
+7. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+8. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-10. Expand the screening model gateway into general evidence reasoning with
+9. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-11. Build evaluation suites for retrieval, citation validity, numerical
+10. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-12. Generate an immutable research release containing the protocol, dataset
+11. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-13. Generate a reviewable white-paper draft whose substantive claims trace to
+12. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-14. Build the internal workbench for projects, protocols, datasets, runs,
+13. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-15. Complete repeated internal oncology pilots before selecting the first
+14. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-29 — Phase 1 scientific/statistical planning approved
+
+Recorded the founder's exact approval of planning recommendations `0.1.0`.
+Internal development of the platform-compatibility audit, excluded-pilot
+precision design, coverage plan, multiplicity plan, and symbolic budget model is
+authorized. The balanced 185-pair scenario remains a feasibility reference, not
+an approved pair count. No external contact, spending, acquisition, data access,
+source or threshold selection, execution, conclusion, publication, or submission
+is authorized.
 
 ### 2026-07-29 — Phase 1 planning activated and scenario envelope calculated
 
