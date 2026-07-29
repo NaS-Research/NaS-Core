@@ -1,0 +1,127 @@
+{
+  "$defs": {
+    "StorageReadinessDecision": {
+      "enum": [
+        "ready",
+        "blocked"
+      ],
+      "title": "StorageReadinessDecision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "available_bytes": {
+      "minimum": 0,
+      "title": "Available Bytes",
+      "type": "integer"
+    },
+    "biomedical_data_accessed": {
+      "title": "Biomedical Data Accessed",
+      "type": "boolean"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "checked_at": {
+      "format": "date-time",
+      "title": "Checked At",
+      "type": "string"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "data_root": {
+      "minLength": 1,
+      "title": "Data Root",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/StorageReadinessDecision"
+    },
+    "layout_schema_version": {
+      "minimum": 1,
+      "title": "Layout Schema Version",
+      "type": "integer"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "marker_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Marker Sha256",
+      "type": "string"
+    },
+    "minimum_required_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Minimum Required Bytes",
+      "type": "integer"
+    },
+    "mount_read_only": {
+      "title": "Mount Read Only",
+      "type": "boolean"
+    },
+    "operating_system_write_access": {
+      "title": "Operating System Write Access",
+      "type": "boolean"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "required_directories_present": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Directories Present",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_bytes_written": {
+      "title": "Source Bytes Written",
+      "type": "boolean"
+    },
+    "write_probe_performed": {
+      "title": "Write Probe Performed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "code_revision",
+    "checked_at",
+    "data_root",
+    "marker_sha256",
+    "layout_schema_version",
+    "required_directories_present",
+    "available_bytes",
+    "minimum_required_bytes",
+    "mount_read_only",
+    "operating_system_write_access",
+    "write_probe_performed",
+    "decision",
+    "blockers",
+    "limitations",
+    "source_bytes_written",
+    "biomedical_data_accessed"
+  ],
+  "title": "StorageReadinessReceipt",
+  "type": "object"
+}

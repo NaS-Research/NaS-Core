@@ -205,6 +205,10 @@ from nas_core.domain.research_completion import (
 )
 from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
+from nas_core.domain.storage_readiness import (
+    write_storage_readiness_receipt,
+    write_storage_readiness_schema,
+)
 from nas_core.domain.survival import write_survival_schemas
 from nas_core.domain.technical_calibration import (
     load_technical_calibration_plan,
@@ -298,6 +302,7 @@ from nas_core.retrieval.screening import ScreeningQueueService
 from nas_core.retrieval.screening_confirmation import ScreeningConfirmationService
 from nas_core.storage.layout import DataLayout
 from nas_core.storage.object_store import get_object_store
+from nas_core.storage.readiness import StorageReadinessService
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
 from nas_core.workflows.program import (
     load_program_charter,
@@ -320,6 +325,28 @@ def build_parser() -> argparse.ArgumentParser:
     storage_commands = storage.add_subparsers(dest="storage_command", required=True)
     storage_commands.add_parser("init", help="Create and validate the data-root layout")
     storage_commands.add_parser("check", help="Validate the existing data-root layout")
+    storage_preflight = storage_commands.add_parser(
+        "preflight",
+        help="Inspect governed storage readiness without writing a probe",
+    )
+    storage_preflight.add_argument("--data-root", type=Path)
+    storage_preflight.add_argument(
+        "--minimum-required-bytes",
+        type=int,
+        required=True,
+    )
+    storage_preflight.add_argument("--code-revision", required=True)
+    storage_preflight.add_argument("--output-path", type=Path)
+    storage_preflight.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the non-mutating storage-readiness receipt",
+    )
+    storage_preflight_schema = storage_commands.add_parser(
+        "preflight-schema",
+        help="Write the storage-readiness receipt JSON Schema",
+    )
+    storage_preflight_schema.add_argument("path", type=Path)
 
     plan = commands.add_parser("plan", help="Manage versioned research analysis plans")
     plan_commands = plan.add_subparsers(dest="plan_command", required=True)
@@ -1768,6 +1795,34 @@ def main(argv: Sequence[str] | None = None) -> int:
         layout = DataLayout(get_settings().data_root)
         layout.validate()
         print(f"NaS Core data root is valid: {layout.root}")
+        return 0
+
+    if args.command == "storage" and args.storage_command == "preflight":
+        preflight_root = args.data_root or get_settings().data_root
+        storage_receipt = StorageReadinessService().inspect(
+            preflight_root,
+            minimum_required_bytes=args.minimum_required_bytes,
+            code_revision=args.code_revision,
+            checked_at=datetime.now(UTC),
+        )
+        if not args.execute:
+            print(
+                "Storage preflight completed: "
+                f"decision={storage_receipt.decision.value}; "
+                f"available_bytes={storage_receipt.available_bytes}; "
+                f"blockers={len(storage_receipt.blockers)}"
+            )
+            print("Dry run only; no readiness receipt was written.")
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_storage_readiness_receipt(args.output_path, storage_receipt)
+        print(f"Wrote storage readiness receipt: {args.output_path}")
+        return 0
+
+    if args.command == "storage" and args.storage_command == "preflight-schema":
+        write_storage_readiness_schema(args.path)
+        print(f"Wrote storage readiness schema: {args.path}")
         return 0
 
     if args.command == "plan" and args.plan_command == "validate":
