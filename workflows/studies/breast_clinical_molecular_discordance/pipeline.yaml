@@ -1,16 +1,16 @@
 schema_version: 1.0.0
 study_id: NAS-BRCA-002
-pipeline_version: 1.0.0
-current_stage: question
+pipeline_version: 1.1.0
+current_stage: protocol
 stages:
 - stage: question
-  status: in_progress
+  status: complete
   required_artifacts:
   - question/research_question.yaml
   - question/phase_zero_plan.yaml
   completion_gate: Question is selected, approved, and marked literature-ready.
 - stage: literature
-  status: not_started
+  status: complete
   required_artifacts:
   - literature/protocol.md
   - literature/search_strategy.yaml
@@ -23,7 +23,7 @@ stages:
   - literature/ai-screening/README.md
   completion_gate: Search protocol is locked before evidence retrieval.
 - stage: protocol
-  status: not_started
+  status: in_progress
   required_artifacts:
   - protocol/analysis_plan.yaml
   completion_gate: Analysis plan has documented founder approval, is preregistered, and is Git-tagged.

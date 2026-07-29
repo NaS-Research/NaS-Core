@@ -161,6 +161,10 @@ from nas_core.domain.reliability import (
     load_synthetic_technical_error_panel,
     write_reliability_schema,
 )
+from nas_core.domain.research_completion import (
+    load_study_completion_audit,
+    write_study_completion_audit_schema,
+)
 from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.survival import write_survival_schemas
@@ -262,6 +266,7 @@ from nas_core.workflows.program import (
     load_research_question,
     write_model_schema,
 )
+from nas_core.workflows.research_completion import StudyCompletionAuditService
 from nas_core.workflows.study_scaffold import (
     initialize_study,
     load_study_manifests,
@@ -1543,6 +1548,18 @@ def build_parser() -> argparse.ArgumentParser:
     study_schema = study_commands.add_parser("schema", help="Write canonical study schemas")
     study_schema.add_argument("study_path", type=Path, help="Output path for study schema")
     study_schema.add_argument("pipeline_path", type=Path, help="Output path for pipeline schema")
+    study_completion_validate = study_commands.add_parser(
+        "completion-validate",
+        help="Validate a phase-by-phase research completion audit",
+    )
+    study_completion_validate.add_argument("audit_path", type=Path)
+    study_completion_validate.add_argument("study_root", type=Path)
+    study_completion_validate.add_argument("pipeline_path", type=Path)
+    study_completion_schema = study_commands.add_parser(
+        "completion-schema",
+        help="Write the research completion-audit JSON Schema",
+    )
+    study_completion_schema.add_argument("path", type=Path)
     return parser
 
 
@@ -3987,6 +4004,26 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "study" and args.study_command == "schema":
         write_study_schemas(args.study_path, args.pipeline_path)
         print(f"Wrote study schemas: {args.study_path}, {args.pipeline_path}")
+        return 0
+
+    if args.command == "study" and args.study_command == "completion-validate":
+        completion_audit = load_study_completion_audit(args.audit_path)
+        StudyCompletionAuditService().validate(
+            completion_audit,
+            study_root=args.study_root,
+            pipeline_path=args.pipeline_path,
+        )
+        print(
+            "Research completion audit is valid: "
+            f"{completion_audit.study_id}; "
+            f"current phase={completion_audit.current_phase}; "
+            f"final-review-ready={completion_audit.ready_for_final_human_review}"
+        )
+        return 0
+
+    if args.command == "study" and args.study_command == "completion-schema":
+        write_study_completion_audit_schema(args.path)
+        print(f"Wrote research completion-audit schema: {args.path}")
         return 0
 
     raise AssertionError("Unreachable command")

@@ -154,6 +154,14 @@ external validation. It selects no assay, specimen, laboratory, pair count,
 budget, source, or threshold and authorizes no contact, spending, acquisition,
 data access, execution, clinical use, or publication.
 
+Completion audit `1.0.0` now binds the lifecycle to repository evidence. It
+records Phase 0 complete, Phase 1 in progress, Phases 2–6 not started, and
+`ready_for_final_human_review=false`. The validator rejects changed evidence,
+premature completion, scientific conclusions before a review-ready release, and
+publication or submission before the preserved final human review. The canonical
+study manifest is now `active`, pipeline `1.1.0` closes question and literature,
+and protocol is the only in-progress lifecycle stage.
+
 Route-neutral centroid QA is now complete. Frozen importer revision `2843a6e`
 verified the official source archive and member hashes, applied exactly three
 historical aliases, and materialized five 50-gene subtype vectors with 250 finite
@@ -556,6 +564,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-29 — Research completion audit made executable
+
+Implemented a typed seven-phase completion contract, repository evidence-hash
+validator, CLI, JSON Schema, human-readable report, and regression tests. Phase 0
+is complete; Phase 1 is active; Phases 2–6 remain incomplete. The working
+manuscript does not make Phase 6 complete.
+
+Final human review is mechanically preserved. The system cannot claim readiness,
+authorize a conclusion, or authorize publication/submission merely because tests
+pass or a draft exists.
 
 ### 2026-07-29 — Phase 1 prospective calibration design implemented
 
