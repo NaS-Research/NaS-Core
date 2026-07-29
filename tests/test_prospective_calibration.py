@@ -20,6 +20,7 @@ from nas_core.domain.prospective_calibration import (
     load_calibration_contact_revocation,
     load_prospective_calibration_design,
     load_prospective_calibration_founder_decision,
+    load_prospective_calibration_planning_activation,
 )
 from nas_core.domain.technical_calibration import load_technical_calibration_plan
 
@@ -54,6 +55,11 @@ DECISION_SCHEMA = (
 )
 ACTIVATION_SCHEMA = (
     ROOT / "workflows" / "prospective_calibration_planning_activation.schema.json"
+)
+PLANNING_ACTIVATION = (
+    STUDY
+    / "protocol"
+    / "prospective_calibration_planning_activation_v1.0.0.yaml"
 )
 
 
@@ -210,3 +216,21 @@ def test_checked_in_planning_authorization_schemas_match_runtime_models() -> Non
     assert json.loads(ACTIVATION_SCHEMA.read_text(encoding="utf-8")) == (
         ProspectiveCalibrationPlanningActivation.model_json_schema()
     )
+
+
+def test_checked_in_planning_activation_matches_frozen_implementation() -> None:
+    activation = load_prospective_calibration_planning_activation(
+        PLANNING_ACTIVATION
+    )
+    regenerated = ProspectiveCalibrationDesignService().activate_planning(
+        load_prospective_calibration_founder_decision(DECISION),
+        load_prospective_calibration_design(DESIGN),
+        decision_path=DECISION,
+        design_path=DESIGN,
+        decision_packet_path=PACKET,
+        code_revision=activation.code_revision,
+        activated_at=activation.activated_at,
+    )
+
+    assert activation == regenerated
+    assert activation.code_revision == "00bfa89"

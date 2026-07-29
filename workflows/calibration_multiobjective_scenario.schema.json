@@ -1,0 +1,160 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "cluster_design_effect": {
+      "maximum": 20.0,
+      "minimum": 1.0,
+      "title": "Cluster Design Effect",
+      "type": "number"
+    },
+    "continuous_familywise_confidence": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.5,
+      "title": "Continuous Familywise Confidence",
+      "type": "number"
+    },
+    "continuous_mean_half_width": {
+      "exclusiveMinimum": 0.0,
+      "title": "Continuous Mean Half Width",
+      "type": "number"
+    },
+    "continuous_multiplicity_count": {
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Continuous Multiplicity Count",
+      "type": "integer"
+    },
+    "continuous_paired_sd": {
+      "exclusiveMinimum": 0.0,
+      "title": "Continuous Paired Sd",
+      "type": "number"
+    },
+    "data_accessed": {
+      "title": "Data Accessed",
+      "type": "boolean"
+    },
+    "expected_attrition_fraction": {
+      "exclusiveMaximum": 0.95,
+      "minimum": 0.0,
+      "title": "Expected Attrition Fraction",
+      "type": "number"
+    },
+    "label_retention_confidence": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.5,
+      "title": "Label Retention Confidence",
+      "type": "number"
+    },
+    "label_retention_half_width": {
+      "exclusiveMaximum": 0.5,
+      "exclusiveMinimum": 0.0,
+      "title": "Label Retention Half Width",
+      "type": "number"
+    },
+    "label_retention_probability": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Label Retention Probability",
+      "type": "number"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "maximum_attempted_pairs": {
+      "maximum": 1000000,
+      "minimum": 2,
+      "title": "Maximum Attempted Pairs",
+      "type": "integer"
+    },
+    "minimum_attempted_pairs": {
+      "minimum": 2,
+      "title": "Minimum Attempted Pairs",
+      "type": "integer"
+    },
+    "parameters_are_hypothetical": {
+      "title": "Parameters Are Hypothetical",
+      "type": "boolean"
+    },
+    "planning_activation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Activation Sha256",
+      "type": "string"
+    },
+    "scenario_id": {
+      "pattern": "^HYPOTHETICAL-CAL-[A-Z0-9-]+$",
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "scenario_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Scenario Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_parameters_approved": {
+      "title": "Scientific Parameters Approved",
+      "type": "boolean"
+    },
+    "source_selected": {
+      "title": "Source Selected",
+      "type": "boolean"
+    },
+    "study_execution_authorized": {
+      "title": "Study Execution Authorized",
+      "type": "boolean"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "threshold_selection_authorized": {
+      "title": "Threshold Selection Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "scenario_version",
+    "scenario_id",
+    "study_id",
+    "planning_activation_sha256",
+    "label_retention_probability",
+    "label_retention_confidence",
+    "label_retention_half_width",
+    "continuous_paired_sd",
+    "continuous_mean_half_width",
+    "continuous_familywise_confidence",
+    "continuous_multiplicity_count",
+    "cluster_design_effect",
+    "expected_attrition_fraction",
+    "minimum_attempted_pairs",
+    "maximum_attempted_pairs",
+    "assumptions",
+    "limitations",
+    "parameters_are_hypothetical",
+    "scientific_parameters_approved",
+    "source_selected",
+    "data_accessed",
+    "threshold_selection_authorized",
+    "study_execution_authorized"
+  ],
+  "title": "MultiObjectiveCalibrationScenario",
+  "type": "object"
+}

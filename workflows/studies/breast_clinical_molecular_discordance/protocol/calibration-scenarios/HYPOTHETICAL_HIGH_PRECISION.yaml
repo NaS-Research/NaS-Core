@@ -1,0 +1,31 @@
+schema_version: 1.0.0
+scenario_version: 1.0.0
+scenario_id: HYPOTHETICAL-CAL-HIGH-PRECISION
+study_id: NAS-BRCA-002
+planning_activation_sha256: f92d0558811d8ecb066d8dae96386c10582588093da737df3460c879aa393dbc
+label_retention_probability: 0.9
+label_retention_confidence: 0.99
+label_retention_half_width: 0.03
+continuous_paired_sd: 0.25
+continuous_mean_half_width: 0.03
+continuous_familywise_confidence: 0.99
+continuous_multiplicity_count: 5
+cluster_design_effect: 1.2
+expected_attrition_fraction: 0.15
+minimum_attempted_pairs: 2
+maximum_attempted_pairs: 10000
+assumptions:
+  - A design effect of 1.2 hypothetically represents residual batch or source clustering.
+  - Fifteen percent attrition is hypothetical and includes assay, panel, and pair failures.
+  - Five continuous objectives receive a simple Bonferroni familywise adjustment.
+  - Continuous paired standard deviation 0.25 is a dimensionless software input, not pilot evidence.
+limitations:
+  - This intentionally demanding scenario may be operationally or financially infeasible.
+  - It does not establish subtype, score-margin, platform, or clinical-utility sufficiency.
+  - No parameter is scientifically approved and no budget is estimated.
+parameters_are_hypothetical: true
+scientific_parameters_approved: false
+source_selected: false
+data_accessed: false
+threshold_selection_authorized: false
+study_execution_authorized: false

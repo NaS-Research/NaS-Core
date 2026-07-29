@@ -9,6 +9,9 @@ from nas_core.ai.screening import AIAdvisoryScreeningService
 from nas_core.analysis.calibration_precision import (
     TechnicalReplicatePrecisionService,
 )
+from nas_core.analysis.calibration_scenario import (
+    MultiObjectiveCalibrationScenarioService,
+)
 from nas_core.analysis.cohort import CohortBuildService
 from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
@@ -51,6 +54,11 @@ from nas_core.domain.calibration_lineage import (
 from nas_core.domain.calibration_precision import (
     load_technical_replicate_precision_design,
     write_calibration_precision_schemas,
+)
+from nas_core.domain.calibration_scenario import (
+    load_multi_objective_calibration_scenario,
+    write_calibration_scenario_schemas,
+    write_multi_objective_calibration_scenario_result,
 )
 from nas_core.domain.citation_access import (
     load_repository_access_batch_receipt,
@@ -152,6 +160,7 @@ from nas_core.domain.prospective_calibration import (
     load_calibration_contact_revocation,
     load_prospective_calibration_design,
     load_prospective_calibration_founder_decision,
+    load_prospective_calibration_planning_activation,
     write_prospective_calibration_authorization_schemas,
     write_prospective_calibration_planning_activation,
     write_prospective_calibration_schema,
@@ -605,6 +614,30 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_calibration_precision_schema.add_argument("design_path", type=Path)
     reliability_calibration_precision_schema.add_argument("result_path", type=Path)
+    reliability_calibration_scenario = reliability_commands.add_parser(
+        "calibration-scenario",
+        help="Calculate a hypothetical multi-objective calibration scenario",
+    )
+    reliability_calibration_scenario.add_argument("scenario_path", type=Path)
+    reliability_calibration_scenario.add_argument("planning_activation_path", type=Path)
+    reliability_calibration_scenario.add_argument("--output-path", type=Path)
+    reliability_calibration_scenario.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the hypothetical planning result",
+    )
+    reliability_calibration_scenario.add_argument(
+        "--hypothetical-only",
+        action="store_true",
+        required=True,
+        help="Acknowledge that the result is not an approved sample size",
+    )
+    reliability_calibration_scenario_schema = reliability_commands.add_parser(
+        "calibration-scenario-schema",
+        help="Write multi-objective calibration scenario and result schemas",
+    )
+    reliability_calibration_scenario_schema.add_argument("scenario_path", type=Path)
+    reliability_calibration_scenario_schema.add_argument("result_path", type=Path)
     reliability_prospective_calibration = reliability_commands.add_parser(
         "prospective-calibration-validate",
         help="Validate a nonexecuting prospective Route C calibration design",
@@ -1861,6 +1894,54 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             "Wrote calibration precision schemas: "
             f"{args.design_path}, {args.result_path}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-scenario"
+    ):
+        calibration_scenario = load_multi_objective_calibration_scenario(
+            args.scenario_path
+        )
+        calibration_planning_activation = (
+            load_prospective_calibration_planning_activation(
+                args.planning_activation_path
+            )
+        )
+        calibration_scenario_result = MultiObjectiveCalibrationScenarioService().calculate(
+            calibration_scenario,
+            calibration_planning_activation,
+            activation_path=args.planning_activation_path,
+        )
+        if args.execute:
+            if args.output_path is None:
+                raise SystemExit("--output-path is required with --execute")
+            if args.output_path.exists():
+                raise FileExistsError("calibration scenario output path must be new")
+            write_multi_objective_calibration_scenario_result(
+                args.output_path,
+                calibration_scenario_result,
+            )
+            print(
+                "Wrote hypothetical calibration scenario result: "
+                f"{args.output_path}"
+            )
+            return 0
+        print(calibration_scenario_result.model_dump_json(indent=2))
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-scenario-schema"
+    ):
+        write_calibration_scenario_schemas(
+            args.scenario_path,
+            args.result_path,
+        )
+        print(
+            "Wrote calibration scenario schemas: "
+            f"{args.scenario_path}, {args.result_path}"
         )
         return 0
 

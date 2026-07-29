@@ -1,0 +1,129 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "achieved_binary_half_width": {
+      "exclusiveMaximum": 0.5,
+      "exclusiveMinimum": 0.0,
+      "title": "Achieved Binary Half Width",
+      "type": "number"
+    },
+    "achieved_continuous_mean_half_width": {
+      "exclusiveMinimum": 0.0,
+      "title": "Achieved Continuous Mean Half Width",
+      "type": "number"
+    },
+    "achieved_expected_effective_pairs": {
+      "exclusiveMinimum": 0.0,
+      "title": "Achieved Expected Effective Pairs",
+      "type": "number"
+    },
+    "attempted_measurements_required": {
+      "minimum": 4,
+      "title": "Attempted Measurements Required",
+      "type": "integer"
+    },
+    "attempted_pairs_required": {
+      "minimum": 2,
+      "title": "Attempted Pairs Required",
+      "type": "integer"
+    },
+    "binary_effective_pairs_required": {
+      "minimum": 2,
+      "title": "Binary Effective Pairs Required",
+      "type": "integer"
+    },
+    "cluster_design_effect": {
+      "maximum": 20.0,
+      "minimum": 1.0,
+      "title": "Cluster Design Effect",
+      "type": "number"
+    },
+    "continuous_effective_pairs_required": {
+      "minimum": 2,
+      "title": "Continuous Effective Pairs Required",
+      "type": "integer"
+    },
+    "continuous_normal_quantile": {
+      "exclusiveMinimum": 0.0,
+      "title": "Continuous Normal Quantile",
+      "type": "number"
+    },
+    "data_accessed": {
+      "title": "Data Accessed",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "expected_attrition_fraction": {
+      "exclusiveMaximum": 0.95,
+      "minimum": 0.0,
+      "title": "Expected Attrition Fraction",
+      "type": "number"
+    },
+    "governing_effective_pairs": {
+      "minimum": 2,
+      "title": "Governing Effective Pairs",
+      "type": "integer"
+    },
+    "governing_objective": {
+      "pattern": "^(label_retention|continuous_mean_precision)$",
+      "title": "Governing Objective",
+      "type": "string"
+    },
+    "interpretation_limits": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Interpretation Limits",
+      "type": "array"
+    },
+    "planning_only": {
+      "title": "Planning Only",
+      "type": "boolean"
+    },
+    "scenario_id": {
+      "pattern": "^HYPOTHETICAL-CAL-[A-Z0-9-]+$",
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_parameters_approved": {
+      "title": "Scientific Parameters Approved",
+      "type": "boolean"
+    },
+    "source_selected": {
+      "title": "Source Selected",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "binary_effective_pairs_required",
+    "continuous_effective_pairs_required",
+    "governing_objective",
+    "governing_effective_pairs",
+    "cluster_design_effect",
+    "expected_attrition_fraction",
+    "attempted_pairs_required",
+    "attempted_measurements_required",
+    "achieved_expected_effective_pairs",
+    "achieved_binary_half_width",
+    "continuous_normal_quantile",
+    "achieved_continuous_mean_half_width",
+    "planning_only",
+    "scientific_parameters_approved",
+    "source_selected",
+    "data_accessed",
+    "execution_authorized",
+    "interpretation_limits"
+  ],
+  "title": "MultiObjectiveCalibrationScenarioResult",
+  "type": "object"
+}
