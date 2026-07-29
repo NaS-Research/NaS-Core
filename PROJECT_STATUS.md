@@ -510,11 +510,13 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Obtain the founder's exact checksum-bound decision on the prepared calibration
-   inquiry packet. No external contact has been sent.
-2. If explicitly authorized, send only the selected, checksum-bound inquiry or
-   inquiries and preserve the sent text, recipient, timestamp, and delivery
-   receipt without accepting an agreement or ingesting data.
+1. Connect the approved sender account `dalronj.robertson@gmail.com` to Gmail.
+   Both inquiries are founder-authorized and their recipients are verified, but
+   the currently authenticated sender does not match the approved sender. No
+   external contact has been sent.
+2. Send both checksum-bound inquiries and preserve the sent text, recipients,
+   timestamps, and delivery receipts without accepting an agreement or ingesting
+   data.
 3. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
 4. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -544,6 +546,17 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-28 — Both calibration inquiries authorized
+
+Recorded the founder's exact authorization against decision packet SHA-256
+`66a28712…f39` and inquiry-draft SHA-256 `818e9364…797e`. Authoritative PubMed
+and NCBI GEO records verify `troester@unc.edu` and `lao.saal@med.lu.se`.
+
+Transmission failed closed before sending because the authenticated Gmail sender
+does not match the packet-approved `dalronj.robertson@gmail.com` account. Zero
+messages were sent. No agreement acceptance, data ingestion, spending, source
+selection, molecular or outcome access, execution, or publication is authorized.
 
 ### 2026-07-28 — Field-isolated calibration lineage audited
 

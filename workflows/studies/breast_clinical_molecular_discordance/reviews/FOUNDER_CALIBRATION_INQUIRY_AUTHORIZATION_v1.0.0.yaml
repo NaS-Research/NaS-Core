@@ -1,0 +1,49 @@
+schema_version: 1.0.0
+authorization_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+decision_packet_sha256: 66a28712041cd16a3ada5e8d1abea75bddafe049b32c24ab9cbc20fb94a71f39
+inquiry_draft_sha256: 818e936450c8d3d0f02e35f1eae23987a10975c1debfd9d1155dbaa203ea797e
+confirmation_statement: I authorize both calibration inquiries in founder packet 1.0.0 as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-29T00:08:28Z'
+founder_authorized: true
+authorized_inquiries:
+  - hurson-replicate-data
+  - gse60788-lineage
+approved_sender:
+  name: Dalron J. Robertson
+  email: dalronj.robertson@gmail.com
+recipient_verification:
+  verified_at: '2026-07-29T00:08:28Z'
+  recipients:
+    - inquiry_id: hurson-replicate-data
+      name: Melissa A. Troester
+      email: troester@unc.edu
+      authoritative_source: https://pubmed.ncbi.nlm.nih.gov/36892725/
+    - inquiry_id: gse60788-lineage
+      name: Lao H. Saal
+      email: lao.saal@med.lu.se
+      authoritative_source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE60788
+transmission:
+  status: credential_hold
+  authenticated_sender_matches_approved_sender: false
+  sent_message_count: 0
+  sent_at: null
+  delivery_receipts: []
+authorization_boundaries:
+  recipient_verification_authorized: true
+  transmission_authorized: true
+  data_agreement_acceptance_authorized: false
+  data_ingestion_authorized: false
+  spending_authorized: false
+  source_selection_authorized: false
+  molecular_data_access_authorized: false
+  outcome_data_access_authorized: false
+  method_execution_authorized: false
+  clinical_use_authorized: false
+  publication_authorized: false
