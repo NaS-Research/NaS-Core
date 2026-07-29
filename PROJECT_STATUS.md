@@ -25,6 +25,12 @@ participant non-overlap with GSE96058; audit the processed matrix scale and all
 before parsing expression values. No GSE96058 molecular or outcome values may be
 accessed.
 
+The non-mutating preflight verifies the existing data-root marker, all required
+directories, and 4.59 TB available, but returns `blocked` because macOS mounts
+the Seagate read-only and denies write access. Official NCBI headers freeze the
+candidate artifact at 54,838,076 bytes; its checksum remains pending because no
+molecular bytes were downloaded outside governed storage.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three
@@ -600,6 +606,14 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-29 — Governed storage preflight executed
+
+Implemented and independently tested a non-mutating storage-readiness contract,
+CLI, schema, and receipt. The Seagate layout and capacity pass, but the receipt
+correctly blocks acquisition on the read-only mount. Official NCBI headers freeze
+the GSE81538 filename, size, content type, and last-modified time. No write probe,
+source download, molecular access, or outcome access occurred.
+
 ### 2026-07-29 — Outcome-blind reference-development protocol frozen
 
 Registered GSE81538 as public/open for reference development only and added a
@@ -637,6 +651,8 @@ platform-compatibility requirements, and a symbolic budget. No data, source,
 threshold, final calibration size, price, external action, or execution is
 authorized or claimed.
 
+## Historical implementation log
+
 ### 2026-07-29 — Phase 1 scientific/statistical planning approved
 
 Recorded the founder's exact approval of planning recommendations `0.1.0`.
@@ -646,8 +662,6 @@ authorized. The balanced 185-pair scenario remains a feasibility reference, not
 an approved pair count. No external contact, spending, acquisition, data access,
 source or threshold selection, execution, conclusion, publication, or submission
 is authorized.
-
-## Historical implementation log
 
 ### 2026-07-29 — Phase 1 planning activated and scenario envelope calculated
 

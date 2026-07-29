@@ -1,0 +1,29 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+code_revision: 6d81988
+checked_at: '2026-07-29T20:41:35.182136Z'
+data_root: /Volumes/AGNDJ 6TB/NaS-Core-Data
+marker_sha256: 59f1582093d813a7aea94eedd9a91aaabe43c7f54dc526a9e76317db4c8b71c2
+layout_schema_version: 1
+required_directories_present:
+- object-store
+- working
+- exports
+- quarantine
+- database-backups
+- audit
+available_bytes: 4587132846080
+minimum_required_bytes: 1073741824
+mount_read_only: true
+operating_system_write_access: false
+write_probe_performed: false
+decision: blocked
+blockers:
+- filesystem mount is read-only
+- operating system reports no write access
+limitations:
+- The check uses filesystem flags and access metadata without a write probe.
+- A ready result does not verify future availability, backup, or media health.
+- No source artifact, participant row, or molecular value is accessed.
+source_bytes_written: false
+biomedical_data_accessed: false

@@ -92,4 +92,18 @@ or outcomes. Public identifier non-overlap does not establish biological-specime
 independence, so no calibration source is selected. See
 [`CALIBRATION_LINEAGE_REPORT_v1.0.0.md`](CALIBRATION_LINEAGE_REPORT_v1.0.0.md).
 
+Before GSE81538 acquisition, storage preflight `1.0.0` inspected the configured
+Seagate data root without a write probe. Receipt
+[`storage_readiness_receipt_v1.0.0.yaml`](storage_readiness_receipt_v1.0.0.yaml)
+verifies the marker, required directories, and 4.59 TB available, but returns
+`blocked` because the volume is mounted read-only and has no operating-system
+write access.
+
+Official NCBI headers freeze the proposed processed artifact at 54,838,076 bytes
+with last-modified time `2016-05-17T20:45:49Z`. Candidate manifest
+[`gse81538_artifact_manifest_candidate_v1.0.0.yaml`](gse81538_artifact_manifest_candidate_v1.0.0.yaml)
+retains the exact URL and proposed object key while leaving SHA-256 pending. No
+source bytes, molecular values, or outcomes were accessed. See
+[`STORAGE_READINESS_REPORT_v1.0.0.md`](STORAGE_READINESS_REPORT_v1.0.0.md).
+
 Completion gate: Governed immutable dataset snapshot is verified.

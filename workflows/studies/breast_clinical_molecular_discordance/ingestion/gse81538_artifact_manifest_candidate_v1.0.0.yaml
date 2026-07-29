@@ -1,0 +1,25 @@
+schema_version: 1.0.0
+manifest_version: 1.0.0
+study_id: NAS-BRCA-002
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+intended_role: reference_development_only
+official_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE81nnn/GSE81538/suppl/GSE81538_gene_expression_405_transformed.csv.gz
+filename: GSE81538_gene_expression_405_transformed.csv.gz
+content_type: application/x-gzip
+content_length_bytes: 54838076
+official_last_modified: '2016-05-17T20:45:49Z'
+metadata_observed_at: '2026-07-29T20:41:59Z'
+sha256: null
+checksum_status: pending_governed_download
+proposed_object_key: raw/nas-brca-002/ncbi-geo-gse81538/GSE81538_gene_expression_405_transformed.csv.gz
+storage_readiness_receipt_sha256: 926bba83b93de10fc4a9509e8f3f2174c3071a84b4dfb081728b3a89fb6ac72f
+acquisition_status: blocked_storage_read_only
+source_bytes_downloaded: false
+source_bytes_stored: false
+molecular_values_accessed: false
+outcome_values_accessed: false
+notes:
+  - Official NCBI HTTP headers and the supplementary directory listing were inspected.
+  - The artifact checksum must be computed during a governed immutable download.
+  - No partial, streamed, or temporary molecular artifact was downloaded.
