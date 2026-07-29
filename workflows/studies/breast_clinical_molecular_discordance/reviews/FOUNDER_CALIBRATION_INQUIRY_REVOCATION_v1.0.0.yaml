@@ -1,0 +1,32 @@
+schema_version: 1.0.0
+revocation_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+superseded_authorization_sha256: 2d68a59ea2c230856884ffc1a3bdd79ad98edeaa7dda1045ae446986a2fee077
+revocation_statement: |-
+  I don't authorize any contact. I see the recipients you're looking at, two people on here. Don't email him. Why are you trying to email him?
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+revoked_at: '2026-07-29T02:22:10Z'
+contact_authorized: false
+revoked_inquiries:
+  - hurson-replicate-data
+  - gse60788-lineage
+transmission_state:
+  sent_message_count: 0
+  any_message_sent: false
+  external_contact_prohibited: true
+  future_reauthorization_required: true
+preserved_boundaries:
+  data_agreement_acceptance_authorized: false
+  data_ingestion_authorized: false
+  spending_authorized: false
+  source_selection_authorized: false
+  molecular_data_access_authorized: false
+  outcome_data_access_authorized: false
+  method_execution_authorized: false
+  clinical_use_authorized: false
+  publication_authorized: false

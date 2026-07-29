@@ -510,13 +510,10 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Connect the approved sender account `dalronj.robertson@gmail.com` to Gmail.
-   Both inquiries are founder-authorized and their recipients are verified, but
-   the currently authenticated sender does not match the approved sender. No
-   external contact has been sent.
-2. Send both checksum-bound inquiries and preserve the sent text, recipients,
-   timestamps, and delivery receipts without accepting an agreement or ingesting
-   data.
+1. Design the no-contact Route C alternative: a prospective NaS technical-
+   replicate calibration experiment with no external correspondence, data
+   acquisition, spending, or execution authorization.
+2. Prepare its checksum-bound founder scientific and statistical decision packet.
 3. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
 4. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -547,6 +544,17 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-07-28 — External calibration contact prohibited
+
+The founder revoked the prior inquiry authorization before transmission. The
+append-only revocation is bound to authorization SHA-256 `2d68a59e…e077` and
+prohibits contact with both proposed recipients. Zero messages were sent.
+
+Any future external contact requires a new explicit founder authorization. Route C
+continues through internal, no-contact planning only; no data agreement, ingestion,
+spending, source selection, molecular or outcome access, execution, or publication
+is authorized.
+
 ### 2026-07-28 — Both calibration inquiries authorized
 
 Recorded the founder's exact authorization against decision packet SHA-256
@@ -554,9 +562,9 @@ Recorded the founder's exact authorization against decision packet SHA-256
 and NCBI GEO records verify `troester@unc.edu` and `lao.saal@med.lu.se`.
 
 Transmission failed closed before sending because the authenticated Gmail sender
-does not match the packet-approved `dalronj.robertson@gmail.com` account. Zero
-messages were sent. No agreement acceptance, data ingestion, spending, source
-selection, molecular or outcome access, execution, or publication is authorized.
+did not match the packet-approved `dalronj.robertson@gmail.com` account. The
+founder subsequently revoked this authorization; it is preserved here only as
+append-only provenance. Zero messages were sent.
 
 ### 2026-07-28 — Field-isolated calibration lineage audited
 

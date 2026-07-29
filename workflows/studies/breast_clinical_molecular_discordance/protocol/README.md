@@ -107,7 +107,10 @@ artifacts only. The founder authorized both in
 recipient addresses were verified against authoritative PubMed and NCBI GEO
 records. Transmission remains on a credential hold because the authenticated
 Gmail sender does not match the approved `dalronj.robertson@gmail.com` sender.
-Zero messages have been sent.
+The founder subsequently revoked both inquiries in
+`reviews/FOUNDER_CALIBRATION_INQUIRY_REVOCATION_v1.0.0.yaml`. Zero messages were
+sent, all external contact is prohibited, and any future contact requires a new
+explicit authorization.
 
 The route-neutral precision tool can verify hypothetical technical-replicate
 designs without selecting a scientific parameter or source:
