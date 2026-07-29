@@ -13,6 +13,9 @@ from nas_core.analysis.cohort import CohortBuildService
 from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
 from nas_core.analysis.method_route import MethodRouteActivationService
+from nas_core.analysis.prospective_calibration import (
+    ProspectiveCalibrationDesignService,
+)
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
@@ -145,6 +148,11 @@ from nas_core.domain.method_dependency import (
     write_pam50_centroid_candidate,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
+from nas_core.domain.prospective_calibration import (
+    load_calibration_contact_revocation,
+    load_prospective_calibration_design,
+    write_prospective_calibration_schema,
+)
 from nas_core.domain.reliability import (
     load_reliability_method_inputs,
     load_reliability_specification,
@@ -589,6 +597,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_calibration_precision_schema.add_argument("design_path", type=Path)
     reliability_calibration_precision_schema.add_argument("result_path", type=Path)
+    reliability_prospective_calibration = reliability_commands.add_parser(
+        "prospective-calibration-validate",
+        help="Validate a nonexecuting prospective Route C calibration design",
+    )
+    reliability_prospective_calibration.add_argument("design_path", type=Path)
+    reliability_prospective_calibration.add_argument("route_activation_path", type=Path)
+    reliability_prospective_calibration.add_argument("acquisition_plan_path", type=Path)
+    reliability_prospective_calibration.add_argument("contact_revocation_path", type=Path)
+    reliability_prospective_calibration_schema = reliability_commands.add_parser(
+        "prospective-calibration-schema",
+        help="Write the prospective calibration experiment-design JSON Schema",
+    )
+    reliability_prospective_calibration_schema.add_argument("path", type=Path)
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1779,6 +1800,46 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote calibration precision schemas: "
             f"{args.design_path}, {args.result_path}"
         )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "prospective-calibration-validate"
+    ):
+        prospective_design = load_prospective_calibration_design(args.design_path)
+        prospective_activation = load_method_route_activation(
+            args.route_activation_path
+        )
+        prospective_plan = load_technical_calibration_plan(
+            args.acquisition_plan_path
+        )
+        prospective_revocation = load_calibration_contact_revocation(
+            args.contact_revocation_path
+        )
+        ProspectiveCalibrationDesignService().validate(
+            prospective_design,
+            prospective_activation,
+            prospective_plan,
+            prospective_revocation,
+            activation_path=args.route_activation_path,
+            plan_path=args.acquisition_plan_path,
+            revocation_path=args.contact_revocation_path,
+        )
+        print(
+            "Prospective calibration experiment design is valid: "
+            f"{prospective_design.study_id} v{prospective_design.design_version}; "
+            f"{len(prospective_design.arms)} arms; "
+            f"{len(prospective_design.estimands)} estimands; "
+            "zero contact, spending, data access, or execution authorization"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "prospective-calibration-schema"
+    ):
+        write_prospective_calibration_schema(args.path)
+        print(f"Wrote prospective calibration design schema: {args.path}")
         return 0
 
     if args.command == "plan" and args.plan_command == "schema":

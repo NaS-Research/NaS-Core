@@ -143,6 +143,26 @@ between GSE60788 and GSE96058. That does not prove biological-specimen
 non-overlap, so no source is selected and authoritative lineage confirmation
 remains required.
 
+Phase 1 prospective design `0.1.0` is recorded in
+`prospective_calibration_experiment_design_v0.1.0.yaml`. It separates an
+excluded feasibility pilot, primary post-extraction calibration, and optional
+extraction sensitivity; declares technical estimands and firewalls; and leaves
+all material parameters for founder and statistical review.
+
+Validate the exact Route C and no-contact bindings with:
+
+```console
+uv run nas-core reliability prospective-calibration-validate \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/prospective_calibration_experiment_design_v0.1.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/method_route_activation_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/technical_calibration_acquisition_plan_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/FOUNDER_CALIBRATION_INQUIRY_REVOCATION_v1.0.0.yaml
+```
+
+See `PROSPECTIVE_CALIBRATION_DESIGN_REPORT_v0.1.0.md` and the checksum-bound
+founder packet. The design authorizes no contact, spending, specimen or data
+acquisition, threshold selection, or execution.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console

@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.50.0-working`
+Manuscript version: `0.51.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -559,6 +559,23 @@ abstention calibration, missingness, multiplicity, and clinical utility require
 separate design objectives.
 [technical_calibration_precision_scenario_HYPOTHETICAL.yaml;
 TECHNICAL_CALIBRATION_PRECISION_TOOL_v1.0.0.md]
+
+Phase 1 prospective design `0.1.0` now separates three technical roles. An
+excluded feasibility pilot may estimate variance, attrition, failures, and batch
+structure; an independent same-RNA arm would calibrate post-extraction technical
+reliability; and an optional matched-homogenate arm would estimate extraction
+variation separately. The primary proposed estimand is subtype-label retention,
+with secondary abstention-state, score-margin, gene-level error, and failure-rate
+estimands. Pilot specimens cannot enter final calibration, and GSE96058 remains
+external-validation-only.
+
+No assay, specimen, laboratory, pair count, budget, source, or threshold is
+selected. The prior 141-pair output remains a hypothetical software fixture, not
+a study recommendation. Founder, molecular, statistical, governance, operational,
+and budget review remain required before any external contact, procurement,
+specimen work, data access, or execution.
+[prospective_calibration_experiment_design_v0.1.0.yaml;
+PROSPECTIVE_CALIBRATION_DESIGN_REPORT_v0.1.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1383,6 +1400,7 @@ checks, and internal reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.51.0-working | 2026-07-29 | Entered Phase 1 with a typed, nonexecuting prospective calibration design: excluded pilot, primary same-RNA calibration, optional extraction sensitivity, five technical estimands, validation firewalls, and zero contact, spending, data access, or execution authority. |
 | 0.50.0-working | 2026-07-28 | Recorded the frozen calibration-lineage audit: all declared GEO replicate labels reconcile and GSE60788/GSE96058 have zero public identifier overlap, but biological non-overlap remains unproven; no source or data access was authorized. |
 | 0.49.0-working | 2026-07-28 | Recorded the founder's exact Route C decision and activated the independent-calibration hold under frozen revision `74b3f2a`; no source, method lock, data access, execution, clinical use, or publication is authorized. |
 | 0.48.0-working | 2026-07-28 | Added a nondecisional technical-replicate precision calculator with expected Wilson intervals, design-effect inflation, fail-closed targets, and an explicitly hypothetical 141-pair software fixture. |

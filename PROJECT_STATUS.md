@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Route C active under an independent-calibration hold
+### Phase 1 prospective calibration design awaiting founder review
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -144,6 +144,15 @@ sample records in GSE60788, GSE96058, and GSE130397, respectively, and links all
 public GEO accessions and zero public titles, but that does not establish
 biological-specimen non-overlap. No identifiers, rows, molecular values,
 outcomes, or raw artifacts were retained. No calibration source was selected.
+
+Phase 1 design `0.1.0` is now machine-valid and bound to the exact Route C
+activation, calibration-acquisition contract, and founder contact revocation.
+It separates an excluded feasibility pilot, a primary same-RNA calibration arm,
+and an optional extraction-sensitivity arm; declares one primary and four
+secondary technical estimands; and preserves GSE96058 solely for unchanged
+external validation. It selects no assay, specimen, laboratory, pair count,
+budget, source, or threshold and authorizes no contact, spending, acquisition,
+data access, execution, clinical use, or publication.
 
 Route-neutral centroid QA is now complete. Frozen importer revision `2843a6e`
 verified the official source archive and member hashes, applied exactly three
@@ -510,10 +519,11 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Design the no-contact Route C alternative: a prospective NaS technical-
-   replicate calibration experiment with no external correspondence, data
-   acquisition, spending, or execution authorization.
-2. Prepare its checksum-bound founder scientific and statistical decision packet.
+1. Obtain the founder's checksum-bound decision on prospective calibration design
+   `0.1.0`. Approval is for internal planning only.
+2. If approved, prepare structured scientific and statistical decisions for the
+   platform, repeat architecture, precision targets, coverage, pilot design,
+   multiplicity, and feasibility—without external contact or spending.
 3. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
 4. Complete the founder scientific/product, molecular/pathology, and statistical
@@ -543,6 +553,18 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-29 — Phase 1 prospective calibration design implemented
+
+Implemented a typed Route C prospective-experiment contract, validator, CLI,
+JSON Schema, and regression tests. The design has three nonoverlapping arms and
+five outcome-free technical estimands, retains failures in declared denominators,
+and enforces pilot, calibration, discovery, and external-validation firewalls.
+
+No pair count is locked: the 141-pair result remains explicitly hypothetical.
+Six material decisions are routed to founder review. The implementation selects
+no source and authorizes no contact, spending, procurement, specimen acquisition,
+data access, threshold selection, execution, clinical use, or publication.
 
 ### 2026-07-28 — External calibration contact prohibited
 

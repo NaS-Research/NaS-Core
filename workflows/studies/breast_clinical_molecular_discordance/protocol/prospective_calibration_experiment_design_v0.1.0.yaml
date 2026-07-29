@@ -1,0 +1,252 @@
+schema_version: 1.0.0
+design_version: 0.1.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+phase: phase_1_method_calibration
+route_id: ROUTE-C
+design_status: founder_review_required
+route_activation_sha256: 33f4c74946b13c9e1524dc447438ff14f35ad09fadf6be27371bd345c0171413
+acquisition_plan_sha256: 1c7333d2f2c6a771ae371b08cee3f88095b62c50d9c26ba78c0756a8b3be3f48
+contact_revocation_sha256: d595540613403fd085950f69cfe7b5a5bbcebe70587c1ca4c58795bab5213ee7
+purpose: >-
+  Design a prospective, classifier-training-independent and external-validation-
+  independent experiment that can estimate RNA-seq technical error and calibrate
+  a fixed PAM50 reliability and abstention rule without using clinical outcomes.
+design_principles:
+  - Separate feasibility, calibration, and unchanged external validation by specimen and analytical role.
+  - Preserve one patient or specimen per independent calibration unit unless clustering is prospectively modeled.
+  - Measure declared technical processes without labeling spatial, longitudinal, treatment-related, or biological variation as technical error.
+  - Freeze the assay bridge, estimands, precision targets, multiplicity, and acceptance rules before primary calibration data are analyzed.
+  - Use no clinical outcomes, TCGA outcomes, or GSE96058 performance to select technical thresholds.
+  - Retain every failed assay, missing gene, invalid score, and abstention in the declared denominator.
+  - Require stable nonidentifying pair identifiers and full provenance from specimen receipt through finalized expression values.
+specimen_requirements:
+  - Lawful research use, documented consent or waiver basis, and governance approval before receipt.
+  - Deidentified residual primary breast-tumor material or extracted RNA with no direct identifiers or reidentification key delivered to NaS.
+  - One independent biological source per primary calibration pair; repeat specimens from one source require a declared clustering model.
+  - Sufficient homogenized material or RNA to create blinded technical splits before the independently repeated process.
+  - Full historical PAM50 panel measurable without ambiguous gene mapping.
+  - Prespecified RNA quantity, integrity, purity, tumor-content, and failure criteria spanning the intended analytical-use range.
+  - Prespecified representation across receptor categories, RNA-quality bands, and preliminary blinded score-margin bands without consulting outcomes.
+  - No specimen may overlap classifier training, the feasibility pilot, TCGA discovery, or GSE96058 external validation.
+assay_workflow:
+  - Assign immutable nonidentifying specimen, aliquot, library, run, and replicate-pair identifiers.
+  - Randomize paired aliquots across library-preparation batches and sequencing runs under a reproducible blocked scheme.
+  - Blind laboratory and analytical operators to clinical outcomes, external-validation results, and the paired mate where operationally feasible.
+  - Construct independent libraries from matched RNA aliquots for the primary technical-repeat arm.
+  - Sequence paired libraries under the same locked platform family with lane and run placement recorded.
+  - Apply one containerized, checksummed alignment, quantification, normalization, gene-mapping, and quality-control pipeline.
+  - Preserve raw and processed artifacts outside Git in marker-validated governed storage with checksums and immutable manifests.
+  - Calculate patient-independent subtype scores, runner-up margin, perturbation summaries, and abstention state only after the method is locked.
+arms:
+  - arm_id: CAL-ARM-001
+    role: feasibility_pilot
+    purpose: >-
+      Estimate assay failure, missingness, continuous error variance, and operational
+      batch structure needed to freeze the primary calibration design.
+    technical_unit: Same homogenized RNA divided before independent library preparation.
+    independent_steps:
+      - Library preparation
+      - Library quality control
+      - Sequencing placement
+      - Bioinformatic processing instance
+    shared_steps:
+      - Patient and tumor
+      - Tissue sampling and homogenization
+      - RNA extraction
+    included_in_threshold_calibration: false
+    specimen_nonoverlap_required: true
+    pair_count: null
+    pair_count_status: requires_founder_review
+    limitations:
+      - Pilot specimens are permanently excluded from final threshold calibration and external validation.
+      - Pilot data may inform variance, attrition, QC, and clustering assumptions but not demonstrate final reliability.
+  - arm_id: CAL-ARM-002
+    role: primary_calibration
+    purpose: >-
+      Estimate technical label retention, score and margin error, and a fixed
+      reliability-abstention rule on specimens untouched by the feasibility pilot.
+    technical_unit: Same homogenized RNA divided before independent library preparation.
+    independent_steps:
+      - Library preparation
+      - Library quality control
+      - Sequencing placement
+      - Bioinformatic processing instance
+    shared_steps:
+      - Patient and tumor
+      - Tissue sampling and homogenization
+      - RNA extraction
+    included_in_threshold_calibration: true
+    specimen_nonoverlap_required: true
+    pair_count: null
+    pair_count_status: requires_pilot
+    limitations:
+      - This arm estimates post-extraction analytical error and does not represent tissue sampling, tumor heterogeneity, or extraction variability.
+      - Final pair count requires founder-approved precision and multiplicity targets after a separate pilot.
+  - arm_id: CAL-ARM-003
+    role: extraction_sensitivity
+    purpose: >-
+      Separately estimate the additional variability from repeated extraction of
+      matched homogenized material without contaminating the primary estimand.
+    technical_unit: Same homogenized specimen divided before independent RNA extraction.
+    independent_steps:
+      - RNA extraction
+      - RNA quality control
+      - Library preparation
+      - Sequencing placement
+      - Bioinformatic processing instance
+    shared_steps:
+      - Patient and tumor
+      - Tissue sampling and homogenization
+    included_in_threshold_calibration: false
+    specimen_nonoverlap_required: true
+    pair_count: null
+    pair_count_status: requires_founder_review
+    limitations:
+      - This optional arm requires additional material and cost.
+      - It cannot be pooled with the primary post-extraction arm without a prespecified hierarchical error model.
+estimands:
+  - estimand_id: CAL-EST-001
+    name: Technical subtype-label retention
+    unit: Independent valid same-RNA replicate pair
+    primary: true
+    definition: >-
+      Proportion of primary calibration pairs whose two valid measurements receive
+      the same locked PAM50 subtype label before application of the abstention rule,
+      with invalid measurements retained in a separately reported denominator.
+    multiplicity_family: primary_single_estimand
+    parameter_status: requires_pilot
+    clinical_outcomes_used: false
+  - estimand_id: CAL-EST-002
+    name: Abstention-decision retention
+    unit: Independent primary calibration pair
+    primary: false
+    definition: >-
+      Joint distribution of reliable, unstable, unclassifiable, and insufficient-
+      data states across replicate mates under candidate rules.
+    multiplicity_family: reliability_secondary
+    parameter_status: requires_pilot
+    clinical_outcomes_used: false
+  - estimand_id: CAL-EST-003
+    name: Subtype-score and runner-up-margin error
+    unit: Gene-expression replicate pair
+    primary: false
+    definition: >-
+      Paired differences in each locked subtype score, leading score, runner-up
+      score, and their margin, summarized without consulting clinical outcomes.
+    multiplicity_family: continuous_error_secondary
+    parameter_status: requires_pilot
+    clinical_outcomes_used: false
+  - estimand_id: CAL-EST-004
+    name: Gene-level technical error
+    unit: PAM50 gene within an independent replicate pair
+    primary: false
+    definition: >-
+      Paired normalized-expression differences for all 50 governed genes with
+      hierarchical summaries that preserve gene and specimen clustering.
+    multiplicity_family: gene_level_exploratory
+    parameter_status: requires_pilot
+    clinical_outcomes_used: false
+  - estimand_id: CAL-EST-005
+    name: Assay and classifier failure rate
+    unit: Attempted measurement and attempted pair
+    primary: false
+    definition: >-
+      Prespecified laboratory, mapping, missing-panel, nonfinite-score, and invalid-
+      pair failures divided by all attempted measurements or pairs as appropriate.
+    multiplicity_family: quality_secondary
+    parameter_status: requires_founder_review
+    clinical_outcomes_used: false
+quality_controls:
+  - Predeclare minimum RNA input, integrity, purity, library complexity, mapping, depth, and PAM50 completeness thresholds.
+  - Use balanced positive-control and negative-control materials across batches where technically available.
+  - Record operator, reagent lot, instrument, lane, run, timestamps at allowed resolution, software image, and reference-build provenance.
+  - Define pair-breaking, rerun, replacement, and missingness rules before unblinding pair results.
+  - Reconcile attempted specimens, attempted measurements, valid measurements, valid pairs, failures, reruns, and exclusions exactly.
+  - Test cross-language and cross-platform numerical conformance on synthetic and reference materials before specimen execution.
+statistical_design:
+  - Use a two-stage design in which feasibility-pilot specimens never enter primary calibration or external validation.
+  - Freeze the final primary-calibration analysis after the pilot variance and attrition report but before primary calibration values are inspected.
+  - Treat the existing 141-pair Wilson result only as a hypothetical software fixture based on unapproved 0.90 retention and plus-or-minus 0.05 precision.
+  - Derive final pair count from approved precision targets, expected retention, attrition, clustering, subtype or margin coverage, and multiplicity.
+  - Use cluster-robust or hierarchical methods if more than one pair originates from a biological source, batch, or processing unit.
+  - Report exact denominators, confidence intervals, continuous error distributions, subtype and margin strata, and null or contradictory findings.
+  - Prohibit outcome-optimized threshold selection and prohibit evaluation-source performance from changing the locked rule.
+  - Apply the final rule unchanged to GSE96058 only after calibration closure and preregistration.
+data_firewalls:
+  - Feasibility-pilot specimens may inform variance, attrition, QC, and design parameters only and cannot support the final reliability claim.
+  - Primary calibration specimens may calibrate technical thresholds but cannot select or evaluate clinical-outcome associations.
+  - TCGA-BRCA discovery outcomes cannot calibrate technical reliability or abstention thresholds.
+  - GSE96058 is external-validation-only and cannot calibrate transformations, perturbations, margins, thresholds, or exclusions.
+  - Specimen identities and source membership must be reconciled before access to prevent overlap across classifier training, pilot, calibration, discovery, and validation.
+acceptance_gates:
+  - Founder approves the intended-use boundary, assay platform, repeat architecture, estimands, precision targets, multiplicity, and no-go rules.
+  - Governance verifies lawful specimen use, deidentification, retention, destruction, publication, and derived-artifact terms.
+  - Statistical review approves pilot separation, final pair count, clustering, missingness, attrition, subgroup coverage, and confidence-interval methods.
+  - Molecular review approves specimen handling, RNA quality range, repeat type, assay workflow, QC, gene mapping, and platform bridge.
+  - Budget and laboratory feasibility are separately approved before procurement or specimen work.
+  - The final protocol is preregistered and Git-tagged before primary calibration values are inspected.
+  - The primary calibration result satisfies all prespecified precision, validity, panel-completeness, and conformance criteria.
+  - The method and thresholds are frozen before any unchanged external-validation execution.
+no_go_criteria:
+  - Any specimen overlaps classifier training, feasibility pilot, TCGA discovery, or GSE96058 validation.
+  - Pair lineage cannot prove the declared shared and independently repeated processing steps.
+  - Clinical outcomes or external-validation performance influence technical threshold selection.
+  - The full governed PAM50 panel or locked preprocessing bridge cannot be reproduced.
+  - Invalid, missing, failed, or discordant observations cannot be reconciled to attempted denominators.
+  - Final precision, attrition, subgroup, or numerical-conformance criteria are not met.
+  - Material protocol deviations occur without an amendment that preserves the prior frozen state.
+  - Lawful use, deidentification, storage, retention, destruction, or publication terms are unresolved.
+unresolved_decisions:
+  - decision_id: CAL-DEC-001
+    question: Which bulk RNA-seq platform and locked library-preparation protocol define the intended analytical-use environment?
+    recommendation: Match the future validation and deployment platform family as closely as feasible.
+    rationale: Technical error and normalization behavior are platform and workflow dependent.
+    status: requires_founder_review
+    founder_decision_required: true
+  - decision_id: CAL-DEC-002
+    question: Should the core claim cover post-extraction error only or also repeated extraction?
+    recommendation: Use same-RNA independent libraries as the primary arm and report extraction repeats as a separate sensitivity arm if feasible.
+    rationale: Pooling error sources would obscure which process the reliability rule actually covers.
+    status: requires_founder_review
+    founder_decision_required: true
+  - decision_id: CAL-DEC-003
+    question: What primary retention probability and confidence-interval precision are scientifically acceptable?
+    recommendation: Obtain statistical review rather than adopting the hypothetical 0.90 plus-or-minus 0.05 fixture.
+    rationale: These values determine cost, precision, and the strength of any reliability claim.
+    status: requires_pilot
+    founder_decision_required: true
+  - decision_id: CAL-DEC-004
+    question: What specimen and margin strata must have prespecified coverage?
+    recommendation: Cover receptor categories, RNA-quality bands, and the full preliminary score-margin distribution without using outcomes.
+    rationale: Archetypal high-margin specimens alone would overstate reliability.
+    status: requires_pilot
+    founder_decision_required: true
+  - decision_id: CAL-DEC-005
+    question: What pilot size, attrition reserve, clustering allowance, and multiplicity plan are acceptable?
+    recommendation: Derive these prospectively from operational assumptions and pilot variance, then exclude pilot specimens permanently.
+    rationale: Convenience sample sizes cannot support a defensible calibration claim.
+    status: requires_pilot
+    founder_decision_required: true
+  - decision_id: CAL-DEC-006
+    question: Is a prospective laboratory experiment financially and operationally feasible for NaS?
+    recommendation: Obtain written laboratory scope and budget estimates only after the scientific design is approved.
+    rationale: Design approval should precede procurement, spending, or specimen commitments.
+    status: requires_founder_review
+    founder_decision_required: true
+validation_source_ids:
+  - GEO:GSE96058
+threshold_calibration_source_ids: []
+external_contact_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+source_selected: false
+patient_level_data_accessed: false
+molecular_values_accessed: false
+outcome_data_accessed: false
+threshold_selection_authorized: false
+study_execution_authorized: false
+clinical_use_authorized: false
+publication_authorized: false
