@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.53.0-working`
+Manuscript version: `0.54.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -593,6 +593,24 @@ multiplicity, attrition, and clustering; they are not NaS data, approved sample
 sizes, laboratory commitments, budgets, or study results.
 [prospective_calibration_planning_activation_v1.0.0.yaml;
 CALIBRATION_SCENARIO_REPORT_v1.0.0.md]
+
+Standing founder autonomy now permits reasonable, reversible internal method
+decisions without serial approval packets while preserving final human review
+and hard stops for external, paid, controlled, irreversible, clinical, or
+publication actions. Under that authority, Phase 1 planning freezes bulk RNA
+sequencing as the platform family, same-RNA independent library preparation and
+sequencing as the primary repeat architecture, and repeated extraction as a
+separate sensitivity arm. A 30-pair, 30-source feasibility pilot is provisionally
+specified to estimate nuisance parameters only and is permanently excluded from
+primary calibration and external validation. Marginal receptor, RNA-quality,
+blinded-margin, and processing-position quotas guard against convenience
+sampling. One primary label-retention estimand is separated from a
+Holm-controlled confirmatory continuous family, descriptive failure measures,
+and exploratory gene-level FDR analyses. These are internal protocol decisions,
+not executed evidence, an approved final pair count, or an analytical-validity
+claim.
+[phase_one_internal_planning_bundle_v1.0.0.yaml;
+PHASE_ONE_INTERNAL_PLANNING_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1422,6 +1440,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.54.0-working | 2026-07-29 | Bound standing founder autonomy and froze the internal Phase 1 platform, excluded 30-pair pilot, marginal coverage, multiplicity, and symbolic-budget plans while preserving all execution and external-action stops. |
 | 0.53.0-working | 2026-07-29 | Recorded founder-approved internal Phase 1 planning and three provenance-bound hypothetical multi-objective scenarios requiring 82, 185, or 945 attempted pairs; none is an approved sample size, budget, or result. |
 | 0.52.0-working | 2026-07-29 | Reconciled stale pre-saturation prose and evidence-ledger rows to the frozen final state: 81 eligible identities, 68 appraisals, 13 restrictions, zero pending, seven closed passes, and the two-zero-yield stopping rule satisfied. |
 | 0.51.0-working | 2026-07-29 | Entered Phase 1 with a typed, nonexecuting prospective calibration design: excluded pilot, primary same-RNA calibration, optional extraction sensitivity, five technical estimands, validation firewalls, and zero contact, spending, data access, or execution authority. |

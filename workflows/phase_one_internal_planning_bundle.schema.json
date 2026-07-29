@@ -1,0 +1,534 @@
+{
+  "$defs": {
+    "CompatibilityCriterion": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "pattern": "^PLAT-[0-9]{3}$",
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "evidence_required": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Required",
+          "type": "array"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "requirement": {
+          "minLength": 1,
+          "title": "Requirement",
+          "type": "string"
+        },
+        "status": {
+          "pattern": "^pending_external_or_experimental_evidence$",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "requirement",
+        "rationale",
+        "evidence_required",
+        "status"
+      ],
+      "title": "CompatibilityCriterion",
+      "type": "object"
+    },
+    "CoverageDimension": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_marginally_not_cartesian": {
+          "title": "Applied Marginally Not Cartesian",
+          "type": "boolean"
+        },
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "title": "Categories",
+          "type": "array"
+        },
+        "dimension_id": {
+          "pattern": "^COV-[0-9]{3}$",
+          "title": "Dimension Id",
+          "type": "string"
+        },
+        "minimum_per_category": {
+          "anyOf": [
+            {
+              "minimum": 2,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Per Category"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "outcome_derived": {
+          "title": "Outcome Derived",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "dimension_id",
+        "name",
+        "categories",
+        "outcome_derived",
+        "applied_marginally_not_cartesian"
+      ],
+      "title": "CoverageDimension",
+      "type": "object"
+    },
+    "ExcludedPilotPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "attempted_pairs": {
+          "maximum": 60,
+          "minimum": 20,
+          "title": "Attempted Pairs",
+          "type": "integer"
+        },
+        "blinded_reestimation_required": {
+          "title": "Blinded Reestimation Required",
+          "type": "boolean"
+        },
+        "final_pair_count_approved": {
+          "title": "Final Pair Count Approved",
+          "type": "boolean"
+        },
+        "independent_biological_sources_target": {
+          "maximum": 60,
+          "minimum": 20,
+          "title": "Independent Biological Sources Target",
+          "type": "integer"
+        },
+        "interpretation": {
+          "minLength": 1,
+          "title": "Interpretation",
+          "type": "string"
+        },
+        "measurements_per_pair": {
+          "maximum": 2,
+          "minimum": 2,
+          "title": "Measurements Per Pair",
+          "type": "integer"
+        },
+        "outcomes_prohibited": {
+          "title": "Outcomes Prohibited",
+          "type": "boolean"
+        },
+        "permanently_excluded_from_external_validation": {
+          "title": "Permanently Excluded From External Validation",
+          "type": "boolean"
+        },
+        "permanently_excluded_from_primary_calibration": {
+          "title": "Permanently Excluded From Primary Calibration",
+          "type": "boolean"
+        },
+        "permitted_estimates": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Permitted Estimates",
+          "type": "array"
+        }
+      },
+      "required": [
+        "attempted_pairs",
+        "independent_biological_sources_target",
+        "measurements_per_pair",
+        "permanently_excluded_from_primary_calibration",
+        "permanently_excluded_from_external_validation",
+        "outcomes_prohibited",
+        "permitted_estimates",
+        "final_pair_count_approved",
+        "blinded_reestimation_required",
+        "interpretation"
+      ],
+      "title": "ExcludedPilotPlan",
+      "type": "object"
+    },
+    "MultiplicityFamily": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoints": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Endpoints",
+          "type": "array"
+        },
+        "error_rate": {
+          "anyOf": [
+            {
+              "exclusiveMaximum": 1.0,
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Rate"
+        },
+        "family_id": {
+          "pattern": "^MULT-[0-9]{3}$",
+          "title": "Family Id",
+          "type": "string"
+        },
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "role": {
+          "pattern": "^(primary|confirmatory|descriptive|exploratory)$",
+          "title": "Role",
+          "type": "string"
+        },
+        "supports_primary_claim": {
+          "title": "Supports Primary Claim",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "family_id",
+        "role",
+        "endpoints",
+        "method",
+        "supports_primary_claim"
+      ],
+      "title": "MultiplicityFamily",
+      "type": "object"
+    },
+    "PlanningStatus": {
+      "enum": [
+        "internally_frozen_pending_evidence"
+      ],
+      "title": "PlanningStatus",
+      "type": "string"
+    },
+    "PlatformCompatibilityPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "compatibility_criteria": {
+          "items": {
+            "$ref": "#/$defs/CompatibilityCriterion"
+          },
+          "minItems": 1,
+          "title": "Compatibility Criteria",
+          "type": "array"
+        },
+        "exact_chemistry_selected": {
+          "title": "Exact Chemistry Selected",
+          "type": "boolean"
+        },
+        "exact_instrument_selected": {
+          "title": "Exact Instrument Selected",
+          "type": "boolean"
+        },
+        "exact_kit_selected": {
+          "title": "Exact Kit Selected",
+          "type": "boolean"
+        },
+        "extraction_sensitivity_separate": {
+          "title": "Extraction Sensitivity Separate",
+          "type": "boolean"
+        },
+        "intended_platform_family": {
+          "pattern": "^bulk_rna_sequencing$",
+          "title": "Intended Platform Family",
+          "type": "string"
+        },
+        "primary_repeat_architecture": {
+          "title": "Primary Repeat Architecture",
+          "type": "string"
+        },
+        "vendor_selected": {
+          "title": "Vendor Selected",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "intended_platform_family",
+        "exact_instrument_selected",
+        "exact_kit_selected",
+        "exact_chemistry_selected",
+        "vendor_selected",
+        "primary_repeat_architecture",
+        "extraction_sensitivity_separate",
+        "compatibility_criteria"
+      ],
+      "title": "PlatformCompatibilityPlan",
+      "type": "object"
+    },
+    "SymbolicBudgetPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "currency_selected": {
+          "title": "Currency Selected",
+          "type": "boolean"
+        },
+        "formula": {
+          "title": "Formula",
+          "type": "string"
+        },
+        "laboratory_quote_obtained": {
+          "title": "Laboratory Quote Obtained",
+          "type": "boolean"
+        },
+        "total_cost_calculated": {
+          "title": "Total Cost Calculated",
+          "type": "boolean"
+        },
+        "variables": {
+          "items": {
+            "$ref": "#/$defs/SymbolicCostVariable"
+          },
+          "minItems": 1,
+          "title": "Variables",
+          "type": "array"
+        }
+      },
+      "required": [
+        "formula",
+        "variables",
+        "currency_selected",
+        "laboratory_quote_obtained",
+        "total_cost_calculated"
+      ],
+      "title": "SymbolicBudgetPlan",
+      "type": "object"
+    },
+    "SymbolicCostVariable": {
+      "additionalProperties": false,
+      "properties": {
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        },
+        "numeric_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Numeric Value"
+        },
+        "symbol": {
+          "pattern": "^[A-Z][A-Z0-9_]*$",
+          "title": "Symbol",
+          "type": "string"
+        },
+        "unit": {
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "symbol",
+        "definition",
+        "unit"
+      ],
+      "title": "SymbolicCostVariable",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "autonomy_authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Autonomy Authorization Sha256",
+      "type": "string"
+    },
+    "clinical_use_authorized": {
+      "title": "Clinical Use Authorized",
+      "type": "boolean"
+    },
+    "coverage": {
+      "items": {
+        "$ref": "#/$defs/CoverageDimension"
+      },
+      "minItems": 1,
+      "title": "Coverage",
+      "type": "array"
+    },
+    "data_accessed": {
+      "title": "Data Accessed",
+      "type": "boolean"
+    },
+    "evidence_needed_to_close": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Evidence Needed To Close",
+      "type": "array"
+    },
+    "excluded_pilot": {
+      "$ref": "#/$defs/ExcludedPilotPlan"
+    },
+    "external_contact_authorized": {
+      "title": "External Contact Authorized",
+      "type": "boolean"
+    },
+    "final_human_review_preserved": {
+      "title": "Final Human Review Preserved",
+      "type": "boolean"
+    },
+    "final_primary_pair_count_approved": {
+      "title": "Final Primary Pair Count Approved",
+      "type": "boolean"
+    },
+    "multiplicity": {
+      "items": {
+        "$ref": "#/$defs/MultiplicityFamily"
+      },
+      "minItems": 1,
+      "title": "Multiplicity",
+      "type": "array"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "planning_activation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Activation Sha256",
+      "type": "string"
+    },
+    "planning_assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Planning Assumptions",
+      "type": "array"
+    },
+    "planning_decision_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Decision Sha256",
+      "type": "string"
+    },
+    "platform_compatibility": {
+      "$ref": "#/$defs/PlatformCompatibilityPlan"
+    },
+    "publication_authorized": {
+      "title": "Publication Authorized",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "retained_denominators": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Retained Denominators",
+      "type": "array"
+    },
+    "route_id": {
+      "pattern": "^ROUTE-C$",
+      "title": "Route Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_selected": {
+      "title": "Source Selected",
+      "type": "boolean"
+    },
+    "specimen_acquisition_authorized": {
+      "title": "Specimen Acquisition Authorized",
+      "type": "boolean"
+    },
+    "spending_authorized": {
+      "title": "Spending Authorized",
+      "type": "boolean"
+    },
+    "status": {
+      "$ref": "#/$defs/PlanningStatus"
+    },
+    "study_execution_authorized": {
+      "title": "Study Execution Authorized",
+      "type": "boolean"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "symbolic_budget": {
+      "$ref": "#/$defs/SymbolicBudgetPlan"
+    },
+    "threshold_selected": {
+      "title": "Threshold Selected",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "route_id",
+    "status",
+    "autonomy_authorization_sha256",
+    "planning_decision_sha256",
+    "planning_activation_sha256",
+    "platform_compatibility",
+    "excluded_pilot",
+    "coverage",
+    "multiplicity",
+    "symbolic_budget",
+    "retained_denominators",
+    "planning_assumptions",
+    "evidence_needed_to_close",
+    "final_human_review_preserved",
+    "data_accessed",
+    "source_selected",
+    "threshold_selected",
+    "final_primary_pair_count_approved",
+    "external_contact_authorized",
+    "spending_authorized",
+    "specimen_acquisition_authorized",
+    "study_execution_authorized",
+    "clinical_use_authorized",
+    "publication_authorized"
+  ],
+  "title": "PhaseOneInternalPlanningBundle",
+  "type": "object"
+}

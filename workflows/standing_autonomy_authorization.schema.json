@@ -1,0 +1,121 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "authorization_statement": {
+      "title": "Authorization Statement",
+      "type": "string"
+    },
+    "authorization_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Authorization Version",
+      "type": "string"
+    },
+    "authorized_at": {
+      "format": "date-time",
+      "title": "Authorized At",
+      "type": "string"
+    },
+    "clinical_use_authorized": {
+      "title": "Clinical Use Authorized",
+      "type": "boolean"
+    },
+    "controlled_data_authorized": {
+      "title": "Controlled Data Authorized",
+      "type": "boolean"
+    },
+    "delegated_internal_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Delegated Internal Actions",
+      "type": "array"
+    },
+    "external_contact_authorized": {
+      "title": "External Contact Authorized",
+      "type": "boolean"
+    },
+    "external_publication_authorized": {
+      "title": "External Publication Authorized",
+      "type": "boolean"
+    },
+    "external_submission_authorized": {
+      "title": "External Submission Authorized",
+      "type": "boolean"
+    },
+    "final_human_review_preserved": {
+      "title": "Final Human Review Preserved",
+      "type": "boolean"
+    },
+    "founder_id": {
+      "title": "Founder Id",
+      "type": "string"
+    },
+    "founder_name": {
+      "title": "Founder Name",
+      "type": "string"
+    },
+    "phi_authorized": {
+      "title": "Phi Authorized",
+      "type": "boolean"
+    },
+    "project_id": {
+      "pattern": "^NaS-Core$",
+      "title": "Project Id",
+      "type": "string"
+    },
+    "routine_founder_approvals_required": {
+      "title": "Routine Founder Approvals Required",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "specimen_acquisition_authorized": {
+      "title": "Specimen Acquisition Authorized",
+      "type": "boolean"
+    },
+    "spending_authorized": {
+      "title": "Spending Authorized",
+      "type": "boolean"
+    },
+    "stop_conditions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Stop Conditions",
+      "type": "array"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "authorization_version",
+    "study_id",
+    "project_id",
+    "authorization_statement",
+    "founder_id",
+    "founder_name",
+    "authorized_at",
+    "delegated_internal_actions",
+    "stop_conditions",
+    "routine_founder_approvals_required",
+    "final_human_review_preserved",
+    "external_contact_authorized",
+    "spending_authorized",
+    "controlled_data_authorized",
+    "phi_authorized",
+    "specimen_acquisition_authorized",
+    "clinical_use_authorized",
+    "external_publication_authorized",
+    "external_submission_authorized"
+  ],
+  "title": "StandingAutonomyAuthorization",
+  "type": "object"
+}

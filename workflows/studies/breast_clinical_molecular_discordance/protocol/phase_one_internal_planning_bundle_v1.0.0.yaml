@@ -1,0 +1,257 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+status: internally_frozen_pending_evidence
+autonomy_authorization_sha256: 849f5217612a8946f29c3a3529e187128078d2f57cfd63e306ad058d05558c61
+planning_decision_sha256: 93566020614992eaeebb53f52337ec94c40758f7d02823090eb718082cfa0ca0
+planning_activation_sha256: f92d0558811d8ecb066d8dae96386c10582588093da737df3460c879aa393dbc
+platform_compatibility:
+  intended_platform_family: bulk_rna_sequencing
+  exact_instrument_selected: false
+  exact_kit_selected: false
+  exact_chemistry_selected: false
+  vendor_selected: false
+  primary_repeat_architecture: Independent library preparation and sequencing from paired aliquots of the same homogenized RNA.
+  extraction_sensitivity_separate: true
+  compatibility_criteria:
+    - criterion_id: PLAT-001
+      requirement: The full governed PAM50 panel maps unambiguously to one locked gene-identifier namespace.
+      rationale: Missing or ambiguous panel genes can change subtype scores and abstention behavior.
+      evidence_required:
+        - Platform annotation manifest
+        - Alias-resolution report
+        - Zero-unresolved-gene conformance receipt
+      status: pending_external_or_experimental_evidence
+    - criterion_id: PLAT-002
+      requirement: One containerized alignment, quantification, transformation, and normalization bridge is frozen.
+      rationale: Technical calibration is not portable across unspecified expression scales.
+      evidence_required:
+        - Container digest
+        - Reference-build checksum
+        - Transformation specification
+        - Synthetic numerical-conformance results
+      status: pending_external_or_experimental_evidence
+    - criterion_id: PLAT-003
+      requirement: The locked reference and centering operation are compatible with the intended assay workflow.
+      rationale: PAM50 correlations depend on the reference distribution and preprocessing context.
+      evidence_required:
+        - Platform-matched reference provenance
+        - Centering and scaling contract
+        - Reference-sensitivity analysis plan
+      status: pending_external_or_experimental_evidence
+    - criterion_id: PLAT-004
+      requirement: The bridge to processed GSE96058 can be declared without using validation performance to tune it.
+      rationale: External validation must remain unchanged and cannot become a calibration source.
+      evidence_required:
+        - Metadata-only platform mapping
+        - Frozen transformation bridge
+        - Validation firewall receipt
+      status: pending_external_or_experimental_evidence
+    - criterion_id: PLAT-005
+      requirement: Assay quality controls cover RNA input, integrity, purity, library complexity, mapping, depth, and panel completeness.
+      rationale: Reliability estimates are uninterpretable without a declared analytical-use range.
+      evidence_required:
+        - QC specification
+        - Failure and rerun rules
+        - Attempted-denominator reconciliation design
+      status: pending_external_or_experimental_evidence
+    - criterion_id: PLAT-006
+      requirement: Replicate mates can be randomized across library batches and sequencing runs with complete lineage.
+      rationale: Paired processing in one batch would underestimate operational technical error.
+      evidence_required:
+        - Blocked-randomization specification
+        - Pair-lineage schema
+        - Batch and run provenance fields
+      status: pending_external_or_experimental_evidence
+    - criterion_id: PLAT-007
+      requirement: Cross-language and cross-platform scoring agrees within frozen numerical tolerances.
+      rationale: Implementation drift must not be labeled biological or assay instability.
+      evidence_required:
+        - Reference fixtures
+        - Tolerance specification
+        - Independent implementation conformance report
+      status: pending_external_or_experimental_evidence
+    - criterion_id: PLAT-008
+      requirement: Every raw and derived artifact can be checksum-bound in governed object storage outside Git.
+      rationale: Reproducible calibration requires immutable inputs, transformations, and outputs.
+      evidence_required:
+        - Storage marker
+        - Object manifest
+        - Retention and destruction policy
+      status: pending_external_or_experimental_evidence
+excluded_pilot:
+  attempted_pairs: 30
+  independent_biological_sources_target: 30
+  measurements_per_pair: 2
+  permanently_excluded_from_primary_calibration: true
+  permanently_excluded_from_external_validation: true
+  outcomes_prohibited: true
+  permitted_estimates:
+    - Assay and classifier attrition
+    - PAM50-panel missingness
+    - Paired subtype-score and margin difference variance
+    - Batch and run variance components
+    - Within-pair correlation
+    - Frequency of invalid assays, reruns, and abstentions
+  final_pair_count_approved: false
+  blinded_reestimation_required: true
+  interpretation: Thirty independent pairs are a reversible feasibility target for estimating operational nuisance parameters; they cannot support the final reliability claim or determine thresholds.
+coverage:
+  - dimension_id: COV-001
+    name: Receptor category
+    categories:
+      - HR-positive and HER2-negative
+      - HER2-positive
+      - Triple-negative
+    minimum_per_category: 5
+    outcome_derived: false
+    applied_marginally_not_cartesian: true
+  - dimension_id: COV-002
+    name: Preanalytical RNA-quality band
+    categories:
+      - Low within the prespecified analytical-use range
+      - Intermediate
+      - High
+    minimum_per_category: 5
+    outcome_derived: false
+    applied_marginally_not_cartesian: true
+  - dimension_id: COV-003
+    name: Preliminary blinded subtype-score margin
+    categories:
+      - Lowest quartile
+      - Second quartile
+      - Third quartile
+      - Highest quartile
+    minimum_per_category: 4
+    outcome_derived: false
+    applied_marginally_not_cartesian: true
+  - dimension_id: COV-004
+    name: Processing placement
+    categories:
+      - Early batch or run position
+      - Middle batch or run position
+      - Late batch or run position
+    minimum_per_category: 5
+    outcome_derived: false
+    applied_marginally_not_cartesian: true
+multiplicity:
+  - family_id: MULT-001
+    role: primary
+    endpoints:
+      - Technical subtype-label retention
+    method: single_primary_no_adjustment
+    error_rate: 0.05
+    supports_primary_claim: true
+  - family_id: MULT-002
+    role: confirmatory
+    endpoints:
+      - Paired error in each of five locked subtype scores
+      - Paired error in the runner-up margin
+    method: Holm familywise-error control
+    error_rate: 0.05
+    supports_primary_claim: false
+  - family_id: MULT-003
+    role: descriptive
+    endpoints:
+      - Assay and classifier failure rate
+      - Abstention-decision retention
+      - Invalid, missing, failed, and rerun denominators
+    method: Confidence intervals without null-hypothesis claims
+    error_rate: null
+    supports_primary_claim: false
+  - family_id: MULT-004
+    role: exploratory
+    endpoints:
+      - Paired technical error for each governed PAM50 gene
+    method: Benjamini-Hochberg false-discovery-rate control
+    error_rate: 0.1
+    supports_primary_claim: false
+symbolic_budget:
+  formula: TOTAL = SPECIMENS * COST_SPECIMEN + MEASUREMENTS * COST_MEASUREMENT + PILOT_CONTROLS + CALIBRATION_CONTROLS + REFERENCE_MATERIALS + STORAGE + COMPUTE + ANALYSIS + ATTRITION_RESERVE
+  variables:
+    - symbol: SPECIMENS
+      definition: Number of independent biological sources across approved arms.
+      unit: specimens
+      numeric_value: null
+    - symbol: COST_SPECIMEN
+      definition: Lawful acquisition and preparation cost per source.
+      unit: currency per specimen
+      numeric_value: null
+    - symbol: MEASUREMENTS
+      definition: Total assay measurements including declared repeats and controls.
+      unit: measurements
+      numeric_value: null
+    - symbol: COST_MEASUREMENT
+      definition: Complete laboratory and sequencing cost per measurement.
+      unit: currency per measurement
+      numeric_value: null
+    - symbol: PILOT_CONTROLS
+      definition: Pilot positive, negative, and process-control costs.
+      unit: currency
+      numeric_value: null
+    - symbol: CALIBRATION_CONTROLS
+      definition: Primary-calibration positive, negative, and process-control costs.
+      unit: currency
+      numeric_value: null
+    - symbol: REFERENCE_MATERIALS
+      definition: Governed reference-material acquisition and processing costs.
+      unit: currency
+      numeric_value: null
+    - symbol: STORAGE
+      definition: Governed raw and derived artifact storage costs.
+      unit: currency
+      numeric_value: null
+    - symbol: COMPUTE
+      definition: Reproducible alignment, quantification, and analysis compute costs.
+      unit: currency
+      numeric_value: null
+    - symbol: ANALYSIS
+      definition: Statistical, molecular, and quality-review effort.
+      unit: currency
+      numeric_value: null
+    - symbol: ATTRITION_RESERVE
+      definition: Reserved cost for prespecified assay attrition and permissible reruns.
+      unit: currency
+      numeric_value: null
+  currency_selected: false
+  laboratory_quote_obtained: false
+  total_cost_calculated: false
+retained_denominators:
+  - Attempted specimens
+  - Attempted measurements
+  - Valid measurements
+  - Attempted pairs
+  - Valid pairs
+  - Invalid assays
+  - Missing-panel measurements
+  - Failed pairs
+  - Reruns
+  - Replacements
+  - Abstentions
+planning_assumptions:
+  - The balanced 185-pair scenario is an internal feasibility reference, not a final sample size.
+  - One independent biological source contributes at most one primary pair unless clustering is prospectively modeled.
+  - Coverage quotas are marginal constraints and are not a fully crossed factorial design.
+  - Final precision and pair count are recalculated from the excluded pilot before primary calibration access.
+  - No outcome or GSE96058 performance may influence the assay bridge, thresholds, exclusions, or multiplicity plan.
+evidence_needed_to_close:
+  - Metadata-only platform compatibility evidence for the intended assay and GSE96058.
+  - Locked reference, preprocessing, mapping, and numerical-conformance specifications.
+  - Lawful independent calibration source or separately authorized prospective experiment.
+  - Excluded-pilot variance, attrition, missingness, and batch estimates.
+  - Final blinded sample-size reestimation and coverage feasibility assessment.
+  - Frozen reliability thresholds, abstention rule, failure criteria, and tolerances.
+final_human_review_preserved: true
+data_accessed: false
+source_selected: false
+threshold_selected: false
+final_primary_pair_count_approved: false
+external_contact_authorized: false
+spending_authorized: false
+specimen_acquisition_authorized: false
+study_execution_authorized: false
+clinical_use_authorized: false
+publication_authorized: false

@@ -1,0 +1,37 @@
+schema_version: 1.0.0
+authorization_version: 1.0.0
+study_id: NAS-BRCA-002
+project_id: NaS-Core
+authorization_statement: "I authorize Codex to autonomously complete NaS-Core and NAS-BRCA-002 through preparation of the final human-review package. Codex may make and document reasonable, reversible scientific, statistical, engineering, and project-management decisions; use approved public/open data; run analyses; update the manuscript and project records; test; commit; and push to main. Do not request routine founder approvals. Stop only before spending or procurement, credentials or paid access, external contact, controlled data, PHI or specimen acquisition, destructive or irreversible actions, clinical use, external publication or submission, or a material change to the study’s purpose or intended claim. Preserve my final human review."
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+authorized_at: '2026-07-29T20:03:16Z'
+delegated_internal_actions:
+  - reversible_scientific_decisions
+  - reversible_statistical_decisions
+  - engineering_implementation
+  - project_management
+  - approved_public_open_data_use
+  - analysis_execution
+  - manuscript_and_project_record_updates
+  - testing
+  - commit_and_push_main
+stop_conditions:
+  - spending_or_procurement
+  - credentials_or_paid_access
+  - external_contact
+  - controlled_data_phi_or_specimen_acquisition
+  - destructive_or_irreversible_actions
+  - clinical_use
+  - external_publication_or_submission
+  - material_change_to_purpose_or_intended_claim
+routine_founder_approvals_required: false
+final_human_review_preserved: true
+external_contact_authorized: false
+spending_authorized: false
+controlled_data_authorized: false
+phi_authorized: false
+specimen_acquisition_authorized: false
+clinical_use_authorized: false
+external_publication_authorized: false
+external_submission_authorized: false

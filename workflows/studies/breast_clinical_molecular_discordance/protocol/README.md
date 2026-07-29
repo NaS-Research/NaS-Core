@@ -164,14 +164,14 @@ founder packet. The design authorizes no contact, spending, specimen or data
 acquisition, threshold selection, or execution.
 
 The current cross-phase completion state is separately frozen in
-`../reviews/RESEARCH_COMPLETION_AUDIT_v1.1.0.yaml` with a human-readable
-`RESEARCH_COMPLETION_REPORT_v1.1.0.md`. Version `1.0.0` remains immutable
+`../reviews/RESEARCH_COMPLETION_AUDIT_v1.2.0.yaml` with a human-readable
+`RESEARCH_COMPLETION_REPORT_v1.2.0.md`. Earlier versions remain immutable
 history. Validate that every cited artifact still
 exists with the exact frozen bytes:
 
 ```console
 uv run nas-core study completion-validate \
-  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.1.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.2.0.yaml \
   workflows/studies/breast_clinical_molecular_discordance \
   workflows/studies/breast_clinical_molecular_discordance/pipeline.yaml
 ```
@@ -200,6 +200,32 @@ The lean, balanced, and high-precision scenarios require 82, 185, and 945
 attempted pairs under their hypothetical inputs. These are not approved sample
 sizes. See `CALIBRATION_SCENARIO_REPORT_v1.0.0.md` and the combined founder
 scientific/statistical planning packet.
+
+Standing founder autonomy is bound in
+`../reviews/FOUNDER_STANDING_AUTONOMY_AUTHORIZATION_v1.0.0.yaml`. Routine
+reversible internal decisions no longer require separate founder packets, while
+spending, paid access, external contact, controlled data, PHI, specimens,
+irreversible actions, clinical use, publication, submission, and material scope
+changes remain hard stops.
+
+The resulting internally frozen Phase 1 plan is
+`phase_one_internal_planning_bundle_v1.0.0.yaml`. It establishes an excluded
+30-pair feasibility pilot, marginal coverage quotas, one primary estimand, a
+Holm-controlled confirmatory family, exploratory gene-level FDR control, eight
+platform-compatibility criteria, and a price-free symbolic budget. Validate its
+provenance and boundaries with:
+
+```console
+uv run nas-core reliability calibration-planning-validate \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/phase_one_internal_planning_bundle_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/FOUNDER_STANDING_AUTONOMY_AUTHORIZATION_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/FOUNDER_PHASE1_SCIENTIFIC_STATISTICAL_PLANNING_DECISION_v0.1.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/prospective_calibration_planning_activation_v1.0.0.yaml
+```
+
+The 30 pairs are an excluded pilot target, not a final calibration size.
+`PHASE_ONE_INTERNAL_PLANNING_REPORT_v1.0.0.md` records the rationale and
+remaining evidence gates.
 
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 

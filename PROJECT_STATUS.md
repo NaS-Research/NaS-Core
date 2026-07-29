@@ -168,7 +168,14 @@ assumptions. The balanced scenario is governed by continuous paired-error
 precision rather than binary retention. All inputs are software assumptions;
 none is an approved sample size or budget.
 
-Completion audit `1.0.0` now binds the lifecycle to repository evidence. It
+Standing founder autonomy now removes routine approval packets for reversible
+internal decisions while preserving final human review and explicit stops for
+external, paid, controlled, irreversible, clinical, publication, submission,
+and material-scope actions. The first autonomous Phase 1 plan freezes an excluded
+30-pair feasibility pilot, marginal coverage quotas, multiplicity families,
+eight platform-compatibility criteria, and a symbolic budget with no prices.
+
+Completion audit `1.1.0` now binds the lifecycle to repository evidence. It
 records Phase 0 complete, Phase 1 in progress, Phases 2–6 not started, and
 `ready_for_final_human_review=false`. The validator rejects changed evidence,
 premature completion, scientific conclusions before a review-ready release, and
@@ -544,38 +551,46 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Implement the founder-approved platform-compatibility audit, excluded-pilot
-   precision design, coverage plan, multiplicity plan, and symbolic budget model
-   without external contact or spending.
-2. Resolve the selected route's reference, transformation, technical-error,
+1. Resolve the selected route's reference, transformation, technical-error,
    threshold, and numerical-conformance dependencies without outcome inspection.
-3. Complete the scientific/product, molecular/pathology, and statistical
+2. Complete the scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-4. Update the living manuscript and its evidence-to-text ledger after every material
+3. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+4. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+5. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-7. Implement persisted evidence claims, citations, provenance, contradictory
+6. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-8. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+7. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-9. Expand the screening model gateway into general evidence reasoning with
+8. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-10. Build evaluation suites for retrieval, citation validity, numerical
+9. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-11. Generate an immutable research release containing the protocol, dataset
+10. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-12. Generate a reviewable white-paper draft whose substantive claims trace to
+11. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-13. Build the internal workbench for projects, protocols, datasets, runs,
+12. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-14. Complete repeated internal oncology pilots before selecting the first
+13. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-29 — Standing autonomy and internal Phase 1 plan frozen
+
+Bound the founder's standing delegation to machine-enforced stop conditions and
+removed routine founder packet requirements for reversible internal work.
+Implemented a typed, provenance-bound Phase 1 bundle, CLI validator, JSON
+Schemas, regression tests, and human-readable report. The plan freezes an
+excluded 30-pair feasibility pilot, marginal coverage, multiplicity, eight
+platform-compatibility requirements, and a symbolic budget. No data, source,
+threshold, final calibration size, price, external action, or execution is
+authorized or claimed.
 
 ### 2026-07-29 — Phase 1 scientific/statistical planning approved
 

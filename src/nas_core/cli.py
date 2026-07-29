@@ -6,6 +6,7 @@ from pathlib import Path
 
 from nas_core.ai.gateway import OpenAIScreeningGateway
 from nas_core.ai.screening import AIAdvisoryScreeningService
+from nas_core.analysis.calibration_planning import CalibrationPlanningService
 from nas_core.analysis.calibration_precision import (
     TechnicalReplicatePrecisionService,
 )
@@ -50,6 +51,11 @@ from nas_core.domain.appraisal import (
 from nas_core.domain.calibration_lineage import (
     write_calibration_lineage_receipt,
     write_calibration_lineage_schema,
+)
+from nas_core.domain.calibration_planning import (
+    load_phase_one_internal_planning_bundle,
+    load_standing_autonomy_authorization,
+    write_calibration_planning_schemas,
 )
 from nas_core.domain.calibration_precision import (
     load_technical_replicate_precision_design,
@@ -639,6 +645,26 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_calibration_scenario_schema.add_argument("scenario_path", type=Path)
     reliability_calibration_scenario_schema.add_argument("result_path", type=Path)
+    reliability_calibration_planning = reliability_commands.add_parser(
+        "calibration-planning-validate",
+        help="Validate the standing-autonomy Phase 1 planning bundle",
+    )
+    reliability_calibration_planning.add_argument("bundle_path", type=Path)
+    reliability_calibration_planning.add_argument("authorization_path", type=Path)
+    reliability_calibration_planning.add_argument("planning_decision_path", type=Path)
+    reliability_calibration_planning.add_argument("planning_activation_path", type=Path)
+    reliability_calibration_planning_schema = reliability_commands.add_parser(
+        "calibration-planning-schema",
+        help="Write standing-autonomy and Phase 1 planning JSON Schemas",
+    )
+    reliability_calibration_planning_schema.add_argument(
+        "authorization_schema_path",
+        type=Path,
+    )
+    reliability_calibration_planning_schema.add_argument(
+        "bundle_schema_path",
+        type=Path,
+    )
     reliability_prospective_calibration = reliability_commands.add_parser(
         "prospective-calibration-validate",
         help="Validate a nonexecuting prospective Route C calibration design",
@@ -1946,6 +1972,45 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             "Wrote calibration scenario schemas: "
             f"{args.scenario_path}, {args.result_path}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-planning-validate"
+    ):
+        phase_one_bundle = load_phase_one_internal_planning_bundle(
+            args.bundle_path
+        )
+        standing_authorization = load_standing_autonomy_authorization(
+            args.authorization_path
+        )
+        CalibrationPlanningService().validate(
+            phase_one_bundle,
+            standing_authorization,
+            authorization_path=args.authorization_path,
+            planning_decision_path=args.planning_decision_path,
+            planning_activation_path=args.planning_activation_path,
+        )
+        print(
+            "Phase 1 internal planning bundle is valid: "
+            f"{phase_one_bundle.study_id} v{phase_one_bundle.plan_version}; "
+            f"pilot={phase_one_bundle.excluded_pilot.attempted_pairs} pairs; "
+            "zero external or executing authority"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-planning-schema"
+    ):
+        write_calibration_planning_schemas(
+            args.authorization_schema_path,
+            args.bundle_schema_path,
+        )
+        print(
+            "Wrote calibration planning schemas: "
+            f"{args.authorization_schema_path}, {args.bundle_schema_path}"
         )
         return 0
 
