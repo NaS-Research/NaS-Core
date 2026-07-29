@@ -551,35 +551,45 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Resolve the selected route's reference, transformation, technical-error,
-   threshold, and numerical-conformance dependencies without outcome inspection.
-2. Complete the scientific/product, molecular/pathology, and statistical
+1. Implement an independent numerical-conformance reference and freeze score,
+   margin, rank, label, and abstention tolerances.
+2. Resolve the selected route's reference, transformation, technical-error, and
+   threshold dependencies without outcome inspection.
+3. Complete the scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-3. Update the living manuscript and its evidence-to-text ledger after every material
+4. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+5. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-5. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+6. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-6. Implement persisted evidence claims, citations, provenance, contradictory
+7. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-7. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+8. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-8. Expand the screening model gateway into general evidence reasoning with
+9. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-9. Build evaluation suites for retrieval, citation validity, numerical
+10. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-10. Generate an immutable research release containing the protocol, dataset
+11. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-11. Generate a reviewable white-paper draft whose substantive claims trace to
+12. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-12. Build the internal workbench for projects, protocols, datasets, runs,
+13. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-13. Complete repeated internal oncology pilots before selecting the first
+14. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-29 — Platform compatibility evidence audited
+
+Executed a provenance-bound audit using only existing governed artifacts. Full
+PAM50 mapping is verified; one criterion passes, four are partial, and three
+remain pending. The audit correctly returns `changes_required` and does not
+equate gene presence with numerical or analytical compatibility. No molecular
+values, outcomes, source selection, method lock, or execution occurred.
 
 ### 2026-07-29 — Standing autonomy and internal Phase 1 plan frozen
 

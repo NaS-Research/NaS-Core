@@ -20,6 +20,7 @@ from nas_core.domain.field_isolated_metadata import (
 from nas_core.domain.method_dependency import load_pam50_centroid_candidate
 from nas_core.domain.platform_compatibility import (
     PlatformCompatibilityAuditReceipt,
+    load_platform_compatibility_audit,
 )
 
 ROOT = Path(__file__).parents[1]
@@ -39,6 +40,11 @@ CANDIDATE = (
 )
 SPECIFICATION = STUDY / "protocol" / "reliability_specification.yaml"
 SCHEMA = ROOT / "workflows" / "platform_compatibility_audit.schema.json"
+RECEIPT = (
+    STUDY
+    / "protocol"
+    / "platform_compatibility_audit_receipt_v1.0.0.yaml"
+)
 
 
 def _audit() -> PlatformCompatibilityAuditReceipt:
@@ -121,3 +127,21 @@ def test_platform_compatibility_schema_matches_runtime_model() -> None:
     assert json.loads(SCHEMA.read_text(encoding="utf-8")) == (
         PlatformCompatibilityAuditReceipt.model_json_schema()
     )
+
+
+def test_checked_in_platform_audit_matches_frozen_implementation() -> None:
+    receipt = load_platform_compatibility_audit(RECEIPT)
+    regenerated = PlatformCompatibilityAuditService().audit(
+        load_phase_one_internal_planning_bundle(BUNDLE),
+        load_field_isolated_metadata_receipt(METADATA),
+        load_pam50_centroid_candidate(CANDIDATE),
+        bundle_path=BUNDLE,
+        metadata_path=METADATA,
+        candidate_path=CANDIDATE,
+        reliability_specification_path=SPECIFICATION,
+        code_revision=receipt.code_revision,
+        audited_at=receipt.audited_at,
+    )
+
+    assert receipt == regenerated
+    assert receipt.code_revision == "5a19d7e"

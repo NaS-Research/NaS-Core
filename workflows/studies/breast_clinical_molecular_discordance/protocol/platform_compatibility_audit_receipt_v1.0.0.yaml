@@ -1,0 +1,105 @@
+schema_version: 1.0.0
+audit_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+code_revision: 5a19d7e
+audited_at: '2026-07-29T20:15:44.703471Z'
+planning_bundle_sha256: c0e3be0938852a0d555198d6be2678cf8a0442bd8f69b83e0f756b536b331867
+metadata_receipt_sha256: a974bce9dedf65f2575d66da1728ffa9254db5291d75259371eb401f4803821b
+centroid_candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+findings:
+- criterion_id: PLAT-001
+  status: verified
+  finding: Existing metadata projections resolve all 50 governed PAM50 genes in GSE96058
+    with zero missing or duplicate canonical mappings, and the centroid candidate
+    uses the same panel.
+  evidence_paths:
+  - ingestion/field_isolated_metadata_receipt_v1.0.1.yaml
+  - protocol/artifact-candidates/genefu_2.44.0_pam50_candidate_v1.0.0.yaml
+  remaining_requirement: null
+- criterion_id: PLAT-002
+  status: partial
+  finding: A deterministic scoring kernel and governed candidate exist, but the assay-specific
+    alignment, quantification, transformation, and normalization bridge remains unresolved.
+  evidence_paths:
+  - protocol/artifact-candidates/genefu_2.44.0_pam50_candidate_v1.0.0.yaml
+  - protocol/reliability_specification.yaml
+  remaining_requirement: Freeze container, reference build, input unit, transformation,
+    normalization, and precision before molecular access.
+- criterion_id: PLAT-003
+  status: pending
+  finding: The historical centroid candidate is verified as an artifact, but no independently
+    justified platform-matched reference or centering operation is locked.
+  evidence_paths:
+  - protocol/artifact-candidates/genefu_2.44.0_pam50_candidate_v1.0.0.yaml
+  - protocol/reliability_specification.yaml
+  remaining_requirement: Select and validate a lawful platform-matched fixed reference
+    without consulting discovery outcomes or validation performance.
+- criterion_id: PLAT-004
+  status: partial
+  finding: GSE96058 is public processed RNA-seq with complete PAM50 gene coverage
+    and remains validation-only; the performance-blind transformation bridge is not
+    yet frozen.
+  evidence_paths:
+  - ingestion/field_isolated_metadata_receipt_v1.0.1.yaml
+  - protocol/phase_one_internal_planning_bundle_v1.0.0.yaml
+  remaining_requirement: Declare the processed-input transformation and validation
+    firewall before accessing validation molecular values.
+- criterion_id: PLAT-005
+  status: pending
+  finding: Required QC domains and denominator rules are specified, but no selected
+    assay workflow supplies evidence-backed cutoffs.
+  evidence_paths:
+  - protocol/phase_one_internal_planning_bundle_v1.0.0.yaml
+  remaining_requirement: Bind evidence-backed input, integrity, purity, complexity,
+    mapping, depth, completeness, failure, and rerun criteria.
+- criterion_id: PLAT-006
+  status: partial
+  finding: Existing metadata links 136 GSE96058 technical replicates, and the future
+    design specifies blocked randomization, but prospective batch and run lineage
+    do not yet exist.
+  evidence_paths:
+  - ingestion/field_isolated_metadata_receipt_v1.0.1.yaml
+  - protocol/phase_one_internal_planning_bundle_v1.0.0.yaml
+  remaining_requirement: Materialize and validate the randomization and pair-lineage
+    manifest before any prospective execution.
+- criterion_id: PLAT-007
+  status: partial
+  finding: Synthetic deterministic conformance tests exist for the Python kernel,
+    but no independent implementation or frozen tolerance receipt has been completed.
+  evidence_paths:
+  - protocol/reliability_specification.yaml
+  remaining_requirement: Implement an independent reference calculation and freeze
+    exact score, margin, rank, label, and abstention tolerances.
+- criterion_id: PLAT-008
+  status: pending
+  finding: The repository defines governed object-storage abstractions, but no prospective
+    calibration artifact manifest or retention receipt exists.
+  evidence_paths:
+  - protocol/phase_one_internal_planning_bundle_v1.0.0.yaml
+  remaining_requirement: Validate the storage marker and freeze retention, destruction,
+    object-manifest, and checksum procedures before data acquisition.
+verified_count: 1
+partial_count: 4
+pending_count: 3
+decision: changes_required
+decision_rationale: Complete gene mapping is verified, but the transformation, fixed
+  reference, assay QC, prospective lineage, independent numerical conformance, and
+  storage evidence are not complete.
+limitations:
+- The audit reuses repository evidence and accesses no molecular values.
+- Gene presence does not establish numerical or analytical compatibility.
+- GSE96058 performance and clinical outcomes were not inspected.
+- The audit does not select a platform stack, source, reference, or threshold.
+molecular_values_parsed: false
+outcome_values_parsed: false
+raw_artifacts_stored: false
+classifier_executed: false
+source_selected: false
+transformation_locked: false
+reference_locked: false
+platform_stack_selected: false
+study_execution_authorized: false

@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.54.0-working`
+Manuscript version: `0.55.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -611,6 +611,18 @@ not executed evidence, an approved final pair count, or an analytical-validity
 claim.
 [phase_one_internal_planning_bundle_v1.0.0.yaml;
 PHASE_ONE_INTERNAL_PLANNING_REPORT_v1.0.0.md]
+
+A repository-evidence-only platform audit verifies complete governed PAM50 gene
+mapping in GSE96058 and agreement with the candidate centroid panel. Seven of
+eight broader compatibility criteria remain partial or pending: the assay
+transformation and normalization bridge, platform-matched fixed reference,
+performance-blind GSE96058 input bridge, assay-specific QC cutoffs, prospective
+batch/run lineage, independent numerical conformance, and calibration-artifact
+storage receipt. The audit therefore returns `changes_required`. No molecular
+values or outcomes were parsed, and gene presence is not interpreted as assay
+equivalence or analytical validity.
+[platform_compatibility_audit_receipt_v1.0.0.yaml;
+PLATFORM_COMPATIBILITY_AUDIT_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1440,6 +1452,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.55.0-working | 2026-07-29 | Added the repository-evidence-only platform audit: complete 50-gene mapping is verified, while seven transformation, reference, QC, lineage, numerical-conformance, and storage criteria remain partial or pending. |
 | 0.54.0-working | 2026-07-29 | Bound standing founder autonomy and froze the internal Phase 1 platform, excluded 30-pair pilot, marginal coverage, multiplicity, and symbolic-budget plans while preserving all execution and external-action stops. |
 | 0.53.0-working | 2026-07-29 | Recorded founder-approved internal Phase 1 planning and three provenance-bound hypothetical multi-objective scenarios requiring 82, 185, or 945 attempted pairs; none is an approved sample size, budget, or result. |
 | 0.52.0-working | 2026-07-29 | Reconciled stale pre-saturation prose and evidence-ledger rows to the frozen final state: 81 eligible identities, 68 appraisals, 13 restrictions, zero pending, seven closed passes, and the two-zero-yield stopping rule satisfied. |

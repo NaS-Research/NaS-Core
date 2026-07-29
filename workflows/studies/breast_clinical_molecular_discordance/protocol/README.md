@@ -164,14 +164,14 @@ founder packet. The design authorizes no contact, spending, specimen or data
 acquisition, threshold selection, or execution.
 
 The current cross-phase completion state is separately frozen in
-`../reviews/RESEARCH_COMPLETION_AUDIT_v1.2.0.yaml` with a human-readable
-`RESEARCH_COMPLETION_REPORT_v1.2.0.md`. Earlier versions remain immutable
+`../reviews/RESEARCH_COMPLETION_AUDIT_v1.3.0.yaml` with a human-readable
+`RESEARCH_COMPLETION_REPORT_v1.3.0.md`. Earlier versions remain immutable
 history. Validate that every cited artifact still
 exists with the exact frozen bytes:
 
 ```console
 uv run nas-core study completion-validate \
-  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.2.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.3.0.yaml \
   workflows/studies/breast_clinical_molecular_discordance \
   workflows/studies/breast_clinical_molecular_discordance/pipeline.yaml
 ```
@@ -226,6 +226,14 @@ uv run nas-core reliability calibration-planning-validate \
 The 30 pairs are an excluded pilot target, not a final calibration size.
 `PHASE_ONE_INTERNAL_PLANNING_REPORT_v1.0.0.md` records the rationale and
 remaining evidence gates.
+
+Platform audit `1.0.0` reuses only governed repository evidence and returns
+`changes_required`: one of eight criteria is verified, four are partial, and
+three are pending. Complete 50-gene mapping is verified, but transformation,
+reference, QC, prospective lineage, independent numerical conformance, and
+storage evidence remain open. See
+`platform_compatibility_audit_receipt_v1.0.0.yaml` and
+`PLATFORM_COMPATIBILITY_AUDIT_REPORT_v1.0.0.md`.
 
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 

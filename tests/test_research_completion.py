@@ -23,7 +23,7 @@ STUDY = (
     / "studies"
     / "breast_clinical_molecular_discordance"
 )
-AUDIT = STUDY / "reviews" / "RESEARCH_COMPLETION_AUDIT_v1.2.0.yaml"
+AUDIT = STUDY / "reviews" / "RESEARCH_COMPLETION_AUDIT_v1.3.0.yaml"
 PIPELINE = STUDY / "pipeline.yaml"
 SCHEMA = ROOT / "workflows" / "research_completion_audit.schema.json"
 
@@ -50,7 +50,7 @@ def test_checked_in_completion_audit_proves_current_incomplete_state() -> None:
     assert validated.external_publication_authorized is False
     assert validated.external_submission_authorized is False
     assert validated.phases[1].open_requirements[0].startswith(
-        "Metadata-only platform compatibility evidence"
+        "Independent numerical-conformance"
     )
 
 
