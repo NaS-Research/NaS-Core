@@ -164,14 +164,14 @@ founder packet. The design authorizes no contact, spending, specimen or data
 acquisition, threshold selection, or execution.
 
 The current cross-phase completion state is separately frozen in
-`../reviews/RESEARCH_COMPLETION_AUDIT_v1.3.0.yaml` with a human-readable
-`RESEARCH_COMPLETION_REPORT_v1.3.0.md`. Earlier versions remain immutable
+`../reviews/RESEARCH_COMPLETION_AUDIT_v1.4.0.yaml` with a human-readable
+`RESEARCH_COMPLETION_REPORT_v1.4.0.md`. Earlier versions remain immutable
 history. Validate that every cited artifact still
 exists with the exact frozen bytes:
 
 ```console
 uv run nas-core study completion-validate \
-  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.3.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.4.0.yaml \
   workflows/studies/breast_clinical_molecular_discordance \
   workflows/studies/breast_clinical_molecular_discordance/pipeline.yaml
 ```
@@ -234,6 +234,15 @@ reference, QC, prospective lineage, independent numerical conformance, and
 storage evidence remain open. See
 `platform_compatibility_audit_receipt_v1.0.0.yaml` and
 `PLATFORM_COMPATIBILITY_AUDIT_REPORT_v1.0.0.md`.
+
+Independent numerical conformance `1.0.0` compares the NumPy production kernel
+with a pure-Python reference across five subtype archetypes, tied input ranks,
+top-score ties, and runner-up-score ties. All eight cases pass with exact label,
+rank, and reason agreement and zero score or margin difference at tolerance
+`1e-12`. See `numerical_conformance_plan_v1.0.0.yaml`,
+`numerical_conformance_receipt_v1.0.0.yaml`, and
+`NUMERICAL_CONFORMANCE_REPORT_v1.0.0.md`. This verifies synthetic software
+arithmetic only and does not establish analytical validity.
 
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 

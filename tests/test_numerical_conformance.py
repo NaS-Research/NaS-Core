@@ -13,6 +13,7 @@ from nas_core.domain.numerical_conformance import (
     NumericalConformancePlan,
     NumericalConformanceReceipt,
     load_numerical_conformance_plan,
+    load_numerical_conformance_receipt,
 )
 from nas_core.domain.reliability import load_reliability_specification
 
@@ -33,6 +34,7 @@ CANDIDATE = (
 SPECIFICATION = STUDY / "protocol" / "reliability_specification.yaml"
 PLAN_SCHEMA = ROOT / "workflows" / "numerical_conformance_plan.schema.json"
 RECEIPT_SCHEMA = ROOT / "workflows" / "numerical_conformance_receipt.schema.json"
+RECEIPT = STUDY / "protocol" / "numerical_conformance_receipt_v1.0.0.yaml"
 
 
 def _execute() -> NumericalConformanceReceipt:
@@ -101,3 +103,20 @@ def test_numerical_conformance_schemas_match_runtime_models() -> None:
     assert json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8")) == (
         NumericalConformanceReceipt.model_json_schema()
     )
+
+
+def test_checked_in_conformance_receipt_matches_frozen_implementation() -> None:
+    receipt = load_numerical_conformance_receipt(RECEIPT)
+    regenerated = NumericalConformanceService().execute(
+        load_numerical_conformance_plan(PLAN),
+        load_pam50_centroid_candidate(CANDIDATE),
+        load_reliability_specification(SPECIFICATION),
+        plan_path=PLAN,
+        candidate_path=CANDIDATE,
+        reliability_specification_path=SPECIFICATION,
+        code_revision=receipt.code_revision,
+        executed_at=receipt.executed_at,
+    )
+
+    assert receipt == regenerated
+    assert receipt.code_revision == "df2137b"

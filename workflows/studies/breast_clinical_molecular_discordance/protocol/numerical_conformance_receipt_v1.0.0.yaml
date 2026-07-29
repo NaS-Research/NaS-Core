@@ -1,0 +1,149 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+code_revision: df2137b
+executed_at: '2026-07-29T20:22:51.664286Z'
+plan_sha256: cffc3d08db3f8915bd9ea320cdb8fe5b61243cb0ebdc43a7dd54a8e7440c95f6
+candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+production_kernel_version: pam50-synthetic-reliability-0.1.0
+reference_implementation: pure_python_no_numpy_no_scipy
+absolute_score_tolerance: 1.0e-12
+absolute_margin_tolerance: 1.0e-12
+cases:
+- case_id: CONF-ARCHETYPE-LUMINAL-A
+  production_label: Luminal A
+  reference_label: Luminal A
+  production_runner_up: Normal-like
+  reference_runner_up: Normal-like
+  top_score_absolute_difference: 0.0
+  runner_up_score_absolute_difference: 0.0
+  margin_absolute_difference: 0.0
+  production_reason: scored
+  reference_reason: scored
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+- case_id: CONF-ARCHETYPE-LUMINAL-B
+  production_label: Luminal B
+  reference_label: Luminal B
+  production_runner_up: HER2-enriched
+  reference_runner_up: HER2-enriched
+  top_score_absolute_difference: 0.0
+  runner_up_score_absolute_difference: 0.0
+  margin_absolute_difference: 0.0
+  production_reason: scored
+  reference_reason: scored
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+- case_id: CONF-ARCHETYPE-HER2-ENRICHED
+  production_label: HER2-enriched
+  reference_label: HER2-enriched
+  production_runner_up: Luminal B
+  reference_runner_up: Luminal B
+  top_score_absolute_difference: 0.0
+  runner_up_score_absolute_difference: 0.0
+  margin_absolute_difference: 0.0
+  production_reason: scored
+  reference_reason: scored
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+- case_id: CONF-ARCHETYPE-BASAL-LIKE
+  production_label: Basal-like
+  reference_label: Basal-like
+  production_runner_up: Normal-like
+  reference_runner_up: Normal-like
+  top_score_absolute_difference: 0.0
+  runner_up_score_absolute_difference: 0.0
+  margin_absolute_difference: 0.0
+  production_reason: scored
+  reference_reason: scored
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+- case_id: CONF-ARCHETYPE-NORMAL-LIKE
+  production_label: Normal-like
+  reference_label: Normal-like
+  production_runner_up: Luminal A
+  reference_runner_up: Luminal A
+  top_score_absolute_difference: 0.0
+  runner_up_score_absolute_difference: 0.0
+  margin_absolute_difference: 0.0
+  production_reason: scored
+  reference_reason: scored
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+- case_id: CONF-TIED-INPUT-RANKS
+  production_label: Luminal A
+  reference_label: Luminal A
+  production_runner_up: Normal-like
+  reference_runner_up: Normal-like
+  top_score_absolute_difference: 0.0
+  runner_up_score_absolute_difference: 0.0
+  margin_absolute_difference: 0.0
+  production_reason: scored
+  reference_reason: scored
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+- case_id: CONF-TOP-SCORE-TIE
+  production_label: null
+  reference_label: null
+  production_runner_up: null
+  reference_runner_up: null
+  top_score_absolute_difference: null
+  runner_up_score_absolute_difference: null
+  margin_absolute_difference: null
+  production_reason: top_score_tie
+  reference_reason: top_score_tie
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+- case_id: CONF-RUNNER-UP-SCORE-TIE
+  production_label: null
+  reference_label: null
+  production_runner_up: null
+  reference_runner_up: null
+  top_score_absolute_difference: null
+  runner_up_score_absolute_difference: null
+  margin_absolute_difference: null
+  production_reason: runner_up_score_tie
+  reference_reason: runner_up_score_tie
+  labels_match: true
+  ranks_match: true
+  reasons_match: true
+  tolerance_passed: true
+  passed: true
+passed_count: 8
+failed_count: 0
+overall_passed: true
+limitations:
+- The suite uses synthetic vectors and verifies software arithmetic only.
+- Centroid-archetype fixtures do not represent patient or assay distributions.
+- Passing conformance does not establish analytical validity or transportability.
+- Threshold calibration and clinical outcomes are outside this suite.
+synthetic_only: true
+molecular_values_accessed: false
+outcomes_accessed: false
+analytical_validity_claimed: false
+method_lock_authorized: false
+study_execution_authorized: false

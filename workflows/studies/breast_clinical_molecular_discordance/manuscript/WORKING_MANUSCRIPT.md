@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.55.0-working`
+Manuscript version: `0.56.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -623,6 +623,18 @@ values or outcomes were parsed, and gene presence is not interpreted as assay
 equivalence or analytical validity.
 [platform_compatibility_audit_receipt_v1.0.0.yaml;
 PLATFORM_COMPATIBILITY_AUDIT_REPORT_v1.0.0.md]
+
+Independent numerical conformance compares the production NumPy scorer with a
+separately implemented pure-Python reference that does not use NumPy or SciPy.
+Across five exact-centroid archetypes, one tied-input-rank case, one top-score
+tie, and one runner-up-score tie, all eight cases produce identical subtype,
+runner-up, and abstention states. Top score, runner-up score, and margin
+differences are `0.0` at a prespecified absolute tolerance of `1e-12`. This
+closes synthetic arithmetic conformance for the tested suite but does not
+validate an assay, reference, transformation, technical-error model, threshold,
+transport, or clinical use.
+[numerical_conformance_receipt_v1.0.0.yaml;
+NUMERICAL_CONFORMANCE_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1452,6 +1464,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.56.0-working | 2026-07-29 | Added independent pure-Python versus NumPy numerical conformance: all eight frozen synthetic label, rank, score, margin, and tie-abstention cases passed at `1e-12`; analytical validity remains unclaimed. |
 | 0.55.0-working | 2026-07-29 | Added the repository-evidence-only platform audit: complete 50-gene mapping is verified, while seven transformation, reference, QC, lineage, numerical-conformance, and storage criteria remain partial or pending. |
 | 0.54.0-working | 2026-07-29 | Bound standing founder autonomy and froze the internal Phase 1 platform, excluded 30-pair pilot, marginal coverage, multiplicity, and symbolic-budget plans while preserving all execution and external-action stops. |
 | 0.53.0-working | 2026-07-29 | Recorded founder-approved internal Phase 1 planning and three provenance-bound hypothetical multi-objective scenarios requiring 82, 185, or 945 attempted pairs; none is an approved sample size, budget, or result. |
