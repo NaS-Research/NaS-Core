@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from datetime import datetime
 from pathlib import Path
 from statistics import NormalDist
 
@@ -68,7 +69,10 @@ class MultiObjectiveCalibrationScenarioService:
         scenario: MultiObjectiveCalibrationScenario,
         activation: ProspectiveCalibrationPlanningActivation,
         *,
+        scenario_path: Path,
         activation_path: Path,
+        code_revision: str,
+        calculated_at: datetime,
     ) -> MultiObjectiveCalibrationScenarioResult:
         if scenario.study_id != activation.study_id:
             raise CalibrationScenarioError(
@@ -133,6 +137,10 @@ class MultiObjectiveCalibrationScenarioService:
         )
         return MultiObjectiveCalibrationScenarioResult(
             scenario_id=scenario.scenario_id,
+            scenario_sha256=sha256(scenario_path.read_bytes()),
+            planning_activation_sha256=sha256(activation_path.read_bytes()),
+            code_revision=code_revision,
+            calculated_at=calculated_at,
             binary_effective_pairs_required=binary_pairs,
             continuous_effective_pairs_required=continuous_pairs,
             governing_objective=governing_objective,

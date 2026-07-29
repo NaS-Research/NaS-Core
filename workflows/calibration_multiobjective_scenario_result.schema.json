@@ -32,11 +32,21 @@
       "title": "Binary Effective Pairs Required",
       "type": "integer"
     },
+    "calculated_at": {
+      "format": "date-time",
+      "title": "Calculated At",
+      "type": "string"
+    },
     "cluster_design_effect": {
       "maximum": 20.0,
       "minimum": 1.0,
       "title": "Cluster Design Effect",
       "type": "number"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
     },
     "continuous_effective_pairs_required": {
       "minimum": 2,
@@ -80,6 +90,11 @@
       "title": "Interpretation Limits",
       "type": "array"
     },
+    "planning_activation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Activation Sha256",
+      "type": "string"
+    },
     "planning_only": {
       "title": "Planning Only",
       "type": "boolean"
@@ -87,6 +102,11 @@
     "scenario_id": {
       "pattern": "^HYPOTHETICAL-CAL-[A-Z0-9-]+$",
       "title": "Scenario Id",
+      "type": "string"
+    },
+    "scenario_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scenario Sha256",
       "type": "string"
     },
     "schema_version": {
@@ -105,6 +125,10 @@
   },
   "required": [
     "scenario_id",
+    "scenario_sha256",
+    "planning_activation_sha256",
+    "code_revision",
+    "calculated_at",
     "binary_effective_pairs_required",
     "continuous_effective_pairs_required",
     "governing_objective",

@@ -620,6 +620,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_calibration_scenario.add_argument("scenario_path", type=Path)
     reliability_calibration_scenario.add_argument("planning_activation_path", type=Path)
+    reliability_calibration_scenario.add_argument("--code-revision", required=True)
     reliability_calibration_scenario.add_argument("--output-path", type=Path)
     reliability_calibration_scenario.add_argument(
         "--execute",
@@ -1912,7 +1913,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         calibration_scenario_result = MultiObjectiveCalibrationScenarioService().calculate(
             calibration_scenario,
             calibration_planning_activation,
+            scenario_path=args.scenario_path,
             activation_path=args.planning_activation_path,
+            code_revision=args.code_revision,
+            calculated_at=datetime.now(UTC),
         )
         if args.execute:
             if args.output_path is None:

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -64,6 +65,10 @@ class MultiObjectiveCalibrationScenario(CalibrationScenarioModel):
 class MultiObjectiveCalibrationScenarioResult(CalibrationScenarioModel):
     schema_version: str = "1.0.0"
     scenario_id: str = Field(pattern=r"^HYPOTHETICAL-CAL-[A-Z0-9-]+$")
+    scenario_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    planning_activation_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    calculated_at: datetime
     binary_effective_pairs_required: int = Field(ge=2)
     continuous_effective_pairs_required: int = Field(ge=2)
     governing_objective: str = Field(

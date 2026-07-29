@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -41,12 +42,16 @@ RESULT_SCHEMA = (
 
 
 def _calculate(name: str) -> MultiObjectiveCalibrationScenarioResult:
-    scenario = load_multi_objective_calibration_scenario(SCENARIOS / name)
+    scenario_path = SCENARIOS / name
+    scenario = load_multi_objective_calibration_scenario(scenario_path)
     activation = load_prospective_calibration_planning_activation(ACTIVATION)
     return MultiObjectiveCalibrationScenarioService().calculate(
         scenario,
         activation,
+        scenario_path=scenario_path,
         activation_path=ACTIVATION,
+        code_revision="dfc9e56",
+        calculated_at=datetime(2026, 7, 29, 18, 30, tzinfo=UTC),
     )
 
 
@@ -107,7 +112,10 @@ def test_scenario_rejects_changed_planning_activation(tmp_path: Path) -> None:
         MultiObjectiveCalibrationScenarioService().calculate(
             scenario,
             load_prospective_calibration_planning_activation(changed),
+            scenario_path=SCENARIOS / "HYPOTHETICAL_BALANCED.yaml",
             activation_path=changed,
+            code_revision="dfc9e56",
+            calculated_at=datetime(2026, 7, 29, 18, 30, tzinfo=UTC),
         )
 
 
@@ -120,7 +128,10 @@ def test_unattainable_inflated_scenario_fails_closed() -> None:
         MultiObjectiveCalibrationScenarioService().calculate(
             scenario,
             load_prospective_calibration_planning_activation(ACTIVATION),
+            scenario_path=SCENARIOS / "HYPOTHETICAL_HIGH_PRECISION.yaml",
             activation_path=ACTIVATION,
+            code_revision="dfc9e56",
+            calculated_at=datetime(2026, 7, 29, 18, 30, tzinfo=UTC),
         )
 
 
