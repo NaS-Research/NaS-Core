@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
 
@@ -28,6 +29,10 @@ class CalibrationParameterStatus(StrEnum):
     HYPOTHETICAL = "hypothetical"
     REQUIRES_PILOT = "requires_pilot"
     REQUIRES_FOUNDER_REVIEW = "requires_founder_review"
+
+
+class CalibrationPlanningActivationStatus(StrEnum):
+    INTERNAL_PLANNING_ACTIVE = "internal_planning_active"
 
 
 class TechnicalReplicateArm(ProspectiveCalibrationModel):
@@ -219,6 +224,147 @@ class CalibrationContactRevocation(ProspectiveCalibrationModel):
         return self
 
 
+def prospective_calibration_confirmation_statement(study_id: str) -> str:
+    return (
+        f"I approve {study_id} prospective calibration design 0.1.0 "
+        "for planning only as written."
+    )
+
+
+class ProspectiveCalibrationFounderDecision(ProspectiveCalibrationModel):
+    schema_version: str = "1.0.0"
+    decision_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    route_id: str = Field(pattern=r"^ROUTE-C$")
+    design_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    decision_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    confirmation_statement: str
+    founder_id: str
+    founder_name: str
+    reviewer_role: str
+    confirmed_at: datetime
+    planning_only_authorized: bool
+    final_human_review_preserved: bool
+    external_contact_authorized: bool
+    laboratory_quote_authorized: bool
+    spending_authorized: bool
+    procurement_authorized: bool
+    specimen_acquisition_authorized: bool
+    data_access_authorized: bool
+    threshold_selection_authorized: bool
+    study_execution_authorized: bool
+    clinical_use_authorized: bool
+    publication_authorized: bool
+
+    @model_validator(mode="after")
+    def validate_decision_boundary(
+        self,
+    ) -> ProspectiveCalibrationFounderDecision:
+        if self.confirmation_statement != prospective_calibration_confirmation_statement(
+            self.study_id
+        ):
+            raise ValueError("founder confirmation statement is not exact")
+        if not self.planning_only_authorized:
+            raise ValueError("the decision must authorize internal planning")
+        if not self.final_human_review_preserved:
+            raise ValueError("the founder's final human review must remain preserved")
+        if any(
+            (
+                self.external_contact_authorized,
+                self.laboratory_quote_authorized,
+                self.spending_authorized,
+                self.procurement_authorized,
+                self.specimen_acquisition_authorized,
+                self.data_access_authorized,
+                self.threshold_selection_authorized,
+                self.study_execution_authorized,
+                self.clinical_use_authorized,
+                self.publication_authorized,
+            )
+        ):
+            raise ValueError(
+                "planning-only approval cannot authorize external or executing actions"
+            )
+        return self
+
+
+class ProspectiveCalibrationPlanningActivation(ProspectiveCalibrationModel):
+    schema_version: str = "1.0.0"
+    activation_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
+    question_id: str = Field(pattern=r"^NAS-RQ-[A-Z0-9]+$")
+    question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    route_id: str = Field(pattern=r"^ROUTE-C$")
+    status: CalibrationPlanningActivationStatus
+    design_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    founder_decision_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    decision_packet_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    activated_at: datetime
+    unresolved_decision_ids: list[str] = Field(min_length=1)
+    internal_scientific_planning_authorized: bool
+    internal_statistical_planning_authorized: bool
+    internal_operational_scenario_planning_authorized: bool
+    internal_budget_scenario_planning_authorized: bool
+    final_human_review_preserved: bool
+    external_contact_authorized: bool
+    laboratory_quote_authorized: bool
+    spending_authorized: bool
+    procurement_authorized: bool
+    specimen_acquisition_authorized: bool
+    source_selected: bool
+    data_access_authorized: bool
+    threshold_selection_authorized: bool
+    study_execution_authorized: bool
+    clinical_use_authorized: bool
+    publication_authorized: bool
+
+    @model_validator(mode="after")
+    def validate_activation_boundary(
+        self,
+    ) -> ProspectiveCalibrationPlanningActivation:
+        if len(self.unresolved_decision_ids) != len(
+            set(self.unresolved_decision_ids)
+        ):
+            raise ValueError("unresolved calibration decision IDs must be unique")
+        if any(
+            not decision_id.startswith("CAL-DEC-")
+            for decision_id in self.unresolved_decision_ids
+        ):
+            raise ValueError("unresolved decisions must use CAL-DEC identifiers")
+        if not all(
+            (
+                self.internal_scientific_planning_authorized,
+                self.internal_statistical_planning_authorized,
+                self.internal_operational_scenario_planning_authorized,
+                self.internal_budget_scenario_planning_authorized,
+                self.final_human_review_preserved,
+            )
+        ):
+            raise ValueError("approved internal planning authorities must be preserved")
+        if any(
+            (
+                self.external_contact_authorized,
+                self.laboratory_quote_authorized,
+                self.spending_authorized,
+                self.procurement_authorized,
+                self.specimen_acquisition_authorized,
+                self.source_selected,
+                self.data_access_authorized,
+                self.threshold_selection_authorized,
+                self.study_execution_authorized,
+                self.clinical_use_authorized,
+                self.publication_authorized,
+            )
+        ):
+            raise ValueError(
+                "planning activation cannot authorize external or executing actions"
+            )
+        return self
+
+
 def load_prospective_calibration_design(
     path: Path,
 ) -> ProspectiveCalibrationExperimentDesign:
@@ -233,6 +379,36 @@ def load_calibration_contact_revocation(path: Path) -> CalibrationContactRevocat
     )
 
 
+def load_prospective_calibration_founder_decision(
+    path: Path,
+) -> ProspectiveCalibrationFounderDecision:
+    return ProspectiveCalibrationFounderDecision.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_prospective_calibration_planning_activation(
+    path: Path,
+) -> ProspectiveCalibrationPlanningActivation:
+    return ProspectiveCalibrationPlanningActivation.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def write_prospective_calibration_planning_activation(
+    path: Path,
+    activation: ProspectiveCalibrationPlanningActivation,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(
+            activation.model_dump(mode="json"),
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+
+
 def write_prospective_calibration_schema(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -244,3 +420,18 @@ def write_prospective_calibration_schema(path: Path) -> None:
         + "\n",
         encoding="utf-8",
     )
+
+
+def write_prospective_calibration_authorization_schemas(
+    decision_path: Path,
+    activation_path: Path,
+) -> None:
+    for path, model in (
+        (decision_path, ProspectiveCalibrationFounderDecision),
+        (activation_path, ProspectiveCalibrationPlanningActivation),
+    ):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(model.model_json_schema(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -14,8 +15,11 @@ from nas_core.analysis.prospective_calibration import (
 from nas_core.domain.method_dependency import load_method_route_activation
 from nas_core.domain.prospective_calibration import (
     ProspectiveCalibrationExperimentDesign,
+    ProspectiveCalibrationFounderDecision,
+    ProspectiveCalibrationPlanningActivation,
     load_calibration_contact_revocation,
     load_prospective_calibration_design,
+    load_prospective_calibration_founder_decision,
 )
 from nas_core.domain.technical_calibration import load_technical_calibration_plan
 
@@ -35,6 +39,22 @@ REVOCATION = (
     / "FOUNDER_CALIBRATION_INQUIRY_REVOCATION_v1.0.0.yaml"
 )
 SCHEMA = ROOT / "workflows" / "prospective_calibration_experiment_design.schema.json"
+DECISION = (
+    STUDY
+    / "reviews"
+    / "FOUNDER_PROSPECTIVE_CALIBRATION_DESIGN_DECISION_v0.1.0.yaml"
+)
+PACKET = (
+    STUDY
+    / "reviews"
+    / "FOUNDER_PROSPECTIVE_CALIBRATION_DESIGN_DECISION_PACKET_v0.1.0.md"
+)
+DECISION_SCHEMA = (
+    ROOT / "workflows" / "prospective_calibration_founder_decision.schema.json"
+)
+ACTIVATION_SCHEMA = (
+    ROOT / "workflows" / "prospective_calibration_planning_activation.schema.json"
+)
 
 
 def _validate(
@@ -115,4 +135,78 @@ def test_design_rejects_changed_route_activation(tmp_path: Path) -> None:
 def test_checked_in_prospective_calibration_schema_matches_runtime_model() -> None:
     assert json.loads(SCHEMA.read_text(encoding="utf-8")) == (
         ProspectiveCalibrationExperimentDesign.model_json_schema()
+    )
+
+
+def test_founder_decision_activates_internal_planning_only() -> None:
+    decision = load_prospective_calibration_founder_decision(DECISION)
+    design = load_prospective_calibration_design(DESIGN)
+
+    activation = ProspectiveCalibrationDesignService().activate_planning(
+        decision,
+        design,
+        decision_path=DECISION,
+        design_path=DESIGN,
+        decision_packet_path=PACKET,
+        code_revision="5502f07",
+        activated_at=datetime(2026, 7, 29, 18, 1, 3, tzinfo=UTC),
+    )
+
+    assert activation.status.value == "internal_planning_active"
+    assert activation.unresolved_decision_ids == [
+        "CAL-DEC-001",
+        "CAL-DEC-002",
+        "CAL-DEC-003",
+        "CAL-DEC-004",
+        "CAL-DEC-005",
+        "CAL-DEC-006",
+    ]
+    assert activation.internal_scientific_planning_authorized is True
+    assert activation.internal_statistical_planning_authorized is True
+    assert activation.internal_budget_scenario_planning_authorized is True
+    assert activation.final_human_review_preserved is True
+    assert activation.external_contact_authorized is False
+    assert activation.laboratory_quote_authorized is False
+    assert activation.spending_authorized is False
+    assert activation.data_access_authorized is False
+    assert activation.study_execution_authorized is False
+
+
+def test_planning_decision_rejects_expanded_authority() -> None:
+    decision = load_prospective_calibration_founder_decision(DECISION)
+    payload = decision.model_dump(mode="json")
+    payload["external_contact_authorized"] = True
+    payload["spending_authorized"] = True
+
+    with pytest.raises(ValidationError, match="cannot authorize external"):
+        ProspectiveCalibrationFounderDecision.model_validate(payload)
+
+
+def test_planning_activation_rejects_changed_founder_packet(
+    tmp_path: Path,
+) -> None:
+    changed = tmp_path / "packet.md"
+    changed.write_bytes(PACKET.read_bytes() + b"\n")
+
+    with pytest.raises(
+        ProspectiveCalibrationDesignError,
+        match="different founder packet",
+    ):
+        ProspectiveCalibrationDesignService().activate_planning(
+            load_prospective_calibration_founder_decision(DECISION),
+            load_prospective_calibration_design(DESIGN),
+            decision_path=DECISION,
+            design_path=DESIGN,
+            decision_packet_path=changed,
+            code_revision="5502f07",
+            activated_at=datetime(2026, 7, 29, 18, 1, 3, tzinfo=UTC),
+        )
+
+
+def test_checked_in_planning_authorization_schemas_match_runtime_models() -> None:
+    assert json.loads(DECISION_SCHEMA.read_text(encoding="utf-8")) == (
+        ProspectiveCalibrationFounderDecision.model_json_schema()
+    )
+    assert json.loads(ACTIVATION_SCHEMA.read_text(encoding="utf-8")) == (
+        ProspectiveCalibrationPlanningActivation.model_json_schema()
     )

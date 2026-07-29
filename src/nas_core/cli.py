@@ -151,6 +151,9 @@ from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionInt
 from nas_core.domain.prospective_calibration import (
     load_calibration_contact_revocation,
     load_prospective_calibration_design,
+    load_prospective_calibration_founder_decision,
+    write_prospective_calibration_authorization_schemas,
+    write_prospective_calibration_planning_activation,
     write_prospective_calibration_schema,
 )
 from nas_core.domain.reliability import (
@@ -615,6 +618,48 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write the prospective calibration experiment-design JSON Schema",
     )
     reliability_prospective_calibration_schema.add_argument("path", type=Path)
+    reliability_prospective_calibration_activate = reliability_commands.add_parser(
+        "prospective-calibration-activate",
+        help="Activate founder-approved internal prospective-calibration planning",
+    )
+    reliability_prospective_calibration_activate.add_argument(
+        "decision_path",
+        type=Path,
+    )
+    reliability_prospective_calibration_activate.add_argument(
+        "design_path",
+        type=Path,
+    )
+    reliability_prospective_calibration_activate.add_argument(
+        "decision_packet_path",
+        type=Path,
+    )
+    reliability_prospective_calibration_activate.add_argument(
+        "--output-path",
+        required=True,
+        type=Path,
+    )
+    reliability_prospective_calibration_activate.add_argument(
+        "--code-revision",
+        required=True,
+    )
+    reliability_prospective_calibration_activate.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the planning activation receipt",
+    )
+    reliability_prospective_authorization_schema = reliability_commands.add_parser(
+        "prospective-calibration-authorization-schema",
+        help="Write founder-decision and planning-activation JSON Schemas",
+    )
+    reliability_prospective_authorization_schema.add_argument(
+        "decision_path",
+        type=Path,
+    )
+    reliability_prospective_authorization_schema.add_argument(
+        "activation_path",
+        type=Path,
+    )
     reliability_schema = reliability_commands.add_parser(
         "schema", help="Write the canonical reliability JSON Schema"
     )
@@ -1857,6 +1902,56 @@ def main(argv: Sequence[str] | None = None) -> int:
     ):
         write_prospective_calibration_schema(args.path)
         print(f"Wrote prospective calibration design schema: {args.path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "prospective-calibration-activate"
+    ):
+        planning_decision = load_prospective_calibration_founder_decision(
+            args.decision_path
+        )
+        planning_design = load_prospective_calibration_design(args.design_path)
+        planning_activation = ProspectiveCalibrationDesignService().activate_planning(
+            planning_decision,
+            planning_design,
+            decision_path=args.decision_path,
+            design_path=args.design_path,
+            decision_packet_path=args.decision_packet_path,
+            code_revision=args.code_revision,
+            activated_at=datetime.now(UTC),
+        )
+        if not args.execute:
+            print(
+                "Prospective calibration planning approval verified: "
+                f"{planning_activation.study_id}; "
+                f"{len(planning_activation.unresolved_decision_ids)} decisions; "
+                "zero external or executing authority"
+            )
+            print("Dry run only; no activation receipt was written.")
+            return 0
+        if args.output_path.exists():
+            raise FileExistsError("planning activation output path must be new")
+        write_prospective_calibration_planning_activation(
+            args.output_path,
+            planning_activation,
+        )
+        print(f"Activated internal calibration planning: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command
+        == "prospective-calibration-authorization-schema"
+    ):
+        write_prospective_calibration_authorization_schemas(
+            args.decision_path,
+            args.activation_path,
+        )
+        print(
+            "Wrote prospective calibration authorization schemas: "
+            f"{args.decision_path}, {args.activation_path}"
+        )
         return 0
 
     if args.command == "plan" and args.plan_command == "schema":

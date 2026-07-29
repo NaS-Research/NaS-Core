@@ -1,0 +1,25 @@
+schema_version: 1.0.0
+decision_version: 0.1.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+design_sha256: 434e6177f2e31e861c213ac58f7eb48be25cc9aeb7640b7ad1f8d26fdda555b1
+decision_packet_sha256: 75f90e066c809c4c716090106c9f0faeb825c94df4d4b9f354b046bc6be4e175
+confirmation_statement: I approve NAS-BRCA-002 prospective calibration design 0.1.0 for planning only as written.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-07-29T18:01:03Z'
+planning_only_authorized: true
+final_human_review_preserved: true
+external_contact_authorized: false
+laboratory_quote_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+data_access_authorized: false
+threshold_selection_authorized: false
+study_execution_authorized: false
+clinical_use_authorized: false
+publication_authorized: false
