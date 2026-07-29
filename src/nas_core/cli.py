@@ -17,6 +17,9 @@ from nas_core.analysis.cohort import CohortBuildService
 from nas_core.analysis.method_artifact import Pam50CandidateImportService
 from nas_core.analysis.method_dependency import MethodDependencyAuditService
 from nas_core.analysis.method_route import MethodRouteActivationService
+from nas_core.analysis.platform_compatibility import (
+    PlatformCompatibilityAuditService,
+)
 from nas_core.analysis.prospective_calibration import (
     ProspectiveCalibrationDesignService,
 )
@@ -160,6 +163,10 @@ from nas_core.domain.method_dependency import (
     write_method_route_activation,
     write_method_route_schemas,
     write_pam50_centroid_candidate,
+)
+from nas_core.domain.platform_compatibility import (
+    write_platform_compatibility_audit,
+    write_platform_compatibility_schema,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
 from nas_core.domain.prospective_calibration import (
@@ -665,6 +672,29 @@ def build_parser() -> argparse.ArgumentParser:
         "bundle_schema_path",
         type=Path,
     )
+    reliability_platform_compatibility = reliability_commands.add_parser(
+        "platform-compatibility-audit",
+        help="Audit platform compatibility from existing governed evidence",
+    )
+    reliability_platform_compatibility.add_argument("bundle_path", type=Path)
+    reliability_platform_compatibility.add_argument("metadata_receipt_path", type=Path)
+    reliability_platform_compatibility.add_argument("centroid_candidate_path", type=Path)
+    reliability_platform_compatibility.add_argument(
+        "reliability_specification_path",
+        type=Path,
+    )
+    reliability_platform_compatibility.add_argument("--code-revision", required=True)
+    reliability_platform_compatibility.add_argument("--output-path", type=Path)
+    reliability_platform_compatibility.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the immutable platform audit receipt",
+    )
+    reliability_platform_compatibility_schema = reliability_commands.add_parser(
+        "platform-compatibility-schema",
+        help="Write the platform-compatibility audit JSON Schema",
+    )
+    reliability_platform_compatibility_schema.add_argument("path", type=Path)
     reliability_prospective_calibration = reliability_commands.add_parser(
         "prospective-calibration-validate",
         help="Validate a nonexecuting prospective Route C calibration design",
@@ -2012,6 +2042,52 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote calibration planning schemas: "
             f"{args.authorization_schema_path}, {args.bundle_schema_path}"
         )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "platform-compatibility-audit"
+    ):
+        platform_bundle = load_phase_one_internal_planning_bundle(args.bundle_path)
+        platform_metadata = load_field_isolated_metadata_receipt(
+            args.metadata_receipt_path
+        )
+        platform_candidate = load_pam50_centroid_candidate(
+            args.centroid_candidate_path
+        )
+        platform_audit = PlatformCompatibilityAuditService().audit(
+            platform_bundle,
+            platform_metadata,
+            platform_candidate,
+            bundle_path=args.bundle_path,
+            metadata_path=args.metadata_receipt_path,
+            candidate_path=args.centroid_candidate_path,
+            reliability_specification_path=args.reliability_specification_path,
+            code_revision=args.code_revision,
+            audited_at=datetime.now(UTC),
+        )
+        if not args.execute:
+            print(
+                "Platform compatibility audit completed: "
+                f"verified={platform_audit.verified_count}; "
+                f"partial={platform_audit.partial_count}; "
+                f"pending={platform_audit.pending_count}; "
+                f"decision={platform_audit.decision.value}"
+            )
+            print("Dry run only; no audit receipt was written.")
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_platform_compatibility_audit(args.output_path, platform_audit)
+        print(f"Wrote platform compatibility audit: {args.output_path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "platform-compatibility-schema"
+    ):
+        write_platform_compatibility_schema(args.path)
+        print(f"Wrote platform compatibility schema: {args.path}")
         return 0
 
     if (
