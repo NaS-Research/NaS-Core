@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.51.0-working`
+Manuscript version: `0.52.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -1202,8 +1202,10 @@ clinical-association result exists for question `0.3.0`.
 
 Status: `working interpretation—must not be cited as a result`
 
-The 58 locked appraisal reports, covering 61 eligible evidence identities after
-three exact prior-appraisal reuses, show that the broad problem is established:
+The saturated evidence set contains 81 eligible identities: 68 completed
+appraisals, 13 explicit access restrictions, and zero pending records. The
+completed appraisals comprise 22 supporting and 46 context-only studies. They
+show that the broad problem is established:
 PAM50 calls can be sensitive to technical error, cohort-dependent centering, and
 preprocessing-specific RNA-seq references. They also show that fixed external
 references, pairwise-ratio classifiers, and supervised models already support
@@ -1222,21 +1224,21 @@ from independent technical evidence, define a reliability estimand and threshold
 without outcome tuning, validate transport in an independent cohort, and abstain
 prospectively when the assignment is not analytically reliable.
 
-This interpretation may change after sequential citation chaining. AIMS and the IOP article remain
-identified but unappraised access-restricted sources. This is not an authorized
-novelty conclusion.
+Sequential citation chaining is complete under the locked stopping rule: passes
+6 and 7 were consecutive zero-yield passes. The founder-authorized saturated
+synthesis preserves eight claim-level dispositions and the novelty memorandum
+retains a hold. Thirteen eligible identities, including AIMS and the IOP article,
+remain explicitly access-restricted and were not inferred from abstracts. Evidence
+saturation does not itself authorize a novelty or scientific conclusion.
 
 ## Limitations
 
 Status: `working`
 
-- Primary screening and citation passes 1–2 are complete, while pass 3 awaits
-  founder screening confirmation. Fifty-eight appraisal
-  reports are locked across the direct and citation sets. Pass 2 contributed five
-  appraisals and four access restrictions, with zero records ready or awaiting full
-  text. Pass 3 currently proposes seven inclusions and 586 exclusions; none is a
-  decision. Sequential citation chaining remains incomplete because neither
-  completed pass was zero-yield.
+- Primary screening and citation passes 1–7 are complete. The saturated evidence
+  state contains 81 eligible identities, 68 completed appraisals, 13 access
+  restrictions, and zero pending records. Passes 6 and 7 were consecutive
+  zero-yield passes, satisfying the locked stopping rule.
 - Twelve of 13 priority records have completed question-specific appraisal: seven
   from verified CC-BY retrieval and five through governed read-only review.
 - AIMS is identity-verified but subscription-restricted. It remains unappraised,
@@ -1257,8 +1259,8 @@ Status: `working`
 Status: `placeholder`
 
 No scientific or clinical conclusion is authorized. This section will remain empty
-until the evidence stopping rule, method lock, preregistration, analysis, sensitivity
-checks, and internal reviews are complete.
+until method lock, preregistration, analysis, sensitivity checks, and internal
+reviews are complete.
 
 ## References
 
@@ -1342,7 +1344,7 @@ checks, and internal reviews are complete.
 
 | Manuscript location | Claim type | Supporting artifact | State |
 |---|---|---|---|
-| Introduction ¶1–9 | External methodological evidence | 28 records in `literature/revised-appraisals/` | supported, evidence review incomplete |
+| Introduction ¶1–9 | External methodological evidence | `literature/saturated_evidence_synthesis_v1.0.0.yaml`; 68 completed appraisals | supported; evidence review saturated |
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—metadata feasibility | Source-level and field-isolated input audits | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.1.yaml`; all audit reports | all five input-feasibility checks verified; method compatibility unresolved |
@@ -1350,7 +1352,10 @@ checks, and internal reviews are complete.
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
 | Methods—citation pass 2 | Cumulative retrieval, founder screening, lawful access, appraisal, and closure | `citation-chain/pass-0002-decision-ledger.yaml`; `citation-pass-0002-full-text/appraisal-progress-v1.0.0.yaml`; `citation-chain/pass-0002-closure.yaml` | pass closed; 9 eligible identities added; 5 context only, 4 restricted |
-| Methods—citation pass 3 | Cumulative retrieval, deduplication, enrichment, and advisory screening | `citation-chain/pass-0003-seeds.yaml`; `citation-chain/pass-0003-screening-preparation.yaml`; `FOUNDER_CITATION_PASS_0003_COMBINED_REVIEW_v1.0.0.md` | 593 new candidates; 7 include and 586 exclude recommendations; founder confirmation pending |
+| Methods—citation pass 3 | Cumulative retrieval, founder screening, lawful access, appraisal, and closure | `citation-chain/pass-0003-decision-ledger.yaml`; `citation-chain/pass-0003-closure.yaml` | pass closed; 7 eligible identities added; 5 appraised and 2 restricted |
+| Methods—citation passes 4–5 | Cumulative retrieval, founder screening, lawful access, appraisal, and closure | `citation-chain/pass-0004-closure.yaml`; `citation-chain/pass-0005-closure.yaml` | passes closed; 3 eligible identities added; 2 appraised and 1 restricted |
+| Methods—citation passes 6–7 | Zero-yield stopping-rule verification | `citation-chain/pass-0006-closure.yaml`; `citation-chain/pass-0007-closure.yaml`; `revised_evidence_review_progress.yaml` | two consecutive zero-yield passes; stopping rule satisfied |
+| Methods—saturated synthesis | Founder-authorized claim-level evidence synthesis | `saturated_evidence_synthesis_v1.0.0.yaml`; `novelty_memorandum.yaml` | 81 eligible; 68 appraised; 13 restricted; novelty held |
 | Methods—evidence-cap amendment | Founder authorization and appraisal routing | `FOUNDER_EVIDENCE_CAP_AMENDMENT_APPROVAL_v0.2.5.yaml`; `evidence-cap-amendment-activation-v0.2.5.yaml` | verified, active |
 | Methods—citation lawful access | Repository retrieval and access routing | `citation-full-text/repository-access-batch-v1.0.0.yaml`; `citation-full-text/access-check-queue-v1.0.0.yaml`; `citation_appraisal_progress_v1.0.0.yaml` | 25 materialized, 0 ready, 4 restricted, 0 unresolved full texts |
 | Results—citation appraisal batch 0001 | External evidence appraisal | `FOUNDER_CITATION_APPRAISAL_BATCH_0001_CONFIRMATION_v1.0.0.yaml`; three files in `citation-appraisals/` | context only |
@@ -1393,13 +1398,14 @@ checks, and internal reviews are complete.
 | Results—spatially guided mFISHseq | External evidence appraisal | `revised-appraisals/PMC10723508-v1.0.0.yaml` | context only |
 | Results—modality-disjoint latent simulation | External evidence appraisal | `revised-appraisals/PMID42172162-v1.0.0.yaml` | context only |
 | Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
-| Discussion ¶1–2 | Explicit interpretation | 28 completed appraisals and two access-restricted records | provisional |
+| Discussion ¶1–2 | Explicit interpretation | `saturated_evidence_synthesis_v1.0.0.yaml`; 68 completed appraisals and 13 access-restricted identities | founder-authorized working synthesis; novelty held |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
 ## Revision log
 
 | Version | Date | Change |
 |---|---|---|
+| 0.52.0-working | 2026-07-29 | Reconciled stale pre-saturation prose and evidence-ledger rows to the frozen final state: 81 eligible identities, 68 appraisals, 13 restrictions, zero pending, seven closed passes, and the two-zero-yield stopping rule satisfied. |
 | 0.51.0-working | 2026-07-29 | Entered Phase 1 with a typed, nonexecuting prospective calibration design: excluded pilot, primary same-RNA calibration, optional extraction sensitivity, five technical estimands, validation firewalls, and zero contact, spending, data access, or execution authority. |
 | 0.50.0-working | 2026-07-28 | Recorded the frozen calibration-lineage audit: all declared GEO replicate labels reconcile and GSE60788/GSE96058 have zero public identifier overlap, but biological non-overlap remains unproven; no source or data access was authorized. |
 | 0.49.0-working | 2026-07-28 | Recorded the founder's exact Route C decision and activated the independent-calibration hold under frozen revision `74b3f2a`; no source, method lock, data access, execution, clinical use, or publication is authorized. |

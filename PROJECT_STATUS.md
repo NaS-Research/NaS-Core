@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -251,15 +251,18 @@ row, molecular value, outcome, raw artifact, cohort, or classifier result was
 retained. Input feasibility is closed; method compatibility and scientific review
 remain unresolved.
 
-The completed citation-appraisal state remains:
+The evidence review developed through these preserved intermediate states:
 
-Primary title-and-abstract screening is complete. Founder-confirmed progress
+The initial direct-search title-and-abstract screening completed under
+founder-confirmed progress
 `7b90c37a…63218c` records 30 inclusions, 70 exclusions, zero pending, zero unclear,
 and zero AI decisions. All five fuzzy author-year identity links were rejected.
 The expanded access inventory is complete: 26 of the 30 inclusions have repository
 identifiers and four required separate lawful-access checks. Reconciliation now
 records 19 durable CC BY retrievals, nine governed read-only reviews, 28 completed
-appraisals, zero records ready for appraisal, and two access restrictions. No
+direct-search appraisals, zero records ready for appraisal, and two access
+restrictions. This was the pre-citation-chain state; the current saturated state
+is 81 eligible, 68 appraised, and 13 restricted. No
 restricted text was stored. All lawfully accessible records are appraised. Citation
 pass 1 now has a
 checksum-bound founder ledger containing 32 inclusions and 4,463 exclusions, with
@@ -505,15 +508,15 @@ Current gate state:
 - TCGA/GDC is approved as the proposed discovery source. Processed SCAN-B GSE96058
   is now registered and approved as the external-validation candidate; PAM50 gene
   coverage and cross-platform transformations still require metadata verification.
-- Full-text progress is now mechanically reconciled: 8 of 27 founder inclusions have
-  verified full text and completed appraisals. Roles are 3 supporting and 5 context-only;
-  4 additional papers are access-restricted or non-open-access. No anchor
-  study or scientific conclusion exists yet. One Research Square preprint is
-  durably linked to its already-appraised peer-reviewed version and is not double-counted.
+- Full-text and citation progress are mechanically reconciled: 81 eligible
+  identities comprise 68 completed appraisals and 13 access restrictions, with
+  zero pending records. Roles are 22 supporting, 46 context-only, and zero anchor
+  studies. No scientific conclusion exists yet.
 - The structured evidence matrix, novelty/no-go memorandum, field-level source
   feasibility assessment, governed GSE96058 registration, and Phase 0 gate decision
-  are complete. The locked evidence stopping rule was not claimed as satisfied:
-  review terminated through an explicit no-go trigger.
+  are complete. Citation passes 6 and 7 were consecutive zero-yield passes, so the
+  locked evidence stopping rule is satisfied. Saturated synthesis is
+  founder-authorized and the novelty memorandum retains a hold.
 - NAS-BRCA-001 remains an immutable conditional platform-qualification pass with
   a pending founder results/remediation decision.
 
@@ -1327,12 +1330,14 @@ concordance, but omitting macrodissection produced ROR bias as large as -19 unit
   the active deterministic Phase 0 workflow requires no API credential.
 - `NAS-BRCA-002` version `0.3.0` is proposed. Method specification `0.1.0` is
   nonexecuting until its exact artifacts, transforms, technical-error calibration,
-  numerical tolerances, and thresholds are resolved. The complete evidence stopping
-  rule and founder scientific/product, molecular/pathology, and statistical reviews
-  are also required before selection.
-- Revised search strategy `0.2.4`, its queue, prior-inventory reconciliation,
-  founder screening, and all 28 accessible appraisals are complete. The citation-
-  chain stopping rule remains incomplete.
+  numerical tolerances, and thresholds are resolved. Founder scientific/product,
+  molecular/pathology, and statistical reviews are also required before selection.
+- Evidence retrieval and appraisal are saturated and founder-authorized at 81
+  eligible identities, 68 completed appraisals, 13 access restrictions, and zero
+  pending. Evidence saturation does not resolve the method or authorize a conclusion.
+- Prospective calibration design `0.1.0` is complete and awaits the founder's
+  planning-only decision. No assay, pair count, budget, source, or threshold is
+  selected.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.
@@ -1340,7 +1345,9 @@ concordance, but omitting macrodissection produced ROR bias as large as -19 unit
   historical PAM50 genes, receptor completeness, and primary-versus-technical-
   replicate linkage are verified. The cross-platform transformation, assay
   compatibility, and classifier validity remain unresolved.
-- The Seagate volume currently reports approximately 4.2 TiB available. It is
+- The Seagate volume is currently mounted read-only by macOS. GitHub `main` and
+  the healthy recovery clone contain commit `fe2a061`; the Seagate working copy
+  remains at `1dacb87` until the volume is remounted read-write. The volume is
   primary local storage, not an independent backup.
 - NAS-BRCA-001 public release is blocked by pending founder results review, a
   failed S4 nonlinear-age sensitivity, nonconvergent S3, a material exposure PH
