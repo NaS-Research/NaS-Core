@@ -24,6 +24,9 @@ from nas_core.analysis.platform_compatibility import (
 from nas_core.analysis.prospective_calibration import (
     ProspectiveCalibrationDesignService,
 )
+from nas_core.analysis.reference_development import (
+    ReferenceDevelopmentProtocolService,
+)
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
@@ -183,6 +186,10 @@ from nas_core.domain.prospective_calibration import (
     write_prospective_calibration_authorization_schemas,
     write_prospective_calibration_planning_activation,
     write_prospective_calibration_schema,
+)
+from nas_core.domain.reference_development import (
+    load_reference_development_protocol,
+    write_reference_development_schema,
 )
 from nas_core.domain.reliability import (
     load_reliability_method_inputs,
@@ -724,6 +731,27 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_numerical_conformance_schema.add_argument("plan_path", type=Path)
     reliability_numerical_conformance_schema.add_argument("receipt_path", type=Path)
+    reliability_reference_development = reliability_commands.add_parser(
+        "reference-development-validate",
+        help="Validate the outcome-blind platform-reference development protocol",
+    )
+    reliability_reference_development.add_argument("protocol_path", type=Path)
+    reliability_reference_development.add_argument("authorization_path", type=Path)
+    reliability_reference_development.add_argument("platform_audit_path", type=Path)
+    reliability_reference_development.add_argument(
+        "numerical_conformance_path",
+        type=Path,
+    )
+    reliability_reference_development.add_argument(
+        "--registry",
+        type=Path,
+        default=Path("data/source-registry.yaml"),
+    )
+    reliability_reference_development_schema = reliability_commands.add_parser(
+        "reference-development-schema",
+        help="Write the reference-development protocol JSON Schema",
+    )
+    reliability_reference_development_schema.add_argument("path", type=Path)
     reliability_prospective_calibration = reliability_commands.add_parser(
         "prospective-calibration-validate",
         help="Validate a nonexecuting prospective Route C calibration design",
@@ -2170,6 +2198,35 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote numerical conformance schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "reference-development-validate"
+    ):
+        reference_protocol = load_reference_development_protocol(args.protocol_path)
+        ReferenceDevelopmentProtocolService().validate(
+            reference_protocol,
+            SourceRegistry.from_yaml(args.registry),
+            registry_path=args.registry,
+            standing_authorization_path=args.authorization_path,
+            platform_audit_path=args.platform_audit_path,
+            numerical_conformance_path=args.numerical_conformance_path,
+        )
+        print(
+            "Reference-development protocol is valid: "
+            f"{reference_protocol.source_accession}; "
+            f"status={reference_protocol.source_selection_status.value}; "
+            "zero molecular, outcome, or classifier execution"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "reference-development-schema"
+    ):
+        write_reference_development_schema(args.path)
+        print(f"Wrote reference-development schema: {args.path}")
         return 0
 
     if (

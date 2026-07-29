@@ -211,3 +211,63 @@ sources:
     notes:
       - GSE96058 describes 3,273 primary cases and 136 technical replicates.
       - GEO states that raw sequence data are unavailable because of consent, Swedish law, privacy, and hereditary information.
+  - source_id: ncbi-geo-gse81538
+    name: NCBI GEO SCAN-B GSE81538 Processed Data
+    owner: U.S. National Library of Medicine, NCBI, and the SCAN-B submitters
+    authoritative_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE81538
+    classification: public_open
+    status: active
+    version: GSE81538-public-record-at-2026-07-29
+    access_method: NCBI GEO accession pages, HTTPS, and GEO FTP supplementary files
+    approved_purposes:
+      - oncology-research
+      - reference-development
+      - research-publication
+    intended_uses:
+      - Metadata-only assessment for a fixed PAM50 platform reference
+      - Reference development from a prospectively selected outcome-blind subset
+      - Publication of permitted aggregate methods with accession and study attribution
+    prohibited_uses:
+      - Attempting to identify or contact research participants
+      - Using GSE81538 as a discovery or external-validation cohort in NAS-BRCA-002
+      - Inspecting outcomes or subtype performance to select preprocessing or reference rules
+      - Redistributing source files through Git or unapproved systems
+      - Using source data to train a generative model
+    license_or_terms: NCBI Website and Data Usage Policies plus accession-specific submitter terms
+    terms_url: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    attribution: >-
+      Cite GEO accession GSE81538, the original SCAN-B publication, and NCBI GEO
+      in methods, disclosures, derived releases, and publications.
+    authorized_roles:
+      - data_steward
+      - researcher
+      - principal_investigator
+      - scientific_reviewer
+      - publication_approver
+    storage_restrictions:
+      - Only public processed expression and public sample metadata are authorized.
+      - Source files must remain outside Git in approved marker-validated object storage.
+      - Snapshots must record accession, filenames, sizes, checksums, retrieval dates, and terms.
+      - Participant rows and molecular matrices may not be sent to a generative model.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-07-29
+    ai_processing_allowed: false
+    embeddings_allowed: false
+    model_training_allowed: false
+    export_allowed: true
+    publication_allowed: true
+    approvals:
+      - approver: Dalron J. Robertson
+        role: founder_data_steward_standing_authorization
+        decision: approve
+        decided_at: 2026-07-29T20:03:16Z
+        rationale: >-
+          Registered under the checksum-bound standing authorization for reversible
+          internal decisions and approved public/open data use. Authorization is
+          limited to outcome-blind reference development for NAS-BRCA-002 and does
+          not permit validation, clinical use, external publication, or submission.
+    notes:
+      - GEO describes 405 breast-tumor RNA-seq samples and a public processed matrix.
+      - GSE81538 and GSE96058 share the SCAN-B program and laboratory context; the
+        relationship must be disclosed and participant non-overlap verified before use.

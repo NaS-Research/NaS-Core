@@ -2,13 +2,13 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.56.0-working`
+Manuscript version: `0.57.0-working`
 
 Study: `NAS-BRCA-002`
 
 Question version: `0.3.0`
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 
 Overall status: **working—citation review saturated, evidence synthesis
 founder-authorized, metadata input feasibility passed, and Route C activated
@@ -635,6 +635,25 @@ validate an assay, reference, transformation, technical-error model, threshold,
 transport, or clinical use.
 [numerical_conformance_receipt_v1.0.0.yaml;
 NUMERICAL_CONFORMANCE_REPORT_v1.0.0.md]
+
+A candidate fixed-reference protocol now assigns GSE81538 a
+reference-development-only role. Before expression parsing, public metadata
+would select 50 ER-positive and 50 ER-negative primary tumors by lexicographic
+GEO accession order. If a field-isolated audit proves that the processed matrix
+contains untransformed gene-level FPKM, the candidate bridge applies
+`log2(FPKM + 1)`, requires unique finite mappings for all 50 genes, and computes
+a gene-wise median across the frozen 100-sample subset. That vector would be
+subtracted before Spearman scoring.
+
+The candidate is not locked. GSE81538 and GSE96058 share the broader SCAN-B
+program and laboratory context, participant non-overlap is not yet verified,
+and the processed matrix scale has not been inspected. GSE81538 cannot contribute
+discovery or validation performance, while GSE96058 molecular values and all
+outcomes remain firewalled. The source, transformation, and reference require
+artifact, lineage, unit, gene-mapping, sensitivity, and storage evidence before
+use.
+[reference_development_protocol_v1.0.0.yaml;
+REFERENCE_DEVELOPMENT_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1464,6 +1483,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.57.0-working | 2026-07-29 | Registered GSE81538 for reference development only and froze an outcome-blind 50 ER-positive plus 50 ER-negative candidate reference protocol; no molecular values or outcomes were accessed and no transformation or reference was locked. |
 | 0.56.0-working | 2026-07-29 | Added independent pure-Python versus NumPy numerical conformance: all eight frozen synthetic label, rank, score, margin, and tie-abstention cases passed at `1e-12`; analytical validity remains unclaimed. |
 | 0.55.0-working | 2026-07-29 | Added the repository-evidence-only platform audit: complete 50-gene mapping is verified, while seven transformation, reference, QC, lineage, numerical-conformance, and storage criteria remain partial or pending. |
 | 0.54.0-working | 2026-07-29 | Bound standing founder autonomy and froze the internal Phase 1 platform, excluded 30-pair pilot, marginal coverage, multiplicity, and symbolic-budget plans while preserving all execution and external-action stops. |

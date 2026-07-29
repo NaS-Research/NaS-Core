@@ -8,7 +8,22 @@ and what comes next?
 
 ## Current focus
 
-### Phase 1 prospective calibration design awaiting founder review
+### Freeze the reference-development input manifest and unit audit
+
+GSE81538 is now registered as public/open for the bounded role
+`reference_development_only`. Protocol `1.0.0` freezes an outcome- and
+expression-blind 50 ER-positive plus 50 ER-negative subset rule, a candidate
+gene-wise median reference, the proposed `log2(FPKM + 1)` target scale, and
+discovery/validation firewalls. It deliberately remains a candidate because
+the processed matrix scale, participant non-overlap, and durable storage have
+not yet been verified.
+
+Definition of done: restore a writable marker-validated object store; freeze the
+official GSE81538 filename, size, retrieval time, and checksum; verify public
+participant non-overlap with GSE96058; audit the processed matrix scale and all
+50 gene mappings without outcomes; and freeze the 100-sample accession manifest
+before parsing expression values. No GSE96058 molecular or outcome values may be
+accessed.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -551,35 +566,48 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Resolve the selected route's reference, transformation, technical-error, and
-   threshold dependencies without outcome inspection.
-2. Complete the scientific/product, molecular/pathology, and statistical
+1. Restore writable governed object storage and execute the field-isolated
+   GSE81538 artifact, unit, lineage, and 50-gene mapping audit.
+2. Materialize the fixed outcome-blind reference and its prespecified reference
+   sensitivities, then lock or reject the preprocessing bridge.
+3. Resolve technical-error and reliability-threshold dependencies without
+   discovery or validation outcome inspection.
+4. Complete the scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-3. Update the living manuscript and its evidence-to-text ledger after every material
+5. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-4. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-5. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-6. Implement persisted evidence claims, citations, provenance, contradictory
+8. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-7. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-8. Expand the screening model gateway into general evidence reasoning with
+10. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-9. Build evaluation suites for retrieval, citation validity, numerical
+11. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-10. Generate an immutable research release containing the protocol, dataset
+12. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-11. Generate a reviewable white-paper draft whose substantive claims trace to
+13. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-12. Build the internal workbench for projects, protocols, datasets, runs,
+14. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-13. Complete repeated internal oncology pilots before selecting the first
+15. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-07-29 — Outcome-blind reference-development protocol frozen
+
+Registered GSE81538 as public/open for reference development only and added a
+typed, checksum-bound protocol, CLI validator, JSON Schema, regression tests, and
+methods report. The candidate rule selects 50 samples per ER stratum before
+expression parsing and prohibits outcomes and validation performance. The source,
+transformation, and reference remain unlocked pending storage, lineage, unit, and
+gene-mapping audits.
 
 ### 2026-07-29 — Independent numerical conformance passed
 
@@ -618,6 +646,8 @@ authorized. The balanced 185-pair scenario remains a feasibility reference, not
 an approved pair count. No external contact, spending, acquisition, data access,
 source or threshold selection, execution, conclusion, publication, or submission
 is authorized.
+
+## Historical implementation log
 
 ### 2026-07-29 — Phase 1 planning activated and scenario envelope calculated
 
@@ -800,8 +830,6 @@ All 8,227 records reconcile to prior screening. Typed downstream artifacts
 preserve zero candidates, zero recommendations, and zero pending records. The
 empty checksum-bound packet awaits its explicit administrative founder
 confirmation before saturation can close.
-
-## Historical implementation log
 
 ### 2026-07-27 — Citation pass 6 confirmed and closed at zero yield
 
@@ -1421,9 +1449,9 @@ concordance, but omitting macrodissection produced ROR bias as large as -19 unit
 - Evidence retrieval and appraisal are saturated and founder-authorized at 81
   eligible identities, 68 completed appraisals, 13 access restrictions, and zero
   pending. Evidence saturation does not resolve the method or authorize a conclusion.
-- Prospective calibration design `0.1.0` is complete and awaits the founder's
-  planning-only decision. No assay, pair count, budget, source, or threshold is
-  selected.
+- Prospective calibration design `0.1.0` and internal Phase 1 planning are
+  approved under standing autonomy. No final assay, pair count, budget,
+  technical-error source, or reliability threshold is selected.
 - AIMS is identity-verified at the publisher but subscription-restricted. Its
   full text cannot be appraised unless the founder supplies lawful access; the
   evidence review must retain this limitation and cannot infer novelty from it.
@@ -1432,9 +1460,10 @@ concordance, but omitting macrodissection produced ROR bias as large as -19 unit
   replicate linkage are verified. The cross-platform transformation, assay
   compatibility, and classifier validity remain unresolved.
 - The Seagate volume is currently mounted read-only by macOS. GitHub `main` and
-  the healthy recovery clone contain commit `fe2a061`; the Seagate working copy
-  remains at `1dacb87` until the volume is remounted read-write. The volume is
-  primary local storage, not an independent backup.
+  the healthy recovery clone are authoritative; the Seagate working copy remains
+  stale until the volume is remounted read-write. The volume is primary local
+  storage, not an independent backup, and no governed molecular artifact may be
+  acquired there while it is read-only.
 - NAS-BRCA-001 public release is blocked by pending founder results review, a
   failed S4 nonlinear-age sensitivity, nonconvergent S3, a material exposure PH
   violation, and Kaplan–Meier figure-layout failure.

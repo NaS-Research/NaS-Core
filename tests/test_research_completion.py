@@ -23,7 +23,7 @@ STUDY = (
     / "studies"
     / "breast_clinical_molecular_discordance"
 )
-AUDIT = STUDY / "reviews" / "RESEARCH_COMPLETION_AUDIT_v1.4.0.yaml"
+AUDIT = STUDY / "reviews" / "RESEARCH_COMPLETION_AUDIT_v1.5.0.yaml"
 PIPELINE = STUDY / "pipeline.yaml"
 SCHEMA = ROOT / "workflows" / "research_completion_audit.schema.json"
 
@@ -49,9 +49,7 @@ def test_checked_in_completion_audit_proves_current_incomplete_state() -> None:
     assert validated.scientific_conclusion_authorized is False
     assert validated.external_publication_authorized is False
     assert validated.external_submission_authorized is False
-    assert validated.phases[1].open_requirements[0].startswith(
-        "Locked platform-matched reference"
-    )
+    assert validated.phases[1].open_requirements[0].startswith("Complete artifact")
 
 
 def test_study_lifecycle_manifest_records_phase_one_protocol_work() -> None:

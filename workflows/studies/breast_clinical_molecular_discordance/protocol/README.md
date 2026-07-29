@@ -164,14 +164,14 @@ founder packet. The design authorizes no contact, spending, specimen or data
 acquisition, threshold selection, or execution.
 
 The current cross-phase completion state is separately frozen in
-`../reviews/RESEARCH_COMPLETION_AUDIT_v1.4.0.yaml` with a human-readable
-`RESEARCH_COMPLETION_REPORT_v1.4.0.md`. Earlier versions remain immutable
+`../reviews/RESEARCH_COMPLETION_AUDIT_v1.5.0.yaml` with a human-readable
+`RESEARCH_COMPLETION_REPORT_v1.5.0.md`. Earlier versions remain immutable
 history. Validate that every cited artifact still
 exists with the exact frozen bytes:
 
 ```console
 uv run nas-core study completion-validate \
-  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.4.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.5.0.yaml \
   workflows/studies/breast_clinical_molecular_discordance \
   workflows/studies/breast_clinical_molecular_discordance/pipeline.yaml
 ```
@@ -243,6 +243,28 @@ rank, and reason agreement and zero score or margin difference at tolerance
 `numerical_conformance_receipt_v1.0.0.yaml`, and
 `NUMERICAL_CONFORMANCE_REPORT_v1.0.0.md`. This verifies synthetic software
 arithmetic only and does not establish analytical validity.
+
+Reference-development protocol `1.0.0` registers GSE81538 for the bounded role
+`reference_development_only` and freezes a candidate outcome-blind construction
+rule. Public metadata will select 50 ER-positive and 50 ER-negative primary
+tumors by lexicographic accession order before any expression values are parsed.
+A gene-wise median on a verified `log2(FPKM + 1)` scale is proposed, but neither
+the transformation nor reference is locked until the official matrix scale,
+participant non-overlap, exact 50-gene mapping, artifact checksum, and governed
+storage are verified. GSE96058 remains validation-only and firewalled.
+
+Validate this boundary with:
+
+```console
+uv run nas-core reliability reference-development-validate \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/reference_development_protocol_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/FOUNDER_STANDING_AUTONOMY_AUTHORIZATION_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/platform_compatibility_audit_receipt_v1.0.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/protocol/numerical_conformance_receipt_v1.0.0.yaml
+```
+
+See `REFERENCE_DEVELOPMENT_REPORT_v1.0.0.md`. No molecular values, outcomes,
+source bytes, or classifier results were accessed or materialized.
 
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 

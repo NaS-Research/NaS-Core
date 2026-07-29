@@ -1,0 +1,77 @@
+schema_version: 1.0.0
+protocol_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+intended_role: reference_development_only
+source_selection_status: candidate
+source_registry_sha256: 8876194bf15bdfb9212f027805779d1826b6126aa02c29355b2f8dce259a7cb0
+standing_authorization_sha256: 849f5217612a8946f29c3a3529e187128078d2f57cfd63e306ad058d05558c61
+platform_audit_sha256: a0698fecfe9f7f1795e1b4b239e2a9468c593a2feca8c769a3fcfbc26e88db31
+numerical_conformance_sha256: ae2a716a5cebcdb5e7a95d66091bd919d50f5e6d07a3d13b06bee2ccc1718bf9
+official_metadata_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE81538
+proposed_processed_artifact: GSE81538_gene_expression_405_transformed.csv.gz
+expected_public_sample_count: 405
+relationship_to_validation: >-
+  GSE81538 and the reserved GSE96058 validation cohort arise from the broader
+  SCAN-B program and laboratory context. GSE81538 may develop only a fixed
+  outcome-blind reference; it cannot contribute performance estimates.
+participant_nonoverlap_status: requires_public_provenance_verification
+subset_rule:
+  eligible_material: Primary breast-tumor samples with one unambiguous public ER status
+  receptor_field: Public GEO ER status metadata
+  receptor_strata:
+    - ER-positive
+    - ER-negative
+  samples_per_stratum: 50
+  deterministic_ordering: >-
+    Sort eligible GEO sample accessions lexicographically within each ER stratum
+    and take the first 50; freeze the selected accessions before parsing expression.
+  outcome_fields_permitted: false
+  molecular_values_permitted_during_selection: false
+preprocessing_bridge:
+  source_quantity: GEO submitter-described processed gene-level FPKM
+  source_scale_status: requires field-isolated numeric scale and transformation audit
+  target_quantity: gene-level FPKM
+  target_transform: log2(FPKM + 1.0) only when the unit audit proves input is untransformed
+  pseudocount: 1.0
+  gene_identifier: Ensembl gene identifier mapped to frozen HGNC PAM50 symbols
+  duplicate_gene_rule: fail closed on multiple retained rows for one canonical PAM50 symbol
+  missing_gene_rule: fail closed unless all 50 canonical PAM50 genes are present and finite
+  reference_statistic: gene-wise median across the frozen 100-sample ER-balanced subset
+  centering_operation: subtract the fixed 50-gene reference vector from each sample before Spearman scoring
+  unit_audit_required: true
+  transformation_locked: false
+required_pre_acquisition_checks:
+  - Marker-validated object storage is writable and has sufficient free space.
+  - Official supplementary filename, byte size, retrieval timestamp, and SHA-256 are frozen.
+  - Public metadata establish that selected samples are distinct from GSE96058 participants.
+  - A field-isolated audit verifies the processed matrix quantity and transformation without outcomes.
+  - All 50 canonical PAM50 genes and the frozen aliases map uniquely.
+  - The selected 50-per-stratum accession manifest is frozen before expression parsing.
+sensitivity_analyses:
+  - Recompute the reference with the next 50 lexicographic accessions per ER stratum when available.
+  - Compare median and 20-percent trimmed-mean reference vectors without using outcomes.
+  - Quantify score and label stability under each prespecified reference without changing thresholds.
+firewalls:
+  - GSE81538 is reference-development-only and contributes no discovery or validation estimates.
+  - GSE96058 molecular values and outcomes remain inaccessible until the reference and bridge are locked.
+  - TCGA outcomes remain inaccessible while preprocessing and reference decisions are made.
+  - No participant row or molecular matrix may be supplied to a generative model.
+  - Reference selection cannot use subtype labels, survival, treatment, response, or classifier performance.
+limitations:
+  - Shared SCAN-B laboratory context may make the reference less independent of GSE96058 than an external source.
+  - The processed matrix scale has not yet been verified from data bytes.
+  - The proposed deterministic subset may not represent all pre-analytic or ancestry variation.
+  - A reference-development protocol does not resolve prospective technical-error calibration.
+molecular_values_accessed: false
+outcome_values_accessed: false
+source_bytes_stored: false
+reference_vector_materialized: false
+classifier_executed: false
+reference_locked: false
+study_execution_authorized: false
+external_publication_authorized: false
