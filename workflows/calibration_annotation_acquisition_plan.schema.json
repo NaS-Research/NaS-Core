@@ -1,0 +1,108 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "annotation_resolution_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Annotation Resolution Receipt Sha256",
+      "type": "string"
+    },
+    "expected_content_length_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Content Length Bytes",
+      "type": "integer"
+    },
+    "expected_content_type": {
+      "title": "Expected Content Type",
+      "type": "string"
+    },
+    "export_authorized": {
+      "title": "Export Authorized",
+      "type": "boolean"
+    },
+    "filename": {
+      "pattern": "^Homo_sapiens\\.GRCh38\\.84\\.gtf\\.gz$",
+      "title": "Filename",
+      "type": "string"
+    },
+    "immutable_write_required": {
+      "title": "Immutable Write Required",
+      "type": "boolean"
+    },
+    "molecular_values_requested": {
+      "title": "Molecular Values Requested",
+      "type": "boolean"
+    },
+    "object_key": {
+      "pattern": "^raw/nas-brca-002/annotation/",
+      "title": "Object Key",
+      "type": "string"
+    },
+    "official_url": {
+      "pattern": "^https://ftp\\.ensembl\\.org/pub/release-84/gtf/homo_sapiens/",
+      "title": "Official Url",
+      "type": "string"
+    },
+    "outcomes_requested": {
+      "title": "Outcomes Requested",
+      "type": "boolean"
+    },
+    "parse_during_acquisition": {
+      "title": "Parse During Acquisition",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "publication_authorized": {
+      "title": "Publication Authorized",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^ensembl-grch38-release-84$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_registry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Registry Sha256",
+      "type": "string"
+    },
+    "storage_readiness_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Storage Readiness Receipt Sha256",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_version",
+    "source_id",
+    "official_url",
+    "filename",
+    "expected_content_length_bytes",
+    "expected_content_type",
+    "object_key",
+    "source_registry_sha256",
+    "annotation_resolution_receipt_sha256",
+    "storage_readiness_receipt_sha256",
+    "parse_during_acquisition",
+    "molecular_values_requested",
+    "outcomes_requested",
+    "export_authorized",
+    "publication_authorized",
+    "immutable_write_required"
+  ],
+  "title": "CalibrationAnnotationAcquisitionPlan",
+  "type": "object"
+}

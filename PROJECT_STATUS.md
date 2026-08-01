@@ -65,6 +65,14 @@ Access reverse-strand counts, NuGEN Ovation forward-strand counts, and the exact
 rows. Synthetic tests and the full quality gate pass; live metadata execution
 will run only from the frozen revision.
 
+Frozen revision `b7e50cf` re-fetched the checksum-identical 3,585-byte family
+SOFT and reconciled all 21 samples: every record declares GRCh38/Ensembl 84 and
+STAR GeneCounts; all 15 Access libraries specify `rev`, and all six Ovation
+libraries specify `fwd`. Receipt `532cda23…8f22` retains no sample identifier or
+source row. The internal-only Ensembl source registry and immutable 45,686,368-
+byte GTF acquisition contract are implemented; export and publication remain
+false. Live acquisition will run only from the frozen downloader revision.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and

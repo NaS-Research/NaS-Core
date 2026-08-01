@@ -1,0 +1,122 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "acquired_at": {
+      "format": "date-time",
+      "title": "Acquired At",
+      "type": "string"
+    },
+    "annotation_rows_parsed": {
+      "title": "Annotation Rows Parsed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "content_length_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Content Length Bytes",
+      "type": "integer"
+    },
+    "export_authorized": {
+      "title": "Export Authorized",
+      "type": "boolean"
+    },
+    "immutable_object_verified": {
+      "title": "Immutable Object Verified",
+      "type": "boolean"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "object_key": {
+      "title": "Object Key",
+      "type": "string"
+    },
+    "official_url": {
+      "title": "Official Url",
+      "type": "string"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "publication_authorized": {
+      "title": "Publication Authorized",
+      "type": "boolean"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "response_content_type": {
+      "title": "Response Content Type",
+      "type": "string"
+    },
+    "response_last_modified": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Response Last Modified"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sha256",
+      "type": "string"
+    },
+    "source_bytes_stored": {
+      "title": "Source Bytes Stored",
+      "type": "boolean"
+    },
+    "source_id": {
+      "title": "Source Id",
+      "type": "string"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "source_id",
+    "code_revision",
+    "acquired_at",
+    "plan_sha256",
+    "official_url",
+    "response_content_type",
+    "response_last_modified",
+    "content_length_bytes",
+    "sha256",
+    "object_key",
+    "immutable_object_verified",
+    "source_bytes_stored",
+    "annotation_rows_parsed",
+    "molecular_values_parsed",
+    "outcomes_accessed",
+    "export_authorized",
+    "publication_authorized"
+  ],
+  "title": "CalibrationAnnotationAcquisitionReceipt",
+  "type": "object"
+}

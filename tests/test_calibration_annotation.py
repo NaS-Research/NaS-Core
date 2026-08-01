@@ -10,6 +10,8 @@ from pathlib import Path
 import yaml
 
 from nas_core.domain.calibration_annotation import (
+    CalibrationAnnotationAcquisitionPlan,
+    CalibrationAnnotationAcquisitionReceipt,
     CalibrationAnnotationResolutionPlan,
     CalibrationAnnotationResolutionReceipt,
 )
@@ -21,6 +23,10 @@ from nas_core.ingestion.field_isolated_metadata import StreamingResponse
 ROOT = Path(__file__).parents[1]
 PLAN_SCHEMA = ROOT / "workflows/calibration_annotation_resolution_plan.schema.json"
 RECEIPT_SCHEMA = ROOT / "workflows/calibration_annotation_resolution_receipt.schema.json"
+ACQUISITION_PLAN_SCHEMA = ROOT / "workflows/calibration_annotation_acquisition_plan.schema.json"
+ACQUISITION_RECEIPT_SCHEMA = (
+    ROOT / "workflows/calibration_annotation_acquisition_receipt.schema.json"
+)
 
 
 def _sample(title: str) -> str:
@@ -103,4 +109,36 @@ def test_calibration_annotation_schemas_match_runtime_models() -> None:
     )
     assert json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8")) == (
         CalibrationAnnotationResolutionReceipt.model_json_schema()
+    )
+
+
+def test_annotation_acquisition_contract_prohibits_release() -> None:
+    plan = CalibrationAnnotationAcquisitionPlan(
+        plan_version="1.0.0",
+        source_id="ensembl-grch38-release-84",
+        official_url=(
+            "https://ftp.ensembl.org/pub/release-84/gtf/homo_sapiens/"
+            "Homo_sapiens.GRCh38.84.gtf.gz"
+        ),
+        filename="Homo_sapiens.GRCh38.84.gtf.gz",
+        expected_content_length_bytes=45686368,
+        expected_content_type="application/x-gzip",
+        object_key="raw/nas-brca-002/annotation/homo_sapiens.grch38.84.gtf.gz",
+        source_registry_sha256="a" * 64,
+        annotation_resolution_receipt_sha256="b" * 64,
+        storage_readiness_receipt_sha256="c" * 64,
+        parse_during_acquisition=False,
+        molecular_values_requested=False,
+        outcomes_requested=False,
+        export_authorized=False,
+        publication_authorized=False,
+        immutable_write_required=True,
+    )
+
+    assert plan.export_authorized is False
+    assert json.loads(ACQUISITION_PLAN_SCHEMA.read_text(encoding="utf-8")) == (
+        CalibrationAnnotationAcquisitionPlan.model_json_schema()
+    )
+    assert json.loads(ACQUISITION_RECEIPT_SCHEMA.read_text(encoding="utf-8")) == (
+        CalibrationAnnotationAcquisitionReceipt.model_json_schema()
     )

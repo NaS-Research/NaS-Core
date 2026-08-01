@@ -1,0 +1,51 @@
+version: 1
+sources:
+  - source_id: ensembl-grch38-release-84
+    name: Ensembl Homo sapiens GRCh38 release 84 GTF
+    owner: EMBL-European Bioinformatics Institute
+    authoritative_url: https://ftp.ensembl.org/pub/release-84/gtf/homo_sapiens/
+    classification: public_open
+    status: active
+    version: Ensembl-release-84-GRCh38
+    access_method: Official Ensembl HTTPS archive
+    approved_purposes:
+      - annotation-mapping
+      - calibration-feasibility
+    intended_uses:
+      - Reproducible mapping of GSE130397 Ensembl gene identifiers to gene symbols
+      - Aggregate PAM50 coverage assessment for excluded feasibility work
+    prohibited_uses:
+      - Pooling GSE130397 with another calibration source
+      - Outcome access, classifier tuning, threshold estimation, or clinical use
+      - External export, publication, or submission before separate authorization
+      - Using source or mapped molecular values to train or prompt a generative model
+    license_or_terms: Ensembl data access and attribution terms
+    terms_url: https://www.ensembl.org/info/about/legal/disclaimer.html
+    attribution: Acknowledge Ensembl release 84 and EMBL-EBI in reviewed derived methods.
+    authorized_roles:
+      - data_steward
+      - researcher
+      - principal_investigator
+      - scientific_reviewer
+    storage_restrictions:
+      - The GTF remains outside Git in marker-validated object storage.
+      - Acquisition records the exact URL, byte length, checksum, and retrieval metadata.
+      - Only aggregate mapping diagnostics may enter Git.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-08-01
+    ai_processing_allowed: false
+    embeddings_allowed: false
+    model_training_allowed: false
+    export_allowed: false
+    publication_allowed: false
+    approvals:
+      - approver: Dalron J. Robertson
+        role: founder_data_steward_standing_authorization
+        decision: approve
+        decided_at: 2026-08-01T13:00:00-05:00
+        rationale: >-
+          Registered under standing authorization for reversible internal use of
+          approved public/open data and the checksum-bound annotation resolution.
+    notes:
+      - The official GEO processing record identifies GRCh38 and Ensembl release 84.

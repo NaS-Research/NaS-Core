@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -96,10 +97,98 @@ class CalibrationAnnotationResolutionReceipt(CalibrationAnnotationModel):
         return self
 
 
+class CalibrationAnnotationAcquisitionPlan(CalibrationAnnotationModel):
+    schema_version: str = "1.0.0"
+    plan_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = "NAS-BRCA-002"
+    source_id: str = Field(pattern=r"^ensembl-grch38-release-84$")
+    official_url: str = Field(
+        pattern=r"^https://ftp\.ensembl\.org/pub/release-84/gtf/homo_sapiens/"
+    )
+    filename: str = Field(pattern=r"^Homo_sapiens\.GRCh38\.84\.gtf\.gz$")
+    expected_content_length_bytes: int = Field(gt=0)
+    expected_content_type: str
+    object_key: str = Field(pattern=r"^raw/nas-brca-002/annotation/")
+    source_registry_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    annotation_resolution_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    storage_readiness_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    parse_during_acquisition: bool
+    molecular_values_requested: bool
+    outcomes_requested: bool
+    export_authorized: bool
+    publication_authorized: bool
+    immutable_write_required: bool
+
+    @model_validator(mode="after")
+    def enforce_internal_acquisition(self) -> CalibrationAnnotationAcquisitionPlan:
+        if not self.official_url.endswith(self.filename):
+            raise ValueError("annotation URL and filename do not reconcile")
+        if any(
+            (
+                self.parse_during_acquisition,
+                self.molecular_values_requested,
+                self.outcomes_requested,
+                self.export_authorized,
+                self.publication_authorized,
+            )
+        ):
+            raise ValueError("annotation acquisition is internal and nonanalytical")
+        if not self.immutable_write_required:
+            raise ValueError("annotation acquisition must be immutable")
+        return self
+
+
+class CalibrationAnnotationAcquisitionReceipt(CalibrationAnnotationModel):
+    schema_version: str = "1.0.0"
+    receipt_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str
+    source_id: str
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    acquired_at: datetime
+    plan_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    official_url: str
+    response_content_type: str
+    response_last_modified: str | None
+    content_length_bytes: int = Field(gt=0)
+    sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    object_key: str
+    immutable_object_verified: bool
+    source_bytes_stored: bool
+    annotation_rows_parsed: bool
+    molecular_values_parsed: bool
+    outcomes_accessed: bool
+    export_authorized: bool
+    publication_authorized: bool
+
+    @model_validator(mode="after")
+    def enforce_acquisition_receipt(self) -> CalibrationAnnotationAcquisitionReceipt:
+        if not self.immutable_object_verified or not self.source_bytes_stored:
+            raise ValueError("annotation object must be immutably stored")
+        if any(
+            (
+                self.annotation_rows_parsed,
+                self.molecular_values_parsed,
+                self.outcomes_accessed,
+                self.export_authorized,
+                self.publication_authorized,
+            )
+        ):
+            raise ValueError("annotation acquisition cannot claim analysis or release")
+        return self
+
+
 def load_calibration_annotation_resolution_plan(
     path: Path,
 ) -> CalibrationAnnotationResolutionPlan:
     return CalibrationAnnotationResolutionPlan.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_calibration_annotation_acquisition_plan(
+    path: Path,
+) -> CalibrationAnnotationAcquisitionPlan:
+    return CalibrationAnnotationAcquisitionPlan.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 
@@ -117,6 +206,19 @@ def write_calibration_annotation_resolution_receipt(
     )
 
 
+def write_calibration_annotation_acquisition_receipt(
+    path: Path,
+    receipt: CalibrationAnnotationAcquisitionReceipt,
+) -> None:
+    if path.exists():
+        raise FileExistsError("annotation-acquisition receipt path must be new")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(receipt.model_dump(mode="json"), sort_keys=False),
+        encoding="utf-8",
+    )
+
+
 def write_calibration_annotation_resolution_schemas(
     plan_path: Path,
     receipt_path: Path,
@@ -124,6 +226,21 @@ def write_calibration_annotation_resolution_schemas(
     for path, model in (
         (plan_path, CalibrationAnnotationResolutionPlan),
         (receipt_path, CalibrationAnnotationResolutionReceipt),
+    ):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(model.model_json_schema(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+
+def write_calibration_annotation_acquisition_schemas(
+    plan_path: Path,
+    receipt_path: Path,
+) -> None:
+    for path, model in (
+        (plan_path, CalibrationAnnotationAcquisitionPlan),
+        (receipt_path, CalibrationAnnotationAcquisitionReceipt),
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(

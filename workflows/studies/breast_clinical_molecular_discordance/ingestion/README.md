@@ -42,6 +42,14 @@ before selecting GRCh38/Ensembl release 84, reverse counts for Access libraries,
 and forward counts for NuGEN Ovation libraries. No sample identifier, processing
 row, molecular value, or outcome may be retained.
 
+Frozen revision `b7e50cf` executed that resolution with complete reconciliation:
+15 Access libraries use `rev`, six Ovation libraries use `fwd`, and all 21 use
+GRCh38/Ensembl release 84. Receipt SHA-256 is `532cda23…8f22`; see
+[`../analysis/CALIBRATION_ANNOTATION_RESOLUTION_REPORT_v1.0.0.md`](../analysis/CALIBRATION_ANNOTATION_RESOLUTION_REPORT_v1.0.0.md).
+The separate internal-only registry and
+[`calibration_annotation_acquisition_plan_v1.0.0.yaml`](calibration_annotation_acquisition_plan_v1.0.0.yaml)
+freeze the exact 45,686,368-byte Ensembl GTF. Export and publication are false.
+
 Required artifacts:
 
 - `ingestion/README.md`

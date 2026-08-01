@@ -62,7 +62,10 @@ from nas_core.domain.appraisal import (
     write_publication_version_reconciliation_receipt,
 )
 from nas_core.domain.calibration_annotation import (
+    load_calibration_annotation_acquisition_plan,
     load_calibration_annotation_resolution_plan,
+    write_calibration_annotation_acquisition_receipt,
+    write_calibration_annotation_acquisition_schemas,
     write_calibration_annotation_resolution_receipt,
     write_calibration_annotation_resolution_schemas,
 )
@@ -277,6 +280,7 @@ from nas_core.domain.technical_calibration import (
 )
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.calibration_annotation import (
+    CalibrationAnnotationAcquisitionService,
     CalibrationAnnotationResolutionService,
 )
 from nas_core.ingestion.calibration_feasibility_artifact import (
@@ -536,6 +540,24 @@ def build_parser() -> argparse.ArgumentParser:
     )
     calibration_annotation_schema.add_argument("plan_path", type=Path)
     calibration_annotation_schema.add_argument("receipt_path", type=Path)
+    annotation_acquisition = ingest_commands.add_parser(
+        "calibration-annotation-acquire",
+        help="Acquire the frozen Ensembl annotation artifact",
+    )
+    annotation_acquisition.add_argument("plan_path", type=Path)
+    annotation_acquisition.add_argument("annotation_resolution_path", type=Path)
+    annotation_acquisition.add_argument("storage_readiness_path", type=Path)
+    annotation_acquisition.add_argument("--registry", type=Path, required=True)
+    annotation_acquisition.add_argument("--data-root", type=Path, required=True)
+    annotation_acquisition.add_argument("--code-revision", required=True)
+    annotation_acquisition.add_argument("--output-path", type=Path)
+    annotation_acquisition.add_argument("--execute", action="store_true")
+    annotation_acquisition_schema = ingest_commands.add_parser(
+        "calibration-annotation-acquire-schema",
+        help="Write annotation-acquisition JSON Schemas",
+    )
+    annotation_acquisition_schema.add_argument("plan_path", type=Path)
+    annotation_acquisition_schema.add_argument("receipt_path", type=Path)
     matrix_audit = ingest_commands.add_parser(
         "matrix-audit",
         help="Audit the governed GSE81538 processed matrix without outcomes",
@@ -2756,6 +2778,59 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             "Wrote calibration annotation-resolution schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-annotation-acquire"
+    ):
+        annotation_acquisition_plan = load_calibration_annotation_acquisition_plan(
+            args.plan_path
+        )
+        if not args.execute:
+            print(
+                "Calibration annotation-acquisition plan is valid: "
+                f"bytes={annotation_acquisition_plan.expected_content_length_bytes}; "
+                "dry run"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        annotation_acquisition_receipt = CalibrationAnnotationAcquisitionService(
+            store=FileSystemObjectStore(args.data_root),
+            data_root=args.data_root,
+        ).acquire(
+            annotation_acquisition_plan,
+            SourceRegistry.from_yaml(args.registry),
+            load_storage_readiness_receipt(args.storage_readiness_path),
+            plan_path=args.plan_path,
+            registry_path=args.registry,
+            annotation_resolution_path=args.annotation_resolution_path,
+            storage_readiness_path=args.storage_readiness_path,
+            code_revision=args.code_revision,
+        )
+        write_calibration_annotation_acquisition_receipt(
+            args.output_path,
+            annotation_acquisition_receipt,
+        )
+        print(
+            "Stored calibration annotation: "
+            f"sha256={annotation_acquisition_receipt.sha256}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-annotation-acquire-schema"
+    ):
+        write_calibration_annotation_acquisition_schemas(
+            args.plan_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote annotation-acquisition schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
         return 0
