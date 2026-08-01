@@ -106,4 +106,14 @@ retains the exact URL and proposed object key while leaving SHA-256 pending. No
 source bytes, molecular values, or outcomes were accessed. See
 [`STORAGE_READINESS_REPORT_v1.0.0.md`](STORAGE_READINESS_REPORT_v1.0.0.md).
 
+After the damaged HFS+ volume was explicitly erased and rebuilt as APFS,
+[`storage_readiness_receipt_v1.1.0.yaml`](storage_readiness_receipt_v1.1.0.yaml)
+returns `ready` with zero blockers and approximately 6.0 TB available. Acquisition
+plan [`gse81538_acquisition_plan_v1.0.0.yaml`](gse81538_acquisition_plan_v1.0.0.yaml)
+binds that receipt, the active source registry, standing authorization, and
+reference-development protocol to the exact official artifact and immutable
+object key. The acquisition implementation streams to governed working storage,
+checks exact byte length, calculates SHA-256, and atomically publishes without
+overwrite. It does not parse expression or outcome values during acquisition.
+
 Completion gate: Governed immutable dataset snapshot is verified.

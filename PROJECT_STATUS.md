@@ -1,6 +1,6 @@
 # NaS Core Project Status
 
-Last updated: 2026-07-29
+Last updated: 2026-08-01
 
 This is the living implementation record for NaS Core. It should answer three
 questions at a glance: what are we building now, what proves it is finished,
@@ -25,11 +25,12 @@ participant non-overlap with GSE96058; audit the processed matrix scale and all
 before parsing expression values. No GSE96058 molecular or outcome values may be
 accessed.
 
-The non-mutating preflight verifies the existing data-root marker, all required
-directories, and 4.59 TB available, but returns `blocked` because macOS mounts
-the Seagate read-only and denies write access. Official NCBI headers freeze the
-candidate artifact at 54,838,076 bytes; its checksum remains pending because no
-molecular bytes were downloaded outside governed storage.
+The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
+HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
+new data-root marker, all required directories, roughly 6.0 TB available, and
+zero blockers. Official NCBI headers freeze the candidate artifact at 54,838,076
+bytes; its checksum remains pending until the newly implemented immutable
+acquisition command executes from a frozen code revision.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -606,6 +607,15 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-08-01 — Immutable public-artifact acquisition implemented
+
+Implemented an allowlisted streaming acquisition path for the official GSE81538
+processed-expression artifact. It enforces active public/open registration,
+standing-authorization and protocol hashes, a ready storage receipt, exact URL
+and byte length, non-overwriting atomic object storage, and checksum receipts.
+Tests use synthetic bytes only; real acquisition awaits the frozen implementation
+revision and will parse no molecular values or outcomes.
+
 ### 2026-07-29 — Governed storage preflight executed
 
 Implemented and independently tested a non-mutating storage-readiness contract,
@@ -640,6 +650,8 @@ remain pending. The audit correctly returns `changes_required` and does not
 equate gene presence with numerical or analytical compatibility. No molecular
 values, outcomes, source selection, method lock, or execution occurred.
 
+## Historical implementation log
+
 ### 2026-07-29 — Standing autonomy and internal Phase 1 plan frozen
 
 Bound the founder's standing delegation to machine-enforced stop conditions and
@@ -650,8 +662,6 @@ excluded 30-pair feasibility pilot, marginal coverage, multiplicity, eight
 platform-compatibility requirements, and a symbolic budget. No data, source,
 threshold, final calibration size, price, external action, or execution is
 authorized or claimed.
-
-## Historical implementation log
 
 ### 2026-07-29 — Phase 1 scientific/statistical planning approved
 

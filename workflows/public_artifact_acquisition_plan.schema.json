@@ -1,0 +1,125 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "expected_content_length_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Content Length Bytes",
+      "type": "integer"
+    },
+    "expected_content_type": {
+      "minLength": 1,
+      "title": "Expected Content Type",
+      "type": "string"
+    },
+    "filename": {
+      "minLength": 1,
+      "title": "Filename",
+      "type": "string"
+    },
+    "immutable_write_required": {
+      "title": "Immutable Write Required",
+      "type": "boolean"
+    },
+    "intended_role": {
+      "pattern": "^reference_development_only$",
+      "title": "Intended Role",
+      "type": "string"
+    },
+    "object_key": {
+      "pattern": "^raw/[a-z0-9._/-]+$",
+      "title": "Object Key",
+      "type": "string"
+    },
+    "official_url": {
+      "pattern": "^https://",
+      "title": "Official Url",
+      "type": "string"
+    },
+    "outcome_fields_requested": {
+      "title": "Outcome Fields Requested",
+      "type": "boolean"
+    },
+    "parse_molecular_values_during_acquisition": {
+      "title": "Parse Molecular Values During Acquisition",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "reference_protocol_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Protocol Sha256",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_accession": {
+      "pattern": "^GSE[0-9]+$",
+      "title": "Source Accession",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^[a-z0-9][a-z0-9._-]+$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_registry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Registry Sha256",
+      "type": "string"
+    },
+    "standing_authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Standing Authorization Sha256",
+      "type": "string"
+    },
+    "storage_readiness_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Storage Readiness Receipt Sha256",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "source_id",
+    "source_accession",
+    "intended_role",
+    "official_url",
+    "filename",
+    "expected_content_type",
+    "expected_content_length_bytes",
+    "object_key",
+    "source_registry_sha256",
+    "standing_authorization_sha256",
+    "reference_protocol_sha256",
+    "storage_readiness_receipt_sha256",
+    "outcome_fields_requested",
+    "parse_molecular_values_during_acquisition",
+    "immutable_write_required"
+  ],
+  "title": "PublicArtifactAcquisitionPlan",
+  "type": "object"
+}

@@ -187,6 +187,11 @@ from nas_core.domain.prospective_calibration import (
     write_prospective_calibration_planning_activation,
     write_prospective_calibration_schema,
 )
+from nas_core.domain.public_artifact import (
+    load_public_artifact_plan,
+    write_public_artifact_receipt,
+    write_public_artifact_schemas,
+)
 from nas_core.domain.reference_development import (
     load_reference_development_protocol,
     write_reference_development_schema,
@@ -206,6 +211,7 @@ from nas_core.domain.research_completion import (
 from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
 from nas_core.domain.storage_readiness import (
+    load_storage_readiness_receipt,
     write_storage_readiness_receipt,
     write_storage_readiness_schema,
 )
@@ -240,6 +246,7 @@ from nas_core.ingestion.metadata_feasibility import (
     ALLOWED_URLS as METADATA_AUDIT_URLS,
 )
 from nas_core.ingestion.metadata_feasibility import MetadataFeasibilityAuditService
+from nas_core.ingestion.public_artifact import PublicArtifactAcquisitionService
 from nas_core.retrieval.appraisal_confirmation import AppraisalConfirmationService
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.citation_access import (
@@ -301,7 +308,7 @@ from nas_core.retrieval.review import ScreeningReviewService
 from nas_core.retrieval.screening import ScreeningQueueService
 from nas_core.retrieval.screening_confirmation import ScreeningConfirmationService
 from nas_core.storage.layout import DataLayout
-from nas_core.storage.object_store import get_object_store
+from nas_core.storage.object_store import FileSystemObjectStore, get_object_store
 from nas_core.storage.readiness import StorageReadinessService
 from nas_core.workflows.analysis_plan import load_analysis_plan, write_analysis_plan_schema
 from nas_core.workflows.program import (
@@ -385,6 +392,33 @@ def build_parser() -> argparse.ArgumentParser:
         "schema", help="Write the canonical dataset-snapshot JSON Schema"
     )
     snapshot_schema.add_argument("path", type=Path, help="Output path for the JSON Schema")
+    public_artifact = ingest_commands.add_parser(
+        "public-artifact",
+        help="Acquire one checksum-bound allowlisted public source artifact",
+    )
+    public_artifact.add_argument("plan_path", type=Path)
+    public_artifact.add_argument("reference_protocol_path", type=Path)
+    public_artifact.add_argument("storage_readiness_path", type=Path)
+    public_artifact.add_argument("authorization_path", type=Path)
+    public_artifact.add_argument(
+        "--registry",
+        type=Path,
+        default=Path("data/source-registry.yaml"),
+    )
+    public_artifact.add_argument("--data-root", type=Path, required=True)
+    public_artifact.add_argument("--code-revision", required=True)
+    public_artifact.add_argument("--output-path", type=Path)
+    public_artifact.add_argument(
+        "--execute",
+        action="store_true",
+        help="Download and immutably store the allowlisted public artifact",
+    )
+    public_artifact_schema = ingest_commands.add_parser(
+        "public-artifact-schema",
+        help="Write public-artifact acquisition plan and receipt JSON Schemas",
+    )
+    public_artifact_schema.add_argument("plan_path", type=Path)
+    public_artifact_schema.add_argument("receipt_path", type=Path)
 
     feasibility = commands.add_parser(
         "feasibility",
@@ -2403,6 +2437,49 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "ingest" and args.ingest_command == "schema":
         write_dataset_snapshot_schema(args.path)
         print(f"Wrote dataset-snapshot schema: {args.path}")
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "public-artifact":
+        artifact_plan = load_public_artifact_plan(args.plan_path)
+        if not args.execute:
+            print(
+                "Public artifact plan is valid: "
+                f"{artifact_plan.source_accession}; "
+                f"bytes={artifact_plan.expected_content_length_bytes}; "
+                "dry run only"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        artifact_receipt = PublicArtifactAcquisitionService(
+            store=FileSystemObjectStore(args.data_root),
+            data_root=args.data_root,
+        ).acquire(
+            artifact_plan,
+            SourceRegistry.from_yaml(args.registry),
+            load_reference_development_protocol(args.reference_protocol_path),
+            load_storage_readiness_receipt(args.storage_readiness_path),
+            plan_path=args.plan_path,
+            registry_path=args.registry,
+            authorization_path=args.authorization_path,
+            reference_protocol_path=args.reference_protocol_path,
+            storage_readiness_path=args.storage_readiness_path,
+            code_revision=args.code_revision,
+        )
+        write_public_artifact_receipt(args.output_path, artifact_receipt)
+        print(
+            "Stored public artifact: "
+            f"{artifact_receipt.object_key}; "
+            f"sha256={artifact_receipt.sha256}"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "public-artifact-schema":
+        write_public_artifact_schemas(args.plan_path, args.receipt_path)
+        print(
+            "Wrote public-artifact schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
         return 0
 
     if args.command == "feasibility" and args.feasibility_command == "metadata-audit":

@@ -1,3 +1,6 @@
+import os
+import shutil
+import tempfile
 from collections.abc import MutableMapping
 from pathlib import Path, PurePosixPath
 from typing import Protocol
@@ -13,6 +16,8 @@ class ObjectStore(Protocol):
     """Storage contract for datasets and immutable research artifacts."""
 
     def put_bytes(self, key: str, data: bytes, *, content_type: str) -> None: ...
+
+    def put_file(self, key: str, source: Path, *, content_type: str) -> None: ...
 
     def get_bytes(self, key: str) -> bytes: ...
 
@@ -33,6 +38,28 @@ class FileSystemObjectStore:
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open("xb") as destination:
             destination.write(data)
+
+    def put_file(self, key: str, source: Path, *, content_type: str) -> None:
+        del content_type
+        path = self._path_for(key)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary_path: Path | None = None
+        try:
+            with source.open("rb") as input_stream, tempfile.NamedTemporaryFile(
+                mode="w+b",
+                prefix=f".{path.name}.",
+                suffix=".partial",
+                dir=path.parent,
+                delete=False,
+            ) as destination:
+                temporary_path = Path(destination.name)
+                shutil.copyfileobj(input_stream, destination, length=1024 * 1024)
+                destination.flush()
+                os.fsync(destination.fileno())
+            os.link(temporary_path, path)
+        finally:
+            if temporary_path is not None:
+                temporary_path.unlink(missing_ok=True)
 
     def get_bytes(self, key: str) -> bytes:
         return self._path_for(key).read_bytes()
@@ -76,6 +103,14 @@ class S3ObjectStore:
             ContentType=content_type,
         )
 
+    def put_file(self, key: str, source: Path, *, content_type: str) -> None:
+        self._client.upload_file(
+            str(source),
+            self._bucket,
+            key,
+            ExtraArgs={"ContentType": content_type},
+        )
+
     def get_bytes(self, key: str) -> bytes:
         response = self._client.get_object(Bucket=self._bucket, Key=key)
         return response["Body"].read()
@@ -99,6 +134,10 @@ class InMemoryObjectStore:
     def put_bytes(self, key: str, data: bytes, *, content_type: str) -> None:
         del content_type
         self._objects[key] = data
+
+    def put_file(self, key: str, source: Path, *, content_type: str) -> None:
+        del content_type
+        self._objects[key] = source.read_bytes()
 
     def get_bytes(self, key: str) -> bytes:
         return self._objects[key]

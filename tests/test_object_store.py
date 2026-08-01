@@ -33,6 +33,20 @@ def test_filesystem_object_store_round_trip(tmp_path: Path) -> None:
     assert (data_root / "object-store" / "raw" / "study" / "page.json").is_file()
 
 
+def test_filesystem_object_store_streams_file_without_overwrite(tmp_path: Path) -> None:
+    data_root = tmp_path / "NaS-Core-Data"
+    DataLayout(data_root).initialize()
+    source = tmp_path / "source.bin"
+    source.write_bytes(b"governed-source-bytes")
+    store = FileSystemObjectStore(data_root)
+
+    store.put_file("raw/study/source.bin", source, content_type="application/octet-stream")
+
+    assert store.get_bytes("raw/study/source.bin") == b"governed-source-bytes"
+    with pytest.raises(FileExistsError):
+        store.put_file("raw/study/source.bin", source, content_type="application/octet-stream")
+
+
 @pytest.mark.parametrize("key", ["", "/absolute", "../escape", "raw/../../escape"])
 def test_filesystem_object_store_rejects_unsafe_keys(tmp_path: Path, key: str) -> None:
     data_root = tmp_path / "NaS-Core-Data"

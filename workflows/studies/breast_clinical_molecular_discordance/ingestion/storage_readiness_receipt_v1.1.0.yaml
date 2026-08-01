@@ -1,0 +1,27 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+code_revision: a881b71
+checked_at: '2026-08-01T15:37:03.065672Z'
+data_root: /Volumes/AGNDJ 6TB/NaS-Core-Data
+marker_sha256: e57a1dd8e841a8351d289560b719fa7a5ea57b04f7b36464f2d989194167cae1
+layout_schema_version: 1
+required_directories_present:
+- object-store
+- working
+- exports
+- quarantine
+- database-backups
+- audit
+available_bytes: 6000293777408
+minimum_required_bytes: 1073741824
+mount_read_only: false
+operating_system_write_access: true
+write_probe_performed: false
+decision: ready
+blockers: []
+limitations:
+- The check uses filesystem flags and access metadata without a write probe.
+- A ready result does not verify future availability, backup, or media health.
+- No source artifact, participant row, or molecular value is accessed.
+source_bytes_written: false
+biomedical_data_accessed: false
