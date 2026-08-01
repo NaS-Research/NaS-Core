@@ -67,7 +67,10 @@ def test_source_isolated_audit_preserves_unresolved_mapping(tmp_path: Path) -> N
             f"{gene}\t1.25\t1.5\n" for gene in genes
         )).encode()
     )
-    ffpe_payload = gzip.compress(b"ENSG000001\t1\t2\t3\nENSG000002\t4\t5\t6\n")
+    ffpe_payload = gzip.compress(
+        b"Gene\tUnstranded\tfwd\trev\n"
+        b"ENSG000001\t1\t2\t3\nENSG000002\t4\t5\t6\n"
+    )
     artifacts = [
         _artifact(
             "ncbi-geo-gse60788",

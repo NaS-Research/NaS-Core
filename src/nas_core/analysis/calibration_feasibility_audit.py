@@ -232,6 +232,16 @@ class CalibrationFeasibilityAuditService:
                 ),
                 delimiter="\t",
             )
+            try:
+                count_header = next(reader)
+            except StopIteration as error:
+                raise CalibrationFeasibilityAuditError(
+                    "empty GSE130397 count file"
+                ) from error
+            if count_header != ["Gene", "Unstranded", "fwd", "rev"]:
+                raise CalibrationFeasibilityAuditError(
+                    "unexpected GSE130397 count header"
+                )
             digest = hashlib.sha256()
             rows = 0
             for row in reader:
