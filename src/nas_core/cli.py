@@ -20,6 +20,9 @@ from nas_core.analysis.calibration_precision import (
     TechnicalReplicatePrecisionService,
 )
 from nas_core.analysis.calibration_readiness import TechnicalCalibrationReadinessService
+from nas_core.analysis.calibration_reestimation import (
+    CalibrationPairCountReestimationService,
+)
 from nas_core.analysis.calibration_scenario import (
     MultiObjectiveCalibrationScenarioService,
 )
@@ -92,6 +95,7 @@ from nas_core.domain.calibration_feasibility_audit import (
 )
 from nas_core.domain.calibration_feasibility_pilot import (
     load_calibration_feasibility_pilot_plan,
+    load_calibration_feasibility_pilot_receipt,
     write_calibration_feasibility_pilot_receipt,
     write_calibration_feasibility_pilot_schemas,
 )
@@ -112,6 +116,11 @@ from nas_core.domain.calibration_precision import (
 from nas_core.domain.calibration_readiness import (
     write_calibration_readiness_receipt,
     write_calibration_readiness_schema,
+)
+from nas_core.domain.calibration_reestimation import (
+    load_calibration_pair_count_reestimation_plan,
+    write_calibration_pair_count_reestimation_receipt,
+    write_calibration_pair_count_reestimation_schemas,
 )
 from nas_core.domain.calibration_scenario import (
     load_multi_objective_calibration_scenario,
@@ -1035,6 +1044,26 @@ def build_parser() -> argparse.ArgumentParser:
         "bundle_schema_path",
         type=Path,
     )
+    reliability_calibration_reestimation = reliability_commands.add_parser(
+        "calibration-pair-count-reestimate",
+        help="Assess whether excluded pilots support a final primary pair count",
+    )
+    reliability_calibration_reestimation.add_argument("plan_path", type=Path)
+    reliability_calibration_reestimation.add_argument("pilot_receipt_path", type=Path)
+    reliability_calibration_reestimation.add_argument("prospective_design_path", type=Path)
+    reliability_calibration_reestimation.add_argument("planning_bundle_path", type=Path)
+    reliability_calibration_reestimation.add_argument(
+        "hypothetical_balanced_result_path", type=Path
+    )
+    reliability_calibration_reestimation.add_argument("--code-revision", required=True)
+    reliability_calibration_reestimation.add_argument("--output-path", type=Path)
+    reliability_calibration_reestimation.add_argument("--execute", action="store_true")
+    reliability_calibration_reestimation_schema = reliability_commands.add_parser(
+        "calibration-pair-count-reestimate-schema",
+        help="Write pair-count reestimation plan and receipt JSON Schemas",
+    )
+    reliability_calibration_reestimation_schema.add_argument("plan_path", type=Path)
+    reliability_calibration_reestimation_schema.add_argument("receipt_path", type=Path)
     reliability_calibration_readiness = reliability_commands.add_parser(
         "calibration-readiness",
         help="Reconcile technical-calibration paths and authorize public feasibility only",
@@ -2386,6 +2415,50 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             "Wrote calibration planning schemas: "
             f"{args.authorization_schema_path}, {args.bundle_schema_path}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-pair-count-reestimate"
+    ):
+        reestimation_receipt = CalibrationPairCountReestimationService().assess(
+            load_calibration_pair_count_reestimation_plan(args.plan_path),
+            load_calibration_feasibility_pilot_receipt(args.pilot_receipt_path),
+            load_prospective_calibration_design(args.prospective_design_path),
+            plan_path=args.plan_path,
+            pilot_receipt_path=args.pilot_receipt_path,
+            prospective_design_path=args.prospective_design_path,
+            planning_bundle_path=args.planning_bundle_path,
+            hypothetical_balanced_result_path=args.hypothetical_balanced_result_path,
+            code_revision=args.code_revision,
+        )
+        if not args.execute:
+            print(reestimation_receipt.model_dump_json(indent=2))
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_calibration_pair_count_reestimation_receipt(
+            args.output_path,
+            reestimation_receipt,
+        )
+        print(
+            "Wrote calibration pair-count reestimation: "
+            f"{reestimation_receipt.status}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "calibration-pair-count-reestimate-schema"
+    ):
+        write_calibration_pair_count_reestimation_schemas(
+            args.plan_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote pair-count reestimation schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
         )
         return 0
 

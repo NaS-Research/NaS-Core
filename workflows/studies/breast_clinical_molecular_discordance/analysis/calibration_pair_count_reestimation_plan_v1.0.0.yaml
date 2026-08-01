@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+pilot_receipt_sha256: 6dd74a9a9d3efeb0b6a32f10e0259807a7ff9f4b05e3cb33eaeebc300ce8c123
+prospective_design_sha256: 434e6177f2e31e861c213ac58f7eb48be25cc9aeb7640b7ad1f8d26fdda555b1
+planning_bundle_sha256: c0e3be0938852a0d555198d6be2678cf8a0442bd8f69b83e0f756b536b331867
+hypothetical_balanced_result_sha256: 29f6e9f875884bec26c86cbc56076b96c5edfc6b1c331326e9dd42dba2756f59
+hypothetical_attempted_pair_reference: 185
+required_primary_inputs:
+  - Locked target-assay subtype-label retention probability
+  - Locked target-assay subtype-score and margin paired standard deviations
+  - Target-assay attrition and rerun fraction
+  - Target-assay batch and run clustering design effect
+  - Prespecified receptor, RNA-quality, score-margin, and placement coverage
+permitted_pilot_inputs:
+  - Source-specific PAM50 within-group rank agreement
+  - Source-specific PAM50 expression-scale absolute error
+  - Source-specific exploratory gene-level absolute difference
+require_target_assay_match: true
+require_primary_estimand_match: true
+allow_proxy_substitution: false
+allow_source_pooling: false
+allow_threshold_selection: false
+allow_classifier_execution: false
+allow_outcome_access: false
+execution_authorized: false

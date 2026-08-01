@@ -1,0 +1,113 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "allow_classifier_execution": {
+      "title": "Allow Classifier Execution",
+      "type": "boolean"
+    },
+    "allow_outcome_access": {
+      "title": "Allow Outcome Access",
+      "type": "boolean"
+    },
+    "allow_proxy_substitution": {
+      "title": "Allow Proxy Substitution",
+      "type": "boolean"
+    },
+    "allow_source_pooling": {
+      "title": "Allow Source Pooling",
+      "type": "boolean"
+    },
+    "allow_threshold_selection": {
+      "title": "Allow Threshold Selection",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "hypothetical_attempted_pair_reference": {
+      "minimum": 2,
+      "title": "Hypothetical Attempted Pair Reference",
+      "type": "integer"
+    },
+    "hypothetical_balanced_result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Hypothetical Balanced Result Sha256",
+      "type": "string"
+    },
+    "permitted_pilot_inputs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Permitted Pilot Inputs",
+      "type": "array"
+    },
+    "pilot_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Pilot Receipt Sha256",
+      "type": "string"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "planning_bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Bundle Sha256",
+      "type": "string"
+    },
+    "prospective_design_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Prospective Design Sha256",
+      "type": "string"
+    },
+    "require_primary_estimand_match": {
+      "title": "Require Primary Estimand Match",
+      "type": "boolean"
+    },
+    "require_target_assay_match": {
+      "title": "Require Target Assay Match",
+      "type": "boolean"
+    },
+    "required_primary_inputs": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Required Primary Inputs",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_version",
+    "pilot_receipt_sha256",
+    "prospective_design_sha256",
+    "planning_bundle_sha256",
+    "hypothetical_balanced_result_sha256",
+    "hypothetical_attempted_pair_reference",
+    "required_primary_inputs",
+    "permitted_pilot_inputs",
+    "require_target_assay_match",
+    "require_primary_estimand_match",
+    "allow_proxy_substitution",
+    "allow_source_pooling",
+    "allow_threshold_selection",
+    "allow_classifier_execution",
+    "allow_outcome_access",
+    "execution_authorized"
+  ],
+  "title": "CalibrationPairCountReestimationPlan",
+  "type": "object"
+}
