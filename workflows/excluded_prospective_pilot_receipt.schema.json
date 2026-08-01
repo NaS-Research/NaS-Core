@@ -1,0 +1,137 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "attempted_pair_target": {
+      "maximum": 30,
+      "minimum": 30,
+      "title": "Attempted Pair Target",
+      "type": "integer"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "decision": {
+      "pattern": "^excluded_prospective_pilot_plan_frozen$",
+      "title": "Decision",
+      "type": "string"
+    },
+    "denominator_accounting_frozen": {
+      "title": "Denominator Accounting Frozen",
+      "type": "boolean"
+    },
+    "dependency_hashes_verified": {
+      "title": "Dependency Hashes Verified",
+      "type": "boolean"
+    },
+    "immutable_storage_contract_frozen": {
+      "title": "Immutable Storage Contract Frozen",
+      "type": "boolean"
+    },
+    "independent_source_target": {
+      "maximum": 30,
+      "minimum": 30,
+      "title": "Independent Source Target",
+      "type": "integer"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "lineage_frozen": {
+      "title": "Lineage Frozen",
+      "type": "boolean"
+    },
+    "molecular_values_accessed": {
+      "title": "Molecular Values Accessed",
+      "type": "boolean"
+    },
+    "next_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Next Actions",
+      "type": "array"
+    },
+    "no_external_action_preserved": {
+      "title": "No External Action Preserved",
+      "type": "boolean"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "permanent_exclusion_frozen": {
+      "title": "Permanent Exclusion Frozen",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "planned_measurement_count": {
+      "maximum": 60,
+      "minimum": 60,
+      "title": "Planned Measurement Count",
+      "type": "integer"
+    },
+    "randomization_frozen": {
+      "title": "Randomization Frozen",
+      "type": "boolean"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_execution_authorized": {
+      "title": "Study Execution Authorized",
+      "type": "boolean"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    },
+    "validation_values_accessed": {
+      "title": "Validation Values Accessed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "code_revision",
+    "plan_sha256",
+    "dependency_hashes_verified",
+    "attempted_pair_target",
+    "planned_measurement_count",
+    "independent_source_target",
+    "randomization_frozen",
+    "lineage_frozen",
+    "denominator_accounting_frozen",
+    "immutable_storage_contract_frozen",
+    "permanent_exclusion_frozen",
+    "no_external_action_preserved",
+    "decision",
+    "study_execution_authorized",
+    "molecular_values_accessed",
+    "outcomes_accessed",
+    "validation_values_accessed",
+    "limitations",
+    "next_actions"
+  ],
+  "title": "ExcludedProspectivePilotPlanReceipt",
+  "type": "object"
+}

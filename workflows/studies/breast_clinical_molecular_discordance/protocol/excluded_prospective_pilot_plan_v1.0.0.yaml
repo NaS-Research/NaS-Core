@@ -1,0 +1,83 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+rna_quality_gate_receipt_sha256: 7ccd814758ed10b97860531435beea798a4d695a1ad3b2849e06416167df5467
+planning_bundle_sha256: c0e3be0938852a0d555198d6be2678cf8a0442bd8f69b83e0f756b536b331867
+prospective_design_sha256: 434e6177f2e31e861c213ac58f7eb48be25cc9aeb7640b7ad1f8d26fdda555b1
+attempted_pair_target: 30
+independent_biological_source_target: 30
+measurements_per_pair: 2
+pilot_role: excluded_feasibility_pilot
+pair_unit: same_homogenized_rna_independent_libraries
+immutable_identifier_levels:
+  - specimen
+  - rna_aliquot
+  - replicate_pair
+  - library
+  - sequencing_run
+  - processing_instance
+randomization_factors:
+  - library_preparation_batch
+  - sequencing_run
+  - run_position
+  - replicate_mate
+blinding_requirements:
+  - Laboratory operators remain blinded to outcomes, subtype, and paired-mate results.
+  - Analysts receive coded pair and processing identifiers without direct identities or outcomes.
+  - Pair keys remain separate from molecular values until prespecified reconciliation.
+control_requirements:
+  - One reproducible positive process control balanced across every library batch and run.
+  - One negative control balanced across every library batch and run.
+  - Control failures trigger the prespecified batch failure rule and remain counted.
+retained_denominators:
+  - attempted_biological_sources
+  - attempted_pairs
+  - attempted_measurements
+  - rna_gate_failures
+  - library_failures
+  - sequencing_failures
+  - processing_failures
+  - panel_incomplete_measurements
+  - score_failed_measurements
+  - valid_measurements
+  - valid_pairs
+  - reruns
+  - replacements
+  - abstentions
+permitted_estimates:
+  - assay_and_classifier_attrition
+  - pam50_panel_missingness
+  - paired_subtype_score_difference_variance
+  - paired_runner_up_margin_difference_variance
+  - batch_and_run_variance_components
+  - within_pair_correlation
+  - invalid_assay_rerun_and_abstention_frequency
+prohibited_uses:
+  - final_reliability_claim
+  - final_threshold_selection
+  - clinical_outcome_association
+  - external_validation
+  - primary_calibration_pooling
+  - diagnostic_or_treatment_use
+nonoverlap_populations:
+  - classifier_training
+  - gse81538_reference_development
+  - tcga_brca_discovery
+  - gse96058_external_validation
+  - future_primary_calibration
+raw_object_key_prefix: raw/nas-brca-002/prospective-pilot/
+derived_object_key_prefix: derived/nas-brca-002/prospective-pilot/
+checksums_required: true
+atomic_manifest_publish_required: true
+pilot_specimens_permanently_excluded_from_primary: true
+pilot_specimens_permanently_excluded_from_validation: true
+final_pair_count_authorized: false
+threshold_selection_authorized: false
+external_contact_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+study_execution_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false

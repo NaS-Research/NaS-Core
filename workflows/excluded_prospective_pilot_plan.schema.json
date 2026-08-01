@@ -1,0 +1,230 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "atomic_manifest_publish_required": {
+      "title": "Atomic Manifest Publish Required",
+      "type": "boolean"
+    },
+    "attempted_pair_target": {
+      "maximum": 30,
+      "minimum": 30,
+      "title": "Attempted Pair Target",
+      "type": "integer"
+    },
+    "blinding_requirements": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Blinding Requirements",
+      "type": "array"
+    },
+    "checksums_required": {
+      "title": "Checksums Required",
+      "type": "boolean"
+    },
+    "control_requirements": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Control Requirements",
+      "type": "array"
+    },
+    "derived_object_key_prefix": {
+      "pattern": "^derived/nas-brca-002/prospective-pilot/",
+      "title": "Derived Object Key Prefix",
+      "type": "string"
+    },
+    "external_contact_authorized": {
+      "title": "External Contact Authorized",
+      "type": "boolean"
+    },
+    "final_pair_count_authorized": {
+      "title": "Final Pair Count Authorized",
+      "type": "boolean"
+    },
+    "immutable_identifier_levels": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 5,
+      "title": "Immutable Identifier Levels",
+      "type": "array"
+    },
+    "independent_biological_source_target": {
+      "maximum": 30,
+      "minimum": 30,
+      "title": "Independent Biological Source Target",
+      "type": "integer"
+    },
+    "measurements_per_pair": {
+      "maximum": 2,
+      "minimum": 2,
+      "title": "Measurements Per Pair",
+      "type": "integer"
+    },
+    "molecular_values_accessed": {
+      "title": "Molecular Values Accessed",
+      "type": "boolean"
+    },
+    "nonoverlap_populations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 4,
+      "title": "Nonoverlap Populations",
+      "type": "array"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "pair_unit": {
+      "pattern": "^same_homogenized_rna_independent_libraries$",
+      "title": "Pair Unit",
+      "type": "string"
+    },
+    "permitted_estimates": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 5,
+      "title": "Permitted Estimates",
+      "type": "array"
+    },
+    "pilot_role": {
+      "pattern": "^excluded_feasibility_pilot$",
+      "title": "Pilot Role",
+      "type": "string"
+    },
+    "pilot_specimens_permanently_excluded_from_primary": {
+      "title": "Pilot Specimens Permanently Excluded From Primary",
+      "type": "boolean"
+    },
+    "pilot_specimens_permanently_excluded_from_validation": {
+      "title": "Pilot Specimens Permanently Excluded From Validation",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "planning_bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Bundle Sha256",
+      "type": "string"
+    },
+    "procurement_authorized": {
+      "title": "Procurement Authorized",
+      "type": "boolean"
+    },
+    "prohibited_uses": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 5,
+      "title": "Prohibited Uses",
+      "type": "array"
+    },
+    "prospective_design_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Prospective Design Sha256",
+      "type": "string"
+    },
+    "randomization_factors": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3,
+      "title": "Randomization Factors",
+      "type": "array"
+    },
+    "raw_object_key_prefix": {
+      "pattern": "^raw/nas-brca-002/prospective-pilot/",
+      "title": "Raw Object Key Prefix",
+      "type": "string"
+    },
+    "retained_denominators": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 8,
+      "title": "Retained Denominators",
+      "type": "array"
+    },
+    "rna_quality_gate_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Rna Quality Gate Receipt Sha256",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "specimen_acquisition_authorized": {
+      "title": "Specimen Acquisition Authorized",
+      "type": "boolean"
+    },
+    "spending_authorized": {
+      "title": "Spending Authorized",
+      "type": "boolean"
+    },
+    "study_execution_authorized": {
+      "title": "Study Execution Authorized",
+      "type": "boolean"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "threshold_selection_authorized": {
+      "title": "Threshold Selection Authorized",
+      "type": "boolean"
+    },
+    "validation_values_accessed": {
+      "title": "Validation Values Accessed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_version",
+    "rna_quality_gate_receipt_sha256",
+    "planning_bundle_sha256",
+    "prospective_design_sha256",
+    "attempted_pair_target",
+    "independent_biological_source_target",
+    "measurements_per_pair",
+    "pilot_role",
+    "pair_unit",
+    "immutable_identifier_levels",
+    "randomization_factors",
+    "blinding_requirements",
+    "control_requirements",
+    "retained_denominators",
+    "permitted_estimates",
+    "prohibited_uses",
+    "nonoverlap_populations",
+    "raw_object_key_prefix",
+    "derived_object_key_prefix",
+    "checksums_required",
+    "atomic_manifest_publish_required",
+    "pilot_specimens_permanently_excluded_from_primary",
+    "pilot_specimens_permanently_excluded_from_validation",
+    "final_pair_count_authorized",
+    "threshold_selection_authorized",
+    "external_contact_authorized",
+    "spending_authorized",
+    "procurement_authorized",
+    "specimen_acquisition_authorized",
+    "study_execution_authorized",
+    "molecular_values_accessed",
+    "outcomes_accessed",
+    "validation_values_accessed"
+  ],
+  "title": "ExcludedProspectivePilotPlan",
+  "type": "object"
+}
