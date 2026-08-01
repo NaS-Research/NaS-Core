@@ -1,0 +1,247 @@
+{
+  "$defs": {
+    "AssayCandidateDisposition": {
+      "enum": [
+        "selected_family",
+        "conditional_contingency",
+        "not_selected_primary"
+      ],
+      "title": "AssayCandidateDisposition",
+      "type": "string"
+    },
+    "ProspectiveAssayCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "assay_family": {
+          "minLength": 1,
+          "title": "Assay Family",
+          "type": "string"
+        },
+        "candidate_id": {
+          "pattern": "^ASSAY-[0-9]{3}$",
+          "title": "Candidate Id",
+          "type": "string"
+        },
+        "degraded_or_ffpe_compatible": {
+          "title": "Degraded Or Ffpe Compatible",
+          "type": "boolean"
+        },
+        "disposition": {
+          "$ref": "#/$defs/AssayCandidateDisposition"
+        },
+        "fixed_reference_bridge_status": {
+          "pattern": "^(requires_platform_conformance|materially_different_measurement_family)$",
+          "title": "Fixed Reference Bridge Status",
+          "type": "string"
+        },
+        "full_pam50_panel_feasible": {
+          "title": "Full Pam50 Panel Feasible",
+          "type": "boolean"
+        },
+        "high_quality_rna_compatible": {
+          "title": "High Quality Rna Compatible",
+          "type": "boolean"
+        },
+        "measurement_scope": {
+          "minLength": 1,
+          "title": "Measurement Scope",
+          "type": "string"
+        },
+        "official_documentation_urls": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Official Documentation Urls",
+          "type": "array"
+        },
+        "rationale": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Rationale",
+          "type": "array"
+        },
+        "repeat_architecture_compatible": {
+          "title": "Repeat Architecture Compatible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "candidate_id",
+        "assay_family",
+        "measurement_scope",
+        "repeat_architecture_compatible",
+        "full_pam50_panel_feasible",
+        "high_quality_rna_compatible",
+        "degraded_or_ffpe_compatible",
+        "fixed_reference_bridge_status",
+        "disposition",
+        "rationale",
+        "official_documentation_urls"
+      ],
+      "title": "ProspectiveAssayCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/ProspectiveAssayCandidate"
+      },
+      "minItems": 3,
+      "title": "Candidates",
+      "type": "array"
+    },
+    "exact_instrument_selected": {
+      "title": "Exact Instrument Selected",
+      "type": "boolean"
+    },
+    "exact_library_chemistry_selected": {
+      "title": "Exact Library Chemistry Selected",
+      "type": "boolean"
+    },
+    "external_contact_authorized": {
+      "title": "External Contact Authorized",
+      "type": "boolean"
+    },
+    "intended_use": {
+      "minLength": 1,
+      "title": "Intended Use",
+      "type": "string"
+    },
+    "molecular_values_accessed": {
+      "title": "Molecular Values Accessed",
+      "type": "boolean"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "planning_activation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Activation Sha256",
+      "type": "string"
+    },
+    "planning_bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Bundle Sha256",
+      "type": "string"
+    },
+    "primary_repeat_architecture": {
+      "minLength": 1,
+      "title": "Primary Repeat Architecture",
+      "type": "string"
+    },
+    "procurement_authorized": {
+      "title": "Procurement Authorized",
+      "type": "boolean"
+    },
+    "prospective_design_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Prospective Design Sha256",
+      "type": "string"
+    },
+    "retrospective_bridge_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Retrospective Bridge Receipt Sha256",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_candidate_id": {
+      "title": "Selected Candidate Id",
+      "type": "string"
+    },
+    "selected_platform_family": {
+      "title": "Selected Platform Family",
+      "type": "string"
+    },
+    "selection_scope": {
+      "pattern": "^planning_only_platform_family$",
+      "title": "Selection Scope",
+      "type": "string"
+    },
+    "specimen_acquisition_authorized": {
+      "title": "Specimen Acquisition Authorized",
+      "type": "boolean"
+    },
+    "spending_authorized": {
+      "title": "Spending Authorized",
+      "type": "boolean"
+    },
+    "study_execution_authorized": {
+      "title": "Study Execution Authorized",
+      "type": "boolean"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "threshold_selection_authorized": {
+      "title": "Threshold Selection Authorized",
+      "type": "boolean"
+    },
+    "uncalibrated_scoring_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Uncalibrated Scoring Receipt Sha256",
+      "type": "string"
+    },
+    "unresolved_prerequisites": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Unresolved Prerequisites",
+      "type": "array"
+    },
+    "validation_values_accessed": {
+      "title": "Validation Values Accessed",
+      "type": "boolean"
+    },
+    "vendor_selected": {
+      "title": "Vendor Selected",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_version",
+    "prospective_design_sha256",
+    "planning_bundle_sha256",
+    "planning_activation_sha256",
+    "retrospective_bridge_receipt_sha256",
+    "uncalibrated_scoring_receipt_sha256",
+    "intended_use",
+    "primary_repeat_architecture",
+    "candidates",
+    "selected_candidate_id",
+    "selected_platform_family",
+    "selection_scope",
+    "exact_library_chemistry_selected",
+    "exact_instrument_selected",
+    "vendor_selected",
+    "procurement_authorized",
+    "spending_authorized",
+    "specimen_acquisition_authorized",
+    "study_execution_authorized",
+    "external_contact_authorized",
+    "molecular_values_accessed",
+    "outcomes_accessed",
+    "validation_values_accessed",
+    "threshold_selection_authorized",
+    "unresolved_prerequisites"
+  ],
+  "title": "ProspectiveAssaySelectionPlan",
+  "type": "object"
+}

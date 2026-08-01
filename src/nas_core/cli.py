@@ -34,6 +34,9 @@ from nas_core.analysis.numerical_conformance import NumericalConformanceService
 from nas_core.analysis.platform_compatibility import (
     PlatformCompatibilityAuditService,
 )
+from nas_core.analysis.prospective_assay_selection import (
+    ProspectiveAssaySelectionService,
+)
 from nas_core.analysis.prospective_calibration import (
     ProspectiveCalibrationDesignService,
 )
@@ -244,6 +247,11 @@ from nas_core.domain.platform_compatibility import (
     write_platform_compatibility_schema,
 )
 from nas_core.domain.programs import OncologyProgramCharter, ResearchQuestionIntake, StudyRole
+from nas_core.domain.prospective_assay_selection import (
+    load_prospective_assay_selection_plan,
+    write_prospective_assay_selection_receipt,
+    write_prospective_assay_selection_schemas,
+)
 from nas_core.domain.prospective_calibration import (
     load_calibration_contact_revocation,
     load_prospective_calibration_design,
@@ -1136,6 +1144,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_uncalibrated_schema.add_argument("specification_path", type=Path)
     reliability_uncalibrated_schema.add_argument("receipt_path", type=Path)
+    reliability_assay_selection = reliability_commands.add_parser(
+        "prospective-assay-selection-freeze",
+        help="Freeze a planning-only primary-calibration assay-family selection",
+    )
+    reliability_assay_selection.add_argument("plan_path", type=Path)
+    reliability_assay_selection.add_argument("prospective_design_path", type=Path)
+    reliability_assay_selection.add_argument("planning_bundle_path", type=Path)
+    reliability_assay_selection.add_argument("planning_activation_path", type=Path)
+    reliability_assay_selection.add_argument("retrospective_bridge_receipt_path", type=Path)
+    reliability_assay_selection.add_argument("uncalibrated_scoring_receipt_path", type=Path)
+    reliability_assay_selection.add_argument("--code-revision", required=True)
+    reliability_assay_selection.add_argument("--output-path", type=Path)
+    reliability_assay_selection.add_argument("--execute", action="store_true")
+    reliability_assay_selection_schema = reliability_commands.add_parser(
+        "prospective-assay-selection-schema",
+        help="Write prospective assay-selection plan and receipt schemas",
+    )
+    reliability_assay_selection_schema.add_argument("plan_path", type=Path)
+    reliability_assay_selection_schema.add_argument("receipt_path", type=Path)
     reliability_calibration_readiness = reliability_commands.add_parser(
         "calibration-readiness",
         help="Reconcile technical-calibration paths and authorize public feasibility only",
@@ -2643,6 +2670,41 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.receipt_path,
         )
         print(f"Wrote uncalibrated scoring schemas: {args.specification_path}, {args.receipt_path}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "prospective-assay-selection-freeze"
+    ):
+        assay_plan = load_prospective_assay_selection_plan(args.plan_path)
+        assay_receipt = ProspectiveAssaySelectionService().freeze(
+            assay_plan,
+            plan_path=args.plan_path,
+            prospective_design_path=args.prospective_design_path,
+            planning_bundle_path=args.planning_bundle_path,
+            planning_activation_path=args.planning_activation_path,
+            retrospective_bridge_receipt_path=args.retrospective_bridge_receipt_path,
+            uncalibrated_scoring_receipt_path=args.uncalibrated_scoring_receipt_path,
+            code_revision=args.code_revision,
+        )
+        if not args.execute:
+            print(assay_receipt.model_dump_json(indent=2))
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_prospective_assay_selection_receipt(args.output_path, assay_receipt)
+        print(f"Wrote prospective assay selection: {assay_receipt.decision}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "prospective-assay-selection-schema"
+    ):
+        write_prospective_assay_selection_schemas(args.plan_path, args.receipt_path)
+        print(
+            "Wrote prospective assay-selection schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
         return 0
 
     if args.command == "reliability" and args.reliability_command == "calibration-readiness":

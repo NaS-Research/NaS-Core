@@ -1,0 +1,98 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+prospective_design_sha256: 434e6177f2e31e861c213ac58f7eb48be25cc9aeb7640b7ad1f8d26fdda555b1
+planning_bundle_sha256: c0e3be0938852a0d555198d6be2678cf8a0442bd8f69b83e0f756b536b331867
+planning_activation_sha256: f92d0558811d8ecb066d8dae96386c10582588093da737df3460c879aa393dbc
+retrospective_bridge_receipt_sha256: 86a8521b65d033c1815d5c23436c55f187049a80016f3ce5b8b10be1782e0638
+uncalibrated_scoring_receipt_sha256: 0c0111ea298862e0cbb536694b4c1224e3fea25266aaa9bc572328dfa8a825c8
+intended_use: >-
+  Research-use post-extraction technical calibration of a patient-independent PAM50
+  reliability and abstention rule; not diagnosis, treatment selection, or clinical use.
+primary_repeat_architecture: >-
+  Paired aliquots of the same homogenized RNA undergo independent library preparation,
+  library QC, randomized sequencing placement, and independent bioinformatic processing.
+candidates:
+  - candidate_id: ASSAY-001
+    assay_family: Research-use whole-transcriptome stranded bulk RNA sequencing
+    measurement_scope: Genome-wide messenger RNA abundance with the full PAM50 panel
+    repeat_architecture_compatible: true
+    full_pam50_panel_feasible: true
+    high_quality_rna_compatible: true
+    degraded_or_ffpe_compatible: false
+    fixed_reference_bridge_status: requires_platform_conformance
+    disposition: selected_family
+    rationale:
+      - Closest measurement family to the RNA-seq discovery and unchanged validation program.
+      - Supports independent same-RNA library preparation and operational batch randomization.
+      - Preserves whole-transcriptome QC and library-size diagnostics beyond the 50-gene panel.
+      - Exact chemistry remains unresolved until the intended RNA-quality range is frozen.
+    official_documentation_urls:
+      - https://support-docs.illumina.com/LP/IlluminaStrandedmRNA/Content/LP/Illumina_RNA/Stranded-mRNA/Overview.htm
+  - candidate_id: ASSAY-002
+    assay_family: Degraded-RNA-compatible stranded total or capture-enriched RNA sequencing
+    measurement_scope: Whole or coding-transcriptome abundance from degraded or FFPE RNA
+    repeat_architecture_compatible: true
+    full_pam50_panel_feasible: true
+    high_quality_rna_compatible: true
+    degraded_or_ffpe_compatible: true
+    fixed_reference_bridge_status: requires_platform_conformance
+    disposition: conditional_contingency
+    rationale:
+      - Retained only if the intended specimen range includes degraded or FFPE-derived RNA.
+      - Capture or depletion changes measurement behavior and cannot inherit the polyA reference bridge.
+      - Requires separate reference, transformation, and technical-error conformance before use.
+    official_documentation_urls:
+      - https://www.illumina.com/techniques/sequencing/rna-sequencing.html
+      - https://www.illumina.com/products/by-type/sequencing-kits/library-prep-kits/rna-prep-enrichment.html
+  - candidate_id: ASSAY-003
+    assay_family: Targeted hybridization expression assay such as NanoString PAM50
+    measurement_scope: Targeted transcript abundance
+    repeat_architecture_compatible: true
+    full_pam50_panel_feasible: true
+    high_quality_rna_compatible: true
+    degraded_or_ffpe_compatible: true
+    fixed_reference_bridge_status: materially_different_measurement_family
+    disposition: not_selected_primary
+    rationale:
+      - Platform-specific counts and normalization are not interchangeable with the frozen RNA-seq bridge.
+      - Would require a distinct intended use, reference, calibration experiment, and validation program.
+      - Commercial or proprietary implementation questions remain outside this planning freeze.
+    official_documentation_urls:
+      - https://www.prosigna.com/
+  - candidate_id: ASSAY-004
+    assay_family: Targeted amplicon RNA sequencing
+    measurement_scope: Fixed targeted gene panel
+    repeat_architecture_compatible: true
+    full_pam50_panel_feasible: true
+    high_quality_rna_compatible: true
+    degraded_or_ffpe_compatible: true
+    fixed_reference_bridge_status: materially_different_measurement_family
+    disposition: not_selected_primary
+    rationale:
+      - A panel-only workflow changes dynamic range, normalization, and whole-transcriptome QC.
+      - It cannot inherit the current fixed reference or retrospective validation bridge.
+    official_documentation_urls:
+      - https://www.illumina.com/techniques/sequencing/rna-sequencing/targeted-rna-seq.html
+selected_candidate_id: ASSAY-001
+selected_platform_family: research_use_whole_transcriptome_bulk_rna_sequencing
+selection_scope: planning_only_platform_family
+exact_library_chemistry_selected: false
+exact_instrument_selected: false
+vendor_selected: false
+procurement_authorized: false
+spending_authorized: false
+specimen_acquisition_authorized: false
+study_execution_authorized: false
+external_contact_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false
+threshold_selection_authorized: false
+unresolved_prerequisites:
+  - Intended specimen format and high-quality versus degraded RNA range
+  - Minimum RNA quantity, integrity, purity, and DV200 or RIN acceptance rules
+  - Exact library chemistry, read layout, depth, instrument family, and batch design
+  - Platform-matched fixed-reference and transformation conformance
+  - Pilot attrition, batch, score-error, and margin-error estimates
+  - Lawful specimen source, governance, budget, and operational feasibility
