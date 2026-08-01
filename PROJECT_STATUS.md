@@ -56,6 +56,12 @@ inspection found 82 ER-consensus code-0, 8 code-1, 11 code-2, and 304 code-3
 records. Interpreting unanimous 0/3 as eligible strata and excluding discordant
 1/2 is now an explicit scientific decision rather than an implementation default.
 
+Decision packet `REFERENCE_INPUT_DECISION_PACKET_v1.0.0.md` now separates the
+executed evidence from both proposed method choices, documents that the ER-code
+interpretation is a conservative inference rather than an explicit source
+codebook, and supplies one bounded founder confirmation statement. Parser and
+reference construction remain halted until that scientific decision is recorded.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three

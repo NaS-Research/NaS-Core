@@ -28,3 +28,10 @@ returned `pass`. Its immutable aggregate-only receipt is
 [`../ingestion/field_isolated_metadata_receipt_v1.0.1.yaml`](../ingestion/field_isolated_metadata_receipt_v1.0.1.yaml);
 the interpretive boundary is documented in
 [`../ingestion/FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md`](../ingestion/FIELD_ISOLATED_METADATA_REPORT_v1.0.1.md).
+
+Reference-input decision packet
+[`REFERENCE_INPUT_DECISION_PACKET_v1.0.0.md`](REFERENCE_INPUT_DECISION_PACKET_v1.0.0.md)
+binds the executed matrix and metadata evidence to two explicit founder choices:
+the corrected no-additional-transform bridge and the conservative ER-consensus
+stratification rule. It is a proposal only and authorizes no parser execution,
+reference construction, classifier execution, outcome access, or publication.
