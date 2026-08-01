@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Select the future prospective primary-calibration assay in planning only
+### Freeze specimen/RNA-quality range and chemistry-selection gate
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,12 +17,12 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: compare realistic target-assay routes against the frozen
-primary estimands, sample and RNA requirements, platform/preprocessing bridge,
-replicate structure, technical-error coverage, lawful access, and feasibility;
-record a planning recommendation without procurement, contact, specimens,
-credentials, controlled data, clinical use, or execution. A selected planning
-route is not authorization to acquire or run an assay.
+Definition of done: declare the intended residual-tissue or extracted-RNA format;
+freeze minimum input, integrity, purity, and degraded-RNA bounds; define a
+performance-blind gate for high-quality poly(A) versus degraded-RNA-compatible
+chemistry; and keep exact kit, instrument, vendor, quote, procurement, specimen,
+and execution decisions prohibited. No study values or outcomes may inform the
+gate.
 
 The retrospective expression bridge is now frozen independently of validation
 performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
@@ -144,6 +144,16 @@ successful score is explicitly `uncalibrated`, and reportable-label count is
 immutably zero until independent technical calibration and thresholds exist.
 The freeze used synthetic fixtures only and accessed no study molecular,
 validation, or outcome values. Receipt SHA-256 is `0c0111ea…25c8`.
+
+Frozen revision `2941126` selected research-use whole-transcriptome bulk RNA
+sequencing as the prospective primary-calibration platform family in planning
+only. The primary unit remains same-RNA aliquots undergoing independent library
+preparation and randomized sequencing placement. Exact chemistry is unresolved:
+poly(A) is viable only within a frozen high-quality-RNA range, while any degraded-
+RNA or FFPE contingency requires a separate reference and transformation
+conformance bridge. No vendor, kit, instrument, contact, quote, purchase,
+specimen, or execution was selected or authorized. Receipt SHA-256 is
+`b4ba823e…302f2`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the

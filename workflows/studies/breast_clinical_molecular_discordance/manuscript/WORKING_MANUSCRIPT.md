@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.69.0-working`
+Manuscript version: `0.70.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -813,6 +813,20 @@ label count is zero. Synthetic fixtures verified this software boundary without
 executing a study classifier or accessing molecular, validation, or outcome values.
 [uncalibrated_scoring_receipt_v1.0.0.yaml;
 UNCALIBRATED_SCORING_REPORT_v1.0.0.md]
+
+For prospective primary calibration, the selected planning family is research-use
+whole-transcriptome bulk RNA sequencing with independent libraries prepared from
+paired aliquots of the same homogenized RNA. The selection preserves the full
+PAM50 panel and whole-transcriptome QC while remaining closest to the retrospective
+RNA-seq program. It does not select an exact chemistry, instrument, vendor, or
+product. A high-quality poly(A) workflow and a degraded-RNA-compatible depletion
+or enrichment workflow are not treated as interchangeable; the intended RNA-
+quality range and a performance-blind chemistry gate must be frozen, and any
+degraded-RNA contingency requires separate reference and transformation
+conformance. No quote, procurement, specimen, molecular access, or execution is
+authorized.
+[prospective_assay_selection_receipt_v1.0.0.yaml;
+PROSPECTIVE_ASSAY_SELECTION_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1630,6 +1644,7 @@ reviews are complete.
 | Methods—retrospective expression bridge | Performance-blind TCGA transformation, unchanged GSE96058 representation, fixed reference, and fixed centroids | `protocol/retrospective_expression_bridge_receipt_v1.0.0.yaml`; `protocol/RETROSPECTIVE_EXPRESSION_BRIDGE_REPORT_v1.0.0.md` | bridge frozen; no cohort centering, validation adaptation, molecular access, classifier, or outcomes |
 | Methods—retrospective processed-input QC | Exact panel, mapping, finite-value, floor, centering, failure, rerun, and abstention rules | `protocol/retrospective_processed_input_qc_receipt_v1.0.0.yaml`; `protocol/RETROSPECTIVE_PROCESSED_INPUT_QC_REPORT_v1.0.0.md` | seven fail-closed states; no imputation, scientific-failure rerun, values, classifier, or outcomes |
 | Methods—uncalibrated scoring boundary | Fixed Spearman arithmetic, mandatory abstention, and exact attempted-denominator reconciliation | `protocol/uncalibrated_scoring_receipt_v1.0.0.yaml`; `protocol/UNCALIBRATED_SCORING_REPORT_v1.0.0.md` | successful scores remain uncalibrated; every attempt abstains; zero reportable labels; no study execution or values |
+| Methods—prospective assay-family selection | Planning-only comparison of whole-transcriptome, degraded-RNA, hybridization, and amplicon routes | `protocol/prospective_assay_selection_receipt_v1.0.0.yaml`; `protocol/PROSPECTIVE_ASSAY_SELECTION_REPORT_v1.0.0.md` | whole-transcriptome bulk RNA-seq family selected; exact chemistry unresolved; no external action or execution |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1687,6 +1702,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.70.0-working | 2026-08-01 | Selected research-use whole-transcriptome bulk RNA sequencing as the prospective calibration family in planning only, while leaving chemistry conditional on a frozen RNA-quality range and preserving all external-action prohibitions. |
 | 0.69.0-working | 2026-08-01 | Froze the uncalibrated scoring boundary: QC and numerical failures remain in exact attempted denominators, successful scores can only abstain, and reportable-label count remains zero before technical calibration. |
 | 0.68.0-working | 2026-08-01 | Froze executable processed-input QC with seven named fail-closed states, no imputation or adaptive reruns, exact fixed-reference centering, and mandatory abstention before uncalibrated scoring. |
 | 0.67.0-working | 2026-08-01 | Froze the performance-blind retrospective bridge: TCGA GDC FPKM receives `log2(FPKM + 0.1)`, GSE96058 is consumed unchanged, and both use the immutable GSE81538 reference and genefu centroids without molecular or outcome access. |

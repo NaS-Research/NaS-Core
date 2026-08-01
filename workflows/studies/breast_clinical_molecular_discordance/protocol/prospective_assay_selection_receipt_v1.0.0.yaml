@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: '2941126'
+plan_sha256: 7d631d4cddf91d1896f41f96721a133f0c57140566ec7a7223167cf6f5e6bc60
+dependency_hashes_verified: true
+candidate_count: 4
+selected_candidate_id: ASSAY-001
+selected_platform_family: research_use_whole_transcriptome_bulk_rna_sequencing
+selection_scope: planning_only_platform_family
+exact_chemistry_unresolved: true
+exact_instrument_unresolved: true
+platform_conformance_required: true
+no_external_action_preserved: true
+decision: prospective_assay_family_selected_for_planning
+study_execution_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false
+limitations:
+- Platform-family selection is not analytical validation or procurement approval.
+- Exact chemistry depends on a prespecified RNA-quality and specimen-use range.
+- Any degraded-RNA contingency requires its own fixed-reference conformance bridge.
+next_actions:
+- Freeze minimum RNA input, integrity, purity, and specimen-format ranges.
+- Define a performance-blind chemistry-selection gate for high-quality versus degraded
+  RNA.
+- Keep contact, quotes, procurement, specimens, and execution separately prohibited.
