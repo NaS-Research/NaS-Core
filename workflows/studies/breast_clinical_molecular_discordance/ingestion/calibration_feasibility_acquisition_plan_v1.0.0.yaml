@@ -1,0 +1,233 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+intended_role: excluded_public_calibration_feasibility_only
+source_registry_sha256: a4b3aeef203ecdadfc71b590f762201189f2a93cac17be8a37138dd91187cee2
+standing_authorization_sha256: 849f5217612a8946f29c3a3529e187128078d2f57cfd63e306ad058d05558c61
+calibration_readiness_receipt_sha256: c1da22e2cc9034380f7a4ee0ce748000a120bb4639956ffecdb7aebb90e1a784
+storage_readiness_receipt_sha256: 58819736c89113f06e84efec2633f8c294712018e824a2d27098802aee8a707c
+artifacts:
+  - source_id: ncbi-geo-gse60788
+    source_accession: GSE60788
+    file_accession: GSE60788
+    artifact_kind: processed_expression
+    filename: GSE60788_rnaseq_gex_normalized.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE60788&format=file&file=GSE60788_rnaseq_gex_normalized.txt.gz
+    expected_content_length_bytes: 6484824
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse60788/gse60788_rnaseq_gex_normalized.txt.gz
+  - source_id: ncbi-geo-gse60788
+    source_accession: GSE60788
+    file_accession: GSE60788
+    artifact_kind: feature_map
+    filename: GSE60788_map_transcriptID_geneSymbol.csv.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE60788&format=file&file=GSE60788_map_transcriptID_geneSymbol.csv.gz
+    expected_content_length_bytes: 416632
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse60788/gse60788_map_transcriptid_genesymbol.csv.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSE130397
+    artifact_kind: file_inventory
+    filename: filelist.txt
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE130397&format=file&file=filelist.txt
+    expected_content_length_bytes: 1988
+    expected_content_type: text/plain
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/filelist.txt
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737461
+    artifact_kind: processed_expression
+    filename: GSM3737461_FFPE_RNASeq_OVA_S1_01_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737461&format=file&file=GSM3737461_FFPE_RNASeq_OVA_S1_01_readsPerGene.txt.gz
+    expected_content_length_bytes: 341299
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737461_ffpe_rnaseq_ova_s1_01_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737462
+    artifact_kind: processed_expression
+    filename: GSM3737462_FFPE_RNASeq_OVA_S1_02_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737462&format=file&file=GSM3737462_FFPE_RNASeq_OVA_S1_02_readsPerGene.txt.gz
+    expected_content_length_bytes: 339066
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737462_ffpe_rnaseq_ova_s1_02_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737463
+    artifact_kind: processed_expression
+    filename: GSM3737463_FFPE_RNASeq_OVA_S1_03_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737463&format=file&file=GSM3737463_FFPE_RNASeq_OVA_S1_03_readsPerGene.txt.gz
+    expected_content_length_bytes: 339816
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737463_ffpe_rnaseq_ova_s1_03_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737464
+    artifact_kind: processed_expression
+    filename: GSM3737464_FFPE_RNASeq_OVA_S2_01_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737464&format=file&file=GSM3737464_FFPE_RNASeq_OVA_S2_01_readsPerGene.txt.gz
+    expected_content_length_bytes: 341590
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737464_ffpe_rnaseq_ova_s2_01_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737465
+    artifact_kind: processed_expression
+    filename: GSM3737465_FFPE_RNASeq_OVA_S2_02_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737465&format=file&file=GSM3737465_FFPE_RNASeq_OVA_S2_02_readsPerGene.txt.gz
+    expected_content_length_bytes: 343126
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737465_ffpe_rnaseq_ova_s2_02_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737466
+    artifact_kind: processed_expression
+    filename: GSM3737466_FFPE_RNASeq_OVA_S2_03_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737466&format=file&file=GSM3737466_FFPE_RNASeq_OVA_S2_03_readsPerGene.txt.gz
+    expected_content_length_bytes: 342895
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737466_ffpe_rnaseq_ova_s2_03_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737467
+    artifact_kind: processed_expression
+    filename: GSM3737467_FFPE_RNASeq_ACC_S1_01_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737467&format=file&file=GSM3737467_FFPE_RNASeq_ACC_S1_01_readsPerGene.txt.gz
+    expected_content_length_bytes: 349723
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737467_ffpe_rnaseq_acc_s1_01_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737468
+    artifact_kind: processed_expression
+    filename: GSM3737468_FFPE_RNASeq_ACC_S1_02_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737468&format=file&file=GSM3737468_FFPE_RNASeq_ACC_S1_02_readsPerGene.txt.gz
+    expected_content_length_bytes: 352543
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737468_ffpe_rnaseq_acc_s1_02_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737469
+    artifact_kind: processed_expression
+    filename: GSM3737469_FFPE_RNASeq_ACC_S1_03_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737469&format=file&file=GSM3737469_FFPE_RNASeq_ACC_S1_03_readsPerGene.txt.gz
+    expected_content_length_bytes: 355703
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737469_ffpe_rnaseq_acc_s1_03_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737470
+    artifact_kind: processed_expression
+    filename: GSM3737470_FFPE_RNASeq_ACC_S2_01_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737470&format=file&file=GSM3737470_FFPE_RNASeq_ACC_S2_01_readsPerGene.txt.gz
+    expected_content_length_bytes: 349713
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737470_ffpe_rnaseq_acc_s2_01_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737471
+    artifact_kind: processed_expression
+    filename: GSM3737471_FFPE_RNASeq_ACC_S2_02_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737471&format=file&file=GSM3737471_FFPE_RNASeq_ACC_S2_02_readsPerGene.txt.gz
+    expected_content_length_bytes: 350635
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737471_ffpe_rnaseq_acc_s2_02_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737472
+    artifact_kind: processed_expression
+    filename: GSM3737472_FFPE_RNASeq_ACC_S2_03_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737472&format=file&file=GSM3737472_FFPE_RNASeq_ACC_S2_03_readsPerGene.txt.gz
+    expected_content_length_bytes: 345837
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737472_ffpe_rnaseq_acc_s2_03_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737473
+    artifact_kind: processed_expression
+    filename: GSM3737473_FFPE_RNASeq_ACC_ER_S01_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737473&format=file&file=GSM3737473_FFPE_RNASeq_ACC_ER_S01_readsPerGene.txt.gz
+    expected_content_length_bytes: 339930
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737473_ffpe_rnaseq_acc_er_s01_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737474
+    artifact_kind: processed_expression
+    filename: GSM3737474_FFPE_RNASeq_ACC_ER_S01_Reseq_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737474&format=file&file=GSM3737474_FFPE_RNASeq_ACC_ER_S01_Reseq_readsPerGene.txt.gz
+    expected_content_length_bytes: 346937
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737474_ffpe_rnaseq_acc_er_s01_reseq_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737475
+    artifact_kind: processed_expression
+    filename: GSM3737475_FFPE_RNASeq_ACC_ER_S02_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737475&format=file&file=GSM3737475_FFPE_RNASeq_ACC_ER_S02_readsPerGene.txt.gz
+    expected_content_length_bytes: 350624
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737475_ffpe_rnaseq_acc_er_s02_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737476
+    artifact_kind: processed_expression
+    filename: GSM3737476_FFPE_RNASeq_ACC_ER_S02_Reseq_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737476&format=file&file=GSM3737476_FFPE_RNASeq_ACC_ER_S02_Reseq_readsPerGene.txt.gz
+    expected_content_length_bytes: 358452
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737476_ffpe_rnaseq_acc_er_s02_reseq_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737477
+    artifact_kind: processed_expression
+    filename: GSM3737477_FFPE_RNASeq_ACC_ER_S03_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737477&format=file&file=GSM3737477_FFPE_RNASeq_ACC_ER_S03_readsPerGene.txt.gz
+    expected_content_length_bytes: 356714
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737477_ffpe_rnaseq_acc_er_s03_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737478
+    artifact_kind: processed_expression
+    filename: GSM3737478_FFPE_RNASeq_ACC_ER_S04_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737478&format=file&file=GSM3737478_FFPE_RNASeq_ACC_ER_S04_readsPerGene.txt.gz
+    expected_content_length_bytes: 319237
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737478_ffpe_rnaseq_acc_er_s04_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737479
+    artifact_kind: processed_expression
+    filename: GSM3737479_FFPE_RNASeq_ACC_ER_S05_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737479&format=file&file=GSM3737479_FFPE_RNASeq_ACC_ER_S05_readsPerGene.txt.gz
+    expected_content_length_bytes: 350913
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737479_ffpe_rnaseq_acc_er_s05_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737480
+    artifact_kind: processed_expression
+    filename: GSM3737480_FFPE_RNASeq_ACC_ER_S06_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737480&format=file&file=GSM3737480_FFPE_RNASeq_ACC_ER_S06_readsPerGene.txt.gz
+    expected_content_length_bytes: 350754
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737480_ffpe_rnaseq_acc_er_s06_readspergene.txt.gz
+  - source_id: ncbi-geo-gse130397
+    source_accession: GSE130397
+    file_accession: GSM3737481
+    artifact_kind: processed_expression
+    filename: GSM3737481_FFPE_RNASeq_ACC_ER_S06_Reseq_readsPerGene.txt.gz
+    official_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM3737481&format=file&file=GSM3737481_FFPE_RNASeq_ACC_ER_S06_Reseq_readsPerGene.txt.gz
+    expected_content_length_bytes: 360974
+    expected_content_type: application/octet-stream
+    object_key: raw/nas-brca-002/ncbi-geo-gse130397/gsm3737481_ffpe_rnaseq_acc_er_s06_reseq_readspergene.txt.gz
+parse_during_acquisition: false
+outcome_fields_requested: false
+pooling_authorized: false
+threshold_estimation_authorized: false
+classifier_execution_authorized: false
+immutable_write_required: true

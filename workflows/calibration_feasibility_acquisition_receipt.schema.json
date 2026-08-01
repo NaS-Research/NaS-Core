@@ -1,0 +1,175 @@
+{
+  "$defs": {
+    "CalibrationFeasibilityArtifactKind": {
+      "enum": [
+        "processed_expression",
+        "feature_map",
+        "file_inventory"
+      ],
+      "title": "CalibrationFeasibilityArtifactKind",
+      "type": "string"
+    },
+    "CalibrationFeasibilityArtifactReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_kind": {
+          "$ref": "#/$defs/CalibrationFeasibilityArtifactKind"
+        },
+        "content_length_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Content Length Bytes",
+          "type": "integer"
+        },
+        "file_accession": {
+          "title": "File Accession",
+          "type": "string"
+        },
+        "filename": {
+          "title": "Filename",
+          "type": "string"
+        },
+        "immutable_object_verified": {
+          "title": "Immutable Object Verified",
+          "type": "boolean"
+        },
+        "object_key": {
+          "title": "Object Key",
+          "type": "string"
+        },
+        "official_url": {
+          "title": "Official Url",
+          "type": "string"
+        },
+        "response_content_type": {
+          "title": "Response Content Type",
+          "type": "string"
+        },
+        "response_last_modified": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Response Last Modified"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_accession": {
+          "title": "Source Accession",
+          "type": "string"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_accession",
+        "file_accession",
+        "artifact_kind",
+        "filename",
+        "official_url",
+        "response_content_type",
+        "response_last_modified",
+        "content_length_bytes",
+        "sha256",
+        "object_key",
+        "immutable_object_verified"
+      ],
+      "title": "CalibrationFeasibilityArtifactReceipt",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "acquired_at": {
+      "format": "date-time",
+      "title": "Acquired At",
+      "type": "string"
+    },
+    "all_immutable_objects_verified": {
+      "title": "All Immutable Objects Verified",
+      "type": "boolean"
+    },
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/CalibrationFeasibilityArtifactReceipt"
+      },
+      "minItems": 1,
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "external_publication_authorized": {
+      "title": "External Publication Authorized",
+      "type": "boolean"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sources_pooled": {
+      "title": "Sources Pooled",
+      "type": "boolean"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    },
+    "thresholds_estimated": {
+      "title": "Thresholds Estimated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "code_revision",
+    "acquired_at",
+    "plan_sha256",
+    "artifacts",
+    "all_immutable_objects_verified",
+    "molecular_values_parsed",
+    "outcomes_accessed",
+    "sources_pooled",
+    "thresholds_estimated",
+    "classifier_executed",
+    "external_publication_authorized"
+  ],
+  "title": "CalibrationFeasibilityAcquisitionReceipt",
+  "type": "object"
+}

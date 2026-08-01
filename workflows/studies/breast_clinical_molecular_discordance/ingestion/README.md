@@ -1,5 +1,18 @@
 # Ingestion
 
+Calibration-feasibility acquisition plan
+[`calibration_feasibility_acquisition_plan_v1.0.0.yaml`](calibration_feasibility_acquisition_plan_v1.0.0.yaml)
+and its immutable source registry
+[`calibration_feasibility_source_registry_v1.0.0.yaml`](calibration_feasibility_source_registry_v1.0.0.yaml)
+freeze 24 official NCBI GEO artifacts totaling 14,189,925 bytes: the GSE60788
+normalized expression matrix and transcript-to-gene map, plus the GSE130397
+official inventory and all 21 public sample files. The two sources are separately
+registered as public/open for `calibration-feasibility` only. The atomic staging
+service validates every declared size before publishing any immutable object and
+records a checksum per artifact. Acquisition does not parse molecular values.
+Pooling, outcomes, classifier execution, threshold estimation, external
+publication, and generative-model access remain false.
+
 Required artifacts:
 
 - `ingestion/README.md`

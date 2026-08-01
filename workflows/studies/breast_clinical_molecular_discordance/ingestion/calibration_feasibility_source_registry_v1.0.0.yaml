@@ -1,0 +1,109 @@
+version: 1
+sources:
+  - source_id: ncbi-geo-gse60788
+    name: NCBI GEO SCAN-B GSE60788 Processed Data
+    owner: U.S. National Library of Medicine, NCBI, and the SCAN-B submitters
+    authoritative_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE60788
+    classification: public_open
+    status: active
+    version: GSE60788-public-record-at-2026-08-01
+    access_method: NCBI GEO accession pages and official HTTPS download service
+    approved_purposes:
+      - oncology-research
+      - calibration-feasibility
+      - research-publication
+    intended_uses:
+      - Excluded feasibility audit of PAM50 coverage, expression scale, and six declared technical-replicate pairs
+      - Aggregate methods reporting with accession and study attribution
+    prohibited_uses:
+      - Primary technical-error calibration or reliability-threshold estimation
+      - Pooling with another source to create a calibration distribution
+      - Outcome access, classifier tuning, clinical use, or participant contact
+      - Redistributing source files through Git or unapproved systems
+      - Using source data to train or prompt a generative model
+    license_or_terms: NCBI Website and Data Usage Policies plus accession-specific submitter terms
+    terms_url: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    attribution: Cite GEO accession GSE60788, the original SCAN-B publication, and NCBI GEO.
+    authorized_roles:
+      - data_steward
+      - researcher
+      - principal_investigator
+      - scientific_reviewer
+      - publication_approver
+    storage_restrictions:
+      - Public source files remain outside Git in marker-validated object storage.
+      - Receipts record exact URLs, filenames, sizes, checksums, retrieval dates, and terms.
+      - Molecular values may be processed deterministically but may not be sent to a generative model.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-08-01
+    ai_processing_allowed: false
+    embeddings_allowed: false
+    model_training_allowed: false
+    export_allowed: true
+    publication_allowed: true
+    approvals:
+      - approver: Dalron J. Robertson
+        role: founder_data_steward_standing_authorization
+        decision: approve
+        decided_at: 2026-08-01T12:00:00-05:00
+        rationale: >-
+          Registered under standing authorization and the checksum-bound technical-
+          calibration readiness decision for excluded public feasibility only.
+    notes:
+      - GEO reports 49 tumors and six technical replicates.
+      - Zero public accession/title overlap with GSE96058 does not prove biological non-overlap.
+  - source_id: ncbi-geo-gse130397
+    name: NCBI GEO GSE130397 FFPE RNA-seq Replicate Data
+    owner: U.S. National Library of Medicine, NCBI, and the accession submitters
+    authoritative_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE130397
+    classification: public_open
+    status: active
+    version: GSE130397-public-record-at-2026-08-01
+    access_method: NCBI GEO accession pages and official HTTPS download service
+    approved_purposes:
+      - oncology-research
+      - calibration-feasibility
+      - research-publication
+    intended_uses:
+      - Excluded feasibility audit of PAM50 coverage, count scale, library-method replicate lineage, and usable denominators
+      - Aggregate methods reporting with accession and study attribution
+    prohibited_uses:
+      - Primary technical-error calibration or reliability-threshold estimation
+      - Pooling with another source to create a calibration distribution
+      - Outcome access, classifier tuning, clinical use, or participant contact
+      - Redistributing source files through Git or unapproved systems
+      - Using source data to train or prompt a generative model
+    license_or_terms: NCBI Website and Data Usage Policies plus accession-specific submitter terms
+    terms_url: https://www.ncbi.nlm.nih.gov/home/about/policies/
+    attribution: Cite GEO accession GSE130397, its source publication, and NCBI GEO.
+    authorized_roles:
+      - data_steward
+      - researcher
+      - principal_investigator
+      - scientific_reviewer
+      - publication_approver
+    storage_restrictions:
+      - Public source files remain outside Git in marker-validated object storage.
+      - Receipts record exact URLs, filenames, sizes, checksums, retrieval dates, and terms.
+      - Molecular values may be processed deterministically but may not be sent to a generative model.
+    geographic_restrictions: []
+    retention_days: null
+    review_on: 2027-08-01
+    ai_processing_allowed: false
+    embeddings_allowed: false
+    model_training_allowed: false
+    export_allowed: true
+    publication_allowed: true
+    approvals:
+      - approver: Dalron J. Robertson
+        role: founder_data_steward_standing_authorization
+        decision: approve
+        decided_at: 2026-08-01T12:00:00-05:00
+        rationale: >-
+          Registered under standing authorization and the checksum-bound technical-
+          calibration readiness decision for excluded public feasibility only.
+    notes:
+      - GEO reports 21 public sample files with triplicate or resequencing relationships.
+      - The study is a small FFPE/library-method feasibility source, not a breast threshold-calibration cohort.
+

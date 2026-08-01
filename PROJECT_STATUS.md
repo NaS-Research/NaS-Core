@@ -24,6 +24,15 @@ PAM50 panel coverage, expression scale, replicate lineage, and denominators
 source by source. Do not pool sources, select thresholds, execute a classifier,
 access GSE96058 or outcomes, contact anyone, spend, or acquire specimens.
 
+Both sources are now separately registered as public/open for excluded
+`calibration-feasibility` work. Acquisition plan `1.0.0` freezes 24 official
+NCBI GEO files totaling 14,189,925 bytes and binds them to the source registry,
+standing authorization, calibration-readiness receipt, storage-readiness
+receipt, and immutable Seagate object keys. The new atomic staging service
+verifies the complete set before publishing any object and preserves all
+analysis, pooling, threshold, classifier, outcome, AI, and publication
+firewalls. Live acquisition will run only from its frozen code revision.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and
