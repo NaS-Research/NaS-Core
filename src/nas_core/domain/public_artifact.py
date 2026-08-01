@@ -93,6 +93,12 @@ def load_public_artifact_plan(path: Path) -> PublicArtifactAcquisitionPlan:
     )
 
 
+def load_public_artifact_receipt(path: Path) -> PublicArtifactAcquisitionReceipt:
+    return PublicArtifactAcquisitionReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_public_artifact_receipt(
     path: Path,
     receipt: PublicArtifactAcquisitionReceipt,

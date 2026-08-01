@@ -33,6 +33,11 @@ byte NCBI artifact outside Git and independently reproduced SHA-256
 `9da259a9…39181`. No expression values or outcomes were parsed. The active work
 is now the field-isolated schema, scale, and PAM50 mapping audit.
 
+The streaming audit implementation, typed contracts, CLI, JSON Schemas, and
+synthetic fail-closed tests are complete. The repository-wide gate passes 493
+tests with Ruff and mypy clean. Live execution remains deliberately separate so
+its receipt can identify the frozen implementation revision.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three
@@ -574,8 +579,8 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Restore writable governed object storage and execute the field-isolated
-   GSE81538 artifact, unit, lineage, and 50-gene mapping audit.
+1. Execute the checksum-bound GSE81538 matrix audit from the frozen code revision,
+   then freeze its aggregate receipt and scientific interpretation.
 2. Materialize the fixed outcome-blind reference and its prespecified reference
    sensitivities, then lock or reject the preprocessing bridge.
 3. Resolve technical-error and reliability-threshold dependencies without
@@ -607,6 +612,15 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-08-01 — Outcome-blind matrix audit implemented and verified
+
+Implemented streaming object reads plus a provenance-bound GSE81538 matrix audit.
+It verifies the compressed source hash, exact dimensions and sample-header order,
+all 7.6 million expected numeric cells, declared transformed scale, duplicate
+genes, and complete PAM50 mapping without retaining participant rows or accessing
+outcomes. Synthetic altered-header, missing-gene, and changed-provenance cases
+fail closed. The full gate passes 493 tests with Ruff and mypy clean.
 
 ### 2026-08-01 — Immutable public artifact acquired and verified
 
@@ -641,14 +655,6 @@ five subtype archetypes, tied input ranks, top-score tie abstention, and
 runner-up-score tie abstention. Labels, ranks, and reasons match exactly; all
 score and margin differences are zero at tolerance `1e-12`. This closes software
 arithmetic conformance only and does not claim analytical validity.
-
-### 2026-07-29 — Platform compatibility evidence audited
-
-Executed a provenance-bound audit using only existing governed artifacts. Full
-PAM50 mapping is verified; one criterion passes, four are partial, and three
-remain pending. The audit correctly returns `changes_required` and does not
-equate gene presence with numerical or analytical compatibility. No molecular
-values, outcomes, source selection, method lock, or execution occurred.
 
 ## Historical implementation log
 
@@ -1483,11 +1489,10 @@ concordance, but omitting macrodissection produced ROR bias as large as -19 unit
   historical PAM50 genes, receptor completeness, and primary-versus-technical-
   replicate linkage are verified. The cross-platform transformation, assay
   compatibility, and classifier validity remain unresolved.
-- The Seagate volume is currently mounted read-only by macOS. GitHub `main` and
-  the healthy recovery clone are authoritative; the Seagate working copy remains
-  stale until the volume is remounted read-write. The volume is primary local
-  storage, not an independent backup, and no governed molecular artifact may be
-  acquired there while it is read-only.
+- The rebuilt Seagate APFS volume is writable and its governed object store is
+  ready, but it remains a single local copy rather than an independent backup.
+  Research continuity remains at risk until a second governed storage target is
+  approved and configured; this does not block the current reproducible audit.
 - NAS-BRCA-001 public release is blocked by pending founder results review, a
   failed S4 nonlinear-age sensitivity, nonconvergent S3, a material exposure PH
   violation, and Kaplan–Meier figure-layout failure.

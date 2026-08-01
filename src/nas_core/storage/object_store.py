@@ -2,8 +2,10 @@ import os
 import shutil
 import tempfile
 from collections.abc import MutableMapping
+from contextlib import AbstractContextManager, closing
+from io import BytesIO
 from pathlib import Path, PurePosixPath
-from typing import Protocol
+from typing import BinaryIO, Protocol, cast
 
 import boto3
 from mypy_boto3_s3 import S3Client
@@ -18,6 +20,8 @@ class ObjectStore(Protocol):
     def put_bytes(self, key: str, data: bytes, *, content_type: str) -> None: ...
 
     def put_file(self, key: str, source: Path, *, content_type: str) -> None: ...
+
+    def open_binary(self, key: str) -> AbstractContextManager[BinaryIO]: ...
 
     def get_bytes(self, key: str) -> bytes: ...
 
@@ -45,13 +49,16 @@ class FileSystemObjectStore:
         path.parent.mkdir(parents=True, exist_ok=True)
         temporary_path: Path | None = None
         try:
-            with source.open("rb") as input_stream, tempfile.NamedTemporaryFile(
-                mode="w+b",
-                prefix=f".{path.name}.",
-                suffix=".partial",
-                dir=path.parent,
-                delete=False,
-            ) as destination:
+            with (
+                source.open("rb") as input_stream,
+                tempfile.NamedTemporaryFile(
+                    mode="w+b",
+                    prefix=f".{path.name}.",
+                    suffix=".partial",
+                    dir=path.parent,
+                    delete=False,
+                ) as destination,
+            ):
                 temporary_path = Path(destination.name)
                 shutil.copyfileobj(input_stream, destination, length=1024 * 1024)
                 destination.flush()
@@ -63,6 +70,9 @@ class FileSystemObjectStore:
 
     def get_bytes(self, key: str) -> bytes:
         return self._path_for(key).read_bytes()
+
+    def open_binary(self, key: str) -> AbstractContextManager[BinaryIO]:
+        return cast(AbstractContextManager[BinaryIO], self._path_for(key).open("rb"))
 
     def exists(self, key: str) -> bool:
         return self._path_for(key).is_file()
@@ -115,6 +125,10 @@ class S3ObjectStore:
         response = self._client.get_object(Bucket=self._bucket, Key=key)
         return response["Body"].read()
 
+    def open_binary(self, key: str) -> AbstractContextManager[BinaryIO]:
+        response = self._client.get_object(Bucket=self._bucket, Key=key)
+        return closing(cast(BinaryIO, response["Body"]))
+
     def exists(self, key: str) -> bool:
         try:
             self._client.head_object(Bucket=self._bucket, Key=key)
@@ -141,6 +155,9 @@ class InMemoryObjectStore:
 
     def get_bytes(self, key: str) -> bytes:
         return self._objects[key]
+
+    def open_binary(self, key: str) -> AbstractContextManager[BinaryIO]:
+        return closing(BytesIO(self._objects[key]))
 
     def exists(self, key: str) -> bool:
         return key in self._objects

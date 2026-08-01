@@ -1,0 +1,143 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "centroid_candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Centroid Candidate Sha256",
+      "type": "string"
+    },
+    "classifier_execution_permitted": {
+      "title": "Classifier Execution Permitted",
+      "type": "boolean"
+    },
+    "declared_quantity": {
+      "pattern": "^FPKM$",
+      "title": "Declared Quantity",
+      "type": "string"
+    },
+    "declared_transform": {
+      "pattern": "^log2\\(FPKM \\+ 0\\.1\\)$",
+      "title": "Declared Transform",
+      "type": "string"
+    },
+    "expected_compressed_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Compressed Bytes",
+      "type": "integer"
+    },
+    "expected_compressed_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Compressed Sha256",
+      "type": "string"
+    },
+    "expected_gene_rows": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Gene Rows",
+      "type": "integer"
+    },
+    "expected_sample_columns": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Sample Columns",
+      "type": "integer"
+    },
+    "expected_zero_floor": {
+      "title": "Expected Zero Floor",
+      "type": "number"
+    },
+    "floor_absolute_tolerance": {
+      "exclusiveMinimum": 0,
+      "title": "Floor Absolute Tolerance",
+      "type": "number"
+    },
+    "object_key": {
+      "pattern": "^raw/[a-z0-9._/-]+$",
+      "title": "Object Key",
+      "type": "string"
+    },
+    "official_processing_statement_url": {
+      "pattern": "^https://",
+      "title": "Official Processing Statement Url",
+      "type": "string"
+    },
+    "outcome_fields_permitted": {
+      "title": "Outcome Fields Permitted",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "reference_protocol_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Protocol Sha256",
+      "type": "string"
+    },
+    "sample_column_prefix": {
+      "pattern": "^T$",
+      "title": "Sample Column Prefix",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_accession": {
+      "pattern": "^GSE81538$",
+      "title": "Source Accession",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^ncbi-geo-gse81538$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "source_id",
+    "source_accession",
+    "object_key",
+    "acquisition_receipt_sha256",
+    "centroid_candidate_sha256",
+    "reference_protocol_sha256",
+    "expected_compressed_sha256",
+    "expected_compressed_bytes",
+    "expected_gene_rows",
+    "expected_sample_columns",
+    "sample_column_prefix",
+    "declared_quantity",
+    "declared_transform",
+    "expected_zero_floor",
+    "floor_absolute_tolerance",
+    "official_processing_statement_url",
+    "outcome_fields_permitted",
+    "classifier_execution_permitted"
+  ],
+  "title": "GSE81538MatrixAuditPlan",
+  "type": "object"
+}

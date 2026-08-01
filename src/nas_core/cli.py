@@ -156,6 +156,11 @@ from nas_core.domain.literature import (
     write_screening_queue_receipt,
     write_screening_review_schemas,
 )
+from nas_core.domain.matrix_audit import (
+    load_matrix_audit_plan,
+    write_matrix_audit_receipt,
+    write_matrix_audit_schemas,
+)
 from nas_core.domain.method_dependency import (
     load_method_dependency_audit,
     load_method_route_activation,
@@ -189,6 +194,7 @@ from nas_core.domain.prospective_calibration import (
 )
 from nas_core.domain.public_artifact import (
     load_public_artifact_plan,
+    load_public_artifact_receipt,
     write_public_artifact_receipt,
     write_public_artifact_schemas,
 )
@@ -242,6 +248,7 @@ from nas_core.ingestion.field_isolated_metadata import (
     build_gdc_star_manifest_query,
 )
 from nas_core.ingestion.gdc import GDCSnapshotService, build_case_query
+from nas_core.ingestion.matrix_audit import GSE81538MatrixAuditService
 from nas_core.ingestion.metadata_feasibility import (
     ALLOWED_URLS as METADATA_AUDIT_URLS,
 )
@@ -419,6 +426,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     public_artifact_schema.add_argument("plan_path", type=Path)
     public_artifact_schema.add_argument("receipt_path", type=Path)
+    matrix_audit = ingest_commands.add_parser(
+        "matrix-audit",
+        help="Audit the governed GSE81538 processed matrix without outcomes",
+    )
+    matrix_audit.add_argument("plan_path", type=Path)
+    matrix_audit.add_argument("acquisition_receipt_path", type=Path)
+    matrix_audit.add_argument("centroid_candidate_path", type=Path)
+    matrix_audit.add_argument("reference_protocol_path", type=Path)
+    matrix_audit.add_argument("--data-root", type=Path, required=True)
+    matrix_audit.add_argument("--code-revision", required=True)
+    matrix_audit.add_argument("--output-path", type=Path)
+    matrix_audit.add_argument(
+        "--execute",
+        action="store_true",
+        help="Stream and audit the stored matrix; never reads outcomes",
+    )
+    matrix_audit_schema = ingest_commands.add_parser(
+        "matrix-audit-schema",
+        help="Write GSE81538 matrix-audit plan and receipt JSON Schemas",
+    )
+    matrix_audit_schema.add_argument("plan_path", type=Path)
+    matrix_audit_schema.add_argument("receipt_path", type=Path)
 
     feasibility = commands.add_parser(
         "feasibility",
@@ -567,9 +596,7 @@ def build_parser() -> argparse.ArgumentParser:
     reliability = commands.add_parser(
         "reliability", help="Manage single-sample classifier reliability specifications"
     )
-    reliability_commands = reliability.add_subparsers(
-        dest="reliability_command", required=True
-    )
+    reliability_commands = reliability.add_subparsers(dest="reliability_command", required=True)
     reliability_validate = reliability_commands.add_parser(
         "validate", help="Validate a governed reliability specification"
     )
@@ -1075,9 +1102,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_confirm_single.add_argument("appendix", type=Path)
     citation_confirm_single.add_argument("confirmation", type=Path)
     citation_confirm_single.add_argument("--code-revision", required=True)
-    citation_confirm_single.add_argument(
-        "--receipt-output", required=True, type=Path
-    )
+    citation_confirm_single.add_argument("--receipt-output", required=True, type=Path)
     citation_confirm_single.add_argument(
         "--execute",
         action="store_true",
@@ -1410,9 +1435,7 @@ def build_parser() -> argparse.ArgumentParser:
         "full-text-inventory",
         help="Build a verified access inventory from founder-included records",
     )
-    full_text_inventory.add_argument(
-        "receipt", type=Path, help="Verified screening queue receipt"
-    )
+    full_text_inventory.add_argument("receipt", type=Path, help="Verified screening queue receipt")
     full_text_inventory.add_argument(
         "progress_receipt", type=Path, help="Latest verified founder progress receipt"
     )
@@ -1434,9 +1457,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_full_text_batch.add_argument("inventory", type=Path)
     citation_full_text_batch.add_argument("--code-revision", required=True)
     citation_full_text_batch.add_argument("--receipt-dir", required=True, type=Path)
-    citation_full_text_batch.add_argument(
-        "--batch-receipt-output", required=True, type=Path
-    )
+    citation_full_text_batch.add_argument("--batch-receipt-output", required=True, type=Path)
     citation_full_text_batch.add_argument(
         "--execute",
         action="store_true",
@@ -1532,9 +1553,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_read_only_review.add_argument("--access-basis", required=True)
     citation_read_only_review.add_argument("--observed-rights", required=True)
     citation_read_only_review.add_argument("--rights-url", required=True)
-    citation_read_only_review.add_argument(
-        "--receipt-output", required=True, type=Path
-    )
+    citation_read_only_review.add_argument("--receipt-output", required=True, type=Path)
     citation_read_only_review.add_argument(
         "--execute",
         action="store_true",
@@ -1550,9 +1569,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_pmc_oai_review.add_argument("--access-basis", required=True)
     citation_pmc_oai_review.add_argument("--observed-rights", required=True)
     citation_pmc_oai_review.add_argument("--rights-url", required=True)
-    citation_pmc_oai_review.add_argument(
-        "--receipt-output", required=True, type=Path
-    )
+    citation_pmc_oai_review.add_argument("--receipt-output", required=True, type=Path)
     citation_pmc_oai_review.add_argument(
         "--execute",
         action="store_true",
@@ -1566,9 +1583,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_pmc_oai_proposal.add_argument("screening_id")
     citation_pmc_oai_proposal.add_argument("review_receipt", type=Path)
     citation_pmc_oai_proposal.add_argument("draft", type=Path)
-    citation_pmc_oai_proposal.add_argument(
-        "--proposal-output", required=True, type=Path
-    )
+    citation_pmc_oai_proposal.add_argument("--proposal-output", required=True, type=Path)
     citation_pmc_oai_proposal.add_argument(
         "--execute",
         action="store_true",
@@ -1582,9 +1597,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_pmc_html_proposal.add_argument("screening_id")
     citation_pmc_html_proposal.add_argument("review_receipt", type=Path)
     citation_pmc_html_proposal.add_argument("draft", type=Path)
-    citation_pmc_html_proposal.add_argument(
-        "--proposal-output", required=True, type=Path
-    )
+    citation_pmc_html_proposal.add_argument("--proposal-output", required=True, type=Path)
     citation_pmc_html_proposal.add_argument(
         "--execute",
         action="store_true",
@@ -1601,9 +1614,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_medrxiv_read_only_review.add_argument("--access-basis", required=True)
     citation_medrxiv_read_only_review.add_argument("--observed-rights", required=True)
     citation_medrxiv_read_only_review.add_argument("--rights-url", required=True)
-    citation_medrxiv_read_only_review.add_argument(
-        "--receipt-output", required=True, type=Path
-    )
+    citation_medrxiv_read_only_review.add_argument("--receipt-output", required=True, type=Path)
     citation_medrxiv_read_only_review.add_argument(
         "--execute",
         action="store_true",
@@ -1619,9 +1630,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_institutional_pdf_review.add_argument("--access-basis", required=True)
     citation_institutional_pdf_review.add_argument("--observed-rights", required=True)
     citation_institutional_pdf_review.add_argument("--rights-url", required=True)
-    citation_institutional_pdf_review.add_argument(
-        "--receipt-output", required=True, type=Path
-    )
+    citation_institutional_pdf_review.add_argument("--receipt-output", required=True, type=Path)
     citation_institutional_pdf_review.add_argument(
         "--execute",
         action="store_true",
@@ -1635,9 +1644,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_institutional_pdf_proposal.add_argument("screening_id")
     citation_institutional_pdf_proposal.add_argument("review_receipt", type=Path)
     citation_institutional_pdf_proposal.add_argument("draft", type=Path)
-    citation_institutional_pdf_proposal.add_argument(
-        "--proposal-output", required=True, type=Path
-    )
+    citation_institutional_pdf_proposal.add_argument("--proposal-output", required=True, type=Path)
     citation_institutional_pdf_proposal.add_argument(
         "--execute",
         action="store_true",
@@ -1653,9 +1660,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_publisher_pdf_review.add_argument("--access-basis", required=True)
     citation_publisher_pdf_review.add_argument("--observed-rights", required=True)
     citation_publisher_pdf_review.add_argument("--rights-url", required=True)
-    citation_publisher_pdf_review.add_argument(
-        "--receipt-output", required=True, type=Path
-    )
+    citation_publisher_pdf_review.add_argument("--receipt-output", required=True, type=Path)
     citation_publisher_pdf_review.add_argument(
         "--execute",
         action="store_true",
@@ -1669,9 +1674,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_publisher_pdf_proposal.add_argument("screening_id")
     citation_publisher_pdf_proposal.add_argument("review_receipt", type=Path)
     citation_publisher_pdf_proposal.add_argument("draft", type=Path)
-    citation_publisher_pdf_proposal.add_argument(
-        "--proposal-output", required=True, type=Path
-    )
+    citation_publisher_pdf_proposal.add_argument("--proposal-output", required=True, type=Path)
     citation_publisher_pdf_proposal.add_argument(
         "--execute",
         action="store_true",
@@ -1687,9 +1690,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_publisher_html_review.add_argument("--access-basis", required=True)
     citation_publisher_html_review.add_argument("--observed-rights", required=True)
     citation_publisher_html_review.add_argument("--rights-url", required=True)
-    citation_publisher_html_review.add_argument(
-        "--receipt-output", required=True, type=Path
-    )
+    citation_publisher_html_review.add_argument("--receipt-output", required=True, type=Path)
     citation_publisher_html_review.add_argument(
         "--execute",
         action="store_true",
@@ -1703,9 +1704,7 @@ def build_parser() -> argparse.ArgumentParser:
     citation_publisher_html_proposal.add_argument("screening_id")
     citation_publisher_html_proposal.add_argument("review_receipt", type=Path)
     citation_publisher_html_proposal.add_argument("draft", type=Path)
-    citation_publisher_html_proposal.add_argument(
-        "--proposal-output", required=True, type=Path
-    )
+    citation_publisher_html_proposal.add_argument("--proposal-output", required=True, type=Path)
     citation_publisher_html_proposal.add_argument(
         "--execute",
         action="store_true",
@@ -1736,9 +1735,7 @@ def build_parser() -> argparse.ArgumentParser:
         "full-text-import-pdf",
         help="Import and verify one explicitly licensed publisher PDF",
     )
-    full_text_import_pdf.add_argument(
-        "receipt", type=Path, help="Verified screening queue receipt"
-    )
+    full_text_import_pdf.add_argument("receipt", type=Path, help="Verified screening queue receipt")
     full_text_import_pdf.add_argument(
         "progress_receipt", type=Path, help="Latest verified founder progress receipt"
     )
@@ -1749,9 +1746,7 @@ def build_parser() -> argparse.ArgumentParser:
     full_text_import_pdf.add_argument("--license-spdx", required=True)
     full_text_import_pdf.add_argument("--license-url", required=True)
     full_text_import_pdf.add_argument("--copyright-statement", required=True)
-    full_text_import_pdf.add_argument(
-        "--code-revision", required=True, help="Exact Git commit SHA"
-    )
+    full_text_import_pdf.add_argument("--code-revision", required=True, help="Exact Git commit SHA")
     full_text_import_pdf.add_argument(
         "--receipt-output", required=True, type=Path, help="New verified receipt path"
     )
@@ -1867,18 +1862,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "audit-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "audit-schema":
         write_method_dependency_audit_schema(args.path)
         print(f"Wrote method dependency audit schema: {args.path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "artifact-import-candidate"
-    ):
+    if args.command == "reliability" and args.reliability_command == "artifact-import-candidate":
         artifact_audit = load_method_dependency_audit(args.audit_path)
         artifact_service = Pam50CandidateImportService()
         centroid_candidate = artifact_service.parse(
@@ -1896,9 +1885,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             print("Dry run only; no candidate artifact or receipt was written.")
             return 0
         if args.output_path.exists() or args.receipt_path.exists():
-            raise FileExistsError(
-                "candidate output and receipt paths must both be new"
-            )
+            raise FileExistsError("candidate output and receipt paths must both be new")
         write_pam50_centroid_candidate(args.output_path, centroid_candidate)
         import_receipt = artifact_service.receipt(
             artifact_audit,
@@ -1912,36 +1899,23 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.receipt_path,
             import_receipt,
         )
-        print(
-            f"Imported non-executable PAM50 candidate: {args.output_path}"
-        )
+        print(f"Imported non-executable PAM50 candidate: {args.output_path}")
         print(f"Wrote candidate import receipt: {args.receipt_path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "artifact-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "artifact-schema":
         write_centroid_candidate_schemas(
             args.candidate_path,
             args.receipt_path,
         )
-        print(
-            "Wrote centroid candidate schemas: "
-            f"{args.candidate_path}, {args.receipt_path}"
-        )
+        print(f"Wrote centroid candidate schemas: {args.candidate_path}, {args.receipt_path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "route-activate"
-    ):
+    if args.command == "reliability" and args.reliability_command == "route-activate":
         route_decision = load_method_route_founder_decision(args.decision_path)
         route_audit = load_method_dependency_audit(args.audit_path)
         route_candidate = load_pam50_centroid_candidate(args.candidate_path)
-        route_calibration_plan = load_technical_calibration_plan(
-            args.calibration_plan_path
-        )
+        route_calibration_plan = load_technical_calibration_plan(args.calibration_plan_path)
         route_activation = MethodRouteActivationService().activate(
             route_decision,
             route_audit,
@@ -1969,24 +1943,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Activated governed method route: {args.output_path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "route-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "route-schema":
         write_method_route_schemas(
             args.decision_path,
             args.activation_path,
         )
-        print(
-            "Wrote method route schemas: "
-            f"{args.decision_path}, {args.activation_path}"
-        )
+        print(f"Wrote method route schemas: {args.decision_path}, {args.activation_path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-plan-validate"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-plan-validate":
         calibration_plan = load_technical_calibration_plan(args.plan_path)
         calibration_audit = load_method_dependency_audit(args.audit_path)
         calibration_candidate = load_pam50_centroid_candidate(args.candidate_path)
@@ -2005,18 +1970,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-plan-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-plan-schema":
         write_technical_calibration_schema(args.path)
         print(f"Wrote technical-calibration schema: {args.path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-scout-validate"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-scout-validate":
         calibration_scout = load_technical_calibration_scout(args.receipt_path)
         calibration_plan = load_technical_calibration_plan(args.plan_path)
         TechnicalCalibrationPlanService().validate_scout(
@@ -2031,27 +1990,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-scout-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-scout-schema":
         write_technical_calibration_scout_schema(args.path)
         print(f"Wrote technical-calibration scout schema: {args.path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-lineage-audit"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-lineage-audit":
         if not args.execute:
             print(json.dumps(CALIBRATION_LINEAGE_URLS, indent=2, sort_keys=True))
             print("Dry run only; no metadata was fetched or stored.")
             return 0
         if args.output_path.exists():
             raise FileExistsError("calibration lineage output path must be new")
-        lineage_activation = load_method_route_activation(
-            args.route_activation_path
-        )
+        lineage_activation = load_method_route_activation(args.route_activation_path)
         lineage_receipt = CalibrationLineageAuditService().execute(
             route_activation=lineage_activation,
             route_activation_path=args.route_activation_path,
@@ -2065,52 +2016,29 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote calibration lineage audit receipt: {args.output_path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-lineage-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-lineage-schema":
         write_calibration_lineage_schema(args.path)
         print(f"Wrote calibration lineage audit schema: {args.path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-precision-design"
-    ):
-        precision_design = load_technical_replicate_precision_design(
-            args.design_path
-        )
-        precision_result = TechnicalReplicatePrecisionService().calculate(
-            precision_design
-        )
+    if args.command == "reliability" and args.reliability_command == "calibration-precision-design":
+        precision_design = load_technical_replicate_precision_design(args.design_path)
+        precision_result = TechnicalReplicatePrecisionService().calculate(precision_design)
         print(precision_result.model_dump_json(indent=2))
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-precision-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-precision-schema":
         write_calibration_precision_schemas(
             args.design_path,
             args.result_path,
         )
-        print(
-            "Wrote calibration precision schemas: "
-            f"{args.design_path}, {args.result_path}"
-        )
+        print(f"Wrote calibration precision schemas: {args.design_path}, {args.result_path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-scenario"
-    ):
-        calibration_scenario = load_multi_objective_calibration_scenario(
-            args.scenario_path
-        )
-        calibration_planning_activation = (
-            load_prospective_calibration_planning_activation(
-                args.planning_activation_path
-            )
+    if args.command == "reliability" and args.reliability_command == "calibration-scenario":
+        calibration_scenario = load_multi_objective_calibration_scenario(args.scenario_path)
+        calibration_planning_activation = load_prospective_calibration_planning_activation(
+            args.planning_activation_path
         )
         calibration_scenario_result = MultiObjectiveCalibrationScenarioService().calculate(
             calibration_scenario,
@@ -2129,38 +2057,25 @@ def main(argv: Sequence[str] | None = None) -> int:
                 args.output_path,
                 calibration_scenario_result,
             )
-            print(
-                "Wrote hypothetical calibration scenario result: "
-                f"{args.output_path}"
-            )
+            print(f"Wrote hypothetical calibration scenario result: {args.output_path}")
             return 0
         print(calibration_scenario_result.model_dump_json(indent=2))
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-scenario-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-scenario-schema":
         write_calibration_scenario_schemas(
             args.scenario_path,
             args.result_path,
         )
-        print(
-            "Wrote calibration scenario schemas: "
-            f"{args.scenario_path}, {args.result_path}"
-        )
+        print(f"Wrote calibration scenario schemas: {args.scenario_path}, {args.result_path}")
         return 0
 
     if (
         args.command == "reliability"
         and args.reliability_command == "calibration-planning-validate"
     ):
-        phase_one_bundle = load_phase_one_internal_planning_bundle(
-            args.bundle_path
-        )
-        standing_authorization = load_standing_autonomy_authorization(
-            args.authorization_path
-        )
+        phase_one_bundle = load_phase_one_internal_planning_bundle(args.bundle_path)
+        standing_authorization = load_standing_autonomy_authorization(args.authorization_path)
         CalibrationPlanningService().validate(
             phase_one_bundle,
             standing_authorization,
@@ -2176,10 +2091,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "calibration-planning-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "calibration-planning-schema":
         write_calibration_planning_schemas(
             args.authorization_schema_path,
             args.bundle_schema_path,
@@ -2190,17 +2102,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "platform-compatibility-audit"
-    ):
+    if args.command == "reliability" and args.reliability_command == "platform-compatibility-audit":
         platform_bundle = load_phase_one_internal_planning_bundle(args.bundle_path)
-        platform_metadata = load_field_isolated_metadata_receipt(
-            args.metadata_receipt_path
-        )
-        platform_candidate = load_pam50_centroid_candidate(
-            args.centroid_candidate_path
-        )
+        platform_metadata = load_field_isolated_metadata_receipt(args.metadata_receipt_path)
+        platform_candidate = load_pam50_centroid_candidate(args.centroid_candidate_path)
         platform_audit = PlatformCompatibilityAuditService().audit(
             platform_bundle,
             platform_metadata,
@@ -2236,14 +2141,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote platform compatibility schema: {args.path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "numerical-conformance"
-    ):
+    if args.command == "reliability" and args.reliability_command == "numerical-conformance":
         conformance_plan = load_numerical_conformance_plan(args.plan_path)
-        conformance_candidate = load_pam50_centroid_candidate(
-            args.centroid_candidate_path
-        )
+        conformance_candidate = load_pam50_centroid_candidate(args.centroid_candidate_path)
         conformance_specification = load_reliability_specification(
             args.reliability_specification_path
         )
@@ -2275,18 +2175,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote numerical conformance receipt: {args.output_path}")
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "numerical-conformance-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "numerical-conformance-schema":
         write_numerical_conformance_schemas(
             args.plan_path,
             args.receipt_path,
         )
-        print(
-            "Wrote numerical conformance schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote numerical conformance schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
     if (
@@ -2310,10 +2204,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "reference-development-schema"
-    ):
+    if args.command == "reliability" and args.reliability_command == "reference-development-schema":
         write_reference_development_schema(args.path)
         print(f"Wrote reference-development schema: {args.path}")
         return 0
@@ -2323,15 +2214,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.reliability_command == "prospective-calibration-validate"
     ):
         prospective_design = load_prospective_calibration_design(args.design_path)
-        prospective_activation = load_method_route_activation(
-            args.route_activation_path
-        )
-        prospective_plan = load_technical_calibration_plan(
-            args.acquisition_plan_path
-        )
-        prospective_revocation = load_calibration_contact_revocation(
-            args.contact_revocation_path
-        )
+        prospective_activation = load_method_route_activation(args.route_activation_path)
+        prospective_plan = load_technical_calibration_plan(args.acquisition_plan_path)
+        prospective_revocation = load_calibration_contact_revocation(args.contact_revocation_path)
         ProspectiveCalibrationDesignService().validate(
             prospective_design,
             prospective_activation,
@@ -2362,9 +2247,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.command == "reliability"
         and args.reliability_command == "prospective-calibration-activate"
     ):
-        planning_decision = load_prospective_calibration_founder_decision(
-            args.decision_path
-        )
+        planning_decision = load_prospective_calibration_founder_decision(args.decision_path)
         planning_design = load_prospective_calibration_design(args.design_path)
         planning_activation = ProspectiveCalibrationDesignService().activate_planning(
             planning_decision,
@@ -2395,8 +2278,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "reliability"
-        and args.reliability_command
-        == "prospective-calibration-authorization-schema"
+        and args.reliability_command == "prospective-calibration-authorization-schema"
     ):
         write_prospective_calibration_authorization_schemas(
             args.decision_path,
@@ -2476,10 +2358,45 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.command == "ingest" and args.ingest_command == "public-artifact-schema":
         write_public_artifact_schemas(args.plan_path, args.receipt_path)
-        print(
-            "Wrote public-artifact schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
+        print(f"Wrote public-artifact schemas: {args.plan_path}, {args.receipt_path}")
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "matrix-audit":
+        audit_plan = load_matrix_audit_plan(args.plan_path)
+        if not args.execute:
+            print(
+                "GSE81538 matrix-audit plan is valid: "
+                f"rows={audit_plan.expected_gene_rows}; "
+                f"samples={audit_plan.expected_sample_columns}; dry run only"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        audit_receipt = GSE81538MatrixAuditService(
+            store=FileSystemObjectStore(args.data_root)
+        ).audit(
+            audit_plan,
+            load_public_artifact_receipt(args.acquisition_receipt_path),
+            load_pam50_centroid_candidate(args.centroid_candidate_path),
+            plan_path=args.plan_path,
+            acquisition_path=args.acquisition_receipt_path,
+            candidate_path=args.centroid_candidate_path,
+            reference_protocol_path=args.reference_protocol_path,
+            code_revision=args.code_revision,
         )
+        write_matrix_audit_receipt(args.output_path, audit_receipt)
+        print(
+            "Wrote GSE81538 matrix audit: "
+            f"{audit_receipt.decision.value}; "
+            f"measurements={audit_receipt.total_measurement_count}; "
+            f"PAM50={audit_receipt.resolved_pam50_gene_count}/"
+            f"{audit_receipt.required_pam50_gene_count}"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "matrix-audit-schema":
+        write_matrix_audit_schemas(args.plan_path, args.receipt_path)
+        print(f"Wrote GSE81538 matrix-audit schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
     if args.command == "feasibility" and args.feasibility_command == "metadata-audit":
@@ -2504,10 +2421,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote metadata-feasibility schema: {args.path}")
         return 0
 
-    if (
-        args.command == "feasibility"
-        and args.feasibility_command == "field-isolated-metadata"
-    ):
+    if args.command == "feasibility" and args.feasibility_command == "field-isolated-metadata":
         if not args.execute:
             print(
                 json.dumps(
@@ -2526,18 +2440,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         authorization_bytes = args.authorization.read_bytes()
         packet_bytes = args.packet.read_bytes()
         field_prior_receipt_bytes = (
-            args.prior_receipt.read_bytes()
-            if args.prior_receipt is not None
-            else None
+            args.prior_receipt.read_bytes() if args.prior_receipt is not None else None
         )
         field_prior_receipt = (
             load_field_isolated_metadata_receipt(args.prior_receipt)
             if args.prior_receipt is not None
             else None
         )
-        field_authorization = load_field_isolated_metadata_authorization(
-            args.authorization
-        )
+        field_authorization = load_field_isolated_metadata_authorization(args.authorization)
         field_isolated_receipt = FieldIsolatedMetadataAuditService().execute(
             authorization=field_authorization,
             authorization_path=str(args.authorization),
@@ -2559,10 +2469,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "feasibility"
-        and args.feasibility_command == "field-isolated-schema"
-    ):
+    if args.command == "feasibility" and args.feasibility_command == "field-isolated-schema":
         write_field_isolated_metadata_schema(args.path)
         print(f"Wrote field-isolated metadata schema: {args.path}")
         return 0
@@ -2652,17 +2559,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "audit-validate"
-    ):
+    if args.command == "reliability" and args.reliability_command == "audit-validate":
         method_audit = load_method_dependency_audit(args.audit_path)
-        audit_synthesis = load_authorized_saturated_evidence_synthesis(
-            args.synthesis_path
-        )
-        audit_specification = load_reliability_specification(
-            args.specification_path
-        )
+        audit_synthesis = load_authorized_saturated_evidence_synthesis(args.synthesis_path)
+        audit_specification = load_reliability_specification(args.specification_path)
         validated_audit = MethodDependencyAuditService().validate(
             method_audit,
             audit_synthesis,
@@ -2707,10 +2607,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "reliability"
-        and args.reliability_command == "synthetic-batch-score"
-    ):
+    if args.command == "reliability" and args.reliability_command == "synthetic-batch-score":
         specification = load_reliability_specification(args.specification_path)
         method = load_reliability_method_inputs(args.method_path)
         synthetic_batch = load_synthetic_expression_batch(args.batch_path)
@@ -2762,15 +2659,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.command == "evidence-review" and args.evidence_review_command == "schema":
         write_evidence_review_schemas(args.priority_path, args.progress_path)
-        print(
-            f"Wrote evidence-review schemas: {args.priority_path}, {args.progress_path}"
-        )
+        print(f"Wrote evidence-review schemas: {args.priority_path}, {args.progress_path}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-seed-build"
-    ):
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-seed-build":
         direct_inventory = load_full_text_inventory(args.direct_inventory)
         amendment_activation = load_evidence_cap_amendment_activation_receipt(
             args.amendment_activation
@@ -2779,11 +2671,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             load_citation_pass_appraisal_queue_receipt(path)
             for path in args.prior_pass_queue_receipt
         ]
-        prior_pass_inclusion_count = (
-            amendment_activation.confirmed_inclusion_count
-            + sum(
-                queue.confirmed_inclusion_count for queue in prior_pass_queues
-            )
+        prior_pass_inclusion_count = amendment_activation.confirmed_inclusion_count + sum(
+            queue.confirmed_inclusion_count for queue in prior_pass_queues
         )
         if not args.execute:
             print(
@@ -2818,25 +2707,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote cumulative seed receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-retrieve"
-    ):
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-retrieve":
         if (args.inventory_path is None) == (args.seed_receipt is None):
-            raise SystemExit(
-                "provide exactly one inventory_path or --seed-receipt"
-            )
+            raise SystemExit("provide exactly one inventory_path or --seed-receipt")
         if args.seed_receipt is not None:
-            cumulative_receipt = load_citation_cumulative_seed_receipt(
-                args.seed_receipt
-            )
+            cumulative_receipt = load_citation_cumulative_seed_receipt(args.seed_receipt)
             if cumulative_receipt.next_pass_number != args.pass_number:
-                raise SystemExit(
-                    "cumulative seed receipt is bound to a different citation pass"
-                )
-            seeds = CitationCumulativeSeedService(
-                store=get_object_store()
-            ).load_seeds(cumulative_receipt)
+                raise SystemExit("cumulative seed receipt is bound to a different citation pass")
+            seeds = CitationCumulativeSeedService(store=get_object_store()).load_seeds(
+                cumulative_receipt
+            )
             study_id = cumulative_receipt.study_id
         else:
             inventory = load_full_text_inventory(args.inventory_path)
@@ -2884,12 +2764,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.evidence_review_command == "citation-screening-prepare"
     ):
         citation_receipt = load_citation_chain_receipt(args.citation_receipt)
-        prior_search_receipt = load_literature_search_receipt(
-            args.prior_search_receipt
-        )
+        prior_search_receipt = load_literature_search_receipt(args.prior_search_receipt)
         prior_decision_receipts = [
-            load_citation_decision_ledger_receipt(path)
-            for path in args.prior_decision_receipt
+            load_citation_decision_ledger_receipt(path) for path in args.prior_decision_receipt
         ]
         if not args.execute:
             print(
@@ -2899,18 +2776,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; no deduplication artifacts were stored.")
             return 0
-        preparation_service = CitationScreeningPreparationService(
-            store=get_object_store()
-        )
+        preparation_service = CitationScreeningPreparationService(store=get_object_store())
         preparation = preparation_service.prepare(
             citation_receipt,
             prior_search_receipt,
             code_revision=args.code_revision,
             prior_decision_receipts=prior_decision_receipts,
         )
-        write_citation_screening_preparation_receipt(
-            args.receipt_output, preparation
-        )
+        write_citation_screening_preparation_receipt(args.receipt_output, preparation)
         print(
             f"Prepared citation screening pass {preparation.pass_number}: "
             f"{preparation.already_screened_count} already screened, "
@@ -2920,30 +2793,20 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote verified preparation receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-prioritize"
-    ):
-        preparation = load_citation_screening_preparation_receipt(
-            args.preparation_receipt
-        )
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-prioritize":
+        preparation = load_citation_screening_preparation_receipt(args.preparation_receipt)
         if not args.execute:
             print(
-                f"Citation prioritization ready: "
-                f"{preparation.requires_screening_count} candidates"
+                f"Citation prioritization ready: {preparation.requires_screening_count} candidates"
             )
             print("Dry run only; no ranking artifact was stored.")
             return 0
-        prioritization_service = CitationPrioritizationService(
-            store=get_object_store()
-        )
+        prioritization_service = CitationPrioritizationService(store=get_object_store())
         prioritization = prioritization_service.prioritize(
             preparation,
             code_revision=args.code_revision,
         )
-        write_citation_prioritization_receipt(
-            args.receipt_output, prioritization
-        )
+        write_citation_prioritization_receipt(args.receipt_output, prioritization)
         print(
             f"Prioritized citation pass {prioritization.pass_number}: "
             f"{prioritization.direct_priority_count} direct, "
@@ -2954,25 +2817,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote verified prioritization receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-enrich"
-    ):
-        prioritization = load_citation_prioritization_receipt(
-            args.prioritization_receipt
-        )
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-enrich":
+        prioritization = load_citation_prioritization_receipt(args.prioritization_receipt)
         requested = (
             prioritization.candidate_count
             if args.include_context
-            else (
-                prioritization.direct_priority_count
-                + prioritization.supporting_priority_count
-            )
+            else (prioritization.direct_priority_count + prioritization.supporting_priority_count)
         )
         if not args.execute:
-            print(
-                f"Citation enrichment ready: {requested} direct/supporting candidates"
-            )
+            print(f"Citation enrichment ready: {requested} direct/supporting candidates")
             print("Dry run only; Europe PMC was not contacted.")
             return 0
         enrichment_service = CitationEnrichmentService(store=get_object_store())
@@ -2992,10 +2845,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote verified enrichment receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-recommend"
-    ):
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-recommend":
         enrichment = load_citation_enrichment_receipt(args.enrichment_receipt)
         if not args.execute:
             print(
@@ -3004,16 +2854,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; no recommendations or decisions were stored.")
             return 0
-        recommendation_service = CitationRecommendationService(
-            store=get_object_store()
-        )
+        recommendation_service = CitationRecommendationService(store=get_object_store())
         recommendations = recommendation_service.recommend(
             enrichment,
             code_revision=args.code_revision,
         )
-        write_citation_recommendation_receipt(
-            args.receipt_output, recommendations
-        )
+        write_citation_recommendation_receipt(args.receipt_output, recommendations)
         print(
             f"Recommended citation pass {recommendations.pass_number}: "
             f"{recommendations.include_recommendation_count} include, "
@@ -3024,13 +2870,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote verified recommendation receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-packet"
-    ):
-        recommendation_receipt = load_citation_recommendation_receipt(
-            args.recommendation_receipt
-        )
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-packet":
+        recommendation_receipt = load_citation_recommendation_receipt(args.recommendation_receipt)
         packet_service = CitationFounderPacketService(store=get_object_store())
         packet = packet_service.build(
             recommendation_receipt,
@@ -3047,13 +2888,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("Advisory only; explicit founder confirmation is still required.")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-adjudicate"
-    ):
-        prior_recommendations = load_citation_recommendation_receipt(
-            args.recommendation_receipt
-        )
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-adjudicate":
+        prior_recommendations = load_citation_recommendation_receipt(args.recommendation_receipt)
         enrichment = load_citation_enrichment_receipt(args.enrichment_receipt)
         policy = load_citation_adjudication_policy(args.policy)
         if not args.execute:
@@ -3063,9 +2899,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; no recommendations or decisions were stored.")
             return 0
-        adjudication_service = CitationUnclearAdjudicationService(
-            store=get_object_store()
-        )
+        adjudication_service = CitationUnclearAdjudicationService(store=get_object_store())
         adjudication = adjudication_service.adjudicate(
             prior_recommendations,
             enrichment,
@@ -3083,16 +2917,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote verified adjudication receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-confirm"
-    ):
-        first_packet = load_citation_founder_packet_receipt(
-            args.first_packet_receipt
-        )
-        second_packet = load_citation_founder_packet_receipt(
-            args.second_packet_receipt
-        )
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-confirm":
+        first_packet = load_citation_founder_packet_receipt(args.first_packet_receipt)
+        second_packet = load_citation_founder_packet_receipt(args.second_packet_receipt)
         citation_confirmation = load_citation_founder_confirmation(args.confirmation)
         if not args.execute:
             print(
@@ -3102,9 +2929,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; no final decision ledger was stored.")
             return 0
-        confirmation_service = CitationDecisionConfirmationService(
-            store=get_object_store()
-        )
+        confirmation_service = CitationDecisionConfirmationService(store=get_object_store())
         decision_receipt = confirmation_service.confirm(
             first_packet,
             second_packet,
@@ -3115,9 +2940,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             second_appendix_path=args.second_appendix,
             code_revision=args.code_revision,
         )
-        write_citation_decision_ledger_receipt(
-            args.receipt_output, decision_receipt
-        )
+        write_citation_decision_ledger_receipt(args.receipt_output, decision_receipt)
         print(
             f"Confirmed citation pass {decision_receipt.pass_number}: "
             f"{decision_receipt.included_count} include, "
@@ -3132,9 +2955,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.evidence_review_command == "citation-confirm-single"
     ):
         packet = load_citation_founder_packet_receipt(args.packet_receipt)
-        citation_confirmation = load_citation_founder_confirmation(
-            args.confirmation
-        )
+        citation_confirmation = load_citation_founder_confirmation(args.confirmation)
         if not args.execute:
             print(
                 f"Single citation packet confirmation ready: "
@@ -3152,9 +2973,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             appendix_path=args.appendix,
             code_revision=args.code_revision,
         )
-        write_citation_decision_ledger_receipt(
-            args.receipt_output, decision_receipt
-        )
+        write_citation_decision_ledger_receipt(args.receipt_output, decision_receipt)
         print(
             f"Confirmed citation pass {decision_receipt.pass_number}: "
             f"{decision_receipt.included_count} include, "
@@ -3164,20 +2983,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote final founder decision receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-reconcile"
-    ):
-        citation_decision = load_citation_decision_ledger_receipt(
-            args.decision_receipt
-        )
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-reconcile":
+        citation_decision = load_citation_decision_ledger_receipt(args.decision_receipt)
         citation_inventory = load_full_text_inventory(args.inventory)
         appraisal_paths = sorted(
-            {
-                path
-                for directory in args.appraisal_dir
-                for path in directory.glob("*.yaml")
-            }
+            {path for directory in args.appraisal_dir for path in directory.glob("*.yaml")}
         )
         appraisals = [load_full_text_appraisal(path) for path in appraisal_paths]
         if not args.execute:
@@ -3189,18 +2999,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; no reconciliation artifact was stored.")
             return 0
-        reconciliation_service = CitationInclusionReconciliationService(
-            store=get_object_store()
-        )
+        reconciliation_service = CitationInclusionReconciliationService(store=get_object_store())
         reconciliation = reconciliation_service.reconcile(
             citation_decision,
             citation_inventory,
             appraisals,
             code_revision=args.code_revision,
         )
-        write_citation_inclusion_reconciliation_receipt(
-            args.receipt_output, reconciliation
-        )
+        write_citation_inclusion_reconciliation_receipt(args.receipt_output, reconciliation)
         print(
             f"Reconciled citation pass {reconciliation.pass_number}: "
             f"{reconciliation.active_inventory_match_count} active inventory, "
@@ -3210,23 +3016,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote reconciliation receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "citation-close-pass"
-    ):
+    if args.command == "evidence-review" and args.evidence_review_command == "citation-close-pass":
         citation_receipt = load_citation_chain_receipt(args.citation_receipt)
-        preparation_receipt = load_citation_screening_preparation_receipt(
-            args.preparation_receipt
-        )
-        decision_receipt = load_citation_decision_ledger_receipt(
-            args.decision_receipt
-        )
+        preparation_receipt = load_citation_screening_preparation_receipt(args.preparation_receipt)
+        decision_receipt = load_citation_decision_ledger_receipt(args.decision_receipt)
         closure_reconciliation = load_citation_inclusion_reconciliation_receipt(
             args.reconciliation_receipt
         )
-        closure_queue = load_citation_access_queue_receipt(
-            args.queue_receipt
-        )
+        closure_queue = load_citation_access_queue_receipt(args.queue_receipt)
         access_inventory = (
             load_full_text_inventory(args.access_inventory)
             if args.access_inventory is not None
@@ -3237,9 +3034,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             if args.appraisal_progress is not None
             else None
         )
-        closure = CitationPassClosureService(
-            store=get_object_store()
-        ).close(
+        closure = CitationPassClosureService(store=get_object_store()).close(
             citation_receipt,
             preparation_receipt,
             decision_receipt,
@@ -3274,27 +3069,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote citation-pass closure receipt: {args.receipt_output}")
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "synthesis-validate"
-    ):
+    if args.command == "evidence-review" and args.evidence_review_command == "synthesis-validate":
         synthesis_progress = load_evidence_review_progress(args.progress)
-        synthesis_proposal = load_saturated_evidence_synthesis_proposal(
-            args.proposal
-        )
+        synthesis_proposal = load_saturated_evidence_synthesis_proposal(args.proposal)
         appraisal_paths = sorted(
             {
                 *args.appraisal,
-                *(
-                    path
-                    for directory in args.appraisal_dir
-                    for path in directory.glob("*.yaml")
-                ),
+                *(path for directory in args.appraisal_dir for path in directory.glob("*.yaml")),
             }
         )
-        synthesis_appraisals = [
-            load_full_text_appraisal(path) for path in appraisal_paths
-        ]
+        synthesis_appraisals = [load_full_text_appraisal(path) for path in appraisal_paths]
         validated = SaturatedEvidenceSynthesisService().validate(
             synthesis_proposal,
             synthesis_progress,
@@ -3309,30 +3093,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "evidence-review"
-        and args.evidence_review_command == "synthesis-authorize"
-    ):
+    if args.command == "evidence-review" and args.evidence_review_command == "synthesis-authorize":
         authorization_progress = load_evidence_review_progress(args.progress)
-        authorization_proposal = load_saturated_evidence_synthesis_proposal(
-            args.proposal
-        )
-        authorization_confirmation = (
-            load_evidence_synthesis_founder_confirmation(args.confirmation)
-        )
+        authorization_proposal = load_saturated_evidence_synthesis_proposal(args.proposal)
+        authorization_confirmation = load_evidence_synthesis_founder_confirmation(args.confirmation)
         authorization_appraisal_paths = sorted(
             {
                 *args.appraisal,
-                *(
-                    path
-                    for directory in args.appraisal_dir
-                    for path in directory.glob("*.yaml")
-                ),
+                *(path for directory in args.appraisal_dir for path in directory.glob("*.yaml")),
             }
         )
         authorization_appraisals = [
-            load_full_text_appraisal(path)
-            for path in authorization_appraisal_paths
+            load_full_text_appraisal(path) for path in authorization_appraisal_paths
         ]
         authorized_synthesis = SaturatedEvidenceSynthesisService().authorize(
             authorization_proposal,
@@ -3354,10 +3126,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.output_path,
             authorized_synthesis,
         )
-        print(
-            f"Authorized saturated evidence synthesis: "
-            f"{authorized_synthesis.study_id}"
-        )
+        print(f"Authorized saturated evidence synthesis: {authorized_synthesis.study_id}")
         print(f"Wrote authorized synthesis: {args.output_path}")
         return 0
 
@@ -3365,9 +3134,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         args.command == "evidence-review"
         and args.evidence_review_command == "citation-route-inclusions"
     ):
-        citation_decision = load_citation_decision_ledger_receipt(
-            args.decision_receipt
-        )
+        citation_decision = load_citation_decision_ledger_receipt(args.decision_receipt)
         citation_reconciliation = load_citation_inclusion_reconciliation_receipt(
             args.reconciliation_receipt
         )
@@ -3382,9 +3149,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; no appraisal queue was stored.")
             return 0
-        queue_service = CitationPassAppraisalQueueService(
-            store=get_object_store()
-        )
+        queue_service = CitationPassAppraisalQueueService(store=get_object_store())
         appraisal_queue = queue_service.build(
             citation_decision,
             citation_reconciliation,
@@ -3394,9 +3159,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             active_amendment_receipt_path=args.active_amendment_receipt,
             code_revision=args.code_revision,
         )
-        write_citation_pass_appraisal_queue_receipt(
-            args.receipt_output, appraisal_queue
-        )
+        write_citation_pass_appraisal_queue_receipt(args.receipt_output, appraisal_queue)
         print(
             f"Routed citation pass {appraisal_queue.pass_number}: "
             f"{appraisal_queue.repository_candidate_count} repository candidates, "
@@ -3421,9 +3184,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
             print("Dry run only; no appraisal queue was stored.")
             return 0
-        amendment_service = EvidenceCapAmendmentActivationService(
-            store=get_object_store()
-        )
+        amendment_service = EvidenceCapAmendmentActivationService(store=get_object_store())
         activation = amendment_service.activate(
             amendment_approval,
             inclusion_reconciliation,
@@ -3431,9 +3192,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             reconciliation_receipt_path=args.reconciliation_receipt,
             code_revision=args.code_revision,
         )
-        write_evidence_cap_amendment_activation_receipt(
-            args.receipt_output, activation
-        )
+        write_evidence_cap_amendment_activation_receipt(args.receipt_output, activation)
         print(
             f"Activated evidence protocol {activation.active_protocol_version}: "
             f"{activation.repository_candidate_count} repository candidates, "
@@ -3555,9 +3314,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 0
         if args.receipt_output is None:
             raise SystemExit("--receipt-output is required with --execute")
-        reconciliation_receipt = InventoryReconciliationService(
-            store=get_object_store()
-        ).reconcile(
+        reconciliation_receipt = InventoryReconciliationService(store=get_object_store()).reconcile(
             current_receipt,
             prior_receipt,
             code_revision=args.code_revision,
@@ -3674,10 +3431,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("No decisions were stored; use screening-record to validate and execute.")
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "screening-confirm-preview"
-    ):
+    if args.command == "literature" and args.literature_command == "screening-confirm-preview":
         queue_receipt = load_screening_queue_receipt(args.receipt)
         progress_receipt = load_screening_progress_receipt(args.progress_receipt)
         preview = ScreeningConfirmationService(
@@ -3756,10 +3510,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "read-only-receipt-validate"
-    ):
+    if args.command == "literature" and args.literature_command == "read-only-receipt-validate":
         read_only_receipt = load_full_text_read_only_review_receipt(args.path)
         print(
             f"Read-only review receipt is valid: {read_only_receipt.study_id}, "
@@ -3813,13 +3564,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps(inventory.model_dump(mode="json", exclude_none=True), indent=2))
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "citation-access-inventory"
-    ):
-        activation_receipt = load_citation_access_queue_receipt(
-            args.activation_receipt
-        )
+    if args.command == "literature" and args.literature_command == "citation-access-inventory":
+        activation_receipt = load_citation_access_queue_receipt(args.activation_receipt)
         inventory = CitationAccessInventoryService(store=get_object_store()).build(
             activation_receipt
         )
@@ -3832,10 +3578,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Inventory path: {args.output_path}")
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "citation-full-text-batch"
-    ):
+    if args.command == "literature" and args.literature_command == "citation-full-text-batch":
         inventory = load_full_text_inventory(args.inventory)
         if not args.execute:
             print(
@@ -3848,12 +3591,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         citation_access_service = CitationRepositoryAccessService(
             retrieval_service=FullTextRetrievalService(store=get_object_store())
         )
-        repository_access_batch, citation_retrieval_receipts = (
-            citation_access_service.assess(
+        repository_access_batch, citation_retrieval_receipts = citation_access_service.assess(
             inventory,
             code_revision=args.code_revision,
             receipt_directory=str(args.receipt_dir),
-            )
         )
         args.receipt_dir.mkdir(parents=True, exist_ok=True)
         for citation_retrieval_receipt in citation_retrieval_receipts:
@@ -3861,9 +3602,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 args.receipt_dir / f"{citation_retrieval_receipt.pmcid}.yaml",
                 citation_retrieval_receipt,
             )
-        write_repository_access_batch_receipt(
-            args.batch_receipt_output, repository_access_batch
-        )
+        write_repository_access_batch_receipt(args.batch_receipt_output, repository_access_batch)
         print(
             f"Assessed {repository_access_batch.repository_candidate_count} "
             f"repository candidates: {repository_access_batch.retrieved_count} "
@@ -3874,14 +3613,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Wrote repository access batch: {args.batch_receipt_output}")
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "citation-access-check-queue"
-    ):
+    if args.command == "literature" and args.literature_command == "citation-access-check-queue":
         inventory = load_full_text_inventory(args.inventory)
-        repository_batch = load_repository_access_batch_receipt(
-            args.repository_batch
-        )
+        repository_batch = load_repository_access_batch_receipt(args.repository_batch)
         access_queue = CitationAccessCheckQueueService().build(
             inventory,
             repository_batch,
@@ -3895,10 +3629,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Access-check queue path: {args.output_path}")
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "citation-appraisal-progress"
-    ):
+    if args.command == "literature" and args.literature_command == "citation-appraisal-progress":
         inventory = load_full_text_inventory(args.inventory)
         citation_appraisal_progress = FullTextAppraisalProgressService().build(
             inventory,
@@ -3929,16 +3660,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                 else ()
             ),
         )
-        write_full_text_appraisal_progress(
-            args.output_path, citation_appraisal_progress
-        )
+        write_full_text_appraisal_progress(args.output_path, citation_appraisal_progress)
         ready = sum(
-            item.status == "ready_for_appraisal"
-            for item in citation_appraisal_progress.records
+            item.status == "ready_for_appraisal" for item in citation_appraisal_progress.records
         )
         awaiting = sum(
-            item.status == "awaiting_full_text"
-            for item in citation_appraisal_progress.records
+            item.status == "awaiting_full_text" for item in citation_appraisal_progress.records
         )
         print(
             f"Wrote citation appraisal progress: {ready} ready for appraisal, "
@@ -3948,17 +3675,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Progress path: {args.output_path}")
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "citation-appraisal-authorize"
-    ):
-        appraisal_confirmation = load_full_text_appraisal_batch_confirmation(
-            args.confirmation
-        )
+    if args.command == "literature" and args.literature_command == "citation-appraisal-authorize":
+        appraisal_confirmation = load_full_text_appraisal_batch_confirmation(args.confirmation)
         proposal_paths = sorted(args.proposal_dir.glob("*.yaml"))
-        if (args.version_link_proposal_dir is None) != (
-            args.version_link_output_dir is None
-        ):
+        if (args.version_link_proposal_dir is None) != (args.version_link_output_dir is None):
             raise SystemExit(
                 "version-link proposal and output directories must be supplied together"
             )
@@ -3973,9 +3693,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             proposal_paths=proposal_paths,
             version_link_proposal_paths=version_link_proposal_paths,
         )
-        by_screening_id = {
-            item.screening_id: item for item in appraisal_confirmation.proposals
-        }
+        by_screening_id = {item.screening_id: item for item in appraisal_confirmation.proposals}
         for appraisal in authorization.appraisals:
             reference = by_screening_id[appraisal.screening_id]
             write_full_text_appraisal(
@@ -4012,18 +3730,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.literature_command == "citation-publication-version-reconcile"
     ):
         appraisal_paths = sorted(
-            path
-            for directory in args.appraisal_dir
-            for path in directory.glob("*.yaml")
+            path for directory in args.appraisal_dir for path in directory.glob("*.yaml")
         )
         version_link_paths = sorted(args.version_link_dir.glob("*.yaml"))
         version_receipt = PublicationVersionReconciliationService().build(
-            appraisals=[
-                load_full_text_appraisal(path) for path in appraisal_paths
-            ],
+            appraisals=[load_full_text_appraisal(path) for path in appraisal_paths],
             version_links=[
-                load_publication_version_link_decision(path)
-                for path in version_link_paths
+                load_publication_version_link_decision(path) for path in version_link_paths
             ],
         )
         write_publication_version_reconciliation_receipt(
@@ -4037,14 +3750,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"Version reconciliation: {args.output_path}")
         return 0
 
-    if (
-        args.command == "literature"
-        and args.literature_command == "citation-pmc-read-only-review"
-    ):
+    if args.command == "literature" and args.literature_command == "citation-pmc-read-only-review":
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
         if not args.execute:
@@ -4064,9 +3772,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             observed_rights=args.observed_rights,
             rights_url=args.rights_url,
         )
-        write_full_text_read_only_review_receipt(
-            args.receipt_output, review_receipt
-        )
+        write_full_text_read_only_review_receipt(args.receipt_output, review_receipt)
         print(
             f"Reviewed {review_receipt.pmcid} ephemerally: "
             f"{review_receipt.content_size_bytes} bytes hashed, "
@@ -4080,9 +3786,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.literature_command == "citation-medrxiv-read-only-review"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
         if not args.execute:
@@ -4103,9 +3807,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             observed_rights=args.observed_rights,
             rights_url=args.rights_url,
         )
-        write_full_text_read_only_review_receipt(
-            args.receipt_output, review_receipt
-        )
+        write_full_text_read_only_review_receipt(args.receipt_output, review_receipt)
         print(
             f"Reviewed medRxiv DOI {review_receipt.doi} ephemerally: "
             f"{review_receipt.content_size_bytes} bytes hashed, "
@@ -4119,9 +3821,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.literature_command == "citation-pmc-oai-read-only-review"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
         if not args.execute:
@@ -4141,9 +3841,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             observed_rights=args.observed_rights,
             rights_url=args.rights_url,
         )
-        write_full_text_read_only_review_receipt(
-            args.receipt_output, review_receipt
-        )
+        write_full_text_read_only_review_receipt(args.receipt_output, review_receipt)
         print(
             f"Reviewed {review_receipt.pmcid} canonical OAI article ephemerally: "
             f"{review_receipt.content_size_bytes} canonical bytes hashed, "
@@ -4154,13 +3852,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
-        and args.literature_command
-        == "citation-institutional-pdf-read-only-review"
+        and args.literature_command == "citation-institutional-pdf-read-only-review"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
         if not args.execute:
@@ -4180,9 +3875,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             observed_rights=args.observed_rights,
             rights_url=args.rights_url,
         )
-        write_full_text_read_only_review_receipt(
-            args.receipt_output, review_receipt
-        )
+        write_full_text_read_only_review_receipt(args.receipt_output, review_receipt)
         print(
             f"Reviewed institutional PDF DOI {review_receipt.doi} ephemerally: "
             f"{review_receipt.content_size_bytes} bytes hashed, "
@@ -4193,13 +3886,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
-        and args.literature_command
-        == "citation-publisher-pdf-read-only-review"
+        and args.literature_command == "citation-publisher-pdf-read-only-review"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
         if not args.execute:
@@ -4219,9 +3909,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             observed_rights=args.observed_rights,
             rights_url=args.rights_url,
         )
-        write_full_text_read_only_review_receipt(
-            args.receipt_output, review_receipt
-        )
+        write_full_text_read_only_review_receipt(args.receipt_output, review_receipt)
         print(
             f"Reviewed publisher PDF DOI {review_receipt.doi} ephemerally: "
             f"{review_receipt.content_size_bytes} bytes hashed, "
@@ -4232,18 +3920,13 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
-        and args.literature_command
-        == "citation-institutional-pdf-appraisal-propose"
+        and args.literature_command == "citation-institutional-pdf-appraisal-propose"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
-        review_receipt = load_full_text_read_only_review_receipt(
-            args.review_receipt
-        )
+        review_receipt = load_full_text_read_only_review_receipt(args.review_receipt)
         draft = load_full_text_appraisal_proposal(args.draft)
         if not args.execute:
             print(
@@ -4271,14 +3954,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.literature_command == "citation-pmc-oai-appraisal-propose"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
-        review_receipt = load_full_text_read_only_review_receipt(
-            args.review_receipt
-        )
+        review_receipt = load_full_text_read_only_review_receipt(args.review_receipt)
         draft = load_full_text_appraisal_proposal(args.draft)
         if not args.execute:
             print(
@@ -4306,14 +3985,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         and args.literature_command == "citation-pmc-html-appraisal-propose"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
-        review_receipt = load_full_text_read_only_review_receipt(
-            args.review_receipt
-        )
+        review_receipt = load_full_text_read_only_review_receipt(args.review_receipt)
         draft = load_full_text_appraisal_proposal(args.draft)
         if not args.execute:
             print(
@@ -4338,18 +4013,13 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
-        and args.literature_command
-        == "citation-publisher-pdf-appraisal-propose"
+        and args.literature_command == "citation-publisher-pdf-appraisal-propose"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
-        review_receipt = load_full_text_read_only_review_receipt(
-            args.review_receipt
-        )
+        review_receipt = load_full_text_read_only_review_receipt(args.review_receipt)
         draft = load_full_text_appraisal_proposal(args.draft)
         if not args.execute:
             print(
@@ -4374,13 +4044,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
-        and args.literature_command
-        == "citation-publisher-html-read-only-review"
+        and args.literature_command == "citation-publisher-html-read-only-review"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
         if not args.execute:
@@ -4400,9 +4067,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             observed_rights=args.observed_rights,
             rights_url=args.rights_url,
         )
-        write_full_text_read_only_review_receipt(
-            args.receipt_output, review_receipt
-        )
+        write_full_text_read_only_review_receipt(args.receipt_output, review_receipt)
         print(
             f"Reviewed publisher HTML DOI {review_receipt.doi} ephemerally: "
             f"{review_receipt.content_size_bytes} canonical bytes hashed, "
@@ -4413,18 +4078,13 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if (
         args.command == "literature"
-        and args.literature_command
-        == "citation-publisher-html-appraisal-propose"
+        and args.literature_command == "citation-publisher-html-appraisal-propose"
     ):
         inventory = load_full_text_inventory(args.inventory)
-        matches = [
-            item for item in inventory.records if item.screening_id == args.screening_id
-        ]
+        matches = [item for item in inventory.records if item.screening_id == args.screening_id]
         if len(matches) != 1:
             raise SystemExit("screening ID is not in the citation access inventory")
-        review_receipt = load_full_text_read_only_review_receipt(
-            args.review_receipt
-        )
+        review_receipt = load_full_text_read_only_review_receipt(args.review_receipt)
         draft = load_full_text_appraisal_proposal(args.draft)
         if not args.execute:
             print(

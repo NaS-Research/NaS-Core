@@ -19,6 +19,8 @@ def test_in_memory_object_store_round_trip() -> None:
 
     assert store.exists("studies/example/manifest.json")
     assert store.get_bytes("studies/example/manifest.json") == b'{"study":"example"}'
+    with store.open_binary("studies/example/manifest.json") as stream:
+        assert stream.read() == b'{"study":"example"}'
 
 
 def test_filesystem_object_store_round_trip(tmp_path: Path) -> None:
@@ -30,6 +32,8 @@ def test_filesystem_object_store_round_trip(tmp_path: Path) -> None:
 
     assert store.exists("raw/study/page.json")
     assert store.get_bytes("raw/study/page.json") == b"{}"
+    with store.open_binary("raw/study/page.json") as stream:
+        assert stream.read() == b"{}"
     assert (data_root / "object-store" / "raw" / "study" / "page.json").is_file()
 
 

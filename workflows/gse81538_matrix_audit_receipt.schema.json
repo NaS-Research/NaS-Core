@@ -1,0 +1,270 @@
+{
+  "$defs": {
+    "MatrixAuditDecision": {
+      "enum": [
+        "pass",
+        "changes_required"
+      ],
+      "title": "MatrixAuditDecision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "audited_at": {
+      "format": "date-time",
+      "title": "Audited At",
+      "type": "string"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "compressed_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Compressed Bytes",
+      "type": "integer"
+    },
+    "decision": {
+      "$ref": "#/$defs/MatrixAuditDecision"
+    },
+    "duplicate_gene_identifier_count": {
+      "minimum": 0,
+      "title": "Duplicate Gene Identifier Count",
+      "type": "integer"
+    },
+    "duplicate_pam50_mappings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Duplicate Pam50 Mappings",
+      "type": "array"
+    },
+    "expected_gene_row_count": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Gene Row Count",
+      "type": "integer"
+    },
+    "expected_sample_column_count": {
+      "exclusiveMinimum": 0,
+      "title": "Expected Sample Column Count",
+      "type": "integer"
+    },
+    "expected_zero_floor": {
+      "title": "Expected Zero Floor",
+      "type": "number"
+    },
+    "finite_measurement_count": {
+      "minimum": 0,
+      "title": "Finite Measurement Count",
+      "type": "integer"
+    },
+    "gene_row_count": {
+      "exclusiveMinimum": 0,
+      "title": "Gene Row Count",
+      "type": "integer"
+    },
+    "historical_aliases_applied": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Historical Aliases Applied",
+      "type": "object"
+    },
+    "input_scale_verified": {
+      "title": "Input Scale Verified",
+      "type": "boolean"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "maximum_value": {
+      "title": "Maximum Value",
+      "type": "number"
+    },
+    "minimum_value": {
+      "title": "Minimum Value",
+      "type": "number"
+    },
+    "missing_measurement_count": {
+      "minimum": 0,
+      "title": "Missing Measurement Count",
+      "type": "integer"
+    },
+    "missing_pam50_genes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Missing Pam50 Genes",
+      "type": "array"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "nonfinite_measurement_count": {
+      "minimum": 0,
+      "title": "Nonfinite Measurement Count",
+      "type": "integer"
+    },
+    "object_sha256_verified": {
+      "title": "Object Sha256 Verified",
+      "type": "boolean"
+    },
+    "observed_floor_matches_declared_transform": {
+      "title": "Observed Floor Matches Declared Transform",
+      "type": "boolean"
+    },
+    "official_transform_declared": {
+      "pattern": "^log2\\(FPKM \\+ 0\\.1\\)$",
+      "title": "Official Transform Declared",
+      "type": "string"
+    },
+    "outcome_values_accessed": {
+      "title": "Outcome Values Accessed",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "reference_locked": {
+      "title": "Reference Locked",
+      "type": "boolean"
+    },
+    "reference_vector_materialized": {
+      "title": "Reference Vector Materialized",
+      "type": "boolean"
+    },
+    "required_pam50_gene_count": {
+      "exclusiveMinimum": 0,
+      "title": "Required Pam50 Gene Count",
+      "type": "integer"
+    },
+    "resolved_pam50_gene_count": {
+      "minimum": 0,
+      "title": "Resolved Pam50 Gene Count",
+      "type": "integer"
+    },
+    "sample_column_count": {
+      "exclusiveMinimum": 0,
+      "title": "Sample Column Count",
+      "type": "integer"
+    },
+    "sample_header_sequence_verified": {
+      "title": "Sample Header Sequence Verified",
+      "type": "boolean"
+    },
+    "sample_rows_retained": {
+      "title": "Sample Rows Retained",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_accession": {
+      "pattern": "^GSE81538$",
+      "title": "Source Accession",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^ncbi-geo-gse81538$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "total_measurement_count": {
+      "exclusiveMinimum": 0,
+      "title": "Total Measurement Count",
+      "type": "integer"
+    },
+    "unique_gene_identifier_count": {
+      "exclusiveMinimum": 0,
+      "title": "Unique Gene Identifier Count",
+      "type": "integer"
+    },
+    "values_below_expected_floor": {
+      "minimum": 0,
+      "title": "Values Below Expected Floor",
+      "type": "integer"
+    },
+    "zero_floor_count": {
+      "minimum": 0,
+      "title": "Zero Floor Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "source_id",
+    "source_accession",
+    "code_revision",
+    "audited_at",
+    "plan_sha256",
+    "acquisition_receipt_sha256",
+    "object_sha256_verified",
+    "compressed_bytes",
+    "expected_gene_row_count",
+    "gene_row_count",
+    "unique_gene_identifier_count",
+    "duplicate_gene_identifier_count",
+    "expected_sample_column_count",
+    "sample_column_count",
+    "sample_header_sequence_verified",
+    "total_measurement_count",
+    "finite_measurement_count",
+    "missing_measurement_count",
+    "nonfinite_measurement_count",
+    "minimum_value",
+    "maximum_value",
+    "expected_zero_floor",
+    "zero_floor_count",
+    "values_below_expected_floor",
+    "official_transform_declared",
+    "observed_floor_matches_declared_transform",
+    "input_scale_verified",
+    "required_pam50_gene_count",
+    "resolved_pam50_gene_count",
+    "missing_pam50_genes",
+    "duplicate_pam50_mappings",
+    "historical_aliases_applied",
+    "decision",
+    "limitations",
+    "molecular_values_parsed",
+    "sample_rows_retained",
+    "outcome_values_accessed",
+    "classifier_executed",
+    "reference_vector_materialized",
+    "reference_locked"
+  ],
+  "title": "GSE81538MatrixAuditReceipt",
+  "type": "object"
+}

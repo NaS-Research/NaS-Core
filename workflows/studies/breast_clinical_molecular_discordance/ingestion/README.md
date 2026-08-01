@@ -122,4 +122,16 @@ The 54,838,076-byte object has independently reproduced SHA-256
 `9da259a9b08ef794890cbf55a738856870d12b6d455da75874e1d6849ed39181`.
 See [`GSE81538_ACQUISITION_REPORT_v1.0.0.md`](GSE81538_ACQUISITION_REPORT_v1.0.0.md).
 
+Matrix-audit plan
+[`gse81538_matrix_audit_plan_v1.0.0.yaml`](gse81538_matrix_audit_plan_v1.0.0.yaml)
+binds that exact acquisition receipt, the staged PAM50 centroid candidate, and
+reference-development protocol. The audit streams the compressed object twice:
+once to independently reproduce its byte length and SHA-256 and once to parse
+the CSV through gzip without materializing sample rows. It verifies the exact
+`T1`–`T405` header, 18,802 unique gene rows, every numeric cell, the declared
+`log2(FPKM + 0.1)` floor, and all 50 PAM50 genes including governed historical
+aliases. It cannot read outcomes, execute a classifier, or materialize a
+reference vector. Synthetic pass and fail-closed tests cover changed provenance,
+header sequence, and panel completeness before live execution.
+
 Completion gate: Governed immutable dataset snapshot is verified.

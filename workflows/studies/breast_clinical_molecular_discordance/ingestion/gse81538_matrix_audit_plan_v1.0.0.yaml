@@ -1,0 +1,23 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+object_key: raw/nas-brca-002/ncbi-geo-gse81538/gse81538_gene_expression_405_transformed.csv.gz
+acquisition_receipt_sha256: f22b690b4dae2d5029d97fd646a1a1d2baa468f3cc723d95f2d03e74bcca0735
+centroid_candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+reference_protocol_sha256: 174c85675cbf766a7123ba12cdfe309d91143ef73896e585fec9a286851bd14b
+expected_compressed_sha256: 9da259a9b08ef794890cbf55a738856870d12b6d455da75874e1d6849ed39181
+expected_compressed_bytes: 54838076
+expected_gene_rows: 18802
+expected_sample_columns: 405
+sample_column_prefix: T
+declared_quantity: FPKM
+declared_transform: log2(FPKM + 0.1)
+expected_zero_floor: -3.321928094887362
+floor_absolute_tolerance: 1.0e-12
+official_processing_statement_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM2155558
+outcome_fields_permitted: false
+classifier_execution_permitted: false
