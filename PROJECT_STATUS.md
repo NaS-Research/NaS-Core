@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Freeze retrospective input QC and preserve prospective-calibration hold
+### Freeze uncalibrated scoring state and attempted-denominator accounting
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,11 +17,12 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: bind exact schema, panel, finite-value, reference, transform,
-scoring, failure, and abstention rules to the frozen retrospective bridge; make
-every invalid state fail closed without imputation or cohort adaptation; and
-retain the primary-calibration hold. Do not execute a classifier, access
-GSE96058 or outcomes, contact anyone, spend, or acquire specimens.
+Definition of done: integrate the frozen QC states with the checksummed centroid
+kernel; ensure valid profiles remain explicitly `uncalibrated` and abstain;
+define exact attempted, valid, failed, scored, and abstained denominator
+reconciliation; and retain the primary-calibration hold. Do not access study
+molecular values, GSE96058, or outcomes, contact anyone, spend, or acquire
+specimens.
 
 The retrospective expression bridge is now frozen independently of validation
 performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
@@ -126,6 +127,14 @@ bridge consumed no molecular value and executed no classifier. GDC
 STAR/GENCODE-36 versus SCAN-B Cufflinks remains an explicit upstream transport
 limitation; it cannot be removed by adapting GSE96058. Receipt SHA-256 is
 `86a8521b…e0638`.
+
+Frozen revision `eb2eebc` then locked executable processed-input QC. Seven
+failure states cover schema mismatch, duplicate mapping, incomplete PAM50,
+nonfinite input, negative discovery FPKM, validation values below the declared
+`log2(0.1)` floor, and constant centered profiles. Every state abstains; there is
+no imputation, cohort centering, validation adaptation, or scientific-failure
+rerun. Reacquisition is limited to checksum or delivery-schema errors. Receipt
+SHA-256 is `393119cd…d49e4`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the

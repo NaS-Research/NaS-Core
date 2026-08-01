@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.67.0-working`
+Manuscript version: `0.68.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -787,6 +787,19 @@ remain different upstream workflows; unchanged validation must quantify rather
 than erase any resulting transport degradation.
 [retrospective_expression_bridge_receipt_v1.0.0.yaml;
 RETROSPECTIVE_EXPRESSION_BRIDGE_REPORT_v1.0.0.md]
+
+Processed-input QC was frozen before molecular access. Extracted profiles must
+contain exactly one finite value for each of the 50 canonical genes after the
+three declared historical aliases are resolved. Unexpected genes, duplicate
+mappings, missing genes, nonfinite values, negative discovery FPKM, validation
+values below the declared `log2(0.1)` floor, and constant centered profiles each
+produce a named failure state and abstain. Imputation, cohort centering, and
+validation adaptation are prohibited. Reacquisition is permitted for checksum
+or delivery-schema failure only; a scientific QC failure cannot be rerun until
+it passes and remains in the attempted denominator. A valid profile may proceed
+to locked scoring but cannot be called reliable before calibration.
+[retrospective_processed_input_qc_receipt_v1.0.0.yaml;
+RETROSPECTIVE_PROCESSED_INPUT_QC_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1602,6 +1615,7 @@ reviews are complete.
 | Methods and results—excluded replicate pilots | Prespecified source-specific PAM50 replicate agreement and variation | `analysis/calibration_feasibility_pilot_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_FEASIBILITY_PILOT_REPORT_v1.0.0.md` | high within-source rank agreement; heterogeneous error magnitudes on noncommensurate scales; no pooling, threshold, classifier, outcomes, or primary-calibration eligibility |
 | Methods—pair-count reestimation | Compatibility-gated use of excluded-pilot estimates for primary calibration planning | `analysis/calibration_pair_count_reestimation_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_PAIR_COUNT_REESTIMATION_REPORT_v1.0.0.md` | final pair count not estimable; 185 remains hypothetical; no proxy substitution or execution |
 | Methods—retrospective expression bridge | Performance-blind TCGA transformation, unchanged GSE96058 representation, fixed reference, and fixed centroids | `protocol/retrospective_expression_bridge_receipt_v1.0.0.yaml`; `protocol/RETROSPECTIVE_EXPRESSION_BRIDGE_REPORT_v1.0.0.md` | bridge frozen; no cohort centering, validation adaptation, molecular access, classifier, or outcomes |
+| Methods—retrospective processed-input QC | Exact panel, mapping, finite-value, floor, centering, failure, rerun, and abstention rules | `protocol/retrospective_processed_input_qc_receipt_v1.0.0.yaml`; `protocol/RETROSPECTIVE_PROCESSED_INPUT_QC_REPORT_v1.0.0.md` | seven fail-closed states; no imputation, scientific-failure rerun, values, classifier, or outcomes |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1659,6 +1673,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.68.0-working | 2026-08-01 | Froze executable processed-input QC with seven named fail-closed states, no imputation or adaptive reruns, exact fixed-reference centering, and mandatory abstention before uncalibrated scoring. |
 | 0.67.0-working | 2026-08-01 | Froze the performance-blind retrospective bridge: TCGA GDC FPKM receives `log2(FPKM + 0.1)`, GSE96058 is consumed unchanged, and both use the immutable GSE81538 reference and genefu centroids without molecular or outcome access. |
 | 0.66.0-working | 2026-08-01 | Completed the blinded pair-count reestimation gate: excluded public pilots lack the classifier, target-assay, attrition, clustering, and coverage inputs required for a final sample size, so no proxy was substituted and 185 pairs remains hypothetical. |
 | 0.65.0-working | 2026-08-01 | Completed source-isolated excluded replicate pilots: six GSE60788 and seven GSE130397 independent groups showed high PAM50 rank agreement but nontrivial, source-dependent variation; no pooling, threshold, classifier, outcome, or clinical claim was made. |

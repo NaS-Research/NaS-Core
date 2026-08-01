@@ -1,0 +1,30 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: eb2eebc
+specification_sha256: 7f1d79001265b4741a668acacc7644ed04d73e5f010520830c6fa7dc538590fa
+bridge_receipt_sha256: 86a8521b65d033c1815d5c23436c55f187049a80016f3ce5b8b10be1782e0638
+reference_object_verified: true
+canonical_gene_count: 50
+historical_alias_count: 3
+failure_state_count: 7
+discovery_rule_frozen: true
+validation_rule_frozen: true
+imputation_prohibited: true
+cohort_centering_prohibited: true
+scientific_failure_rerun_prohibited: true
+invalid_profiles_abstain: true
+decision: retrospective_processed_input_qc_frozen
+molecular_values_accessed: false
+validation_values_accessed: false
+classifier_executed: false
+outcomes_accessed: false
+limitations:
+- These rules govern processed expression and do not replace laboratory assay QC.
+- Upstream GDC and SCAN-B pipeline QC fields require separate manifest auditing.
+- A valid profile may proceed to locked scoring but cannot be called reliable before
+  calibration.
+next_actions:
+- Integrate these states into discovery ingestion and attempted-denominator accounting.
+- Freeze the uncalibrated scoring state before any discovery molecular access.
+- Keep validation molecular access prohibited until preregistration.
