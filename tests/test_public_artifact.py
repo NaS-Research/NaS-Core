@@ -12,6 +12,7 @@ import yaml
 from nas_core.domain.public_artifact import (
     PublicArtifactAcquisitionPlan,
     PublicArtifactAcquisitionReceipt,
+    PublicArtifactKind,
     load_public_artifact_plan,
 )
 from nas_core.domain.reference_development import load_reference_development_protocol
@@ -131,6 +132,32 @@ def test_public_artifact_acquisition_streams_and_freezes_checksum(tmp_path: Path
     assert receipt.sha256 == hashlib.sha256(PAYLOAD).hexdigest()
     assert receipt.content_length_bytes == len(PAYLOAD)
     assert receipt.molecular_source_bytes_stored is True
+    assert receipt.molecular_values_parsed is False
+    assert receipt.outcome_values_accessed is False
+
+
+def test_public_metadata_acquisition_is_not_labeled_molecular(tmp_path: Path) -> None:
+    transport = FakeStreamingTransport()
+    service, _, readiness_path = _service(tmp_path, transport)
+    plan = _fixture_plan(readiness_path).model_copy(
+        update={
+            "artifact_kind": PublicArtifactKind.SAMPLE_METADATA,
+            "official_url": (
+                "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE81nnn/"
+                "GSE81538/soft/GSE81538_family.soft.gz"
+            ),
+            "filename": "GSE81538_family.soft.gz",
+            "object_key": (
+                "raw/nas-brca-002/ncbi-geo-gse81538/gse81538_family.soft.gz"
+            ),
+        }
+    )
+
+    receipt = _acquire(service, plan, readiness_path)
+
+    assert receipt.artifact_kind is PublicArtifactKind.SAMPLE_METADATA
+    assert receipt.source_bytes_stored is True
+    assert receipt.molecular_source_bytes_stored is False
     assert receipt.molecular_values_parsed is False
     assert receipt.outcome_values_accessed is False
 

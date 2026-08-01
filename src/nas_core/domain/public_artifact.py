@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime
+from enum import StrEnum
 from pathlib import Path
 
 import yaml
@@ -14,6 +15,11 @@ class PublicArtifactModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+class PublicArtifactKind(StrEnum):
+    PROCESSED_EXPRESSION_MATRIX = "processed_expression_matrix"
+    SAMPLE_METADATA = "sample_metadata"
+
+
 class PublicArtifactAcquisitionPlan(PublicArtifactModel):
     schema_version: str = "1.0.0"
     plan_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
@@ -22,6 +28,7 @@ class PublicArtifactAcquisitionPlan(PublicArtifactModel):
     question_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
     source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9._-]+$")
     source_accession: str = Field(pattern=r"^GSE[0-9]+$")
+    artifact_kind: PublicArtifactKind = PublicArtifactKind.PROCESSED_EXPRESSION_MATRIX
     intended_role: str = Field(pattern=r"^reference_development_only$")
     official_url: str = Field(pattern=r"^https://")
     filename: str = Field(min_length=1)
@@ -55,6 +62,7 @@ class PublicArtifactAcquisitionReceipt(PublicArtifactModel):
     study_id: str = Field(pattern=r"^NAS-[A-Z0-9]+-[0-9]{3}$")
     source_id: str = Field(pattern=r"^[a-z0-9][a-z0-9._-]+$")
     source_accession: str = Field(pattern=r"^GSE[0-9]+$")
+    artifact_kind: PublicArtifactKind = PublicArtifactKind.PROCESSED_EXPRESSION_MATRIX
     code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
     acquired_at: datetime
     plan_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
@@ -65,6 +73,7 @@ class PublicArtifactAcquisitionReceipt(PublicArtifactModel):
     sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     object_key: str = Field(pattern=r"^raw/[a-z0-9._/-]+$")
     immutable_object_verified: bool
+    source_bytes_stored: bool = True
     molecular_source_bytes_stored: bool
     molecular_values_parsed: bool
     outcome_values_accessed: bool
@@ -73,8 +82,18 @@ class PublicArtifactAcquisitionReceipt(PublicArtifactModel):
 
     @model_validator(mode="after")
     def enforce_receipt_boundary(self) -> PublicArtifactAcquisitionReceipt:
-        if not self.immutable_object_verified or not self.molecular_source_bytes_stored:
+        if not self.immutable_object_verified or not self.source_bytes_stored:
             raise ValueError("receipt requires a verified immutable source object")
+        if (
+            self.artifact_kind is PublicArtifactKind.PROCESSED_EXPRESSION_MATRIX
+            and not self.molecular_source_bytes_stored
+        ):
+            raise ValueError("a processed matrix receipt must disclose molecular bytes")
+        if (
+            self.artifact_kind is PublicArtifactKind.SAMPLE_METADATA
+            and self.molecular_source_bytes_stored
+        ):
+            raise ValueError("a sample-metadata receipt cannot claim molecular bytes")
         if any(
             (
                 self.molecular_values_parsed,

@@ -1,6 +1,20 @@
 {
+  "$defs": {
+    "PublicArtifactKind": {
+      "enum": [
+        "processed_expression_matrix",
+        "sample_metadata"
+      ],
+      "title": "PublicArtifactKind",
+      "type": "string"
+    }
+  },
   "additionalProperties": false,
   "properties": {
+    "artifact_kind": {
+      "$ref": "#/$defs/PublicArtifactKind",
+      "default": "processed_expression_matrix"
+    },
     "expected_content_length_bytes": {
       "exclusiveMinimum": 0,
       "title": "Expected Content Length Bytes",

@@ -1,10 +1,24 @@
 {
+  "$defs": {
+    "PublicArtifactKind": {
+      "enum": [
+        "processed_expression_matrix",
+        "sample_metadata"
+      ],
+      "title": "PublicArtifactKind",
+      "type": "string"
+    }
+  },
   "additionalProperties": false,
   "properties": {
     "acquired_at": {
       "format": "date-time",
       "title": "Acquired At",
       "type": "string"
+    },
+    "artifact_kind": {
+      "$ref": "#/$defs/PublicArtifactKind",
+      "default": "processed_expression_matrix"
     },
     "classifier_executed": {
       "title": "Classifier Executed",
@@ -90,6 +104,11 @@
       "pattern": "^GSE[0-9]+$",
       "title": "Source Accession",
       "type": "string"
+    },
+    "source_bytes_stored": {
+      "default": true,
+      "title": "Source Bytes Stored",
+      "type": "boolean"
     },
     "source_id": {
       "pattern": "^[a-z0-9][a-z0-9._-]+$",

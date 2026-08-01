@@ -42,6 +42,13 @@ minimum and 969,918 floor values verify the source-declared
 classifier, subtype, score, or reference vector was accessed or produced. The
 next work is field-isolated participant metadata and manifest freezing.
 
+The acquisition contract now distinguishes processed-expression and sample-
+metadata artifacts. A checksum-bound plan freezes the official 51,036-byte
+GSE81538 family SOFT file, exact HTTPS path, and external object key. Synthetic
+tests prove that a metadata receipt cannot claim molecular bytes and that the
+existing matrix path remains compatible. The plan passes dry-run validation;
+live acquisition will execute only from the frozen implementation revision.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three
@@ -618,6 +625,14 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-08-01 — Separate immutable metadata acquisition implemented
+
+Generalized the allowlisted public-artifact contract with typed matrix and sample-
+metadata kinds while preserving fail-closed provenance and atomic non-overwrite.
+The official 51,036-byte GSE81538 family SOFT path now has its own frozen plan and
+object key. Synthetic tests verify metadata bytes are never mislabeled as
+molecular data; dry-run validation passes without source contact.
+
 ### 2026-08-01 — GSE81538 matrix integrity and input scale verified
 
 Frozen revision `cf8d7f6` independently reproduced the source checksum and parsed
@@ -641,15 +656,6 @@ CLI, schema, and receipt. The Seagate layout and capacity pass, but the receipt
 correctly blocks acquisition on the read-only mount. Official NCBI headers freeze
 the GSE81538 filename, size, content type, and last-modified time. No write probe,
 source download, molecular access, or outcome access occurred.
-
-### 2026-07-29 — Outcome-blind reference-development protocol frozen
-
-Registered GSE81538 as public/open for reference development only and added a
-typed, checksum-bound protocol, CLI validator, JSON Schema, regression tests, and
-methods report. The candidate rule selects 50 samples per ER stratum before
-expression parsing and prohibits outcomes and validation performance. The source,
-transformation, and reference remain unlocked pending storage, lineage, unit, and
-gene-mapping audits.
 
 ## Historical implementation log
 

@@ -18,6 +18,7 @@ import certifi
 from nas_core.domain.public_artifact import (
     PublicArtifactAcquisitionPlan,
     PublicArtifactAcquisitionReceipt,
+    PublicArtifactKind,
 )
 from nas_core.domain.reference_development import ReferenceDevelopmentProtocol
 from nas_core.domain.storage_readiness import (
@@ -30,10 +31,14 @@ from nas_core.ingestion.gdc import sha256
 from nas_core.storage.object_store import ObjectStore
 
 GSE81538_HOST = "ftp.ncbi.nlm.nih.gov"
-GSE81538_PATH = (
+GSE81538_MATRIX_PATH = (
     "/geo/series/GSE81nnn/GSE81538/suppl/"
     "GSE81538_gene_expression_405_transformed.csv.gz"
 )
+GSE81538_FAMILY_SOFT_PATH = (
+    "/geo/series/GSE81nnn/GSE81538/soft/GSE81538_family.soft.gz"
+)
+GSE81538_PATHS = {GSE81538_MATRIX_PATH, GSE81538_FAMILY_SOFT_PATH}
 
 
 class PublicArtifactAcquisitionError(RuntimeError):
@@ -131,7 +136,7 @@ class PublicArtifactAcquisitionService:
         try:
             with tempfile.NamedTemporaryFile(
                 mode="w+b",
-                prefix="gse81538-",
+                prefix=f"gse81538-{plan.artifact_kind.value}-",
                 suffix=".download",
                 dir=self._working,
                 delete=False,
@@ -155,6 +160,7 @@ class PublicArtifactAcquisitionService:
                 study_id=plan.study_id,
                 source_id=plan.source_id,
                 source_accession=plan.source_accession,
+                artifact_kind=plan.artifact_kind,
                 code_revision=code_revision,
                 acquired_at=self._clock(),
                 plan_sha256=sha256(plan_path.read_bytes()),
@@ -167,7 +173,11 @@ class PublicArtifactAcquisitionService:
                 sha256=result.sha256,
                 object_key=plan.object_key,
                 immutable_object_verified=True,
-                molecular_source_bytes_stored=True,
+                source_bytes_stored=True,
+                molecular_source_bytes_stored=(
+                    plan.artifact_kind
+                    is PublicArtifactKind.PROCESSED_EXPRESSION_MATRIX
+                ),
                 molecular_values_parsed=False,
                 outcome_values_accessed=False,
                 classifier_executed=False,
@@ -193,7 +203,7 @@ class PublicArtifactAcquisitionService:
         if (
             parsed.scheme != "https"
             or parsed.hostname != GSE81538_HOST
-            or parsed.path != GSE81538_PATH
+            or parsed.path not in GSE81538_PATHS
             or parsed.username is not None
             or parsed.password is not None
             or parsed.port not in (None, 443)

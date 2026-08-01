@@ -134,4 +134,12 @@ aliases. It cannot read outcomes, execute a classifier, or materialize a
 reference vector. Synthetic pass and fail-closed tests cover changed provenance,
 header sequence, and panel completeness before live execution.
 
+The separate family-SOFT acquisition plan
+[`gse81538_family_soft_acquisition_plan_v1.0.0.yaml`](gse81538_family_soft_acquisition_plan_v1.0.0.yaml)
+freezes the official 51,036-byte NCBI sample-metadata artifact. The typed
+acquisition contract distinguishes `sample_metadata` from a
+`processed_expression_matrix`, so its receipt must record source bytes without
+claiming that molecular bytes were stored. The exact HTTPS path is allowlisted,
+the object write is immutable, and no field is parsed during acquisition.
+
 Completion gate: Governed immutable dataset snapshot is verified.
