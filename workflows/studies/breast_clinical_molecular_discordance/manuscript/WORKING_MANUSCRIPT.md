@@ -1743,6 +1743,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.74.0-working | 2026-08-01 | Founder selected Path A and authorized one bounded CHTN eligibility inquiry; the official contact form accepted the eligibility-only message, while all application, spending, procurement, specimen, PHI, execution, clinical-use, and publication boundaries remain intact. |
 | 0.73.0-working | 2026-08-01 | Completed a no-contact pilot-source landscape: zero of six routes is publicly verified eligible, five require external due diligence, and data-only repositories are ineligible; no source was selected or contacted. |
 | 0.72.0-working | 2026-08-01 | Froze the excluded prospective pilot at 30 independent same-RNA pairs with blocked randomization, lineage, controls, exact denominators, immutable storage, and permanent exclusion from primary calibration and validation. |
 | 0.71.0-working | 2026-08-01 | Froze the prospective primary range to high-quality purified tumor RNA and post-extraction stranded poly(A) error, excluding degraded/FFPE and extraction-repeat claims while retaining failed inputs in attempted denominators. |

@@ -1,0 +1,62 @@
+schema_version: 1.0.0
+packet_version: 1.0.0
+study_id: NAS-BRCA-002
+route_id: ROUTE-1
+provider: NCI Cooperative Human Tissue Network
+contact_channel: official_CHTN_contact_form
+contact_page: https://chtn.cancer.gov/contact.html
+official_recipient: CHTN Central Coordinator
+official_email_reference: kradin@chtn.org
+sender:
+  name: Dalron J. Robertson
+  company: NaS
+  email: dalronj.robertson@gmail.com
+  state: Illinois
+subject: Eligibility inquiry for an excluded breast-tumor RNA technical pilot
+purpose: >-
+  Determine whether CHTN may be a scientifically and administratively eligible
+  source for a future, excluded, nonclinical technical pilot. This inquiry is
+  not an application, tissue request, quote acceptance, purchase, or reservation.
+study_summary: >-
+  NaS is planning a research-use analytical pilot of a fixed PAM50 RNA-sequencing
+  workflow. The pilot would use 30 independent primary breast-tumor sources and
+  compare two independently prepared libraries from the same homogenized RNA.
+  Pilot specimens and results would remain excluded from primary calibration and
+  external validation and would not be used for diagnosis, prognosis, treatment,
+  or other clinical decision-making.
+eligibility_questions:
+  - >-
+    Could CHTN potentially support 30 unique primary breast-tumor sources as
+    purified total RNA, or support one standardized RNA extraction per source
+    before the RNA is split for two independent library preparations?
+  - >-
+    Can eligibility be screened for 25 to 1000 ng of DNase-treated total RNA per
+    library, RIN at least 8, finite quantity, purity measurements, and fragment
+    analysis, without reserving or collecting specimens at this stage?
+  - >-
+    Can enough RNA from the same homogenate be provided for two independent
+    library preparations while retaining a stable, nonidentifying source key that
+    proves each of the 30 sources is unique and supports future nonoverlap checks?
+  - >-
+    What breast-tumor pathology and receptor-status information could accompany
+    eligible specimens? No direct identifiers, longitudinal outcomes, chart
+    review, or PHI are requested.
+  - >-
+    At a high level, what application, human-subjects or use agreement,
+    publication/acknowledgment, retention/destruction, shipping, biosafety, and
+    institutional requirements would apply if NaS later chose to proceed?
+  - >-
+    Is this type of request plausible within CHTN's prospective collection model,
+    and which division or coordinator would be appropriate for a later formal
+    feasibility discussion?
+explicit_boundaries:
+  - Please do not initiate an application, tissue request, procurement, reservation, or collection from this inquiry.
+  - No quote, purchase, specimen, controlled data, PHI, or clinical service is requested.
+  - Any later application or transaction requires a separate founder decision.
+source_facts_verified_at: 2026-08-01
+source_facts:
+  - Official CHTN contact page directs research-needs inquiries to the Central Coordinator.
+  - CHTN describes itself as a prospective collection service rather than a catalog biobank.
+  - CHTN requires application and use documentation before specimen access.
+  - Active tissue requests can create financial obligations, so this message explicitly avoids a request or reservation.
+send_status: authorized_not_yet_sent

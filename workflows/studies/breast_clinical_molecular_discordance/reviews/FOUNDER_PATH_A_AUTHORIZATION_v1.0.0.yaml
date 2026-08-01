@@ -1,0 +1,46 @@
+schema_version: 1.0.0
+authorization_version: 1.0.0
+study_id: NAS-BRCA-002
+recorded_at: 2026-08-01
+founder_instruction_verbatim: do path a
+interpreted_decision:
+  selected_path_id: PATH-A
+  selected_path_name: Independently calibrated reliability and abstention study
+  purpose_preserved: true
+  bounded_external_contact_authorized: true
+  authorized_route_id: ROUTE-1
+  authorized_provider: NCI Cooperative Human Tissue Network
+  authorized_action: >-
+    One eligibility-only inquiry to the official CHTN Central Coordinator or
+    official CHTN contact form using the founder-designated project email.
+  designated_project_email: dalronj.robertson@gmail.com
+authorization_basis:
+  research_path_decision_packet:
+    path: reviews/RESEARCH_PATH_DECISION_PACKET_v1.0.0.yaml
+    sha256: 347800ef6c732c4f66a0dacb350d734fa712f396a23c99ed92159452f5ee05ba
+  due_diligence_packet:
+    path: reviews/PILOT_SOURCE_DUE_DILIGENCE_FOUNDER_PACKET_v1.0.0.yaml
+    sha256: 6a6e5ebffb913cc0263af21f3535a02e063bbaad8a111344eb159dc2875285a5
+  decision_requested_in_source_packet: Preserve PATH-A and authorize one bounded CHTN eligibility inquiry.
+authorized_information_to_transmit:
+  - Founder name
+  - NaS company name
+  - Founder-designated project email
+  - State of Illinois
+  - Nonclinical research purpose and high-level pilot design
+  - Eligibility questions in CHTN_ELIGIBILITY_INQUIRY_PACKET_v1.0.0.yaml
+prohibited_actions:
+  - Application submission
+  - Agreement or contract execution
+  - Quote acceptance
+  - Spending or procurement
+  - Specimen reservation, acquisition, receipt, or use
+  - Controlled-data or PHI request, receipt, or use
+  - Laboratory or study execution
+  - Clinical use
+  - External publication or submission
+  - Material change to the study purpose or intended claim
+future_gates:
+  - Record and appraise the CHTN response without expanding the inquiry scope.
+  - Obtain separate founder authority before any application, agreement, quote, spending, procurement, specimen, controlled-data, PHI, or execution action.
+final_human_review_preserved: true

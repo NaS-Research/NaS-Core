@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Founder decision required before external pilot-source due diligence
+### Path A selected; CHTN eligibility inquiry submitted
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -19,10 +19,13 @@ remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
 Public evidence is exhausted for source qualification. Zero of six routes is
 verified eligible; five require provider-specific eligibility information and
-data-only repositories are ineligible. The next action would be external contact,
-an application, institutional review preparation, or commercial due diligence.
-Those actions remain outside standing authority and cannot begin without a new,
-explicit founder decision. No message or application draft has been prepared.
+data-only repositories are ineligible. On 2026-08-01 the founder selected Path A
+with the instruction `do path a`, authorizing the single bounded CHTN eligibility
+inquiry requested in decision packet `1.0.0`. CHTN's official contact form
+accepted the frozen inquiry at `2026-08-01T20:00:17Z`; receipt `1.0.0` records
+the confirmation and exact artifact hashes. The project now awaits CHTN's reply.
+No application, request, reservation, quote, purchase, specimen action, PHI
+request, or study execution occurred.
 
 Decision packet `RESEARCH_PATH_DECISION_PACKET_v1.0.0.yaml` now makes the
 scientific tradeoff explicit. Path A preserves the intended independently
@@ -39,9 +42,10 @@ performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
 declared `log2(FPKM + 0.1)` scale. Both will subtract the immutable GSE81538
 50-gene reference and use the checksummed genefu five-centroid matrix with
 Spearman scoring. Exact gene coverage, no imputation, no cohort centering, and
-no validation adaptation are mandatory. The active work is processed-input QC,
-failure, and abstention rules; the prospective laboratory assay remains
-unselected.
+no validation adaptation are mandatory. Processed-input QC, failure, and
+abstention rules are frozen. Research-use whole-transcriptome stranded poly(A)
+bulk RNA sequencing is selected as the planning platform family for high-quality
+RNA; exact chemistry, kit, vendor, instrument, and laboratory remain unselected.
 
 Both sources are now separately registered as public/open for excluded
 `calibration-feasibility` work. Acquisition plan `1.0.0` freezes 24 official

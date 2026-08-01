@@ -1,0 +1,40 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+route_id: ROUTE-1
+provider: NCI Cooperative Human Tissue Network
+submitted_at_utc: 2026-08-01T20:00:17Z
+channel: official_CHTN_contact_form
+destination_url: https://chtn.cancer.gov/contact.html
+confirmation_page_url: https://chtn.cancer.gov/contact_thanks.html
+sender:
+  name: Dalron J. Robertson
+  company: NaS
+  email: dalronj.robertson@gmail.com
+  state: Illinois
+bound_artifacts:
+  authorization:
+    path: reviews/FOUNDER_PATH_A_AUTHORIZATION_v1.0.0.yaml
+    sha256: c83187d97667bb6901f1e2e8f1e5183cf9d2e82e8b6fe575003fad8d9763ebc7
+  inquiry_packet:
+    path: reviews/CHTN_ELIGIBILITY_INQUIRY_PACKET_v1.0.0.yaml
+    sha256: a12936b678aa188b66f484674fe4c9f3e3df3d8729fb63afb98594d71fe79b11
+  rendered_inquiry:
+    path: reviews/CHTN_ELIGIBILITY_INQUIRY_v1.0.0.md
+    sha256: 690d11e7e1da1f974edc85ec2ce6af4f78bfe0cf5664d0a3167a9942c0a1f997
+submission_result: accepted_by_contact_form
+confirmation_text: >-
+  Thank you for contacting the CHTN, your comment has been submitted. We have
+  received your information and will contact you in a timely manner.
+external_side_effects:
+  inquiry_sent: true
+  application_submitted: false
+  tissue_request_created: false
+  reservation_created: false
+  quote_requested_or_accepted: false
+  spending_or_procurement: false
+  specimen_action: false
+  controlled_data_or_phi_action: false
+  study_execution: false
+next_state: awaiting_provider_response
+final_human_review_preserved: true
