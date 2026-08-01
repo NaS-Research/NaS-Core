@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: 8ef5d4d
+plan_sha256: 6f1a37cc5023cacc1a3932de6140c63fd3425f54b6e6dabb4d6544de9b6bf8d6
+dependency_hashes_verified: true
+primary_material_frozen: true
+post_extraction_scope_frozen: true
+high_quality_rna_range_frozen: true
+stranded_polya_family_frozen: true
+degraded_rna_separate: true
+failed_inputs_retained: true
+no_external_action_preserved: true
+decision: prospective_rna_quality_and_chemistry_gate_frozen
+study_execution_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false
+limitations:
+- The primary calibration claim is limited to post-extraction error.
+- RIN below 8 or degraded/FFPE RNA is outside the frozen primary range.
+- The range is a planning boundary, not evidence of assay performance.
+next_actions:
+- Identify a lawful source of target-matched high-quality RNA without contact.
+- Prepare a checksum-bound excluded-pilot acquisition and randomization plan.
+- Require separate authority before quotes, specimens, spending, or execution.

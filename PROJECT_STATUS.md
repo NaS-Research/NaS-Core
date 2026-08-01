@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Freeze specimen/RNA-quality range and chemistry-selection gate
+### Prepare the excluded prospective pilot acquisition and randomization plan
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,12 +17,11 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: declare the intended residual-tissue or extracted-RNA format;
-freeze minimum input, integrity, purity, and degraded-RNA bounds; define a
-performance-blind gate for high-quality poly(A) versus degraded-RNA-compatible
-chemistry; and keep exact kit, instrument, vendor, quote, procurement, specimen,
-and execution decisions prohibited. No study values or outcomes may inform the
-gate.
+Definition of done: specify the pilot-only specimen count as a planning target,
+independent same-RNA pair architecture, nonoverlap proof, blinded identifiers,
+blocked randomization, controls, attempted-denominator fields, immutable storage,
+pilot-only estimands, and no-go rules. Keep source contact, quotes, procurement,
+spending, specimens, molecular access, and execution separately prohibited.
 
 The retrospective expression bridge is now frozen independently of validation
 performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
@@ -154,6 +153,15 @@ RNA or FFPE contingency requires a separate reference and transformation
 conformance bridge. No vendor, kit, instrument, contact, quote, purchase,
 specimen, or execution was selected or authorized. Receipt SHA-256 is
 `b4ba823e…302f2`.
+
+Frozen revision `8ef5d4d` then set the primary range to 25–1000 ng DNase-treated,
+fragment-analyzed purified total RNA with RIN at least 8, derived from homogenized
+primary breast-tumor material. The primary claim is limited to post-extraction
+analytical error using stranded poly(A) whole-transcriptome chemistry. Degraded
+or FFPE RNA and repeated extraction are excluded absent a separate amendment and
+bridge; failed inputs remain in attempted denominators. No exact kit, instrument,
+source, contact, purchase, specimen, or execution was authorized. Receipt SHA-256
+is `7ccd8147…f5467`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
