@@ -1,0 +1,55 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+code_revision: 76ace2be2c71449a5bc16fcfb7d59b55fc0ae140
+audited_at: '2026-08-01T16:44:04.355202Z'
+plan_sha256: 09c02a38679bfc9becdfcea960a1cfb6edcac323f96909e7d20d0e4672223ca0
+metadata_acquisition_receipt_sha256: 920a40f89c1049ce58c95d1a486a22fb53cdeba8366e56dfb09655cacca29f98
+matrix_audit_receipt_sha256: 98bfb62ad4ba1247feb0ba6c1487341517bb59049c2ad22b4e51fe2ed2773b4c
+founder_decision_sha256: 9db6243bcd582f9884139326d9ccaeb488203f3d1d6cb8f9f8b4a9addc3b3629
+reference_protocol_sha256: 8fa7b2343f4a9e1b880731633568130cb7f4d4f0eab1af5b92cf7a0e1204e605
+metadata_object_sha256_verified: true
+metadata_bytes: 51036
+parsed_sample_fields:
+- '!Sample_title'
+- '!Sample_geo_accession'
+- er consensus
+sample_record_count: 405
+unique_accession_count: 405
+unique_title_count: 405
+exact_title_sequence_verified: true
+matrix_title_linkage_verified: true
+er_consensus_counts:
+  '0': 82
+  '1': 8
+  '2': 11
+  '3': 304
+er_negative_eligible_count: 82
+er_positive_eligible_count: 304
+ambiguous_excluded_count: 19
+selected_negative_count: 50
+selected_positive_count: 50
+manifest_object_key: derived/nas-brca-002/reference-development/gse81538_er_balanced_manifest_v1.0.0.json
+manifest_sha256: 4f36124c02dbe733dd7ffaf630c327715a19e3152e920db47249cecb8884a9fe
+manifest_bytes: 8184
+manifest_record_count: 100
+manifest_immutable_verified: true
+relationship_to_validation: The primary publication describes GSE81538 as the 405-tumor
+  training cohort and GSE96058 as an independent 3,273-tumor validation cohort; identifier-level
+  non-overlap remains unverified.
+er_codebook_status: founder_approved_conservative_inference
+decision: pass
+limitations:
+- "The public metadata has no inline codebook for ER consensus 0\u20133."
+- Extreme codes 0 and 3 are a founder-approved conservative inference.
+- Publication-described independence is not an identifier-level audit.
+- The deterministic subset may not represent all source variation.
+participant_identifiers_stored_external: true
+participant_identifiers_retained_in_git: false
+outcome_values_accessed: false
+expression_values_accessed: false
+validation_data_accessed: false
+classifier_executed: false
+generative_ai_received_participant_data: false

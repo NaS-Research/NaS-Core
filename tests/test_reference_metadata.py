@@ -18,6 +18,7 @@ from nas_core.domain.reference_metadata import (
     GSE81538ReferenceMetadataReceipt,
     ReferenceMetadataDecision,
     load_reference_metadata_plan,
+    load_reference_metadata_receipt,
 )
 from nas_core.ingestion.gdc import sha256
 from nas_core.ingestion.reference_metadata import (
@@ -28,6 +29,8 @@ from nas_core.storage.layout import DataLayout
 from nas_core.storage.object_store import FileSystemObjectStore
 
 ROOT = Path(__file__).parents[1]
+STUDY = ROOT / "workflows/studies/breast_clinical_molecular_discordance"
+EXECUTED_RECEIPT = STUDY / "ingestion/gse81538_reference_metadata_receipt_v1.0.0.yaml"
 STUDY = ROOT / "workflows/studies/breast_clinical_molecular_discordance"
 PLAN = STUDY / "ingestion/gse81538_reference_metadata_plan_v1.0.0.yaml"
 ACQUISITION = STUDY / "ingestion/gse81538_family_soft_acquisition_receipt_v1.0.0.yaml"
@@ -220,3 +223,16 @@ def test_reference_metadata_schemas_match_runtime_models() -> None:
     assert json.loads(RECEIPT_SCHEMA.read_text(encoding="utf-8")) == (
         GSE81538ReferenceMetadataReceipt.model_json_schema()
     )
+
+
+def test_executed_reference_metadata_receipt_is_valid_and_field_isolated() -> None:
+    receipt = load_reference_metadata_receipt(EXECUTED_RECEIPT)
+
+    assert receipt.decision.value == "pass"
+    assert receipt.sample_record_count == 405
+    assert receipt.er_consensus_counts == {0: 82, 1: 8, 2: 11, 3: 304}
+    assert receipt.selected_negative_count == 50
+    assert receipt.selected_positive_count == 50
+    assert receipt.participant_identifiers_retained_in_git is False
+    assert receipt.expression_values_accessed is False
+    assert receipt.outcome_values_accessed is False

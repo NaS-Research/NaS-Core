@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Freeze GSE81538 participant lineage and the outcome-blind reference subset
+### Construct and diagnose the fixed GSE81538 reference
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,12 +17,13 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: execute the frozen field-isolated parser from its committed
-revision; verify one-to-one `T1`–`T405` lineage and aggregate ER-code counts;
-then freeze exactly 50 code-0 plus 50 code-3 accessions by lexicographic GEO
-accession in the external object store. The Git receipt must contain only counts,
-checksums, provenance, limitations, and boundary attestations. No expression,
-outcome, GSE96058, or classifier value may be accessed.
+Definition of done: use the checksum-bound external 100-record manifest to read
+only the 50 PAM50 rows and selected columns from the governed matrix; construct
+the prespecified gene-wise median reference unchanged on `log2(FPKM + 0.1)`;
+and freeze its exact gene order, values, checksums, code revision, and provenance
+outside Git. Run outcome-blind sensitivity diagnostics for stratum balance and
+deterministic selection without reading GSE96058 or any outcome. Git retains
+only aggregate diagnostics and artifact checksums.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
@@ -59,7 +60,11 @@ The founder approved reference-input decisions `1.1`. Immutable decision record
 matrix and metadata receipts. Protocol amendment `1.1.0` removes the incorrect
 proposed transform, freezes extreme ER codes 0/3 and excludes 1/2, while retaining
 the documented inference and independence limitations. The field-isolated parser
-and external-manifest writer are implemented and awaiting frozen-revision execution.
+and external-manifest writer executed from frozen revision `76ace2b`. Receipt
+`b8b43884…66423` passed with 405 unique linked records and aggregate ER counts
+82/8/11/304. The external manifest contains exactly 50 code-0 and 50 code-3
+records with independently reproduced SHA-256 `4f36124c…a9fe`. No identifiers
+entered Git and no expression, outcome, validation, classifier, or AI access occurred.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -637,6 +642,15 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-08-01 — Outcome-blind reference participant manifest frozen
+
+Executed the field-isolated parser from frozen revision `76ace2b`. All 405
+GSE81538 records linked uniquely to ordered matrix titles; aggregate ER-consensus
+counts reconciled to 82/8/11/304. The immutable external manifest contains 50
+code-0 and 50 code-3 records with SHA-256 `4f36124c…a9fe`. Git retains only the
+aggregate receipt; no expression, outcome, validation, classifier, or AI access
+occurred.
+
 ### 2026-08-01 — Reference-input decisions and protocol amendment frozen
 
 Recorded the founder's exact decision against checksum-bound executed evidence.
@@ -669,14 +683,6 @@ contact. Revision `db3c81b` then stored the official GSE81538 artifact at exactl
 54,838,076 bytes with independently reproduced SHA-256 `9da259a9…39181`.
 Registration, provenance, storage readiness, exact URL, atomic non-overwrite,
 and checksum gates all passed. No molecular values or outcomes were parsed.
-
-### 2026-07-29 — Governed storage preflight executed
-
-Implemented and independently tested a non-mutating storage-readiness contract,
-CLI, schema, and receipt. The Seagate layout and capacity pass, but the receipt
-correctly blocks acquisition on the read-only mount. Official NCBI headers freeze
-the GSE81538 filename, size, content type, and last-modified time. No write probe,
-source download, molecular access, or outcome access occurred.
 
 ## Historical implementation log
 

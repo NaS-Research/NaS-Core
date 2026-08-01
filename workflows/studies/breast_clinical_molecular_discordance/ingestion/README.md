@@ -159,6 +159,14 @@ only to governed external storage. The Git receipt contains aggregate counts,
 checksums, provenance, limitations, and explicit zero-access attestations for
 expression, outcomes, validation data, classifier execution, and generative AI.
 
+Frozen revision `76ace2b` executed the plan. Receipt
+[`gse81538_reference_metadata_receipt_v1.0.0.yaml`](gse81538_reference_metadata_receipt_v1.0.0.yaml)
+has SHA-256 `b8b43884…66423` and records 405 unique linked records: 82 code-0,
+8 code-1, 11 code-2, and 304 code-3. The external manifest contains exactly 50
+ER-negative and 50 ER-positive records and independently reproduces SHA-256
+`4f36124c…a9fe`. See
+[`GSE81538_REFERENCE_METADATA_REPORT_v1.0.0.md`](GSE81538_REFERENCE_METADATA_REPORT_v1.0.0.md).
+
 Execute only from the frozen implementation revision:
 
 ```console

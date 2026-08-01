@@ -167,6 +167,12 @@ def load_reference_metadata_plan(path: Path) -> GSE81538ReferenceMetadataPlan:
     )
 
 
+def load_reference_metadata_receipt(path: Path) -> GSE81538ReferenceMetadataReceipt:
+    return GSE81538ReferenceMetadataReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_reference_metadata_receipt(
     path: Path,
     receipt: GSE81538ReferenceMetadataReceipt,
