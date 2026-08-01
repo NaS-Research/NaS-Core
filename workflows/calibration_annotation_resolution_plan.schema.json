@@ -1,0 +1,81 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "candidate_annotation_length_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Candidate Annotation Length Bytes",
+      "type": "integer"
+    },
+    "candidate_annotation_url": {
+      "pattern": "^https://ftp\\.ensembl\\.org/",
+      "title": "Candidate Annotation Url",
+      "type": "string"
+    },
+    "expected_family_soft_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Family Soft Sha256",
+      "type": "string"
+    },
+    "family_soft_url": {
+      "pattern": "^https://ftp\\.ncbi\\.nlm\\.nih\\.gov/",
+      "title": "Family Soft Url",
+      "type": "string"
+    },
+    "feasibility_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Feasibility Audit Receipt Sha256",
+      "type": "string"
+    },
+    "lineage_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Lineage Receipt Sha256",
+      "type": "string"
+    },
+    "molecular_values_requested": {
+      "title": "Molecular Values Requested",
+      "type": "boolean"
+    },
+    "outcomes_requested": {
+      "title": "Outcomes Requested",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "retain_processing_rows": {
+      "title": "Retain Processing Rows",
+      "type": "boolean"
+    },
+    "retain_sample_identifiers": {
+      "title": "Retain Sample Identifiers",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_version",
+    "feasibility_audit_receipt_sha256",
+    "lineage_receipt_sha256",
+    "expected_family_soft_sha256",
+    "family_soft_url",
+    "candidate_annotation_url",
+    "candidate_annotation_length_bytes",
+    "retain_sample_identifiers",
+    "retain_processing_rows",
+    "molecular_values_requested",
+    "outcomes_requested"
+  ],
+  "title": "CalibrationAnnotationResolutionPlan",
+  "type": "object"
+}

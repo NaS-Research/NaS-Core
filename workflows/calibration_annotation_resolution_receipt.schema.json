@@ -1,0 +1,158 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "access_count_column": {
+      "pattern": "^rev$",
+      "title": "Access Count Column",
+      "type": "string"
+    },
+    "access_library_count": {
+      "minimum": 0,
+      "title": "Access Library Count",
+      "type": "integer"
+    },
+    "access_reverse_directive_count": {
+      "minimum": 0,
+      "title": "Access Reverse Directive Count",
+      "type": "integer"
+    },
+    "annotation_expected_length_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Annotation Expected Length Bytes",
+      "type": "integer"
+    },
+    "annotation_url": {
+      "pattern": "^https://ftp\\.ensembl\\.org/",
+      "title": "Annotation Url",
+      "type": "string"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "ensembl_release": {
+      "maximum": 84,
+      "minimum": 84,
+      "title": "Ensembl Release",
+      "type": "integer"
+    },
+    "family_soft_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Family Soft Sha256",
+      "type": "string"
+    },
+    "family_soft_size_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Family Soft Size Bytes",
+      "type": "integer"
+    },
+    "genome_build": {
+      "pattern": "^GRCh38$",
+      "title": "Genome Build",
+      "type": "string"
+    },
+    "grch38_release_84_count": {
+      "minimum": 0,
+      "title": "Grch38 Release 84 Count",
+      "type": "integer"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "ovation_count_column": {
+      "pattern": "^fwd$",
+      "title": "Ovation Count Column",
+      "type": "string"
+    },
+    "ovation_forward_directive_count": {
+      "minimum": 0,
+      "title": "Ovation Forward Directive Count",
+      "type": "integer"
+    },
+    "ovation_library_count": {
+      "minimum": 0,
+      "title": "Ovation Library Count",
+      "type": "integer"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "processing_rows_retained": {
+      "title": "Processing Rows Retained",
+      "type": "boolean"
+    },
+    "raw_metadata_stored": {
+      "title": "Raw Metadata Stored",
+      "type": "boolean"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "resolution_complete": {
+      "title": "Resolution Complete",
+      "type": "boolean"
+    },
+    "sample_count": {
+      "exclusiveMinimum": 0,
+      "title": "Sample Count",
+      "type": "integer"
+    },
+    "sample_identifiers_retained": {
+      "title": "Sample Identifiers Retained",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "star_gene_counts_count": {
+      "minimum": 0,
+      "title": "Star Gene Counts Count",
+      "type": "integer"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "code_revision",
+    "plan_sha256",
+    "family_soft_sha256",
+    "family_soft_size_bytes",
+    "sample_count",
+    "grch38_release_84_count",
+    "star_gene_counts_count",
+    "access_library_count",
+    "access_reverse_directive_count",
+    "ovation_library_count",
+    "ovation_forward_directive_count",
+    "genome_build",
+    "ensembl_release",
+    "access_count_column",
+    "ovation_count_column",
+    "annotation_url",
+    "annotation_expected_length_bytes",
+    "resolution_complete",
+    "sample_identifiers_retained",
+    "processing_rows_retained",
+    "molecular_values_parsed",
+    "outcomes_accessed",
+    "raw_metadata_stored"
+  ],
+  "title": "CalibrationAnnotationResolutionReceipt",
+  "type": "object"
+}

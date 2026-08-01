@@ -57,6 +57,14 @@ Its Ensembl-to-symbol mapping and strandedness choice remain unresolved. Receipt
 `0d642c61…78ac` proves no retention, pooling, outcomes, classifier, thresholds,
 AI, or publication.
 
+The authoritative annotation-resolution implementation now re-fetches the exact
+checksum-bound GSE130397 family SOFT representation and requires every sample's
+processing declarations to reconcile. It can freeze GRCh38/Ensembl release 84,
+Access reverse-strand counts, NuGEN Ovation forward-strand counts, and the exact
+45,686,368-byte Ensembl GTF candidate without retaining sample titles or source
+rows. Synthetic tests and the full quality gate pass; live metadata execution
+will run only from the frozen revision.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and

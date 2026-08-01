@@ -34,6 +34,14 @@ replicate records but requires a versioned gene mapping and strandedness
 decision. See
 [`../analysis/CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md`](../analysis/CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md).
 
+Annotation-resolution plan
+[`../analysis/calibration_annotation_resolution_plan_v1.0.0.yaml`](../analysis/calibration_annotation_resolution_plan_v1.0.0.yaml)
+binds that audit and the prior lineage receipt to the unchanged GSE130397 family
+SOFT checksum. It requires all 21 sample-processing declarations to reconcile
+before selecting GRCh38/Ensembl release 84, reverse counts for Access libraries,
+and forward counts for NuGEN Ovation libraries. No sample identifier, processing
+row, molecular value, or outcome may be retained.
+
 Required artifacts:
 
 - `ingestion/README.md`

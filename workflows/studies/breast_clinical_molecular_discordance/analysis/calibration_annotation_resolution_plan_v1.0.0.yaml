@@ -1,0 +1,13 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+feasibility_audit_receipt_sha256: 0d642c61ffe434bbd9f03d323f5bc530d4e0c6dbec72e42224dc15d370c378ac
+lineage_receipt_sha256: ef3cce520232df76640685bf3e5936e934264fdfa66c6ab05cb85eb4ec1389d2
+expected_family_soft_sha256: bd35b4d656bca4ac4a26fdbe248e44d2f80e8be9e6db65a106f4d0ec6add90df
+family_soft_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE130nnn/GSE130397/soft/GSE130397_family.soft.gz
+candidate_annotation_url: https://ftp.ensembl.org/pub/release-84/gtf/homo_sapiens/Homo_sapiens.GRCh38.84.gtf.gz
+candidate_annotation_length_bytes: 45686368
+retain_sample_identifiers: false
+retain_processing_rows: false
+molecular_values_requested: false
+outcomes_requested: false
