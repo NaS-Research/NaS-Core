@@ -164,14 +164,14 @@ founder packet. The design authorizes no contact, spending, specimen or data
 acquisition, threshold selection, or execution.
 
 The current cross-phase completion state is separately frozen in
-`../reviews/RESEARCH_COMPLETION_AUDIT_v1.9.0.yaml` with a human-readable
+`../reviews/RESEARCH_COMPLETION_AUDIT_v1.10.0.yaml` with a human-readable
 `RESEARCH_COMPLETION_REPORT_v1.9.0.md`. Earlier versions remain immutable
 history. Validate that every cited artifact still
 exists with the exact frozen bytes:
 
 ```console
 uv run nas-core study completion-validate \
-  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.9.0.yaml \
+  workflows/studies/breast_clinical_molecular_discordance/reviews/RESEARCH_COMPLETION_AUDIT_v1.10.0.yaml \
   workflows/studies/breast_clinical_molecular_discordance \
   workflows/studies/breast_clinical_molecular_discordance/pipeline.yaml
 ```
@@ -237,6 +237,14 @@ Current candidate routing permits GSE60788 and GSE130397 for feasibility-only
 artifact and panel audits. GSE96058 remains validation-only; Hurson participant-
 level data remain controlled and unavailable; prospective laboratory execution
 remains a founder stop condition.
+
+Frozen revision `63708b6` executed that gate. Immutable receipt
+`technical_calibration_readiness_receipt_v1.0.0.yaml` has SHA-256
+`c1da22e2…1a784` and returns
+`public_feasibility_only_primary_calibration_not_ready`. See
+`TECHNICAL_CALIBRATION_READINESS_REPORT_v1.0.0.md`. It authorizes exact public
+artifact registration and source-specific feasibility audits only; it does not
+authorize primary calibration or any standing stop-condition action.
 
 Platform audit `1.0.0` reuses only governed repository evidence and returns
 `changes_required`: one of eight criteria is verified, four are partial, and

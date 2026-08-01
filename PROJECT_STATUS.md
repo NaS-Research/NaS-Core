@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Resolve the independent technical-error calibration dependency
+### Acquire and audit excluded public calibration-feasibility sources
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,13 +17,12 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: select no source by assumption. Reconcile the existing
-prospective calibration design, source requirements, lineage evidence, and
-no-contact boundary into an executable internal readiness gate. Identify which
-technical-error estimands can be developed from approved public/open data and
-which require a separately authorized prospective experiment. No external
-contact, spending, specimen acquisition, controlled data, threshold tuning,
-GSE96058 validation access, or clinical interpretation.
+Definition of done: register exact official GSE60788 and GSE130397 public
+artifacts for `calibration_feasibility_only`; freeze URLs, headers, sizes,
+checksums, licenses, and external object keys; acquire them immutably; then audit
+PAM50 panel coverage, expression scale, replicate lineage, and denominators
+source by source. Do not pool sources, select thresholds, execute a classifier,
+access GSE96058 or outcomes, contact anyone, spend, or acquire specimens.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
@@ -93,7 +92,10 @@ lineage audit, prospective design, internal planning bundle, contact revocation,
 and completed reference receipts. It authorizes only excluded public feasibility
 work on GSE60788 and GSE130397, keeps GSE96058 reserved, and rejects every current
 path for primary threshold calibration. Synthetic tests and a real-evidence dry
-run pass; the immutable readiness receipt awaits the frozen code revision.
+run pass. Frozen revision `63708b6` issued receipt `c1da22e2…1a784`, authorizing
+GSE60788 and GSE130397 for public feasibility only while proving primary
+calibration is not ready. GSE96058, controlled data, external contact, spending,
+specimens, classifiers, outcomes, and thresholds remain prohibited.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -671,6 +673,15 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-08-01 — Technical-calibration feasibility paths frozen
+
+Frozen revision `63708b6` reconciled every active calibration and governance
+artifact. GSE60788 and GSE130397 are authorized only for excluded public
+feasibility audits; no current source is eligible for primary calibration.
+GSE96058 remains validation-only, controlled data and external contact remain
+prohibited, and prospective laboratory execution remains a spending/specimen
+stop condition. Receipt SHA-256 is `c1da22e2…1a784`.
+
 ### 2026-08-01 — Outcome-blind reference sensitivities completed
 
 Frozen revision `5c1eba8` reproduced the primary median and compared it with the
@@ -706,14 +717,6 @@ code 0 as ER-negative and code 3 as ER-positive, excludes codes 1/2, and preserv
 the absence of an inline codebook and identifier-level independence audit. The
 field-isolated selection implementation reads only title, GEO accession, and ER
 consensus and keeps identifiers outside Git.
-
-### 2026-08-01 — Separate immutable metadata artifact acquired
-
-Generalized the acquisition contract with typed matrix and sample-metadata kinds,
-then froze revision `8e105f1` before source contact. The official 51,036-byte
-family SOFT object is stored outside Git with independently reproduced SHA-256
-`8d7bab68…332c`. Its receipt correctly records metadata rather than molecular
-bytes and confirms zero parsing, outcome access, or classifier execution.
 
 ## Historical implementation log
 
