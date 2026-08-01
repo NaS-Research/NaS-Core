@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Complete a no-contact lawful-source landscape audit for the pilot
+### Founder decision required before external pilot-source due diligence
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,12 +17,12 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: identify public catalogs, biobanks, residual-RNA programs,
-commercial research materials, and academic repositories that could lawfully
-provide 30 independent high-quality primary breast-tumor RNA sources; assess
-access class, consent/use terms, material format, quality metadata, nonoverlap,
-cost/contact requirements, and fit without contacting anyone or acquiring data
-or specimens. Produce eligible, ineligible, and unresolved dispositions.
+Public evidence is exhausted for source qualification. Zero of six routes is
+verified eligible; five require provider-specific eligibility information and
+data-only repositories are ineligible. The next action would be external contact,
+an application, institutional review preparation, or commercial due diligence.
+Those actions remain outside standing authority and cannot begin without a new,
+explicit founder decision. No message or application draft has been prepared.
 
 The retrospective expression bridge is now frozen independently of validation
 performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
@@ -172,6 +172,17 @@ classes are frozen. Pilot specimens are permanently excluded from primary
 calibration and validation, and pilot results cannot select final thresholds or
 support the reliability claim. No source, contact, purchase, specimen, value, or
 execution was authorized. Receipt SHA-256 is `77d6880d…88d89`.
+
+Frozen revision `ebee2bb` completed the no-contact source landscape. Six routes
+were assessed: CHTN, OriGene, BioChain, Discovery Life Sciences, BioIVT, and
+data-only repositories. None is verified eligible from public evidence; five are
+unresolved and the data-only route is ineligible. CHTN ranks first for future
+due diligence because of prospective breast-tumor acquisition and a public
+governance framework, but it requires application, institutional review/use
+documentation, fees, and shipping, while purified RIN-at-least-8 RNA, 30-source
+availability, paired aliquots, and nonoverlap remain unproven. No contact, quote,
+application, purchase, or specimen action occurred. Receipt SHA-256 is
+`fd763a73…7554b3`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the

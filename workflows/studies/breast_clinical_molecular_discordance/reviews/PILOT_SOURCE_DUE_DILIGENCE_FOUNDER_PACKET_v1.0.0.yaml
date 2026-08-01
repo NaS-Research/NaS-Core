@@ -1,0 +1,51 @@
+schema_version: 1.0.0
+packet_version: 1.0.0
+study_id: NAS-BRCA-002
+source_landscape_receipt_sha256: fd763a731cea43faf90e6bdc556a9f67315f1d96e9e4f346fa7cfe7c567554b3
+decision_status: founder_review_required_before_any_external_action
+verified_eligible_source_count: 0
+recommended_due_diligence_order:
+  - route_id: ROUTE-1
+    provider: NCI Cooperative Human Tissue Network
+    recommendation: First due-diligence route if external inquiry is later authorized.
+    scientific_advantage: Prospective tailored breast tumor collection with public governance and quality framework.
+    unresolved_requirements:
+      - Ability to deliver or support one purified RIN-at-least-8 RNA aliquot per 30 independent sources
+      - Sufficient same-homogenate RNA for two independent libraries
+      - Nonoverlap reconciliation using stable nonidentifying source keys
+      - Exact tissue processing, extraction, quality, consent/use, publication, retention, and destruction terms
+      - Processing, specialized service, shipping, and institutional-review obligations
+  - route_id: ROUTE-2
+    provider: Commercial purified-RNA suppliers
+    recommendation: Secondary route if public-network feasibility fails or timeline dominates.
+    scientific_advantage: Potentially assay-ready extracted RNA with less tissue-processing burden.
+    unresolved_requirements:
+      - Thirty unique qualifying tumor sources in inventory
+      - RIN-at-least-8, quantity, purity, fragment analysis, and DNase documentation
+      - Same-homogenate aliquot architecture and stable nonidentifying source keys
+      - Consent, use, redistribution, derived-data, publication, retention, and destruction terms
+      - Complete price, shipping, replacement, and quality-failure terms
+  - route_id: ROUTE-3
+    provider: Commercial or public fresh/frozen tissue providers
+    recommendation: Contingency requiring a separate extraction workflow and scope review.
+    scientific_advantage: Broader possible specimen inventory.
+    unresolved_requirements:
+      - One standardized extraction before same-RNA splitting
+      - Proof that extraction is outside the primary post-extraction estimand
+      - Tissue pathology, tumor content, preanalytic history, and RNA-yield feasibility
+      - Governance, biosafety, storage, disposal, cost, and laboratory capability
+recommended_route_for_due_diligence: ROUTE-1
+recommendation_is_not_source_selection: true
+external_contact_authorized: false
+application_submission_authorized: false
+quote_request_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+study_execution_authorized: false
+final_human_review_preserved: true
+founder_decision_required:
+  - Whether any external due diligence is authorized despite the standing no-contact boundary
+  - Which one route, if any, may receive a bounded eligibility inquiry
+  - Whether institutional review and biospecimen governance preparation may begin
+  - Whether any future quote or budget work is authorized separately after eligibility is established

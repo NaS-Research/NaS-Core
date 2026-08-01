@@ -1,0 +1,26 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: ebee2bb
+plan_sha256: c7337df3cebd8dd3b2bc02be09af04daee9ff4bd577517e7057e4a6402531e24
+dependency_hashes_verified: true
+candidate_count: 6
+verified_eligible_count: 0
+unresolved_count: 5
+ineligible_count: 1
+selected_source_id: null
+no_contact_preserved: true
+decision: no_verified_source_external_due_diligence_required
+external_action_authorized: false
+study_execution_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false
+limitations:
+- Public catalogs do not prove 30 independent RIN-at-least-8 RNA sources.
+- Same-homogenate aliquots and nonoverlap require provider due diligence.
+- Application, pricing, shipping, and lawful-use terms require external action.
+next_actions:
+- Present unresolved routes for founder review of external due diligence.
+- Require separate authority before any inquiry, application, quote, or purchase.
+- Do not select a source until every frozen eligibility field is documented.
