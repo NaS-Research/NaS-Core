@@ -75,6 +75,14 @@ materialized the 50-gene median vector outside Git. Its independently reproduced
 SHA-256 is `72bd804f…f40e9`; receipt SHA-256 is `c71ad6af…57f3c`. No outcome,
 validation, classifier, AI, or method-lock boundary was crossed.
 
+The outcome-blind sensitivity path is now implemented. It reproduces the primary
+median exactly, computes a prespecified 20%-per-tail trimmed-mean vector, measures
+vector agreement and centered-profile rank stability, and audits whether the
+exact next-50-per-stratum alternative is feasible. It fails closed rather than
+substituting a smaller alternative cohort. Value-bearing diagnostics remain
+external; synthetic tests and the full 508-test gate pass. Live execution awaits
+the frozen implementation revision.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three

@@ -28,6 +28,7 @@ from nas_core.analysis.reference_construction import GSE81538ReferenceConstructi
 from nas_core.analysis.reference_development import (
     ReferenceDevelopmentProtocolService,
 )
+from nas_core.analysis.reference_sensitivity import GSE81538ReferenceSensitivityService
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
@@ -202,6 +203,7 @@ from nas_core.domain.public_artifact import (
 )
 from nas_core.domain.reference_construction import (
     load_reference_construction_plan,
+    load_reference_construction_receipt,
     write_reference_construction_receipt,
     write_reference_construction_schemas,
 )
@@ -215,6 +217,11 @@ from nas_core.domain.reference_metadata import (
     load_reference_metadata_receipt,
     write_reference_metadata_receipt,
     write_reference_metadata_schemas,
+)
+from nas_core.domain.reference_sensitivity import (
+    load_reference_sensitivity_plan,
+    write_reference_sensitivity_receipt,
+    write_reference_sensitivity_schemas,
 )
 from nas_core.domain.reliability import (
     load_reliability_method_inputs,
@@ -509,6 +516,30 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reference_construction_schema.add_argument("plan_path", type=Path)
     reference_construction_schema.add_argument("receipt_path", type=Path)
+    reference_sensitivity = ingest_commands.add_parser(
+        "reference-sensitivity",
+        help="Run outcome-blind GSE81538 fixed-reference sensitivities",
+    )
+    reference_sensitivity.add_argument("plan_path", type=Path)
+    reference_sensitivity.add_argument("matrix_audit_receipt_path", type=Path)
+    reference_sensitivity.add_argument("reference_metadata_receipt_path", type=Path)
+    reference_sensitivity.add_argument("construction_receipt_path", type=Path)
+    reference_sensitivity.add_argument("reference_protocol_path", type=Path)
+    reference_sensitivity.add_argument("centroid_candidate_path", type=Path)
+    reference_sensitivity.add_argument("--data-root", type=Path, required=True)
+    reference_sensitivity.add_argument("--code-revision", required=True)
+    reference_sensitivity.add_argument("--output-path", type=Path)
+    reference_sensitivity.add_argument(
+        "--execute",
+        action="store_true",
+        help="Freeze outcome-blind reference diagnostics outside Git",
+    )
+    reference_sensitivity_schema = ingest_commands.add_parser(
+        "reference-sensitivity-schema",
+        help="Write reference-sensitivity plan and receipt JSON Schemas",
+    )
+    reference_sensitivity_schema.add_argument("plan_path", type=Path)
+    reference_sensitivity_schema.add_argument("receipt_path", type=Path)
 
     feasibility = commands.add_parser(
         "feasibility",
@@ -2542,6 +2573,51 @@ def main(argv: Sequence[str] | None = None) -> int:
         write_reference_construction_schemas(args.plan_path, args.receipt_path)
         print(
             "Wrote GSE81538 reference-construction schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "reference-sensitivity":
+        sensitivity_plan = load_reference_sensitivity_plan(args.plan_path)
+        if not args.execute:
+            print(
+                "GSE81538 reference-sensitivity plan is valid: "
+                f"samples={sensitivity_plan.expected_sample_count}; "
+                f"genes={sensitivity_plan.expected_gene_count}; dry run only"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        sensitivity_receipt = GSE81538ReferenceSensitivityService(
+            store=FileSystemObjectStore(args.data_root)
+        ).execute(
+            sensitivity_plan,
+            load_matrix_audit_receipt(args.matrix_audit_receipt_path),
+            load_reference_metadata_receipt(args.reference_metadata_receipt_path),
+            load_reference_construction_receipt(args.construction_receipt_path),
+            load_reference_development_protocol(args.reference_protocol_path),
+            load_pam50_centroid_candidate(args.centroid_candidate_path),
+            plan_path=args.plan_path,
+            matrix_audit_path=args.matrix_audit_receipt_path,
+            metadata_receipt_path=args.reference_metadata_receipt_path,
+            construction_receipt_path=args.construction_receipt_path,
+            protocol_path=args.reference_protocol_path,
+            candidate_path=args.centroid_candidate_path,
+            code_revision=args.code_revision,
+        )
+        write_reference_sensitivity_receipt(args.output_path, sensitivity_receipt)
+        print(
+            "Wrote GSE81538 reference sensitivity: "
+            f"{sensitivity_receipt.decision.value}; "
+            f"spearman={sensitivity_receipt.vector_spearman_correlation:.6f}; "
+            f"sensitivity_sha256={sensitivity_receipt.sensitivity_sha256}"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "reference-sensitivity-schema":
+        write_reference_sensitivity_schemas(args.plan_path, args.receipt_path)
+        print(
+            "Wrote GSE81538 reference-sensitivity schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
         return 0

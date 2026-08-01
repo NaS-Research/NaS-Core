@@ -58,3 +58,13 @@ produced a 50-gene external reference with independently reproduced SHA-256
 classifier execution, participant-data AI processing, or method lock occurred.
 See
 [`GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md`](GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md).
+
+Sensitivity plan
+[`gse81538_reference_sensitivity_plan_v1.0.0.yaml`](gse81538_reference_sensitivity_plan_v1.0.0.yaml)
+binds the matrix, family metadata, participant manifest, primary reference, all
+receipts, amended protocol, and PAM50 gene order. It compares the primary median
+with a 20%-per-tail trimmed mean and summarizes vector agreement plus centered-
+profile rank stability. It separately audits whether 50 new records remain in
+each ER stratum; an underfilled stratum is reported as non-estimable and is not
+silently replaced by a smaller cohort. No centroid classifier, threshold,
+outcome, or validation data is used.

@@ -1,0 +1,287 @@
+{
+  "$defs": {
+    "ReferenceSensitivityDecision": {
+      "enum": [
+        "pass_with_limitation"
+      ],
+      "title": "ReferenceSensitivityDecision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "all_object_checksums_verified": {
+      "title": "All Object Checksums Verified",
+      "type": "boolean"
+    },
+    "alternative_target_per_stratum": {
+      "exclusiveMinimum": 0,
+      "title": "Alternative Target Per Stratum",
+      "type": "integer"
+    },
+    "centered_profile_correlation_mean": {
+      "maximum": 1,
+      "minimum": -1,
+      "title": "Centered Profile Correlation Mean",
+      "type": "number"
+    },
+    "centered_profile_correlation_median": {
+      "maximum": 1,
+      "minimum": -1,
+      "title": "Centered Profile Correlation Median",
+      "type": "number"
+    },
+    "centered_profile_correlation_minimum": {
+      "maximum": 1,
+      "minimum": -1,
+      "title": "Centered Profile Correlation Minimum",
+      "type": "number"
+    },
+    "centroid_candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Centroid Candidate Sha256",
+      "type": "string"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/ReferenceSensitivityDecision"
+    },
+    "exact_alternative_balanced_reference_feasible": {
+      "title": "Exact Alternative Balanced Reference Feasible",
+      "type": "boolean"
+    },
+    "exact_alternative_reference_constructed": {
+      "title": "Exact Alternative Reference Constructed",
+      "type": "boolean"
+    },
+    "executed_at": {
+      "format": "date-time",
+      "title": "Executed At",
+      "type": "string"
+    },
+    "generative_ai_received_participant_data": {
+      "title": "Generative Ai Received Participant Data",
+      "type": "boolean"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "matrix_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Matrix Audit Receipt Sha256",
+      "type": "string"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "next_er_negative_available": {
+      "minimum": 0,
+      "title": "Next Er Negative Available",
+      "type": "integer"
+    },
+    "next_er_positive_available": {
+      "minimum": 0,
+      "title": "Next Er Positive Available",
+      "type": "integer"
+    },
+    "outcome_values_accessed": {
+      "title": "Outcome Values Accessed",
+      "type": "boolean"
+    },
+    "parsed_measurement_count": {
+      "exclusiveMinimum": 0,
+      "title": "Parsed Measurement Count",
+      "type": "integer"
+    },
+    "participant_identifiers_retained_in_git": {
+      "title": "Participant Identifiers Retained In Git",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "primary_gene_count": {
+      "exclusiveMinimum": 0,
+      "title": "Primary Gene Count",
+      "type": "integer"
+    },
+    "primary_sample_count": {
+      "exclusiveMinimum": 0,
+      "title": "Primary Sample Count",
+      "type": "integer"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "reference_construction_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Construction Receipt Sha256",
+      "type": "string"
+    },
+    "reference_locked": {
+      "title": "Reference Locked",
+      "type": "boolean"
+    },
+    "reference_metadata_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Metadata Receipt Sha256",
+      "type": "string"
+    },
+    "reference_protocol_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Protocol Sha256",
+      "type": "string"
+    },
+    "reference_values_retained_in_git": {
+      "title": "Reference Values Retained In Git",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sensitivity_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Sensitivity Bytes",
+      "type": "integer"
+    },
+    "sensitivity_immutable_verified": {
+      "title": "Sensitivity Immutable Verified",
+      "type": "boolean"
+    },
+    "sensitivity_object_key": {
+      "pattern": "^derived/[a-z0-9._/-]+$",
+      "title": "Sensitivity Object Key",
+      "type": "string"
+    },
+    "sensitivity_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Sensitivity Sha256",
+      "type": "string"
+    },
+    "source_accession": {
+      "pattern": "^GSE81538$",
+      "title": "Source Accession",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "threshold_tuning_performed": {
+      "title": "Threshold Tuning Performed",
+      "type": "boolean"
+    },
+    "trimmed_mean_fraction_each_tail": {
+      "exclusiveMaximum": 0.5,
+      "exclusiveMinimum": 0,
+      "title": "Trimmed Mean Fraction Each Tail",
+      "type": "number"
+    },
+    "trimmed_observations_per_gene": {
+      "exclusiveMinimum": 0,
+      "title": "Trimmed Observations Per Gene",
+      "type": "integer"
+    },
+    "validation_data_accessed": {
+      "title": "Validation Data Accessed",
+      "type": "boolean"
+    },
+    "vector_maximum_absolute_difference": {
+      "minimum": 0,
+      "title": "Vector Maximum Absolute Difference",
+      "type": "number"
+    },
+    "vector_mean_absolute_difference": {
+      "minimum": 0,
+      "title": "Vector Mean Absolute Difference",
+      "type": "number"
+    },
+    "vector_pearson_correlation": {
+      "maximum": 1,
+      "minimum": -1,
+      "title": "Vector Pearson Correlation",
+      "type": "number"
+    },
+    "vector_root_mean_square_difference": {
+      "minimum": 0,
+      "title": "Vector Root Mean Square Difference",
+      "type": "number"
+    },
+    "vector_spearman_correlation": {
+      "maximum": 1,
+      "minimum": -1,
+      "title": "Vector Spearman Correlation",
+      "type": "number"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "source_accession",
+    "code_revision",
+    "executed_at",
+    "plan_sha256",
+    "matrix_audit_receipt_sha256",
+    "reference_metadata_receipt_sha256",
+    "reference_construction_receipt_sha256",
+    "reference_protocol_sha256",
+    "centroid_candidate_sha256",
+    "all_object_checksums_verified",
+    "primary_sample_count",
+    "primary_gene_count",
+    "parsed_measurement_count",
+    "trimmed_mean_fraction_each_tail",
+    "trimmed_observations_per_gene",
+    "vector_pearson_correlation",
+    "vector_spearman_correlation",
+    "vector_mean_absolute_difference",
+    "vector_maximum_absolute_difference",
+    "vector_root_mean_square_difference",
+    "centered_profile_correlation_minimum",
+    "centered_profile_correlation_median",
+    "centered_profile_correlation_mean",
+    "next_er_negative_available",
+    "next_er_positive_available",
+    "alternative_target_per_stratum",
+    "exact_alternative_balanced_reference_feasible",
+    "exact_alternative_reference_constructed",
+    "sensitivity_object_key",
+    "sensitivity_sha256",
+    "sensitivity_bytes",
+    "sensitivity_immutable_verified",
+    "decision",
+    "limitations",
+    "participant_identifiers_retained_in_git",
+    "reference_values_retained_in_git",
+    "molecular_values_parsed",
+    "outcome_values_accessed",
+    "validation_data_accessed",
+    "classifier_executed",
+    "generative_ai_received_participant_data",
+    "threshold_tuning_performed",
+    "reference_locked"
+  ],
+  "title": "GSE81538ReferenceSensitivityReceipt",
+  "type": "object"
+}
