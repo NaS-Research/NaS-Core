@@ -102,6 +102,15 @@ feasibility and heterogeneity, not a clinical reliability rule or primary
 calibration set. Receipt SHA-256 is `6dd74a9a…8c123`; external details reproduce
 SHA-256 `b8863b4f…45c0d`.
 
+Frozen revision `d4e0dca` performed the required blinded pair-count
+reestimation gate. It reconciled 13 independent groups and 21 within-group pairs
+but correctly returned `not_estimable_from_excluded_public_pilots`. The sources
+do not provide locked subtype-label retention, subtype-score or margin variance,
+target-assay attrition, batch clustering, or required coverage. No source RMSE
+was substituted as a classifier-score variance. The prior 185-pair balanced
+scenario remains hypothetical, and the 30-pair prospective excluded pilot
+remains a planning target only. Receipt SHA-256 is `f5b62294…e4892`.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and

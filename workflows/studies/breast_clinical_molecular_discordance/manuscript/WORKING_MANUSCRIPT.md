@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.65.0-working`
+Manuscript version: `0.66.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -760,6 +760,19 @@ biological lineage, method heterogeneity, and scale differences preclude primary
 calibration or a clinical reliability threshold.
 [calibration_feasibility_pilot_receipt_v1.0.0.yaml;
 CALIBRATION_FEASIBILITY_PILOT_REPORT_v1.0.0.md]
+
+A blinded reestimation gate next tested whether those pilot estimates matched
+the inputs required for the primary calibration sample-size calculation. They
+did not. Across 13 independent groups and 21 within-group pairs, the public
+sources provided expression-scale agreement but no locked subtype-label
+retention, subtype-score or margin paired variance, target-assay attrition or
+clustering, or planned coverage. The gate prohibited substituting RMSE for an
+unobserved classifier-score standard deviation and returned no final pair
+count. The prior 185-pair balanced scenario remains hypothetical, while the
+30-pair excluded prospective pilot remains a planning target rather than an
+authorized experiment.
+[calibration_pair_count_reestimation_receipt_v1.0.0.yaml;
+CALIBRATION_PAIR_COUNT_REESTIMATION_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1573,6 +1586,7 @@ reviews are complete.
 | Methods and results—calibration-feasibility audit | Source-isolated panel, scale, lineage, and denominator diagnostics | `analysis/calibration_feasibility_audit_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md` | GSE60788 panel complete with six replicates; GSE130397 mapping and strandedness unresolved; primary calibration not ready |
 | Methods and results—GSE130397 annotation | Official processing resolution, archived Ensembl-84 acquisition, feature mapping, and PAM50 coverage | `analysis/calibration_annotation_resolution_receipt_v1.0.0.yaml`; `ingestion/calibration_annotation_acquisition_receipt_v1.0.0.yaml`; `analysis/calibration_annotation_mapping_receipt_v1.0.0.yaml` | all 60,675 features mapped; PAM50 50/50; Access `rev`, Ovation `fwd`; no molecular values parsed |
 | Methods and results—excluded replicate pilots | Prespecified source-specific PAM50 replicate agreement and variation | `analysis/calibration_feasibility_pilot_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_FEASIBILITY_PILOT_REPORT_v1.0.0.md` | high within-source rank agreement; heterogeneous error magnitudes on noncommensurate scales; no pooling, threshold, classifier, outcomes, or primary-calibration eligibility |
+| Methods—pair-count reestimation | Compatibility-gated use of excluded-pilot estimates for primary calibration planning | `analysis/calibration_pair_count_reestimation_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_PAIR_COUNT_REESTIMATION_REPORT_v1.0.0.md` | final pair count not estimable; 185 remains hypothetical; no proxy substitution or execution |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1630,6 +1644,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.66.0-working | 2026-08-01 | Completed the blinded pair-count reestimation gate: excluded public pilots lack the classifier, target-assay, attrition, clustering, and coverage inputs required for a final sample size, so no proxy was substituted and 185 pairs remains hypothetical. |
 | 0.65.0-working | 2026-08-01 | Completed source-isolated excluded replicate pilots: six GSE60788 and seven GSE130397 independent groups showed high PAM50 rank agreement but nontrivial, source-dependent variation; no pooling, threshold, classifier, outcome, or clinical claim was made. |
 | 0.64.0-working | 2026-08-01 | Resolved GSE130397 to GRCh38/Ensembl 84 and library-specific strand columns, acquired the exact GTF, and verified conflict-free mapping of all 60,675 features and all 50 PAM50 genes without parsing molecular values. |
 | 0.63.0-working | 2026-08-01 | Completed the source-isolated public feasibility audit: GSE60788 has all 50 PAM50 genes and six replicate records; GSE130397 has 11 replicate records but requires versioned Ensembl mapping and a strandedness decision; neither source supports primary calibration. |
