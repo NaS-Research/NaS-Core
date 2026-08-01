@@ -1,0 +1,34 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+metadata_object_key: raw/nas-brca-002/ncbi-geo-gse81538/gse81538_family.soft.gz
+metadata_acquisition_receipt_sha256: 920a40f89c1049ce58c95d1a486a22fb53cdeba8366e56dfb09655cacca29f98
+matrix_audit_receipt_sha256: 98bfb62ad4ba1247feb0ba6c1487341517bb59049c2ad22b4e51fe2ed2773b4c
+founder_decision_sha256: 9db6243bcd582f9884139326d9ccaeb488203f3d1d6cb8f9f8b4a9addc3b3629
+reference_protocol_sha256: 8fa7b2343f4a9e1b880731633568130cb7f4d4f0eab1af5b92cf7a0e1204e605
+expected_metadata_sha256: 8d7bab685bb6ed135f64da10273e9b159e761e813a100a057829f5159957332c
+expected_metadata_bytes: 51036
+expected_sample_count: 405
+expected_title_prefix: T
+permitted_sample_fields:
+  - '!Sample_title'
+  - '!Sample_geo_accession'
+  - er consensus
+er_consensus_field: er consensus
+er_negative_consensus_code: 0
+er_positive_consensus_code: 3
+excluded_er_consensus_codes:
+  - 1
+  - 2
+samples_per_stratum: 50
+deterministic_ordering: lexicographic_geo_accession
+manifest_object_key: derived/nas-brca-002/reference-development/gse81538_er_balanced_manifest_v1.0.0.json
+primary_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC7446376/
+outcome_fields_permitted: false
+expression_values_permitted: false
+validation_data_permitted: false
+generative_ai_processing_permitted: false

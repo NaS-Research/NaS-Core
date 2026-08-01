@@ -1,0 +1,187 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "additional_transformation": {
+      "pattern": "^none$",
+      "title": "Additional Transformation",
+      "type": "string"
+    },
+    "classifier_execution_authorized": {
+      "title": "Classifier Execution Authorized",
+      "type": "boolean"
+    },
+    "clinical_use_authorized": {
+      "title": "Clinical Use Authorized",
+      "type": "boolean"
+    },
+    "confirmation_statement": {
+      "minLength": 1,
+      "title": "Confirmation Statement",
+      "type": "string"
+    },
+    "confirmed_at": {
+      "format": "date-time",
+      "title": "Confirmed At",
+      "type": "string"
+    },
+    "decision_packet_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Decision Packet Sha256",
+      "type": "string"
+    },
+    "decision_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Decision Version",
+      "type": "string"
+    },
+    "er_negative_consensus_code": {
+      "maximum": 3,
+      "minimum": 0,
+      "title": "Er Negative Consensus Code",
+      "type": "integer"
+    },
+    "er_positive_consensus_code": {
+      "maximum": 3,
+      "minimum": 0,
+      "title": "Er Positive Consensus Code",
+      "type": "integer"
+    },
+    "excluded_er_consensus_codes": {
+      "items": {
+        "type": "integer"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Excluded Er Consensus Codes",
+      "type": "array"
+    },
+    "external_manifest_authorized": {
+      "title": "External Manifest Authorized",
+      "type": "boolean"
+    },
+    "final_human_review_preserved": {
+      "title": "Final Human Review Preserved",
+      "type": "boolean"
+    },
+    "founder_id": {
+      "pattern": "^[a-z0-9-]+$",
+      "title": "Founder Id",
+      "type": "string"
+    },
+    "founder_name": {
+      "minLength": 1,
+      "title": "Founder Name",
+      "type": "string"
+    },
+    "limitations_preserved": {
+      "title": "Limitations Preserved",
+      "type": "boolean"
+    },
+    "matrix_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Matrix Audit Receipt Sha256",
+      "type": "string"
+    },
+    "metadata_acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Metadata Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "metadata_parser_authorized": {
+      "title": "Metadata Parser Authorized",
+      "type": "boolean"
+    },
+    "outcome_access_authorized": {
+      "title": "Outcome Access Authorized",
+      "type": "boolean"
+    },
+    "outcome_blind_reference_construction_authorized": {
+      "title": "Outcome Blind Reference Construction Authorized",
+      "type": "boolean"
+    },
+    "protocol_amendment_authorized": {
+      "title": "Protocol Amendment Authorized",
+      "type": "boolean"
+    },
+    "publication_authorized": {
+      "title": "Publication Authorized",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "reviewer_role": {
+      "pattern": "^founder_internal_reviewer$",
+      "title": "Reviewer Role",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_conclusion_authorized": {
+      "title": "Scientific Conclusion Authorized",
+      "type": "boolean"
+    },
+    "stored_input_representation": {
+      "pattern": "^log2\\(FPKM \\+ 0\\.1\\)$",
+      "title": "Stored Input Representation",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "submission_authorized": {
+      "title": "Submission Authorized",
+      "type": "boolean"
+    },
+    "validation_data_access_authorized": {
+      "title": "Validation Data Access Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "decision_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "decision_packet_sha256",
+    "matrix_audit_receipt_sha256",
+    "metadata_acquisition_receipt_sha256",
+    "confirmation_statement",
+    "founder_id",
+    "founder_name",
+    "reviewer_role",
+    "confirmed_at",
+    "stored_input_representation",
+    "additional_transformation",
+    "er_negative_consensus_code",
+    "er_positive_consensus_code",
+    "excluded_er_consensus_codes",
+    "limitations_preserved",
+    "protocol_amendment_authorized",
+    "metadata_parser_authorized",
+    "external_manifest_authorized",
+    "outcome_blind_reference_construction_authorized",
+    "outcome_access_authorized",
+    "validation_data_access_authorized",
+    "classifier_execution_authorized",
+    "scientific_conclusion_authorized",
+    "clinical_use_authorized",
+    "publication_authorized",
+    "submission_authorized",
+    "final_human_review_preserved"
+  ],
+  "title": "ReferenceInputFounderDecision",
+  "type": "object"
+}

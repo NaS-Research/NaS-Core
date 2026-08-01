@@ -266,6 +266,16 @@ uv run nas-core reliability reference-development-validate \
 See `REFERENCE_DEVELOPMENT_REPORT_v1.0.0.md`. No molecular values, outcomes,
 source bytes, or classifier results were accessed or materialized.
 
+Founder decision `1.1` is recorded in
+`../reviews/FOUNDER_REFERENCE_INPUT_DECISION_v1.1.0.yaml`. Amended protocol
+`reference_development_protocol_v1.1.0.yaml` supersedes the original proposal
+for input handling: the verified source representation is consumed unchanged as
+`log2(FPKM + 0.1)`, ER consensus codes 0 and 3 define the two reference strata,
+and codes 1/2 are excluded. The amendment preserves both limitations: the public
+metadata does not contain an explicit inline codebook, and publication-described
+cohort independence is not an identifier-level non-overlap audit. The reference
+itself is not yet locked and no outcome access is authorized.
+
 Exercise the kernel with explicitly synthetic method and sample YAML files:
 
 ```console

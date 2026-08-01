@@ -35,3 +35,12 @@ binds the executed matrix and metadata evidence to two explicit founder choices:
 the corrected no-additional-transform bridge and the conservative ER-consensus
 stratification rule. It is a proposal only and authorizes no parser execution,
 reference construction, classifier execution, outcome access, or publication.
+
+The founder subsequently approved the bounded choices exactly as recorded in
+[`FOUNDER_REFERENCE_INPUT_DECISION_v1.1.0.yaml`](FOUNDER_REFERENCE_INPUT_DECISION_v1.1.0.yaml).
+The decision consumes GSE81538 unchanged as `log2(FPKM + 0.1)`, defines
+ER-negative as consensus code 0 and ER-positive as code 3, excludes codes 1/2,
+and preserves the documented codebook and independence limitations. It authorizes
+only the checksum-bound reference-input implementation; it does not authorize
+outcome access, GSE96058 molecular access, classifier execution, clinical use,
+publication, or submission.

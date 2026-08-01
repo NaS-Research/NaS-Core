@@ -77,6 +77,22 @@ class ReferenceDevelopmentProtocol(ReferenceDevelopmentModel):
     standing_authorization_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     platform_audit_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     numerical_conformance_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    supersedes_protocol_sha256: str | None = Field(
+        default=None,
+        pattern=r"^[a-f0-9]{64}$",
+    )
+    reference_input_founder_decision_sha256: str | None = Field(
+        default=None,
+        pattern=r"^[a-f0-9]{64}$",
+    )
+    matrix_audit_receipt_sha256: str | None = Field(
+        default=None,
+        pattern=r"^[a-f0-9]{64}$",
+    )
+    metadata_acquisition_receipt_sha256: str | None = Field(
+        default=None,
+        pattern=r"^[a-f0-9]{64}$",
+    )
     official_metadata_url: str = Field(pattern=r"^https://")
     proposed_processed_artifact: str = Field(min_length=1)
     expected_public_sample_count: int = Field(gt=0)
@@ -124,6 +140,23 @@ class ReferenceDevelopmentProtocol(ReferenceDevelopmentModel):
             raise ValueError("candidate protocol cannot claim acquisition, execution, or lock")
         if self.subset_rule.samples_per_stratum != 50:
             raise ValueError("candidate protocol freezes 50 samples per ER stratum")
+        amendment_provenance = (
+            self.supersedes_protocol_sha256,
+            self.reference_input_founder_decision_sha256,
+            self.matrix_audit_receipt_sha256,
+            self.metadata_acquisition_receipt_sha256,
+        )
+        if self.protocol_version == "1.0.0":
+            if any(amendment_provenance):
+                raise ValueError("protocol 1.0.0 cannot claim later amendment evidence")
+        else:
+            if not all(amendment_provenance):
+                raise ValueError("an amended protocol requires complete provenance")
+            if (
+                self.preprocessing_bridge.unit_audit_required
+                or not self.preprocessing_bridge.transformation_locked
+            ):
+                raise ValueError("amended protocol must preserve the approved input scale")
         return self
 
 

@@ -149,4 +149,28 @@ records exactly 51,036 bytes and independently reproduced SHA-256
 See
 [`GSE81538_FAMILY_SOFT_ACQUISITION_REPORT_v1.0.0.md`](GSE81538_FAMILY_SOFT_ACQUISITION_REPORT_v1.0.0.md).
 
+Founder decision `1.1` and protocol amendment `1.1.0` authorize a strictly
+field-isolated selection. Plan
+[`gse81538_reference_metadata_plan_v1.0.0.yaml`](gse81538_reference_metadata_plan_v1.0.0.yaml)
+permits only sample title, GEO accession, and the exact `er consensus` field.
+It selects the first 50 code-0 and first 50 code-3 records in lexicographic GEO
+accession order, excludes codes 1/2, and writes the identifier-bearing manifest
+only to governed external storage. The Git receipt contains aggregate counts,
+checksums, provenance, limitations, and explicit zero-access attestations for
+expression, outcomes, validation data, classifier execution, and generative AI.
+
+Execute only from the frozen implementation revision:
+
+```console
+uv run nas-core ingest reference-metadata \
+  ingestion/gse81538_reference_metadata_plan_v1.0.0.yaml \
+  ingestion/gse81538_family_soft_acquisition_receipt_v1.0.0.yaml \
+  ingestion/gse81538_matrix_audit_receipt_v1.0.0.yaml \
+  reviews/FOUNDER_REFERENCE_INPUT_DECISION_v1.1.0.yaml \
+  protocol/reference_development_protocol_v1.1.0.yaml \
+  --data-root "$NAS_DATA_ROOT" --code-revision REVISION \
+  --output-path ingestion/gse81538_reference_metadata_receipt_v1.0.0.yaml \
+  --execute
+```
+
 Completion gate: Governed immutable dataset snapshot is verified.

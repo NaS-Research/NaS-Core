@@ -1,0 +1,86 @@
+schema_version: 1.0.0
+protocol_version: 1.1.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+route_id: ROUTE-C
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+intended_role: reference_development_only
+source_selection_status: candidate
+source_registry_sha256: 8876194bf15bdfb9212f027805779d1826b6126aa02c29355b2f8dce259a7cb0
+standing_authorization_sha256: 849f5217612a8946f29c3a3529e187128078d2f57cfd63e306ad058d05558c61
+platform_audit_sha256: a0698fecfe9f7f1795e1b4b239e2a9468c593a2feca8c769a3fcfbc26e88db31
+numerical_conformance_sha256: ae2a716a5cebcdb5e7a95d66091bd919d50f5e6d07a3d13b06bee2ccc1718bf9
+supersedes_protocol_sha256: 174c85675cbf766a7123ba12cdfe309d91143ef73896e585fec9a286851bd14b
+reference_input_founder_decision_sha256: 9db6243bcd582f9884139326d9ccaeb488203f3d1d6cb8f9f8b4a9addc3b3629
+matrix_audit_receipt_sha256: 98bfb62ad4ba1247feb0ba6c1487341517bb59049c2ad22b4e51fe2ed2773b4c
+metadata_acquisition_receipt_sha256: 920a40f89c1049ce58c95d1a486a22fb53cdeba8366e56dfb09655cacca29f98
+official_metadata_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE81538
+proposed_processed_artifact: GSE81538_gene_expression_405_transformed.csv.gz
+expected_public_sample_count: 405
+relationship_to_validation: >-
+  GSE81538 and the reserved GSE96058 validation cohort arise from the broader
+  SCAN-B program and laboratory context. GSE81538 may develop only a fixed
+  outcome-blind reference; it cannot contribute performance estimates.
+participant_nonoverlap_status: publication_described_independent_cohorts_identifier_level_unverified
+subset_rule:
+  eligible_material: Primary breast-tumor samples with an extreme public ER consensus code
+  receptor_field: Public GEO er consensus metadata
+  receptor_strata:
+    - ER-positive
+    - ER-negative
+  samples_per_stratum: 50
+  deterministic_ordering: >-
+    Map code 0 to ER-negative and code 3 to ER-positive; exclude codes 1 and 2;
+    sort eligible GEO accessions lexicographically within each stratum and take
+    the first 50; freeze the selected accessions before parsing expression.
+  outcome_fields_permitted: false
+  molecular_values_permitted_during_selection: false
+preprocessing_bridge:
+  source_quantity: GEO submitter-described gene-level FPKM
+  source_scale_status: >-
+    Verified as already transformed log2(FPKM + 0.1) by official GEO processing
+    metadata and checksum-bound matrix audit receipt 1.0.0
+  target_quantity: stored submitter-computed gene-level log2(FPKM + 0.1)
+  target_transform: No additional transformation; consume the stored values unchanged
+  pseudocount: 0.1
+  gene_identifier: submitter-provided NCBI RefSeq NM gene symbols
+  duplicate_gene_rule: fail closed on multiple retained rows for one canonical PAM50 symbol
+  missing_gene_rule: fail closed unless all 50 canonical PAM50 genes are present and finite
+  reference_statistic: gene-wise median across the frozen 100-sample ER-balanced subset
+  centering_operation: subtract the fixed 50-gene reference vector from each sample before Spearman scoring
+  unit_audit_required: false
+  transformation_locked: true
+required_pre_acquisition_checks:
+  - Completed — marker-validated object storage is writable and has sufficient free space.
+  - Completed — official supplementary filename, byte size, retrieval timestamp, and SHA-256 are frozen.
+  - Completed with limitation — the publication describes independent cohort roles; identifier-level non-overlap is unverified.
+  - Completed — matrix scale and transformation were audited without outcomes.
+  - Completed — all 50 canonical PAM50 genes map uniquely.
+  - The selected 50-per-stratum accession manifest must be frozen before subset expression parsing.
+sensitivity_analyses:
+  - Recompute the reference with the next 50 lexicographic accessions per ER stratum when available.
+  - Compare median and 20-percent trimmed-mean reference vectors without using outcomes.
+  - Quantify reference-vector and score stability without validation outcomes or threshold tuning.
+firewalls:
+  - GSE81538 is reference-development-only and contributes no discovery or validation estimates.
+  - GSE96058 molecular values and outcomes remain inaccessible until the reference and bridge are locked.
+  - TCGA outcomes remain inaccessible while preprocessing and reference decisions are made.
+  - No participant row or molecular matrix may be supplied to a generative model.
+  - Reference selection cannot use subtype labels, survival, treatment, response, or classifier performance.
+limitations:
+  - Shared SCAN-B laboratory context may make the reference less independent of GSE96058 than an external source.
+  - Independent cohort roles are publication-described, not proven by participant-level identifier comparison.
+  - ER codes 0 and 3 are conservatively treated as extreme categories; the public metadata has no inline codebook.
+  - The submitter-described FPKM calculation was not independently reconstructed from raw sequencing reads.
+  - The deterministic subset may not represent all pre-analytic or ancestry variation.
+  - A reference-development protocol does not resolve prospective technical-error calibration.
+molecular_values_accessed: false
+outcome_values_accessed: false
+source_bytes_stored: false
+reference_vector_materialized: false
+classifier_executed: false
+reference_locked: false
+study_execution_authorized: false
+external_publication_authorized: false

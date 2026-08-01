@@ -158,6 +158,7 @@ from nas_core.domain.literature import (
 )
 from nas_core.domain.matrix_audit import (
     load_matrix_audit_plan,
+    load_matrix_audit_receipt,
     write_matrix_audit_receipt,
     write_matrix_audit_schemas,
 )
@@ -201,6 +202,12 @@ from nas_core.domain.public_artifact import (
 from nas_core.domain.reference_development import (
     load_reference_development_protocol,
     write_reference_development_schema,
+)
+from nas_core.domain.reference_input import load_reference_input_founder_decision
+from nas_core.domain.reference_metadata import (
+    load_reference_metadata_plan,
+    write_reference_metadata_receipt,
+    write_reference_metadata_schemas,
 )
 from nas_core.domain.reliability import (
     load_reliability_method_inputs,
@@ -254,6 +261,7 @@ from nas_core.ingestion.metadata_feasibility import (
 )
 from nas_core.ingestion.metadata_feasibility import MetadataFeasibilityAuditService
 from nas_core.ingestion.public_artifact import PublicArtifactAcquisitionService
+from nas_core.ingestion.reference_metadata import GSE81538ReferenceMetadataService
 from nas_core.retrieval.appraisal_confirmation import AppraisalConfirmationService
 from nas_core.retrieval.appraisal_progress import FullTextAppraisalProgressService
 from nas_core.retrieval.citation_access import (
@@ -448,6 +456,29 @@ def build_parser() -> argparse.ArgumentParser:
     )
     matrix_audit_schema.add_argument("plan_path", type=Path)
     matrix_audit_schema.add_argument("receipt_path", type=Path)
+    reference_metadata = ingest_commands.add_parser(
+        "reference-metadata",
+        help="Select the field-isolated GSE81538 ER-balanced reference manifest",
+    )
+    reference_metadata.add_argument("plan_path", type=Path)
+    reference_metadata.add_argument("acquisition_receipt_path", type=Path)
+    reference_metadata.add_argument("matrix_audit_receipt_path", type=Path)
+    reference_metadata.add_argument("founder_decision_path", type=Path)
+    reference_metadata.add_argument("reference_protocol_path", type=Path)
+    reference_metadata.add_argument("--data-root", type=Path, required=True)
+    reference_metadata.add_argument("--code-revision", required=True)
+    reference_metadata.add_argument("--output-path", type=Path)
+    reference_metadata.add_argument(
+        "--execute",
+        action="store_true",
+        help="Parse only approved metadata and freeze the external manifest",
+    )
+    reference_metadata_schema = ingest_commands.add_parser(
+        "reference-metadata-schema",
+        help="Write GSE81538 reference-metadata plan and receipt JSON Schemas",
+    )
+    reference_metadata_schema.add_argument("plan_path", type=Path)
+    reference_metadata_schema.add_argument("receipt_path", type=Path)
 
     feasibility = commands.add_parser(
         "feasibility",
@@ -2397,6 +2428,49 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "ingest" and args.ingest_command == "matrix-audit-schema":
         write_matrix_audit_schemas(args.plan_path, args.receipt_path)
         print(f"Wrote GSE81538 matrix-audit schemas: {args.plan_path}, {args.receipt_path}")
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "reference-metadata":
+        metadata_plan = load_reference_metadata_plan(args.plan_path)
+        if not args.execute:
+            print(
+                "GSE81538 reference-metadata plan is valid: "
+                f"samples={metadata_plan.expected_sample_count}; "
+                f"per_stratum={metadata_plan.samples_per_stratum}; dry run only"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        reference_metadata_receipt = GSE81538ReferenceMetadataService(
+            store=FileSystemObjectStore(args.data_root)
+        ).select(
+            metadata_plan,
+            load_public_artifact_receipt(args.acquisition_receipt_path),
+            load_matrix_audit_receipt(args.matrix_audit_receipt_path),
+            load_reference_input_founder_decision(args.founder_decision_path),
+            load_reference_development_protocol(args.reference_protocol_path),
+            plan_path=args.plan_path,
+            acquisition_path=args.acquisition_receipt_path,
+            matrix_audit_path=args.matrix_audit_receipt_path,
+            founder_decision_path=args.founder_decision_path,
+            protocol_path=args.reference_protocol_path,
+            code_revision=args.code_revision,
+        )
+        write_reference_metadata_receipt(args.output_path, reference_metadata_receipt)
+        print(
+            "Wrote GSE81538 reference metadata selection: "
+            f"{reference_metadata_receipt.decision.value}; "
+            f"manifest_records={reference_metadata_receipt.manifest_record_count}; "
+            f"manifest_sha256={reference_metadata_receipt.manifest_sha256}"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "reference-metadata-schema":
+        write_reference_metadata_schemas(args.plan_path, args.receipt_path)
+        print(
+            "Wrote GSE81538 reference-metadata schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
         return 0
 
     if args.command == "feasibility" and args.feasibility_command == "metadata-audit":

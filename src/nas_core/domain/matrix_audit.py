@@ -138,6 +138,12 @@ def load_matrix_audit_plan(path: Path) -> GSE81538MatrixAuditPlan:
     return GSE81538MatrixAuditPlan.model_validate(yaml.safe_load(path.read_text(encoding="utf-8")))
 
 
+def load_matrix_audit_receipt(path: Path) -> GSE81538MatrixAuditReceipt:
+    return GSE81538MatrixAuditReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_matrix_audit_receipt(path: Path, receipt: GSE81538MatrixAuditReceipt) -> None:
     if path.exists():
         raise FileExistsError("matrix audit receipt path must be new")

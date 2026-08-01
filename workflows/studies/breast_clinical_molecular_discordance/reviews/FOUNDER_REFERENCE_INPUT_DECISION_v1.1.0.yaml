@@ -1,0 +1,38 @@
+schema_version: 1.0.0
+decision_version: 1.1.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+decision_packet_sha256: 67312a2c2b775c7e5945cf10c8ab26e58c699ef9cb25b4fa7315e500c8a3617c
+matrix_audit_receipt_sha256: 98bfb62ad4ba1247feb0ba6c1487341517bb59049c2ad22b4e51fe2ed2773b4c
+metadata_acquisition_receipt_sha256: 920a40f89c1049ce58c95d1a486a22fb53cdeba8366e56dfb09655cacca29f98
+confirmation_statement: >-
+  I approve NAS-BRCA-002 reference-input decisions 1.1: consume GSE81538
+  unchanged as log2(FPKM + 0.1); define ER-negative as consensus code 0 and
+  ER-positive as code 3; exclude codes 1 and 2; preserve the documented
+  limitations; and authorize pushing commits cf8d7f6 through 19225c3 to main
+  despite the formatter-only CLI diff.
+founder_id: dalron-j-robertson
+founder_name: Dalron J. Robertson
+reviewer_role: founder_internal_reviewer
+confirmed_at: '2026-08-01T16:29:27Z'
+stored_input_representation: log2(FPKM + 0.1)
+additional_transformation: none
+er_negative_consensus_code: 0
+er_positive_consensus_code: 3
+excluded_er_consensus_codes:
+  - 1
+  - 2
+limitations_preserved: true
+protocol_amendment_authorized: true
+metadata_parser_authorized: true
+external_manifest_authorized: true
+outcome_blind_reference_construction_authorized: true
+outcome_access_authorized: false
+validation_data_access_authorized: false
+classifier_execution_authorized: false
+scientific_conclusion_authorized: false
+clinical_use_authorized: false
+publication_authorized: false
+submission_authorized: false
+final_human_review_preserved: true

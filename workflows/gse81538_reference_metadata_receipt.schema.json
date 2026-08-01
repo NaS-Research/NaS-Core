@@ -1,0 +1,265 @@
+{
+  "$defs": {
+    "ReferenceMetadataDecision": {
+      "enum": [
+        "pass"
+      ],
+      "title": "ReferenceMetadataDecision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "ambiguous_excluded_count": {
+      "minimum": 0,
+      "title": "Ambiguous Excluded Count",
+      "type": "integer"
+    },
+    "audited_at": {
+      "format": "date-time",
+      "title": "Audited At",
+      "type": "string"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/ReferenceMetadataDecision"
+    },
+    "er_codebook_status": {
+      "pattern": "^founder_approved_conservative_inference$",
+      "title": "Er Codebook Status",
+      "type": "string"
+    },
+    "er_consensus_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Er Consensus Counts",
+      "type": "object"
+    },
+    "er_negative_eligible_count": {
+      "minimum": 0,
+      "title": "Er Negative Eligible Count",
+      "type": "integer"
+    },
+    "er_positive_eligible_count": {
+      "minimum": 0,
+      "title": "Er Positive Eligible Count",
+      "type": "integer"
+    },
+    "exact_title_sequence_verified": {
+      "title": "Exact Title Sequence Verified",
+      "type": "boolean"
+    },
+    "expression_values_accessed": {
+      "title": "Expression Values Accessed",
+      "type": "boolean"
+    },
+    "founder_decision_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Founder Decision Sha256",
+      "type": "string"
+    },
+    "generative_ai_received_participant_data": {
+      "title": "Generative Ai Received Participant Data",
+      "type": "boolean"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "manifest_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Manifest Bytes",
+      "type": "integer"
+    },
+    "manifest_immutable_verified": {
+      "title": "Manifest Immutable Verified",
+      "type": "boolean"
+    },
+    "manifest_object_key": {
+      "pattern": "^derived/[a-z0-9._/-]+$",
+      "title": "Manifest Object Key",
+      "type": "string"
+    },
+    "manifest_record_count": {
+      "exclusiveMinimum": 0,
+      "title": "Manifest Record Count",
+      "type": "integer"
+    },
+    "manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Manifest Sha256",
+      "type": "string"
+    },
+    "matrix_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Matrix Audit Receipt Sha256",
+      "type": "string"
+    },
+    "matrix_title_linkage_verified": {
+      "title": "Matrix Title Linkage Verified",
+      "type": "boolean"
+    },
+    "metadata_acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Metadata Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "metadata_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Metadata Bytes",
+      "type": "integer"
+    },
+    "metadata_object_sha256_verified": {
+      "title": "Metadata Object Sha256 Verified",
+      "type": "boolean"
+    },
+    "outcome_values_accessed": {
+      "title": "Outcome Values Accessed",
+      "type": "boolean"
+    },
+    "parsed_sample_fields": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "title": "Parsed Sample Fields",
+      "type": "array"
+    },
+    "participant_identifiers_retained_in_git": {
+      "title": "Participant Identifiers Retained In Git",
+      "type": "boolean"
+    },
+    "participant_identifiers_stored_external": {
+      "title": "Participant Identifiers Stored External",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "reference_protocol_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Protocol Sha256",
+      "type": "string"
+    },
+    "relationship_to_validation": {
+      "minLength": 1,
+      "title": "Relationship To Validation",
+      "type": "string"
+    },
+    "sample_record_count": {
+      "exclusiveMinimum": 0,
+      "title": "Sample Record Count",
+      "type": "integer"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_negative_count": {
+      "minimum": 0,
+      "title": "Selected Negative Count",
+      "type": "integer"
+    },
+    "selected_positive_count": {
+      "minimum": 0,
+      "title": "Selected Positive Count",
+      "type": "integer"
+    },
+    "source_accession": {
+      "pattern": "^GSE81538$",
+      "title": "Source Accession",
+      "type": "string"
+    },
+    "source_id": {
+      "pattern": "^ncbi-geo-gse81538$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "unique_accession_count": {
+      "exclusiveMinimum": 0,
+      "title": "Unique Accession Count",
+      "type": "integer"
+    },
+    "unique_title_count": {
+      "exclusiveMinimum": 0,
+      "title": "Unique Title Count",
+      "type": "integer"
+    },
+    "validation_data_accessed": {
+      "title": "Validation Data Accessed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "source_id",
+    "source_accession",
+    "code_revision",
+    "audited_at",
+    "plan_sha256",
+    "metadata_acquisition_receipt_sha256",
+    "matrix_audit_receipt_sha256",
+    "founder_decision_sha256",
+    "reference_protocol_sha256",
+    "metadata_object_sha256_verified",
+    "metadata_bytes",
+    "parsed_sample_fields",
+    "sample_record_count",
+    "unique_accession_count",
+    "unique_title_count",
+    "exact_title_sequence_verified",
+    "matrix_title_linkage_verified",
+    "er_consensus_counts",
+    "er_negative_eligible_count",
+    "er_positive_eligible_count",
+    "ambiguous_excluded_count",
+    "selected_negative_count",
+    "selected_positive_count",
+    "manifest_object_key",
+    "manifest_sha256",
+    "manifest_bytes",
+    "manifest_record_count",
+    "manifest_immutable_verified",
+    "relationship_to_validation",
+    "er_codebook_status",
+    "decision",
+    "limitations",
+    "participant_identifiers_stored_external",
+    "participant_identifiers_retained_in_git",
+    "outcome_values_accessed",
+    "expression_values_accessed",
+    "validation_data_accessed",
+    "classifier_executed",
+    "generative_ai_received_participant_data"
+  ],
+  "title": "GSE81538ReferenceMetadataReceipt",
+  "type": "object"
+}

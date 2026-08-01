@@ -10,21 +10,19 @@ and what comes next?
 
 ### Freeze GSE81538 participant lineage and the outcome-blind reference subset
 
-GSE81538 is now registered as public/open for the bounded role
-`reference_development_only`. Protocol `1.0.0` freezes an outcome- and
-expression-blind 50 ER-positive plus 50 ER-negative subset rule, a candidate
-gene-wise median reference, the proposed `log2(FPKM + 1)` target scale, and
-discovery/validation firewalls. It deliberately remains a candidate because
-the processed matrix scale, participant non-overlap, and durable storage have
-not yet been verified.
+GSE81538 is registered as public/open for the bounded role
+`reference_development_only`. Founder decision `1.1` and protocol amendment
+`1.1.0` now freeze the verified source scale unchanged as `log2(FPKM + 0.1)`,
+define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
+1 and 2, and retain the independence and codebook limitations. The reference
+remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: immutably acquire the official GSE81538 family metadata;
-parse only sample accession, title, and ER status; verify one-to-one `T1`–`T405`
-lineage and the permitted relationship statement relative to GSE96058; then
-freeze exactly 50 ER-positive plus 50 ER-negative accessions by the declared
-lexicographic rule before selected expression values are parsed. Participant
-identifiers remain outside Git. No GSE96058 molecular or outcome values may be
-accessed.
+Definition of done: execute the frozen field-isolated parser from its committed
+revision; verify one-to-one `T1`–`T405` lineage and aggregate ER-code counts;
+then freeze exactly 50 code-0 plus 50 code-3 accessions by lexicographic GEO
+accession in the external object store. The Git receipt must contain only counts,
+checksums, provenance, limitations, and boundary attestations. No expression,
+outcome, GSE96058, or classifier value may be accessed.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
@@ -56,11 +54,12 @@ inspection found 82 ER-consensus code-0, 8 code-1, 11 code-2, and 304 code-3
 records. Interpreting unanimous 0/3 as eligible strata and excluding discordant
 1/2 is now an explicit scientific decision rather than an implementation default.
 
-Decision packet `REFERENCE_INPUT_DECISION_PACKET_v1.0.0.md` now separates the
-executed evidence from both proposed method choices, documents that the ER-code
-interpretation is a conservative inference rather than an explicit source
-codebook, and supplies one bounded founder confirmation statement. Parser and
-reference construction remain halted until that scientific decision is recorded.
+The founder approved reference-input decisions `1.1`. Immutable decision record
+`FOUNDER_REFERENCE_INPUT_DECISION_v1.1.0.yaml` binds the exact approval to the
+matrix and metadata receipts. Protocol amendment `1.1.0` removes the incorrect
+proposed transform, freezes extreme ER codes 0/3 and excludes 1/2, while retaining
+the documented inference and independence limitations. The field-isolated parser
+and external-manifest writer are implemented and awaiting frozen-revision execution.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -637,6 +636,15 @@ Current gate state:
     external commercial product surface.
 
 ## Recently completed
+
+### 2026-08-01 — Reference-input decisions and protocol amendment frozen
+
+Recorded the founder's exact decision against checksum-bound executed evidence.
+Protocol `1.1.0` consumes the matrix unchanged as `log2(FPKM + 0.1)`, defines
+code 0 as ER-negative and code 3 as ER-positive, excludes codes 1/2, and preserves
+the absence of an inline codebook and identifier-level independence audit. The
+field-isolated selection implementation reads only title, GEO accession, and ER
+consensus and keeps identifiers outside Git.
 
 ### 2026-08-01 — Separate immutable metadata artifact acquired
 
