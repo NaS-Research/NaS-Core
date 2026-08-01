@@ -1,0 +1,205 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "assay_selection_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Assay Selection Receipt Sha256",
+      "type": "string"
+    },
+    "degraded_or_ffpe_in_primary_scope": {
+      "title": "Degraded Or Ffpe In Primary Scope",
+      "type": "boolean"
+    },
+    "exact_instrument_selected": {
+      "title": "Exact Instrument Selected",
+      "type": "boolean"
+    },
+    "exact_kit_selected": {
+      "title": "Exact Kit Selected",
+      "type": "boolean"
+    },
+    "external_contact_authorized": {
+      "title": "External Contact Authorized",
+      "type": "boolean"
+    },
+    "extraction_repeat_in_primary_scope": {
+      "title": "Extraction Repeat In Primary Scope",
+      "type": "boolean"
+    },
+    "failed_input_action": {
+      "pattern": "^exclude_before_scoring_retain_attempted_denominator$",
+      "title": "Failed Input Action",
+      "type": "string"
+    },
+    "independent_library_preparation": {
+      "title": "Independent Library Preparation",
+      "type": "boolean"
+    },
+    "lower_quality_contingency_action": {
+      "pattern": "^separate_future_amendment_and_bridge$",
+      "title": "Lower Quality Contingency Action",
+      "type": "string"
+    },
+    "molecular_values_accessed": {
+      "title": "Molecular Values Accessed",
+      "type": "boolean"
+    },
+    "official_documentation_urls": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2,
+      "title": "Official Documentation Urls",
+      "type": "array"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "primary_error_scope": {
+      "pattern": "^post_extraction_analytical_error$",
+      "title": "Primary Error Scope",
+      "type": "string"
+    },
+    "primary_material": {
+      "pattern": "^purified_total_rna_from_homogenized_primary_breast_tumor$",
+      "title": "Primary Material",
+      "type": "string"
+    },
+    "procurement_authorized": {
+      "title": "Procurement Authorized",
+      "type": "boolean"
+    },
+    "prospective_design_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Prospective Design Sha256",
+      "type": "string"
+    },
+    "require_dnase_treatment": {
+      "title": "Require Dnase Treatment",
+      "type": "boolean"
+    },
+    "require_finite_quantity": {
+      "title": "Require Finite Quantity",
+      "type": "boolean"
+    },
+    "require_fragment_analysis": {
+      "title": "Require Fragment Analysis",
+      "type": "boolean"
+    },
+    "require_purity_measurement": {
+      "title": "Require Purity Measurement",
+      "type": "boolean"
+    },
+    "require_same_homogenized_rna": {
+      "title": "Require Same Homogenized Rna",
+      "type": "boolean"
+    },
+    "rin_minimum": {
+      "maximum": 10.0,
+      "minimum": 8.0,
+      "title": "Rin Minimum",
+      "type": "number"
+    },
+    "rna_input_maximum_ng": {
+      "maximum": 1000.0,
+      "title": "Rna Input Maximum Ng",
+      "type": "number"
+    },
+    "rna_input_minimum_ng": {
+      "minimum": 25.0,
+      "title": "Rna Input Minimum Ng",
+      "type": "number"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_chemistry_family": {
+      "pattern": "^stranded_polya_mrna_whole_transcriptome$",
+      "title": "Selected Chemistry Family",
+      "type": "string"
+    },
+    "specimen_acquisition_authorized": {
+      "title": "Specimen Acquisition Authorized",
+      "type": "boolean"
+    },
+    "spending_authorized": {
+      "title": "Spending Authorized",
+      "type": "boolean"
+    },
+    "study_execution_authorized": {
+      "title": "Study Execution Authorized",
+      "type": "boolean"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "uncalibrated_scoring_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Uncalibrated Scoring Receipt Sha256",
+      "type": "string"
+    },
+    "unresolved_prerequisites": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Unresolved Prerequisites",
+      "type": "array"
+    },
+    "validation_values_accessed": {
+      "title": "Validation Values Accessed",
+      "type": "boolean"
+    },
+    "vendor_selected": {
+      "title": "Vendor Selected",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_version",
+    "assay_selection_receipt_sha256",
+    "prospective_design_sha256",
+    "uncalibrated_scoring_receipt_sha256",
+    "primary_material",
+    "primary_error_scope",
+    "selected_chemistry_family",
+    "rna_input_minimum_ng",
+    "rna_input_maximum_ng",
+    "rin_minimum",
+    "require_dnase_treatment",
+    "require_finite_quantity",
+    "require_fragment_analysis",
+    "require_purity_measurement",
+    "require_same_homogenized_rna",
+    "independent_library_preparation",
+    "degraded_or_ffpe_in_primary_scope",
+    "extraction_repeat_in_primary_scope",
+    "failed_input_action",
+    "lower_quality_contingency_action",
+    "official_documentation_urls",
+    "exact_kit_selected",
+    "exact_instrument_selected",
+    "vendor_selected",
+    "external_contact_authorized",
+    "spending_authorized",
+    "procurement_authorized",
+    "specimen_acquisition_authorized",
+    "study_execution_authorized",
+    "molecular_values_accessed",
+    "outcomes_accessed",
+    "validation_values_accessed",
+    "unresolved_prerequisites"
+  ],
+  "title": "ProspectiveRNAQualityGatePlan",
+  "type": "object"
+}

@@ -1,0 +1,43 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+assay_selection_receipt_sha256: b4ba823e0b8eed6436e40bd8cf3fd5c6de94a4f5a619c87e8a3701dabb2302f2
+prospective_design_sha256: 434e6177f2e31e861c213ac58f7eb48be25cc9aeb7640b7ad1f8d26fdda555b1
+uncalibrated_scoring_receipt_sha256: 0c0111ea298862e0cbb536694b4c1224e3fea25266aaa9bc572328dfa8a825c8
+primary_material: purified_total_rna_from_homogenized_primary_breast_tumor
+primary_error_scope: post_extraction_analytical_error
+selected_chemistry_family: stranded_polya_mrna_whole_transcriptome
+rna_input_minimum_ng: 25.0
+rna_input_maximum_ng: 1000.0
+rin_minimum: 8.0
+require_dnase_treatment: true
+require_finite_quantity: true
+require_fragment_analysis: true
+require_purity_measurement: true
+require_same_homogenized_rna: true
+independent_library_preparation: true
+degraded_or_ffpe_in_primary_scope: false
+extraction_repeat_in_primary_scope: false
+failed_input_action: exclude_before_scoring_retain_attempted_denominator
+lower_quality_contingency_action: separate_future_amendment_and_bridge
+official_documentation_urls:
+  - https://support-docs.illumina.com/LP/IlluminaStrandedmRNA/Content/LP/Illumina_RNA/Stranded-mRNA/Overview.htm
+  - https://knowledge.illumina.com/library-preparation/rna-library-prep/library-preparation-rna-library-prep-faq-list/000001154
+exact_kit_selected: false
+exact_instrument_selected: false
+vendor_selected: false
+external_contact_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+study_execution_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false
+unresolved_prerequisites:
+  - Exact normalized RNA mass within the frozen allowable range
+  - Purity thresholds and fragment-analysis instrumentation
+  - Exact kit, read layout, sequencing depth, instrument family, and run design
+  - Lawful high-quality primary breast-tumor RNA source and nonoverlap proof
+  - Pilot pair count, randomization blocks, batch coverage, controls, and attrition reserve
+  - Budget, laboratory feasibility, governance, and separate execution authority
