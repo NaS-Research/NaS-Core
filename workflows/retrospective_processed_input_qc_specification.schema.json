@@ -1,0 +1,167 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "bridge_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bridge Receipt Sha256",
+      "type": "string"
+    },
+    "canonical_gene_symbols": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 50,
+      "minItems": 50,
+      "title": "Canonical Gene Symbols",
+      "type": "array"
+    },
+    "classifier_execution_authorized": {
+      "title": "Classifier Execution Authorized",
+      "type": "boolean"
+    },
+    "cohort_centering_allowed": {
+      "title": "Cohort Centering Allowed",
+      "type": "boolean"
+    },
+    "floor_absolute_tolerance": {
+      "exclusiveMinimum": 0,
+      "maximum": 1e-09,
+      "title": "Floor Absolute Tolerance",
+      "type": "number"
+    },
+    "historical_aliases": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Historical Aliases",
+      "type": "object"
+    },
+    "imputation_allowed": {
+      "title": "Imputation Allowed",
+      "type": "boolean"
+    },
+    "invalid_profile_action": {
+      "pattern": "^abstain$",
+      "title": "Invalid Profile Action",
+      "type": "string"
+    },
+    "outcome_access_authorized": {
+      "title": "Outcome Access Authorized",
+      "type": "boolean"
+    },
+    "reference_object_key": {
+      "pattern": "^derived/nas-brca-002/",
+      "title": "Reference Object Key",
+      "type": "string"
+    },
+    "reference_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Sha256",
+      "type": "string"
+    },
+    "reliability_specification_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reliability Specification Sha256",
+      "type": "string"
+    },
+    "require_all_finite": {
+      "title": "Require All Finite",
+      "type": "boolean"
+    },
+    "require_exact_panel_only": {
+      "title": "Require Exact Panel Only",
+      "type": "boolean"
+    },
+    "require_unique_mapping": {
+      "title": "Require Unique Mapping",
+      "type": "boolean"
+    },
+    "required_gene_count": {
+      "maximum": 50,
+      "minimum": 50,
+      "title": "Required Gene Count",
+      "type": "integer"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scientific_qc_rerun_allowed": {
+      "title": "Scientific Qc Rerun Allowed",
+      "type": "boolean"
+    },
+    "source_reacquisition_allowed_for_checksum_or_schema_failure": {
+      "title": "Source Reacquisition Allowed For Checksum Or Schema Failure",
+      "type": "boolean"
+    },
+    "specification_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Specification Version",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "tcga_input_scale": {
+      "pattern": "^fpkm_unstranded$",
+      "title": "Tcga Input Scale",
+      "type": "string"
+    },
+    "tcga_log2_offset": {
+      "exclusiveMinimum": 0,
+      "title": "Tcga Log2 Offset",
+      "type": "number"
+    },
+    "tcga_minimum_value": {
+      "maximum": 0,
+      "minimum": 0,
+      "title": "Tcga Minimum Value",
+      "type": "number"
+    },
+    "validation_adaptation_allowed": {
+      "title": "Validation Adaptation Allowed",
+      "type": "boolean"
+    },
+    "validation_declared_floor": {
+      "title": "Validation Declared Floor",
+      "type": "number"
+    },
+    "validation_input_scale": {
+      "pattern": "^log2_fpkm_plus_0_1$",
+      "title": "Validation Input Scale",
+      "type": "string"
+    }
+  },
+  "required": [
+    "specification_version",
+    "bridge_receipt_sha256",
+    "reliability_specification_sha256",
+    "reference_object_key",
+    "reference_sha256",
+    "canonical_gene_symbols",
+    "historical_aliases",
+    "required_gene_count",
+    "tcga_input_scale",
+    "tcga_minimum_value",
+    "tcga_log2_offset",
+    "validation_input_scale",
+    "validation_declared_floor",
+    "floor_absolute_tolerance",
+    "require_exact_panel_only",
+    "require_unique_mapping",
+    "require_all_finite",
+    "imputation_allowed",
+    "cohort_centering_allowed",
+    "invalid_profile_action",
+    "source_reacquisition_allowed_for_checksum_or_schema_failure",
+    "scientific_qc_rerun_allowed",
+    "validation_adaptation_allowed",
+    "classifier_execution_authorized",
+    "outcome_access_authorized"
+  ],
+  "title": "RetrospectiveProcessedInputQCSpecification",
+  "type": "object"
+}

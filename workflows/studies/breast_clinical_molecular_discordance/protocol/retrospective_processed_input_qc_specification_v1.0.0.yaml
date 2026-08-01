@@ -1,0 +1,80 @@
+schema_version: 1.0.0
+specification_version: 1.0.0
+study_id: NAS-BRCA-002
+bridge_receipt_sha256: 86a8521b65d033c1815d5c23436c55f187049a80016f3ce5b8b10be1782e0638
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+reference_object_key: derived/nas-brca-002/reference-development/gse81538_pam50_median_reference_v1.0.0.json
+reference_sha256: 72bd804f9f4540ecbf9eadbc42feb6dee5b6618a775caff4965e92ae866f40e9
+canonical_gene_symbols:
+  - ACTR3B
+  - ANLN
+  - BAG1
+  - BCL2
+  - BIRC5
+  - BLVRA
+  - CCNB1
+  - CCNE1
+  - CDC20
+  - CDC6
+  - CDH3
+  - CENPF
+  - CEP55
+  - CXXC5
+  - EGFR
+  - ERBB2
+  - ESR1
+  - EXO1
+  - FGFR4
+  - FOXA1
+  - FOXC1
+  - GPR160
+  - GRB7
+  - KIF2C
+  - KRT14
+  - KRT17
+  - KRT5
+  - MAPT
+  - MDM2
+  - MELK
+  - MIA
+  - MKI67
+  - MLPH
+  - MMP11
+  - MYBL2
+  - MYC
+  - NAT1
+  - NDC80
+  - NUF2
+  - ORC6
+  - PGR
+  - PHGDH
+  - PTTG1
+  - RRM2
+  - SFRP1
+  - SLC39A6
+  - TMEM45B
+  - TYMS
+  - UBE2C
+  - UBE2T
+historical_aliases:
+  CDCA1: NUF2
+  KNTC2: NDC80
+  ORC6L: ORC6
+required_gene_count: 50
+tcga_input_scale: fpkm_unstranded
+tcga_minimum_value: 0.0
+tcga_log2_offset: 0.1
+validation_input_scale: log2_fpkm_plus_0_1
+validation_declared_floor: -3.321928094887362
+floor_absolute_tolerance: 1.0e-12
+require_exact_panel_only: true
+require_unique_mapping: true
+require_all_finite: true
+imputation_allowed: false
+cohort_centering_allowed: false
+invalid_profile_action: abstain
+source_reacquisition_allowed_for_checksum_or_schema_failure: true
+scientific_qc_rerun_allowed: false
+validation_adaptation_allowed: false
+classifier_execution_authorized: false
+outcome_access_authorized: false

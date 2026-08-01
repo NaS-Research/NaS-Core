@@ -44,6 +44,7 @@ from nas_core.analysis.reference_development import (
 from nas_core.analysis.reference_sensitivity import GSE81538ReferenceSensitivityService
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
 from nas_core.analysis.retrospective_bridge import RetrospectiveExpressionBridgeService
+from nas_core.analysis.retrospective_qc import RetrospectiveProcessedInputQCService
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
 from nas_core.config import get_settings
@@ -293,6 +294,11 @@ from nas_core.domain.retrospective_bridge import (
     load_retrospective_expression_bridge_plan,
     write_retrospective_expression_bridge_receipt,
     write_retrospective_expression_bridge_schemas,
+)
+from nas_core.domain.retrospective_qc import (
+    load_retrospective_processed_input_qc_specification,
+    write_retrospective_processed_input_qc_receipt,
+    write_retrospective_processed_input_qc_schemas,
 )
 from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
@@ -1100,6 +1106,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_retrospective_bridge_schema.add_argument("plan_path", type=Path)
     reliability_retrospective_bridge_schema.add_argument("receipt_path", type=Path)
+    reliability_retrospective_qc = reliability_commands.add_parser(
+        "retrospective-processed-input-qc",
+        help="Freeze fail-closed QC rules for retrospective expression profiles",
+    )
+    reliability_retrospective_qc.add_argument("specification_path", type=Path)
+    reliability_retrospective_qc.add_argument("bridge_receipt_path", type=Path)
+    reliability_retrospective_qc.add_argument("reliability_specification_path", type=Path)
+    reliability_retrospective_qc.add_argument("--data-root", type=Path, required=True)
+    reliability_retrospective_qc.add_argument("--code-revision", required=True)
+    reliability_retrospective_qc.add_argument("--output-path", type=Path)
+    reliability_retrospective_qc.add_argument("--execute", action="store_true")
+    reliability_retrospective_qc_schema = reliability_commands.add_parser(
+        "retrospective-processed-input-qc-schema",
+        help="Write retrospective processed-input QC specification and receipt schemas",
+    )
+    reliability_retrospective_qc_schema.add_argument("specification_path", type=Path)
+    reliability_retrospective_qc_schema.add_argument("receipt_path", type=Path)
     reliability_calibration_readiness = reliability_commands.add_parser(
         "calibration-readiness",
         help="Reconcile technical-calibration paths and authorize public feasibility only",
@@ -2543,6 +2566,48 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(
             "Wrote retrospective expression-bridge schemas: "
             f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "retrospective-processed-input-qc"
+    ):
+        qc_specification = load_retrospective_processed_input_qc_specification(
+            args.specification_path
+        )
+        qc_receipt = RetrospectiveProcessedInputQCService(
+            qc_specification,
+            store=FileSystemObjectStore(args.data_root),
+        ).freeze_receipt(
+            specification_path=args.specification_path,
+            bridge_receipt_path=args.bridge_receipt_path,
+            reliability_specification_path=args.reliability_specification_path,
+            code_revision=args.code_revision,
+        )
+        if not args.execute:
+            print(qc_receipt.model_dump_json(indent=2))
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_retrospective_processed_input_qc_receipt(
+            args.output_path,
+            qc_receipt,
+        )
+        print(f"Wrote retrospective processed-input QC: {qc_receipt.decision}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "retrospective-processed-input-qc-schema"
+    ):
+        write_retrospective_processed_input_qc_schemas(
+            args.specification_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote retrospective processed-input QC schemas: "
+            f"{args.specification_path}, {args.receipt_path}"
         )
         return 0
 
