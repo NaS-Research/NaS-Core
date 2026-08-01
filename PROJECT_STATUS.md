@@ -81,6 +81,14 @@ that receipt, the feasibility inputs, and the historical PAM50 specification;
 it will store only a 50-gene public annotation map externally and aggregate
 coverage in Git. The full 520-test gate passes.
 
+Frozen revision `fa7e05b` completed the mapping: all 60,675 annotation gene IDs
+are unique, every GSE130397 feature maps, and all 50 PAM50 genes map uniquely and
+are present. The external 50-gene map independently reproduces SHA-256
+`2164d07c…b958`; receipt SHA-256 is `13bcbaa1…4da3`. No identifier or molecular
+value was retained or parsed. The annotation dependency is closed; active work
+moves to frozen, source-specific replicate-variation estimands without pooling
+or threshold selection.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and

@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.63.0-working`
+Manuscript version: `0.64.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -728,6 +728,19 @@ PAM50 coverage and the analysis column remain unresolved rather than assumed.
 Neither source is eligible for primary calibration.
 [calibration_feasibility_audit_receipt_v1.0.0.yaml;
 CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md]
+
+Official processing metadata subsequently resolved the GSE130397 bridge to
+GRCh38/Ensembl release 84, with reverse-strand counts for all 15 Access libraries
+and forward-strand counts for all six NuGEN Ovation libraries. The exact archived
+45,686,368-byte Ensembl GTF was acquired with SHA-256 `a85352c0…99cf`.
+Identifier-only reconciliation found 60,675 unique annotation gene IDs, zero
+conflicts, complete mapping of all 60,675 source features, and unique presence of
+all 50 historical PAM50 genes. The external 50-gene map has SHA-256
+`2164d07c…b958`. No molecular value was parsed during annotation mapping.
+[calibration_annotation_resolution_receipt_v1.0.0.yaml;
+calibration_annotation_acquisition_receipt_v1.0.0.yaml;
+calibration_annotation_mapping_receipt_v1.0.0.yaml;
+CALIBRATION_ANNOTATION_MAPPING_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1529,6 +1542,7 @@ reviews are complete.
 | Methods—technical-calibration readiness | Source-specific public feasibility, validation, controlled-data, and prospective path decision | `protocol/technical_calibration_readiness_receipt_v1.0.0.yaml`; `protocol/TECHNICAL_CALIBRATION_READINESS_REPORT_v1.0.0.md` | two excluded feasibility sources authorized; primary calibration not ready |
 | Methods—calibration-feasibility acquisition | Complete source-specific public artifact intake and independent checksum verification | `ingestion/calibration_feasibility_acquisition_receipt_v1.0.0.yaml`; `ingestion/CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md` | 24 files and 14,189,925 bytes verified; no parsing, pooling, outcomes, classifier, or thresholds |
 | Methods and results—calibration-feasibility audit | Source-isolated panel, scale, lineage, and denominator diagnostics | `analysis/calibration_feasibility_audit_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md` | GSE60788 panel complete with six replicates; GSE130397 mapping and strandedness unresolved; primary calibration not ready |
+| Methods and results—GSE130397 annotation | Official processing resolution, archived Ensembl-84 acquisition, feature mapping, and PAM50 coverage | `analysis/calibration_annotation_resolution_receipt_v1.0.0.yaml`; `ingestion/calibration_annotation_acquisition_receipt_v1.0.0.yaml`; `analysis/calibration_annotation_mapping_receipt_v1.0.0.yaml` | all 60,675 features mapped; PAM50 50/50; Access `rev`, Ovation `fwd`; no molecular values parsed |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1586,6 +1600,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.64.0-working | 2026-08-01 | Resolved GSE130397 to GRCh38/Ensembl 84 and library-specific strand columns, acquired the exact GTF, and verified conflict-free mapping of all 60,675 features and all 50 PAM50 genes without parsing molecular values. |
 | 0.63.0-working | 2026-08-01 | Completed the source-isolated public feasibility audit: GSE60788 has all 50 PAM50 genes and six replicate records; GSE130397 has 11 replicate records but requires versioned Ensembl mapping and a strandedness decision; neither source supports primary calibration. |
 | 0.62.0-working | 2026-08-01 | Acquired and independently checksum-verified all 24 excluded feasibility artifacts (14,189,925 bytes) under a source-isolated firewall; no values were parsed and no pooling, outcomes, classifier, threshold, AI, or publication action occurred. |
 | 0.61.0-working | 2026-08-01 | Froze the technical-calibration path decision: GSE60788/GSE130397 may support excluded public feasibility audits, while no source is eligible for primary calibration and all validation, controlled-data, contact, spending, specimen, classifier, outcome, and threshold firewalls remain active. |

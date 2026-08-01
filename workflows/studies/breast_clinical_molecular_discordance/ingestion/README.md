@@ -56,6 +56,11 @@ reproduced SHA-256 `a85352c0…99cf`; acquisition receipt SHA-256 is
 [`../analysis/calibration_annotation_mapping_plan_v1.0.0.yaml`](../analysis/calibration_annotation_mapping_plan_v1.0.0.yaml)
 now binds the annotation, feasibility receipts, and historical PAM50 contract.
 
+Frozen revision `fa7e05b` mapped all 60,675 source features without conflict and
+verified all 50 PAM50 genes as uniquely mapped and present. The external map has
+SHA-256 `2164d07c…b958`; aggregate receipt SHA-256 is `13bcbaa1…4da3`. See
+[`../analysis/CALIBRATION_ANNOTATION_MAPPING_REPORT_v1.0.0.md`](../analysis/CALIBRATION_ANNOTATION_MAPPING_REPORT_v1.0.0.md).
+
 Required artifacts:
 
 - `ingestion/README.md`
