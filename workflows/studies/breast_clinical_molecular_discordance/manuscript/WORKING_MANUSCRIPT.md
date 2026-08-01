@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.61.0-working`
+Manuscript version: `0.62.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -704,6 +704,17 @@ remained nonexecuting. This path decision authorizes no classifier, threshold,
 outcome access, specimen work, or clinical claim.
 [technical_calibration_readiness_receipt_v1.0.0.yaml;
 TECHNICAL_CALIBRATION_READINESS_REPORT_v1.0.0.md]
+
+The excluded feasibility sources were then acquired under a separate immutable
+registry and 24-file checksum-bound plan. GSE60788 contributed its processed
+normalized matrix and transcript-to-gene map; GSE130397 contributed the official
+inventory and all 21 public per-sample count files. Frozen revision `727f812`
+stored 14,189,925 bytes outside Git. An independent verification reproduced all
+24 byte lengths and SHA-256 checksums with zero mismatches. Acquisition parsed no
+molecular value and did not pool sources, inspect outcomes, execute a classifier,
+or estimate a threshold.
+[calibration_feasibility_acquisition_receipt_v1.0.0.yaml;
+CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1503,6 +1514,7 @@ reviews are complete.
 | Methods and results—GSE81538 fixed reference | Outcome-blind 50-gene median construction from the frozen 100-record manifest | `analysis/gse81538_reference_construction_receipt_v1.0.0.yaml`; `analysis/GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md` | passed; value-bearing artifact external; no outcome, validation, classifier, or lock |
 | Methods and results—reference sensitivities | Median versus 20%-trimmed-mean vector and centered-profile stability; alternative-subset feasibility | `analysis/gse81538_reference_sensitivity_receipt_v1.0.0.yaml`; `analysis/GSE81538_REFERENCE_SENSITIVITY_REPORT_v1.0.0.md` | high but non-identical agreement; exact alternative 50+50 non-estimable; no classifier or outcomes |
 | Methods—technical-calibration readiness | Source-specific public feasibility, validation, controlled-data, and prospective path decision | `protocol/technical_calibration_readiness_receipt_v1.0.0.yaml`; `protocol/TECHNICAL_CALIBRATION_READINESS_REPORT_v1.0.0.md` | two excluded feasibility sources authorized; primary calibration not ready |
+| Methods—calibration-feasibility acquisition | Complete source-specific public artifact intake and independent checksum verification | `ingestion/calibration_feasibility_acquisition_receipt_v1.0.0.yaml`; `ingestion/CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md` | 24 files and 14,189,925 bytes verified; no parsing, pooling, outcomes, classifier, or thresholds |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1560,6 +1572,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.62.0-working | 2026-08-01 | Acquired and independently checksum-verified all 24 excluded feasibility artifacts (14,189,925 bytes) under a source-isolated firewall; no values were parsed and no pooling, outcomes, classifier, threshold, AI, or publication action occurred. |
 | 0.61.0-working | 2026-08-01 | Froze the technical-calibration path decision: GSE60788/GSE130397 may support excluded public feasibility audits, while no source is eligible for primary calibration and all validation, controlled-data, contact, spending, specimen, classifier, outcome, and threshold firewalls remain active. |
 | 0.60.0-working | 2026-08-01 | Completed outcome-blind reference sensitivities: median/trimmed vectors were highly correlated but non-identical, centered-profile stability remained high with a nontrivial minimum, and the exact alternative 50+50 subset was non-estimable without post hoc substitution. |
 | 0.59.0-working | 2026-08-01 | Constructed the candidate 50-gene fixed median reference from exactly 5,000 finite prespecified values on unchanged `log2(FPKM + 0.1)` scale; the value-bearing artifact remains external and no outcome, validation, classifier, or clinical result was produced. |

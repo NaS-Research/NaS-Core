@@ -1,0 +1,104 @@
+schema_version: 1.0.0
+audit_version: 1.11.0
+study_id: NAS-BRCA-002
+question_id: NAS-RQ-BRCA002
+question_version: 0.3.0
+pipeline_manifest_sha256: 3a91bda02257fe97b2ba72fdd005376a20618fbfc27f1d3bb90c29befd6590fa
+current_phase: 1
+phases:
+  - phase_number: 0
+    name: Scientific foundation and feasibility
+    status: complete
+    completion_gate: The question, evidence saturation, novelty boundary, feasibility, governance, and method route are frozen.
+    evidence:
+      - artifact_path: question/research_question.yaml
+        sha256: 6aeae3e745103be0725e2cce5ef5c1a8bba8fae9027a135fe5da972c94ebe7ae
+        proves: Active question identity and decision target.
+      - artifact_path: literature/saturated_evidence_synthesis_v1.0.0.yaml
+        sha256: e3374a8781e2e42b14d7b536e5df281d68eda9cc7efa1ffbaad1d9269de83e77
+        proves: Saturated evidence synthesis.
+      - artifact_path: protocol/method_route_activation_v1.0.0.yaml
+        sha256: 33f4c74946b13c9e1524dc447438ff14f35ad09fadf6be27371bd345c0171413
+        proves: Route C independent-calibration hold.
+    open_requirements: []
+  - phase_number: 1
+    name: Method and calibration lock
+    status: in_progress
+    completion_gate: The reference, bridge, technical-error model, thresholds, abstention rule, tolerances, and reviews are frozen without leakage.
+    evidence:
+      - artifact_path: reviews/RESEARCH_COMPLETION_AUDIT_v1.10.0.yaml
+        sha256: aff03f7a6034efbd194ede8e404b7adfd31f91bcac95dcff1383143552a8e73b
+        proves: Prior direct evidence through the frozen calibration-path decision.
+      - artifact_path: ingestion/calibration_feasibility_acquisition_receipt_v1.0.0.yaml
+        sha256: abbd09e85bbf32329bef8992d9844786db69b1d288681386a763fab98855563d
+        proves: Complete immutable public feasibility artifact set and per-file checksums.
+      - artifact_path: ingestion/CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md
+        sha256: 2b87432e0a044b7673af2a86d4bc74e3b387e2589c6c2cb266db27f914c11baf
+        proves: Independent checksum verification and unchanged feasibility-only boundary.
+    open_requirements:
+      - Audit acquired public calibration-feasibility artifacts source by source.
+      - Evidence-backed assay QC, failure, and rerun criteria.
+      - Lawful independent calibration data or separately authorized prospective experiment.
+      - Excluded-pilot estimates and blinded final pair-count reestimation.
+      - Frozen technical-error model, reliability thresholds, and abstention rule.
+      - Scientific/product, molecular/pathology, and statistical review.
+  - phase_number: 2
+    name: Preregistration and immutable datasets
+    status: not_started
+    completion_gate: The method and plan are preregistered and discovery and validation datasets are immutably frozen.
+    evidence: []
+    open_requirements:
+      - Preregistered analysis plan.
+      - Immutable TCGA-BRCA discovery snapshot.
+      - Immutable GSE96058 validation snapshot.
+      - Dataset independence, access, license, and transformation verification.
+  - phase_number: 3
+    name: Discovery analysis
+    status: not_started
+    completion_gate: Discovery results, diagnostics, sensitivities, nulls, tables, and figures are deterministically frozen.
+    evidence: []
+    open_requirements:
+      - Execute the locked discovery protocol.
+      - Complete analyses, diagnostics, negative controls, multiplicity, and sensitivities.
+      - Freeze inputs, code, environment, warnings, results, tables, and figures.
+  - phase_number: 4
+    name: Unchanged external validation
+    status: not_started
+    completion_gate: The discovery-frozen method is applied unchanged to independent validation.
+    evidence: []
+    open_requirements:
+      - Prove pre-validation method freeze.
+      - Execute unchanged GSE96058 validation.
+      - Report performance, transport degradation, subgroups, failures, nulls, and sensitivities.
+  - phase_number: 5
+    name: Translation and decision-support assessment
+    status: not_started
+    completion_gate: Benefits, harms, alternatives, abstention consequences, and prospective pathway are evidence-backed.
+    evidence: []
+    open_requirements:
+      - Compare against simpler uncertainty indicators.
+      - Define decision impact and prospective validation.
+      - Evaluate benefits, harms, abstention, and deployment no-go criteria.
+      - Complete scientific, product, and clinical-translation review.
+  - phase_number: 6
+    name: Frozen release, manuscript, and final human review
+    status: not_started
+    completion_gate: A complete immutable release and submission-ready manuscript are presented for final human confirmation.
+    evidence:
+      - artifact_path: manuscript/WORKING_MANUSCRIPT.md
+        sha256: db6566a02de7384039412eb7e93d10aca2d7087e8fa4a4ff46b2312bf093420c
+        proves: Traceable working manuscript through immutable feasibility acquisition with prohibited conclusion placeholder.
+    open_requirements:
+      - Replace prohibited placeholders with reviewed evidence or explicit nulls.
+      - Reconcile every claim, number, table, figure, citation, limitation, and disclosure.
+      - Freeze the complete research release.
+      - Complete technical and domain reviews.
+      - Present the release for final human confirmation.
+      - Obtain separate authorization before publication or submission.
+ready_for_final_human_review: false
+final_human_review_preserved: true
+final_human_review_completed: false
+scientific_conclusion_authorized: false
+external_publication_authorized: false
+external_submission_authorized: false
+

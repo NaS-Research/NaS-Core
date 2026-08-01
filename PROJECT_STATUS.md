@@ -33,6 +33,12 @@ verifies the complete set before publishing any object and preserves all
 analysis, pooling, threshold, classifier, outcome, AI, and publication
 firewalls. Live acquisition will run only from its frozen code revision.
 
+Frozen revision `727f812` acquired the complete 24-file, 14,189,925-byte set.
+Independent external-object verification reproduced every length and SHA-256
+with zero mismatches; receipt `abbd09e8…563d` records no parsing, pooling,
+outcome access, threshold estimation, classifier execution, or publication.
+The active work is now the deterministic source-isolated feasibility audit.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and

@@ -11,7 +11,12 @@ registered as public/open for `calibration-feasibility` only. The atomic staging
 service validates every declared size before publishing any immutable object and
 records a checksum per artifact. Acquisition does not parse molecular values.
 Pooling, outcomes, classifier execution, threshold estimation, external
-publication, and generative-model access remain false.
+publication, and generative-model access remain false. Frozen revision
+`727f812` acquired all 24 objects and independent verification reproduced all
+lengths and checksums with zero mismatches. Receipt
+[`calibration_feasibility_acquisition_receipt_v1.0.0.yaml`](calibration_feasibility_acquisition_receipt_v1.0.0.yaml)
+has SHA-256 `abbd09e8…563d`; see
+[`CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md`](CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md).
 
 Required artifacts:
 
