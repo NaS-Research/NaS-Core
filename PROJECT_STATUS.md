@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Freeze the reference-development input manifest and unit audit
+### Freeze GSE81538 participant lineage and the outcome-blind reference subset
 
 GSE81538 is now registered as public/open for the bounded role
 `reference_development_only`. Protocol `1.0.0` freezes an outcome- and
@@ -18,11 +18,12 @@ discovery/validation firewalls. It deliberately remains a candidate because
 the processed matrix scale, participant non-overlap, and durable storage have
 not yet been verified.
 
-Definition of done: restore a writable marker-validated object store; freeze the
-official GSE81538 filename, size, retrieval time, and checksum; verify public
-participant non-overlap with GSE96058; audit the processed matrix scale and all
-50 gene mappings without outcomes; and freeze the 100-sample accession manifest
-before parsing expression values. No GSE96058 molecular or outcome values may be
+Definition of done: immutably acquire the official GSE81538 family metadata;
+parse only sample accession, title, and ER status; verify one-to-one `T1`–`T405`
+lineage and the permitted relationship statement relative to GSE96058; then
+freeze exactly 50 ER-positive plus 50 ER-negative accessions by the declared
+lexicographic rule before selected expression values are parsed. Participant
+identifiers remain outside Git. No GSE96058 molecular or outcome values may be
 accessed.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
@@ -33,10 +34,13 @@ byte NCBI artifact outside Git and independently reproduced SHA-256
 `9da259a9…39181`. No expression values or outcomes were parsed. The active work
 is now the field-isolated schema, scale, and PAM50 mapping audit.
 
-The streaming audit implementation, typed contracts, CLI, JSON Schemas, and
-synthetic fail-closed tests are complete. The repository-wide gate passes 493
-tests with Ruff and mypy clean. Live execution remains deliberately separate so
-its receipt can identify the frozen implementation revision.
+Frozen revision `cf8d7f6` executed the audit. Receipt `98bfb62a…b4c` passed:
+18,802 unique gene rows, 405 ordered sample columns, all 7,614,810 values finite,
+zero missing or nonfinite values, and all 50 PAM50 genes present. The observed
+minimum and 969,918 floor values verify the source-declared
+`log2(FPKM + 0.1)` representation. No sample row was retained and no outcome,
+classifier, subtype, score, or reference vector was accessed or produced. The
+next work is field-isolated participant metadata and manifest freezing.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -579,48 +583,48 @@ Current gate state:
 
 ## Next implementation queue
 
-1. Execute the checksum-bound GSE81538 matrix audit from the frozen code revision,
-   then freeze its aggregate receipt and scientific interpretation.
-2. Materialize the fixed outcome-blind reference and its prespecified reference
+1. Acquire and audit only the permitted GSE81538 accession, title, and ER fields;
+   freeze the outcome- and expression-blind 100-sample selection manifest.
+2. Resolve and freeze the corrected no-additional-transform preprocessing bridge.
+3. Materialize the fixed outcome-blind reference and its prespecified reference
    sensitivities, then lock or reject the preprocessing bridge.
-3. Resolve technical-error and reliability-threshold dependencies without
+4. Resolve technical-error and reliability-threshold dependencies without
    discovery or validation outcome inspection.
-4. Complete the scientific/product, molecular/pathology, and statistical
+5. Complete the scientific/product, molecular/pathology, and statistical
    reviews for question `0.3.0`, then record a new gate decision.
-5. Update the living manuscript and its evidence-to-text ledger after every material
+6. Update the living manuscript and its evidence-to-text ledger after every material
    appraisal, protocol decision, executed analysis, figure, and review decision.
-6. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
+7. Complete the NAS-BRCA-001 founder results review and authorize, hold, or reject
    a transparent versioned remediation.
-7. If authorized, remediate only declared NAS-BRCA-001 technical defects and
+8. If authorized, remediate only declared NAS-BRCA-001 technical defects and
    preserve the original immutable run.
-8. Implement persisted evidence claims, citations, provenance, contradictory
+9. Implement persisted evidence claims, citations, provenance, contradictory
    evidence, null findings, limitations, and review state.
-9. Add license-aware permitted passage ingestion and hybrid keyword and semantic
+10. Add license-aware permitted passage ingestion and hybrid keyword and semantic
    retrieval after the Phase 0 evidence inventory is screened.
-10. Expand the screening model gateway into general evidence reasoning with
+11. Expand the screening model gateway into general evidence reasoning with
    minimum-necessary context, citations, uncertainty, abstention, and governance.
-11. Build evaluation suites for retrieval, citation validity, numerical
+12. Build evaluation suites for retrieval, citation validity, numerical
    fidelity, unsupported claims, and appropriate abstention.
-12. Generate an immutable research release containing the protocol, dataset
+13. Generate an immutable research release containing the protocol, dataset
    manifest, code revision, environment, results, figures, literature,
    limitations, approvals, and disclosures.
-13. Generate a reviewable white-paper draft whose substantive claims trace to
+14. Generate a reviewable white-paper draft whose substantive claims trace to
    executed artifacts, external sources, or labeled interpretation.
-14. Build the internal workbench for projects, protocols, datasets, runs,
+15. Build the internal workbench for projects, protocols, datasets, runs,
    evidence review, and publication releases.
-15. Complete repeated internal oncology pilots before selecting the first
+16. Complete repeated internal oncology pilots before selecting the first
     external commercial product surface.
 
 ## Recently completed
 
-### 2026-08-01 — Outcome-blind matrix audit implemented and verified
+### 2026-08-01 — GSE81538 matrix integrity and input scale verified
 
-Implemented streaming object reads plus a provenance-bound GSE81538 matrix audit.
-It verifies the compressed source hash, exact dimensions and sample-header order,
-all 7.6 million expected numeric cells, declared transformed scale, duplicate
-genes, and complete PAM50 mapping without retaining participant rows or accessing
-outcomes. Synthetic altered-header, missing-gene, and changed-provenance cases
-fail closed. The full gate passes 493 tests with Ruff and mypy clean.
+Frozen revision `cf8d7f6` independently reproduced the source checksum and parsed
+all 7,614,810 values. The exact 18,802-by-405 structure, unique genes, finite
+measurements, declared `log2(FPKM + 0.1)` floor, and all 50 PAM50 mappings pass.
+No participant row was retained, and no outcome or classifier result was accessed.
+Receipt SHA-256 is `98bfb62a…b4c`; the full gate passes 493 tests.
 
 ### 2026-08-01 — Immutable public artifact acquired and verified
 
@@ -646,15 +650,6 @@ methods report. The candidate rule selects 50 samples per ER stratum before
 expression parsing and prohibits outcomes and validation performance. The source,
 transformation, and reference remain unlocked pending storage, lineage, unit, and
 gene-mapping audits.
-
-### 2026-07-29 — Independent numerical conformance passed
-
-Implemented a separately coded pure-Python reference with no NumPy or SciPy and
-compared it against the production kernel. All eight frozen synthetic cases pass:
-five subtype archetypes, tied input ranks, top-score tie abstention, and
-runner-up-score tie abstention. Labels, ranks, and reasons match exactly; all
-score and margin differences are zero at tolerance `1e-12`. This closes software
-arithmetic conformance only and does not claim analytical validity.
 
 ## Historical implementation log
 

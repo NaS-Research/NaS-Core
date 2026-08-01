@@ -32,7 +32,10 @@ def test_living_manuscript_preserves_traceability_and_claim_boundaries() -> None
         "## Revision log",
     ):
         assert heading in manuscript
-    assert "no molecular values or outcome dataset used or retained" in normalized_manuscript
+    assert "no outcome dataset, classifier result, or clinical conclusion exists" in (
+        normalized_manuscript
+    )
+    assert "All 7,614,810 values were finite" in manuscript
     assert "During pre-gate endpoint characterization" in manuscript
     assert "It supersedes its already appraised preprint" in manuscript
     assert "### Publication-version reconciliation" in manuscript
@@ -43,9 +46,6 @@ def test_living_manuscript_preserves_traceability_and_claim_boundaries() -> None
     assert "No scientific or clinical conclusion is authorized" in manuscript
     assert "revised-appraisals/PMC3275466-v1.0.0.yaml" in manuscript
     assert "revised-appraisals/PMC4365540-v1.0.0.yaml" in manuscript
-    assert (
-        "| Results—NaS analysis | NaS-generated result | none | prohibited placeholder |"
-        in manuscript
-    )
+    assert "| Results—NaS input integrity | Outcome-blind matrix audit |" in manuscript
     assert "Update the manuscript after each material evidence appraisal" in rules
     assert "Only a frozen research release" in rules

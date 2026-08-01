@@ -1,0 +1,46 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+code_revision: cf8d7f6
+audited_at: '2026-08-01T15:59:44.100868Z'
+plan_sha256: a1b996dd8c8b54a05a10fafa1e97034001450c1f23b141627578bfddfef1012d
+acquisition_receipt_sha256: f22b690b4dae2d5029d97fd646a1a1d2baa468f3cc723d95f2d03e74bcca0735
+object_sha256_verified: true
+compressed_bytes: 54838076
+expected_gene_row_count: 18802
+gene_row_count: 18802
+unique_gene_identifier_count: 18802
+duplicate_gene_identifier_count: 0
+expected_sample_column_count: 405
+sample_column_count: 405
+sample_header_sequence_verified: true
+total_measurement_count: 7614810
+finite_measurement_count: 7614810
+missing_measurement_count: 0
+nonfinite_measurement_count: 0
+minimum_value: -3.32192809488736
+maximum_value: 16.2706822322647
+expected_zero_floor: -3.321928094887362
+zero_floor_count: 969918
+values_below_expected_floor: 0
+official_transform_declared: log2(FPKM + 0.1)
+observed_floor_matches_declared_transform: true
+input_scale_verified: true
+required_pam50_gene_count: 50
+resolved_pam50_gene_count: 50
+missing_pam50_genes: []
+duplicate_pam50_mappings: []
+historical_aliases_applied: {}
+decision: pass
+limitations:
+- The audit verifies structure, finite values, scale, and panel coverage only.
+- The transform statement is source metadata, not an independent assay validation.
+- No sample row, classifier score, subtype, reference vector, or outcome is retained.
+molecular_values_parsed: true
+sample_rows_retained: false
+outcome_values_accessed: false
+classifier_executed: false
+reference_vector_materialized: false
+reference_locked: false

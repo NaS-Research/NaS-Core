@@ -2,18 +2,18 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.57.0-working`
+Manuscript version: `0.58.0-working`
 
 Study: `NAS-BRCA-002`
 
 Question version: `0.3.0`
 
-Last updated: 2026-07-29
+Last updated: 2026-08-01
 
 Overall status: **working—citation review saturated, evidence synthesis
-founder-authorized, metadata input feasibility passed, and Route C activated
-under an independent-calibration hold; novelty remains on hold; no molecular
-values or outcome dataset used or retained**
+founder-authorized, and Route C active under an independent-calibration hold;
+the outcome-blind GSE81538 matrix integrity audit passed; novelty remains on
+hold; no outcome dataset, classifier result, or clinical conclusion exists**
 
 ## Abstract
 
@@ -636,24 +636,31 @@ transport, or clinical use.
 [numerical_conformance_receipt_v1.0.0.yaml;
 NUMERICAL_CONFORMANCE_REPORT_v1.0.0.md]
 
-A candidate fixed-reference protocol now assigns GSE81538 a
-reference-development-only role. Before expression parsing, public metadata
-would select 50 ER-positive and 50 ER-negative primary tumors by lexicographic
-GEO accession order. If a field-isolated audit proves that the processed matrix
-contains untransformed gene-level FPKM, the candidate bridge applies
-`log2(FPKM + 1)`, requires unique finite mappings for all 50 genes, and computes
-a gene-wise median across the frozen 100-sample subset. That vector would be
-subtracted before Spearman scoring.
+A candidate fixed-reference protocol assigns GSE81538 a
+reference-development-only role. Public metadata will select 50 ER-positive and
+50 ER-negative primary tumors by lexicographic GEO accession order before any
+selected expression values are parsed. The proposed reference remains the
+gene-wise median across that frozen 100-sample subset, subtracted before Spearman
+scoring.
+
+The checksum-bound processed-matrix audit parsed all 7,614,810 expression values
+without outcomes. It verified 18,802 unique gene rows, the ordered 405-sample
+header, zero missing or nonfinite measurements, and all 50 PAM50 genes. The
+observed minimum was `-3.32192809488736`; 969,918 values occupied that floor and
+none fell below it. Together with the official processing statement, this
+establishes that the stored input is already `log2(FPKM + 0.1)`. The earlier
+conditional `log2(FPKM + 1)` candidate must not be applied and requires a
+prospective protocol amendment before reference construction.
 
 The candidate is not locked. GSE81538 and GSE96058 share the broader SCAN-B
-program and laboratory context, participant non-overlap is not yet verified,
-and the processed matrix scale has not been inspected. GSE81538 cannot contribute
-discovery or validation performance, while GSE96058 molecular values and all
-outcomes remain firewalled. The source, transformation, and reference require
-artifact, lineage, unit, gene-mapping, sensitivity, and storage evidence before
-use.
+program and laboratory context, and the permitted lineage claim is not yet
+resolved. GSE81538 cannot contribute discovery or validation performance, while
+GSE96058 molecular values and all outcomes remain firewalled. Participant
+metadata selection, reference construction, outcome-blind sensitivity analysis,
+and technical-error calibration remain incomplete.
 [reference_development_protocol_v1.0.0.yaml;
-REFERENCE_DEVELOPMENT_REPORT_v1.0.0.md]
+GSE81538_MATRIX_AUDIT_REPORT_v1.0.0.md;
+gse81538_matrix_audit_receipt_v1.0.0.yaml]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1271,9 +1278,12 @@ PMID42172162-v1.0.0]
 
 ### NaS analytical results
 
-Status: `placeholder—no molecular or outcome data accessed`
+Status: `input-integrity result only—no classifier or outcome analysis`
 
-No NaS-generated subtype, reliability, survival, concordance, calibration, or
+The governed GSE81538 matrix passed the prespecified outcome-blind integrity
+audit. All 7,614,810 values were finite, all 50 PAM50 genes were present, and the
+observed floor agreed with the source-declared `log2(FPKM + 0.1)` scale. No
+NaS-generated subtype, reliability, survival, concordance, calibration, or
 clinical-association result exists for question `0.3.0`.
 
 ## Discussion
@@ -1325,10 +1335,11 @@ Status: `working`
   and GSE96058 primary/technical-replicate linkage. It did not establish assay
   equivalence, numerical compatibility, a valid transformation, or classifier
   validity.
-- No centroid, reference, transformation, technical-error model, or threshold is locked.
-- Public representations containing molecular and prohibited metadata fields were
-  transiently transferred through the authorized projection gate. No molecular or
-  outcome value was parsed, retained, or analyzed for question `0.3.0`.
+- The historical centroid coefficients and GSE81538 input scale are verified;
+  the fixed reference, technical-error model, and thresholds are not locked.
+- The governed GSE81538 matrix audit parsed molecular values only to calculate
+  aggregate integrity statistics. It retained no participant row and accessed no
+  outcome, treatment, subtype, score, or classifier result.
 - No external statistical or pathology review has been completed.
 - The current text is an internal working draft and has not undergone peer review.
 
@@ -1426,6 +1437,7 @@ reviews are complete.
 | Introduction ¶10 | Study objective and boundary | `question/research_question.yaml`; `protocol/reliability_specification.yaml` | supported, method unresolved |
 | Methods—governance | Authorization and prohibition | `question/phase_zero_plan_v0.3.0.yaml`; founder authorization | supported |
 | Methods—metadata feasibility | Source-level and field-isolated input audits | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.1.yaml`; all audit reports | all five input-feasibility checks verified; method compatibility unresolved |
+| Methods and results—GSE81538 matrix integrity | Checksum, dimensions, numeric completeness, declared scale, and PAM50 coverage | `ingestion/gse81538_matrix_audit_receipt_v1.0.0.yaml`; `ingestion/GSE81538_MATRIX_AUDIT_REPORT_v1.0.0.md` | passed; no outcomes or classifier execution |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1475,7 +1487,7 @@ reviews are complete.
 | Results—integrated annotation software | External evidence appraisal | `revised-appraisals/PMC8974006-v1.0.0.yaml` | context only |
 | Results—spatially guided mFISHseq | External evidence appraisal | `revised-appraisals/PMC10723508-v1.0.0.yaml` | context only |
 | Results—modality-disjoint latent simulation | External evidence appraisal | `revised-appraisals/PMID42172162-v1.0.0.yaml` | context only |
-| Results—NaS analysis | NaS-generated result | none | prohibited placeholder |
+| Results—NaS input integrity | Outcome-blind matrix audit | `ingestion/gse81538_matrix_audit_receipt_v1.0.0.yaml` | passed; no classifier or outcome analysis |
 | Discussion ¶1–2 | Explicit interpretation | `saturated_evidence_synthesis_v1.0.0.yaml`; 68 completed appraisals and 13 access-restricted identities | founder-authorized working synthesis; novelty held |
 | Conclusions | Scientific conclusion | none | prohibited placeholder |
 
