@@ -116,4 +116,10 @@ object key. The acquisition implementation streams to governed working storage,
 checks exact byte length, calculates SHA-256, and atomically publishes without
 overwrite. It does not parse expression or outcome values during acquisition.
 
+Frozen revision `db3c81b` executed that plan and generated immutable metadata
+receipt [`gse81538_acquisition_receipt_v1.0.0.yaml`](gse81538_acquisition_receipt_v1.0.0.yaml).
+The 54,838,076-byte object has independently reproduced SHA-256
+`9da259a9b08ef794890cbf55a738856870d12b6d455da75874e1d6849ed39181`.
+See [`GSE81538_ACQUISITION_REPORT_v1.0.0.md`](GSE81538_ACQUISITION_REPORT_v1.0.0.md).
+
 Completion gate: Governed immutable dataset snapshot is verified.

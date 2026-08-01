@@ -1,0 +1,20 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+code_revision: db3c81b
+acquired_at: '2026-08-01T15:45:17.831540Z'
+plan_sha256: 14d5b17e3ce6695331b3212ec6595fe0e37f75f1b78b704d0bb59e0d7bed6eef
+official_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE81nnn/GSE81538/suppl/GSE81538_gene_expression_405_transformed.csv.gz
+response_content_type: application/x-gzip
+response_last_modified: Tue, 17 May 2016 20:45:49 GMT
+content_length_bytes: 54838076
+sha256: 9da259a9b08ef794890cbf55a738856870d12b6d455da75874e1d6849ed39181
+object_key: raw/nas-brca-002/ncbi-geo-gse81538/gse81538_gene_expression_405_transformed.csv.gz
+immutable_object_verified: true
+molecular_source_bytes_stored: true
+molecular_values_parsed: false
+outcome_values_accessed: false
+classifier_executed: false
+external_publication_authorized: false

@@ -28,9 +28,10 @@ accessed.
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and
-zero blockers. Official NCBI headers freeze the candidate artifact at 54,838,076
-bytes; its checksum remains pending until the newly implemented immutable
-acquisition command executes from a frozen code revision.
+zero blockers. Frozen acquisition revision `db3c81b` stored the exact 54,838,076-
+byte NCBI artifact outside Git and independently reproduced SHA-256
+`9da259a9…39181`. No expression values or outcomes were parsed. The active work
+is now the field-isolated schema, scale, and PAM50 mapping audit.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -607,14 +608,13 @@ Current gate state:
 
 ## Recently completed
 
-### 2026-08-01 — Immutable public-artifact acquisition implemented
+### 2026-08-01 — Immutable public artifact acquired and verified
 
-Implemented an allowlisted streaming acquisition path for the official GSE81538
-processed-expression artifact. It enforces active public/open registration,
-standing-authorization and protocol hashes, a ready storage receipt, exact URL
-and byte length, non-overwriting atomic object storage, and checksum receipts.
-Tests use synthetic bytes only; real acquisition awaits the frozen implementation
-revision and will parse no molecular values or outcomes.
+Implemented an allowlisted streaming acquisition path and froze it before source
+contact. Revision `db3c81b` then stored the official GSE81538 artifact at exactly
+54,838,076 bytes with independently reproduced SHA-256 `9da259a9…39181`.
+Registration, provenance, storage readiness, exact URL, atomic non-overwrite,
+and checksum gates all passed. No molecular values or outcomes were parsed.
 
 ### 2026-07-29 — Governed storage preflight executed
 
