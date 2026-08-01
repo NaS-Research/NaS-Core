@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Freeze excluded-pilot estimands and resolve annotation dependencies
+### Interpret excluded replicate pilots and advance blinded precision planning
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,13 +17,13 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: freeze the exact GSE60788 six-pair source-specific estimands,
-transform handling, diagnostics, and no-threshold interpretation; identify and
-register a versioned lawful annotation source for GSE130397 or formally record
-panel coverage as non-estimable; resolve its strandedness from authoritative
-source documentation; and retain source isolation. Do not pool sources, select
-reliability thresholds, execute a classifier, access GSE96058 or outcomes,
-contact anyone, spend, or acquire specimens.
+Definition of done: preserve the completed source-specific pilot estimates as
+descriptive feasibility evidence; use independent replicate groups—not pairwise
+pseudoreplicates—to update blinded precision planning; define evidence-backed
+assay QC, failure, and rerun criteria where the current evidence permits; and
+retain the primary-calibration hold. Do not pool sources, select reliability
+thresholds, execute a classifier, access GSE96058 or outcomes, contact anyone,
+spend, or acquire specimens.
 
 Both sources are now separately registered as public/open for excluded
 `calibration-feasibility` work. Acquisition plan `1.0.0` freezes 24 official
@@ -88,6 +88,19 @@ are present. The external 50-gene map independently reproduces SHA-256
 value was retained or parsed. The annotation dependency is closed; active work
 moves to frozen, source-specific replicate-variation estimands without pooling
 or threshold selection.
+
+Frozen revision `8251aa8` then executed the prespecified, source-isolated
+technical-replicate pilots. GSE60788's six independent groups had median PAM50
+Spearman correlation 0.985834 (group-bootstrap 95% interval 0.966675–0.990720)
+and median RMSE 0.195806 on the unchanged supplied scale. GSE130397's seven
+independent groups and 15 within-group pairs had median Spearman 0.983288
+(0.969962–0.994454) and median RMSE 0.361678 on `log2(CPM + 1)`. Typical
+gene-level absolute technical difference was 0.076856 and 0.159238,
+respectively. The sources were never pooled; outcomes, classifiers, and
+thresholds remained untouched. These small excluded pilots establish technical
+feasibility and heterogeneity, not a clinical reliability rule or primary
+calibration set. Receipt SHA-256 is `6dd74a9a…8c123`; external details reproduce
+SHA-256 `b8863b4f…45c0d`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the

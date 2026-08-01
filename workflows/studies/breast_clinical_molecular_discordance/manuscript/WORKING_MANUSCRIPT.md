@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.64.0-working`
+Manuscript version: `0.65.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -742,6 +742,25 @@ calibration_annotation_acquisition_receipt_v1.0.0.yaml;
 calibration_annotation_mapping_receipt_v1.0.0.yaml;
 CALIBRATION_ANNOTATION_MAPPING_REPORT_v1.0.0.md]
 
+Prespecified source-isolated replicate pilots then analyzed the historical PAM50
+panel without pooling sources or selecting a threshold. For GSE60788, the six
+declared pairs were used unchanged on the supplied normalized scale. Median
+group Spearman correlation was 0.985834 (group-resampling 95% percentile
+interval 0.966675–0.990720), median Pearson correlation was 0.988766, and median
+RMSE was 0.195806. For GSE130397, Access `rev` and Ovation `fwd` counts were each
+normalized as `log2(CPM + 1)` using all 60,675 features as the library-size
+denominator. Seven independent replicate-capable groups contributed 15
+within-group unordered pairs. Median group Spearman correlation was 0.983288
+(0.969962–0.994454), median Pearson correlation was 0.987940, and median RMSE
+was 0.361678. Median gene-level absolute technical difference was 0.076856 for
+GSE60788 and 0.159238 for GSE130397 on their different analysis scales. These
+values cannot be compared as a common-scale effect size. The high rank agreement
+supports technical feasibility, while the small number of groups, unresolved
+biological lineage, method heterogeneity, and scale differences preclude primary
+calibration or a clinical reliability threshold.
+[calibration_feasibility_pilot_receipt_v1.0.0.yaml;
+CALIBRATION_FEASIBILITY_PILOT_REPORT_v1.0.0.md]
+
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
 three declared historical aliases, fails closed on incomplete, ambiguous, or
@@ -1358,7 +1377,7 @@ PMID42172162-v1.0.0]
 
 ### NaS analytical results
 
-Status: `input-integrity result only—no classifier or outcome analysis`
+Status: `input-integrity and excluded technical-feasibility results only—no classifier or outcome analysis`
 
 The governed GSE81538 matrix passed the prespecified outcome-blind integrity
 audit. All 7,614,810 values were finite, all 50 PAM50 genes were present, and the
@@ -1383,6 +1402,16 @@ references were strongly correlated, but the maximum per-gene difference was
 32 additional ER-negative records were eligible. No classifier, outcome,
 validation cohort, or threshold was used, so these results do not establish
 subtype-call stability or analytical validity.
+
+The excluded technical-replicate pilots also show consistently high within-
+source PAM50 rank agreement: median group Spearman correlations were 0.985834
+for GSE60788 and 0.983288 for GSE130397. GSE130397 nevertheless showed a larger
+typical gene-level absolute difference than GSE60788 (0.159238 versus 0.076856)
+on noncommensurate source-specific scales, and its RMSE interval was wide. This
+is a technical-feasibility and heterogeneity finding, not evidence that a
+patient-level subtype call is reliable. No source was pooled, no threshold was
+estimated, and no classifier, outcome, validation cohort, or clinical endpoint
+was accessed.
 
 ## Discussion
 
@@ -1543,6 +1572,7 @@ reviews are complete.
 | Methods—calibration-feasibility acquisition | Complete source-specific public artifact intake and independent checksum verification | `ingestion/calibration_feasibility_acquisition_receipt_v1.0.0.yaml`; `ingestion/CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md` | 24 files and 14,189,925 bytes verified; no parsing, pooling, outcomes, classifier, or thresholds |
 | Methods and results—calibration-feasibility audit | Source-isolated panel, scale, lineage, and denominator diagnostics | `analysis/calibration_feasibility_audit_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md` | GSE60788 panel complete with six replicates; GSE130397 mapping and strandedness unresolved; primary calibration not ready |
 | Methods and results—GSE130397 annotation | Official processing resolution, archived Ensembl-84 acquisition, feature mapping, and PAM50 coverage | `analysis/calibration_annotation_resolution_receipt_v1.0.0.yaml`; `ingestion/calibration_annotation_acquisition_receipt_v1.0.0.yaml`; `analysis/calibration_annotation_mapping_receipt_v1.0.0.yaml` | all 60,675 features mapped; PAM50 50/50; Access `rev`, Ovation `fwd`; no molecular values parsed |
+| Methods and results—excluded replicate pilots | Prespecified source-specific PAM50 replicate agreement and variation | `analysis/calibration_feasibility_pilot_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_FEASIBILITY_PILOT_REPORT_v1.0.0.md` | high within-source rank agreement; heterogeneous error magnitudes on noncommensurate scales; no pooling, threshold, classifier, outcomes, or primary-calibration eligibility |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1600,6 +1630,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.65.0-working | 2026-08-01 | Completed source-isolated excluded replicate pilots: six GSE60788 and seven GSE130397 independent groups showed high PAM50 rank agreement but nontrivial, source-dependent variation; no pooling, threshold, classifier, outcome, or clinical claim was made. |
 | 0.64.0-working | 2026-08-01 | Resolved GSE130397 to GRCh38/Ensembl 84 and library-specific strand columns, acquired the exact GTF, and verified conflict-free mapping of all 60,675 features and all 50 PAM50 genes without parsing molecular values. |
 | 0.63.0-working | 2026-08-01 | Completed the source-isolated public feasibility audit: GSE60788 has all 50 PAM50 genes and six replicate records; GSE130397 has 11 replicate records but requires versioned Ensembl mapping and a strandedness decision; neither source supports primary calibration. |
 | 0.62.0-working | 2026-08-01 | Acquired and independently checksum-verified all 24 excluded feasibility artifacts (14,189,925 bytes) under a source-isolated firewall; no values were parsed and no pooling, outcomes, classifier, threshold, AI, or publication action occurred. |

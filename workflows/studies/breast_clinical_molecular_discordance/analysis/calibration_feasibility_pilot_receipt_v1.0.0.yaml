@@ -1,0 +1,79 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: 8251aa8
+plan_sha256: 4dec22c19ddbfced46b1e41aef5fb6fc8e733726d3b6cbb979ed0c675e4551bc
+source_summaries:
+- source_id: ncbi-geo-gse60788
+  eligible_replicate_group_count: 6
+  unordered_pair_comparison_count: 6
+  panel_gene_count: 50
+  analysis_scale: unchanged_source_normalized_values
+  median_group_spearman: 0.9858343337334934
+  bootstrap_spearman_ci_lower: 0.9666746698679471
+  bootstrap_spearman_ci_upper: 0.990720139238813
+  minimum_group_spearman: 0.9637935174069627
+  maximum_group_spearman: 0.9938535414165666
+  median_group_pearson: 0.9887660057953638
+  median_group_mae: 0.1351105623
+  median_group_rmse: 0.1958056657036611
+  bootstrap_rmse_ci_lower: 0.1468927310065814
+  bootstrap_rmse_ci_upper: 0.2831785431124776
+  median_gene_absolute_difference: 0.07685645850000003
+  maximum_gene_absolute_difference: 0.36509743399999994
+  highest_difference_genes:
+  - MIA
+  - CCNE1
+  - ACTR3B
+  - TYMS
+  - TMEM45B
+  inferential_claim_authorized: false
+  primary_calibration_eligible: false
+- source_id: ncbi-geo-gse130397
+  eligible_replicate_group_count: 7
+  unordered_pair_comparison_count: 15
+  panel_gene_count: 50
+  analysis_scale: log2_cpm_plus_1
+  median_group_spearman: 0.9832877152399974
+  bootstrap_spearman_ci_lower: 0.9699618222595875
+  bootstrap_spearman_ci_upper: 0.9944536486335447
+  minimum_group_spearman: 0.969939975990396
+  maximum_group_spearman: 0.9972148859543817
+  median_group_pearson: 0.987940180669833
+  median_group_mae: 0.2698150963344998
+  median_group_rmse: 0.3616780124596595
+  bootstrap_rmse_ci_lower: 0.13868309631402945
+  bootstrap_rmse_ci_upper: 0.39145235081740926
+  median_gene_absolute_difference: 0.1592382358362392
+  maximum_gene_absolute_difference: 0.6947760612980716
+  highest_difference_genes:
+  - NDC80
+  - UBE2T
+  - GPR160
+  - BAG1
+  - MMP11
+  inferential_claim_authorized: false
+  primary_calibration_eligible: false
+details_object_key: derived/nas-brca-002/calibration-feasibility/source_specific_replicate_pilot_v1.0.0.json
+details_sha256: b8863b4fa1b28fd51c0ac012c040938c21853d933c2b4c3a54a8b32a2d845c0d
+details_object_verified: true
+decision: excluded_pilots_complete_primary_calibration_not_ready
+sources_pooled: false
+thresholds_estimated: false
+classifier_executed: false
+outcomes_accessed: false
+source_identifiers_retained: false
+molecular_values_retained_in_git: false
+external_export_authorized: false
+external_publication_authorized: false
+limitations:
+- GSE60788 contains only six declared pairs and its exact source transform is not
+  inferred.
+- GSE130397 contains seven replicate-capable groups and mixes library-preparation
+  methods.
+- Public title patterns do not independently prove same-RNA or same-specimen lineage.
+- Bootstrap intervals describe small feasibility sets and are not population inference.
+next_actions:
+- Use these source-specific estimates only to inform blinded precision planning.
+- Do not derive reliability thresholds or pool either excluded source.
+- Keep primary calibration on hold pending an eligible independent calibration set.
