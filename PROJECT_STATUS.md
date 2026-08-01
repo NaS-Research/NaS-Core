@@ -87,6 +87,14 @@ Centered-profile rank correlations had mean `0.985411`, median `0.987995`, and
 minimum `0.938824`. Only 32 unselected ER-negative records remain, so the exact
 alternative 50+50 reference is not estimable and no post hoc substitute was used.
 
+A machine-verifiable technical-calibration readiness gate is now implemented.
+It reconciles standing autonomy, the acquisition contract, source scout,
+lineage audit, prospective design, internal planning bundle, contact revocation,
+and completed reference receipts. It authorizes only excluded public feasibility
+work on GSE60788 and GSE130397, keeps GSE96058 reserved, and rejects every current
+path for primary threshold calibration. Synthetic tests and a real-evidence dry
+run pass; the immutable readiness receipt awaits the frozen code revision.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three

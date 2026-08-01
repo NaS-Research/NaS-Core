@@ -227,6 +227,17 @@ The 30 pairs are an excluded pilot target, not a final calibration size.
 `PHASE_ONE_INTERNAL_PLANNING_REPORT_v1.0.0.md` records the rationale and
 remaining evidence gates.
 
+The technical-calibration readiness gate reconciles that planning bundle with
+the acquisition contract, public-source scout, lineage receipt, prospective
+design, active no-contact revocation, and completed reference artifacts. It can
+authorize approved public/open sources only for excluded feasibility estimands;
+it cannot declare primary calibration readiness, select thresholds, access
+GSE96058, contact a party, spend, acquire specimens, or execute a classifier.
+Current candidate routing permits GSE60788 and GSE130397 for feasibility-only
+artifact and panel audits. GSE96058 remains validation-only; Hurson participant-
+level data remain controlled and unavailable; prospective laboratory execution
+remains a founder stop condition.
+
 Platform audit `1.0.0` reuses only governed repository evidence and returns
 `changes_required`: one of eight criteria is verified, four are partial, and
 three are pending. Complete 50-gene mapping is verified, but transformation,

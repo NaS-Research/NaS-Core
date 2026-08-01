@@ -1,0 +1,332 @@
+{
+  "$defs": {
+    "CalibrationPathAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "disposition": {
+          "$ref": "#/$defs/CalibrationPathDisposition"
+        },
+        "expected_replicate_record_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Replicate Record Count"
+        },
+        "external_contact_required": {
+          "title": "External Contact Required",
+          "type": "boolean"
+        },
+        "feasibility_molecular_acquisition_authorized": {
+          "title": "Feasibility Molecular Acquisition Authorized",
+          "type": "boolean"
+        },
+        "primary_calibration_eligible": {
+          "title": "Primary Calibration Eligible",
+          "type": "boolean"
+        },
+        "public_open": {
+          "title": "Public Open",
+          "type": "boolean"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Reasons",
+          "type": "array"
+        },
+        "source_id": {
+          "pattern": "^(GEO:GSE[0-9]+|PMC:PMC[0-9]+|NAS:PROSPECTIVE)$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "spending_or_specimens_required": {
+          "title": "Spending Or Specimens Required",
+          "type": "boolean"
+        },
+        "threshold_calibration_authorized": {
+          "title": "Threshold Calibration Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "disposition",
+        "public_open",
+        "feasibility_molecular_acquisition_authorized",
+        "threshold_calibration_authorized",
+        "primary_calibration_eligible",
+        "external_contact_required",
+        "spending_or_specimens_required",
+        "reasons"
+      ],
+      "title": "CalibrationPathAssessment",
+      "type": "object"
+    },
+    "CalibrationPathDisposition": {
+      "enum": [
+        "public_feasibility_authorized",
+        "reserved_external_validation",
+        "controlled_unavailable_contact_prohibited",
+        "prospective_experiment_requires_stop_condition_review"
+      ],
+      "title": "CalibrationPathDisposition",
+      "type": "string"
+    },
+    "CalibrationReadinessDecision": {
+      "enum": [
+        "public_feasibility_only_primary_calibration_not_ready"
+      ],
+      "title": "CalibrationReadinessDecision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "acquisition_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Acquisition Plan Sha256",
+      "type": "string"
+    },
+    "assessed_at": {
+      "format": "date-time",
+      "title": "Assessed At",
+      "type": "string"
+    },
+    "classifier_execution_authorized": {
+      "title": "Classifier Execution Authorized",
+      "type": "boolean"
+    },
+    "clinical_use_authorized": {
+      "title": "Clinical Use Authorized",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "contact_revocation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Contact Revocation Sha256",
+      "type": "string"
+    },
+    "controlled_data_authorized": {
+      "title": "Controlled Data Authorized",
+      "type": "boolean"
+    },
+    "decision": {
+      "$ref": "#/$defs/CalibrationReadinessDecision"
+    },
+    "exact_alternative_reference_sensitivity_estimable": {
+      "title": "Exact Alternative Reference Sensitivity Estimable",
+      "type": "boolean"
+    },
+    "external_contact_authorized": {
+      "title": "External Contact Authorized",
+      "type": "boolean"
+    },
+    "feasibility_acquisition_next": {
+      "title": "Feasibility Acquisition Next",
+      "type": "boolean"
+    },
+    "feasibility_analysis_permitted_estimands": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Feasibility Analysis Permitted Estimands",
+      "type": "array"
+    },
+    "final_human_review_preserved": {
+      "title": "Final Human Review Preserved",
+      "type": "boolean"
+    },
+    "gse96058_molecular_access_authorized": {
+      "title": "Gse96058 Molecular Access Authorized",
+      "type": "boolean"
+    },
+    "internal_planning_bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Internal Planning Bundle Sha256",
+      "type": "string"
+    },
+    "lineage_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Lineage Receipt Sha256",
+      "type": "string"
+    },
+    "next_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Next Actions",
+      "type": "array"
+    },
+    "outcome_access_authorized": {
+      "title": "Outcome Access Authorized",
+      "type": "boolean"
+    },
+    "path_assessments": {
+      "items": {
+        "$ref": "#/$defs/CalibrationPathAssessment"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "title": "Path Assessments",
+      "type": "array"
+    },
+    "primary_calibration_ready": {
+      "title": "Primary Calibration Ready",
+      "type": "boolean"
+    },
+    "primary_calibration_source_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Primary Calibration Source Id"
+    },
+    "prohibited_uses": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Prohibited Uses",
+      "type": "array"
+    },
+    "prospective_design_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Prospective Design Sha256",
+      "type": "string"
+    },
+    "public_feasibility_source_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Public Feasibility Source Ids",
+      "type": "array"
+    },
+    "publication_authorized": {
+      "title": "Publication Authorized",
+      "type": "boolean"
+    },
+    "question_id": {
+      "pattern": "^NAS-RQ-[A-Z0-9]+$",
+      "title": "Question Id",
+      "type": "string"
+    },
+    "question_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Question Version",
+      "type": "string"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "reference_construction_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Construction Receipt Sha256",
+      "type": "string"
+    },
+    "reference_dependency_ready": {
+      "title": "Reference Dependency Ready",
+      "type": "boolean"
+    },
+    "reference_sensitivity_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Sensitivity Receipt Sha256",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_scout_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Scout Sha256",
+      "type": "string"
+    },
+    "specimen_acquisition_authorized": {
+      "title": "Specimen Acquisition Authorized",
+      "type": "boolean"
+    },
+    "spending_authorized": {
+      "title": "Spending Authorized",
+      "type": "boolean"
+    },
+    "standing_authorization_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Standing Authorization Sha256",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "threshold_selection_authorized": {
+      "title": "Threshold Selection Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "question_id",
+    "question_version",
+    "code_revision",
+    "assessed_at",
+    "standing_authorization_sha256",
+    "acquisition_plan_sha256",
+    "source_scout_sha256",
+    "lineage_receipt_sha256",
+    "prospective_design_sha256",
+    "internal_planning_bundle_sha256",
+    "contact_revocation_sha256",
+    "reference_construction_receipt_sha256",
+    "reference_sensitivity_receipt_sha256",
+    "decision",
+    "path_assessments",
+    "public_feasibility_source_ids",
+    "primary_calibration_source_id",
+    "primary_calibration_ready",
+    "reference_dependency_ready",
+    "exact_alternative_reference_sensitivity_estimable",
+    "feasibility_acquisition_next",
+    "feasibility_analysis_permitted_estimands",
+    "prohibited_uses",
+    "next_actions",
+    "final_human_review_preserved",
+    "external_contact_authorized",
+    "spending_authorized",
+    "controlled_data_authorized",
+    "specimen_acquisition_authorized",
+    "gse96058_molecular_access_authorized",
+    "outcome_access_authorized",
+    "threshold_selection_authorized",
+    "classifier_execution_authorized",
+    "clinical_use_authorized",
+    "publication_authorized"
+  ],
+  "title": "TechnicalCalibrationReadinessReceipt",
+  "type": "object"
+}

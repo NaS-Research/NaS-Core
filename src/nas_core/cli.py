@@ -10,6 +10,7 @@ from nas_core.analysis.calibration_planning import CalibrationPlanningService
 from nas_core.analysis.calibration_precision import (
     TechnicalReplicatePrecisionService,
 )
+from nas_core.analysis.calibration_readiness import TechnicalCalibrationReadinessService
 from nas_core.analysis.calibration_scenario import (
     MultiObjectiveCalibrationScenarioService,
 )
@@ -58,6 +59,7 @@ from nas_core.domain.appraisal import (
     write_publication_version_reconciliation_receipt,
 )
 from nas_core.domain.calibration_lineage import (
+    load_calibration_lineage_receipt,
     write_calibration_lineage_receipt,
     write_calibration_lineage_schema,
 )
@@ -69,6 +71,10 @@ from nas_core.domain.calibration_planning import (
 from nas_core.domain.calibration_precision import (
     load_technical_replicate_precision_design,
     write_calibration_precision_schemas,
+)
+from nas_core.domain.calibration_readiness import (
+    write_calibration_readiness_receipt,
+    write_calibration_readiness_schema,
 )
 from nas_core.domain.calibration_scenario import (
     load_multi_objective_calibration_scenario,
@@ -220,6 +226,7 @@ from nas_core.domain.reference_metadata import (
 )
 from nas_core.domain.reference_sensitivity import (
     load_reference_sensitivity_plan,
+    load_reference_sensitivity_receipt,
     write_reference_sensitivity_receipt,
     write_reference_sensitivity_schemas,
 )
@@ -865,6 +872,31 @@ def build_parser() -> argparse.ArgumentParser:
         "bundle_schema_path",
         type=Path,
     )
+    reliability_calibration_readiness = reliability_commands.add_parser(
+        "calibration-readiness",
+        help="Reconcile technical-calibration paths and authorize public feasibility only",
+    )
+    reliability_calibration_readiness.add_argument("authorization_path", type=Path)
+    reliability_calibration_readiness.add_argument("acquisition_plan_path", type=Path)
+    reliability_calibration_readiness.add_argument("source_scout_path", type=Path)
+    reliability_calibration_readiness.add_argument("lineage_receipt_path", type=Path)
+    reliability_calibration_readiness.add_argument("prospective_design_path", type=Path)
+    reliability_calibration_readiness.add_argument("planning_bundle_path", type=Path)
+    reliability_calibration_readiness.add_argument("contact_revocation_path", type=Path)
+    reliability_calibration_readiness.add_argument("reference_receipt_path", type=Path)
+    reliability_calibration_readiness.add_argument("sensitivity_receipt_path", type=Path)
+    reliability_calibration_readiness.add_argument("--code-revision", required=True)
+    reliability_calibration_readiness.add_argument("--output-path", type=Path)
+    reliability_calibration_readiness.add_argument(
+        "--execute",
+        action="store_true",
+        help="Persist the internal readiness receipt",
+    )
+    reliability_calibration_readiness_schema = reliability_commands.add_parser(
+        "calibration-readiness-schema",
+        help="Write the technical-calibration readiness JSON Schema",
+    )
+    reliability_calibration_readiness_schema.add_argument("path", type=Path)
     reliability_platform_compatibility = reliability_commands.add_parser(
         "platform-compatibility-audit",
         help="Audit platform compatibility from existing governed evidence",
@@ -2192,6 +2224,51 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote calibration planning schemas: "
             f"{args.authorization_schema_path}, {args.bundle_schema_path}"
         )
+        return 0
+
+    if args.command == "reliability" and args.reliability_command == "calibration-readiness":
+        readiness_receipt = TechnicalCalibrationReadinessService().assess(
+            load_standing_autonomy_authorization(args.authorization_path),
+            load_technical_calibration_plan(args.acquisition_plan_path),
+            load_technical_calibration_scout(args.source_scout_path),
+            load_calibration_lineage_receipt(args.lineage_receipt_path),
+            load_prospective_calibration_design(args.prospective_design_path),
+            load_phase_one_internal_planning_bundle(args.planning_bundle_path),
+            load_calibration_contact_revocation(args.contact_revocation_path),
+            load_reference_construction_receipt(args.reference_receipt_path),
+            load_reference_sensitivity_receipt(args.sensitivity_receipt_path),
+            authorization_path=args.authorization_path,
+            acquisition_path=args.acquisition_plan_path,
+            scout_path=args.source_scout_path,
+            lineage_path=args.lineage_receipt_path,
+            design_path=args.prospective_design_path,
+            planning_path=args.planning_bundle_path,
+            revocation_path=args.contact_revocation_path,
+            reference_path=args.reference_receipt_path,
+            sensitivity_path=args.sensitivity_receipt_path,
+            code_revision=args.code_revision,
+        )
+        if not args.execute:
+            print(
+                "Technical calibration readiness assessed: "
+                f"{readiness_receipt.decision.value}; "
+                f"public_feasibility={len(readiness_receipt.public_feasibility_source_ids)}; "
+                "dry run only"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_calibration_readiness_receipt(args.output_path, readiness_receipt)
+        print(
+            "Wrote technical calibration readiness: "
+            f"{readiness_receipt.decision.value}; "
+            f"primary_ready={readiness_receipt.primary_calibration_ready}"
+        )
+        return 0
+
+    if args.command == "reliability" and args.reliability_command == "calibration-readiness-schema":
+        write_calibration_readiness_schema(args.path)
+        print(f"Wrote technical-calibration readiness schema: {args.path}")
         return 0
 
     if args.command == "reliability" and args.reliability_command == "platform-compatibility-audit":
