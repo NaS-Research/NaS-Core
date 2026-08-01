@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Freeze uncalibrated scoring state and attempted-denominator accounting
+### Select the future prospective primary-calibration assay in planning only
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,12 +17,12 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: integrate the frozen QC states with the checksummed centroid
-kernel; ensure valid profiles remain explicitly `uncalibrated` and abstain;
-define exact attempted, valid, failed, scored, and abstained denominator
-reconciliation; and retain the primary-calibration hold. Do not access study
-molecular values, GSE96058, or outcomes, contact anyone, spend, or acquire
-specimens.
+Definition of done: compare realistic target-assay routes against the frozen
+primary estimands, sample and RNA requirements, platform/preprocessing bridge,
+replicate structure, technical-error coverage, lawful access, and feasibility;
+record a planning recommendation without procurement, contact, specimens,
+credentials, controlled data, clinical use, or execution. A selected planning
+route is not authorization to acquire or run an assay.
 
 The retrospective expression bridge is now frozen independently of validation
 performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
@@ -135,6 +135,15 @@ nonfinite input, negative discovery FPKM, validation values below the declared
 no imputation, cohort centering, validation adaptation, or scientific-failure
 rerun. Reacquisition is limited to checksum or delivery-schema errors. Receipt
 SHA-256 is `393119cd…d49e4`.
+
+Frozen revision `1792e8f` then locked the uncalibrated scoring boundary and
+exact attempted-denominator accounting. QC failures bypass scoring; numerical
+failures remain counted; successful fixed-Spearman scores retain only descriptive
+best, runner-up, and margin values. Every attempted profile abstains, every
+successful score is explicitly `uncalibrated`, and reportable-label count is
+immutably zero until independent technical calibration and thresholds exist.
+The freeze used synthetic fixtures only and accessed no study molecular,
+validation, or outcome values. Receipt SHA-256 is `0c0111ea…25c8`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the

@@ -1,0 +1,24 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: 1792e8f
+specification_sha256: 87b69216a17ca2aaa3c805d694280c488ad544591b852f46fdbc0d052a82efed
+dependency_hashes_verified: true
+fixed_spearman_scoring_frozen: true
+uncalibrated_state_mandatory: true
+all_attempts_abstain: true
+denominator_reconciliation_frozen: true
+reported_label_count: 0
+decision: uncalibrated_scoring_boundary_frozen
+molecular_values_accessed: false
+validation_values_accessed: false
+outcomes_accessed: false
+study_classifier_executed: false
+limitations:
+- A numerical score is not evidence that a subtype label is reliable.
+- Technical-error calibration and reporting thresholds remain absent.
+- The freeze exercised only synthetic software fixtures, not study profiles.
+next_actions:
+- Select the future prospective primary-calibration assay in planning only.
+- Obtain compatible primary-estimand inputs before pair-count reestimation.
+- Keep all retrospective outputs uncalibrated and abstained until then.

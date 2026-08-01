@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.68.0-working`
+Manuscript version: `0.69.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -800,6 +800,19 @@ it passes and remains in the attempted denominator. A valid profile may proceed
 to locked scoring but cannot be called reliable before calibration.
 [retrospective_processed_input_qc_receipt_v1.0.0.yaml;
 RETROSPECTIVE_PROCESSED_INPUT_QC_REPORT_v1.0.0.md]
+
+The pre-calibration scoring boundary was frozen before molecular access. A QC
+failure bypasses scoring; a numerical failure after valid QC records a distinct
+failure; and a successful fixed-Spearman calculation retains only descriptive
+best, runner-up, and margin values. Every numerical success remains explicitly
+`uncalibrated` with mandatory abstention because no compatible technical-error
+distribution or reporting threshold exists. Attempted profiles reconcile exactly
+to QC-valid plus QC-failed; QC-valid profiles reconcile to scored plus score-failed;
+all scored profiles are uncalibrated; every attempt abstains; and the reportable-
+label count is zero. Synthetic fixtures verified this software boundary without
+executing a study classifier or accessing molecular, validation, or outcome values.
+[uncalibrated_scoring_receipt_v1.0.0.yaml;
+UNCALIBRATED_SCORING_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1616,6 +1629,7 @@ reviews are complete.
 | Methods—pair-count reestimation | Compatibility-gated use of excluded-pilot estimates for primary calibration planning | `analysis/calibration_pair_count_reestimation_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_PAIR_COUNT_REESTIMATION_REPORT_v1.0.0.md` | final pair count not estimable; 185 remains hypothetical; no proxy substitution or execution |
 | Methods—retrospective expression bridge | Performance-blind TCGA transformation, unchanged GSE96058 representation, fixed reference, and fixed centroids | `protocol/retrospective_expression_bridge_receipt_v1.0.0.yaml`; `protocol/RETROSPECTIVE_EXPRESSION_BRIDGE_REPORT_v1.0.0.md` | bridge frozen; no cohort centering, validation adaptation, molecular access, classifier, or outcomes |
 | Methods—retrospective processed-input QC | Exact panel, mapping, finite-value, floor, centering, failure, rerun, and abstention rules | `protocol/retrospective_processed_input_qc_receipt_v1.0.0.yaml`; `protocol/RETROSPECTIVE_PROCESSED_INPUT_QC_REPORT_v1.0.0.md` | seven fail-closed states; no imputation, scientific-failure rerun, values, classifier, or outcomes |
+| Methods—uncalibrated scoring boundary | Fixed Spearman arithmetic, mandatory abstention, and exact attempted-denominator reconciliation | `protocol/uncalibrated_scoring_receipt_v1.0.0.yaml`; `protocol/UNCALIBRATED_SCORING_REPORT_v1.0.0.md` | successful scores remain uncalibrated; every attempt abstains; zero reportable labels; no study execution or values |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1673,6 +1687,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.69.0-working | 2026-08-01 | Froze the uncalibrated scoring boundary: QC and numerical failures remain in exact attempted denominators, successful scores can only abstain, and reportable-label count remains zero before technical calibration. |
 | 0.68.0-working | 2026-08-01 | Froze executable processed-input QC with seven named fail-closed states, no imputation or adaptive reruns, exact fixed-reference centering, and mandatory abstention before uncalibrated scoring. |
 | 0.67.0-working | 2026-08-01 | Froze the performance-blind retrospective bridge: TCGA GDC FPKM receives `log2(FPKM + 0.1)`, GSE96058 is consumed unchanged, and both use the immutable GSE81538 reference and genefu centroids without molecular or outcome access. |
 | 0.66.0-working | 2026-08-01 | Completed the blinded pair-count reestimation gate: excluded public pilots lack the classifier, target-assay, attrition, clustering, and coverage inputs required for a final sample size, so no proxy was substituted and 185 pairs remains hypothetical. |
