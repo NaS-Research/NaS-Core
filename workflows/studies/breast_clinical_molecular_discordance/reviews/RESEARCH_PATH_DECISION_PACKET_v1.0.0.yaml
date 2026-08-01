@@ -1,0 +1,79 @@
+schema_version: 1.0.0
+packet_version: 1.0.0
+study_id: NAS-BRCA-002
+question_version: 0.3.0
+completion_audit_version: 1.22.0
+decision_status: founder_scientific_decision_required
+current_path:
+  path_id: PATH-A
+  name: Independently calibrated reliability and abstention study
+  purpose_preserved: true
+  primary_claim_if_successful: >-
+    A patient-independent PAM50 research workflow can use independently calibrated
+    technical evidence to distinguish reportable, unstable, and abstained subtype results
+    and reproduce the frozen rule in an external cohort.
+  scientific_strength: Highest of the available paths if the prospective calibration is completed rigorously.
+  required_external_dependencies:
+    - Provider eligibility due diligence
+    - Institutional review or commercial human-subjects/use documentation
+    - Thirty independent high-quality breast-tumor RNA sources for the excluded pilot
+    - Laboratory capability, exact assay workflow, controls, storage, and quality review
+    - Separate spending, procurement, specimen, and execution authority
+  remaining_work:
+    - Execute excluded pilot and freeze attrition, score-error, margin-error, and batch estimates
+    - Reestimate final primary pair count
+    - Acquire and execute a separate primary calibration cohort
+    - Freeze thresholds and pass scientific, molecular, and statistical review
+    - Preregister and execute TCGA discovery and unchanged GSE96058 validation
+    - Complete translation assessment, release, manuscript, and final human review
+  cost_dependency: unavoidable
+  contact_dependency: unavoidable
+  specimen_dependency: unavoidable
+  recommendation: Preserve if the intended contribution is a genuinely calibrated reliability framework.
+alternative_path:
+  path_id: PATH-B
+  name: Public-data-only continuous uncertainty and transport study
+  purpose_preserved: false
+  material_scope_change: true
+  replacement_question_required: true
+  permissible_claim_if_successful: >-
+    Fixed-reference PAM50 score margins, data failures, and descriptive replicate
+    sensitivity can be characterized across TCGA-BRCA and unchanged GSE96058 without
+    asserting a calibrated reliable-versus-unreliable label.
+  prohibited_claims:
+    - Independently calibrated reliability states
+    - Validated abstention threshold
+    - Target-assay technical-error model
+    - Analytical validation, clinical validity, clinical utility, diagnosis, prognosis, or treatment guidance
+  scientific_strength: Publishable retrospective methods work but materially weaker than PATH-A for reliability claims.
+  advantages:
+    - Uses public/open data already in the governed program
+    - No specimen purchase or prospective laboratory experiment required
+    - Can report continuous margins, failures, transport degradation, nulls, and technical-replicate descriptives
+  required_rebuild:
+    - New research question and versioned protocol amendment
+    - New novelty review limited to continuous uncertainty and transport characterization
+    - Removal of reliable, unstable, and calibrated abstention claims
+    - New preregistration and completion gates
+    - Revised title, abstract, estimands, figures, conclusions, and translation boundary
+  recommendation: Choose only if no-contact and no-spending constraints are intended to remain permanent.
+nonrecommended_path:
+  path_id: PATH-C
+  name: Continue current reliability claim without prospective calibration
+  scientifically_valid: false
+  disposition: prohibited
+  reason: >-
+    Public feasibility sources and synthetic fixtures do not supply a compatible
+    target-assay technical-error distribution or defensible threshold calibration.
+decision_requested:
+  - Preserve PATH-A and authorize one bounded CHTN eligibility inquiry.
+  - Select PATH-B and authorize a material redesign to a public-data-only continuous uncertainty study.
+  - Pause the study without changing its purpose or external-action boundaries.
+external_contact_authorized: false
+scope_change_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+study_execution_authorized: false
+publication_authorized: false
+final_human_review_preserved: true

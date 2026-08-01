@@ -24,6 +24,15 @@ an application, institutional review preparation, or commercial due diligence.
 Those actions remain outside standing authority and cannot begin without a new,
 explicit founder decision. No message or application draft has been prepared.
 
+Decision packet `RESEARCH_PATH_DECISION_PACKET_v1.0.0.yaml` now makes the
+scientific tradeoff explicit. Path A preserves the intended independently
+calibrated reliability study but necessarily requires external due diligence,
+specimens, laboratory work, and funding. Path B avoids those dependencies by
+redesigning the project as a public-data-only continuous uncertainty and
+transport study, but it must abandon calibrated reliability and abstention claims
+and restart the question, novelty, protocol, and preregistration gates. Path C—
+keeping the current claim without compatible calibration—is prohibited.
+
 The retrospective expression bridge is now frozen independently of validation
 performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
 `log2(FPKM + 0.1)`; GSE96058 will be consumed unchanged on its officially
