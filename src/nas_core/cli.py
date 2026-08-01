@@ -24,6 +24,7 @@ from nas_core.analysis.platform_compatibility import (
 from nas_core.analysis.prospective_calibration import (
     ProspectiveCalibrationDesignService,
 )
+from nas_core.analysis.reference_construction import GSE81538ReferenceConstructionService
 from nas_core.analysis.reference_development import (
     ReferenceDevelopmentProtocolService,
 )
@@ -199,6 +200,11 @@ from nas_core.domain.public_artifact import (
     write_public_artifact_receipt,
     write_public_artifact_schemas,
 )
+from nas_core.domain.reference_construction import (
+    load_reference_construction_plan,
+    write_reference_construction_receipt,
+    write_reference_construction_schemas,
+)
 from nas_core.domain.reference_development import (
     load_reference_development_protocol,
     write_reference_development_schema,
@@ -206,6 +212,7 @@ from nas_core.domain.reference_development import (
 from nas_core.domain.reference_input import load_reference_input_founder_decision
 from nas_core.domain.reference_metadata import (
     load_reference_metadata_plan,
+    load_reference_metadata_receipt,
     write_reference_metadata_receipt,
     write_reference_metadata_schemas,
 )
@@ -479,6 +486,29 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reference_metadata_schema.add_argument("plan_path", type=Path)
     reference_metadata_schema.add_argument("receipt_path", type=Path)
+    reference_construction = ingest_commands.add_parser(
+        "reference-construct",
+        help="Construct the outcome-blind GSE81538 50-gene median reference",
+    )
+    reference_construction.add_argument("plan_path", type=Path)
+    reference_construction.add_argument("matrix_audit_receipt_path", type=Path)
+    reference_construction.add_argument("reference_metadata_receipt_path", type=Path)
+    reference_construction.add_argument("reference_protocol_path", type=Path)
+    reference_construction.add_argument("centroid_candidate_path", type=Path)
+    reference_construction.add_argument("--data-root", type=Path, required=True)
+    reference_construction.add_argument("--code-revision", required=True)
+    reference_construction.add_argument("--output-path", type=Path)
+    reference_construction.add_argument(
+        "--execute",
+        action="store_true",
+        help="Parse only selected PAM50 values and freeze the external reference",
+    )
+    reference_construction_schema = ingest_commands.add_parser(
+        "reference-construct-schema",
+        help="Write GSE81538 reference-construction plan and receipt JSON Schemas",
+    )
+    reference_construction_schema.add_argument("plan_path", type=Path)
+    reference_construction_schema.add_argument("receipt_path", type=Path)
 
     feasibility = commands.add_parser(
         "feasibility",
@@ -2469,6 +2499,49 @@ def main(argv: Sequence[str] | None = None) -> int:
         write_reference_metadata_schemas(args.plan_path, args.receipt_path)
         print(
             "Wrote GSE81538 reference-metadata schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "reference-construct":
+        construction_plan = load_reference_construction_plan(args.plan_path)
+        if not args.execute:
+            print(
+                "GSE81538 reference-construction plan is valid: "
+                f"samples={construction_plan.expected_sample_count}; "
+                f"genes={construction_plan.expected_gene_count}; dry run only"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        construction_receipt = GSE81538ReferenceConstructionService(
+            store=FileSystemObjectStore(args.data_root)
+        ).construct(
+            construction_plan,
+            load_matrix_audit_receipt(args.matrix_audit_receipt_path),
+            load_reference_metadata_receipt(args.reference_metadata_receipt_path),
+            load_reference_development_protocol(args.reference_protocol_path),
+            load_pam50_centroid_candidate(args.centroid_candidate_path),
+            plan_path=args.plan_path,
+            matrix_audit_path=args.matrix_audit_receipt_path,
+            metadata_receipt_path=args.reference_metadata_receipt_path,
+            protocol_path=args.reference_protocol_path,
+            candidate_path=args.centroid_candidate_path,
+            code_revision=args.code_revision,
+        )
+        write_reference_construction_receipt(args.output_path, construction_receipt)
+        print(
+            "Wrote GSE81538 fixed reference: "
+            f"{construction_receipt.decision.value}; "
+            f"genes={construction_receipt.reference_gene_count}; "
+            f"reference_sha256={construction_receipt.reference_sha256}"
+        )
+        return 0
+
+    if args.command == "ingest" and args.ingest_command == "reference-construct-schema":
+        write_reference_construction_schemas(args.plan_path, args.receipt_path)
+        print(
+            "Wrote GSE81538 reference-construction schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
         return 0

@@ -66,6 +66,13 @@ and external-manifest writer executed from frozen revision `76ace2b`. Receipt
 records with independently reproduced SHA-256 `4f36124c…a9fe`. No identifiers
 entered Git and no expression, outcome, validation, classifier, or AI access occurred.
 
+The fixed-reference construction path is now implemented behind a separate
+checksum-bound plan. It verifies the matrix and manifest bytes, reads only the
+manifest-selected columns of the 50 PAM50 rows, applies no new transformation,
+computes the gene-wise medians, and stores the 50-value artifact outside Git.
+Synthetic tests cover deterministic medians and changed-manifest rejection. Live
+execution will occur only after this implementation is committed and frozen.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three

@@ -25,4 +25,27 @@ execution remains prohibited until the evidence review closes, all governed
 method dependencies are resolved, the specification and analysis plan are
 approved and preregistered, and molecular access is explicitly authorized.
 
+Reference construction is a distinct, bounded Phase 1 operation rather than a
+cohort analysis. Plan
+[`gse81538_reference_construction_plan_v1.0.0.yaml`](gse81538_reference_construction_plan_v1.0.0.yaml)
+binds the audited matrix, external 100-record manifest, amended protocol, and
+50-gene candidate by SHA-256. The service reads only those selected columns from
+the 50 PAM50 rows, applies no additional transformation to the verified
+`log2(FPKM + 0.1)` values, and computes a gene-wise median. The value-bearing
+reference is written immutably outside Git; the repository receipt contains only
+aggregate diagnostics, provenance, and artifact hashes. Outcomes, GSE96058,
+classifier execution, and generative-AI processing remain prohibited.
+
+Dry-run validation:
+
+```console
+uv run nas-core ingest reference-construct \
+  analysis/gse81538_reference_construction_plan_v1.0.0.yaml \
+  ingestion/gse81538_matrix_audit_receipt_v1.0.0.yaml \
+  ingestion/gse81538_reference_metadata_receipt_v1.0.0.yaml \
+  protocol/reference_development_protocol_v1.1.0.yaml \
+  protocol/artifact-candidates/genefu_2.44.0_pam50_candidate_v1.0.0.yaml \
+  --data-root "$NAS_DATA_ROOT" --code-revision REVISION
+```
+
 Completion gate: Deterministic pipeline and synthetic tests pass; run artifacts are frozen.

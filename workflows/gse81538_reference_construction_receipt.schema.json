@@ -1,0 +1,243 @@
+{
+  "$defs": {
+    "ReferenceConstructionDecision": {
+      "enum": [
+        "pass"
+      ],
+      "title": "ReferenceConstructionDecision",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "additional_transform_applied": {
+      "title": "Additional Transform Applied",
+      "type": "boolean"
+    },
+    "centroid_candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Centroid Candidate Sha256",
+      "type": "string"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "constructed_at": {
+      "format": "date-time",
+      "title": "Constructed At",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/ReferenceConstructionDecision"
+    },
+    "finite_measurement_count": {
+      "minimum": 0,
+      "title": "Finite Measurement Count",
+      "type": "integer"
+    },
+    "generative_ai_received_participant_data": {
+      "title": "Generative Ai Received Participant Data",
+      "type": "boolean"
+    },
+    "input_scale": {
+      "pattern": "^log2\\(FPKM \\+ 0\\.1\\)$",
+      "title": "Input Scale",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "matrix_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Matrix Audit Receipt Sha256",
+      "type": "string"
+    },
+    "matrix_object_sha256_verified": {
+      "title": "Matrix Object Sha256 Verified",
+      "type": "boolean"
+    },
+    "molecular_values_parsed": {
+      "title": "Molecular Values Parsed",
+      "type": "boolean"
+    },
+    "outcome_values_accessed": {
+      "title": "Outcome Values Accessed",
+      "type": "boolean"
+    },
+    "parsed_measurement_count": {
+      "exclusiveMinimum": 0,
+      "title": "Parsed Measurement Count",
+      "type": "integer"
+    },
+    "participant_identifiers_retained_in_git": {
+      "title": "Participant Identifiers Retained In Git",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "reference_bytes": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Bytes",
+      "type": "integer"
+    },
+    "reference_gene_count": {
+      "exclusiveMinimum": 0,
+      "title": "Reference Gene Count",
+      "type": "integer"
+    },
+    "reference_immutable_verified": {
+      "title": "Reference Immutable Verified",
+      "type": "boolean"
+    },
+    "reference_locked": {
+      "title": "Reference Locked",
+      "type": "boolean"
+    },
+    "reference_maximum": {
+      "title": "Reference Maximum",
+      "type": "number"
+    },
+    "reference_mean": {
+      "title": "Reference Mean",
+      "type": "number"
+    },
+    "reference_metadata_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Metadata Receipt Sha256",
+      "type": "string"
+    },
+    "reference_minimum": {
+      "title": "Reference Minimum",
+      "type": "number"
+    },
+    "reference_object_key": {
+      "pattern": "^derived/[a-z0-9._/-]+$",
+      "title": "Reference Object Key",
+      "type": "string"
+    },
+    "reference_protocol_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Protocol Sha256",
+      "type": "string"
+    },
+    "reference_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Sha256",
+      "type": "string"
+    },
+    "reference_statistic": {
+      "pattern": "^gene_wise_median$",
+      "title": "Reference Statistic",
+      "type": "string"
+    },
+    "reference_values_retained_in_git": {
+      "title": "Reference Values Retained In Git",
+      "type": "boolean"
+    },
+    "retained_gene_count": {
+      "exclusiveMinimum": 0,
+      "title": "Retained Gene Count",
+      "type": "integer"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_er_negative_count": {
+      "minimum": 0,
+      "title": "Selected Er Negative Count",
+      "type": "integer"
+    },
+    "selected_er_positive_count": {
+      "minimum": 0,
+      "title": "Selected Er Positive Count",
+      "type": "integer"
+    },
+    "selected_sample_count": {
+      "exclusiveMinimum": 0,
+      "title": "Selected Sample Count",
+      "type": "integer"
+    },
+    "selection_manifest_sha256_verified": {
+      "title": "Selection Manifest Sha256 Verified",
+      "type": "boolean"
+    },
+    "source_accession": {
+      "pattern": "^GSE81538$",
+      "title": "Source Accession",
+      "type": "string"
+    },
+    "study_id": {
+      "pattern": "^NAS-[A-Z0-9]+-[0-9]{3}$",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "validation_data_accessed": {
+      "title": "Validation Data Accessed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "source_accession",
+    "code_revision",
+    "constructed_at",
+    "plan_sha256",
+    "matrix_audit_receipt_sha256",
+    "reference_metadata_receipt_sha256",
+    "reference_protocol_sha256",
+    "centroid_candidate_sha256",
+    "matrix_object_sha256_verified",
+    "selection_manifest_sha256_verified",
+    "selected_sample_count",
+    "selected_er_negative_count",
+    "selected_er_positive_count",
+    "retained_gene_count",
+    "parsed_measurement_count",
+    "finite_measurement_count",
+    "input_scale",
+    "additional_transform_applied",
+    "reference_statistic",
+    "reference_minimum",
+    "reference_maximum",
+    "reference_mean",
+    "reference_object_key",
+    "reference_sha256",
+    "reference_bytes",
+    "reference_gene_count",
+    "reference_immutable_verified",
+    "decision",
+    "limitations",
+    "participant_identifiers_retained_in_git",
+    "reference_values_retained_in_git",
+    "molecular_values_parsed",
+    "outcome_values_accessed",
+    "validation_data_accessed",
+    "classifier_executed",
+    "generative_ai_received_participant_data",
+    "reference_locked"
+  ],
+  "title": "GSE81538ReferenceConstructionReceipt",
+  "type": "object"
+}
