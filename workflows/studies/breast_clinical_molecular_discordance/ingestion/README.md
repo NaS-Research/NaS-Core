@@ -18,6 +18,14 @@ lengths and checksums with zero mismatches. Receipt
 has SHA-256 `abbd09e8…563d`; see
 [`CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md`](CALIBRATION_FEASIBILITY_ACQUISITION_REPORT_v1.0.0.md).
 
+Audit plan
+[`../analysis/calibration_feasibility_audit_plan_v1.0.0.yaml`](../analysis/calibration_feasibility_audit_plan_v1.0.0.yaml)
+binds the acquisition receipt and historical PAM50 specification. The parser
+re-verifies all stored bytes, aggregates numeric and lineage diagnostics without
+retaining identifiers or values, audits each source separately, and fails closed
+on unjustified feature mapping. It cannot pool sources, inspect outcomes, execute
+a classifier, or estimate a threshold.
+
 Required artifacts:
 
 - `ingestion/README.md`

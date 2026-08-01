@@ -157,6 +157,14 @@ def load_calibration_feasibility_acquisition_plan(
     )
 
 
+def load_calibration_feasibility_acquisition_receipt(
+    path: Path,
+) -> CalibrationFeasibilityAcquisitionReceipt:
+    return CalibrationFeasibilityAcquisitionReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
 def write_calibration_feasibility_acquisition_receipt(
     path: Path,
     receipt: CalibrationFeasibilityAcquisitionReceipt,

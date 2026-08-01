@@ -39,6 +39,14 @@ with zero mismatches; receipt `abbd09e8…563d` records no parsing, pooling,
 outcome access, threshold estimation, classifier execution, or publication.
 The active work is now the deterministic source-isolated feasibility audit.
 
+The source-isolated audit implementation now verifies every external object
+against its acquisition receipt, aggregates scale and completeness without
+retaining identifiers or values, reconciles replicate structure, and tests PAM50
+coverage only where the identifier mapping is justified. It explicitly leaves
+GSE130397 Ensembl-to-symbol coverage unresolved instead of guessing an annotation
+release. Synthetic tests and the full quality gate pass; live execution will run
+only from the frozen implementation revision.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and

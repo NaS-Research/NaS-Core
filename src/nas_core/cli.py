@@ -6,6 +6,9 @@ from pathlib import Path
 
 from nas_core.ai.gateway import OpenAIScreeningGateway
 from nas_core.ai.screening import AIAdvisoryScreeningService
+from nas_core.analysis.calibration_feasibility_audit import (
+    CalibrationFeasibilityAuditService,
+)
 from nas_core.analysis.calibration_planning import CalibrationPlanningService
 from nas_core.analysis.calibration_precision import (
     TechnicalReplicatePrecisionService,
@@ -60,8 +63,14 @@ from nas_core.domain.appraisal import (
 )
 from nas_core.domain.calibration_feasibility_artifact import (
     load_calibration_feasibility_acquisition_plan,
+    load_calibration_feasibility_acquisition_receipt,
     write_calibration_feasibility_acquisition_receipt,
     write_calibration_feasibility_acquisition_schemas,
+)
+from nas_core.domain.calibration_feasibility_audit import (
+    load_calibration_feasibility_audit_plan,
+    write_calibration_feasibility_audit_receipt,
+    write_calibration_feasibility_audit_schemas,
 )
 from nas_core.domain.calibration_lineage import (
     load_calibration_lineage_receipt,
@@ -486,6 +495,23 @@ def build_parser() -> argparse.ArgumentParser:
     )
     calibration_feasibility_schema.add_argument("plan_path", type=Path)
     calibration_feasibility_schema.add_argument("receipt_path", type=Path)
+    calibration_feasibility_audit = ingest_commands.add_parser(
+        "calibration-feasibility-audit",
+        help="Audit acquired public calibration-feasibility artifacts source by source",
+    )
+    calibration_feasibility_audit.add_argument("plan_path", type=Path)
+    calibration_feasibility_audit.add_argument("acquisition_receipt_path", type=Path)
+    calibration_feasibility_audit.add_argument("reliability_specification_path", type=Path)
+    calibration_feasibility_audit.add_argument("--data-root", type=Path, required=True)
+    calibration_feasibility_audit.add_argument("--code-revision", required=True)
+    calibration_feasibility_audit.add_argument("--output-path", type=Path)
+    calibration_feasibility_audit.add_argument("--execute", action="store_true")
+    calibration_feasibility_audit_schema = ingest_commands.add_parser(
+        "calibration-feasibility-audit-schema",
+        help="Write calibration-feasibility audit JSON Schemas",
+    )
+    calibration_feasibility_audit_schema.add_argument("plan_path", type=Path)
+    calibration_feasibility_audit_schema.add_argument("receipt_path", type=Path)
     matrix_audit = ingest_commands.add_parser(
         "matrix-audit",
         help="Audit the governed GSE81538 processed matrix without outcomes",
@@ -2611,6 +2637,56 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             "Wrote calibration-feasibility schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-feasibility-audit"
+    ):
+        feasibility_audit_plan = load_calibration_feasibility_audit_plan(args.plan_path)
+        if not args.execute:
+            print(
+                "Calibration-feasibility audit plan is valid; "
+                "source-isolated dry run only"
+            )
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        feasibility_audit_receipt = CalibrationFeasibilityAuditService(
+            store=FileSystemObjectStore(args.data_root)
+        ).execute(
+            feasibility_audit_plan,
+            load_calibration_feasibility_acquisition_receipt(
+                args.acquisition_receipt_path
+            ),
+            load_reliability_specification(args.reliability_specification_path),
+            plan_path=args.plan_path,
+            acquisition_receipt_path=args.acquisition_receipt_path,
+            reliability_specification_path=args.reliability_specification_path,
+            code_revision=args.code_revision,
+        )
+        write_calibration_feasibility_audit_receipt(
+            args.output_path,
+            feasibility_audit_receipt,
+        )
+        print(
+            "Wrote calibration-feasibility audit: "
+            f"{feasibility_audit_receipt.decision}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-feasibility-audit-schema"
+    ):
+        write_calibration_feasibility_audit_schemas(
+            args.plan_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote calibration-feasibility audit schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
         return 0

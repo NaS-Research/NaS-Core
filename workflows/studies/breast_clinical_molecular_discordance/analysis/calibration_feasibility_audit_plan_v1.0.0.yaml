@@ -1,0 +1,12 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+acquisition_receipt_sha256: abbd09e85bbf32329bef8992d9844786db69b1d288681386a763fab98855563d
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+audit_sources_separately: true
+retain_source_identifiers: false
+retain_molecular_values: false
+outcomes_requested: false
+pooling_authorized: false
+threshold_estimation_authorized: false
+classifier_execution_authorized: false

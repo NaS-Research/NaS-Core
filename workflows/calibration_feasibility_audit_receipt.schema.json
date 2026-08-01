@@ -1,0 +1,241 @@
+{
+  "$defs": {
+    "PanelMappingStatus": {
+      "enum": [
+        "verified_direct_symbols",
+        "unresolved_identifier_mapping"
+      ],
+      "title": "PanelMappingStatus",
+      "type": "string"
+    },
+    "SourceFeasibilityProjection": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_count": {
+          "exclusiveMinimum": 0,
+          "title": "Artifact Count",
+          "type": "integer"
+        },
+        "direct_pam50_gene_count": {
+          "maximum": 50,
+          "minimum": 0,
+          "title": "Direct Pam50 Gene Count",
+          "type": "integer"
+        },
+        "feature_row_count": {
+          "exclusiveMinimum": 0,
+          "title": "Feature Row Count",
+          "type": "integer"
+        },
+        "identifier_namespace": {
+          "title": "Identifier Namespace",
+          "type": "string"
+        },
+        "integer_like_value_count": {
+          "minimum": 0,
+          "title": "Integer Like Value Count",
+          "type": "integer"
+        },
+        "missing_direct_pam50_gene_count": {
+          "maximum": 50,
+          "minimum": 0,
+          "title": "Missing Direct Pam50 Gene Count",
+          "type": "integer"
+        },
+        "negative_value_count": {
+          "minimum": 0,
+          "title": "Negative Value Count",
+          "type": "integer"
+        },
+        "nonfinite_value_count": {
+          "minimum": 0,
+          "title": "Nonfinite Value Count",
+          "type": "integer"
+        },
+        "observed_maximum": {
+          "title": "Observed Maximum",
+          "type": "number"
+        },
+        "observed_minimum": {
+          "title": "Observed Minimum",
+          "type": "number"
+        },
+        "panel_mapping_status": {
+          "$ref": "#/$defs/PanelMappingStatus"
+        },
+        "primary_or_unlabeled_count": {
+          "minimum": 0,
+          "title": "Primary Or Unlabeled Count",
+          "type": "integer"
+        },
+        "replicate_group_count": {
+          "minimum": 0,
+          "title": "Replicate Group Count",
+          "type": "integer"
+        },
+        "replicate_record_count": {
+          "minimum": 0,
+          "title": "Replicate Record Count",
+          "type": "integer"
+        },
+        "sample_count": {
+          "exclusiveMinimum": 0,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "scale_interpretation": {
+          "title": "Scale Interpretation",
+          "type": "string"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "total_numeric_value_count": {
+          "exclusiveMinimum": 0,
+          "title": "Total Numeric Value Count",
+          "type": "integer"
+        },
+        "usable_for_primary_calibration": {
+          "title": "Usable For Primary Calibration",
+          "type": "boolean"
+        },
+        "usable_for_source_specific_feasibility": {
+          "title": "Usable For Source Specific Feasibility",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "artifact_count",
+        "sample_count",
+        "primary_or_unlabeled_count",
+        "replicate_record_count",
+        "replicate_group_count",
+        "feature_row_count",
+        "identifier_namespace",
+        "panel_mapping_status",
+        "direct_pam50_gene_count",
+        "missing_direct_pam50_gene_count",
+        "total_numeric_value_count",
+        "nonfinite_value_count",
+        "negative_value_count",
+        "integer_like_value_count",
+        "observed_minimum",
+        "observed_maximum",
+        "scale_interpretation",
+        "usable_for_source_specific_feasibility",
+        "usable_for_primary_calibration"
+      ],
+      "title": "SourceFeasibilityProjection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "decision": {
+      "pattern": "^feasibility_audit_complete_primary_calibration_not_ready$",
+      "title": "Decision",
+      "type": "string"
+    },
+    "external_publication_authorized": {
+      "title": "External Publication Authorized",
+      "type": "boolean"
+    },
+    "molecular_values_retained": {
+      "title": "Molecular Values Retained",
+      "type": "boolean"
+    },
+    "next_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Next Actions",
+      "type": "array"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "reliability_specification_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reliability Specification Sha256",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_identifiers_retained": {
+      "title": "Source Identifiers Retained",
+      "type": "boolean"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceFeasibilityProjection"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Sources",
+      "type": "array"
+    },
+    "sources_pooled": {
+      "title": "Sources Pooled",
+      "type": "boolean"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    },
+    "thresholds_estimated": {
+      "title": "Thresholds Estimated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "code_revision",
+    "plan_sha256",
+    "acquisition_receipt_sha256",
+    "reliability_specification_sha256",
+    "sources",
+    "decision",
+    "source_identifiers_retained",
+    "molecular_values_retained",
+    "outcomes_accessed",
+    "sources_pooled",
+    "thresholds_estimated",
+    "classifier_executed",
+    "external_publication_authorized",
+    "next_actions"
+  ],
+  "title": "CalibrationFeasibilityAuditReceipt",
+  "type": "object"
+}
