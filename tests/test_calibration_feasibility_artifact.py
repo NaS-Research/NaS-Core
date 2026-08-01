@@ -134,6 +134,8 @@ def test_acquisition_stages_and_freezes_all_artifacts(tmp_path: Path) -> None:
         store=store,
         data_root=data_root,
         transport=FakeTransport(payloads),
+        request_interval_seconds=0,
+        sleeper=lambda _: None,
     ).acquire(
         plan,
         SourceRegistry.from_yaml(REGISTRY),
@@ -171,6 +173,8 @@ def test_acquisition_rejects_changed_length_before_any_write(tmp_path: Path) -> 
             store=store,
             data_root=data_root,
             transport=FakeTransport(payloads),
+            request_interval_seconds=0,
+            sleeper=lambda _: None,
         ).acquire(
             bad,
             SourceRegistry.from_yaml(REGISTRY),

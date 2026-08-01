@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import tempfile
+import time
+from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import BinaryIO, cast
@@ -36,11 +38,15 @@ class CalibrationFeasibilityAcquisitionService:
         store: ObjectStore,
         data_root: Path,
         transport: StreamingTransport | None = None,
+        request_interval_seconds: float = 0.4,
+        sleeper: Callable[[float], None] | None = None,
     ) -> None:
         self._store = store
         self._data_root = data_root.expanduser().resolve()
         self._working = self._data_root / "working"
         self._transport = transport or UrllibStreamingTransport()
+        self._request_interval_seconds = request_interval_seconds
+        self._sleep = sleeper or time.sleep
 
     def acquire(
         self,
@@ -88,6 +94,7 @@ class CalibrationFeasibilityAcquisitionService:
                     )
                     temporary.flush()
                 staged.append((path, artifact, result))
+                self._sleep(self._request_interval_seconds)
                 if result.status_code != 200:
                     raise CalibrationFeasibilityAcquisitionError(
                         f"download returned HTTP {result.status_code}"
@@ -95,6 +102,14 @@ class CalibrationFeasibilityAcquisitionService:
                 if result.content_length_bytes != artifact.expected_content_length_bytes:
                     raise CalibrationFeasibilityAcquisitionError(
                         f"content length changed for {artifact.filename}"
+                    )
+                header_length = result.headers.get("Content-Length")
+                if (
+                    header_length is not None
+                    and int(header_length) != artifact.expected_content_length_bytes
+                ):
+                    raise CalibrationFeasibilityAcquisitionError(
+                        f"response Content-Length changed for {artifact.filename}"
                     )
             receipts: list[CalibrationFeasibilityArtifactReceipt] = []
             for path, artifact, result in staged:
