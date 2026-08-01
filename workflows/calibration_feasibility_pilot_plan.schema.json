@@ -1,0 +1,190 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "access_outcomes": {
+      "title": "Access Outcomes",
+      "type": "boolean"
+    },
+    "annotation_mapping_artifact_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Annotation Mapping Artifact Sha256",
+      "type": "string"
+    },
+    "annotation_mapping_object_key": {
+      "pattern": "^derived/nas-brca-002/",
+      "title": "Annotation Mapping Object Key",
+      "type": "string"
+    },
+    "annotation_mapping_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Annotation Mapping Receipt Sha256",
+      "type": "string"
+    },
+    "annotation_resolution_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Annotation Resolution Receipt Sha256",
+      "type": "string"
+    },
+    "bootstrap_replicates": {
+      "maximum": 10000,
+      "minimum": 10000,
+      "title": "Bootstrap Replicates",
+      "type": "integer"
+    },
+    "bootstrap_unit": {
+      "pattern": "^replicate_group$",
+      "title": "Bootstrap Unit",
+      "type": "string"
+    },
+    "details_object_key": {
+      "pattern": "^derived/nas-brca-002/",
+      "title": "Details Object Key",
+      "type": "string"
+    },
+    "execute_classifier": {
+      "title": "Execute Classifier",
+      "type": "boolean"
+    },
+    "export_authorized": {
+      "title": "Export Authorized",
+      "type": "boolean"
+    },
+    "feasibility_acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Feasibility Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "feasibility_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Feasibility Audit Receipt Sha256",
+      "type": "string"
+    },
+    "group_aggregation": {
+      "pattern": "^median_of_all_unordered_within_group_pairs$",
+      "title": "Group Aggregation",
+      "type": "string"
+    },
+    "gse130397_access_count_column": {
+      "pattern": "^rev$",
+      "title": "Gse130397 Access Count Column",
+      "type": "string"
+    },
+    "gse130397_library_size_scope": {
+      "pattern": "^all_60675_features$",
+      "title": "Gse130397 Library Size Scope",
+      "type": "string"
+    },
+    "gse130397_ovation_count_column": {
+      "pattern": "^fwd$",
+      "title": "Gse130397 Ovation Count Column",
+      "type": "string"
+    },
+    "gse130397_transform": {
+      "pattern": "^log2_cpm_plus_1$",
+      "title": "Gse130397 Transform",
+      "type": "string"
+    },
+    "gse60788_transform": {
+      "pattern": "^unchanged_source_normalized_values$",
+      "title": "Gse60788 Transform",
+      "type": "string"
+    },
+    "infer_reliability_threshold": {
+      "title": "Infer Reliability Threshold",
+      "type": "boolean"
+    },
+    "pair_metrics": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Pair Metrics",
+      "type": "array"
+    },
+    "panel": {
+      "pattern": "^PAM50_historical_50$",
+      "title": "Panel",
+      "type": "string"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "pool_sources": {
+      "title": "Pool Sources",
+      "type": "boolean"
+    },
+    "publication_authorized": {
+      "title": "Publication Authorized",
+      "type": "boolean"
+    },
+    "random_seed": {
+      "minimum": 0,
+      "title": "Random Seed",
+      "type": "integer"
+    },
+    "reliability_specification_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reliability Specification Sha256",
+      "type": "string"
+    },
+    "retain_molecular_values_in_git": {
+      "title": "Retain Molecular Values In Git",
+      "type": "boolean"
+    },
+    "retain_source_identifiers": {
+      "title": "Retain Source Identifiers",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_summary": {
+      "pattern": "^median_across_independent_replicate_groups$",
+      "title": "Source Summary",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_version",
+    "feasibility_acquisition_receipt_sha256",
+    "feasibility_audit_receipt_sha256",
+    "annotation_resolution_receipt_sha256",
+    "annotation_mapping_receipt_sha256",
+    "annotation_mapping_object_key",
+    "annotation_mapping_artifact_sha256",
+    "reliability_specification_sha256",
+    "gse60788_transform",
+    "gse130397_transform",
+    "gse130397_library_size_scope",
+    "gse130397_access_count_column",
+    "gse130397_ovation_count_column",
+    "panel",
+    "pair_metrics",
+    "group_aggregation",
+    "source_summary",
+    "bootstrap_unit",
+    "bootstrap_replicates",
+    "random_seed",
+    "details_object_key",
+    "pool_sources",
+    "infer_reliability_threshold",
+    "execute_classifier",
+    "access_outcomes",
+    "retain_source_identifiers",
+    "retain_molecular_values_in_git",
+    "export_authorized",
+    "publication_authorized"
+  ],
+  "title": "CalibrationFeasibilityPilotPlan",
+  "type": "object"
+}

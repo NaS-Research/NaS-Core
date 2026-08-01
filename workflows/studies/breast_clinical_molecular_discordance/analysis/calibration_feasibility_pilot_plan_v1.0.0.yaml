@@ -1,0 +1,35 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+feasibility_acquisition_receipt_sha256: abbd09e85bbf32329bef8992d9844786db69b1d288681386a763fab98855563d
+feasibility_audit_receipt_sha256: 0d642c61ffe434bbd9f03d323f5bc530d4e0c6dbec72e42224dc15d370c378ac
+annotation_resolution_receipt_sha256: 532cda236f511f489b80221fb740cd8ea2011dc5bea2bd0d9c86f95f3f028f22
+annotation_mapping_receipt_sha256: 13bcbaa15652c49b7d938af2c8752541841e5e781441685949246ce1de354da3
+annotation_mapping_object_key: derived/nas-brca-002/calibration-feasibility/ensembl84_pam50_map_v1.0.0.json
+annotation_mapping_artifact_sha256: 2164d07c6cb3dbfffced41397298be63761f3d715bc169a10e4b75353e5cb958
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+gse60788_transform: unchanged_source_normalized_values
+gse130397_transform: log2_cpm_plus_1
+gse130397_library_size_scope: all_60675_features
+gse130397_access_count_column: rev
+gse130397_ovation_count_column: fwd
+panel: PAM50_historical_50
+pair_metrics:
+  - spearman
+  - pearson
+  - mae
+  - rmse
+group_aggregation: median_of_all_unordered_within_group_pairs
+source_summary: median_across_independent_replicate_groups
+bootstrap_unit: replicate_group
+bootstrap_replicates: 10000
+random_seed: 20260801
+details_object_key: derived/nas-brca-002/calibration-feasibility/source_specific_replicate_pilot_v1.0.0.json
+pool_sources: false
+infer_reliability_threshold: false
+execute_classifier: false
+access_outcomes: false
+retain_source_identifiers: false
+retain_molecular_values_in_git: false
+export_authorized: false
+publication_authorized: false

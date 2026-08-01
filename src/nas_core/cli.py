@@ -12,6 +12,9 @@ from nas_core.analysis.calibration_annotation_mapping import (
 from nas_core.analysis.calibration_feasibility_audit import (
     CalibrationFeasibilityAuditService,
 )
+from nas_core.analysis.calibration_feasibility_pilot import (
+    CalibrationFeasibilityPilotService,
+)
 from nas_core.analysis.calibration_planning import CalibrationPlanningService
 from nas_core.analysis.calibration_precision import (
     TechnicalReplicatePrecisionService,
@@ -86,6 +89,11 @@ from nas_core.domain.calibration_feasibility_audit import (
     load_calibration_feasibility_audit_plan,
     write_calibration_feasibility_audit_receipt,
     write_calibration_feasibility_audit_schemas,
+)
+from nas_core.domain.calibration_feasibility_pilot import (
+    load_calibration_feasibility_pilot_plan,
+    write_calibration_feasibility_pilot_receipt,
+    write_calibration_feasibility_pilot_schemas,
 )
 from nas_core.domain.calibration_lineage import (
     load_calibration_lineage_receipt,
@@ -531,6 +539,32 @@ def build_parser() -> argparse.ArgumentParser:
     )
     calibration_feasibility_audit_schema.add_argument("plan_path", type=Path)
     calibration_feasibility_audit_schema.add_argument("receipt_path", type=Path)
+    calibration_feasibility_pilot = ingest_commands.add_parser(
+        "calibration-feasibility-pilot",
+        help="Run frozen source-isolated technical-replicate feasibility pilots",
+    )
+    calibration_feasibility_pilot.add_argument("plan_path", type=Path)
+    calibration_feasibility_pilot.add_argument("acquisition_receipt_path", type=Path)
+    calibration_feasibility_pilot.add_argument("feasibility_audit_receipt_path", type=Path)
+    calibration_feasibility_pilot.add_argument(
+        "annotation_resolution_receipt_path", type=Path
+    )
+    calibration_feasibility_pilot.add_argument(
+        "annotation_mapping_receipt_path", type=Path
+    )
+    calibration_feasibility_pilot.add_argument(
+        "reliability_specification_path", type=Path
+    )
+    calibration_feasibility_pilot.add_argument("--data-root", type=Path, required=True)
+    calibration_feasibility_pilot.add_argument("--code-revision", required=True)
+    calibration_feasibility_pilot.add_argument("--output-path", type=Path)
+    calibration_feasibility_pilot.add_argument("--execute", action="store_true")
+    calibration_feasibility_pilot_schema = ingest_commands.add_parser(
+        "calibration-feasibility-pilot-schema",
+        help="Write calibration-feasibility pilot JSON Schemas",
+    )
+    calibration_feasibility_pilot_schema.add_argument("plan_path", type=Path)
+    calibration_feasibility_pilot_schema.add_argument("receipt_path", type=Path)
     calibration_annotation = ingest_commands.add_parser(
         "calibration-annotation-resolve",
         help="Resolve GSE130397 annotation and strandedness from official metadata",
@@ -2759,6 +2793,58 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             "Wrote calibration-feasibility audit schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-feasibility-pilot"
+    ):
+        pilot_plan = load_calibration_feasibility_pilot_plan(args.plan_path)
+        if not args.execute:
+            print("Calibration-feasibility pilot plan is valid; dry run")
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        pilot_receipt = CalibrationFeasibilityPilotService(
+            store=FileSystemObjectStore(args.data_root)
+        ).execute(
+            pilot_plan,
+            load_calibration_feasibility_acquisition_receipt(
+                args.acquisition_receipt_path
+            ),
+            load_reliability_specification(args.reliability_specification_path),
+            plan_path=args.plan_path,
+            acquisition_receipt_path=args.acquisition_receipt_path,
+            feasibility_audit_receipt_path=args.feasibility_audit_receipt_path,
+            annotation_resolution_receipt_path=(
+                args.annotation_resolution_receipt_path
+            ),
+            annotation_mapping_receipt_path=args.annotation_mapping_receipt_path,
+            reliability_specification_path=args.reliability_specification_path,
+            code_revision=args.code_revision,
+        )
+        write_calibration_feasibility_pilot_receipt(
+            args.output_path,
+            pilot_receipt,
+        )
+        print(
+            "Wrote source-isolated calibration-feasibility pilot: "
+            f"{pilot_receipt.decision}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-feasibility-pilot-schema"
+    ):
+        write_calibration_feasibility_pilot_schemas(
+            args.plan_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote calibration-feasibility pilot schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
         return 0
