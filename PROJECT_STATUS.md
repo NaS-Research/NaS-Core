@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Construct and diagnose the fixed GSE81538 reference
+### Diagnose the fixed GSE81538 reference without outcomes
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,13 +17,12 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: use the checksum-bound external 100-record manifest to read
-only the 50 PAM50 rows and selected columns from the governed matrix; construct
-the prespecified gene-wise median reference unchanged on `log2(FPKM + 0.1)`;
-and freeze its exact gene order, values, checksums, code revision, and provenance
-outside Git. Run outcome-blind sensitivity diagnostics for stratum balance and
-deterministic selection without reading GSE96058 or any outcome. Git retains
-only aggregate diagnostics and artifact checksums.
+Definition of done: execute the prespecified outcome-blind sensitivity panel
+against the frozen reference: use alternative eligible deterministic samples
+where available, compare the gene-wise median with a 20% trimmed mean, and
+quantify reference-vector and centered-score stability. Freeze value-bearing
+artifacts outside Git and retain only aggregate diagnostics and checksums in the
+repository. No GSE96058, outcome, threshold tuning, or clinical interpretation.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
@@ -66,12 +65,15 @@ and external-manifest writer executed from frozen revision `76ace2b`. Receipt
 records with independently reproduced SHA-256 `4f36124c…a9fe`. No identifiers
 entered Git and no expression, outcome, validation, classifier, or AI access occurred.
 
-The fixed-reference construction path is now implemented behind a separate
+The fixed-reference construction path was implemented behind a separate
 checksum-bound plan. It verifies the matrix and manifest bytes, reads only the
 manifest-selected columns of the 50 PAM50 rows, applies no new transformation,
 computes the gene-wise medians, and stores the 50-value artifact outside Git.
-Synthetic tests cover deterministic medians and changed-manifest rejection. Live
-execution will occur only after this implementation is committed and frozen.
+Synthetic tests cover deterministic medians and changed-manifest rejection.
+Frozen revision `1b7b2f5` then read exactly 5,000 finite selected values and
+materialized the 50-gene median vector outside Git. Its independently reproduced
+SHA-256 is `72bd804f…f40e9`; receipt SHA-256 is `c71ad6af…57f3c`. No outcome,
+validation, classifier, AI, or method-lock boundary was crossed.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -649,6 +651,14 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-08-01 — Candidate 50-gene fixed reference constructed
+
+Frozen revision `1b7b2f5` verified the matrix and selected-manifest checksums,
+read exactly 5,000 finite PAM50 values, applied no additional transform, and
+computed the prespecified gene-wise median. The value-bearing external artifact
+contains 50 genes with SHA-256 `72bd804f…f40e9`. Git retains only aggregate
+diagnostics; no outcome, validation, classifier, AI, or method lock occurred.
+
 ### 2026-08-01 — Outcome-blind reference participant manifest frozen
 
 Executed the field-isolated parser from frozen revision `76ace2b`. All 405
@@ -682,14 +692,6 @@ all 7,614,810 values. The exact 18,802-by-405 structure, unique genes, finite
 measurements, declared `log2(FPKM + 0.1)` floor, and all 50 PAM50 mappings pass.
 No participant row was retained, and no outcome or classifier result was accessed.
 Receipt SHA-256 is `98bfb62a…b4c`; the full gate passes 493 tests.
-
-### 2026-08-01 — Immutable public artifact acquired and verified
-
-Implemented an allowlisted streaming acquisition path and froze it before source
-contact. Revision `db3c81b` then stored the official GSE81538 artifact at exactly
-54,838,076 bytes with independently reproduced SHA-256 `9da259a9…39181`.
-Registration, provenance, storage readiness, exact URL, atomic non-overwrite,
-and checksum gates all passed. No molecular values or outcomes were parsed.
 
 ## Historical implementation log
 

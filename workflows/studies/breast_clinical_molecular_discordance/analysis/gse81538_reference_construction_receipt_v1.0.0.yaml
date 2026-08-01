@@ -1,0 +1,44 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+source_accession: GSE81538
+code_revision: 1b7b2f5e63b5710154ac3d655031aadbc2c0ba53
+constructed_at: '2026-08-01T16:55:36.278938Z'
+plan_sha256: b895d0a68d62329fb0d719e244a2ab3878d247825cdff82a843553a001a7ab60
+matrix_audit_receipt_sha256: 98bfb62ad4ba1247feb0ba6c1487341517bb59049c2ad22b4e51fe2ed2773b4c
+reference_metadata_receipt_sha256: b8b43884ed751b9ac78ee3a73dbea9c20cb8d20f5cd6be7c602bc9f261666423
+reference_protocol_sha256: 8fa7b2343f4a9e1b880731633568130cb7f4d4f0eab1af5b92cf7a0e1204e605
+centroid_candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+matrix_object_sha256_verified: true
+selection_manifest_sha256_verified: true
+selected_sample_count: 100
+selected_er_negative_count: 50
+selected_er_positive_count: 50
+retained_gene_count: 50
+parsed_measurement_count: 5000
+finite_measurement_count: 5000
+input_scale: log2(FPKM + 0.1)
+additional_transform_applied: false
+reference_statistic: gene_wise_median
+reference_minimum: -1.07501738803508
+reference_maximum: 7.65613042047944
+reference_mean: 3.5832184383530477
+reference_object_key: derived/nas-brca-002/reference-development/gse81538_pam50_median_reference_v1.0.0.json
+reference_sha256: 72bd804f9f4540ecbf9eadbc42feb6dee5b6618a775caff4965e92ae866f40e9
+reference_bytes: 1978
+reference_gene_count: 50
+reference_immutable_verified: true
+decision: pass
+limitations:
+- The reference inherits the founder-approved ER-code inference.
+- The deterministic subset may not represent all source variation.
+- Reference construction does not establish analytical or clinical validity.
+- Outcome-blind sensitivity diagnostics and technical calibration remain open.
+participant_identifiers_retained_in_git: false
+reference_values_retained_in_git: false
+molecular_values_parsed: true
+outcome_values_accessed: false
+validation_data_accessed: false
+classifier_executed: false
+generative_ai_received_participant_data: false
+reference_locked: false

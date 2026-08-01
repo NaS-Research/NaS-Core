@@ -49,3 +49,12 @@ uv run nas-core ingest reference-construct \
 ```
 
 Completion gate: Deterministic pipeline and synthetic tests pass; run artifacts are frozen.
+
+Frozen revision `1b7b2f5` executed the reference plan. Receipt
+[`gse81538_reference_construction_receipt_v1.0.0.yaml`](gse81538_reference_construction_receipt_v1.0.0.yaml)
+has SHA-256 `c71ad6af…57f3c`. Exactly 5,000 finite selected measurements
+produced a 50-gene external reference with independently reproduced SHA-256
+`72bd804f…f40e9`. No additional transform, outcome or validation access,
+classifier execution, participant-data AI processing, or method lock occurred.
+See
+[`GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md`](GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md).

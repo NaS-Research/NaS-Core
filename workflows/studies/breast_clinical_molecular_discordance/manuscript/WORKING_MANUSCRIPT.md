@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.58.0-working`
+Manuscript version: `0.59.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -662,13 +662,24 @@ conservative inference. The primary publication describes GSE81538 and GSE96058
 as training and independent validation cohorts, but identifier-level and
 biological-specimen non-overlap remain unverified. GSE81538 cannot contribute
 discovery or validation performance, while GSE96058 molecular values and all
-outcomes remain firewalled. Reference construction, outcome-blind sensitivity
-analysis, and technical-error calibration remain incomplete.
+outcomes remain firewalled. Outcome-blind reference sensitivity analysis and
+technical-error calibration remain incomplete.
 [reference_development_protocol_v1.1.0.yaml;
 gse81538_reference_metadata_receipt_v1.0.0.yaml;
 GSE81538_REFERENCE_METADATA_REPORT_v1.0.0.md;
 GSE81538_MATRIX_AUDIT_REPORT_v1.0.0.md;
 gse81538_matrix_audit_receipt_v1.0.0.yaml]
+
+The fixed-reference construction then verified both source-object and selection-
+manifest checksums, parsed exactly 5,000 finite measurements from the 50 PAM50
+rows and 100 prespecified columns, and applied no additional transform. The
+gene-wise median produced a 50-value external artifact with SHA-256
+`72bd804f9f4540ecbf9eadbc42feb6dee5b6618a775caff4965e92ae866f40e9`.
+Reference values and participant identifiers remain outside Git. This constructs
+a candidate method input; it does not lock the reference or estimate subtype,
+reliability, validation, outcome, or clinical performance.
+[gse81538_reference_construction_receipt_v1.0.0.yaml;
+GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1298,6 +1309,12 @@ selection result, not a biological finding. No NaS-generated subtype,
 reliability, survival, concordance, calibration, or clinical-association result
 exists for question `0.3.0`.
 
+The candidate fixed reference was constructed from the frozen subset. All 5,000
+selected measurements were finite, no additional transform was applied, and the
+50-gene value-bearing artifact was stored outside Git with independently verified
+SHA-256. This is a method-artifact construction result, not a biological finding;
+outcome-blind reference sensitivities remain pending.
+
 ## Discussion
 
 Status: `working interpretation—must not be cited as a result`
@@ -1451,6 +1468,7 @@ reviews are complete.
 | Methods—metadata feasibility | Source-level and field-isolated input audits | `ingestion/metadata_feasibility_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.0.yaml`; `ingestion/field_isolated_metadata_receipt_v1.0.1.yaml`; all audit reports | all five input-feasibility checks verified; method compatibility unresolved |
 | Methods and results—GSE81538 matrix integrity | Checksum, dimensions, numeric completeness, declared scale, and PAM50 coverage | `ingestion/gse81538_matrix_audit_receipt_v1.0.0.yaml`; `ingestion/GSE81538_MATRIX_AUDIT_REPORT_v1.0.0.md` | passed; no outcomes or classifier execution |
 | Methods—GSE81538 reference selection | Founder-approved input scale, ER strata, field-isolated linkage, and external participant manifest | `reviews/FOUNDER_REFERENCE_INPUT_DECISION_v1.1.0.yaml`; `protocol/reference_development_protocol_v1.1.0.yaml`; `ingestion/gse81538_reference_metadata_receipt_v1.0.0.yaml` | 50 code-0 plus 50 code-3 records frozen externally; no expression, outcome, or classifier access |
+| Methods and results—GSE81538 fixed reference | Outcome-blind 50-gene median construction from the frozen 100-record manifest | `analysis/gse81538_reference_construction_receipt_v1.0.0.yaml`; `analysis/GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md` | passed; value-bearing artifact external; no outcome, validation, classifier, or lock |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1508,6 +1526,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.59.0-working | 2026-08-01 | Constructed the candidate 50-gene fixed median reference from exactly 5,000 finite prespecified values on unchanged `log2(FPKM + 0.1)` scale; the value-bearing artifact remains external and no outcome, validation, classifier, or clinical result was produced. |
 | 0.58.0-working | 2026-08-01 | Recorded founder-approved reference-input decisions, amended the verified scale to unchanged `log2(FPKM + 0.1)`, and froze an external 50-code-0 plus 50-code-3 participant manifest; no selected expression, outcome, validation, or classifier values were accessed. |
 | 0.57.0-working | 2026-07-29 | Registered GSE81538 for reference development only and froze an outcome-blind 50 ER-positive plus 50 ER-negative candidate reference protocol; no molecular values or outcomes were accessed and no transformation or reference was locked. |
 | 0.56.0-working | 2026-07-29 | Added independent pure-Python versus NumPy numerical conformance: all eight frozen synthetic label, rank, score, margin, and tie-abstention cases passed at `1e-12`; analytical validity remains unclaimed. |
