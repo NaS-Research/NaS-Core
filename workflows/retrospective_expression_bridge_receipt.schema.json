@@ -1,0 +1,162 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "centering_operation": {
+      "title": "Centering Operation",
+      "type": "string"
+    },
+    "centroid_gene_count": {
+      "maximum": 50,
+      "minimum": 50,
+      "title": "Centroid Gene Count",
+      "type": "integer"
+    },
+    "centroid_subtype_count": {
+      "maximum": 5,
+      "minimum": 5,
+      "title": "Centroid Subtype Count",
+      "type": "integer"
+    },
+    "centroids_locked_for_retrospective_bridge": {
+      "title": "Centroids Locked For Retrospective Bridge",
+      "type": "boolean"
+    },
+    "classifier_executed": {
+      "title": "Classifier Executed",
+      "type": "boolean"
+    },
+    "code_revision": {
+      "pattern": "^[a-f0-9]{7,40}$",
+      "title": "Code Revision",
+      "type": "string"
+    },
+    "decision": {
+      "pattern": "^retrospective_research_bridge_frozen$",
+      "title": "Decision",
+      "type": "string"
+    },
+    "evidence_hashes_verified": {
+      "title": "Evidence Hashes Verified",
+      "type": "boolean"
+    },
+    "external_publication_authorized": {
+      "title": "External Publication Authorized",
+      "type": "boolean"
+    },
+    "gse96058_transform": {
+      "title": "Gse96058 Transform",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "next_actions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Next Actions",
+      "type": "array"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "performance_blind_validation_bridge_frozen": {
+      "title": "Performance Blind Validation Bridge Frozen",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "primary_calibration_ready": {
+      "title": "Primary Calibration Ready",
+      "type": "boolean"
+    },
+    "prospective_primary_assay_selected": {
+      "title": "Prospective Primary Assay Selected",
+      "type": "boolean"
+    },
+    "receipt_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Receipt Version",
+      "type": "string"
+    },
+    "reference_gene_count": {
+      "maximum": 50,
+      "minimum": 50,
+      "title": "Reference Gene Count",
+      "type": "integer"
+    },
+    "reference_locked_for_retrospective_bridge": {
+      "title": "Reference Locked For Retrospective Bridge",
+      "type": "boolean"
+    },
+    "reference_object_verified": {
+      "title": "Reference Object Verified",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scoring_operation": {
+      "title": "Scoring Operation",
+      "type": "string"
+    },
+    "study_id": {
+      "title": "Study Id",
+      "type": "string"
+    },
+    "tcga_input_field": {
+      "title": "Tcga Input Field",
+      "type": "string"
+    },
+    "tcga_transform": {
+      "title": "Tcga Transform",
+      "type": "string"
+    },
+    "validation_molecular_values_accessed": {
+      "title": "Validation Molecular Values Accessed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "receipt_version",
+    "study_id",
+    "code_revision",
+    "plan_sha256",
+    "evidence_hashes_verified",
+    "reference_object_verified",
+    "reference_gene_count",
+    "centroid_gene_count",
+    "centroid_subtype_count",
+    "tcga_input_field",
+    "tcga_transform",
+    "gse96058_transform",
+    "centering_operation",
+    "scoring_operation",
+    "decision",
+    "reference_locked_for_retrospective_bridge",
+    "centroids_locked_for_retrospective_bridge",
+    "performance_blind_validation_bridge_frozen",
+    "prospective_primary_assay_selected",
+    "primary_calibration_ready",
+    "classifier_executed",
+    "validation_molecular_values_accessed",
+    "outcomes_accessed",
+    "external_publication_authorized",
+    "limitations",
+    "next_actions"
+  ],
+  "title": "RetrospectiveExpressionBridgeReceipt",
+  "type": "object"
+}

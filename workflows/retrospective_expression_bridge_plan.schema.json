@@ -1,0 +1,210 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "centering_operation": {
+      "pattern": "^subtract_fixed_reference_gene_wise$",
+      "title": "Centering Operation",
+      "type": "string"
+    },
+    "centroid_candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Centroid Candidate Sha256",
+      "type": "string"
+    },
+    "centroid_import_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Centroid Import Receipt Sha256",
+      "type": "string"
+    },
+    "classifier_execution_authorized": {
+      "title": "Classifier Execution Authorized",
+      "type": "boolean"
+    },
+    "duplicate_mapping_action": {
+      "pattern": "^abstain$",
+      "title": "Duplicate Mapping Action",
+      "type": "string"
+    },
+    "external_publication_authorized": {
+      "title": "External Publication Authorized",
+      "type": "boolean"
+    },
+    "gse96058_input_representation": {
+      "pattern": "^source_supplied_log2_fpkm_plus_0_1$",
+      "title": "Gse96058 Input Representation",
+      "type": "string"
+    },
+    "gse96058_transform": {
+      "pattern": "^consume_unchanged$",
+      "title": "Gse96058 Transform",
+      "type": "string"
+    },
+    "matrix_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Matrix Audit Receipt Sha256",
+      "type": "string"
+    },
+    "metadata_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Metadata Receipt Sha256",
+      "type": "string"
+    },
+    "missing_gene_action": {
+      "pattern": "^abstain$",
+      "title": "Missing Gene Action",
+      "type": "string"
+    },
+    "nonfinite_value_action": {
+      "pattern": "^abstain$",
+      "title": "Nonfinite Value Action",
+      "type": "string"
+    },
+    "numerical_conformance_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Numerical Conformance Receipt Sha256",
+      "type": "string"
+    },
+    "numerical_precision": {
+      "pattern": "^IEEE_754_binary64$",
+      "title": "Numerical Precision",
+      "type": "string"
+    },
+    "official_gdc_pipeline_url": {
+      "pattern": "^https://docs\\.gdc\\.cancer\\.gov/",
+      "title": "Official Gdc Pipeline Url",
+      "type": "string"
+    },
+    "official_gse96058_metadata_url": {
+      "pattern": "^https://www\\.ncbi\\.nlm\\.nih\\.gov/geo/query/acc\\.cgi\\?acc=GSM[0-9]+$",
+      "title": "Official Gse96058 Metadata Url",
+      "type": "string"
+    },
+    "outcome_access_authorized": {
+      "title": "Outcome Access Authorized",
+      "type": "boolean"
+    },
+    "outcome_guided_tuning_allowed": {
+      "title": "Outcome Guided Tuning Allowed",
+      "type": "boolean"
+    },
+    "panel": {
+      "pattern": "^PAM50_historical_50$",
+      "title": "Panel",
+      "type": "string"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "prospective_assay_selected": {
+      "title": "Prospective Assay Selected",
+      "type": "boolean"
+    },
+    "reference_construction_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Construction Receipt Sha256",
+      "type": "string"
+    },
+    "reference_object_key": {
+      "pattern": "^derived/nas-brca-002/",
+      "title": "Reference Object Key",
+      "type": "string"
+    },
+    "reference_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reference Sha256",
+      "type": "string"
+    },
+    "reliability_specification_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reliability Specification Sha256",
+      "type": "string"
+    },
+    "required_gene_count": {
+      "maximum": 50,
+      "minimum": 50,
+      "title": "Required Gene Count",
+      "type": "integer"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scoring_operation": {
+      "pattern": "^spearman_to_five_fixed_centroids$",
+      "title": "Scoring Operation",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "tcga_input_field": {
+      "pattern": "^fpkm_unstranded$",
+      "title": "Tcga Input Field",
+      "type": "string"
+    },
+    "tcga_source": {
+      "pattern": "^GDC_TCGA_BRCA_STAR_Counts$",
+      "title": "Tcga Source",
+      "type": "string"
+    },
+    "tcga_transform": {
+      "pattern": "^log2_fpkm_plus_0_1$",
+      "title": "Tcga Transform",
+      "type": "string"
+    },
+    "test_cohort_centering_allowed": {
+      "title": "Test Cohort Centering Allowed",
+      "type": "boolean"
+    },
+    "validation_adaptation_allowed": {
+      "title": "Validation Adaptation Allowed",
+      "type": "boolean"
+    },
+    "validation_molecular_access_authorized": {
+      "title": "Validation Molecular Access Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_version",
+    "centroid_candidate_sha256",
+    "centroid_import_receipt_sha256",
+    "reference_construction_receipt_sha256",
+    "matrix_audit_receipt_sha256",
+    "metadata_receipt_sha256",
+    "numerical_conformance_receipt_sha256",
+    "reliability_specification_sha256",
+    "official_gdc_pipeline_url",
+    "official_gse96058_metadata_url",
+    "panel",
+    "required_gene_count",
+    "tcga_source",
+    "tcga_input_field",
+    "tcga_transform",
+    "gse96058_input_representation",
+    "gse96058_transform",
+    "reference_object_key",
+    "reference_sha256",
+    "centering_operation",
+    "scoring_operation",
+    "numerical_precision",
+    "duplicate_mapping_action",
+    "missing_gene_action",
+    "nonfinite_value_action",
+    "test_cohort_centering_allowed",
+    "validation_adaptation_allowed",
+    "outcome_guided_tuning_allowed",
+    "classifier_execution_authorized",
+    "validation_molecular_access_authorized",
+    "outcome_access_authorized",
+    "prospective_assay_selected",
+    "external_publication_authorized"
+  ],
+  "title": "RetrospectiveExpressionBridgePlan",
+  "type": "object"
+}

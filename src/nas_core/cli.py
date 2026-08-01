@@ -43,6 +43,7 @@ from nas_core.analysis.reference_development import (
 )
 from nas_core.analysis.reference_sensitivity import GSE81538ReferenceSensitivityService
 from nas_core.analysis.reliability import SyntheticSingleSampleReliabilityKernel
+from nas_core.analysis.retrospective_bridge import RetrospectiveExpressionBridgeService
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
 from nas_core.config import get_settings
@@ -287,6 +288,11 @@ from nas_core.domain.reliability import (
 from nas_core.domain.research_completion import (
     load_study_completion_audit,
     write_study_completion_audit_schema,
+)
+from nas_core.domain.retrospective_bridge import (
+    load_retrospective_expression_bridge_plan,
+    write_retrospective_expression_bridge_receipt,
+    write_retrospective_expression_bridge_schemas,
 )
 from nas_core.domain.screening_confirmation import load_screening_confirmation
 from nas_core.domain.snapshots import write_dataset_snapshot_schema
@@ -1064,6 +1070,36 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_calibration_reestimation_schema.add_argument("plan_path", type=Path)
     reliability_calibration_reestimation_schema.add_argument("receipt_path", type=Path)
+    reliability_retrospective_bridge = reliability_commands.add_parser(
+        "retrospective-expression-bridge",
+        help="Freeze the performance-blind TCGA/GSE96058 expression bridge",
+    )
+    reliability_retrospective_bridge.add_argument("plan_path", type=Path)
+    reliability_retrospective_bridge.add_argument("centroid_candidate_path", type=Path)
+    reliability_retrospective_bridge.add_argument(
+        "centroid_import_receipt_path", type=Path
+    )
+    reliability_retrospective_bridge.add_argument(
+        "reference_construction_receipt_path", type=Path
+    )
+    reliability_retrospective_bridge.add_argument("matrix_audit_receipt_path", type=Path)
+    reliability_retrospective_bridge.add_argument("metadata_receipt_path", type=Path)
+    reliability_retrospective_bridge.add_argument(
+        "numerical_conformance_receipt_path", type=Path
+    )
+    reliability_retrospective_bridge.add_argument(
+        "reliability_specification_path", type=Path
+    )
+    reliability_retrospective_bridge.add_argument("--data-root", type=Path, required=True)
+    reliability_retrospective_bridge.add_argument("--code-revision", required=True)
+    reliability_retrospective_bridge.add_argument("--output-path", type=Path)
+    reliability_retrospective_bridge.add_argument("--execute", action="store_true")
+    reliability_retrospective_bridge_schema = reliability_commands.add_parser(
+        "retrospective-expression-bridge-schema",
+        help="Write retrospective expression-bridge plan and receipt JSON Schemas",
+    )
+    reliability_retrospective_bridge_schema.add_argument("plan_path", type=Path)
+    reliability_retrospective_bridge_schema.add_argument("receipt_path", type=Path)
     reliability_calibration_readiness = reliability_commands.add_parser(
         "calibration-readiness",
         help="Reconcile technical-calibration paths and authorize public feasibility only",
@@ -2458,6 +2494,54 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             "Wrote pair-count reestimation schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "retrospective-expression-bridge"
+    ):
+        bridge_receipt = RetrospectiveExpressionBridgeService(
+            store=FileSystemObjectStore(args.data_root)
+        ).freeze(
+            load_retrospective_expression_bridge_plan(args.plan_path),
+            plan_path=args.plan_path,
+            centroid_candidate_path=args.centroid_candidate_path,
+            centroid_import_receipt_path=args.centroid_import_receipt_path,
+            reference_construction_receipt_path=(
+                args.reference_construction_receipt_path
+            ),
+            matrix_audit_receipt_path=args.matrix_audit_receipt_path,
+            metadata_receipt_path=args.metadata_receipt_path,
+            numerical_conformance_receipt_path=(
+                args.numerical_conformance_receipt_path
+            ),
+            reliability_specification_path=args.reliability_specification_path,
+            code_revision=args.code_revision,
+        )
+        if not args.execute:
+            print(bridge_receipt.model_dump_json(indent=2))
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_retrospective_expression_bridge_receipt(
+            args.output_path,
+            bridge_receipt,
+        )
+        print(f"Wrote retrospective expression bridge: {bridge_receipt.decision}")
+        return 0
+
+    if (
+        args.command == "reliability"
+        and args.reliability_command == "retrospective-expression-bridge-schema"
+    ):
+        write_retrospective_expression_bridge_schemas(
+            args.plan_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote retrospective expression-bridge schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
         return 0
