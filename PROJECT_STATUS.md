@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Interpret excluded replicate pilots and advance blinded precision planning
+### Freeze retrospective input QC and preserve prospective-calibration hold
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,13 +17,21 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: preserve the completed source-specific pilot estimates as
-descriptive feasibility evidence; use independent replicate groups—not pairwise
-pseudoreplicates—to update blinded precision planning; define evidence-backed
-assay QC, failure, and rerun criteria where the current evidence permits; and
-retain the primary-calibration hold. Do not pool sources, select reliability
-thresholds, execute a classifier, access GSE96058 or outcomes, contact anyone,
-spend, or acquire specimens.
+Definition of done: bind exact schema, panel, finite-value, reference, transform,
+scoring, failure, and abstention rules to the frozen retrospective bridge; make
+every invalid state fail closed without imputation or cohort adaptation; and
+retain the primary-calibration hold. Do not execute a classifier, access
+GSE96058 or outcomes, contact anyone, spend, or acquire specimens.
+
+The retrospective expression bridge is now frozen independently of validation
+performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
+`log2(FPKM + 0.1)`; GSE96058 will be consumed unchanged on its officially
+declared `log2(FPKM + 0.1)` scale. Both will subtract the immutable GSE81538
+50-gene reference and use the checksummed genefu five-centroid matrix with
+Spearman scoring. Exact gene coverage, no imputation, no cohort centering, and
+no validation adaptation are mandatory. The active work is processed-input QC,
+failure, and abstention rules; the prospective laboratory assay remains
+unselected.
 
 Both sources are now separately registered as public/open for excluded
 `calibration-feasibility` work. Acquisition plan `1.0.0` freezes 24 official
@@ -110,6 +118,14 @@ target-assay attrition, batch clustering, or required coverage. No source RMSE
 was substituted as a classifier-score variance. The prior 185-pair balanced
 scenario remains hypothetical, and the 30-pair prospective excluded pilot
 remains a planning target only. Receipt SHA-256 is `f5b62294…e4892`.
+
+Frozen revision `6a45c2b` verified and locked the performance-blind retrospective
+bridge. The 50-gene external reference and 250 centroid coefficients reconcile
+exactly, and the independent numerical-conformance receipt remains bound. The
+bridge consumed no molecular value and executed no classifier. GDC
+STAR/GENCODE-36 versus SCAN-B Cufflinks remains an explicit upstream transport
+limitation; it cannot be removed by adapting GSE96058. Receipt SHA-256 is
+`86a8521b…e0638`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the

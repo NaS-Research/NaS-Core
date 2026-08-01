@@ -1,0 +1,35 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: 6a45c2b
+plan_sha256: 648c887ea883da6b9f807624a75e66a076a64c904f0300781c1ca487d687090f
+evidence_hashes_verified: true
+reference_object_verified: true
+reference_gene_count: 50
+centroid_gene_count: 50
+centroid_subtype_count: 5
+tcga_input_field: fpkm_unstranded
+tcga_transform: log2_fpkm_plus_0_1
+gse96058_transform: consume_unchanged
+centering_operation: subtract_fixed_reference_gene_wise
+scoring_operation: spearman_to_five_fixed_centroids
+decision: retrospective_research_bridge_frozen
+reference_locked_for_retrospective_bridge: true
+centroids_locked_for_retrospective_bridge: true
+performance_blind_validation_bridge_frozen: true
+prospective_primary_assay_selected: false
+primary_calibration_ready: false
+classifier_executed: false
+validation_molecular_values_accessed: false
+outcomes_accessed: false
+external_publication_authorized: false
+limitations:
+- GDC STAR/GENCODE-36 FPKM and SCAN-B Cufflinks FPKM arise from different upstream
+  workflows.
+- The fixed reference shares SCAN-B laboratory context with GSE96058.
+- External validation must quantify transport degradation without adapting this bridge.
+- This bridge does not select the future prospective primary-calibration assay.
+next_actions:
+- Freeze processed-input QC, failure, and abstention rules for this bridge.
+- Keep GSE96058 molecular values inaccessible until preregistration and method lock.
+- Select a target-matched prospective assay only under separate nonspending planning.

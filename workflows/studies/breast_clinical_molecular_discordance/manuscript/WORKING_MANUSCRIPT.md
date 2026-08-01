@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.66.0-working`
+Manuscript version: `0.67.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -773,6 +773,20 @@ count. The prior 185-pair balanced scenario remains hypothetical, while the
 authorized experiment.
 [calibration_pair_count_reestimation_receipt_v1.0.0.yaml;
 CALIBRATION_PAIR_COUNT_REESTIMATION_REPORT_v1.0.0.md]
+
+The retrospective expression bridge was then frozen without accessing TCGA or
+GSE96058 molecular values. TCGA-BRCA discovery will use the GDC augmented STAR
+Counts `fpkm_unstranded` field transformed as `log2(FPKM + 0.1)`. GSE96058 will
+be consumed unchanged because its official GEO processing metadata declares
+gene-level FPKM with a 0.1 offset and log2 transformation. Each exact 50-gene
+profile will be centered by subtracting the immutable GSE81538 median reference
+gene-wise and scored by Spearman correlation against the checksummed genefu
+centroids. Test-cohort centering, validation adaptation, imputation, and
+outcome-guided tuning are prohibited. GDC STAR/GENCODE-36 and SCAN-B Cufflinks
+remain different upstream workflows; unchanged validation must quantify rather
+than erase any resulting transport degradation.
+[retrospective_expression_bridge_receipt_v1.0.0.yaml;
+RETROSPECTIVE_EXPRESSION_BRIDGE_REPORT_v1.0.0.md]
 
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
@@ -1587,6 +1601,7 @@ reviews are complete.
 | Methods and results—GSE130397 annotation | Official processing resolution, archived Ensembl-84 acquisition, feature mapping, and PAM50 coverage | `analysis/calibration_annotation_resolution_receipt_v1.0.0.yaml`; `ingestion/calibration_annotation_acquisition_receipt_v1.0.0.yaml`; `analysis/calibration_annotation_mapping_receipt_v1.0.0.yaml` | all 60,675 features mapped; PAM50 50/50; Access `rev`, Ovation `fwd`; no molecular values parsed |
 | Methods and results—excluded replicate pilots | Prespecified source-specific PAM50 replicate agreement and variation | `analysis/calibration_feasibility_pilot_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_FEASIBILITY_PILOT_REPORT_v1.0.0.md` | high within-source rank agreement; heterogeneous error magnitudes on noncommensurate scales; no pooling, threshold, classifier, outcomes, or primary-calibration eligibility |
 | Methods—pair-count reestimation | Compatibility-gated use of excluded-pilot estimates for primary calibration planning | `analysis/calibration_pair_count_reestimation_receipt_v1.0.0.yaml`; `analysis/CALIBRATION_PAIR_COUNT_REESTIMATION_REPORT_v1.0.0.md` | final pair count not estimable; 185 remains hypothetical; no proxy substitution or execution |
+| Methods—retrospective expression bridge | Performance-blind TCGA transformation, unchanged GSE96058 representation, fixed reference, and fixed centroids | `protocol/retrospective_expression_bridge_receipt_v1.0.0.yaml`; `protocol/RETROSPECTIVE_EXPRESSION_BRIDGE_REPORT_v1.0.0.md` | bridge frozen; no cohort centering, validation adaptation, molecular access, classifier, or outcomes |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1644,6 +1659,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.67.0-working | 2026-08-01 | Froze the performance-blind retrospective bridge: TCGA GDC FPKM receives `log2(FPKM + 0.1)`, GSE96058 is consumed unchanged, and both use the immutable GSE81538 reference and genefu centroids without molecular or outcome access. |
 | 0.66.0-working | 2026-08-01 | Completed the blinded pair-count reestimation gate: excluded public pilots lack the classifier, target-assay, attrition, clustering, and coverage inputs required for a final sample size, so no proxy was substituted and 185 pairs remains hypothetical. |
 | 0.65.0-working | 2026-08-01 | Completed source-isolated excluded replicate pilots: six GSE60788 and seven GSE130397 independent groups showed high PAM50 rank agreement but nontrivial, source-dependent variation; no pooling, threshold, classifier, outcome, or clinical claim was made. |
 | 0.64.0-working | 2026-08-01 | Resolved GSE130397 to GRCh38/Ensembl 84 and library-specific strand columns, acquired the exact GTF, and verified conflict-free mapping of all 60,675 features and all 50 PAM50 genes without parsing molecular values. |
