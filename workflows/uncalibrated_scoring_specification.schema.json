@@ -1,0 +1,115 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "canonical_subtype_order": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "title": "Canonical Subtype Order",
+      "type": "array"
+    },
+    "centroid_candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Centroid Candidate Sha256",
+      "type": "string"
+    },
+    "correlation_metric": {
+      "pattern": "^spearman$",
+      "title": "Correlation Metric",
+      "type": "string"
+    },
+    "expression_bridge_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expression Bridge Receipt Sha256",
+      "type": "string"
+    },
+    "numerical_conformance_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Numerical Conformance Receipt Sha256",
+      "type": "string"
+    },
+    "numerical_tolerance": {
+      "exclusiveMinimum": 0.0,
+      "maximum": 1e-06,
+      "title": "Numerical Tolerance",
+      "type": "number"
+    },
+    "outcome_access_authorized": {
+      "title": "Outcome Access Authorized",
+      "type": "boolean"
+    },
+    "processed_input_qc_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Processed Input Qc Receipt Sha256",
+      "type": "string"
+    },
+    "reported_label_allowed": {
+      "title": "Reported Label Allowed",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "specification_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Specification Version",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "technical_calibration_complete": {
+      "title": "Technical Calibration Complete",
+      "type": "boolean"
+    },
+    "threshold_selection_allowed": {
+      "title": "Threshold Selection Allowed",
+      "type": "boolean"
+    },
+    "valid_score_action": {
+      "pattern": "^abstain$",
+      "title": "Valid Score Action",
+      "type": "string"
+    },
+    "valid_score_reason": {
+      "pattern": "^technical_calibration_incomplete$",
+      "title": "Valid Score Reason",
+      "type": "string"
+    },
+    "valid_score_state": {
+      "pattern": "^uncalibrated$",
+      "title": "Valid Score State",
+      "type": "string"
+    },
+    "validation_access_authorized": {
+      "title": "Validation Access Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "specification_version",
+    "processed_input_qc_receipt_sha256",
+    "expression_bridge_receipt_sha256",
+    "centroid_candidate_sha256",
+    "numerical_conformance_receipt_sha256",
+    "canonical_subtype_order",
+    "correlation_metric",
+    "numerical_tolerance",
+    "technical_calibration_complete",
+    "threshold_selection_allowed",
+    "reported_label_allowed",
+    "outcome_access_authorized",
+    "validation_access_authorized",
+    "valid_score_state",
+    "valid_score_action",
+    "valid_score_reason"
+  ],
+  "title": "UncalibratedScoringSpecification",
+  "type": "object"
+}

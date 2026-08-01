@@ -47,6 +47,10 @@ from nas_core.analysis.retrospective_bridge import RetrospectiveExpressionBridge
 from nas_core.analysis.retrospective_qc import RetrospectiveProcessedInputQCService
 from nas_core.analysis.survival import SurvivalAnalysisService
 from nas_core.analysis.technical_calibration import TechnicalCalibrationPlanService
+from nas_core.analysis.uncalibrated_scoring import (
+    UncalibratedScoringService,
+    load_centroids,
+)
 from nas_core.config import get_settings
 from nas_core.domain.advisory import (
     load_ai_advisory_policy,
@@ -314,6 +318,11 @@ from nas_core.domain.technical_calibration import (
     write_technical_calibration_schema,
     write_technical_calibration_scout_schema,
 )
+from nas_core.domain.uncalibrated_scoring import (
+    load_uncalibrated_scoring_specification,
+    write_uncalibrated_scoring_receipt,
+    write_uncalibrated_scoring_schemas,
+)
 from nas_core.governance.registry import SourceRegistry
 from nas_core.ingestion.calibration_annotation import (
     CalibrationAnnotationAcquisitionService,
@@ -567,15 +576,9 @@ def build_parser() -> argparse.ArgumentParser:
     calibration_feasibility_pilot.add_argument("plan_path", type=Path)
     calibration_feasibility_pilot.add_argument("acquisition_receipt_path", type=Path)
     calibration_feasibility_pilot.add_argument("feasibility_audit_receipt_path", type=Path)
-    calibration_feasibility_pilot.add_argument(
-        "annotation_resolution_receipt_path", type=Path
-    )
-    calibration_feasibility_pilot.add_argument(
-        "annotation_mapping_receipt_path", type=Path
-    )
-    calibration_feasibility_pilot.add_argument(
-        "reliability_specification_path", type=Path
-    )
+    calibration_feasibility_pilot.add_argument("annotation_resolution_receipt_path", type=Path)
+    calibration_feasibility_pilot.add_argument("annotation_mapping_receipt_path", type=Path)
+    calibration_feasibility_pilot.add_argument("reliability_specification_path", type=Path)
     calibration_feasibility_pilot.add_argument("--data-root", type=Path, required=True)
     calibration_feasibility_pilot.add_argument("--code-revision", required=True)
     calibration_feasibility_pilot.add_argument("--output-path", type=Path)
@@ -1082,20 +1085,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_retrospective_bridge.add_argument("plan_path", type=Path)
     reliability_retrospective_bridge.add_argument("centroid_candidate_path", type=Path)
-    reliability_retrospective_bridge.add_argument(
-        "centroid_import_receipt_path", type=Path
-    )
-    reliability_retrospective_bridge.add_argument(
-        "reference_construction_receipt_path", type=Path
-    )
+    reliability_retrospective_bridge.add_argument("centroid_import_receipt_path", type=Path)
+    reliability_retrospective_bridge.add_argument("reference_construction_receipt_path", type=Path)
     reliability_retrospective_bridge.add_argument("matrix_audit_receipt_path", type=Path)
     reliability_retrospective_bridge.add_argument("metadata_receipt_path", type=Path)
-    reliability_retrospective_bridge.add_argument(
-        "numerical_conformance_receipt_path", type=Path
-    )
-    reliability_retrospective_bridge.add_argument(
-        "reliability_specification_path", type=Path
-    )
+    reliability_retrospective_bridge.add_argument("numerical_conformance_receipt_path", type=Path)
+    reliability_retrospective_bridge.add_argument("reliability_specification_path", type=Path)
     reliability_retrospective_bridge.add_argument("--data-root", type=Path, required=True)
     reliability_retrospective_bridge.add_argument("--code-revision", required=True)
     reliability_retrospective_bridge.add_argument("--output-path", type=Path)
@@ -1123,6 +1118,24 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reliability_retrospective_qc_schema.add_argument("specification_path", type=Path)
     reliability_retrospective_qc_schema.add_argument("receipt_path", type=Path)
+    reliability_uncalibrated = reliability_commands.add_parser(
+        "uncalibrated-scoring-freeze",
+        help="Freeze fail-closed uncalibrated scoring and denominator accounting",
+    )
+    reliability_uncalibrated.add_argument("specification_path", type=Path)
+    reliability_uncalibrated.add_argument("processed_input_qc_receipt_path", type=Path)
+    reliability_uncalibrated.add_argument("expression_bridge_receipt_path", type=Path)
+    reliability_uncalibrated.add_argument("centroid_candidate_path", type=Path)
+    reliability_uncalibrated.add_argument("numerical_conformance_receipt_path", type=Path)
+    reliability_uncalibrated.add_argument("--code-revision", required=True)
+    reliability_uncalibrated.add_argument("--output-path", type=Path)
+    reliability_uncalibrated.add_argument("--execute", action="store_true")
+    reliability_uncalibrated_schema = reliability_commands.add_parser(
+        "uncalibrated-scoring-schema",
+        help="Write uncalibrated scoring specification and receipt schemas",
+    )
+    reliability_uncalibrated_schema.add_argument("specification_path", type=Path)
+    reliability_uncalibrated_schema.add_argument("receipt_path", type=Path)
     reliability_calibration_readiness = reliability_commands.add_parser(
         "calibration-readiness",
         help="Reconcile technical-calibration paths and authorize public feasibility only",
@@ -2501,10 +2514,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.output_path,
             reestimation_receipt,
         )
-        print(
-            "Wrote calibration pair-count reestimation: "
-            f"{reestimation_receipt.status}"
-        )
+        print(f"Wrote calibration pair-count reestimation: {reestimation_receipt.status}")
         return 0
 
     if (
@@ -2515,10 +2525,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.plan_path,
             args.receipt_path,
         )
-        print(
-            "Wrote pair-count reestimation schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote pair-count reestimation schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
     if (
@@ -2532,14 +2539,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             plan_path=args.plan_path,
             centroid_candidate_path=args.centroid_candidate_path,
             centroid_import_receipt_path=args.centroid_import_receipt_path,
-            reference_construction_receipt_path=(
-                args.reference_construction_receipt_path
-            ),
+            reference_construction_receipt_path=(args.reference_construction_receipt_path),
             matrix_audit_receipt_path=args.matrix_audit_receipt_path,
             metadata_receipt_path=args.metadata_receipt_path,
-            numerical_conformance_receipt_path=(
-                args.numerical_conformance_receipt_path
-            ),
+            numerical_conformance_receipt_path=(args.numerical_conformance_receipt_path),
             reliability_specification_path=args.reliability_specification_path,
             code_revision=args.code_revision,
         )
@@ -2564,8 +2567,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.receipt_path,
         )
         print(
-            "Wrote retrospective expression-bridge schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
+            f"Wrote retrospective expression-bridge schemas: {args.plan_path}, {args.receipt_path}"
         )
         return 0
 
@@ -2609,6 +2611,38 @@ def main(argv: Sequence[str] | None = None) -> int:
             "Wrote retrospective processed-input QC schemas: "
             f"{args.specification_path}, {args.receipt_path}"
         )
+        return 0
+
+    if args.command == "reliability" and args.reliability_command == "uncalibrated-scoring-freeze":
+        scoring_specification = load_uncalibrated_scoring_specification(args.specification_path)
+        gene_order, centroids = load_centroids(args.centroid_candidate_path)
+        scoring_receipt = UncalibratedScoringService(
+            scoring_specification,
+            centroids=centroids,
+            gene_order=gene_order,
+        ).freeze_receipt(
+            specification_path=args.specification_path,
+            processed_input_qc_receipt_path=args.processed_input_qc_receipt_path,
+            expression_bridge_receipt_path=args.expression_bridge_receipt_path,
+            centroid_candidate_path=args.centroid_candidate_path,
+            numerical_conformance_receipt_path=(args.numerical_conformance_receipt_path),
+            code_revision=args.code_revision,
+        )
+        if not args.execute:
+            print(scoring_receipt.model_dump_json(indent=2))
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        write_uncalibrated_scoring_receipt(args.output_path, scoring_receipt)
+        print(f"Wrote uncalibrated scoring freeze: {scoring_receipt.decision}")
+        return 0
+
+    if args.command == "reliability" and args.reliability_command == "uncalibrated-scoring-schema":
+        write_uncalibrated_scoring_schemas(
+            args.specification_path,
+            args.receipt_path,
+        )
+        print(f"Wrote uncalibrated scoring schemas: {args.specification_path}, {args.receipt_path}")
         return 0
 
     if args.command == "reliability" and args.reliability_command == "calibration-readiness":
@@ -2919,8 +2953,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         feasibility_plan = load_calibration_feasibility_acquisition_plan(args.plan_path)
         if not args.execute:
             expected_bytes = sum(
-                item.expected_content_length_bytes
-                for item in feasibility_plan.artifacts
+                item.expected_content_length_bytes for item in feasibility_plan.artifacts
             )
             print(
                 "Calibration-feasibility plan is valid: "
@@ -2955,30 +2988,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-feasibility-schema"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-feasibility-schema":
         write_calibration_feasibility_acquisition_schemas(
             args.plan_path,
             args.receipt_path,
         )
-        print(
-            "Wrote calibration-feasibility schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote calibration-feasibility schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-feasibility-audit"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-feasibility-audit":
         feasibility_audit_plan = load_calibration_feasibility_audit_plan(args.plan_path)
         if not args.execute:
-            print(
-                "Calibration-feasibility audit plan is valid; "
-                "source-isolated dry run only"
-            )
+            print("Calibration-feasibility audit plan is valid; source-isolated dry run only")
             return 0
         if args.output_path is None:
             raise ValueError("--output-path is required with --execute")
@@ -2986,9 +3007,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             store=FileSystemObjectStore(args.data_root)
         ).execute(
             feasibility_audit_plan,
-            load_calibration_feasibility_acquisition_receipt(
-                args.acquisition_receipt_path
-            ),
+            load_calibration_feasibility_acquisition_receipt(args.acquisition_receipt_path),
             load_reliability_specification(args.reliability_specification_path),
             plan_path=args.plan_path,
             acquisition_receipt_path=args.acquisition_receipt_path,
@@ -2999,30 +3018,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.output_path,
             feasibility_audit_receipt,
         )
-        print(
-            "Wrote calibration-feasibility audit: "
-            f"{feasibility_audit_receipt.decision}"
-        )
+        print(f"Wrote calibration-feasibility audit: {feasibility_audit_receipt.decision}")
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-feasibility-audit-schema"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-feasibility-audit-schema":
         write_calibration_feasibility_audit_schemas(
             args.plan_path,
             args.receipt_path,
         )
-        print(
-            "Wrote calibration-feasibility audit schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote calibration-feasibility audit schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-feasibility-pilot"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-feasibility-pilot":
         pilot_plan = load_calibration_feasibility_pilot_plan(args.plan_path)
         if not args.execute:
             print("Calibration-feasibility pilot plan is valid; dry run")
@@ -3033,16 +3040,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             store=FileSystemObjectStore(args.data_root)
         ).execute(
             pilot_plan,
-            load_calibration_feasibility_acquisition_receipt(
-                args.acquisition_receipt_path
-            ),
+            load_calibration_feasibility_acquisition_receipt(args.acquisition_receipt_path),
             load_reliability_specification(args.reliability_specification_path),
             plan_path=args.plan_path,
             acquisition_receipt_path=args.acquisition_receipt_path,
             feasibility_audit_receipt_path=args.feasibility_audit_receipt_path,
-            annotation_resolution_receipt_path=(
-                args.annotation_resolution_receipt_path
-            ),
+            annotation_resolution_receipt_path=(args.annotation_resolution_receipt_path),
             annotation_mapping_receipt_path=args.annotation_mapping_receipt_path,
             reliability_specification_path=args.reliability_specification_path,
             code_revision=args.code_revision,
@@ -3051,36 +3054,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.output_path,
             pilot_receipt,
         )
-        print(
-            "Wrote source-isolated calibration-feasibility pilot: "
-            f"{pilot_receipt.decision}"
-        )
+        print(f"Wrote source-isolated calibration-feasibility pilot: {pilot_receipt.decision}")
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-feasibility-pilot-schema"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-feasibility-pilot-schema":
         write_calibration_feasibility_pilot_schemas(
             args.plan_path,
             args.receipt_path,
         )
-        print(
-            "Wrote calibration-feasibility pilot schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote calibration-feasibility pilot schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-annotation-resolve"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-annotation-resolve":
         annotation_plan = load_calibration_annotation_resolution_plan(args.plan_path)
         if not args.execute:
-            print(
-                "Calibration annotation-resolution plan is valid; "
-                "metadata-only dry run"
-            )
+            print("Calibration annotation-resolution plan is valid; metadata-only dry run")
             return 0
         if args.output_path is None:
             raise ValueError("--output-path is required with --execute")
@@ -3102,10 +3090,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-annotation-resolve-schema"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-annotation-resolve-schema":
         write_calibration_annotation_resolution_schemas(
             args.plan_path,
             args.receipt_path,
@@ -3116,13 +3101,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-annotation-acquire"
-    ):
-        annotation_acquisition_plan = load_calibration_annotation_acquisition_plan(
-            args.plan_path
-        )
+    if args.command == "ingest" and args.ingest_command == "calibration-annotation-acquire":
+        annotation_acquisition_plan = load_calibration_annotation_acquisition_plan(args.plan_path)
         if not args.execute:
             print(
                 "Calibration annotation-acquisition plan is valid: "
@@ -3149,30 +3129,18 @@ def main(argv: Sequence[str] | None = None) -> int:
             args.output_path,
             annotation_acquisition_receipt,
         )
-        print(
-            "Stored calibration annotation: "
-            f"sha256={annotation_acquisition_receipt.sha256}"
-        )
+        print(f"Stored calibration annotation: sha256={annotation_acquisition_receipt.sha256}")
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-annotation-acquire-schema"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-annotation-acquire-schema":
         write_calibration_annotation_acquisition_schemas(
             args.plan_path,
             args.receipt_path,
         )
-        print(
-            "Wrote annotation-acquisition schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote annotation-acquisition schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-annotation-map"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-annotation-map":
         mapping_plan = load_calibration_annotation_mapping_plan(args.plan_path)
         if not args.execute:
             print("Calibration annotation-mapping plan is valid; dry run")
@@ -3183,12 +3151,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             store=FileSystemObjectStore(args.data_root)
         ).execute(
             mapping_plan,
-            load_calibration_annotation_acquisition_receipt(
-                args.annotation_receipt_path
-            ),
-            load_calibration_feasibility_acquisition_receipt(
-                args.feasibility_receipt_path
-            ),
+            load_calibration_annotation_acquisition_receipt(args.annotation_receipt_path),
+            load_calibration_feasibility_acquisition_receipt(args.feasibility_receipt_path),
             load_reliability_specification(args.reliability_specification_path),
             plan_path=args.plan_path,
             annotation_receipt_path=args.annotation_receipt_path,
@@ -3208,18 +3172,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         return 0
 
-    if (
-        args.command == "ingest"
-        and args.ingest_command == "calibration-annotation-map-schema"
-    ):
+    if args.command == "ingest" and args.ingest_command == "calibration-annotation-map-schema":
         write_calibration_annotation_mapping_schemas(
             args.plan_path,
             args.receipt_path,
         )
-        print(
-            "Wrote annotation-mapping schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote annotation-mapping schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
     if args.command == "ingest" and args.ingest_command == "matrix-audit":
@@ -3297,10 +3255,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.command == "ingest" and args.ingest_command == "reference-metadata-schema":
         write_reference_metadata_schemas(args.plan_path, args.receipt_path)
-        print(
-            "Wrote GSE81538 reference-metadata schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
-        )
+        print(f"Wrote GSE81538 reference-metadata schemas: {args.plan_path}, {args.receipt_path}")
         return 0
 
     if args.command == "ingest" and args.ingest_command == "reference-construct":
@@ -3341,8 +3296,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "ingest" and args.ingest_command == "reference-construct-schema":
         write_reference_construction_schemas(args.plan_path, args.receipt_path)
         print(
-            "Wrote GSE81538 reference-construction schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
+            f"Wrote GSE81538 reference-construction schemas: {args.plan_path}, {args.receipt_path}"
         )
         return 0
 
@@ -3386,8 +3340,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "ingest" and args.ingest_command == "reference-sensitivity-schema":
         write_reference_sensitivity_schemas(args.plan_path, args.receipt_path)
         print(
-            "Wrote GSE81538 reference-sensitivity schemas: "
-            f"{args.plan_path}, {args.receipt_path}"
+            f"Wrote GSE81538 reference-sensitivity schemas: {args.plan_path}, {args.receipt_path}"
         )
         return 0
 
