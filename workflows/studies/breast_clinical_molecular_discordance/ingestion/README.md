@@ -142,4 +142,11 @@ acquisition contract distinguishes `sample_metadata` from a
 claiming that molecular bytes were stored. The exact HTTPS path is allowlisted,
 the object write is immutable, and no field is parsed during acquisition.
 
+Frozen revision `8e105f1` acquired the object. Receipt
+[`gse81538_family_soft_acquisition_receipt_v1.0.0.yaml`](gse81538_family_soft_acquisition_receipt_v1.0.0.yaml)
+records exactly 51,036 bytes and independently reproduced SHA-256
+`8d7bab685bb6ed135f64da10273e9b159e761e813a100a057829f5159957332c`.
+See
+[`GSE81538_FAMILY_SOFT_ACQUISITION_REPORT_v1.0.0.md`](GSE81538_FAMILY_SOFT_ACQUISITION_REPORT_v1.0.0.md).
+
 Completion gate: Governed immutable dataset snapshot is verified.

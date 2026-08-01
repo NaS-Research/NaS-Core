@@ -49,6 +49,13 @@ tests prove that a metadata receipt cannot claim molecular bytes and that the
 existing matrix path remains compatible. The plan passes dry-run validation;
 live acquisition will execute only from the frozen implementation revision.
 
+Frozen revision `8e105f1` acquired the exact 51,036-byte object. Independent
+verification reproduced SHA-256 `8d7bab68…332c`; receipt SHA-256 is
+`920a40f8…9f98`. No field, molecular value, or outcome was parsed. A bounded
+inspection found 82 ER-consensus code-0, 8 code-1, 11 code-2, and 304 code-3
+records. Interpreting unanimous 0/3 as eligible strata and excluding discordant
+1/2 is now an explicit scientific decision rather than an implementation default.
+
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
 unique non-seed records. Reconciliation against the direct search and all three
@@ -625,13 +632,13 @@ Current gate state:
 
 ## Recently completed
 
-### 2026-08-01 — Separate immutable metadata acquisition implemented
+### 2026-08-01 — Separate immutable metadata artifact acquired
 
-Generalized the allowlisted public-artifact contract with typed matrix and sample-
-metadata kinds while preserving fail-closed provenance and atomic non-overwrite.
-The official 51,036-byte GSE81538 family SOFT path now has its own frozen plan and
-object key. Synthetic tests verify metadata bytes are never mislabeled as
-molecular data; dry-run validation passes without source contact.
+Generalized the acquisition contract with typed matrix and sample-metadata kinds,
+then froze revision `8e105f1` before source contact. The official 51,036-byte
+family SOFT object is stored outside Git with independently reproduced SHA-256
+`8d7bab68…332c`. Its receipt correctly records metadata rather than molecular
+bytes and confirms zero parsing, outcome access, or classifier execution.
 
 ### 2026-08-01 — GSE81538 matrix integrity and input scale verified
 

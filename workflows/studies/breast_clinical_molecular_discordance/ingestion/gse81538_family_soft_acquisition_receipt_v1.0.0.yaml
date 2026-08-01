@@ -1,0 +1,22 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+source_id: ncbi-geo-gse81538
+source_accession: GSE81538
+artifact_kind: sample_metadata
+code_revision: 8e105f1
+acquired_at: '2026-08-01T16:09:25.919951Z'
+plan_sha256: b2485481903e7852bcad2743105db6188d718e5ca4959105dfed9649d76ba43a
+official_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE81nnn/GSE81538/soft/GSE81538_family.soft.gz
+response_content_type: application/x-gzip
+response_last_modified: Sat, 13 Jun 2026 05:24:56 GMT
+content_length_bytes: 51036
+sha256: 8d7bab685bb6ed135f64da10273e9b159e761e813a100a057829f5159957332c
+object_key: raw/nas-brca-002/ncbi-geo-gse81538/gse81538_family.soft.gz
+immutable_object_verified: true
+source_bytes_stored: true
+molecular_source_bytes_stored: false
+molecular_values_parsed: false
+outcome_values_accessed: false
+classifier_executed: false
+external_publication_authorized: false
