@@ -1,0 +1,51 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+source_accession: GSE81538
+code_revision: 5c1eba8b368605f075c962452807005b807ee331
+executed_at: '2026-08-01T17:13:01.986533Z'
+plan_sha256: df02c092bb9467ae7d6e114157d98379d76ccdb2053280f5a9ec34bcc771879a
+matrix_audit_receipt_sha256: 98bfb62ad4ba1247feb0ba6c1487341517bb59049c2ad22b4e51fe2ed2773b4c
+reference_metadata_receipt_sha256: b8b43884ed751b9ac78ee3a73dbea9c20cb8d20f5cd6be7c602bc9f261666423
+reference_construction_receipt_sha256: c71ad6af37d9eeecd6b567e0abba959233a460a945ecf9d89ca25be408457f3c
+reference_protocol_sha256: 8fa7b2343f4a9e1b880731633568130cb7f4d4f0eab1af5b92cf7a0e1204e605
+centroid_candidate_sha256: 51a1b186a32ba02fa61a001ee7dc7e21876b9b09f78cb7eb8f0fdd068b4f8c2b
+all_object_checksums_verified: true
+primary_sample_count: 100
+primary_gene_count: 50
+parsed_measurement_count: 5000
+trimmed_mean_fraction_each_tail: 0.2
+trimmed_observations_per_gene: 60
+vector_pearson_correlation: 0.9934376980339595
+vector_spearman_correlation: 0.9911644657863145
+vector_mean_absolute_difference: 0.13405915250992406
+vector_maximum_absolute_difference: 0.6755214137938153
+vector_root_mean_square_difference: 0.20164438454530195
+centered_profile_correlation_minimum: 0.9388235294117646
+centered_profile_correlation_median: 0.9879951980792316
+centered_profile_correlation_mean: 0.9854108043217287
+next_er_negative_available: 32
+next_er_positive_available: 254
+alternative_target_per_stratum: 50
+exact_alternative_balanced_reference_feasible: false
+exact_alternative_reference_constructed: false
+sensitivity_object_key: derived/nas-brca-002/reference-development/gse81538_reference_sensitivity_v1.0.0.json
+sensitivity_sha256: cca6b8672a3ea7b19821a3fa31014203e011b3303c31a7ac37b62ffd46cad53b
+sensitivity_bytes: 2647
+sensitivity_immutable_verified: true
+decision: pass_with_limitation
+limitations:
+- Only 32 unselected ER-negative records remain, so the exact next-50-per-stratum
+  alternative is not estimable.
+- Centered-profile correlations do not execute or validate the PAM50 classifier.
+- The diagnostics remain conditional on the founder-approved ER-code inference.
+- No outcome, validation, threshold, or technical-error evidence was used.
+participant_identifiers_retained_in_git: false
+reference_values_retained_in_git: false
+molecular_values_parsed: true
+outcome_values_accessed: false
+validation_data_accessed: false
+classifier_executed: false
+generative_ai_received_participant_data: false
+threshold_tuning_performed: false
+reference_locked: false

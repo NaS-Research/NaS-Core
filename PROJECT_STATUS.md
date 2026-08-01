@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Diagnose the fixed GSE81538 reference without outcomes
+### Resolve the independent technical-error calibration dependency
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,12 +17,13 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: execute the prespecified outcome-blind sensitivity panel
-against the frozen reference: use alternative eligible deterministic samples
-where available, compare the gene-wise median with a 20% trimmed mean, and
-quantify reference-vector and centered-score stability. Freeze value-bearing
-artifacts outside Git and retain only aggregate diagnostics and checksums in the
-repository. No GSE96058, outcome, threshold tuning, or clinical interpretation.
+Definition of done: select no source by assumption. Reconcile the existing
+prospective calibration design, source requirements, lineage evidence, and
+no-contact boundary into an executable internal readiness gate. Identify which
+technical-error estimands can be developed from approved public/open data and
+which require a separately authorized prospective experiment. No external
+contact, spending, specimen acquisition, controlled data, threshold tuning,
+GSE96058 validation access, or clinical interpretation.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
@@ -75,13 +76,16 @@ materialized the 50-gene median vector outside Git. Its independently reproduced
 SHA-256 is `72bd804f…f40e9`; receipt SHA-256 is `c71ad6af…57f3c`. No outcome,
 validation, classifier, AI, or method-lock boundary was crossed.
 
-The outcome-blind sensitivity path is now implemented. It reproduces the primary
+The outcome-blind sensitivity path was implemented. It reproduces the primary
 median exactly, computes a prespecified 20%-per-tail trimmed-mean vector, measures
 vector agreement and centered-profile rank stability, and audits whether the
 exact next-50-per-stratum alternative is feasible. It fails closed rather than
 substituting a smaller alternative cohort. Value-bearing diagnostics remain
-external; synthetic tests and the full 508-test gate pass. Live execution awaits
-the frozen implementation revision.
+external; synthetic tests and the full 508-test gate pass. Frozen revision
+`5c1eba8` then produced Pearson `0.993438` and Spearman `0.991164` agreement.
+Centered-profile rank correlations had mean `0.985411`, median `0.987995`, and
+minimum `0.938824`. Only 32 unselected ER-negative records remain, so the exact
+alternative 50+50 reference is not estimable and no post hoc substitute was used.
 
 Cumulative pass 4 preserved all 78 founder-included identities. Official Europe
 PMC retrieval returned 2,617 backward and 8,873 forward links, producing 8,092
@@ -659,6 +663,16 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-08-01 — Outcome-blind reference sensitivities completed
+
+Frozen revision `5c1eba8` reproduced the primary median and compared it with the
+prespecified 20%-trimmed mean. Vector agreement was high (Pearson `0.993438`,
+Spearman `0.991164`), while maximum gene-level difference was `0.675521` log2
+units and minimum centered-profile rank correlation was `0.938824`. The exact
+alternative 50+50 subset is non-estimable with only 32 remaining ER-negative
+records; no post hoc cohort, outcome, classifier, validation, AI, or threshold
+was used.
+
 ### 2026-08-01 — Candidate 50-gene fixed reference constructed
 
 Frozen revision `1b7b2f5` verified the matrix and selected-manifest checksums,
@@ -692,14 +706,6 @@ then froze revision `8e105f1` before source contact. The official 51,036-byte
 family SOFT object is stored outside Git with independently reproduced SHA-256
 `8d7bab68…332c`. Its receipt correctly records metadata rather than molecular
 bytes and confirms zero parsing, outcome access, or classifier execution.
-
-### 2026-08-01 — GSE81538 matrix integrity and input scale verified
-
-Frozen revision `cf8d7f6` independently reproduced the source checksum and parsed
-all 7,614,810 values. The exact 18,802-by-405 structure, unique genes, finite
-measurements, declared `log2(FPKM + 0.1)` floor, and all 50 PAM50 mappings pass.
-No participant row was retained, and no outcome or classifier result was accessed.
-Receipt SHA-256 is `98bfb62a…b4c`; the full gate passes 493 tests.
 
 ## Historical implementation log
 

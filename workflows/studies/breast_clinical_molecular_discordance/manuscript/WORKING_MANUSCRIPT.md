@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.59.0-working`
+Manuscript version: `0.60.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -681,6 +681,19 @@ reliability, validation, outcome, or clinical performance.
 [gse81538_reference_construction_receipt_v1.0.0.yaml;
 GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md]
 
+Outcome-blind sensitivity reproduced the primary median exactly and compared it
+with a 20%-per-tail trimmed mean. The 50-gene vectors had Pearson correlation
+0.993438 and Spearman correlation 0.991164; mean absolute, maximum absolute, and
+root mean square differences were 0.134059, 0.675521, and 0.201644 log2 units.
+Across 100 profiles, the rank correlation between median-centered and trimmed-
+mean-centered vectors had mean 0.985411, median 0.987995, and minimum 0.938824.
+Only 32 unselected ER-negative records remained versus 254 ER-positive records,
+so the prespecified next-50-per-stratum sensitivity was non-estimable and no post
+hoc alternative was substituted. These are reference diagnostics, not classifier
+scores or validation results.
+[gse81538_reference_sensitivity_receipt_v1.0.0.yaml;
+GSE81538_REFERENCE_SENSITIVITY_REPORT_v1.0.0.md]
+
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
 three declared historical aliases, fails closed on incomplete, ambiguous, or
@@ -1313,7 +1326,15 @@ The candidate fixed reference was constructed from the frozen subset. All 5,000
 selected measurements were finite, no additional transform was applied, and the
 50-gene value-bearing artifact was stored outside Git with independently verified
 SHA-256. This is a method-artifact construction result, not a biological finding;
-outcome-blind reference sensitivities remain pending.
+classifier-level and technical-error calibration remain pending.
+
+The outcome-blind sensitivity panel is now complete. Median and trimmed-mean
+references were strongly correlated, but the maximum per-gene difference was
+0.675521 log2 units and the minimum centered-profile rank correlation was
+0.938824. The planned alternative 50+50 subset could not be formed because only
+32 additional ER-negative records were eligible. No classifier, outcome,
+validation cohort, or threshold was used, so these results do not establish
+subtype-call stability or analytical validity.
 
 ## Discussion
 
@@ -1469,6 +1490,7 @@ reviews are complete.
 | Methods and results—GSE81538 matrix integrity | Checksum, dimensions, numeric completeness, declared scale, and PAM50 coverage | `ingestion/gse81538_matrix_audit_receipt_v1.0.0.yaml`; `ingestion/GSE81538_MATRIX_AUDIT_REPORT_v1.0.0.md` | passed; no outcomes or classifier execution |
 | Methods—GSE81538 reference selection | Founder-approved input scale, ER strata, field-isolated linkage, and external participant manifest | `reviews/FOUNDER_REFERENCE_INPUT_DECISION_v1.1.0.yaml`; `protocol/reference_development_protocol_v1.1.0.yaml`; `ingestion/gse81538_reference_metadata_receipt_v1.0.0.yaml` | 50 code-0 plus 50 code-3 records frozen externally; no expression, outcome, or classifier access |
 | Methods and results—GSE81538 fixed reference | Outcome-blind 50-gene median construction from the frozen 100-record manifest | `analysis/gse81538_reference_construction_receipt_v1.0.0.yaml`; `analysis/GSE81538_REFERENCE_CONSTRUCTION_REPORT_v1.0.0.md` | passed; value-bearing artifact external; no outcome, validation, classifier, or lock |
+| Methods and results—reference sensitivities | Median versus 20%-trimmed-mean vector and centered-profile stability; alternative-subset feasibility | `analysis/gse81538_reference_sensitivity_receipt_v1.0.0.yaml`; `analysis/GSE81538_REFERENCE_SENSITIVITY_REPORT_v1.0.0.md` | high but non-identical agreement; exact alternative 50+50 non-estimable; no classifier or outcomes |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1526,6 +1548,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.60.0-working | 2026-08-01 | Completed outcome-blind reference sensitivities: median/trimmed vectors were highly correlated but non-identical, centered-profile stability remained high with a nontrivial minimum, and the exact alternative 50+50 subset was non-estimable without post hoc substitution. |
 | 0.59.0-working | 2026-08-01 | Constructed the candidate 50-gene fixed median reference from exactly 5,000 finite prespecified values on unchanged `log2(FPKM + 0.1)` scale; the value-bearing artifact remains external and no outcome, validation, classifier, or clinical result was produced. |
 | 0.58.0-working | 2026-08-01 | Recorded founder-approved reference-input decisions, amended the verified scale to unchanged `log2(FPKM + 0.1)`, and froze an external 50-code-0 plus 50-code-3 participant manifest; no selected expression, outcome, validation, or classifier values were accessed. |
 | 0.57.0-working | 2026-07-29 | Registered GSE81538 for reference development only and froze an outcome-blind 50 ER-positive plus 50 ER-negative candidate reference protocol; no molecular values or outcomes were accessed and no transformation or reference was locked. |

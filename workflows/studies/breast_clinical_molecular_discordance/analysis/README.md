@@ -68,3 +68,12 @@ profile rank stability. It separately audits whether 50 new records remain in
 each ER stratum; an underfilled stratum is reported as non-estimable and is not
 silently replaced by a smaller cohort. No centroid classifier, threshold,
 outcome, or validation data is used.
+
+Frozen revision `5c1eba8` executed the panel. Receipt
+[`gse81538_reference_sensitivity_receipt_v1.0.0.yaml`](gse81538_reference_sensitivity_receipt_v1.0.0.yaml)
+has SHA-256 `be2322e4…613ff`. Median and 20%-trimmed-mean vectors show Pearson
+`0.993438` and Spearman `0.991164`; centered-profile rank correlations have mean
+`0.985411`, median `0.987995`, and minimum `0.938824`. The exact alternative
+50+50 sensitivity is non-estimable because only 32 unselected ER-negative
+records remain; no post hoc substitute was used. See
+[`GSE81538_REFERENCE_SENSITIVITY_REPORT_v1.0.0.md`](GSE81538_REFERENCE_SENSITIVITY_REPORT_v1.0.0.md).
