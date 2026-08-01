@@ -6,6 +6,9 @@ from pathlib import Path
 
 from nas_core.ai.gateway import OpenAIScreeningGateway
 from nas_core.ai.screening import AIAdvisoryScreeningService
+from nas_core.analysis.calibration_annotation_mapping import (
+    CalibrationAnnotationMappingService,
+)
 from nas_core.analysis.calibration_feasibility_audit import (
     CalibrationFeasibilityAuditService,
 )
@@ -63,9 +66,13 @@ from nas_core.domain.appraisal import (
 )
 from nas_core.domain.calibration_annotation import (
     load_calibration_annotation_acquisition_plan,
+    load_calibration_annotation_acquisition_receipt,
+    load_calibration_annotation_mapping_plan,
     load_calibration_annotation_resolution_plan,
     write_calibration_annotation_acquisition_receipt,
     write_calibration_annotation_acquisition_schemas,
+    write_calibration_annotation_mapping_receipt,
+    write_calibration_annotation_mapping_schemas,
     write_calibration_annotation_resolution_receipt,
     write_calibration_annotation_resolution_schemas,
 )
@@ -558,6 +565,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     annotation_acquisition_schema.add_argument("plan_path", type=Path)
     annotation_acquisition_schema.add_argument("receipt_path", type=Path)
+    annotation_mapping = ingest_commands.add_parser(
+        "calibration-annotation-map",
+        help="Map GSE130397 Ensembl-84 features to the historical PAM50 panel",
+    )
+    annotation_mapping.add_argument("plan_path", type=Path)
+    annotation_mapping.add_argument("annotation_receipt_path", type=Path)
+    annotation_mapping.add_argument("feasibility_receipt_path", type=Path)
+    annotation_mapping.add_argument("feasibility_audit_receipt_path", type=Path)
+    annotation_mapping.add_argument("reliability_specification_path", type=Path)
+    annotation_mapping.add_argument("--data-root", type=Path, required=True)
+    annotation_mapping.add_argument("--code-revision", required=True)
+    annotation_mapping.add_argument("--output-path", type=Path)
+    annotation_mapping.add_argument("--execute", action="store_true")
+    annotation_mapping_schema = ingest_commands.add_parser(
+        "calibration-annotation-map-schema",
+        help="Write annotation-mapping JSON Schemas",
+    )
+    annotation_mapping_schema.add_argument("plan_path", type=Path)
+    annotation_mapping_schema.add_argument("receipt_path", type=Path)
     matrix_audit = ingest_commands.add_parser(
         "matrix-audit",
         help="Audit the governed GSE81538 processed matrix without outcomes",
@@ -2831,6 +2857,59 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         print(
             "Wrote annotation-acquisition schemas: "
+            f"{args.plan_path}, {args.receipt_path}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-annotation-map"
+    ):
+        mapping_plan = load_calibration_annotation_mapping_plan(args.plan_path)
+        if not args.execute:
+            print("Calibration annotation-mapping plan is valid; dry run")
+            return 0
+        if args.output_path is None:
+            raise ValueError("--output-path is required with --execute")
+        mapping_receipt = CalibrationAnnotationMappingService(
+            store=FileSystemObjectStore(args.data_root)
+        ).execute(
+            mapping_plan,
+            load_calibration_annotation_acquisition_receipt(
+                args.annotation_receipt_path
+            ),
+            load_calibration_feasibility_acquisition_receipt(
+                args.feasibility_receipt_path
+            ),
+            load_reliability_specification(args.reliability_specification_path),
+            plan_path=args.plan_path,
+            annotation_receipt_path=args.annotation_receipt_path,
+            feasibility_receipt_path=args.feasibility_receipt_path,
+            feasibility_audit_receipt_path=args.feasibility_audit_receipt_path,
+            reliability_specification_path=args.reliability_specification_path,
+            code_revision=args.code_revision,
+        )
+        write_calibration_annotation_mapping_receipt(
+            args.output_path,
+            mapping_receipt,
+        )
+        print(
+            "Mapped calibration annotation: "
+            f"PAM50={mapping_receipt.pam50_present_in_source_count}/50; "
+            f"complete={mapping_receipt.mapping_complete}"
+        )
+        return 0
+
+    if (
+        args.command == "ingest"
+        and args.ingest_command == "calibration-annotation-map-schema"
+    ):
+        write_calibration_annotation_mapping_schemas(
+            args.plan_path,
+            args.receipt_path,
+        )
+        print(
+            "Wrote annotation-mapping schemas: "
             f"{args.plan_path}, {args.receipt_path}"
         )
         return 0

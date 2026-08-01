@@ -177,6 +177,100 @@ class CalibrationAnnotationAcquisitionReceipt(CalibrationAnnotationModel):
         return self
 
 
+class CalibrationAnnotationMappingPlan(CalibrationAnnotationModel):
+    schema_version: str = "1.0.0"
+    plan_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str = "NAS-BRCA-002"
+    annotation_acquisition_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    feasibility_acquisition_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    feasibility_audit_receipt_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    reliability_specification_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    mapping_object_key: str = Field(pattern=r"^derived/nas-brca-002/")
+    retain_participant_identifiers: bool
+    retain_molecular_values: bool
+    outcomes_requested: bool
+    classifier_execution_authorized: bool
+    threshold_estimation_authorized: bool
+
+    @model_validator(mode="after")
+    def enforce_mapping_boundary(self) -> CalibrationAnnotationMappingPlan:
+        if any(
+            (
+                self.retain_participant_identifiers,
+                self.retain_molecular_values,
+                self.outcomes_requested,
+                self.classifier_execution_authorized,
+                self.threshold_estimation_authorized,
+            )
+        ):
+            raise ValueError("annotation mapping cannot access downstream analysis")
+        return self
+
+
+class CalibrationAnnotationMappingReceipt(CalibrationAnnotationModel):
+    schema_version: str = "1.0.0"
+    receipt_version: str = Field(pattern=r"^[0-9]+\.[0-9]+\.[0-9]+$")
+    study_id: str
+    code_revision: str = Field(pattern=r"^[a-f0-9]{7,40}$")
+    plan_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    annotation_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    annotation_gene_row_count: int = Field(gt=0)
+    unique_annotation_gene_id_count: int = Field(gt=0)
+    conflicting_annotation_gene_id_count: int = Field(ge=0)
+    source_feature_count: int = Field(gt=0)
+    mapped_source_feature_count: int = Field(ge=0)
+    unmapped_source_feature_count: int = Field(ge=0)
+    pam50_required_gene_count: int = Field(ge=50, le=50)
+    pam50_uniquely_mapped_gene_count: int = Field(ge=0, le=50)
+    pam50_present_in_source_count: int = Field(ge=0, le=50)
+    pam50_missing_from_source_count: int = Field(ge=0, le=50)
+    mapping_object_key: str
+    mapping_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    mapping_object_verified: bool
+    mapping_complete: bool
+    participant_identifiers_retained: bool
+    molecular_values_parsed: bool
+    outcomes_accessed: bool
+    classifier_executed: bool
+    thresholds_estimated: bool
+    export_authorized: bool
+    publication_authorized: bool
+
+    @model_validator(mode="after")
+    def validate_mapping_receipt(self) -> CalibrationAnnotationMappingReceipt:
+        if (
+            self.mapped_source_feature_count + self.unmapped_source_feature_count
+            != self.source_feature_count
+        ):
+            raise ValueError("source feature mapping counts must reconcile")
+        if (
+            self.pam50_present_in_source_count
+            + self.pam50_missing_from_source_count
+            != 50
+        ):
+            raise ValueError("PAM50 source coverage must reconcile")
+        if self.mapping_complete != (
+            self.pam50_uniquely_mapped_gene_count == 50
+            and self.pam50_present_in_source_count == 50
+            and self.conflicting_annotation_gene_id_count == 0
+            and self.mapping_object_verified
+        ):
+            raise ValueError("mapping completion flag does not reconcile")
+        if any(
+            (
+                self.participant_identifiers_retained,
+                self.molecular_values_parsed,
+                self.outcomes_accessed,
+                self.classifier_executed,
+                self.thresholds_estimated,
+                self.export_authorized,
+                self.publication_authorized,
+            )
+        ):
+            raise ValueError("mapping receipt cannot claim downstream use or release")
+        return self
+
+
 def load_calibration_annotation_resolution_plan(
     path: Path,
 ) -> CalibrationAnnotationResolutionPlan:
@@ -189,6 +283,22 @@ def load_calibration_annotation_acquisition_plan(
     path: Path,
 ) -> CalibrationAnnotationAcquisitionPlan:
     return CalibrationAnnotationAcquisitionPlan.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_calibration_annotation_acquisition_receipt(
+    path: Path,
+) -> CalibrationAnnotationAcquisitionReceipt:
+    return CalibrationAnnotationAcquisitionReceipt.model_validate(
+        yaml.safe_load(path.read_text(encoding="utf-8"))
+    )
+
+
+def load_calibration_annotation_mapping_plan(
+    path: Path,
+) -> CalibrationAnnotationMappingPlan:
+    return CalibrationAnnotationMappingPlan.model_validate(
         yaml.safe_load(path.read_text(encoding="utf-8"))
     )
 
@@ -219,6 +329,19 @@ def write_calibration_annotation_acquisition_receipt(
     )
 
 
+def write_calibration_annotation_mapping_receipt(
+    path: Path,
+    receipt: CalibrationAnnotationMappingReceipt,
+) -> None:
+    if path.exists():
+        raise FileExistsError("annotation-mapping receipt path must be new")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        yaml.safe_dump(receipt.model_dump(mode="json"), sort_keys=False),
+        encoding="utf-8",
+    )
+
+
 def write_calibration_annotation_resolution_schemas(
     plan_path: Path,
     receipt_path: Path,
@@ -241,6 +364,21 @@ def write_calibration_annotation_acquisition_schemas(
     for path, model in (
         (plan_path, CalibrationAnnotationAcquisitionPlan),
         (receipt_path, CalibrationAnnotationAcquisitionReceipt),
+    ):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(model.model_json_schema(), indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+
+
+def write_calibration_annotation_mapping_schemas(
+    plan_path: Path,
+    receipt_path: Path,
+) -> None:
+    for path, model in (
+        (plan_path, CalibrationAnnotationMappingPlan),
+        (receipt_path, CalibrationAnnotationMappingReceipt),
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(

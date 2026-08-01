@@ -73,6 +73,14 @@ source row. The internal-only Ensembl source registry and immutable 45,686,368-
 byte GTF acquisition contract are implemented; export and publication remain
 false. Live acquisition will run only from the frozen downloader revision.
 
+Frozen revision `ca7d379` acquired and independently verified the exact
+45,686,368-byte Ensembl release-84 GTF outside Git; source SHA-256 is
+`a85352c0…99cf` and receipt SHA-256 is `0de65e5c…21a6`. No annotation row or
+molecular value was parsed. The deterministic mapping implementation now binds
+that receipt, the feasibility inputs, and the historical PAM50 specification;
+it will store only a 50-gene public annotation map externally and aggregate
+coverage in Git. The full 520-test gate passes.
+
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
 new data-root marker, all required directories, roughly 6.0 TB available, and

@@ -1,0 +1,13 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+annotation_acquisition_receipt_sha256: 0de65e5c6352b34de9f2b3216618d9e333d42d5ed816cddc1c35aba85af521a6
+feasibility_acquisition_receipt_sha256: abbd09e85bbf32329bef8992d9844786db69b1d288681386a763fab98855563d
+feasibility_audit_receipt_sha256: 0d642c61ffe434bbd9f03d323f5bc530d4e0c6dbec72e42224dc15d370c378ac
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+mapping_object_key: derived/nas-brca-002/calibration-feasibility/ensembl84_pam50_map_v1.0.0.json
+retain_participant_identifiers: false
+retain_molecular_values: false
+outcomes_requested: false
+classifier_execution_authorized: false
+threshold_estimation_authorized: false

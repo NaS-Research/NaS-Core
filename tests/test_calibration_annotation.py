@@ -9,9 +9,14 @@ from pathlib import Path
 
 import yaml
 
+from nas_core.analysis.calibration_annotation_mapping import (
+    CalibrationAnnotationMappingService,
+)
 from nas_core.domain.calibration_annotation import (
     CalibrationAnnotationAcquisitionPlan,
     CalibrationAnnotationAcquisitionReceipt,
+    CalibrationAnnotationMappingPlan,
+    CalibrationAnnotationMappingReceipt,
     CalibrationAnnotationResolutionPlan,
     CalibrationAnnotationResolutionReceipt,
 )
@@ -26,6 +31,10 @@ RECEIPT_SCHEMA = ROOT / "workflows/calibration_annotation_resolution_receipt.sch
 ACQUISITION_PLAN_SCHEMA = ROOT / "workflows/calibration_annotation_acquisition_plan.schema.json"
 ACQUISITION_RECEIPT_SCHEMA = (
     ROOT / "workflows/calibration_annotation_acquisition_receipt.schema.json"
+)
+MAPPING_PLAN_SCHEMA = ROOT / "workflows/calibration_annotation_mapping_plan.schema.json"
+MAPPING_RECEIPT_SCHEMA = (
+    ROOT / "workflows/calibration_annotation_mapping_receipt.schema.json"
 )
 
 
@@ -141,4 +150,24 @@ def test_annotation_acquisition_contract_prohibits_release() -> None:
     )
     assert json.loads(ACQUISITION_RECEIPT_SCHEMA.read_text(encoding="utf-8")) == (
         CalibrationAnnotationAcquisitionReceipt.model_json_schema()
+    )
+
+
+def test_annotation_mapping_parser_extracts_gene_rows() -> None:
+    payload = gzip.compress(
+        b"##gtf-version 2.2\n"
+        b"1\tEnsembl\tgene\t1\t2\t.\t+\t.\tgene_id \"ENSG1\"; gene_name \"ESR1\";\n"
+        b"1\tEnsembl\ttranscript\t1\t2\t.\t+\t.\tgene_id \"ENSG1\"; gene_name \"ESR1\";\n"
+    )
+
+    rows, mapping, conflicts = CalibrationAnnotationMappingService._parse_gtf(payload)
+
+    assert rows == 1
+    assert mapping == {"ENSG1": "ESR1"}
+    assert conflicts == 0
+    assert json.loads(MAPPING_PLAN_SCHEMA.read_text(encoding="utf-8")) == (
+        CalibrationAnnotationMappingPlan.model_json_schema()
+    )
+    assert json.loads(MAPPING_RECEIPT_SCHEMA.read_text(encoding="utf-8")) == (
+        CalibrationAnnotationMappingReceipt.model_json_schema()
     )

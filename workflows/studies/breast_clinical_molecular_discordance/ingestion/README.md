@@ -50,6 +50,12 @@ The separate internal-only registry and
 [`calibration_annotation_acquisition_plan_v1.0.0.yaml`](calibration_annotation_acquisition_plan_v1.0.0.yaml)
 freeze the exact 45,686,368-byte Ensembl GTF. Export and publication are false.
 
+Frozen revision `ca7d379` acquired that exact artifact with independently
+reproduced SHA-256 `a85352c0…99cf`; acquisition receipt SHA-256 is
+`0de65e5c…21a6`. No row was parsed. Mapping plan
+[`../analysis/calibration_annotation_mapping_plan_v1.0.0.yaml`](../analysis/calibration_annotation_mapping_plan_v1.0.0.yaml)
+now binds the annotation, feasibility receipts, and historical PAM50 contract.
+
 Required artifacts:
 
 - `ingestion/README.md`

@@ -1,0 +1,80 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "annotation_acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Annotation Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "classifier_execution_authorized": {
+      "title": "Classifier Execution Authorized",
+      "type": "boolean"
+    },
+    "feasibility_acquisition_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Feasibility Acquisition Receipt Sha256",
+      "type": "string"
+    },
+    "feasibility_audit_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Feasibility Audit Receipt Sha256",
+      "type": "string"
+    },
+    "mapping_object_key": {
+      "pattern": "^derived/nas-brca-002/",
+      "title": "Mapping Object Key",
+      "type": "string"
+    },
+    "outcomes_requested": {
+      "title": "Outcomes Requested",
+      "type": "boolean"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "reliability_specification_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reliability Specification Sha256",
+      "type": "string"
+    },
+    "retain_molecular_values": {
+      "title": "Retain Molecular Values",
+      "type": "boolean"
+    },
+    "retain_participant_identifiers": {
+      "title": "Retain Participant Identifiers",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "threshold_estimation_authorized": {
+      "title": "Threshold Estimation Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_version",
+    "annotation_acquisition_receipt_sha256",
+    "feasibility_acquisition_receipt_sha256",
+    "feasibility_audit_receipt_sha256",
+    "reliability_specification_sha256",
+    "mapping_object_key",
+    "retain_participant_identifiers",
+    "retain_molecular_values",
+    "outcomes_requested",
+    "classifier_execution_authorized",
+    "threshold_estimation_authorized"
+  ],
+  "title": "CalibrationAnnotationMappingPlan",
+  "type": "object"
+}

@@ -1,0 +1,20 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+source_id: ensembl-grch38-release-84
+code_revision: ca7d379
+acquired_at: '2026-08-01T18:19:21.691043Z'
+plan_sha256: b93b3a4db19f8bd74c578f95bb6b69c07317db6dcf9fbf9d5c58c8ad2ce5d7c3
+official_url: https://ftp.ensembl.org/pub/release-84/gtf/homo_sapiens/Homo_sapiens.GRCh38.84.gtf.gz
+response_content_type: application/x-gzip
+response_last_modified: Tue, 08 Mar 2016 23:53:38 GMT
+content_length_bytes: 45686368
+sha256: a85352c027a058c13ac9988770e501037d8aad4a08baade45eecd56611bb99cf
+object_key: raw/nas-brca-002/annotation/homo_sapiens.grch38.84.gtf.gz
+immutable_object_verified: true
+source_bytes_stored: true
+annotation_rows_parsed: false
+molecular_values_parsed: false
+outcomes_accessed: false
+export_authorized: false
+publication_authorized: false
