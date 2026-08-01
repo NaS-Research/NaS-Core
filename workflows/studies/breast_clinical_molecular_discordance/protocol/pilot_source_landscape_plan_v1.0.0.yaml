@@ -1,0 +1,138 @@
+schema_version: 1.0.0
+plan_version: 1.0.0
+study_id: NAS-BRCA-002
+pilot_receipt_sha256: 77d6880d7514f7f77a3396354524ea0e779f56f8d9ce4ddaa0c6ab4edb588d89
+rna_quality_gate_receipt_sha256: 7ccd814758ed10b97860531435beea798a4d695a1ad3b2849e06416167df5467
+audit_date: "2026-08-01"
+candidates:
+  - source_id: PILOTSRC-001
+    provider: NCI Cooperative Human Tissue Network
+    provider_class: public_biospecimen_network
+    public_urls:
+      - https://chtn.cancer.gov/
+      - https://chtn.cancer.gov/faq.html
+      - https://chtn.cancer.gov/apply/application.html
+      - https://chtn.cancer.gov/pricing.html
+    publicly_described_material: Prospective fresh, frozen, RNAlater, fixed, or paraffin human breast tumor tissue
+    primary_breast_tumor_material_publicly_supported: true
+    purified_total_rna_publicly_supported: false
+    thirty_independent_sources_publicly_confirmed: false
+    rin_at_least_8_publicly_confirmed: false
+    same_homogenized_rna_aliquots_publicly_confirmed: false
+    lawful_research_use_process_publicly_described: true
+    nonoverlap_can_be_verified_without_identifiers: false
+    application_or_contact_required: true
+    spending_or_purchase_required: true
+    disposition: unresolved
+    blockers:
+      - Public pages support tailored breast tumor tissue collection but not purified high-quality RNA inventory.
+      - Application, institutional review determination, use agreements, shipping, and processing fees apply.
+      - Thirty independent eligible sources, RIN, aliquot architecture, and nonoverlap require provider confirmation.
+  - source_id: PILOTSRC-002
+    provider: OriGene Technologies
+    provider_class: commercial_supplier
+    public_urls:
+      - https://www.origene.com/catalog/tissues/total-rna/cr561514-tissue-total-rna-breast
+    publicly_described_material: Individually cataloged purified total RNA from primary breast tumor tissue
+    primary_breast_tumor_material_publicly_supported: true
+    purified_total_rna_publicly_supported: true
+    thirty_independent_sources_publicly_confirmed: false
+    rin_at_least_8_publicly_confirmed: false
+    same_homogenized_rna_aliquots_publicly_confirmed: false
+    lawful_research_use_process_publicly_described: true
+    nonoverlap_can_be_verified_without_identifiers: false
+    application_or_contact_required: true
+    spending_or_purchase_required: true
+    disposition: unresolved
+    blockers:
+      - One example provides 5 micrograms and pathology metadata but no RIN-at-least-8 guarantee.
+      - Public inventory does not establish 30 independent qualifying sources or paired aliquot availability.
+      - Stable nonidentifying source IDs and nonoverlap evidence require commercial due diligence.
+  - source_id: PILOTSRC-003
+    provider: BioChain Institute
+    provider_class: commercial_supplier
+    public_urls:
+      - https://www.biochain.com/wp/wp-content/uploads/2021/11/RNA-Products-Brochure-BR140901-A.pdf
+    publicly_described_material: Catalog total RNA extracted from human breast tumor tissue
+    primary_breast_tumor_material_publicly_supported: true
+    purified_total_rna_publicly_supported: true
+    thirty_independent_sources_publicly_confirmed: false
+    rin_at_least_8_publicly_confirmed: false
+    same_homogenized_rna_aliquots_publicly_confirmed: false
+    lawful_research_use_process_publicly_described: false
+    nonoverlap_can_be_verified_without_identifiers: false
+    application_or_contact_required: true
+    spending_or_purchase_required: true
+    disposition: unresolved
+    blockers:
+      - Catalog lists breast tumor total RNA but public evidence does not establish donor count or pooling status.
+      - RIN, quantity per independent source, paired aliquots, consent/use terms, and nonoverlap are unresolved.
+  - source_id: PILOTSRC-004
+    provider: Discovery Life Sciences
+    provider_class: commercial_supplier
+    public_urls:
+      - https://dls.com/biospecimens/
+    publicly_described_material: Prospective and banked breast oncology biospecimens including flash-frozen tissue
+    primary_breast_tumor_material_publicly_supported: true
+    purified_total_rna_publicly_supported: false
+    thirty_independent_sources_publicly_confirmed: false
+    rin_at_least_8_publicly_confirmed: false
+    same_homogenized_rna_aliquots_publicly_confirmed: false
+    lawful_research_use_process_publicly_described: true
+    nonoverlap_can_be_verified_without_identifiers: false
+    application_or_contact_required: true
+    spending_or_purchase_required: true
+    disposition: unresolved
+    blockers:
+      - Public pages describe IRB-consented oncology tissue and custom collection but not qualifying RNA inventory.
+      - Material processing, RIN, 30-source availability, aliquots, nonoverlap, terms, and cost require contact.
+  - source_id: PILOTSRC-005
+    provider: BioIVT Asterand
+    provider_class: commercial_supplier
+    public_urls:
+      - https://info.bioivt.com/specimen-information-details
+      - https://info.bioivt.com/bioivt-fresh-specimen-solutions
+    publicly_described_material: Consented oncology fresh or frozen tissue and custom biospecimen collection
+    primary_breast_tumor_material_publicly_supported: true
+    purified_total_rna_publicly_supported: false
+    thirty_independent_sources_publicly_confirmed: false
+    rin_at_least_8_publicly_confirmed: false
+    same_homogenized_rna_aliquots_publicly_confirmed: false
+    lawful_research_use_process_publicly_described: true
+    nonoverlap_can_be_verified_without_identifiers: false
+    application_or_contact_required: true
+    spending_or_purchase_required: true
+    disposition: unresolved
+    blockers:
+      - Public pages support tissue access and custom collection but not a 30-source purified RNA cohort.
+      - RIN, aliquot architecture, nonoverlap, exact terms, availability, and cost require contact.
+  - source_id: PILOTSRC-006
+    provider: NCI GDC, NCBI GEO, and other data-only repositories
+    provider_class: data_repository
+    public_urls:
+      - https://portal.gdc.cancer.gov/
+      - https://www.ncbi.nlm.nih.gov/geo/
+    publicly_described_material: Molecular data files and metadata without physical RNA aliquots
+    primary_breast_tumor_material_publicly_supported: false
+    purified_total_rna_publicly_supported: false
+    thirty_independent_sources_publicly_confirmed: false
+    rin_at_least_8_publicly_confirmed: false
+    same_homogenized_rna_aliquots_publicly_confirmed: false
+    lawful_research_use_process_publicly_described: true
+    nonoverlap_can_be_verified_without_identifiers: true
+    application_or_contact_required: false
+    spending_or_purchase_required: false
+    disposition: ineligible
+    blockers:
+      - Data-only repositories cannot supply physical same-RNA aliquots for independent library preparation.
+selected_source_id: null
+source_selection_authorized: false
+external_contact_authorized: false
+application_submission_authorized: false
+spending_authorized: false
+procurement_authorized: false
+specimen_acquisition_authorized: false
+study_execution_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false

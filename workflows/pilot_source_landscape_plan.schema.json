@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "PilotSourceCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "application_or_contact_required": {
+          "title": "Application Or Contact Required",
+          "type": "boolean"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Blockers",
+          "type": "array"
+        },
+        "disposition": {
+          "$ref": "#/$defs/PilotSourceDisposition"
+        },
+        "lawful_research_use_process_publicly_described": {
+          "title": "Lawful Research Use Process Publicly Described",
+          "type": "boolean"
+        },
+        "nonoverlap_can_be_verified_without_identifiers": {
+          "title": "Nonoverlap Can Be Verified Without Identifiers",
+          "type": "boolean"
+        },
+        "primary_breast_tumor_material_publicly_supported": {
+          "title": "Primary Breast Tumor Material Publicly Supported",
+          "type": "boolean"
+        },
+        "provider": {
+          "minLength": 1,
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_class": {
+          "pattern": "^(public_biospecimen_network|commercial_supplier|data_repository)$",
+          "title": "Provider Class",
+          "type": "string"
+        },
+        "public_urls": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Public Urls",
+          "type": "array"
+        },
+        "publicly_described_material": {
+          "minLength": 1,
+          "title": "Publicly Described Material",
+          "type": "string"
+        },
+        "purified_total_rna_publicly_supported": {
+          "title": "Purified Total Rna Publicly Supported",
+          "type": "boolean"
+        },
+        "rin_at_least_8_publicly_confirmed": {
+          "title": "Rin At Least 8 Publicly Confirmed",
+          "type": "boolean"
+        },
+        "same_homogenized_rna_aliquots_publicly_confirmed": {
+          "title": "Same Homogenized Rna Aliquots Publicly Confirmed",
+          "type": "boolean"
+        },
+        "source_id": {
+          "pattern": "^PILOTSRC-[0-9]{3}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "spending_or_purchase_required": {
+          "title": "Spending Or Purchase Required",
+          "type": "boolean"
+        },
+        "thirty_independent_sources_publicly_confirmed": {
+          "title": "Thirty Independent Sources Publicly Confirmed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source_id",
+        "provider",
+        "provider_class",
+        "public_urls",
+        "publicly_described_material",
+        "primary_breast_tumor_material_publicly_supported",
+        "purified_total_rna_publicly_supported",
+        "thirty_independent_sources_publicly_confirmed",
+        "rin_at_least_8_publicly_confirmed",
+        "same_homogenized_rna_aliquots_publicly_confirmed",
+        "lawful_research_use_process_publicly_described",
+        "nonoverlap_can_be_verified_without_identifiers",
+        "application_or_contact_required",
+        "spending_or_purchase_required",
+        "disposition",
+        "blockers"
+      ],
+      "title": "PilotSourceCandidate",
+      "type": "object"
+    },
+    "PilotSourceDisposition": {
+      "enum": [
+        "verified_eligible",
+        "unresolved",
+        "ineligible"
+      ],
+      "title": "PilotSourceDisposition",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "application_submission_authorized": {
+      "title": "Application Submission Authorized",
+      "type": "boolean"
+    },
+    "audit_date": {
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "title": "Audit Date",
+      "type": "string"
+    },
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/PilotSourceCandidate"
+      },
+      "minItems": 5,
+      "title": "Candidates",
+      "type": "array"
+    },
+    "external_contact_authorized": {
+      "title": "External Contact Authorized",
+      "type": "boolean"
+    },
+    "molecular_values_accessed": {
+      "title": "Molecular Values Accessed",
+      "type": "boolean"
+    },
+    "outcomes_accessed": {
+      "title": "Outcomes Accessed",
+      "type": "boolean"
+    },
+    "pilot_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Pilot Receipt Sha256",
+      "type": "string"
+    },
+    "plan_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Plan Version",
+      "type": "string"
+    },
+    "procurement_authorized": {
+      "title": "Procurement Authorized",
+      "type": "boolean"
+    },
+    "rna_quality_gate_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Rna Quality Gate Receipt Sha256",
+      "type": "string"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_source_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Selected Source Id"
+    },
+    "source_selection_authorized": {
+      "title": "Source Selection Authorized",
+      "type": "boolean"
+    },
+    "specimen_acquisition_authorized": {
+      "title": "Specimen Acquisition Authorized",
+      "type": "boolean"
+    },
+    "spending_authorized": {
+      "title": "Spending Authorized",
+      "type": "boolean"
+    },
+    "study_execution_authorized": {
+      "title": "Study Execution Authorized",
+      "type": "boolean"
+    },
+    "study_id": {
+      "default": "NAS-BRCA-002",
+      "title": "Study Id",
+      "type": "string"
+    },
+    "validation_values_accessed": {
+      "title": "Validation Values Accessed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_version",
+    "pilot_receipt_sha256",
+    "rna_quality_gate_receipt_sha256",
+    "audit_date",
+    "candidates",
+    "selected_source_id",
+    "source_selection_authorized",
+    "external_contact_authorized",
+    "application_submission_authorized",
+    "spending_authorized",
+    "procurement_authorized",
+    "specimen_acquisition_authorized",
+    "study_execution_authorized",
+    "molecular_values_accessed",
+    "outcomes_accessed",
+    "validation_values_accessed"
+  ],
+  "title": "PilotSourceLandscapePlan",
+  "type": "object"
+}
