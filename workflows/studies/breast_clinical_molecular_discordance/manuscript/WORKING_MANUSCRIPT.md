@@ -2,7 +2,7 @@
 
 Working title—subject to revision after the evidence gate.
 
-Manuscript version: `0.71.0-working`
+Manuscript version: `0.72.0-working`
 
 Study: `NAS-BRCA-002`
 
@@ -840,6 +840,19 @@ denominators. These bounds are planning rules, not evidence of assay performance
 [prospective_rna_quality_gate_receipt_v1.0.0.yaml;
 PROSPECTIVE_RNA_QUALITY_GATE_REPORT_v1.0.0.md]
 
+The excluded prospective feasibility pilot is planned for 30 independent
+biological sources, one same-RNA pair per source, and 60 measurements. Pair mates
+receive independent library preparation and blocked randomization across library
+batches, sequencing runs, run positions, and mate placement. Immutable lineage,
+operator and analyst blinding, balanced controls, checksum-bound storage, and
+attempted-source, pair, measurement, failure, rerun, replacement, and abstention
+denominators are required. The pilot may estimate attrition and technical nuisance
+parameters only. Its specimens are permanently excluded from primary calibration
+and external validation, and its results cannot select final thresholds or support
+the final reliability claim.
+[excluded_prospective_pilot_receipt_v1.0.0.yaml;
+EXCLUDED_PROSPECTIVE_PILOT_REPORT_v1.0.0.md]
+
 A synthetic-only deterministic kernel now tests the proposed state machine without
 patient data. It requires exactly the historical 50-gene panel, resolves only the
 three declared historical aliases, fails closed on incomplete, ambiguous, or
@@ -1658,6 +1671,7 @@ reviews are complete.
 | Methods—uncalibrated scoring boundary | Fixed Spearman arithmetic, mandatory abstention, and exact attempted-denominator reconciliation | `protocol/uncalibrated_scoring_receipt_v1.0.0.yaml`; `protocol/UNCALIBRATED_SCORING_REPORT_v1.0.0.md` | successful scores remain uncalibrated; every attempt abstains; zero reportable labels; no study execution or values |
 | Methods—prospective assay-family selection | Planning-only comparison of whole-transcriptome, degraded-RNA, hybridization, and amplicon routes | `protocol/prospective_assay_selection_receipt_v1.0.0.yaml`; `protocol/PROSPECTIVE_ASSAY_SELECTION_REPORT_v1.0.0.md` | whole-transcriptome bulk RNA-seq family selected; exact chemistry unresolved; no external action or execution |
 | Methods—prospective RNA-quality gate | Intended material, post-extraction scope, input range, integrity, chemistry family, and failed-input accounting | `protocol/prospective_rna_quality_gate_receipt_v1.0.0.yaml`; `protocol/PROSPECTIVE_RNA_QUALITY_GATE_REPORT_v1.0.0.md` | 25–1000 ng, RIN ≥8, stranded poly(A); degraded/FFPE excluded; no external action or execution |
+| Methods—excluded prospective pilot | Pair target, independent lineage, blocked randomization, controls, denominators, immutable storage, and permanent exclusion | `protocol/excluded_prospective_pilot_receipt_v1.0.0.yaml`; `protocol/EXCLUDED_PROSPECTIVE_PILOT_REPORT_v1.0.0.md` | 30 sources, 30 pairs, 60 measurements; nuisance estimation only; no source or execution |
 | Methods—search | Search and counts | `literature/search_receipt_v0.3.1.yaml`; queue receipt | verified |
 | Methods—screening | Founder decisions | `revised-screening-progress/batch-0002.yaml`; founder confirmation | verified, complete |
 | Methods—citation pass 1 | Founder decisions, identity routing, lawful-access appraisal, and closure | `citation-chain/pass-0001-decision-ledger.yaml`; `citation-chain/pass-0001-inclusion-reconciliation.yaml`; `citation-chain/pass-0001-closure.yaml` | pass closed; 32 eligible identities added; stopping count reset |
@@ -1715,6 +1729,7 @@ reviews are complete.
 
 | Version | Date | Change |
 |---|---|---|
+| 0.72.0-working | 2026-08-01 | Froze the excluded prospective pilot at 30 independent same-RNA pairs with blocked randomization, lineage, controls, exact denominators, immutable storage, and permanent exclusion from primary calibration and validation. |
 | 0.71.0-working | 2026-08-01 | Froze the prospective primary range to high-quality purified tumor RNA and post-extraction stranded poly(A) error, excluding degraded/FFPE and extraction-repeat claims while retaining failed inputs in attempted denominators. |
 | 0.70.0-working | 2026-08-01 | Selected research-use whole-transcriptome bulk RNA sequencing as the prospective calibration family in planning only, while leaving chemistry conditional on a frozen RNA-quality range and preserving all external-action prohibitions. |
 | 0.69.0-working | 2026-08-01 | Froze the uncalibrated scoring boundary: QC and numerical failures remain in exact attempted denominators, successful scores can only abstain, and reportable-label count remains zero before technical calibration. |

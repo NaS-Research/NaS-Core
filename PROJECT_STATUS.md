@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Prepare the excluded prospective pilot acquisition and randomization plan
+### Complete a no-contact lawful-source landscape audit for the pilot
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,11 +17,12 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: specify the pilot-only specimen count as a planning target,
-independent same-RNA pair architecture, nonoverlap proof, blinded identifiers,
-blocked randomization, controls, attempted-denominator fields, immutable storage,
-pilot-only estimands, and no-go rules. Keep source contact, quotes, procurement,
-spending, specimens, molecular access, and execution separately prohibited.
+Definition of done: identify public catalogs, biobanks, residual-RNA programs,
+commercial research materials, and academic repositories that could lawfully
+provide 30 independent high-quality primary breast-tumor RNA sources; assess
+access class, consent/use terms, material format, quality metadata, nonoverlap,
+cost/contact requirements, and fit without contacting anyone or acquiring data
+or specimens. Produce eligible, ineligible, and unresolved dispositions.
 
 The retrospective expression bridge is now frozen independently of validation
 performance. TCGA-BRCA will use GDC `fpkm_unstranded` transformed as
@@ -162,6 +163,15 @@ or FFPE RNA and repeated extraction are excluded absent a separate amendment and
 bridge; failed inputs remain in attempted denominators. No exact kit, instrument,
 source, contact, purchase, specimen, or execution was authorized. Receipt SHA-256
 is `7ccd8147…f5467`.
+
+Frozen revision `0896320` then locked the excluded prospective pilot plan at 30
+independent sources, 30 same-RNA pairs, and 60 measurements. Pair mates are
+independently prepared and blocked across batches, runs, positions, and mate
+placement; lineage, blinding, controls, immutable storage, and 14 exact denominator
+classes are frozen. Pilot specimens are permanently excluded from primary
+calibration and validation, and pilot results cannot select final thresholds or
+support the reliability claim. No source, contact, purchase, specimen, value, or
+execution was authorized. Receipt SHA-256 is `77d6880d…88d89`.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the

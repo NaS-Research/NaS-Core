@@ -1,0 +1,28 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: 0896320
+plan_sha256: 135ea1d9af3e86cecc4074a4052384035744ed1a6b5f605ddf26a95eca3892ad
+dependency_hashes_verified: true
+attempted_pair_target: 30
+planned_measurement_count: 60
+independent_source_target: 30
+randomization_frozen: true
+lineage_frozen: true
+denominator_accounting_frozen: true
+immutable_storage_contract_frozen: true
+permanent_exclusion_frozen: true
+no_external_action_preserved: true
+decision: excluded_prospective_pilot_plan_frozen
+study_execution_authorized: false
+molecular_values_accessed: false
+outcomes_accessed: false
+validation_values_accessed: false
+limitations:
+- Thirty pairs are a feasibility target, not a final sample size.
+- Pilot estimates cannot establish the final reliability claim.
+- A lawful target-matched RNA source and execution authority remain absent.
+next_actions:
+- Perform a no-contact lawful-source landscape audit.
+- Freeze source eligibility and nonoverlap evidence before any inquiry.
+- Stop before contact, quotes, specimens, spending, or execution.
