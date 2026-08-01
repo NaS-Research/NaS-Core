@@ -8,7 +8,7 @@ and what comes next?
 
 ## Current focus
 
-### Acquire and audit excluded public calibration-feasibility sources
+### Freeze excluded-pilot estimands and resolve annotation dependencies
 
 GSE81538 is registered as public/open for the bounded role
 `reference_development_only`. Founder decision `1.1` and protocol amendment
@@ -17,12 +17,13 @@ define ER-negative as consensus code 0 and ER-positive as code 3, exclude codes
 1 and 2, and retain the independence and codebook limitations. The reference
 remains a candidate and GSE96058 remains firewalled for unchanged validation.
 
-Definition of done: register exact official GSE60788 and GSE130397 public
-artifacts for `calibration_feasibility_only`; freeze URLs, headers, sizes,
-checksums, licenses, and external object keys; acquire them immutably; then audit
-PAM50 panel coverage, expression scale, replicate lineage, and denominators
-source by source. Do not pool sources, select thresholds, execute a classifier,
-access GSE96058 or outcomes, contact anyone, spend, or acquire specimens.
+Definition of done: freeze the exact GSE60788 six-pair source-specific estimands,
+transform handling, diagnostics, and no-threshold interpretation; identify and
+register a versioned lawful annotation source for GSE130397 or formally record
+panel coverage as non-estimable; resolve its strandedness from authoritative
+source documentation; and retain source isolation. Do not pool sources, select
+reliability thresholds, execute a classifier, access GSE96058 or outcomes,
+contact anyone, spend, or acquire specimens.
 
 Both sources are now separately registered as public/open for excluded
 `calibration-feasibility` work. Acquisition plan `1.0.0` freezes 24 official
@@ -46,6 +47,15 @@ coverage only where the identifier mapping is justified. It explicitly leaves
 GSE130397 Ensembl-to-symbol coverage unresolved instead of guessing an annotation
 release. Synthetic tests and the full quality gate pass; live execution will run
 only from the frozen implementation revision.
+
+Frozen revision `0bf1255` completed the audit. GSE60788 has 49 primary columns,
+six replicate columns, all 50 PAM50 genes, and 1,538,845 finite continuous values
+on a scale spanning -13.9364263 to 26.89753752; its exact transformation remains
+uninferred. GSE130397 has 10 primary/library groups, 11 replicate records, a
+shared 60,675-feature schema, and 3,822,525 finite nonnegative integer counts.
+Its Ensembl-to-symbol mapping and strandedness choice remain unresolved. Receipt
+`0d642c61…78ac` proves no retention, pooling, outcomes, classifier, thresholds,
+AI, or publication.
 
 The Seagate was explicitly erased and rebuilt as writable APFS after its damaged
 HFS+ catalog could not be repaired. Storage readiness `1.1.0` now verifies the
@@ -696,6 +706,14 @@ Current gate state:
 
 ## Recently completed
 
+### 2026-08-01 — Public calibration-feasibility audit completed
+
+Frozen revision `0bf1255` independently reverified all 24 external artifacts and
+audited both sources without retaining identifiers or values. GSE60788 has all
+50 PAM50 genes and six replicate records; GSE130397 has 11 replicate records but
+requires a versioned Ensembl mapping and strandedness decision. Neither source
+is eligible for primary calibration and the sources were not pooled.
+
 ### 2026-08-01 — Technical-calibration feasibility paths frozen
 
 Frozen revision `63708b6` reconciled every active calibration and governance
@@ -731,15 +749,6 @@ counts reconciled to 82/8/11/304. The immutable external manifest contains 50
 code-0 and 50 code-3 records with SHA-256 `4f36124c…a9fe`. Git retains only the
 aggregate receipt; no expression, outcome, validation, classifier, or AI access
 occurred.
-
-### 2026-08-01 — Reference-input decisions and protocol amendment frozen
-
-Recorded the founder's exact decision against checksum-bound executed evidence.
-Protocol `1.1.0` consumes the matrix unchanged as `log2(FPKM + 0.1)`, defines
-code 0 as ER-negative and code 3 as ER-positive, excludes codes 1/2, and preserves
-the absence of an inline codebook and identifier-level independence audit. The
-field-isolated selection implementation reads only title, GEO accession, and ER
-consensus and keeps identifiers outside Git.
 
 ## Historical implementation log
 

@@ -1,0 +1,62 @@
+schema_version: 1.0.0
+receipt_version: 1.0.0
+study_id: NAS-BRCA-002
+code_revision: 0bf1255
+plan_sha256: dc18a0d8a163f02f33fd10c0e1819fe3ba30a81135f25eaa535662c4c9ab9793
+acquisition_receipt_sha256: abbd09e85bbf32329bef8992d9844786db69b1d288681386a763fab98855563d
+reliability_specification_sha256: 4c9ba242e8c09ef1502a69179644c8c02f2fa93a3d583961c626b34915895f07
+sources:
+- source_id: ncbi-geo-gse60788
+  artifact_count: 2
+  sample_count: 55
+  primary_or_unlabeled_count: 49
+  replicate_record_count: 6
+  replicate_group_count: 49
+  feature_row_count: 27979
+  identifier_namespace: gene_symbol_with_declared_historical_alias_resolution
+  panel_mapping_status: verified_direct_symbols
+  direct_pam50_gene_count: 50
+  missing_direct_pam50_gene_count: 0
+  total_numeric_value_count: 1538845
+  nonfinite_value_count: 0
+  negative_value_count: 552858
+  integer_like_value_count: 387803
+  observed_minimum: -13.9364263
+  observed_maximum: 26.89753752
+  scale_interpretation: source-normalized continuous expression; exact transform not
+    inferred
+  usable_for_source_specific_feasibility: true
+  usable_for_primary_calibration: false
+- source_id: ncbi-geo-gse130397
+  artifact_count: 22
+  sample_count: 21
+  primary_or_unlabeled_count: 10
+  replicate_record_count: 11
+  replicate_group_count: 10
+  feature_row_count: 60675
+  identifier_namespace: ensembl_gene_identifier_unmapped
+  panel_mapping_status: unresolved_identifier_mapping
+  direct_pam50_gene_count: 0
+  missing_direct_pam50_gene_count: 50
+  total_numeric_value_count: 3822525
+  nonfinite_value_count: 0
+  negative_value_count: 0
+  integer_like_value_count: 3822525
+  observed_minimum: 0.0
+  observed_maximum: 3383949.0
+  scale_interpretation: three integer count columns per Ensembl feature; strandedness
+    choice unresolved
+  usable_for_source_specific_feasibility: true
+  usable_for_primary_calibration: false
+decision: feasibility_audit_complete_primary_calibration_not_ready
+source_identifiers_retained: false
+molecular_values_retained: false
+outcomes_accessed: false
+sources_pooled: false
+thresholds_estimated: false
+classifier_executed: false
+external_publication_authorized: false
+next_actions:
+- Freeze source-specific technical-replicate estimands for GSE60788.
+- Resolve GSE130397 Ensembl-to-symbol mapping under a versioned annotation source.
+- Do not pool sources or estimate reliability thresholds.

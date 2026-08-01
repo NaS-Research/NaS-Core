@@ -26,6 +26,14 @@ retaining identifiers or values, audits each source separately, and fails closed
 on unjustified feature mapping. It cannot pool sources, inspect outcomes, execute
 a classifier, or estimate a threshold.
 
+Frozen revision `0bf1255` executed the audit. Receipt
+[`../analysis/calibration_feasibility_audit_receipt_v1.0.0.yaml`](../analysis/calibration_feasibility_audit_receipt_v1.0.0.yaml)
+has SHA-256 `0d642c61…78ac`. GSE60788 contains all 50 PAM50 genes and six
+replicate records; GSE130397 has a consistent Ensembl-count schema and 11
+replicate records but requires a versioned gene mapping and strandedness
+decision. See
+[`../analysis/CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md`](../analysis/CALIBRATION_FEASIBILITY_AUDIT_REPORT_v1.0.0.md).
+
 Required artifacts:
 
 - `ingestion/README.md`
